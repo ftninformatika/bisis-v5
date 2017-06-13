@@ -1,3 +1,4 @@
 # bisis-core
 
-Zajednicki kod za frontend i backend.
+Programski kod zajednički za back-end i front-end
+
