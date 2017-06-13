@@ -1,0 +1,55 @@
+# Operating System Files
+*.DS_Store
+Thumbs.db
+
+# Build Files
+bin
+target
+build/
+.gradle
+
+# Eclipse Project Files
+.classpath
+.project
+.settings
+
+# STS Project Files
+.springBeans
+.apt_generated
+.factorypath
+
+# IntelliJ IDEA Files #
+*.iml
+*.ipr
+*.iws
+*.idea
+
+# NetBeans Project Files #
+nbactions.xml
+nb-configuration.xml
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# PMD
+.pmd
+
+# Frontend sources
+frontend/node_modules
+frontend/tmp
+frontend/dist
+frontend/out-tsc
+frontend/e2e/*.js
+frontend/e2e/*.map
+frontend/npm-debug.log
+frontend/typings
+frontend/.sass-cache
+frontend/connect.lock
+frontend/coverage/*
+frontend/libpeerconnection.log
+frontend/testem.log
+
+# Frontend compiled output
+resources/static

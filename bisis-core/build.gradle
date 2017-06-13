@@ -1,0 +1,12 @@
+configurations {
+    // testOutput
+}
+
+dependencies {
+    // testOutput sourceSets.test.output
+}
+
+test {
+    // useTestNG {
+    // }
+}
