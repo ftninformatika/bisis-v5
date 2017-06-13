@@ -1,0 +1,57 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+version = '5.0.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	//compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	compile('org.liquibase:liquibase-core')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('org.springframework.boot:spring-boot-starter-web') {
+		exclude module: 'spring-boot-starter-tomcat'
+	}
+
+    compile("org.springframework.boot:spring-boot-starter-mobile")
+	compile('com.zaxxer:HikariCP')
+	compile('org.springframework.boot:spring-boot-starter-websocket')
+	//runtime('org.springframework.boot:spring-boot-devtools')
+	//compile('org.hibernate:hibernate-java8')
+	//runtime('com.h2database:h2')
+	runtime('org.postgresql:postgresql')
+	compileOnly('org.projectlombok:lombok')
+	compile('ma.glasnost.orika:orika-core:1.4.6')
+	compile('io.jsonwebtoken:jjwt:0.7.0')
+	compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.5.1")
+
+	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+
+	//compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+	//compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+}
