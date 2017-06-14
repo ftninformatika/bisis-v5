@@ -1,0 +1,23 @@
+logging:
+  level:
+    root: INFO
+
+---
+
+spring:
+  profiles: development
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: bisisdev
+
+logging:
+  level:
+    com.ftninformatika: DEBUG
+
+mongeez:
+  location: db/mongeez.xml
+  database: bisisdev
+
+---

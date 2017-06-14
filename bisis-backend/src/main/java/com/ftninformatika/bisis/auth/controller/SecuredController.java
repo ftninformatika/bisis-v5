@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/hello")
+@RequestMapping("/hello")
 public class SecuredController {
 
     @RequestMapping(method = RequestMethod.GET)
