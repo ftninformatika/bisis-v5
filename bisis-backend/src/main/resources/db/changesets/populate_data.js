@@ -1,16 +1,6 @@
 //mongeez formatted javascript
 
 //changeset petar:ChangeSet-1
-db.gbns.members.remove({});
-//changeset petar:ChangeSet-2
-db.gbns.records.remove({});
-//changeset petar:ChangeSet-3
-db.user.remove({});
-//changeset petar:ChangeSet-4
-db.libraries.remove({});
-
-
-//changeset petar:ChangeSet-5
 db.user.insert({
     "_class" : "com.ftninformatika.bisis.auth.model.User",
     "authorities" : [
@@ -24,7 +14,7 @@ db.user.insert({
     "isEnabled" : true,
     "createdAt" : "2017-06-14T09:51:38.464"
 });
-//changeset petar:ChangeSet-6
+//changeset petar:ChangeSet-2
 db.libraries.insert({
 
     "libraryName" : "gbns",
@@ -124,7 +114,7 @@ db.libraries.insert({
             "administracija" : 0,
             "context" : ""
         }]})
-//changeset petar:ChangeSet-7
+//changeset petar:ChangeSet-3
 db.gbns.members.insert({
     "_id" : ObjectId("59391fc3ea9b8fbe1ed5ed28"),
     "sysId" : 12,
@@ -240,7 +230,7 @@ db.gbns.members.insert({
     ],
     "signing" : []
 });
-//changeset petar:ChangeSet-8
+//changeset petar:ChangeSet-4
 db.gbns.records.insertMany([{
         "_id" : ObjectId("59391f89ea9b8fbe1ed417f7"),
         "recordID" : 16,
