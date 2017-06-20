@@ -39,7 +39,7 @@ public class JsonWebTokenService implements TokenService {
         final User user = (User) userDetailsService.loadUserByUsername(username);
         Map<String, Object> tokenData = new HashMap<>();
         if (password.equals(user.getPassword())) {
-            tokenData.put("clientType", "user");
+            tokenData.put("clientType", "librarian");
             tokenData.put("userID", user.getId());
             tokenData.put("username", user.getUsername());
             tokenData.put("token_create_date", LocalDateTime.now());

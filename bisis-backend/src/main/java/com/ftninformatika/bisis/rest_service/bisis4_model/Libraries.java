@@ -22,5 +22,5 @@ public class Libraries {
     @Id
     private String _id;
     private String libraryName;
-    private List<Bibliotekari> bibliotekari;
+    private List<Librarian> librarian;
 }

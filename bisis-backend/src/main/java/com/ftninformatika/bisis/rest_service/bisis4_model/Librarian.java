@@ -4,13 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bibliotekari  {
+@Document(collection = "user")
+public class Librarian {
 
+  @Id private String _id;
   private String username;
   private String password;
   private String ime;
@@ -21,5 +25,6 @@ public class Bibliotekari  {
   private int cirkulacija;
   private int administracija;
   private String context;
+  private String biblioteka;
 
 }

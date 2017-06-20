@@ -33,7 +33,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity handleUserNotFoundException(final UserNotFoundException exception) {
-        log.warn("Processing user not found exception: {}", exception.getMessage());
+        log.warn("Processing librarian not found exception: {}", exception.getMessage());
 
         return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }
