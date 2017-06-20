@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "gbns.records")
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_records")
 public class Records implements java.io.Serializable {
 
   @Id

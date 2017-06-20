@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "gbns.members")
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_members")
 public class Users implements java.io.Serializable {
 
 

@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.auth.security.filter;
 
 import com.ftninformatika.bisis.auth.security.service.TokenAuthenticationService;
+import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -17,6 +19,9 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
 
     private final TokenAuthenticationService authenticationService;
 
+    @Autowired
+    LibraryPrefixProvider prefixProvider;
+
     public AuthenticationTokenFilter(final TokenAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
@@ -27,6 +32,18 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
             throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final Authentication authentication = authenticationService.authenticate(httpRequest);
+
+        String lib = ((HttpServletRequest) request).getHeader("Library");
+
+
+        if (lib != null && !lib.equals("")) {
+            prefixProvider.setPrefix(lib);
+        }
+        else {
+            prefixProvider.setPrefix("exile");
+        }
+
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
         SecurityContextHolder.getContext().setAuthentication(null);

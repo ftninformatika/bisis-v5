@@ -56,6 +56,11 @@ public class JsonWebTokenService implements TokenService {
         }
     }
 
+    @Override
+    public String getLibrary(String username, String password) {
+        return null;
+    }
+
     public static void setTokenExpirationTime(final int tokenExpirationTime) {
         JsonWebTokenService.tokenExpirationTime = tokenExpirationTime;
     }
