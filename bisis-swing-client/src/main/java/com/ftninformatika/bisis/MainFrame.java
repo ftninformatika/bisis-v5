@@ -2,6 +2,7 @@ package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.search.SearchFrame;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
@@ -49,10 +50,10 @@ public class MainFrame extends JFrame {
         if (lib.isCirculation() && !lib.isAdministration() && !lib.isCataloguing()){
         //    Cirkulacija.startApp(lib);
         }else{
-         //   searchFrame.setVisible(true);
+            searchFrame.setVisible(true);
         }
     }
-/*
+
     public void showSearchFrame() {
         try {
             if (!searchFrame.isVisible())
@@ -64,7 +65,7 @@ public class MainFrame extends JFrame {
         } catch (Exception ex) {
         }
     }
-
+/*
     public void showHitlistFrame() {
         try {
             if (!hlf.isVisible())
@@ -118,11 +119,11 @@ public class MainFrame extends JFrame {
         }*/
         System.exit(0);
     }
-/*
+
     public SearchFrame getSearchFrame(){
         return searchFrame;
     }
-
+/*
     public HitListFrame getHitListFrame(){
         return hlf;
     }
@@ -231,8 +232,8 @@ public class MainFrame extends JFrame {
     }
 
     private JDesktopPane desktop = new JDesktopPane();
-  /*  private SearchFrame searchFrame = new SearchFrame();
-    private HitListFrame hlf = null;
+    private SearchFrame searchFrame = new SearchFrame();
+  /*  private HitListFrame hlf = null;
     private GrupniPrikazFrame brf=null;
     private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
