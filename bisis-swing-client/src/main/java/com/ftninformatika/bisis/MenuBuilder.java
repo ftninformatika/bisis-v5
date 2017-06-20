@@ -113,8 +113,8 @@ public class MenuBuilder extends JMenuBar {
       this.add(getMObradaDefault());
     }
     if (lib.isCataloguing() && lib.isCirculation()){
-      this.add(getMCirculation());
-      this.add(getMAllReport());
+      //this.add(getMCirculation());
+      //this.add(getMAllReport());
       
     } else if (lib.isCataloguing()){
     	this.add(getMAllObradaReport());
