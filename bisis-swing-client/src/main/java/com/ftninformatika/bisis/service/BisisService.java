@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.backend_api;
+package com.ftninformatika.bisis.service;
 
 /**
  * Created by Petar on 6/20/2017.

@@ -1,16 +1,20 @@
 package com.ftninformatika.bisis.config;
 
-/**
- * Created by Petar on 6/20/2017.
- */
+import java.util.HashMap;
+import java.util.Map;
+
 public class ConfigFactory {
 
-    public static AppConfig getConfig(Config cfg) {
-        switch (cfg) {
-            case DEVELOPMENT:
-                return new DevelopmentConfig();
-            default:
-                return new DevelopmentConfig();
-        }
-    }
+  public static AppConfig getConfig(ConfigType cfg) {
+    return configMap.get(cfg);
+  }
+
+  private static Map<ConfigType, AppConfig> configMap = new HashMap<>();
+
+  static {
+    configMap.put(ConfigType.DEVELOPMENT, new DevelopmentConfig());
+    configMap.put(ConfigType.TEST, null);
+    configMap.put(ConfigType.STAGING, null);
+    configMap.put(ConfigType.PRODUCTION, new ProductionConfig());
+  }
 }

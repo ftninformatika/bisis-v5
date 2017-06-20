@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.backend_api;
+package com.ftninformatika.bisis.service;
 
 
 

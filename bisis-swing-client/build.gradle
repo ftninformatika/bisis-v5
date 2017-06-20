@@ -13,12 +13,21 @@ repositories {
 dependencies {
     compile project(":bisis-core")
     compile group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
+    compile group: 'com.jtattoo', name: 'JTattoo', version: '1.6.7'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     //compile 'com.squareup.retrofit2:converter-gson:latest.version'
-    compileOnly('org.projectlombok:lombok')
+    compileOnly('org.projectlombok:lombok:1.16.16')
 }
 
 jar {
     mainClassName = 'com.ftninformatika.bisis.BisisApp'
+}
+
+processResources {
+    filesMatching('config.properties') {
+        filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                version: project.version
+        ]
+    }
 }

@@ -1,26 +1,23 @@
 package com.ftninformatika.bisis;
 
-import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchFrame;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyVetoException;
-import java.util.Vector;
+import java.io.InputStream;
+import java.util.Properties;
 
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 
 public class MainFrame extends JFrame {
 
     public MainFrame() {
-        setTitle("BISIS "); // + BisisApp.VERSION);
+        setTitle("BISIS " + BisisApp.appVersion);
+        ImageIcon icon = new ImageIcon(getClass().getResource("/icons/appicon.png"));
+        setIconImage(icon.getImage());
         add(desktop, BorderLayout.CENTER);
         add(getStatusnaLinija(), BorderLayout.SOUTH);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -34,7 +31,7 @@ public class MainFrame extends JFrame {
 
     public void initialize(Librarian lib){
         statusnaLinija.setText("Bibliotekar: "+BisisApp.appConfig.getLibrarian().getUsername());
-        if (lib.isAdministration()){
+        if (lib.isAdministracija()){
          /*   desktop.add(getIntOznFrame());
             desktop.add(getNacinFrame());
             desktop.add(getOdeljenjeFrame());
@@ -47,7 +44,7 @@ public class MainFrame extends JFrame {
             desktop.add(getCountersFrame());
             desktop.add(getSearchAdvancedFrame());*/
         }
-        if (lib.isCirculation() && !lib.isAdministration() && !lib.isCataloguing()){
+        if (lib.isCirkulacija() && !lib.isAdministracija() && !lib.isObrada()){
         //    Cirkulacija.startApp(lib);
         }else{
             searchFrame.setVisible(true);

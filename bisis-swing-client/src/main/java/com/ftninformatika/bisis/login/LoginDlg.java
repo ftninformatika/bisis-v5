@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
 public class LoginDlg extends JDialog {
 
   public LoginDlg(LoginFrame parent) {
-    super(parent, "BISIS prijavljivanje", true);
+    super(parent, "BISIS " + BisisApp.appVersion + " prijavljivanje", true);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     btnCancel.setFocusable(false);
     btnOK.setFocusable(false);
@@ -28,16 +28,8 @@ public class LoginDlg extends JDialog {
         "/icons/remove.gif")));
     btnOK.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
-    btnCancel.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent e) {
-        handleCancel();
-      }
-    });
-    btnOK.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent e) {
-        handleOK();
-      }
-    });
+    btnCancel.addActionListener(e -> handleCancel());
+    btnOK.addActionListener(e -> handleOK());
     MigLayout layout = new MigLayout(
         "insets dialog, wrap",
         "[right]rel[150lp]",

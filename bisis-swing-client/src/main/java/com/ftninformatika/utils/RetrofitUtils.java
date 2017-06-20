@@ -1,7 +1,7 @@
 package com.ftninformatika.utils;
 
-import com.ftninformatika.bisis.backend_api.BisisService;
-import com.ftninformatika.bisis.backend_api.UserCredentials;
+import com.ftninformatika.bisis.service.BisisService;
+import com.ftninformatika.bisis.service.UserCredentials;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -13,7 +13,6 @@ import java.io.IOException;
  * Created by Petar on 6/20/2017.
  */
 public class RetrofitUtils {
-
 
     public static String acquireToken(String serverUrl, String username, String password) {
 			/*OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();  // zbog proxija u jugodrvu ako gadja neki public api
@@ -27,13 +26,12 @@ public class RetrofitUtils {
 
         BisisService bs = rf.create(BisisService.class);
 
-
         Call<ResponseBody> ans = bs.getToken(new UserCredentials(username,password));
         final String[] token = new String[1];
         try {
             token[0] = ans.execute().body().string();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e);
             return null;
         }
         token[0] = token[0].split(":")[1];
