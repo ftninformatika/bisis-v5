@@ -9,9 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
-/**
- * Created by Petar on 6/20/2017.
- */
 public class RetrofitUtils {
 
     public static String acquireToken(String serverUrl, String username, String password) {

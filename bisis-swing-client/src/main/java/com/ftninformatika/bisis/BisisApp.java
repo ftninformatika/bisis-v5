@@ -90,6 +90,6 @@ public class BisisApp {
 
   private static String getDomainFromUsername(String username) {
     //mora zbog header interceptora u retrofitu
-    return username.split(".com")[0].split("@")[1];
+    return username.split("@")[1];
   }
 }
