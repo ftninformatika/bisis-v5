@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import javax.swing.*;
 import javax.swing.plaf.synth.SynthTextAreaUI;
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -58,9 +59,17 @@ public class BisisApp {
                     appConfig.setLibrarian(response);
                     appConfig.setLibrary(response.getBiblioteka());
 
+
                     System.out.println("Uspesno ulogovan :)");
 
-
+                    mf = new MainFrame();
+                    mf.setResizable(true);
+                    mf.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+                    if (Toolkit.getDefaultToolkit().isFrameStateSupported(JFrame.MAXIMIZED_BOTH))
+                        mf.setExtendedState(mf.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+                    mf.setVisible(true);
+                    mf.setJMenuBar(new MenuBuilder(appConfig.getLibrarian()));
+                    mf.initialize(appConfig.getLibrarian());
                 }
 
                 else {
@@ -82,6 +91,7 @@ public class BisisApp {
 
     public static Retrofit retrofit;
     public static AppConfig appConfig;
+    public static MainFrame mf;
 
     private static String getDomainFromUsername(String username){ //mora zbog header interceptora u retrofitu
                return username.split(".com")[0].split("@")[1];

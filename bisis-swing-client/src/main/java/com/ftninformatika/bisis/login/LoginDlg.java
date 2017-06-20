@@ -11,6 +11,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.config.DevelopmentConfig;
 import com.ftninformatika.utils.WindowUtils;
 import net.miginfocom.swing.MigLayout;
 
@@ -50,6 +52,10 @@ public class LoginDlg extends JDialog {
     add(btnOK, "wrap, tag ok");
     pack();
     WindowUtils.centerOnScreen(this);
+    if (BisisApp.appConfig instanceof DevelopmentConfig) {
+      tfUsername.setText("admin.admin@gbns.com");
+      pfPassword.setText("admin1");
+    }
   }
   
   public boolean isConfirmed() {

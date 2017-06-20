@@ -121,4 +121,16 @@ public class Librarian {
     public void setBiblioteka(String biblioteka) {
         this.biblioteka = biblioteka;
     }
+
+    public boolean isCataloguing(){
+        return this.getObrada() == 1;
+    }
+
+    public boolean isCirculation(){
+        return this.getCirkulacija() == 1;
+    }
+
+    public boolean isAdministration(){
+        return this.getAdministracija() == 1;
+    }
 }
