@@ -1,121 +1,31 @@
 //mongeez formatted javascript
 
+
+
 //changeset petar:ChangeSet-1
 db.user.insert({
-    "_class" : "com.ftninformatika.bisis.auth.model.User",
-    "authorities" : [
-        "ROLE_USER"
-    ],
-    "username" : "admin",
-    "password" : "admin",
-    "accountNonExpired" : false,
-    "accountNonLocked" : false,
-    "credentialsNonExpired" : false,
-    "isEnabled" : true,
-    "createdAt" : "2017-06-14T09:51:38.464"
+
+    "username" : "admin.admin@gbns.com",
+    "password" : "admin1",
+    "biblioteka" : "gbns",
+    "ime" : "Bojana",
+    "prezime" : "Dimić",
+    "email" : "bdimic@uns.ns.ac.yu",
+    "napomena" : "napomena",
+    "obrada" : true,
+    "cirkulacija" : true,
+    "administracija" : true,
+    "context" : "<?xml version=\"1.0\"?>\n<librarian-context>\n  <process-type name=\"Monografske - kompletna obrada\"/>\n  <process-type name=\"Serijske - kompletna obrada\"/>\n  <process-type name=\"Članci\"/>\n  <process-type name=\"Članci iz časopisa\"/>\n  <process-type name=\"Razglednice\"/>\n  <default-process-type name=\"Monografske - kompletna obrada\"/>\n   <prefixes pref1=\"200a\" pref2=\"ID\" pref3=\"PN\" pref4=\"IN\" pref5=\"AU\" />\n</librarian-context>\n"
+
 });
 //changeset petar:ChangeSet-2
 db.libraries.insert({
 
     "libraryName" : "gbns",
-    "bibliotekari" : [
-        {
-            "username" : "admin",
-            "password" : "admin1",
-            "ime" : "Bojana",
-            "prezime" : "Dimić",
-            "email" : "bdimic@uns.ns.ac.yu",
-            "napomena" : "napomena",
-            "obrada" : 1,
-            "cirkulacija" : 1,
-            "administracija" : 1,
-            "context" : ""
-        },
-        {
-            "username" : "Agi",
-            "password" : "aron",
-            "ime" : "Agneš",
-            "prezime" : "Pisar",
-            "email" : "",
-            "napomena" : "",
-            "obrada" : 1,
-            "cirkulacija" : 0,
-            "administracija" : 0,
-            "context" : ""
-        },
-        {
-            "username" : "ana",
-            "password" : "letol",
-            "ime" : "Ana",
-            "prezime" : "Ana",
-            "email" : "",
-            "napomena" : "",
-            "obrada" : 1,
-            "cirkulacija" : 0,
-            "administracija" : 0,
-            "context" : ""
-        },
-        {
-            "username" : "Angela",
-            "password" : "sunce",
-            "ime" : "Angelina",
-            "prezime" : "Dačić",
-            "email" : "",
-            "napomena" : "",
-            "obrada" : 1,
-            "cirkulacija" : 0,
-            "administracija" : 0,
-            "context" : ""  },
-        {
-            "username" : "blaza",
-            "password" : "blpl77",
-            "ime" : "Blaženka",
-            "prezime" : "Marković",
-            "email" : "",
-            "napomena" : "",
-            "obrada" : 1,
-            "cirkulacija" : 1,
-            "administracija" : 1,
-            "context" : "neko podesavanje"
-        },
-        {
-            "username" : "Boba",
-            "password" : "boba",
-            "ime" : "Slobodanka",
-            "prezime" : "Čerevicki",
-            "email" : "",
-            "napomena" : "",
-            "obrada" : 1,
-            "cirkulacija" : 1,
-            "administracija" : 0,
-            "context" : ""
-        },
-        {
-            "username" : "circ",
-            "password" : "circ1",
-            "ime" : "Danijela",
-            "prezime" : "Tesendic",
-            "email" : "tesendic@uns.ns.ac.yu",
-            "napomena" : "",
-            "obrada" : 0,
-            "cirkulacija" : 1,
-            "administracija" : 0,
-            "context" : ""
-        },
-        {
-            "username" : "Danijela",
-            "password" : "panona",
-            "ime" : "Danijela",
-            "prezime" : "Dobretić",
-            "email" : "",
-            "napomena" : "",
-            "obrada" : 1,
-            "cirkulacija" : 0,
-            "administracija" : 0,
-            "context" : ""
-        }]})
+
+        })
 //changeset petar:ChangeSet-3
-db.gbns.members.insert({
+db.gbns_com_members.insert({
     "_id" : ObjectId("59391fc3ea9b8fbe1ed5ed28"),
     "sysId" : 12,
     "organizationId" : 0,
@@ -231,7 +141,7 @@ db.gbns.members.insert({
     "signing" : []
 });
 //changeset petar:ChangeSet-4
-db.gbns.records.insertMany([{
+db.gbns_com_records.insertMany([{
         "_id" : ObjectId("59391f89ea9b8fbe1ed417f7"),
         "recordID" : 16,
         "pubType" : 1,
