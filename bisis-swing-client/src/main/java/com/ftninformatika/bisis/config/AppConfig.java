@@ -41,7 +41,7 @@ public abstract class AppConfig {
 
 
     retrofit = new Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(serverUrl)
         .client(okHttpClient.build())
         .addConverterFactory(GsonConverterFactory.create())
         .build();
@@ -60,8 +60,8 @@ public abstract class AppConfig {
       return chain.proceed(newRequest.build());
     });
 
-    retrofit = new Retrofit.Builder()
-        .baseUrl(baseUrl)
+    this.retrofit = new Retrofit.Builder()
+        .baseUrl(serverUrl)
         .client(okHttpClient.build())
         .addConverterFactory(GsonConverterFactory.create())
         .build();

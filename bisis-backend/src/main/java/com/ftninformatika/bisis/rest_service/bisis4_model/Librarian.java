@@ -21,9 +21,9 @@ public class Librarian {
   private String prezime;
   private String email;
   private String napomena;
-  private int obrada;
-  private int cirkulacija;
-  private int administracija;
+  private boolean obrada;
+  private boolean cirkulacija;
+  private boolean administracija;
   private String context;
   private String biblioteka;
 

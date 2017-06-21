@@ -70,6 +70,7 @@ public class BisisApp {
           mf.setVisible(true);
           mf.setJMenuBar(new MenuBuilder(appConfig.getLibrarian()));
           mf.initialize(appConfig.getLibrarian());
+
         } else {
           JOptionPane.showMessageDialog(null, "Pogre\u0161no ime/lozinka",
               "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
@@ -88,8 +89,13 @@ public class BisisApp {
   public static MainFrame mf;
   public static String appVersion;
 
+  public static MainFrame getMainFrame(){ //zbog lakseg refaktorisanja koda
+    return mf;
+  }
+
+
   private static String getDomainFromUsername(String username) {
     //mora zbog header interceptora u retrofitu
-    return username.split("@")[1];
+    return username.split("@")[1].replace('.','_');
   }
 }

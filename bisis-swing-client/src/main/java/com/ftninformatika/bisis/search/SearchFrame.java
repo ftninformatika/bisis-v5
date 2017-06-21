@@ -39,6 +39,8 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.text.JTextComponent;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.hitlist.HitListFrame;
+import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
 
 
 public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcessor*/{
@@ -594,13 +596,14 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
   
   private void handleLocalSearch() {
-	/*
+
 	 String text1 = "";
 	 String text2 = "";
 	 String text3 = "";
 	 String text4 = "";
 	 String text5 = "";
-  	if(tfPref1.isVisible())
+
+  	/*if(tfPref1.isVisible())
   		text1 = tfPref1.getText();
   	else
   		text1 = codedPref1.getText();
@@ -623,25 +626,25 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   		text5 = tfPref5.getText();
   	else
   		text5 = codedPref5.getText(); 
-  	    
+  	    */
   	    btnSearch.setEnabled(false);
   	    
-  	 	String sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
-  	 	sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
-  	    SearchStatusDlg statusDlg = new SearchStatusDlg();
+  	 //	String sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
+  	 	//sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
+  	   // SearchStatusDlg statusDlg = new SearchStatusDlg();
     	
-  	 	SearchTask task = new SearchTask( btnPref1.getText(), cbOper1.getSelectedItem().toString(), text1, 
+  	 	/*SearchTask task = new SearchTask( btnPref1.getText(), cbOper1.getSelectedItem().toString(), text1,
   	 	        btnPref2.getText(), cbOper2.getSelectedItem().toString(), text2, 
   	 	        btnPref3.getText(), cbOper3.getSelectedItem().toString(), text3, 
   	 	        btnPref4.getText(), cbOper4.getSelectedItem().toString(), text4, 
   	 	        btnPref5.getText(), text5, sortPrefix,statusDlg);
   	 	statusDlg.addActionListener(task);
   	 	task.execute();
-  	 	statusDlg.setVisible(true);
+  	 	statusDlg.setVisible(true);*/
   	 	btnSearch.setEnabled(true);
-  */
+
   }
-  
+
   private void handleNetSearch() {
 	/*String convID = "" + (MessagingEnvironment.getMyLibServer()).getLibId() + "_"
     + new Date().getTime();
@@ -811,7 +814,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
   
   private void handleLookup(JTextComponent tf) {
-    /*lookup.setVisible(true);
+   /* lookup.setVisible(true);
     if (lookup.isSelected()) {
       char c = lookup.getSelectedChar();
       int pos = tf.getCaretPosition();
@@ -863,7 +866,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private boolean dirtyPrefixSet = false;
   
   //added by Miroslav Zaric -  required for NetSearch
- // private ThreadDispatcher td;
+  //private ThreadDispatcher td;
 //  private LinkedHashMap<String, NetHitListFrame> netSearchResultFrames=new LinkedHashMap<String, NetHitListFrame>();
   //
   
@@ -884,7 +887,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     }
     public SortPrefix(String name) {
       this.name = name + "_sort";
-      //this.caption = PrefixConfigFactory.getPrefixConfig().getPrefixName(name);
+      this.caption = PrefixConfigFactory.getPrefixConfig().getPrefixName(name);
     }
     public String toString() {
       return caption;

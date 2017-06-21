@@ -1,11 +1,13 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchFrame;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyVetoException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -26,7 +28,7 @@ public class MainFrame extends JFrame {
                 shutdown();
             }
         });
-       // desktop.add(searchFrame);
+        desktop.add(searchFrame);
     }
 
     public void initialize(Librarian lib){
@@ -62,7 +64,7 @@ public class MainFrame extends JFrame {
         } catch (Exception ex) {
         }
     }
-/*
+
     public void showHitlistFrame() {
         try {
             if (!hlf.isVisible())
@@ -75,39 +77,42 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void addHitListFrame(String query, Result queryResults) {
-        if(hlf==null){
-            hlf = new HitListFrame(query, queryResults);
+        public void addHitListFrame(String query/*, Result queryResults*/) {
+            if(hlf==null){
+                System.out.println("usao u add hitlist frame");
+           //     hlf = new HitListFrame(query, queryResults);
+                hlf = new HitListFrame(null);
+                desktop.add(hlf);
+            }
+            else
+                System.out.println("neki else");
+          //      hlf.setQueryResults(query, queryResults);
+            showHitlistFrame();
+            try {
+                hlf.setMaximum(true);
+            } catch (PropertyVetoException e) {
+            }
+            hlf.setVisible(true);
+        }
+        public void addBranchesFrame(String query, int[] hits) {
+          /*  brf = new GrupniPrikazFrame(query, hits);
+            desktop.add(brf);
+            brf.setVisible(true);*/
+        }
+/*
+        public NetHitListFrame addNetHitListFrame(String query, String convId, boolean compress,LibraryServerDesc lib, Vector<BriefInfoModel> hits) {
+            NetHitListFrame hlf = new NetHitListFrame(query, convId, compress, lib, hits);
             desktop.add(hlf);
+            hlf.setVisible(true);
+            return hlf;
         }
-        else
-            hlf.setQueryResults(query, queryResults);
-        showHitlistFrame();
-        try {
-            hlf.setMaximum(true);
-        } catch (PropertyVetoException e) {
+
+        public void addReportFrame(String title, JasperPrint jp) {
+            ReportFrame rf = new ReportFrame(title, jp);
+            desktop.add(rf);
+            rf.setVisible(true);
         }
-        hlf.setVisible(true);
-    }
-    public void addBranchesFrame(String query, int[] hits) {
-        brf = new GrupniPrikazFrame(query, hits);
-        desktop.add(brf);
-        brf.setVisible(true);
-    }
-
-    public NetHitListFrame addNetHitListFrame(String query, String convId, boolean compress,LibraryServerDesc lib, Vector<BriefInfoModel> hits) {
-        NetHitListFrame hlf = new NetHitListFrame(query, convId, compress, lib, hits);
-        desktop.add(hlf);
-        hlf.setVisible(true);
-        return hlf;
-    }
-
-    public void addReportFrame(String title, JasperPrint jp) {
-        ReportFrame rf = new ReportFrame(title, jp);
-        desktop.add(rf);
-        rf.setVisible(true);
-    }
-*/
+    */
     private void shutdown() {
         /*if(Obrada.isEditorClosable()){
             searchFrame.closeSearchFrame();
@@ -120,11 +125,11 @@ public class MainFrame extends JFrame {
     public SearchFrame getSearchFrame(){
         return searchFrame;
     }
-/*
+
     public HitListFrame getHitListFrame(){
         return hlf;
     }
-
+/*
     public void insertFrame(JInternalFrame frame){
         desktop.add(frame);
     }
@@ -230,8 +235,8 @@ public class MainFrame extends JFrame {
 
     private JDesktopPane desktop = new JDesktopPane();
     private SearchFrame searchFrame = new SearchFrame();
-  /*  private HitListFrame hlf = null;
-    private GrupniPrikazFrame brf=null;
+    private HitListFrame hlf = null;
+  /*  private GrupniPrikazFrame brf=null;
     private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
 

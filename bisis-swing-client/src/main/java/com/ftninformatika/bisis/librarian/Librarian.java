@@ -22,4 +22,8 @@ public class Librarian {
     private String context;
     private String biblioteka;
 
+
+    public boolean isCataloguing(){  //dasmanjimo refeaktorisanje koda
+        return obrada;
+    }
 }
