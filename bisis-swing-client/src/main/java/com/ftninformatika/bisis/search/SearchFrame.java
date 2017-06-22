@@ -631,16 +631,16 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   	    
   	 //	String sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
   	 	//sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
-  	   // SearchStatusDlg statusDlg = new SearchStatusDlg();
+  	    SearchStatusDlg statusDlg = new SearchStatusDlg();
     	
-  	 	/*SearchTask task = new SearchTask( btnPref1.getText(), cbOper1.getSelectedItem().toString(), text1,
+  	 	SearchTask task = new SearchTask( btnPref1.getText(), cbOper1.getSelectedItem().toString(), text1,
   	 	        btnPref2.getText(), cbOper2.getSelectedItem().toString(), text2, 
   	 	        btnPref3.getText(), cbOper3.getSelectedItem().toString(), text3, 
   	 	        btnPref4.getText(), cbOper4.getSelectedItem().toString(), text4, 
-  	 	        btnPref5.getText(), text5, sortPrefix,statusDlg);
+  	 	        btnPref5.getText(), text5, /*sortPrefix*/ "neki sort prefix",statusDlg);
   	 	statusDlg.addActionListener(task);
   	 	task.execute();
-  	 	statusDlg.setVisible(true);*/
+  	 	statusDlg.setVisible(true);
   	 	btnSearch.setEnabled(true);
 
   }

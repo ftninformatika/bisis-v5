@@ -1,11 +1,13 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.bisis.config.AppConfig;
 import com.ftninformatika.bisis.config.ConfigType;
 import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.LoginFrame;
+import com.ftninformatika.bisis.service.Records;
 import com.ftninformatika.utils.RetrofitUtils;
 import retrofit2.Call;
 
@@ -30,7 +32,7 @@ public class BisisApp {
 
     UIManager.put("swing.boldMetal", Boolean.FALSE);
     try {
-      UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+      //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
       return;
@@ -61,6 +63,14 @@ public class BisisApp {
           }
           appConfig.setLibrarian(response);
           appConfig.setLibrary(response.getBiblioteka());
+
+          Records zapis = null;
+          try {
+            zapis = bisisService.getOneRecord().execute().body();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          System.out.println(zapis.toString());
 
           mf = new MainFrame();
           mf.setResizable(true);

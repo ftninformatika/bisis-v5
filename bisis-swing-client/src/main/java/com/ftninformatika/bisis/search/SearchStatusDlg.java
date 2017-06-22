@@ -26,7 +26,7 @@ public class SearchStatusDlg extends JDialog {
 		    progressBar.setIndeterminate(true);
 		    progressBar.setMinimumSize(new Dimension(200,5));
 		    cancelBtn.setIcon(new ImageIcon(getClass().getResource(
-		        "/com/gint/app/bisis4/client/images/remove.gif")));
+		        "/icons/remove.gif")));
 		   
 		    MigLayout mig = new MigLayout(
 		        "",

@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.bisis4_model;
+package com.ftninformatika.bisis.service;
 
 // Generated Jan 11, 2007 11:36:46 AM by Hibernate Tools 3.2.0.beta8
 
@@ -6,11 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -21,10 +18,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_records")
+//@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_records")
 public class Records implements java.io.Serializable {
 
-  @Id
+  //@Id
   private String _id;
   private int recordID;
   private int pubType;
@@ -37,6 +34,20 @@ public class Records implements java.io.Serializable {
   private String creationDate; //Date
  // @DateTimeFormat(pattern = "yyyy-MM-dd")
   private String lastModifiedDate; //Date
+
+
+  /**
+   * Removes empty fields, subfields, and subsubfields from this record.
+   */
+  public void pack() {
+   /* Iterator it = fields.iterator();
+    while (it.hasNext()) {
+      com.ftninformatika.bisis.records.Field f = (com.ftninformatika.bisis.service.Field)it.next();
+      f.pack();
+      if (f.getSubfieldCount() == 0)
+        it.remove();
+    }*/
+  }
 
   /** minimal constructor */
   /*public Records(int recordID, int pubType, Author creator, Date creationDate) {

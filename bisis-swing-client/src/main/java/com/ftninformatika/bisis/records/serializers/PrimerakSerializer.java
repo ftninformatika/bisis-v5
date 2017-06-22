@@ -466,7 +466,7 @@ public class PrimerakSerializer {
     if (sfb != null && sfb.length() == 16) {
       String crDate = sfb.substring(0, 8);
       String modDate = sfb.substring(8);
-      try {
+      /*try {
         rec.setCreationDate(dateFormat.parse(crDate));
         if (!"00000000".equals(modDate))
           rec.setLastModifiedDate(dateFormat.parse(modDate));
@@ -483,7 +483,7 @@ public class PrimerakSerializer {
       if (sfc.indexOf('@') != -1)
         rec.setCreator(new Author(sfc));
       else
-        rec.setCreator(new Author(sfc, "unknown"));
+        rec.setCreator(new Author(sfc, "unknown"));*/
     }
     String sfd = rec.getSubfieldContent("000d");
     if (sfd != null) {

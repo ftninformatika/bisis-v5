@@ -44,6 +44,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.html.HTMLEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.service.Records;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -76,7 +77,7 @@ public class HitListFrame extends JInternalFrame {
     btnAnalitika.setIcon(new ImageIcon(EditorFrame.class
         .getResource("/com/gint/app/bisis4/client/images/doc_rich16.png")));*/
     
-    //lbHitList.setModel(hitListModel);
+    lbHitList.setModel(hitListModel);
     //lbHitList.setCellRenderer(renderer);
     spHitList.setViewportView(lbHitList);    
     //spHitList.setPreferredSize(new Dimension(500, 500));   
@@ -222,7 +223,7 @@ public class HitListFrame extends JInternalFrame {
     btnBrief.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
        // renderer.setFormatter(RecordFormatterFactory.FORMAT_BRIEF);
-       // hitListModel.refresh();
+        hitListModel.refresh();
           System.out.println("Action preformed!");
       }
     });
@@ -273,8 +274,9 @@ public class HitListFrame extends JInternalFrame {
     });
     
     btnEdit.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {        
-    		/*try {
+      public void actionPerformed(ActionEvent ev) {
+          System.out.println("Usao u neki listener");
+    	/*	try {
     			int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
        Record rec = BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
     			Obrada.editRecord(rec);
@@ -382,29 +384,40 @@ public class HitListFrame extends JInternalFrame {
   }
   
   private void displayPage() {
-   /* if (queryResult == null || queryResult.getRecords().length == 0)
-      return;
-    int count = PAGE_SIZE;
-   
-    if (page == pageCount()-1 ){  //ako je poslednja stranica
-    	if (queryResult.getResultCount() % PAGE_SIZE==0){
-    		count=PAGE_SIZE;
-    	}
-    	else{
-         count = queryResult.getResultCount() % PAGE_SIZE;
-    	}
-    } 
+   // if (queryResult == null || queryResult.getRecords().length == 0)
+ //     return;
+    int count = //PAGE_SIZE;
+                1;
+   // if (page == pageCount()-1 ){  //ako je poslednja stranica
+   // 	if (queryResult.getResultCount() % PAGE_SIZE==0){
+    //		count=PAGE_SIZE;
+  //  	}
+    //	else{
+    //     count = queryResult.getResultCount() % PAGE_SIZE;
+   // 	}
+   // }
     pageTxtFld.setText(String.valueOf(page));
     int[] recIDs = new int[count];
-    for (int i = 0; i < count; i++)
-      recIDs[i] = queryResult.getRecords()[page*PAGE_SIZE + i];
-    hitListModel.setHits(recIDs);
+   // for (int i = 0; i < count; i++)
+     // recIDs[i] = queryResult.getRecords()[page*PAGE_SIZE + i];
+
+      /////ovde ubacujemo neki record
+      Records zapis = null;
+      try {
+          zapis = BisisApp.bisisService.getOneRecord().execute().body();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+
+
+
+    hitListModel.setHits(/*recIDs*/zapis);
     lbHitList.setSelectedIndex(0);
     handleListSelectionChanged();    
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
-        queryResult.getResultCount() + "</b></html>");
-    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+queryResult.getInvs().size()+"</b></html>");*/
+        /*queryResult.getResultCount()*/ "1" + "</b></html>");
+    lBrPrimeraka.setText("<html>Broj primeraka: <b>"/*+queryResult.getInvs().size()+*/+"nesto"+"</b></html>");
   }
   
   private int pageCount() {
@@ -584,13 +597,13 @@ public class HitListFrame extends JInternalFrame {
 	}
 	
 	public void setQueryResults(String query/*, Result queryResults*/){
-		/*this.queryResult = queryResults;
+		//this.queryResult = queryResults;
   this.query=query;
-  renderer.setResults(queryResults);
+  //renderer.setResults(queryResults);
   updateAvailability();
   page = 0;
   lQuery.setText("<html>Upit: <b>" + query + "</b></html>");  
-  displayPage();	*/
+  displayPage();
 	}
 	
 	private void handleOpenFile(){
@@ -626,7 +639,7 @@ public class HitListFrame extends JInternalFrame {
   
   private JScrollPane spHitList = new JScrollPane();
   private JList lbHitList = new JList();
-  //private HitListModel hitListModel = new HitListModel();
+  private HitListModel hitListModel = new HitListModel();
   private ListSelectionModel listSelModel;
   //private HitListRenderer renderer = new HitListRenderer();
   
