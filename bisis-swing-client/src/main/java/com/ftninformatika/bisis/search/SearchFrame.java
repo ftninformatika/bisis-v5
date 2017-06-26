@@ -2,17 +2,15 @@ package com.ftninformatika.bisis.search;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -83,7 +81,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     MigLayout layout = new MigLayout(
         "insets dialog, wrap",
         "[left]rel[300lp]rel[left]rel[left]para[300lp]",
-        "[]rel[]rel[]rel[]rel[]");
+        "[]rel[]rel[]rel[]rel[]rel[]rel[30lp]");
     setLayout(layout);
     add(btnPref1, "");
     add(tfPref1, "growx, hidemode 3");
@@ -107,9 +105,10 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     add(btnPref5, "");
     add(tfPref5, "growx");
     add(btnCoder5, "wrap");
-    add(new JLabel("Sortiraj po"), "span 4, split 3");
-    add(cbSort, "");
-    add(btnSearch, "tag ok, wrap");
+    add(new JLabel(" "), "span 5, split 3, growx");
+    add(new JLabel("Sortiraj po"), "");
+    add(cbSort, "wrap");
+    add(btnSearch, "span 5, tag ok, growy");
     pack();
     
     btnPref1.setFocusable(false);
@@ -159,29 +158,34 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     btnPref5.addActionListener(ev -> choosePrefix(btnPref5, btnCoder5));
     tfPref1.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref1, tfPref1, ev);
+        handleKeys(btnPref1, tfPref1, btnCoder1, ev);
       }
     });
     tfPref2.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref2, tfPref2, ev);
+        handleKeys(btnPref2, tfPref2, btnCoder1, ev);
       }
     });
     tfPref3.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref3, tfPref3, ev);
+        handleKeys(btnPref3, tfPref3, btnCoder1, ev);
       }
     });
     tfPref4.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref4, tfPref4, ev);
+        handleKeys(btnPref4, tfPref4, btnCoder1, ev);
       }
     });
     tfPref5.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref5, tfPref5, ev);
+        handleKeys(btnPref5, tfPref5, btnCoder1, ev);
       }
     });
+    btnCoder1.addActionListener(ev -> chooseFromCoder(btnPref1, tfPref1, btnCoder1));
+    btnCoder2.addActionListener(ev -> chooseFromCoder(btnPref2, tfPref2, btnCoder2));
+    btnCoder3.addActionListener(ev -> chooseFromCoder(btnPref3, tfPref3, btnCoder3));
+    btnCoder4.addActionListener(ev -> chooseFromCoder(btnPref4, tfPref4, btnCoder4));
+    btnCoder5.addActionListener(ev -> chooseFromCoder(btnPref5, tfPref5, btnCoder5));
 
     btnSearch.addActionListener(ev -> {
       if (rbLocalSearch.isSelected())
@@ -192,8 +196,8 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 
     rbLocalSearch.addActionListener(ev -> {
       if (rbLocalSearch.isSelected()){
-        Component []itemsInList=spServerList.getComponents();
-        for(int i=0;i<itemsInList.length;i++)
+        Component[] itemsInList = spServerList.getComponents();
+        for(int i = 0; i < itemsInList.length; i++)
           itemsInList[i].setEnabled(false);
         spServerList.getViewport().setVisible(false);
         rbZipNetSearch.setEnabled(false);
@@ -202,11 +206,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 
     rbNetSearch.addActionListener(ev -> {
       if (rbNetSearch.isSelected()){
-        if(spServerList.getViewport().getView()==null)
+        if (spServerList.getViewport().getView()==null)
           populateServerList();
-        else{
-          Component []itemsInList=spServerList.getComponents();
-          for(int i=0;i<itemsInList.length;i++)
+        else {
+          Component[] itemsInList = spServerList.getComponents();
+          for(int i = 0; i < itemsInList.length; i++)
             itemsInList[i].setEnabled(true);
           spServerList.getViewport().setVisible(true);
           rbZipNetSearch.setEnabled(true);
@@ -270,12 +274,21 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     }
   }
 
-  private void chooseFromCoder(JButton btnCoder, JTextField tfPref) {
-    List<UItem> codesList = CodedPrefUtils.getCodesForPrefix(tfPref.getText());
+  private void chooseFromCoder(JButton btnPref, JTextField tfPref, JButton btnCoder) {
+    String prefix = btnPref.getText();
+    List<UItem> codesList = CodedPrefUtils.getCodesForPrefix(prefix);
+    if (codesList != null) {
+      CodeChoiceDialog ccd = new CodeChoiceDialog(BisisApp.getMainFrame(),
+          "\u0160ifarnik", codesList, "\u0160ifarnik za prefiks " + prefix,"");
+      ccd.setVisible(true);
+      if(ccd.getSelectedCode()!=null)
+        tfPref.setText(ccd.getSelectedCode());
+      ccd.setVisible(false);
+    }
 
   }
   
-  private void chooseExpand(JTextField tfPref,JButton btn ){
+  private void chooseExpand(JTextField tfPref, String prefix){
 	/*  List<String> exp= getExpand(tfPref,btn);
 	  if(exp!=null){
 		  Collections.sort(exp);
@@ -288,7 +301,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 	  }	*/
   }
   
-  private List<String> getExpand(JTextField tfPref,JButton btn) {
+  private List<String> getExpand(JTextField tfPref, JButton btn) {
 	 /*   String text=tfPref.getText();
 	    text=StringUtils.clearDelimiters(text, delims);
 	    String expandQuery="";
@@ -304,20 +317,17 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 	 return null;
   }
 
-  private void handleKeys(JButton btn, JComponent compPref, KeyEvent ev) {
-   /* switch (ev.getKeyCode()) {
+  private void handleKeys(JButton btnPref, JTextField tfPref, JButton btnCoder, KeyEvent ev) {
+   switch (ev.getKeyCode()) {
       case KeyEvent.VK_F9:
-        choosePrefix(btn);
+        choosePrefix(btnPref, btnCoder);
         break;
       case KeyEvent.VK_F12:
-      	if(compPref instanceof JTextField)
-          chooseExpand((JTextField)compPref,btn);
+      	if (CodedPrefUtils.isPrefCoded(btnPref.getText()))
+          chooseExpand(tfPref, btnPref.getText());
           break;
       case KeyEvent.VK_F1:
-      	if(compPref instanceof JTextField)      		
-      		handleLookup((JTextField)compPref);
-      	else if(compPref instanceof CodedPrefPanel)
-      		handleLookup(((CodedPrefPanel)compPref).getTextField());      					
+        handleLookup(tfPref);
         break;
       case KeyEvent.VK_ESCAPE:
         setVisible(false);
@@ -326,69 +336,36 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         btnSearch.doClick();
         break;
       case KeyEvent.VK_DOWN:
-        if (compPref == tfPref1 || compPref == codedPref1.getTextField())
-        	if(tfPref2.isVisible())
-        		tfPref2.requestFocus();
-        	else
-        		codedPref2.requestFocus();
-        else if (compPref == tfPref2 || compPref == codedPref2.getTextField())
-        	if(tfPref3.isVisible())
-        		tfPref3.requestFocus();
-        	else
-        		codedPref3.requestFocus();
-        else if (compPref == tfPref3 || compPref == codedPref3.getTextField())
-        	if(tfPref4.isVisible())
-        		tfPref4.requestFocus();
-        	else
-        		codedPref4.requestFocus();        	
-        else if (compPref == tfPref4 || compPref == codedPref4.getTextField())
-        	if(tfPref5.isVisible())
-        		tfPref5.requestFocus();
-        	else
-        		codedPref5.requestFocus();
-        else if (compPref == tfPref5 || compPref == codedPref5.getTextField())
-        	if(tfPref1.isVisible())
-        		tfPref1.requestFocus();
-        	else
-        		codedPref1.requestFocus();
+        if (tfPref == tfPref1)
+          tfPref2.requestFocus();
+        else if (tfPref == tfPref2)
+          tfPref3.requestFocus();
+        else if (tfPref == tfPref3)
+          tfPref4.requestFocus();
+        else if (tfPref == tfPref4)
+          tfPref5.requestFocus();
+        else if (tfPref == tfPref5)
+          tfPref1.requestFocus();
         break;
       case KeyEvent.VK_UP:
-        if (compPref == tfPref1 || compPref == codedPref1.getTextField())
-        	if(tfPref5.isVisible())
-        		tfPref5.requestFocus();
-        	else
-        		codedPref5.requestFocus();
-        else if (compPref == tfPref2 || compPref == codedPref2.getTextField())
-        	if(tfPref1.isVisible())
-        		tfPref1.requestFocus();
-        	else
-        		codedPref1.requestFocus();
-        else if (compPref == tfPref3 || compPref == codedPref3.getTextField())
-        	if(tfPref2.isVisible())
-        		tfPref2.requestFocus();
-        	else
-        		codedPref2.requestFocus();
-        else if (compPref == tfPref4 || compPref == codedPref4.getTextField())
-        	if(tfPref3.isVisible())
-        		tfPref3.requestFocus();
-        	else
-        		codedPref3.requestFocus();
-        else if (compPref == tfPref5 || compPref == codedPref5.getTextField())
-        	if(tfPref4.isVisible())
-        		tfPref4.requestFocus();
-        	else
-        		codedPref4.requestFocus();      
-        break;     
+        if (tfPref == tfPref1)
+          tfPref5.requestFocus();
+        else if (tfPref == tfPref2)
+          tfPref1.requestFocus();
+        else if (tfPref == tfPref3)
+          tfPref2.requestFocus();
+        else if (tfPref == tfPref4)
+          tfPref3.requestFocus();
+        else if (tfPref == tfPref5)
+          tfPref4.requestFocus();
+        break;
     }
-    if(ev.getModifiers() == InputEvent.CTRL_MASK 
-    		&& ev.getKeyCode()==KeyEvent.VK_F6)
+    if (ev.getModifiers() == InputEvent.CTRL_MASK && ev.getKeyCode()==KeyEvent.VK_F6)
     	BisisApp.getMainFrame().selectNextInternalFrame();
-    if(ev.getKeyCode() == KeyEvent.VK_F2){
+    if (ev.getKeyCode() == KeyEvent.VK_F2) {
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-    	if(compPref instanceof JTextField){
-    		((JTextField)compPref).setText(sdf.format(new Date()));
-    	}    	
-    }*/
+      tfPref.setText(sdf.format(new Date()));
+    }
   }
   
   private void handleLocalSearch() {

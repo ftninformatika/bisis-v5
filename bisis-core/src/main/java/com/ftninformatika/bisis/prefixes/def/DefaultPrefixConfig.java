@@ -52,7 +52,7 @@ public class DefaultPrefixConfig implements PrefixConfig {
   }
   
   public List<PrefixValue> getPrefixNames() {
-    return prefixNameLists.get(null);
+    return prefixNameLists.get(locale);
   }
   
   public List<PrefixValue> getPrefixNames(Locale locale) {
@@ -65,10 +65,11 @@ public class DefaultPrefixConfig implements PrefixConfig {
   }
   
   public DefaultPrefixConfig() {
+    locale = new Locale("sr");
     prefixHandler = new DefaultPrefixHandler();
     prefixMap = new DefaultPrefixMap();
-    allPrefixes = new HashSet();
-    sortPrefixes = new HashSet();
+    allPrefixes = new HashSet<>();
+    sortPrefixes = new HashSet<>();
     allPrefixes.add("AB");
     allPrefixes.add("AM");
     allPrefixes.add("AN");
@@ -158,18 +159,18 @@ public class DefaultPrefixConfig implements PrefixConfig {
     sortPrefixes.add("TI");
     sortPrefixes.add("PY");
     prefixNameLists = new HashMap();
-    prefixNameLists.put(null, initPrefixNameList(null));
+    prefixNameLists.put(null, initPrefixNameList(locale));
   }
   
   private List<PrefixValue> initPrefixNameList(Locale locale) {
-    List<PrefixValue> retVal = new ArrayList<PrefixValue>();
+    List<PrefixValue> retVal = new ArrayList<>();
     ResourceBundle rb = null;
     if (locale == null)
       rb = PropertyResourceBundle.getBundle(
-          "PrefixResourceBundles.PrefixNames");
+          "com.ftninformatika.bisis.prefixes.PrefixNames");
     else
       rb = PropertyResourceBundle.getBundle(
-          "PrefixResourceBundles.PrefixNames", locale);
+          "com.ftninformatika.bisis.prefixes.PrefixNames", locale);
     if (rb == null)
       return retVal;
     Enumeration keys = rb.getKeys();
@@ -183,10 +184,10 @@ public class DefaultPrefixConfig implements PrefixConfig {
     List<PrefixValue> temp = new ArrayList<PrefixValue>();
     if (locale == null)
       rb = PropertyResourceBundle.getBundle(
-          "PrefixResourceBundles.SubfieldNames");
+          "com.ftninformatika.bisis.prefixes.SubfieldNames");
     else
       rb = PropertyResourceBundle.getBundle(
-          "PrefixResourceBundles.SubfieldNames", locale);
+          "com.ftninformatika.bisis.prefixes.SubfieldNames", locale);
     if (rb == null)
       return retVal;
     keys = rb.getKeys();
@@ -202,7 +203,7 @@ public class DefaultPrefixConfig implements PrefixConfig {
   }
   
   public String getPrefixName(String prefix) {
-    return getPrefixName(prefix, null);
+    return getPrefixName(prefix, locale);
   }
   
   public String getPrefixName(String prefix, Locale locale) {
@@ -218,4 +219,5 @@ public class DefaultPrefixConfig implements PrefixConfig {
   private Set<String> allPrefixes;
   private Set<String> sortPrefixes;
   private HashMap<Locale, List<PrefixValue>> prefixNameLists;
+  private Locale locale;
 }

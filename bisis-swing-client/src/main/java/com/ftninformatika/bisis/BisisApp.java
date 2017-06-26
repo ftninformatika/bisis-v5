@@ -8,6 +8,8 @@ import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.LoginFrame;
 import com.ftninformatika.utils.RetrofitUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import retrofit2.Call;
 
 import javax.swing.*;
@@ -57,7 +59,7 @@ public class BisisApp {
           Librarian response = null;
           try {
             response = lib.execute().body();
-            System.out.println(response);
+            log.info("Prijavljen bibliotekar: " + response.getUsername());
           } catch (IOException e) {
             System.err.println(e);
           }
@@ -89,9 +91,7 @@ public class BisisApp {
       } else {
         System.exit(0);
       }
-
     }
-
   }
 
   public static AppConfig appConfig;
@@ -103,6 +103,7 @@ public class BisisApp {
     return mf;
   }
 
+  private static Log log = LogFactory.getLog(BisisApp.class);
 
   private static String getDomainFromUsername(String username) {
     //mora zbog header interceptora u retrofitu

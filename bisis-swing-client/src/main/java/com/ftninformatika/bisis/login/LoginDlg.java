@@ -41,7 +41,7 @@ public class LoginDlg extends JDialog {
     add(new JLabel("Lozinka"), "");
     add(pfPassword, "grow, wrap");
     add(btnCancel, "span 2, split 2, tag cancel");
-    add(btnOK, "wrap, tag ok");
+    add(btnOK, "tag ok");
     pack();
     WindowUtils.centerOnScreen(this);
     if (BisisApp.appConfig instanceof DevelopmentConfig) {
