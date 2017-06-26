@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ftninformatika.utils.file.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.gint.util.file.FileUtils;
 
 /**
  * Provides access to UNIMARC format and publication type definitions.
  * 
- * @author mbranko@uns.ns.ac.yu
+ * @author mbranko@uns.ac.rs
  */
 public class PubTypes {
 

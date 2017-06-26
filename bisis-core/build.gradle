@@ -1,12 +1,14 @@
-configurations {
-    // testOutput
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    // testOutput sourceSets.test.output
-}
-
-test {
-    // useTestNG {
-    // }
+    compile group: 'commons-logging', name: 'commons-logging', version: '1.1.1'
 }

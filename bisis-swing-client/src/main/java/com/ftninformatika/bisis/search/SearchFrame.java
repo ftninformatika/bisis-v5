@@ -2,25 +2,12 @@ package com.ftninformatika.bisis.search;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Vector;
 
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,7 +26,6 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.text.JTextComponent;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
 import net.miginfocom.swing.MigLayout;
 
@@ -49,7 +35,6 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   public SearchFrame() {
     super("Pretra\u017eivanje zapisa", true, true, false, true);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-    //setPreferredSize(new Dimension(700,310));
     //td=MessagingEnvironment.getThreadDispatcher();
     addInternalFrameListener(new InternalFrameAdapter(){
       public void internalFrameActivated(InternalFrameEvent e){
@@ -105,35 +90,31 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       }     
     });    
 
-   /* codedPref1.getTextField().addKeyListener(new KeyAdapter(){
+    codedPref1.getTextField().addKeyListener(new KeyAdapter(){
     	public void keyPressed(KeyEvent ev) {
         handleKeys(btnPref1, codedPref1.getTextField(), ev);
       }
     });
-    
     codedPref2.getTextField().addKeyListener(new KeyAdapter(){
     	public void keyPressed(KeyEvent ev) {
         handleKeys(btnPref2, codedPref2.getTextField(), ev);
       }
     });
-    
     codedPref3.getTextField().addKeyListener(new KeyAdapter(){
     	public void keyPressed(KeyEvent ev) {
         handleKeys(btnPref3, codedPref3.getTextField(), ev);
       }
     });
-    
     codedPref4.getTextField().addKeyListener(new KeyAdapter(){
     	public void keyPressed(KeyEvent ev) {
         handleKeys(btnPref4, codedPref4.getTextField(), ev);
       }
     });
-    
     codedPref5.getTextField().addKeyListener(new KeyAdapter(){
     	public void keyPressed(KeyEvent ev) {
         handleKeys(btnPref5, codedPref5.getTextField(), ev);
       }
-    });    */
+    });
     
     btnSearch.addActionListener(ev -> {
       if (rbLocalSearch.isSelected())
@@ -141,6 +122,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       else
         handleNetSearch();
     });
+
     rbLocalSearch.addActionListener(ev -> {
       if (rbLocalSearch.isSelected()){
         Component []itemsInList=spServerList.getComponents();
@@ -150,6 +132,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         rbZipNetSearch.setEnabled(false);
       }
     });
+
     rbNetSearch.addActionListener(ev -> {
       if (rbNetSearch.isSelected()){
         if(spServerList.getViewport().getView()==null)
@@ -714,16 +697,16 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private JTextField tfPref4 = new JTextField();
   private JTextField tfPref5 = new JTextField();
   // panel za unos sifriranih vrednosti  
- /* private CodedPrefPanel codedPref1 = new CodedPrefPanel();
+  private CodedPrefPanel codedPref1 = new CodedPrefPanel();
   private CodedPrefPanel codedPref2 = new CodedPrefPanel();
   private CodedPrefPanel codedPref3 = new CodedPrefPanel();
   private CodedPrefPanel codedPref4 = new CodedPrefPanel();
-  private CodedPrefPanel codedPref5 = new CodedPrefPanel();*/
+  private CodedPrefPanel codedPref5 = new CodedPrefPanel();
   // operatori
-  private JComboBox cbOper1 = new JComboBox(new String[] {"AND", "OR", "NOT"});
-  private JComboBox cbOper2 = new JComboBox(new String[] {"AND", "OR", "NOT"});
-  private JComboBox cbOper3 = new JComboBox(new String[] {"AND", "OR", "NOT"});
-  private JComboBox cbOper4 = new JComboBox(new String[] {"AND", "OR", "NOT"});
+  private JComboBox<String> cbOper1 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+  private JComboBox<String> cbOper2 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+  private JComboBox<String> cbOper3 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+  private JComboBox<String> cbOper4 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
     
   private JButton btnSearch = new JButton("Pretra\u017ei");
   private JRadioButton rbLocalSearch = new JRadioButton("Pretraga u lokalu");
