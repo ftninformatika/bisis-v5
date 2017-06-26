@@ -1,11 +1,11 @@
 package com.ftninformatika.bisis.records.serializers;
 
-
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.records.Subsubfield;
-import com.gint.util.string.StringUtils;
+import com.ftninformatika.utils.string.StringUtils;
+
 /**
  * 
  * @author mbranko@uns.ns.ac.yu

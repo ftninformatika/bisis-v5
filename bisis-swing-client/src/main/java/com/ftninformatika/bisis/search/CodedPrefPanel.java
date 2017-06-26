@@ -3,16 +3,12 @@
  */
 package com.ftninformatika.bisis.search;
 
-import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.UItem;
-import net.miginfocom.swing.MigLayout;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -33,30 +29,22 @@ public class CodedPrefPanel extends JPanel {
 	public CodedPrefPanel() {
 		button.setIcon(new ImageIcon(getClass().getResource(
         "/icons/coder.gif")));
-		button.setPreferredSize(new Dimension(20,20));
-		MigLayout layout = new MigLayout(
-				"wrap",
-				"[left]rel[20lp]",
-				"[]");
-		setLayout(layout);
-		add(txtFld, "");
-		add(button, "");
+		button.setPreferredSize(new Dimension(30,20));
 
-//		setLayout(new GridBagLayout());
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.gridx = 0;
-//		c.weightx = 1;
-//		c.weighty = 1;
-//		c.insets = new Insets(0,0,0,5);
-//		c.fill = GridBagConstraints.BOTH;
-//		add(txtFld, c);
-//		c.insets = new Insets(0,0,0,0);
-//		c.gridx = 1;
-//		c.weightx = 0.001;
-//		c.weighty = 0;
-//		add(button, c);
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.insets = new Insets(0,0,0,1);
+		c.fill = GridBagConstraints.BOTH;
+		add(txtFld, c);
+		c.insets = new Insets(0,0,0,0);
+		c.gridx = 1;
+		c.weightx = 0.001;
+		c.weighty = 0;
+		add(button, c);
 		
-		//actions		
 		button.addActionListener(e -> openCoder());
 	}
 	
@@ -88,11 +76,4 @@ public class CodedPrefPanel extends JPanel {
 			ccd.setVisible(false);	
 		}*/
 	}
-	
-	
-	
-	
-	
-
-	
 }

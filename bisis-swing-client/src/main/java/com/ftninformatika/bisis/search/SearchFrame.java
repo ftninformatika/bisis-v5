@@ -26,11 +26,28 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.text.JTextComponent;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
 import net.miginfocom.swing.MigLayout;
 
 
 public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcessor*/ {
+
+  private JButton btnPref1 = new JButton("AU");
+  private JButton btnPref2 = new JButton("AU");
+  private JButton btnPref3 = new JButton("AU");
+  private JButton btnPref4 = new JButton("AU");
+  private JButton btnPref5 = new JButton("AU");
+  private JTextField tfPref1 = new JTextField();
+  private JTextField tfPref2 = new JTextField();
+  private JTextField tfPref3 = new JTextField();
+  private JTextField tfPref4 = new JTextField();
+  private JTextField tfPref5 = new JTextField();
+  private JButton btnCoder1 = new JButton();
+  private JButton btnCoder2 = new JButton();
+  private JButton btnCoder3 = new JButton();
+  private JButton btnCoder4 = new JButton();
+  private JButton btnCoder5 = new JButton();
 
   public SearchFrame() {
     super("Pretra\u017eivanje zapisa", true, true, false, true);
@@ -53,17 +70,27 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     	
     });
 
-  //  for (String sp : PrefixConfigFactory.getPrefixConfig().getSortPrefixes())
-    //  cbSort.addItem(new SortPrefix(sp));
-    
+    for (String sp: PrefixConfigFactory.getPrefixConfig().getSortPrefixes())
+      cbSort.addItem(new SortPrefix(sp));
+
     btnSearch.setIcon(new ImageIcon(getClass().getResource(
         "/icons/search.gif")));
-    
-    btnPref1.addActionListener(ev -> choosePrefix(btnPref1));
-    btnPref2.addActionListener(ev -> choosePrefix(btnPref2));
-    btnPref3.addActionListener(ev -> choosePrefix(btnPref3));
-    btnPref4.addActionListener(ev -> choosePrefix(btnPref4));
-    btnPref5.addActionListener(ev -> choosePrefix(btnPref5));
+    btnCoder1.setIcon(new ImageIcon(getClass().getResource(
+        "/icons/coder.gif")));
+    btnCoder2.setIcon(new ImageIcon(getClass().getResource(
+        "/icons/coder.gif")));
+    btnCoder3.setIcon(new ImageIcon(getClass().getResource(
+        "/icons/coder.gif")));
+    btnCoder4.setIcon(new ImageIcon(getClass().getResource(
+        "/icons/coder.gif")));
+    btnCoder5.setIcon(new ImageIcon(getClass().getResource(
+        "/icons/coder.gif")));
+
+    btnPref1.addActionListener(ev -> choosePrefix(btnPref1, btnCoder1));
+    btnPref2.addActionListener(ev -> choosePrefix(btnPref2, btnCoder2));
+    btnPref3.addActionListener(ev -> choosePrefix(btnPref3, btnCoder3));
+    btnPref4.addActionListener(ev -> choosePrefix(btnPref4, btnCoder4));
+    btnPref5.addActionListener(ev -> choosePrefix(btnPref5, btnCoder5));
     tfPref1.addKeyListener(new KeyAdapter() {    
     	public void keyPressed(KeyEvent ev) {
         handleKeys(btnPref1, tfPref1, ev);
@@ -90,32 +117,6 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       }     
     });    
 
-    codedPref1.getTextField().addKeyListener(new KeyAdapter(){
-    	public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref1, codedPref1.getTextField(), ev);
-      }
-    });
-    codedPref2.getTextField().addKeyListener(new KeyAdapter(){
-    	public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref2, codedPref2.getTextField(), ev);
-      }
-    });
-    codedPref3.getTextField().addKeyListener(new KeyAdapter(){
-    	public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref3, codedPref3.getTextField(), ev);
-      }
-    });
-    codedPref4.getTextField().addKeyListener(new KeyAdapter(){
-    	public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref4, codedPref4.getTextField(), ev);
-      }
-    });
-    codedPref5.getTextField().addKeyListener(new KeyAdapter(){
-    	public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref5, codedPref5.getTextField(), ev);
-      }
-    });
-    
     btnSearch.addActionListener(ev -> {
       if (rbLocalSearch.isSelected())
         handleLocalSearch();
@@ -147,29 +148,33 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       }
     });
 
-
     MigLayout layout = new MigLayout(
         "insets dialog, wrap",
-        "[left]rel[300lp]rel[left]para[300lp]",
+        "[left]rel[300lp]rel[left]rel[left]para[300lp]",
         "[]rel[]rel[]rel[]rel[]");
     setLayout(layout);
     add(btnPref1, "");
-    add(tfPref1, "growx");
+    add(tfPref1, "growx, hidemode 3");
+    add(btnCoder1, "");
     add(cbOper1, "");
     add(rbLocalSearch, "wrap");
     add(btnPref2, "");
     add(tfPref2, "growx");
+    add(btnCoder2, "");
     add(cbOper2, "");
     add(rbNetSearch, "wrap");
     add(btnPref3, "");
     add(tfPref3, "growx");
+    add(btnCoder3, "");
     add(cbOper3, "");
     add(spServerList, "span 1 3, growx, growy, wrap");
     add(btnPref4, "");
     add(tfPref4, "growx");
+    add(btnCoder4, "");
     add(cbOper4, "wrap");
     add(btnPref5, "");
-    add(tfPref5, "growx, wrap");
+    add(tfPref5, "growx");
+    add(btnCoder5, "wrap");
     add(new JLabel("Sortiraj po"), "span 4, split 3");
     add(cbSort, "");
     add(btnSearch, "tag ok, wrap");
@@ -181,6 +186,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     btnPref4.setFocusable(false);
     btnPref5.setFocusable(false);
     btnSearch.setFocusable(false);
+    btnCoder1.setFocusable(false);
+    btnCoder2.setFocusable(false);
+    btnCoder3.setFocusable(false);
+    btnCoder4.setFocusable(false);
+    btnCoder5.setFocusable(false);
     rbLocalSearch.setFocusable(false);
     rbNetSearch.setFocusable(false);
     cbSort.setFocusable(false);
@@ -191,7 +201,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     rbLocalSearch.setSelected(true);
     rbZipNetSearch.setSelected(true);
     rbZipNetSearch.setEnabled(false);
-  }  
+  }
 
 	public void setVisible(boolean visible) {
     if (visible)
@@ -200,13 +210,13 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
   
   public void updatePrefixes() {
-    /*Librarian lib = BisisApp.getLibrarian();
+    Librarian lib = BisisApp.appConfig.getLibrarian();
     btnPref1.setText(lib.getContext().getPref1());
     btnPref2.setText(lib.getContext().getPref2());
     btnPref3.setText(lib.getContext().getPref3());
     btnPref4.setText(lib.getContext().getPref4());
     btnPref5.setText(lib.getContext().getPref5());
-    setPrefPanels();*/
+    setCoderButtons();
   }  
   
   public void setDefaultFocus(){
@@ -219,16 +229,16 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   
   
   public void closeSearchFrame() {
-		/*if (dirtyPrefixSet){
-			Librarian lib = BisisApp.getLibrarian();
-			lib.getContext().setPref1(btnPref1.getText());
-			lib.getContext().setPref2(btnPref2.getText());
-			lib.getContext().setPref3(btnPref3.getText());
-			lib.getContext().setPref4(btnPref4.getText());
-			lib.getContext().setPref5(btnPref5.getText());
-			LibEnvironment.updateLibrarian(lib);
+		if (dirtyPrefixSet){
+			Librarian lib = BisisApp.appConfig.getLibrarian();
+//			lib.getContext().setPref1(btnPref1.getText());
+//			lib.getContext().setPref2(btnPref2.getText());
+//			lib.getContext().setPref3(btnPref3.getText());
+//			lib.getContext().setPref4(btnPref4.getText());
+//			lib.getContext().setPref5(btnPref5.getText());
+//			LibEnvironment.updateLibrarian(lib);
 		}
-		setVisible(false);	*/
+		setVisible(false);
 	}  
   
   /*
@@ -236,107 +246,26 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
    * u zavisnosti od toga da li se radi o sifriranom ili
    * obicnom prefiksu 
    */
-  private void setPrefPanels(){
-  /*	if(CodedPrefUtils.isPrefCoded(btnPref1.getText())){
-  		tfPref1.setVisible(false);
-  		codedPref1.setVisible(true);
-  		codedPref1.setPref(btnPref1.getText());
-  	}else{
-  		tfPref1.setVisible(true);
-  		codedPref1.setVisible(false);  		
-  	}
-  	if(CodedPrefUtils.isPrefCoded(btnPref2.getText())){
-  		tfPref2.setVisible(false);
-  		codedPref2.setVisible(true);
-  		codedPref2.setPref(btnPref2.getText());
-  	}else{
-  		tfPref2.setVisible(true);
-  		codedPref2.setVisible(false);
-  	}
-  	if(CodedPrefUtils.isPrefCoded(btnPref3.getText())){
-  		tfPref3.setVisible(false);
-  		codedPref3.setVisible(true);
-  		codedPref3.setPref(btnPref3.getText());
-  	}else{
-  		tfPref3.setVisible(true);
-  		codedPref3.setVisible(false);
-  	}
-  	if(CodedPrefUtils.isPrefCoded(btnPref4.getText())){
-  		tfPref4.setVisible(false);
-  		codedPref4.setVisible(true);
-  		codedPref4.setPref(btnPref4.getText());
-  	}else{
-  		tfPref4.setVisible(true);
-  		codedPref4.setVisible(false);
-  	}
-  	if(CodedPrefUtils.isPrefCoded(btnPref5.getText())){
-  		tfPref5.setVisible(false);
-  		codedPref5.setVisible(true);
-  		codedPref5.setPref(btnPref5.getText());
-  	}else{
-  		tfPref5.setVisible(true);
-  		codedPref5.setVisible(false);
-  	}  			*/
+  private void setCoderButtons() {
+    btnCoder1.setEnabled(CodedPrefUtils.isPrefCoded(btnPref1.getText()));
+    btnCoder2.setEnabled(CodedPrefUtils.isPrefCoded(btnPref2.getText()));
+    btnCoder3.setEnabled(CodedPrefUtils.isPrefCoded(btnPref3.getText()));
+    btnCoder4.setEnabled(CodedPrefUtils.isPrefCoded(btnPref4.getText()));
+    btnCoder5.setEnabled(CodedPrefUtils.isPrefCoded(btnPref5.getText()));
   }
   
-  private void choosePrefix(JButton btn) {
-    prefixListDlg.moveTo(btn.getText());
+  private void choosePrefix(JButton btnPref, JButton btnCoder) {
+    prefixListDlg.moveTo(btnPref.getText());
     prefixListDlg.setVisible(true);
-   /* if (prefixListDlg.isSelected()){
-      btn.setText(prefixListDlg.getSelectedPrefix());
-      if(CodedPrefUtils.isPrefCoded(btn.getText())){      	
-      	if(btn.equals(btnPref1)){
-      		tfPref1.setVisible(false);
-      		codedPref1.setVisible(true);
-      		codedPref1.requestFocus();
-      		codedPref1.setPref(btn.getText());
-      	}else if(btn.equals(btnPref2)){
-      		tfPref2.setVisible(false);
-      		codedPref2.setVisible(true);
-      		codedPref2.requestFocus();
-      		codedPref2.setPref(btn.getText());
-      	}else if(btn.equals(btnPref3)){
-      		tfPref3.setVisible(false);
-      		codedPref3.setVisible(true); 
-      		codedPref3.requestFocus();
-      		codedPref3.setPref(btn.getText());
-      	}else if(btn.equals(btnPref4)){
-      		tfPref4.setVisible(false);
-      		codedPref4.setVisible(true);
-      		codedPref4.requestFocus();
-      		codedPref4.setPref(btn.getText());
-      	}else if(btn.equals(btnPref5)){
-      		tfPref5.setVisible(false);
-      		codedPref5.setVisible(true);   
-      		codedPref5.requestFocus();
-      		codedPref5.setPref(btn.getText());
-      	}      		
-      }else{
-      	if(btn.equals(btnPref1)){
-      		tfPref1.setVisible(true);
-      		tfPref1.requestFocus();
-      		codedPref1.setVisible(false);
-      	}else if(btn.equals(btnPref2)){
-      		tfPref2.setVisible(true);
-      		tfPref2.requestFocus();
-      		codedPref2.setVisible(false);      		
-      	}else if(btn.equals(btnPref3)){
-      		tfPref3.setVisible(true);
-      		tfPref3.requestFocus();
-      		codedPref3.setVisible(false);      		
-      	}else if(btn.equals(btnPref4)){
-      		tfPref4.setVisible(true);
-      		tfPref4.requestFocus();
-      		codedPref4.setVisible(false);      		
-      	}else if(btn.equals(btnPref5)){
-      		tfPref5.setVisible(true);
-      		tfPref5.requestFocus();
-      		codedPref5.setVisible(false);      		
-      	}      	
-      }
-      */
+    if (prefixListDlg.isSelected()) {
+      String chosenPrefix = prefixListDlg.getSelectedPrefix();
+      btnPref.setText(chosenPrefix);
+      if (CodedPrefUtils.isPrefCoded(chosenPrefix))
+        btnCoder.setEnabled(true);
+      else
+        btnCoder.setEnabled(false);
       dirtyPrefixSet = true;
-   // }
+    }
   }
   
   private void chooseExpand(JTextField tfPref,JButton btn ){
@@ -686,17 +615,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
 
   
-  private JButton btnPref1 = new JButton("AU");
-  private JButton btnPref2 = new JButton("AU");
-  private JButton btnPref3 = new JButton("AU");
-  private JButton btnPref4 = new JButton("AU");
-  private JButton btnPref5 = new JButton("AU");
-  private JTextField tfPref1 = new JTextField();
-  private JTextField tfPref2 = new JTextField();
-  private JTextField tfPref3 = new JTextField();
-  private JTextField tfPref4 = new JTextField();
-  private JTextField tfPref5 = new JTextField();
-  // panel za unos sifriranih vrednosti  
+  // panel za unos sifriranih vrednosti
   private CodedPrefPanel codedPref1 = new CodedPrefPanel();
   private CodedPrefPanel codedPref2 = new CodedPrefPanel();
   private CodedPrefPanel codedPref3 = new CodedPrefPanel();

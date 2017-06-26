@@ -49,9 +49,9 @@ public class PubTypes {
     try {
       log.info("Loading UNIMARC format definition");
       format = FormatFactory.getFormat(PubTypes.class.getResource(
-          "/com/gint/app/bisis4/format/spec/unimarc_sr.xml").openStream());      
+          "/com/ftninformatika/bisis/format/spec/unimarc_sr.xml").openStream());
       log.info("Loading publication type definitions");
-      String dirName = "/com/gint/app/bisis4/format/spec";
+      String dirName = "/com/ftninformatika/bisis/format/spec";
       String[] files = FileUtils.listFiles(PubTypes.class, dirName);
       for (int i = 0; i < files.length; i++) {
         if (files[i].endsWith(".xml") && !files[i].contains("unimarc_")) {

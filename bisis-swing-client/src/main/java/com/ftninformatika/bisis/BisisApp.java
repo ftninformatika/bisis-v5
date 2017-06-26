@@ -58,6 +58,7 @@ public class BisisApp {
           Librarian response = null;
           try {
             response = lib.execute().body();
+            System.out.println(response);
           } catch (IOException e) {
             System.err.println(e);
           }

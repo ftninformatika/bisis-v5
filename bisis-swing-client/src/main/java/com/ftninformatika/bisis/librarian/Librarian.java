@@ -19,9 +19,9 @@ public class Librarian {
     private boolean obrada;
     private boolean cirkulacija;
     private boolean administracija;
-    private String context;
     private String biblioteka;
-
+    private LibrarianContext context = new LibrarianContext();
+    //private String context;
 
     public boolean isCataloguing(){  //dasmanjimo refeaktorisanje koda
         return obrada;

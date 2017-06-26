@@ -10,13 +10,12 @@ db.user.insert({
     "biblioteka" : "gbns",
     "ime" : "Bojana",
     "prezime" : "Dimić",
-    "email" : "bdimic@uns.ns.ac.yu",
+    "email" : "bdimic@uns.ac.rs",
     "napomena" : "napomena",
     "obrada" : true,
     "cirkulacija" : true,
     "administracija" : true,
-    "context" : "<?xml version=\"1.0\"?>\n<librarian-context>\n  <process-type name=\"Monografske - kompletna obrada\"/>\n  <process-type name=\"Serijske - kompletna obrada\"/>\n  <process-type name=\"Članci\"/>\n  <process-type name=\"Članci iz časopisa\"/>\n  <process-type name=\"Razglednice\"/>\n  <default-process-type name=\"Monografske - kompletna obrada\"/>\n   <prefixes pref1=\"200a\" pref2=\"ID\" pref3=\"PN\" pref4=\"IN\" pref5=\"AU\" />\n</librarian-context>\n"
-
+    "context" : {"pref1": "AU", "pref2": "TI", "pref3": "KW", "pref4": "LA", "pref5": "PY"}
 });
 //changeset petar:ChangeSet-2
 db.libraries.insert({

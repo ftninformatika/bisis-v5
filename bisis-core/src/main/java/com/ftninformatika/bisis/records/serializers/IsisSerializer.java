@@ -5,8 +5,8 @@ import java.util.Iterator;
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
-import com.gint.util.string.Signature;
-import com.gint.util.string.StringUtils;
+import com.ftninformatika.utils.string.Signature;
+import com.ftninformatika.utils.string.StringUtils;
 
 /**
  * 
@@ -17,7 +17,7 @@ public class IsisSerializer {
   public static String toISISFormat(Record record) {
     StringBuffer buff = new StringBuffer(1024);
     buff.append("! ID ");
-    buff.append(StringUtils.padChars(Integer.toString(record.getRecordID()), 
+    buff.append(StringUtils.padChars(Integer.toString(record.getRecordID()),
         '0', 6));
     buff.append('\n');
     Iterator it = record.getFields().iterator();

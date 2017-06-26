@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.ftninformatika.bisis.format.*;
-import com.gint.util.string.StringUtils;
+import com.ftninformatika.utils.string.StringUtils;
 
 /**
  * Class LaTeXSerializer comment.
