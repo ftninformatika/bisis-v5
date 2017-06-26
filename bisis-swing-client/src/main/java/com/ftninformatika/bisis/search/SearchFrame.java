@@ -41,6 +41,7 @@ import javax.swing.text.JTextComponent;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
+import net.miginfocom.swing.MigLayout;
 
 
 public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcessor*/{
@@ -188,9 +189,14 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         }
       }
     });
-    
-    
-    
+
+
+    MigLayout layout = new MigLayout(
+        "insets dialog, wrap",
+        "[left]rel[300lp]rel[left]para[300lp]",
+        "[]rel[]rel[]rel[]rel[]");
+    //setLayout(layout);
+
     prefPanel.setLayout(new GridBagLayout());
     GridBagConstraints c = new GridBagConstraints();
     c.fill = GridBagConstraints.BOTH;
