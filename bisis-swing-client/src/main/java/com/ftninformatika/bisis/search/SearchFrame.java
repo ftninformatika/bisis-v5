@@ -44,12 +44,12 @@ import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
 import net.miginfocom.swing.MigLayout;
 
 
-public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcessor*/{
+public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcessor*/ {
 
   public SearchFrame() {
     super("Pretra\u017eivanje zapisa", true, true, false, true);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-    setPreferredSize(new Dimension(700,310));    
+    //setPreferredSize(new Dimension(700,310));
     //td=MessagingEnvironment.getThreadDispatcher();
     addInternalFrameListener(new InternalFrameAdapter(){
       public void internalFrameActivated(InternalFrameEvent e){
@@ -74,31 +74,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     btnSearch.setIcon(new ImageIcon(getClass().getResource(
         "/icons/search.gif")));
     
-    btnPref1.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        choosePrefix(btnPref1);
-      }
-    });
-    btnPref2.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        choosePrefix(btnPref2);
-      }
-    });
-    btnPref3.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        choosePrefix(btnPref3);
-      }
-    });
-    btnPref4.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        choosePrefix(btnPref4);
-      }
-    });
-    btnPref5.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        choosePrefix(btnPref5);
-      }
-    });
+    btnPref1.addActionListener(ev -> choosePrefix(btnPref1));
+    btnPref2.addActionListener(ev -> choosePrefix(btnPref2));
+    btnPref3.addActionListener(ev -> choosePrefix(btnPref3));
+    btnPref4.addActionListener(ev -> choosePrefix(btnPref4));
+    btnPref5.addActionListener(ev -> choosePrefix(btnPref5));
     tfPref1.addKeyListener(new KeyAdapter() {    
     	public void keyPressed(KeyEvent ev) {
         handleKeys(btnPref1, tfPref1, ev);
@@ -124,6 +104,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         handleKeys(btnPref5, tfPref5, ev);
       }     
     });    
+
    /* codedPref1.getTextField().addKeyListener(new KeyAdapter(){
     	public void keyPressed(KeyEvent ev) {
         handleKeys(btnPref1, codedPref1.getTextField(), ev);
@@ -154,38 +135,31 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       }
     });    */
     
-    btnSearch.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        if (rbLocalSearch.isSelected())
-          handleLocalSearch();
-        else
-          handleNetSearch();
+    btnSearch.addActionListener(ev -> {
+      if (rbLocalSearch.isSelected())
+        handleLocalSearch();
+      else
+        handleNetSearch();
+    });
+    rbLocalSearch.addActionListener(ev -> {
+      if (rbLocalSearch.isSelected()){
+        Component []itemsInList=spServerList.getComponents();
+        for(int i=0;i<itemsInList.length;i++)
+          itemsInList[i].setEnabled(false);
+        spServerList.getViewport().setVisible(false);
+        rbZipNetSearch.setEnabled(false);
       }
     });
-    rbLocalSearch.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        if (rbLocalSearch.isSelected()){
-        	Component []itemsInList=spServerList.getComponents();
-        	for(int i=0;i<itemsInList.length;i++)
-        		itemsInList[i].setEnabled(false);
-        	spServerList.getViewport().setVisible(false);
-        	rbZipNetSearch.setEnabled(false);
-        }
-      }
-    });
-    rbNetSearch.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-        if (rbNetSearch.isSelected()){
-        	if(spServerList.getViewport().getView()==null)
-        		populateServerList();
-        	else{
-        		Component []itemsInList=spServerList.getComponents();
-            	for(int i=0;i<itemsInList.length;i++)
-            		itemsInList[i].setEnabled(true);
-            	spServerList.getViewport().setVisible(true);
-            	rbZipNetSearch.setEnabled(true);
-        	}
-        	
+    rbNetSearch.addActionListener(ev -> {
+      if (rbNetSearch.isSelected()){
+        if(spServerList.getViewport().getView()==null)
+          populateServerList();
+        else{
+          Component []itemsInList=spServerList.getComponents();
+            for(int i=0;i<itemsInList.length;i++)
+              itemsInList[i].setEnabled(true);
+            spServerList.getViewport().setVisible(true);
+            rbZipNetSearch.setEnabled(true);
         }
       }
     });
@@ -195,130 +169,27 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         "insets dialog, wrap",
         "[left]rel[300lp]rel[left]para[300lp]",
         "[]rel[]rel[]rel[]rel[]");
-    //setLayout(layout);
-
-    prefPanel.setLayout(new GridBagLayout());
-    GridBagConstraints c = new GridBagConstraints();
-    c.fill = GridBagConstraints.BOTH;
-    c.insets = new Insets(5,5,5,5);
-    c.weightx = 0.01;
-    c.weighty = 0.7;
-    c.gridx = 0;
-    c.gridy = 0;        
-    prefPanel.add(btnPref1, c);
-    c.weightx = 1;
-    c.gridx = 1;   
-   // prefPanel.add(codedPref1,c);
-    prefPanel.add(tfPref1, c);
-    c.weightx = 0.01;    
-    c.gridx = 2;
-    prefPanel.add(cbOper1, c);   
-    c.gridy = 1;
-    c.gridx = 0;
-    prefPanel.add(btnPref2,c);
-    c.weightx = 0.1;
-    c.gridx = 1;
-    c.weightx = 1;    
-    //prefPanel.add(codedPref2,c);
-    prefPanel.add(tfPref2, c);
-    c.weightx = 0.01;
-    c.gridx = 2;
-    prefPanel.add(cbOper2, c);
-    c.weightx = 0.01;
-    c.gridy = 2;
-    c.gridx = 0;
-    prefPanel.add(btnPref3,c);
-    c.weightx = 1;
-    c.gridx = 1;
-    //prefPanel.add(codedPref3,c);
-    prefPanel.add(tfPref3, c);
-    c.weightx = 0.01;
-    c.gridx = 2;
-    prefPanel.add(cbOper3, c);    
-    c.weightx = 0.05;
-    c.gridy = 3;
-    c.gridx = 0;
-    prefPanel.add(btnPref4,c);
-    c.weightx = 1;
-    c.gridx = 1;
-    //prefPanel.add(codedPref4,c);
-    prefPanel.add(tfPref4, c);
-    c.weightx = 0.01;
-    c.gridx = 2;
-    prefPanel.add(cbOper4, c);
-    c.weightx = 0.01;
-    c.gridy = 4;
-    c.gridx = 0;
-    prefPanel.add(btnPref5,c);
-    c.weightx = 1;
-    c.gridx = 1;
-    //prefPanel.add(codedPref5,c);
-    prefPanel.add(tfPref5, c);    
-    prefPanel.setFocusCycleRoot(true);    
-    searchPlacePanel.setLayout(new GridBagLayout());
-    c = new GridBagConstraints();
-    c.fill = GridBagConstraints.BOTH;
-    c.gridx = 0;
-    c.gridy = 0;
-    c.weightx = 1;
-    c.weighty = 0.1;
-    searchPlacePanel.add(rbLocalSearch, c);
-    c.gridy = 1;
-    searchPlacePanel.add(rbNetSearch, c);
-    c.gridy = 2;
-    c.weighty = 0.7;
-    searchPlacePanel.add(spServerList, c);
-    c.gridy = 4;
-    c.gridx=0;
-    c.weighty = 0.1;
-    searchPlacePanel.add(rbZipNetSearch, c);
-    
-    
-    
-    sortPanel.setLayout(new GridBagLayout());
-    c = new GridBagConstraints();    
-    c.weightx = 1;
-    c.weighty = 1;
-    c.gridx = 0;
-    c.gridy = 0;
-    c.anchor = GridBagConstraints.LINE_END;
-    sortPanel.add(new JLabel("Sortiraj po"), c);
-    c.gridx = 1;    
-    c.insets = new Insets(0,5,0,50);
-    c.anchor = GridBagConstraints.LINE_START;
-    sortPanel.add(cbSort, c);
-    
-    setLayout(new GridBagLayout());
-    c = new GridBagConstraints();
-    c.fill = GridBagConstraints.BOTH;
-    c.insets = new Insets(20,10,30,0);
-    c.gridx = 0;
-    c.gridy = 0;
-    c.weightx = 0.7;
-    c.weighty = 0.6;
-    add(prefPanel,c);
-    c.insets = new Insets(20,50,30,10);
-    c.gridx = 1;
-    c.weightx = 0.3;
-    c.weighty = 0.7;
-    add(searchPlacePanel, c);
-    c.gridx = 0;
-    c.gridy = 1;
-    c.weightx = 0.3;
-    c.weighty = 0.4;
-    c.insets = new Insets(10,80,10,20);
-    add(sortPanel,c);    
-    c.fill = GridBagConstraints.NONE;
-    c.gridx = 1;
-    btnSearch.setPreferredSize(new Dimension(50,30));
-    add(btnSearch, c);
-    
-   /* codedPref1.setVisible(false);
-    codedPref2.setVisible(false);
-    codedPref3.setVisible(false);
-    codedPref4.setVisible(false);
-    codedPref5.setVisible(false);  
-    */
+    setLayout(layout);
+    add(btnPref1, "");
+    add(tfPref1, "growx");
+    add(cbOper1, "");
+    add(rbLocalSearch, "wrap");
+    add(btnPref2, "");
+    add(tfPref2, "growx");
+    add(cbOper2, "");
+    add(rbNetSearch, "wrap");
+    add(btnPref3, "");
+    add(tfPref3, "growx");
+    add(cbOper3, "");
+    add(spServerList, "span 1 3, growx, growy, wrap");
+    add(btnPref4, "");
+    add(tfPref4, "growx");
+    add(cbOper4, "wrap");
+    add(btnPref5, "");
+    add(tfPref5, "growx, wrap");
+    add(new JLabel("Sortiraj po"), "span 4, split 3");
+    add(cbSort, "");
+    add(btnSearch, "tag ok, wrap");
     pack();
     
     btnPref1.setFocusable(false);
@@ -330,7 +201,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     rbLocalSearch.setFocusable(false);
     rbNetSearch.setFocusable(false);
     cbSort.setFocusable(false);
-    //getRootPane().setDefaultButton(btnSearch);
+    getRootPane().setDefaultButton(btnSearch);
     ButtonGroup btnGroup = new ButtonGroup();
     btnGroup.add(rbLocalSearch);
     btnGroup.add(rbNetSearch);
@@ -356,7 +227,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }  
   
   public void setDefaultFocus(){
-  	if(tfPref1.isVisible())
+  	if (tfPref1.isVisible())
   		tfPref1.requestFocusInWindow();
   	//else if(codedPref1.isVisible())
   	//	codedPref1.requestFocusInWindow();
@@ -365,7 +236,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   
   
   public void closeSearchFrame() {
-		/*if(dirtyPrefixSet){
+		/*if (dirtyPrefixSet){
 			Librarian lib = BisisApp.getLibrarian();
 			lib.getContext().setPref1(btnPref1.getText());
 			lib.getContext().setPref2(btnPref2.getText());
@@ -832,7 +703,6 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
 
   
-  private JPanel prefPanel = new JPanel();  
   private JButton btnPref1 = new JButton("AU");
   private JButton btnPref2 = new JButton("AU");
   private JButton btnPref3 = new JButton("AU");
@@ -856,14 +726,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private JComboBox cbOper4 = new JComboBox(new String[] {"AND", "OR", "NOT"});
     
   private JButton btnSearch = new JButton("Pretra\u017ei");
-  private JPanel searchPlacePanel = new JPanel();
   private JRadioButton rbLocalSearch = new JRadioButton("Pretraga u lokalu");
   private JRadioButton rbNetSearch = new JRadioButton("Pretraga na mre\u017ei");
   private JScrollPane spServerList = new JScrollPane();
   private JRadioButton rbZipNetSearch = new JRadioButton("Koristi kompresiju za prenos");
-  private JPanel pServerList = new JPanel();
-  
-  private JPanel sortPanel = new JPanel();
+
   private JComboBox cbSort = new JComboBox();
   //private CharacterLookup lookup = new CharacterLookup(BisisApp.getMainFrame());
   
