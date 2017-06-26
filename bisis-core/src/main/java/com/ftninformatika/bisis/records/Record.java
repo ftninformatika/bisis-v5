@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.records;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -356,10 +357,10 @@ public class Record implements Serializable {
   }
   
   
-  public Date getCreationDate() {
+  public String getCreationDate() {
     return creationDate;
   }
-  public void setCreationDate(Date creationDate) {
+  public void setCreationDate(String creationDate) {
     this.creationDate = creationDate;
   }
   public Author getCreator() {
@@ -374,10 +375,10 @@ public class Record implements Serializable {
   public void setFields(List<Field> fields) {
     this.fields = fields;
   }
-  public Date getLastModifiedDate() {
+  public String getLastModifiedDate() {
     return lastModifiedDate;
   }
-  public void setLastModifiedDate(Date lastModifiedDate) {
+  public void setLastModifiedDate(String lastModifiedDate) {
     this.lastModifiedDate = lastModifiedDate;
   }
   public Author getModifier() {
@@ -457,8 +458,14 @@ public class Record implements Serializable {
   	for(Field f:fields)
   		rec.add(f.copy());
   	return rec;  	
-  } 
+  }
 
+  private String get_id(){return this._id;};
+  private void set_id(String _id){this._id = _id;};
+
+
+
+  private String _id;
   /** record identifier */
   private int recordID;
   /** publication type */
@@ -474,7 +481,7 @@ public class Record implements Serializable {
   /** record modifier */
   private Author modifier;
   /** record creation date */
-  private Date creationDate;
+  private String creationDate; //ovde Date polje, trenutno ne radi
   /** last modification date */
-  private Date lastModifiedDate;
+  private String lastModifiedDate; //Takodje
 }

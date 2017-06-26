@@ -4,7 +4,7 @@ import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.records.Subsubfield;
-import com.ftninformatika.utils.string.StringUtils;
+import com.gint.util.string.StringUtils;
 
 /**
  * 

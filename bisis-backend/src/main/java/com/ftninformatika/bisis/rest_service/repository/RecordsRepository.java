@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository;
 
+import com.ftninformatika.bisis.records.Record;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +16,6 @@ import java.util.List;
 public interface RecordsRepository extends MongoRepository<Records, String> {
 
     @Query("{ 'recordID': ?0 }")
-    List<Records> getByID(@Param("id") int id);
+    List<Record> getByID(@Param("id") int id);
 
 }

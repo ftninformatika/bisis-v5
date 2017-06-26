@@ -5,8 +5,8 @@ import java.util.Iterator;
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
-import com.ftninformatika.utils.string.Signature;
-import com.ftninformatika.utils.string.StringUtils;
+import com.gint.util.string.Signature;
+import com.gint.util.string.StringUtils;
 
 /**
  * 

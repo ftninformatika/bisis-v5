@@ -104,8 +104,8 @@ public class PrimerakSerializer {
     try {
       String s = getSubsubfieldContent(f, '1', 'q');
       if (s != null)
-        p.setDatumRacuna(dateFormat.parse(s));
-    } catch (ParseException ex) {
+        p.setDatumRacuna(/*dateFormat.parse(s)*/s);
+    } catch (Exception ex) {
       log.warn("Neispravan datum racuna: " + 
           getSubsubfieldContent(f, '1', 'q'));
       toLog = true;
@@ -142,11 +142,11 @@ public class PrimerakSerializer {
     String s = getSubfieldContent(f, 'o');
     if (s != null)
       try {
-        p.setDatumInventarisanja(dateFormat.parse(s));
-      } catch (ParseException ex) {
+        p.setDatumInventarisanja(/*dateFormat.parse(s)*/s);
+      } catch (Exception ex) {
         try {
-          p.setDatumInventarisanja(dateFormat2.parse(s));
-        } catch (ParseException ex2) {
+          p.setDatumInventarisanja(/*dateFormat2.parse(s)*/s);
+        } catch (Exception ex2) {
           log.warn("Neispravan datum inventarisanja: " + 
               getSubfieldContent(f, 'o'));
           toLog = true;
@@ -173,11 +173,11 @@ public class PrimerakSerializer {
     try {
       String ds = getSubfieldContent(f, 't');
       if (ds != null){
-        p.setDatumStatusa(dateFormat.parse(ds));
+        p.setDatumStatusa(/*dateFormat.parse(ds)*/s);
       }else {
     	  p.setDatumStatusa(null);
       }
-    } catch (ParseException ex) {
+    } catch (Exception ex) {
       log.warn("Neispravan datum statusa: " + 
       		getSubfieldContent(f, 't'));
       toLog = true;

@@ -1,11 +1,8 @@
 package com.ftninformatika.bisis.hitlist;
 
-import java.util.List;
-
 import javax.swing.AbstractListModel;
 
-import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.service.Records;
+import com.ftninformatika.bisis.records.Record;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,7 +29,7 @@ public class HitListModel extends AbstractListModel {
     return records.length;
   }
   
-  public void setHits(/*int[] recIDs*/ Records oneRec) {
+  public void setHits(/*int[] recIDs*/ Record oneRec) {
    /* try {
       records = BisisApp.getRecordManager().getRecords(recIDs);      
       for (int i =0;i<recIDs.length;i++){
@@ -43,7 +40,7 @@ public class HitListModel extends AbstractListModel {
     } catch (Exception ex) {
       log.fatal(ex);     
     }*/
-    records = new Records[] { oneRec };
+    records = new Record[] { oneRec };
    //records[0].pack(); without packing
    fireContentsChanged(this, 0, records.length - 1);
   }
@@ -71,7 +68,7 @@ public class HitListModel extends AbstractListModel {
   	return false;
   }  
   
-  private Records[] records; //promenjeno u drugi model radi testiranja hitlist frame-a
+  private Record[] records; //promenjeno u drugi model radi testiranja hitlist frame-a
   
   private static Log log = LogFactory.getLog(HitListModel.class);
 }

@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.hitlist;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
@@ -20,11 +18,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -40,11 +36,12 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
 import javax.swing.text.html.HTMLEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.service.Records;
+import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
+import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
+import com.ftninformatika.bisis.records.Record;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -88,10 +85,10 @@ public class HitListFrame extends JInternalFrame {
     cardPane.setEditorKit(new HTMLEditorKit());
 			cardPane.setEditable(false);		
 			fullFormatPane.setEditorKit(new HTMLEditorKit());
-			//formatter = RecordFormatterFactory.getFormatter(RecordFormatterFactory.FORMAT_FULL);
+			formatter = RecordFormatterFactory.getFormatter(RecordFormatterFactory.FORMAT_FULL);
 			fullFormatPane.setEditable(false);
 			JScrollPane cardPaneScroll = new JScrollPane(cardPane);			
-			//cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			JScrollPane fullFormatPaneScroll = new JScrollPane(fullFormatPane);		
 			//inventarTable.setModel(inventarTableModel);
 			inventarTable.setAutoCreateRowSorter(true);
@@ -402,7 +399,7 @@ public class HitListFrame extends JInternalFrame {
      // recIDs[i] = queryResult.getRecords()[page*PAGE_SIZE + i];
 
       /////ovde ubacujemo neki record
-      Records zapis = null;
+      Record zapis = null;
       try {
           zapis = BisisApp.bisisService.getOneRecord().execute().body();
       } catch (IOException e) {
@@ -449,9 +446,16 @@ public class HitListFrame extends JInternalFrame {
   }
   
   private void handleListSelectionChanged(){
-  /*	int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
-   selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
-   idTxtFld.setText(String.valueOf(selectedRecord.getRecordID()));
+  	int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();//--------------
+      Record zapis = null;
+      try {
+          zapis = BisisApp.bisisService.getOneRecord().execute().body();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+   selectedRecord = //BisisApp.getRecordManager().getRecord(recordId);
+                    zapis;
+   idTxtFld.setText(String.valueOf(selectedRecord.getRecordID()));//-----------------------
    rnTxtFld.setText(String.valueOf(selectedRecord.getRN()));
    String pubTypeStr = "";
    if(selectedRecord.getPubType()==2)
@@ -465,29 +469,39 @@ public class HitListFrame extends JInternalFrame {
    	btnAnalitika.setEnabled(false);
    else
    	btnAnalitika.setEnabled(true);   		
-   handleLoadTabs();*/
+   handleLoadTabs();
   }
   
   private void handleLoadTabs(){
-  /*	if(tabbedPane.getSelectedIndex()==0){
+  	if(tabbedPane.getSelectedIndex()==0){
   		fullFormatPane.setText(formatter.toHTML(selectedRecord, "sr"));
   		fullFormatPane.setCaretPosition(0);
 		}else if(tabbedPane.getSelectedIndex()==1){
-				loadCard(selectedRecord);
+				//loadCard(selectedRecord);
+                System.out.println("loadCard");
 		}else if(tabbedPane.getSelectedIndex()==2){
 				int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
-				selectedRecord = BisisApp.getRecordManager().getRecord(recordId);  
-				inventarTableModel.setRecord(selectedRecord);
+				/*selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
+				inventarTableModel.setRecord(selectedRecord);*/
+				System.out.println("inventar");
 				adjustInventarColumnWidth();
 		}else if(tabbedPane.getSelectedIndex()==3){
 			int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
-   selectedRecord = BisisApp.getRecordManager().getRecord(recordId);  
-   uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));			
+   //selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
+   //uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));
+        System.out.println("getDocFiles");
  	}else if(tabbedPane.getSelectedIndex()==4){
  		int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
-   selectedRecord = BisisApp.getRecordManager().getRecord(recordId);  
+        Record zapis = null;
+        try {
+            zapis = BisisApp.bisisService.getOneRecord().execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+   selectedRecord //= BisisApp.getRecordManager().getRecord(recordId);
+                    = zapis;
    loadMetaData(selectedRecord);
-	  }*/
+	  }
   }
   
   //private void handleTab
@@ -522,8 +536,8 @@ public class HitListFrame extends JInternalFrame {
 		metaDataPanel.add(recModificationDateLabel,"wrap");	
 	}
 	
-	private void loadMetaData(/*Record rec*/){
-    /*SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+	private void loadMetaData(Record rec){
+    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     if(rec.getCreator()!=null)   
     	recCreatorLabel.setText(rec.getCreator().getCompact());
     else
@@ -542,10 +556,10 @@ public class HitListFrame extends JInternalFrame {
     if(rec.getLastModifiedDate()!=null)	
     	recModificationDateLabel.setText(sdf.format(rec.getLastModifiedDate()));
     else
-    	recModificationDateLabel.setText("");*/
+    	recModificationDateLabel.setText("");
  	}
 	
-	private void loadUploadedFiles(/*Record rec*/){
+	private void loadUploadedFiles(Record rec){
 		
 		
 	}
@@ -670,8 +684,8 @@ public class HitListFrame extends JInternalFrame {
 		//private UploadedFilesTableModel uploadedFilesTableModel = new UploadedFilesTableModel();
 		
 		
-		//private RecordFormatter formatter;
-		//private Record selectedRecord = null;
+		private RecordFormatter formatter;
+		private Record selectedRecord = null;
   
  // private Result queryResult;
   private String query;

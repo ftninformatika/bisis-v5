@@ -4,8 +4,8 @@ package com.ftninformatika.bisis.service;
  * Created by Petar on 6/20/2017.
  */
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.records.Record;
 import retrofit2.http.*;
-import com.ftninformatika.bisis.service.Records;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
@@ -27,6 +27,6 @@ public interface BisisService {
     Call<Librarian> getLibrarian(@Query("username") String username);
 
     @GET("/records/59391f89ea9b8fbe1ed417f7")
-    Call<Records> getOneRecord();
+    Call<Record> getOneRecord();
 
 }
