@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis;
 
-import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.bisis.config.AppConfig;
 import com.ftninformatika.bisis.config.ConfigType;

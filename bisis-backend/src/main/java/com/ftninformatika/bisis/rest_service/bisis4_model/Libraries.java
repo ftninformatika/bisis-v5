@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.bisis4_model;
 
+import com.ftninformatika.bisis.librarian.Librarian;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

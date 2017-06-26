@@ -166,7 +166,7 @@ public class HitListFrame extends JInternalFrame {
     splitPane.setDividerLocation(500);    
     add(splitPane);    
     pack();        
-    if(!BisisApp.appConfig.getLibrarian().isCataloguing()){
+    if(!BisisApp.appConfig.getLibrarian().isObrada()){
       btnEdit.setEnabled(false);
       btnNew.setEnabled(false);
       btnDelete.setEnabled(false);

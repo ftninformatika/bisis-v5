@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.bisis4_model;
+package com.ftninformatika.bisis.librarian;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class Librarian {
   private boolean obrada;
   private boolean cirkulacija;
   private boolean administracija;
-  private String context;
+  private LibrarianContext context = new LibrarianContext();
   private String biblioteka;
 
 }

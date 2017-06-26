@@ -12,4 +12,7 @@ repositories {
 dependencies {
     compile group: 'commons-logging', name: 'commons-logging', version: '1.1.1'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+    compileOnly('org.projectlombok:lombok:1.16.16')
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.1.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '1.10.1.RELEASE'
 }
