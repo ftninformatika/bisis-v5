@@ -4,14 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.AbstractListModel;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -24,7 +17,7 @@ public class FilteredJList extends JComponent {
 
   public FilteredJList() {
     super();
-    filteredList = new JList<String>();
+    filteredList = new JList<>();
     setModel(new FilterModel());
     filterField = new FilterField(DEFAULT_FIELD_WIDTH);
     setLayout();
@@ -61,7 +54,7 @@ public class FilteredJList extends JComponent {
   public static void main(String[] args) {
     String[] listItems = {"Chris", "Joshua", "Daniel", "Michael", "Don", "Kimi", "Kelly", "Keagan"};
     JFrame frame = new JFrame("FilteredJList");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(new BorderLayout());
     // populate list
     FilteredJList list = new FilteredJList();
