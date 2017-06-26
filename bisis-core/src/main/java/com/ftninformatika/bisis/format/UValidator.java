@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Interface UValidator comment.
  * 
- * @author mbranko@uns.ns.ac.yu
+ * @author mbranko@uns.ac.rs
  */
 public interface UValidator extends Serializable {
   /** 
@@ -15,7 +15,7 @@ public interface UValidator extends Serializable {
    * 
    * @return The list of strings such as "101b", "996dl", etc.
    */
-  public List getTargets();
+  public List<String> getTargets();
   /** 
    * Checks whether the given string is valid.
    * 

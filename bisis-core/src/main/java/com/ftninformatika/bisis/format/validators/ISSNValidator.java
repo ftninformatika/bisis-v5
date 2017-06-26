@@ -12,12 +12,12 @@ import org.apache.commons.logging.LogFactory;
 public class ISSNValidator implements UValidator {
 
 	public ISSNValidator() {
-		targets = new ArrayList();
+		targets = new ArrayList<>();
 		targets.add("011a");
     log.info("Loading ISSN validator");
 	}
 
-	public List getTargets() {		
+	public List<String> getTargets() {
 		return targets;
 	}
 
@@ -55,5 +55,5 @@ public class ISSNValidator implements UValidator {
   
   private static Log log = LogFactory.getLog(ISSNValidator.class.getName());
 	
-	private List targets;
+	private List<String> targets;
 }

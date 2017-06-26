@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gint.util.file.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import com.ftninformatika.utils.file.FileUtils;
+
 
 /**
  * Class ValidatorFactory comment.
