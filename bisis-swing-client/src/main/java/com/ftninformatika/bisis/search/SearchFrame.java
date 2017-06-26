@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +29,8 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
+import com.ftninformatika.utils.string.LatCyrUtils;
+import com.ftninformatika.utils.string.StringUtils;
 import net.miginfocom.swing.MigLayout;
 
 public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcessor*/ {
@@ -142,14 +146,6 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       }
 
     });
-
-    /*
-    addComponentListener(new ComponentAdapter(){
-    	public void componentShown(ComponentEvent e){
-    		setDefaultFocus();
-    	}
-    });
-    */
 
     btnPref1.addActionListener(ev -> choosePrefix(btnPref1, btnCoder1));
     btnPref2.addActionListener(ev -> choosePrefix(btnPref2, btnCoder2));
@@ -288,33 +284,34 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 
   }
   
-  private void chooseExpand(JTextField tfPref, String prefix){
-	/*  List<String> exp= getExpand(tfPref,btn);
-	  if(exp!=null){
+  private void chooseExpand(JTextField tfPref, String prefix) {
+	  List<String> exp = getExpand(tfPref, prefix);
+	  if (exp != null) {
 		  Collections.sort(exp);
-		  expandListDlg = new ExpandListDlg(BisisApp.getMainFrame());
+		  //expandListDlg = new ExpandListDlg(BisisApp.getMainFrame());
 		  expandListDlg.setList(exp);
 		  expandListDlg.setVisible(true);
-		  if (expandListDlg.isSelected()){    	
+		  if (expandListDlg.isSelected()) {
 			  tfPref.setText(expandListDlg.getSelectedItem());
 		  }
-	  }	*/
+	  }
   }
-  
-  private List<String> getExpand(JTextField tfPref, JButton btn) {
-	 /*   String text=tfPref.getText();
-	    text=StringUtils.clearDelimiters(text, delims);
-	    String expandQuery="";
-	    String prefix="";
-	    List <String> expList=null;
-	    if(!text.isEmpty()){
-	       prefix=btn.getText();
-	       String textWithOutAccent=LatCyrUtils.toLatinUnaccented(text);
-	       expandQuery=prefix+" : "+textWithOutAccent+"*";
-	       expList=BisisApp.getRecordManager().selectExp(expandQuery, prefix,LatCyrUtils.toLatin(text));	
-	       }
-	    return expList;	    */
-	 return null;
+
+  private List<String> getExpand(JTextField tfPref, String prefix) {
+    String text = tfPref.getText();
+    text = StringUtils.clearDelimiters(text, delims);
+    String expandQuery = "";
+    List<String> expList = new ArrayList<>();
+    expList.add("test1");
+    expList.add("test2");
+    expList.add("test3");
+    if (!text.isEmpty()) {
+      String textWithoutAccent = LatCyrUtils.toLatinUnaccented(text);
+      expandQuery = prefix + " : " + textWithoutAccent + "*";
+      // TODO: implementiraj EXPAND upit
+      //expList=BisisApp.getRecordManager().selectExp(expandQuery, prefix, LatCyrUtils.toLatin(text));
+    }
+    return expList;
   }
 
   private void handleKeys(JButton btnPref, JTextField tfPref, JButton btnCoder, KeyEvent ev) {
@@ -323,7 +320,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         choosePrefix(btnPref, btnCoder);
         break;
       case KeyEvent.VK_F12:
-      	if (CodedPrefUtils.isPrefCoded(btnPref.getText()))
+      	if (!CodedPrefUtils.isPrefCoded(btnPref.getText()))
           chooseExpand(tfPref, btnPref.getText());
           break;
       case KeyEvent.VK_F1:
@@ -602,7 +599,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   //private CharacterLookup lookup = new CharacterLookup(BisisApp.getMainFrame());
   
   private PrefixListDlg prefixListDlg = new PrefixListDlg(BisisApp.mf);
-  //private ExpandListDlg expandListDlg=new ExpandListDlg(BisisApp.getMainFrame());
+  private ExpandListDlg expandListDlg = new ExpandListDlg(BisisApp.mf);
   private boolean dirtyPrefixSet = false;
   
   //added by Miroslav Zaric -  required for NetSearch

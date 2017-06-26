@@ -1,5 +1,7 @@
 package com.ftninformatika.utils.string;
 
+import java.text.Normalizer;
+
 /**
  * Latin-Cyrillic script conversion - for Serbian language only.
  * 
@@ -46,6 +48,18 @@ public class LatCyrUtils {
     for (int i = 0; i < cyr.length; i++)
       t = t.replace(lat[i], cyr[i]);
     return t;
+  }
+
+  /**
+   * Converts a string with cyrillic text to latin without accents.
+   * @param s String to be converted
+   * @return The converted string
+   */
+  public static String toLatinUnaccented(String s) {
+    String latin = toLatin(s);
+    String normalized = Normalizer.normalize(latin, Normalizer.Form.NFD);
+    String cleaned = normalized.replaceAll("\\p{M}", "");
+    return cleaned;
   }
   
   private static char[] cyr = { '\u0410', '\u0411', '\u0412', '\u0413', 

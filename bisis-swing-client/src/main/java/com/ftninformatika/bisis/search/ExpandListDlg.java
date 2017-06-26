@@ -51,7 +51,7 @@ public class ExpandListDlg extends JDialog {
 		btnOK.setFocusable(false);
 		getRootPane().setDefaultButton(btnOK);
 		btnOK.setIcon(new ImageIcon(getClass().getResource(
-				"/com/gint/app/bisis4/client/images/ok.gif")));
+				"/icons/ok.gif")));
 
 		btnCancel.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -61,7 +61,7 @@ public class ExpandListDlg extends JDialog {
 		});
 		btnCancel.setFocusable(false);
 		btnCancel.setIcon(new ImageIcon(getClass().getResource(
-				"/com/gint/app/bisis4/client/images/remove.gif")));
+				"/icons/remove.gif")));
 
 		MigLayout layout = new MigLayout("insets dialog, wrap", "[270lp]",
 				"[300lp][]");
