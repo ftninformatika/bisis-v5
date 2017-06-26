@@ -9,7 +9,7 @@ package com.ftninformatika.bisis.search;
 import com.ftninformatika.bisis.xmlmessaging.MessagingEnvironment;
 import com.ftninformatika.bisis.xmlmessaging.communication.LibraryServerDesc;
 import com.ftninformatika.bisis.xmlmessaging.util.SOAPUtilClient;
-import com.gint.util.file.INIFile;
+import com.ftninformatika.utils.file.INIFile;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;

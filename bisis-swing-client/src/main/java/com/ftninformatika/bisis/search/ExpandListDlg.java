@@ -8,12 +8,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JList;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+import com.ftninformatika.utils.WindowUtils;
 import net.miginfocom.swing.MigLayout;
-
-import com.gint.util.gui.WindowUtils;
 
 public class ExpandListDlg extends JDialog {
 

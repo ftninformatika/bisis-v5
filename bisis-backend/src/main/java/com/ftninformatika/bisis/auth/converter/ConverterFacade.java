@@ -14,6 +14,6 @@ public class ConverterFacade {
     private ConverterFactory converterFactory;
 
     public User convert(final UserDTO dto) {
-        return (User) converterFactory.getConverter(dto.getClass()).convert(dto);
+        return converterFactory.getConverter(dto.getClass()).convert(dto);
     }
 }

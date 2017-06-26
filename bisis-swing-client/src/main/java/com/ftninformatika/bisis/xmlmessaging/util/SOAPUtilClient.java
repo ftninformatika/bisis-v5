@@ -38,10 +38,9 @@ import javax.xml.soap.SOAPHeaderElement;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
-import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.xmlmessaging.MessagingEnvironment;
 import com.ftninformatika.bisis.xmlmessaging.communication.RemoteActionDescription;
-import com.gint.util.file.INIFile;
+import com.ftninformatika.utils.file.INIFile;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
