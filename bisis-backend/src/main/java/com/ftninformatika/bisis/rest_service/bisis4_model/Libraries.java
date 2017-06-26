@@ -10,9 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-/**
- * Created by Petar on 6/9/2017.
- */
 @Getter
 @Setter
 @NoArgsConstructor

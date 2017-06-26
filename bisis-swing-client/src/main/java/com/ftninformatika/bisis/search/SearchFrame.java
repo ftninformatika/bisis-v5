@@ -26,10 +26,10 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.text.JTextComponent;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
 import net.miginfocom.swing.MigLayout;
-
 
 public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcessor*/ {
 
@@ -48,28 +48,22 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private JButton btnCoder3 = new JButton();
   private JButton btnCoder4 = new JButton();
   private JButton btnCoder5 = new JButton();
+  private JComboBox<String> cbOper1 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+  private JComboBox<String> cbOper2 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+  private JComboBox<String> cbOper3 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+  private JComboBox<String> cbOper4 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+  private JButton btnSearch = new JButton("Pretra\u017ei");
+  private JRadioButton rbLocalSearch = new JRadioButton("Pretraga u lokalu");
+  private JRadioButton rbNetSearch = new JRadioButton("Pretraga na mre\u017ei");
+  private JScrollPane spServerList = new JScrollPane();
+  private JRadioButton rbZipNetSearch = new JRadioButton("Koristi kompresiju za prenos");
+
+  private JComboBox cbSort = new JComboBox();
 
   public SearchFrame() {
     super("Pretra\u017eivanje zapisa", true, true, false, true);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     //td=MessagingEnvironment.getThreadDispatcher();
-    addInternalFrameListener(new InternalFrameAdapter(){
-      public void internalFrameActivated(InternalFrameEvent e){
-      	setDefaultFocus();        
-      }    
-      public void internalFrameClosing(InternalFrameEvent e){
-      	closeSearchFrame();
-      }      
-      
-    }); 
-    
-    addComponentListener(new ComponentAdapter(){
-    	public void componentShown(ComponentEvent e){    		
-    		setDefaultFocus();
-    	}
-    	
-    });
-
     for (String sp: PrefixConfigFactory.getPrefixConfig().getSortPrefixes())
       cbSort.addItem(new SortPrefix(sp));
 
@@ -85,68 +79,6 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         "/icons/coder.gif")));
     btnCoder5.setIcon(new ImageIcon(getClass().getResource(
         "/icons/coder.gif")));
-
-    btnPref1.addActionListener(ev -> choosePrefix(btnPref1, btnCoder1));
-    btnPref2.addActionListener(ev -> choosePrefix(btnPref2, btnCoder2));
-    btnPref3.addActionListener(ev -> choosePrefix(btnPref3, btnCoder3));
-    btnPref4.addActionListener(ev -> choosePrefix(btnPref4, btnCoder4));
-    btnPref5.addActionListener(ev -> choosePrefix(btnPref5, btnCoder5));
-    tfPref1.addKeyListener(new KeyAdapter() {    
-    	public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref1, tfPref1, ev);
-      }    	
-    });
-    tfPref2.addKeyListener(new KeyAdapter() {
-      public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref2, tfPref2, ev);
-      }      
-    });
-    tfPref3.addKeyListener(new KeyAdapter() {
-      public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref3, tfPref3, ev);
-      }      
-    });
-    tfPref4.addKeyListener(new KeyAdapter() {
-      public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref4, tfPref4, ev);
-      }      
-    });
-    tfPref5.addKeyListener(new KeyAdapter() {
-      public void keyPressed(KeyEvent ev) {
-        handleKeys(btnPref5, tfPref5, ev);
-      }     
-    });    
-
-    btnSearch.addActionListener(ev -> {
-      if (rbLocalSearch.isSelected())
-        handleLocalSearch();
-      else
-        handleNetSearch();
-    });
-
-    rbLocalSearch.addActionListener(ev -> {
-      if (rbLocalSearch.isSelected()){
-        Component []itemsInList=spServerList.getComponents();
-        for(int i=0;i<itemsInList.length;i++)
-          itemsInList[i].setEnabled(false);
-        spServerList.getViewport().setVisible(false);
-        rbZipNetSearch.setEnabled(false);
-      }
-    });
-
-    rbNetSearch.addActionListener(ev -> {
-      if (rbNetSearch.isSelected()){
-        if(spServerList.getViewport().getView()==null)
-          populateServerList();
-        else{
-          Component []itemsInList=spServerList.getComponents();
-            for(int i=0;i<itemsInList.length;i++)
-              itemsInList[i].setEnabled(true);
-            spServerList.getViewport().setVisible(true);
-            rbZipNetSearch.setEnabled(true);
-        }
-      }
-    });
 
     MigLayout layout = new MigLayout(
         "insets dialog, wrap",
@@ -201,6 +133,86 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     rbLocalSearch.setSelected(true);
     rbZipNetSearch.setSelected(true);
     rbZipNetSearch.setEnabled(false);
+
+    addInternalFrameListener(new InternalFrameAdapter(){
+      public void internalFrameActivated(InternalFrameEvent e){
+        setDefaultFocus();
+      }
+      public void internalFrameClosing(InternalFrameEvent e){
+        closeSearchFrame();
+      }
+
+    });
+
+    /*
+    addComponentListener(new ComponentAdapter(){
+    	public void componentShown(ComponentEvent e){
+    		setDefaultFocus();
+    	}
+    });
+    */
+
+    btnPref1.addActionListener(ev -> choosePrefix(btnPref1, btnCoder1));
+    btnPref2.addActionListener(ev -> choosePrefix(btnPref2, btnCoder2));
+    btnPref3.addActionListener(ev -> choosePrefix(btnPref3, btnCoder3));
+    btnPref4.addActionListener(ev -> choosePrefix(btnPref4, btnCoder4));
+    btnPref5.addActionListener(ev -> choosePrefix(btnPref5, btnCoder5));
+    tfPref1.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent ev) {
+        handleKeys(btnPref1, tfPref1, ev);
+      }
+    });
+    tfPref2.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent ev) {
+        handleKeys(btnPref2, tfPref2, ev);
+      }
+    });
+    tfPref3.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent ev) {
+        handleKeys(btnPref3, tfPref3, ev);
+      }
+    });
+    tfPref4.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent ev) {
+        handleKeys(btnPref4, tfPref4, ev);
+      }
+    });
+    tfPref5.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent ev) {
+        handleKeys(btnPref5, tfPref5, ev);
+      }
+    });
+
+    btnSearch.addActionListener(ev -> {
+      if (rbLocalSearch.isSelected())
+        handleLocalSearch();
+      else
+        handleNetSearch();
+    });
+
+    rbLocalSearch.addActionListener(ev -> {
+      if (rbLocalSearch.isSelected()){
+        Component []itemsInList=spServerList.getComponents();
+        for(int i=0;i<itemsInList.length;i++)
+          itemsInList[i].setEnabled(false);
+        spServerList.getViewport().setVisible(false);
+        rbZipNetSearch.setEnabled(false);
+      }
+    });
+
+    rbNetSearch.addActionListener(ev -> {
+      if (rbNetSearch.isSelected()){
+        if(spServerList.getViewport().getView()==null)
+          populateServerList();
+        else{
+          Component []itemsInList=spServerList.getComponents();
+          for(int i=0;i<itemsInList.length;i++)
+            itemsInList[i].setEnabled(true);
+          spServerList.getViewport().setVisible(true);
+          rbZipNetSearch.setEnabled(true);
+        }
+      }
+    });
   }
 
 	public void setVisible(boolean visible) {
@@ -219,33 +231,23 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     setCoderButtons();
   }  
   
-  public void setDefaultFocus(){
-  	if (tfPref1.isVisible())
-  		tfPref1.requestFocusInWindow();
-  	//else if(codedPref1.isVisible())
-  	//	codedPref1.requestFocusInWindow();
-  	}
-  
-  
+  public void setDefaultFocus() {
+    tfPref1.requestFocusInWindow();
+  }
   
   public void closeSearchFrame() {
-		if (dirtyPrefixSet){
+		if (dirtyPrefixSet) {
 			Librarian lib = BisisApp.appConfig.getLibrarian();
-//			lib.getContext().setPref1(btnPref1.getText());
-//			lib.getContext().setPref2(btnPref2.getText());
-//			lib.getContext().setPref3(btnPref3.getText());
-//			lib.getContext().setPref4(btnPref4.getText());
-//			lib.getContext().setPref5(btnPref5.getText());
+			lib.getContext().setPref1(btnPref1.getText());
+			lib.getContext().setPref2(btnPref2.getText());
+			lib.getContext().setPref3(btnPref3.getText());
+			lib.getContext().setPref4(btnPref4.getText());
+			lib.getContext().setPref5(btnPref5.getText());
 //			LibEnvironment.updateLibrarian(lib);
 		}
 		setVisible(false);
 	}  
   
-  /*
-   * stavlja odgovarajuce panela za unos teksta za pretragu
-   * u zavisnosti od toga da li se radi o sifriranom ili
-   * obicnom prefiksu 
-   */
   private void setCoderButtons() {
     btnCoder1.setEnabled(CodedPrefUtils.isPrefCoded(btnPref1.getText()));
     btnCoder2.setEnabled(CodedPrefUtils.isPrefCoded(btnPref2.getText()));
@@ -266,6 +268,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         btnCoder.setEnabled(false);
       dirtyPrefixSet = true;
     }
+  }
+
+  private void chooseFromCoder(JButton btnCoder, JTextField tfPref) {
+    List<UItem> codesList = CodedPrefUtils.getCodesForPrefix(tfPref.getText());
+
   }
   
   private void chooseExpand(JTextField tfPref,JButton btn ){
@@ -614,26 +621,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     }*/
   }
 
-  
-  // panel za unos sifriranih vrednosti
-  private CodedPrefPanel codedPref1 = new CodedPrefPanel();
-  private CodedPrefPanel codedPref2 = new CodedPrefPanel();
-  private CodedPrefPanel codedPref3 = new CodedPrefPanel();
-  private CodedPrefPanel codedPref4 = new CodedPrefPanel();
-  private CodedPrefPanel codedPref5 = new CodedPrefPanel();
   // operatori
-  private JComboBox<String> cbOper1 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
-  private JComboBox<String> cbOper2 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
-  private JComboBox<String> cbOper3 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
-  private JComboBox<String> cbOper4 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
-    
-  private JButton btnSearch = new JButton("Pretra\u017ei");
-  private JRadioButton rbLocalSearch = new JRadioButton("Pretraga u lokalu");
-  private JRadioButton rbNetSearch = new JRadioButton("Pretraga na mre\u017ei");
-  private JScrollPane spServerList = new JScrollPane();
-  private JRadioButton rbZipNetSearch = new JRadioButton("Koristi kompresiju za prenos");
-
-  private JComboBox cbSort = new JComboBox();
   //private CharacterLookup lookup = new CharacterLookup(BisisApp.getMainFrame());
   
   private PrefixListDlg prefixListDlg = new PrefixListDlg(BisisApp.mf);
