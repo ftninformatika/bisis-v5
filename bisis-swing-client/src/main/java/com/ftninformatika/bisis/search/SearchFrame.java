@@ -29,6 +29,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
+import com.ftninformatika.utils.CharacterLookup;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.StringUtils;
 import net.miginfocom.swing.MigLayout;
@@ -584,7 +585,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
   
   private void handleLookup(JTextComponent tf) {
-   /* lookup.setVisible(true);
+    lookup.setVisible(true);
     if (lookup.isSelected()) {
       char c = lookup.getSelectedChar();
       int pos = tf.getCaretPosition();
@@ -592,11 +593,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       String s2 = (pos == tf.getText().length()) ? "" : tf.getText().substring(pos);
       tf.setText(s1 + c + s2);
       tf.setCaretPosition(pos+1);
-    }*/
+    }
   }
 
   // operatori
-  //private CharacterLookup lookup = new CharacterLookup(BisisApp.getMainFrame());
+  private CharacterLookup lookup = new CharacterLookup(BisisApp.mf);
   
   private PrefixListDlg prefixListDlg = new PrefixListDlg(BisisApp.mf);
   private ExpandListDlg expandListDlg = new ExpandListDlg(BisisApp.mf);
