@@ -244,8 +244,8 @@ public class HitListFrame extends JInternalFrame {
     
     btnFull.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-       /* renderer.setFormatter(RecordFormatterFactory.FORMAT_FULL);
-        hitListModel.refresh();*/
+        renderer.setFormatter(RecordFormatterFactory.FORMAT_FULL);
+        hitListModel.refresh();
           System.out.println("Action preformed!");
       }
     });
@@ -655,7 +655,7 @@ public class HitListFrame extends JInternalFrame {
   private JList lbHitList = new JList();
   private HitListModel hitListModel = new HitListModel();
   private ListSelectionModel listSelModel;
-  //private HitListRenderer renderer = new HitListRenderer();
+  private HitListRenderer renderer = new HitListRenderer();
   
   private JPanel allResultsPanel = new JPanel();
   private JPanel oneResultPanel = new JPanel(); 
