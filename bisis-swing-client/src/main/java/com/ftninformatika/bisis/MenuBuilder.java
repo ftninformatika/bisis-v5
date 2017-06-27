@@ -1,6 +1,9 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.admin.coders.CoderFrame;
+import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,7 +95,7 @@ public class MenuBuilder extends JMenuBar {
   private JMenuItem mi992b = null;
   private JMenuItem miMmbrship = null;
   private JMenuItem miWarnings = null;
-  /*private CoderFrame userCategsFrame = null;
+  private CoderFrame userCategsFrame = null;
   private CoderFrame mmbrTypesFrame = null;
   private CoderFrame eduLvlFrame = null;
   private CoderFrame languagesFrame = null;
@@ -100,11 +103,11 @@ public class MenuBuilder extends JMenuBar {
   private CoderFrame organizationFrame = null;
   private CoderFrame placesFrame = null;
   private CoderFrame warnCountersFrame = null;
-  private MmbrshipCoder mmbrshipFrame = null;
+  /*private MmbrshipCoder mmbrshipFrame = null;
   private WarningsFrame warningsFrame = null;
-  private OptionsMainFrame optionsFrame = null;
-  private  SearchAdvancedFrame searchAdvancedFrame=null;
-  private  OnlineReportFrame onlineReportFrame=null;*/
+  private OptionsMainFrame optionsFrame = null;*/
+  private SearchAdvancedFrame searchAdvancedFrame=null;
+  /*private  OnlineReportFrame onlineReportFrame=null;*/
 	public MenuBuilder(Librarian lib) {
 		super();
     if (lib.isObrada()){
@@ -326,10 +329,10 @@ public class MenuBuilder extends JMenuBar {
  //     mAdministration.add(getMiBibliotekari());
  //     mAdministration.add(getMiTipoviObrade());
   //    mAdministration.add(getMSifInv());
-//      mAdministration.addSeparator();
-  //    mAdministration.add(getMSifCirc());
+      mAdministration.addSeparator();
+      mAdministration.add(getMSifCirc());
   //    mAdministration.add(getMOptions());
-//      mAdministration.add(getMiWarnings());
+      mAdministration.add(getMiWarnings());
       mAdministration.addSeparator();
  //     mAdministration.add(getMiBrojaci());
     }
@@ -537,7 +540,7 @@ public class MenuBuilder extends JMenuBar {
       });
     }
     return mBackup;
-  }
+  }*/
   private JMenuItem getSearchAdvanced() {
 	    if (searchAdvanced == null) {
 	    	searchAdvanced = new JMenuItem("Napredno pretra\u017eivanje");
@@ -549,7 +552,7 @@ public class MenuBuilder extends JMenuBar {
 	    }
 	    return searchAdvanced;
 	  }
-  
+  /*
   private JMenuItem getOnlineReports() {
 	    if (onlineReport == null) {
 	    	onlineReport = new JMenuItem("Online");
@@ -561,7 +564,7 @@ public class MenuBuilder extends JMenuBar {
 	    }
 	    return onlineReport;
 	  }*/
-  /*private JMenu getMSifInv(){
+  private JMenu getMSifInv(){
     if (mSifInv == null){
       mSifInv = new JMenu("\u0160ifarnici inventara");
       mSifInv.add(getMiOdeljenja());
@@ -575,8 +578,8 @@ public class MenuBuilder extends JMenuBar {
       mSifInv.add(getMi992b());
     }
     return mSifInv;
-  }*/
-  /*
+  }
+
   private JMenuItem getMiOdeljenja() {
     if (miOdeljenja == null) {
       miOdeljenja = new JMenuItem("Odeljenja");
@@ -702,7 +705,8 @@ public class MenuBuilder extends JMenuBar {
       miBibliotekari = new JMenuItem("Bibliotekari");
       miBibliotekari.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					LibEnvironment.showLibrariansFrame();					
+					//LibEnvironment.showLibrariansFrame();
+					System.out.println("getMiBibliotekari");
 				}      	
       });     
     }
@@ -714,13 +718,14 @@ public class MenuBuilder extends JMenuBar {
   		miTipoviObrade = new JMenuItem("Tipovi obrade");
   		miTipoviObrade.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					LibEnvironment.showProcessTypesFrame();					
+					//LibEnvironment.showProcessTypesFrame();
+					System.out.println("getMiTipoviObrade");
 				}      	
       }); 
   		
   	}
   	return miTipoviObrade;
-  }*/
+  }
   
   private JMenuItem getMIzlaz() {
     if (mIzlaz == null) {
@@ -749,7 +754,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return mMonitor;
   }
-  
+  */
   private JMenu getMSifCirc(){
     if (mSifCirc == null){
       mSifCirc = new JMenu("\u0160ifarnici cirkulacije");
@@ -867,7 +872,7 @@ public class MenuBuilder extends JMenuBar {
       miMmbrship = new JMenuItem("\u010clanarina");
       miMmbrship.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          getMmbrshipFrame().setVisible(true);
+          //getMmbrshipFrame().setVisible(true);
         }
       });
     }
@@ -879,13 +884,13 @@ public class MenuBuilder extends JMenuBar {
       miWarnings = new JMenuItem("Opomene");
       miWarnings.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          getWarningsFrame().setVisible(true);
+          //getWarningsFrame().setVisible(true);
         }
       });
     }
     return miWarnings;
   }
-  
+
   public CoderFrame getUserCategsFrame(){
     if (userCategsFrame == null){
       userCategsFrame = new CoderFrame(TableCatalog.getTable("user_categs"));
@@ -949,7 +954,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return warnCountersFrame;
   }
-  
+  /*
   public MmbrshipCoder getMmbrshipFrame(){
     if (mmbrshipFrame == null){
       mmbrshipFrame = new MmbrshipCoder();
@@ -972,7 +977,7 @@ public class MenuBuilder extends JMenuBar {
       BisisApp.getMainFrame().insertFrame(optionsFrame);
     }
     return optionsFrame;
-  }
+  }*/
   
   public SearchAdvancedFrame getSearchAdvancedFrame(){
 	    if (searchAdvancedFrame == null){
@@ -981,6 +986,7 @@ public class MenuBuilder extends JMenuBar {
 	    }
 	    return searchAdvancedFrame;
 	  }
+	  /*
   public OnlineReportFrame getOnlineReportFrame(){
 	    if (onlineReportFrame == null){
 	    	onlineReportFrame = new OnlineReportFrame();

@@ -66,13 +66,6 @@ public class BisisApp {
           appConfig.setLibrarian(response);
           appConfig.setLibrary(response.getBiblioteka());
 
-          Record zapis = null;
-          try {
-            zapis = bisisService.getOneRecord().execute().body();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-          System.out.println(zapis.toString());
 
           mf = new MainFrame();
           mf.setResizable(true);

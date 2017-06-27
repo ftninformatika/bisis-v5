@@ -74,13 +74,13 @@ public class HitListFrame extends JInternalFrame {
 			formatter = RecordFormatterFactory.getFormatter(RecordFormatterFactory.FORMAT_FULL);
 			fullFormatPane.setEditable(false);
 			JScrollPane cardPaneScroll = new JScrollPane(cardPane);			
-			cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			//cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			JScrollPane fullFormatPaneScroll = new JScrollPane(fullFormatPane);		
 			inventarTable.setModel(inventarTableModel);
 			inventarTable.setAutoCreateRowSorter(true);
 			inventarTable.setCellSelectionEnabled(true);
 			inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
-			inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			//inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			adjustInventarColumnWidth();
 			
 			//uploadedFilesTable.setModel(uploadedFilesTableModel);

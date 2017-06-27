@@ -1,7 +1,10 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.admin.coders.CoderFrame;
+import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 
 import java.awt.BorderLayout;
@@ -34,7 +37,7 @@ public class MainFrame extends JFrame {
     public void initialize(Librarian lib){
         statusnaLinija.setText("Bibliotekar: "+BisisApp.appConfig.getLibrarian().getUsername());
         if (lib.isAdministracija()){
-         /*   desktop.add(getIntOznFrame());
+            desktop.add(getIntOznFrame());
             desktop.add(getNacinFrame());
             desktop.add(getOdeljenjeFrame());
             desktop.add(getInvknjFrame());
@@ -44,7 +47,7 @@ public class MainFrame extends JFrame {
             desktop.add(getStatusFrame());
             desktop.add(getFormatFrame());
             desktop.add(getCountersFrame());
-            desktop.add(getSearchAdvancedFrame());*/
+            desktop.add(getSearchAdvancedFrame());
         }
         if (lib.isCirkulacija() && !lib.isAdministracija() && !lib.isObrada()){
         //    Cirkulacija.startApp(lib);
@@ -81,7 +84,7 @@ public class MainFrame extends JFrame {
             if(hlf==null){
                 System.out.println("usao u add hitlist frame");
            //     hlf = new HitListFrame(query, queryResults);
-                hlf = new HitListFrame(null);
+                hlf = new HitListFrame(null); //TODO-hardcoded
                 desktop.add(hlf);
             }
             else
@@ -129,11 +132,11 @@ public class MainFrame extends JFrame {
     public HitListFrame getHitListFrame(){
         return hlf;
     }
-/*
+
     public void insertFrame(JInternalFrame frame){
         desktop.add(frame);
     }
-
+/*
     public BackupDlg getBackupDlg(){
         if (backupDlg == null)
             backupDlg = new BackupDlg();
@@ -144,7 +147,7 @@ public class MainFrame extends JFrame {
         if (reportChooserDlg == null)
             reportChooserDlg = new ReportChooserDlg();
         return reportChooserDlg;
-    }
+    }*/
 
     public CoderFrame getOdeljenjeFrame(){
         if (odeljenjeFrame == null){
@@ -220,7 +223,7 @@ public class MainFrame extends JFrame {
             searchAdvancedFrame = new SearchAdvancedFrame();
         }
         return searchAdvancedFrame;
-    }*/
+    }
     public JTextField getStatusnaLinija(){
         if(statusnaLinija==null){
             statusnaLinija = new JTextField();
@@ -239,7 +242,7 @@ public class MainFrame extends JFrame {
   /*  private GrupniPrikazFrame brf=null;
     private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
-
+*/
     private CoderFrame intOznFrame = null;
     private CoderFrame nacinFrame = null;
     private CoderFrame odeljenjeFrame = null;
@@ -250,7 +253,7 @@ public class MainFrame extends JFrame {
     private CoderFrame statusFrame = null;
     private CoderFrame invknjFrame = null;
     private CoderFrame countersFrame = null;
-    private SearchAdvancedFrame searchAdvancedFrame= null;*/
+    private SearchAdvancedFrame searchAdvancedFrame= null;
     private JTextField statusnaLinija = null;
 
 
