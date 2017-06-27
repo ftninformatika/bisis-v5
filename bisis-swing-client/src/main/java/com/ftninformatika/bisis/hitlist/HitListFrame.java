@@ -14,28 +14,14 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
 import javax.swing.text.html.HTMLEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
@@ -75,9 +61,9 @@ public class HitListFrame extends JInternalFrame {
         .getResource("/com/gint/app/bisis4/client/images/doc_rich16.png")));*/
     
     lbHitList.setModel(hitListModel);
-    //lbHitList.setCellRenderer(renderer);
+    lbHitList.setCellRenderer(renderer);
     spHitList.setViewportView(lbHitList);    
-    //spHitList.setPreferredSize(new Dimension(500, 500));   
+    spHitList.setPreferredSize(new Dimension(500, 500));
     idLabel.setText("<html><B>ID</B>");
     idTxtFld.setEditable(false);
     rnLabel.setText("<html><B>RN</B>");
@@ -90,11 +76,11 @@ public class HitListFrame extends JInternalFrame {
 			JScrollPane cardPaneScroll = new JScrollPane(cardPane);			
 			cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			JScrollPane fullFormatPaneScroll = new JScrollPane(fullFormatPane);		
-			//inventarTable.setModel(inventarTableModel);
+			inventarTable.setModel(inventarTableModel);
 			inventarTable.setAutoCreateRowSorter(true);
 			inventarTable.setCellSelectionEnabled(true);
-			//inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
-			//inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
+			inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			adjustInventarColumnWidth();
 			
 			//uploadedFilesTable.setModel(uploadedFilesTableModel);
@@ -102,7 +88,7 @@ public class HitListFrame extends JInternalFrame {
 			JScrollPane inventarScrollPane = new JScrollPane(inventarTable);
 			JScrollPane uploadedFilesScrollPane =  new JScrollPane(uploadedFilesTable);
 		
-			//inventarScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			inventarScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			createMetaDataPanel();
 			
 			tabbedPane.setPreferredSize(new Dimension(400,500));			
@@ -219,7 +205,7 @@ public class HitListFrame extends JInternalFrame {
     
     btnBrief.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-       // renderer.setFormatter(RecordFormatterFactory.FORMAT_BRIEF);
+        renderer.setFormatter(RecordFormatterFactory.FORMAT_BRIEF);
         hitListModel.refresh();
           System.out.println("Action preformed!");
       }
@@ -297,16 +283,16 @@ public class HitListFrame extends JInternalFrame {
     
     btnInventar.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent ev) {				
-		/*				int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
+						int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
 		    Record rec;
 						try {
-							rec = BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
-							Obrada.editInventar(rec);
-						} catch (LockException e) {
-							JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
+							//rec = BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
+							//Obrada.editInventar(rec);
+						//} catch (LockException e) {
+							//JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
 		    } catch (NullPointerException e) {
-		    	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka",JOptionPane.INFORMATION_MESSAGE);
-						} 		*/
+		    	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
+						}
                         System.out.println("Action preformed!");
 					}
 		  });
@@ -413,7 +399,7 @@ public class HitListFrame extends JInternalFrame {
     handleListSelectionChanged();    
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
-        /*queryResult.getResultCount()*/ "1" + "</b></html>");
+        /*queryResult.getResultCount()*/ zapis.getPrimerci().size() + "</b></html>");
     lBrPrimeraka.setText("<html>Broj primeraka: <b>"/*+queryResult.getInvs().size()+*/+"nesto"+"</b></html>");
   }
   
@@ -481,8 +467,8 @@ public class HitListFrame extends JInternalFrame {
                 System.out.println("loadCard");
 		}else if(tabbedPane.getSelectedIndex()==2){
 				int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
-				/*selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
-				inventarTableModel.setRecord(selectedRecord);*/
+				/*selectedRecord = BisisApp.getRecordManager().getRecord(recordId);*/
+				inventarTableModel.setRecord(selectedRecord);
 				System.out.println("inventar");
 				adjustInventarColumnWidth();
 		}else if(tabbedPane.getSelectedIndex()==3){
@@ -549,12 +535,12 @@ public class HitListFrame extends JInternalFrame {
     	recModifierLabel.setText("");
     
     if(rec.getCreationDate()!=null)
-    	recCreationDateLabel.setText(sdf.format(rec.getCreationDate()));
+    	recCreationDateLabel.setText(/*sdf.format(rec.getCreationDate())*/rec.getCreationDate());
     else
     	recCreationDateLabel.setText("");
     
     if(rec.getLastModifiedDate()!=null)	
-    	recModificationDateLabel.setText(sdf.format(rec.getLastModifiedDate()));
+    	recModificationDateLabel.setText(/*sdf.format(rec.getLastModifiedDate())*/rec.getLastModifiedDate());
     else
     	recModificationDateLabel.setText("");
  	}
@@ -596,7 +582,7 @@ public class HitListFrame extends JInternalFrame {
 	}
  
 	private void adjustInventarColumnWidth(){
-	/*	TableColumn column = null;
+		TableColumn column = null;
 		int napomenaColumnIndex = inventarTableModel.getColumnIndex("Napomena");
 		int invBrojColumnIndex = inventarTableModel.getColumnIndex("Inventarni broj");
 		for(int i=0;i<inventarTableModel.getColumnCount();i++){
@@ -607,17 +593,17 @@ public class HitListFrame extends JInternalFrame {
 				column.setPreferredWidth(100);
 			else
 				column.setPreferredWidth(80);		
-			}	*/
+			}
 	}
 	
 	public void setQueryResults(String query/*, Result queryResults*/){
 		//this.queryResult = queryResults;
-  this.query=query;
-  //renderer.setResults(queryResults);
-  updateAvailability();
-  page = 0;
-  lQuery.setText("<html>Upit: <b>" + query + "</b></html>");  
-  displayPage();
+      this.query=query;
+      //renderer.setResults(queryResults);
+      updateAvailability();
+      page = 0;
+      lQuery.setText("<html>Upit: <b>" + query + "</b></html>");
+      displayPage();
 	}
 	
 	private void handleOpenFile(){
@@ -677,8 +663,8 @@ public class HitListFrame extends JInternalFrame {
 		private JLabel recModificationDateLabel = new JLabel("");
 		
 		private JTable inventarTable = new JTable();
-		//private InventarTabTableModel inventarTableModel = new InventarTabTableModel();
-		//private InventarTabTableCellRenderer inventartTableRenderer = new InventarTabTableCellRenderer();
+		private InventarTabTableModel inventarTableModel = new InventarTabTableModel();
+		private InventarTabTableCellRenderer inventartTableRenderer = new InventarTabTableCellRenderer();
 		
 		private JTable uploadedFilesTable = new JTable();
 		//private UploadedFilesTableModel uploadedFilesTableModel = new UploadedFilesTableModel();
