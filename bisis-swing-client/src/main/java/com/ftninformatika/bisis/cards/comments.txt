@@ -1,0 +1,121 @@
+u client-config.ini fajlu za Novi Sad treba dodati sledeće 
+
+[report]
+locale=gbns
+nextPage=Još...
+currentType=monografski
+translateX=15
+translateY=5
+fontSize=-1
+brRedova=13
+
+u client-config.ini fajlu za Kikindu treba dodati sledeće 
+
+[report]
+locale=gbki
+nextPage=Još...
+currentType=monografski
+translateX=30
+translateY=30
+fontSize=-2
+brRedova=14
+
+u client-config.ini fajlu za Filozofski Fakultet treba dodati sledeće 
+
+[report]
+locale=ffns
+nextPage=%
+currentType=monografski
+translateX=30
+translateY=30
+fontSize=-2
+brRedova=14
+
+u client-config.ini fajlu za Pančevo treba dodati sledeće
+
+[report]
+locale=gbpa
+nextPage=%
+currentType=monografski
+translateX=30
+translateY=30
+fontSize=-2
+brRedova=14
+
+u client-config.ini fajlu za Beograd treba dodati sledeće
+
+[report]
+locale=gbbg
+nextPage=%
+currentType=glavni
+translateX=30
+translateY=30
+fontSize=-2
+brRedova=14
+
+u client-config.ini fajlu za Sabac treba dodati sledeće
+
+[report]
+locale=gbsa
+nextPage=
+currentType=glavni
+translateX=15
+translateY=15
+fontSize=-2
+brRedova=12
+
+u client-config.ini fajlu za Izvrsno vece treba dodati sledeće
+[report]
+locale=piv
+nextPage=%
+currentType=sednice
+translateX=30
+translateY=30
+fontSize=-2
+brRedova=14
+
+u client-config.ini fajlu za Departman za geografiju treba dodati sledeće 
+
+[report]
+locale=igns
+nextPage=Još...
+currentType=monografski
+translateX=15
+translateY=5
+fontSize=-1
+brRedova=13
+
+u client-config.ini fajlu za FTN treba dodati sledece 
+
+[bookcards]
+locale=ftn
+nextPage=Još...
+currentType=monografski
+translateX=15
+translateY=5
+fontSize=-1
+brRedova=13
+
+u client-config.ini fajlu za Pedagoski fakultet u Somboru treba dodati sledece 
+
+[bookcards]
+locale=pfso
+nextPage=Još...
+currentType=monografski
+translateX=15
+translateY=5
+fontSize=-1
+brRedova=13
+
+
+
+Značenje osobina
+
+Locale – ime ustanove
+nextPage – prelazak na narednu stranu
+currentType – default listić
+translateX i translateY - od koje tačke u levom gornjem uglu listića kreće štampanje
+fontSize – veličina slova
+brRedova – broj redova na listiću
+
+

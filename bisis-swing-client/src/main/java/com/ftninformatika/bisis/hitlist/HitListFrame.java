@@ -28,6 +28,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.html.HTMLEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.cards.Report;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
@@ -476,7 +477,7 @@ public class HitListFrame extends JInternalFrame {
   		fullFormatPane.setText(formatter.toHTML(selectedRecord, "sr"));
   		fullFormatPane.setCaretPosition(0);
 		}else if(tabbedPane.getSelectedIndex()==1){
-				//loadCard(selectedRecord);
+				loadCard(selectedRecord);
                 System.out.println("loadCard");
 		}else if(tabbedPane.getSelectedIndex()==2){
 				int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
@@ -514,11 +515,11 @@ public class HitListFrame extends JInternalFrame {
 	 * ucitava se default listic za tip publikacije zapisa
 	 * TODO 
 	 */
-	/*private void loadCard(Record record){
-		String html = Report.makeOne(record, true);    
+	private void loadCard(Record record){
+		String html = Report.makeOne(record, true);
   cardPane.setText(html);
   cardPane.setCaretPosition(0);
-	}*/
+	}
 	
 	private void createMetaDataPanel(){
 		metaDataPanel.setLayout(new MigLayout("","","[]10[]20[]10[]"));
