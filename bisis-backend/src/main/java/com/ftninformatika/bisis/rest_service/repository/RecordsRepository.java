@@ -16,7 +16,7 @@ import java.util.List;
 public interface RecordsRepository extends MongoRepository<Records, String> {
 
     @Query("{ 'recordID': ?0 }")
-    List<Record> getByID(@Param("id") int id);
+    Record getByID(@Param("id") int id);
 
     @Query("{ 'pubType': 1 }")
     List<Records> getFew();

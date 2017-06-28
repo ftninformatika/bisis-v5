@@ -35,4 +35,8 @@ public interface BisisService {
 
     @GET("/records")
     Call<JsonObject> getAllRecords();
+
+    @Headers({"ContentType: application/json"})
+    @GET("/records/search/getByID")
+    Call<Record> getRecordById(@Query("id") int id);
 }

@@ -382,8 +382,8 @@ public class HitListFrame extends JInternalFrame {
   private void displayPage() {
    // if (queryResult == null || queryResult.getRecords().length == 0)
  //     return;
-    int count = //PAGE_SIZE;
-                1;
+    int count = PAGE_SIZE;
+
    // if (page == pageCount()-1 ){  //ako je poslednja stranica
    // 	if (queryResult.getResultCount() % PAGE_SIZE==0){
     //		count=PAGE_SIZE;
@@ -400,7 +400,6 @@ public class HitListFrame extends JInternalFrame {
       /////ovde ubacujemo neki record
 
       Call<JsonObject> r = BisisApp.bisisService.getAllRecords();
-      JsonObject res = null;
       List<Record> rec = null;
       try {
            rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class, r.execute().body()); //za sada kolekcije vracamo kao JsonObject, a njega deserijalizujemo u preko GsonUtils
@@ -413,7 +412,7 @@ public class HitListFrame extends JInternalFrame {
     handleListSelectionChanged();    
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
-        /*queryResult.getResultCount()*/ "1" + "</b></html>");//TODO-hardcoded
+        rec.size()+ "</b></html>");//TODO-hardcoded
     lBrPrimeraka.setText("<html>Broj primeraka: <b>"/*+queryResult.getInvs().size()+*/+"nesto"+"</b></html>");
   }
   
@@ -449,7 +448,7 @@ public class HitListFrame extends JInternalFrame {
   	int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();//--------------
       Record zapis = null;
       try {
-          zapis = BisisApp.bisisService.getOneRecord().execute().body();
+          zapis = BisisApp.bisisService.getRecordById(recordId).execute().body();
       } catch (IOException e) {
           e.printStackTrace();
       }

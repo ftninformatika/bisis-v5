@@ -15,15 +15,12 @@ import java.util.List;
 public class GsonUtils {
 
     public static List<?> getCollectionFromJsonObject(Class<?> cls, JsonObject response){
-
-
         if (cls == Record.class){
             Type listType = new TypeToken<ArrayList<Record>>(){}.getType();
             List<Record> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("records"), listType);
             return yourClassList;
         }
-
         return null;
-
     }
+
 }
