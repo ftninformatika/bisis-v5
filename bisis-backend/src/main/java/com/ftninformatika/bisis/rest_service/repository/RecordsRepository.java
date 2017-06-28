@@ -12,10 +12,13 @@ import java.util.List;
 /**
  * Created by Petar on 6/9/2017.
  */
-@RepositoryRestResource(collectionResourceRel = "gbns.records", path = "records")
+@RepositoryRestResource(collectionResourceRel = "records", path = "records")
 public interface RecordsRepository extends MongoRepository<Records, String> {
 
     @Query("{ 'recordID': ?0 }")
     List<Record> getByID(@Param("id") int id);
+
+    @Query("{ 'pubType': 1 }")
+    List<Records> getFew();
 
 }

@@ -12,7 +12,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -28,14 +31,24 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.utils.GsonUtils;
+import com.ftninformatika.utils.RetrofitUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import net.miginfocom.swing.MigLayout;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class HitListFrame extends JInternalFrame {
 
   public static final int PAGE_SIZE = 10;
 
-  public HitListFrame(String query /*Result queryResult*/) {
+  public HitListFrame(String query /*Result queryResult*/) { //TODO-hardcoded
     super("Rezultati pretrage", true, true, true, true);    
     //this.queryResult = queryResult;
     //renderer.setResults(queryResult);
@@ -385,21 +398,22 @@ public class HitListFrame extends JInternalFrame {
      // recIDs[i] = queryResult.getRecords()[page*PAGE_SIZE + i];
 
       /////ovde ubacujemo neki record
-      Record zapis = null;
+
+      Call<JsonObject> r = BisisApp.bisisService.getAllRecords();
+      JsonObject res = null;
+      List<Record> rec = null;
       try {
-          zapis = BisisApp.bisisService.getOneRecord().execute().body();
+           rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class, r.execute().body()); //za sada kolekcije vracamo kao JsonObject, a njega deserijalizujemo u preko GsonUtils
       } catch (IOException e) {
           e.printStackTrace();
       }
 
-
-
-    hitListModel.setHits(/*recIDs*/zapis);
+    hitListModel.setHits(/*recIDs*/rec);
     lbHitList.setSelectedIndex(0);
     handleListSelectionChanged();    
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
-        /*queryResult.getResultCount()*/ zapis.getPrimerci().size() + "</b></html>");
+        /*queryResult.getResultCount()*/ "1" + "</b></html>");//TODO-hardcoded
     lBrPrimeraka.setText("<html>Broj primeraka: <b>"/*+queryResult.getInvs().size()+*/+"nesto"+"</b></html>");
   }
   

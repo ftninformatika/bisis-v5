@@ -31,8 +31,8 @@ public class Records implements java.io.Serializable {
   private List<Field> fields;
   private List<Primerak> primerci;
   private List<Godina> godine;
-  private Author creator;
-  private Author modifier;
+  private com.ftninformatika.bisis.records.Author creator;
+  private com.ftninformatika.bisis.records.Author modifier;
   //@DateTimeFormat(pattern = "yyyy-MM-dd")
   private String creationDate; //Date
  // @DateTimeFormat(pattern = "yyyy-MM-dd")

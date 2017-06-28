@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.records.Record;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.List;
 
 
 public class HitListModel extends AbstractListModel {
@@ -29,18 +30,9 @@ public class HitListModel extends AbstractListModel {
     return records.length;
   }
   
-  public void setHits(/*int[] recIDs*/ Record oneRec) {
-   /* try {
-      records = BisisApp.getRecordManager().getRecords(recIDs);      
-      for (int i =0;i<recIDs.length;i++){
-      	if(records[i]!=null)
-      		records[i].pack();      	
-      }
-      fireContentsChanged(this, 0, records.length - 1);
-    } catch (Exception ex) {
-      log.fatal(ex);     
-    }*/
-    records = new Record[] { oneRec };
+  public void setHits(/*int[] recIDs*/ List<Record> fewRecs) {//TODO-hardcoded
+
+    records = fewRecs.toArray(new Record[fewRecs.size()]);
    //records[0].pack(); without packing
    fireContentsChanged(this, 0, records.length - 1);
   }

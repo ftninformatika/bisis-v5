@@ -5,9 +5,13 @@ package com.ftninformatika.bisis.service;
  */
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
+import com.google.gson.JsonObject;
 import retrofit2.http.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface BisisService {
 
@@ -29,4 +33,6 @@ public interface BisisService {
     @GET("/records/59391f89ea9b8fbe1ed417f7")
     Call<Record> getOneRecord();
 
+    @GET("/records")
+    Call<JsonObject> getAllRecords();
 }

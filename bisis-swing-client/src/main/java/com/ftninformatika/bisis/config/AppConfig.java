@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.config;
 
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.*;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -59,6 +61,7 @@ public abstract class AppConfig {
           .header("Library", domain);
       return chain.proceed(newRequest.build());
     });
+
 
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
