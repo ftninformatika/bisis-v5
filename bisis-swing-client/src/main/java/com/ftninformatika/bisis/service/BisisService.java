@@ -39,4 +39,7 @@ public interface BisisService {
     @Headers({"ContentType: application/json"})
     @GET("/records/search/getByID")
     Call<Record> getRecordById(@Query("id") int id);
+
+    @GET("/expand_prefix_controller")
+    Call<ArrayList<String>> getExpand();
 }

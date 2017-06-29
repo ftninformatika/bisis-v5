@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.search;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -303,9 +304,12 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     text = StringUtils.clearDelimiters(text, delims);
     String expandQuery = "";
     List<String> expList = new ArrayList<>();
-    expList.add("test1");
-    expList.add("test2");
-    expList.add("test3");
+    try {
+      expList = (List<String>) BisisApp.bisisService.getExpand().execute().body();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
     if (!text.isEmpty()) {
       String textWithoutAccent = LatCyrUtils.toLatinUnaccented(text);
       expandQuery = prefix + " : " + textWithoutAccent + "*";
