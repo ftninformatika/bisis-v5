@@ -455,6 +455,7 @@ public class HitListFrame extends JInternalFrame {
       }
    selectedRecord = //BisisApp.getRecordManager().getRecord(recordId);
                     zapis;
+      System.out.println(zapis.get_id());
    idTxtFld.setText(String.valueOf(selectedRecord.getRecordID()));//-----------------------
    rnTxtFld.setText(String.valueOf(selectedRecord.getRN()));
    String pubTypeStr = "";
@@ -487,8 +488,8 @@ public class HitListFrame extends JInternalFrame {
 				adjustInventarColumnWidth();
 		}else if(tabbedPane.getSelectedIndex()==3){
 			int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
-   //selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
-   //uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));
+       //selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
+       //uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));
         System.out.println("getDocFiles");
  	}else if(tabbedPane.getSelectedIndex()==4){
  		int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
@@ -517,8 +518,8 @@ public class HitListFrame extends JInternalFrame {
 	 */
 	private void loadCard(Record record){
 		String html = Report.makeOne(record, true);
-  cardPane.setText(html);
-  cardPane.setCaretPosition(0);
+        cardPane.setText(html);
+        cardPane.setCaretPosition(0);
 	}
 	
 	private void createMetaDataPanel(){

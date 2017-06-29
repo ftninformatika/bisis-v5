@@ -460,8 +460,11 @@ public class Record implements Serializable {
   	return rec;  	
   }
 
-  private String get_id(){return this._id;};
-  private void set_id(String _id){this._id = _id;};
+
+
+
+  public String get_id(){return this._id;};
+  public void set_id(String _id){this._id = _id;};
 
 
 

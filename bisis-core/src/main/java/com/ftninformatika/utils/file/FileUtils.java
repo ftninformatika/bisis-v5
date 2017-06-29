@@ -203,8 +203,10 @@ public class FileUtils {
    * @param dirName The directory name
    * @return An array of file/dir names
    */
-  public static String[] listFiles(Class clazz, String dirName) {
-    try {
+  public static String[] listFiles(Class clazz, String dirName)
+  {
+    try
+    {
       List retVal = new ArrayList();
       URL url = clazz.getResource(dirName);
       if (url.toString().startsWith("jar:")) {
@@ -225,11 +227,10 @@ public class FileUtils {
       }
       String[] names = new String[retVal.size()];
       for (int i = 0; i < names.length; i++)
-        names[i] = (String)retVal.get(i);
+        names[i] = ((String)retVal.get(i));
       return names;
-    } catch (Exception ex) {
-      return new String[0];
-    }
+    } catch (Exception ex) {}
+    return new String[0];
   }
   
   /**

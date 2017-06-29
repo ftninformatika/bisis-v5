@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.rest_service.bisis4_model.Records;
 import com.ftninformatika.bisis.rest_service.repository.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -20,6 +21,9 @@ import java.util.List;
 @RequestMapping("/expand_prefix_controller")
 public class ExpandPrefixController {
 
+    @Autowired
+    RecordsRepository recordsRepository;
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> sayHello() {
 
@@ -28,7 +32,6 @@ public class ExpandPrefixController {
         res.add("izbor2 sa backenda");
         res.add("izbor3 sa backenda");
         res.add("izbor4 sa backenda");
-
 
         return new ResponseEntity<List<String>>(res, HttpStatus.OK);
     }
