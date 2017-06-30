@@ -33,6 +33,6 @@ public class LibraryConfiguration {
     private String bookcardsTranslateX;
     private String bookcardsTranslateY;
     private String bookcardsFontSize;
-    private int bookcardsBrRedova;
+    private String bookcardsBrRedova;
 
 }

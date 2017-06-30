@@ -3,7 +3,9 @@ package com.ftninformatika.bisis.cards;
 import java.util.*;
 import javax.swing.*;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.utils.file.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,8 +44,7 @@ public class Report {
 	  static String izlaz1;  
 	  static int brmax; 
 	  static int bkmax;
-    
-	  //private static INIFile iniFile;
+
 	  private static Log log = LogFactory.getLog(Report.class.getName());
 	  private static Record record=null;
     
@@ -91,12 +92,9 @@ public class Report {
     record=rec;
     
     Configuration  cfg = new Configuration();
-    //iniFile = BisisApp.getINIFile();
-    String locale = //iniFile.getString("bookcards", "locale"); //TODO-hardcoded
-					"gbns";
+    String locale = BisisApp.appConfig.getClientConfig().getLibraryName();
     cfg.setClassForTemplateLoading(Report.class, "com.ftninformatika.cards/templejti/" +locale+"/");
-    
-    
+
     Base Base=new Base(docID, rec, typeCode);   
     
   	Template temp=null;
@@ -216,9 +214,8 @@ public class Report {
     String type; 
     
     Configuration  cfg = new Configuration();
-    //iniFile = BisisApp.getINIFile();
-    String locale = //iniFile.getString("bookcards", "locale"); //TODO-hardcoded
-					"gbns";
+    String locale = BisisApp.appConfig.getClientConfig().getLibraryName();
+
     cfg.setClassForTemplateLoading(Report.class, "/templejti/" +locale+"/");
     Base Base=new Base(rec);    
   	Template temp=null;
@@ -271,7 +268,7 @@ public class Report {
 		try{
 			ResourceBundle rb = PropertyResourceBundle.getBundle(
 			//Report.class.getPackage().getName()+".templejti."+locale+"."+typeCode,new Locale(locale));//TODO-hardcoded
-					"templejti.gbns.monografski",new Locale(locale));
+					"templejti." + locale + "." + typeCode,new Locale(locale));
 			
 			
 		    //format=rb.getString("format").equals("true");
@@ -339,23 +336,15 @@ public class Report {
   public static void ucitajParam(){
   	
   	try{
-  		
-	  /*INIFile iniFile = BisisApp.getINIFile();*/
-	 
-	    translateX=//Integer.parseInt(iniFile.getString("bookcards", "translateX"));
-					15;
-      translateY=//Integer.parseInt(iniFile.getString("bookcards", "translateY"));
-			  	5;
-      fontSize=//iniFile.getString("bookcards", "fontSize");
-			  	"-1";
-      brRedova=//Integer.parseInt(iniFile.getString("bookcards", "brRedova"));
-			  13;
-      locale = //iniFile.getString("bookcards", "locale");
-			  "gbns";
-      nextPage= //iniFile.getString("bookcards", "nextPage");
-			  	"Jos...";
-      currentType=//iniFile.getString("bookcards", "currentType");    //TODO-hardcoded
-					"monografski";
+
+	  translateX = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBookcardsTranslateX());
+      translateY = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBookcardsTranslateY());
+      fontSize = BisisApp.appConfig.getClientConfig().getBookcardsFontSize();
+      brRedova = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBookcardsBrRedova());
+      locale = BisisApp.appConfig.getClientConfig().getLibraryName();
+      nextPage= BisisApp.appConfig.getClientConfig().getBookcardsNextPage();
+      currentType = BisisApp.appConfig.getClientConfig().getBookcardsCurrentType();
+
   	}catch(Exception e) {
   		
 		e.printStackTrace();
@@ -366,9 +355,9 @@ public class Report {
 
   public final static void loadReportTypes()  {
   	  String str="";
-  	  locale = "gbns";
+  	  locale = BisisApp.appConfig.getClientConfig().getLibraryName();
       try {
-        String dirName = "/templejti/"+locale; //TODO-hardcoded
+        String dirName = "/templejti/"+locale;
         String[] files = FileUtils.listFiles(Report.class, dirName);
         int brojFajlova=0;
         for (int i = 0; i < files.length; i++) {        	 
