@@ -2,6 +2,8 @@ package com.ftninformatika.bisis.rest_service.repository;
 
 import com.ftninformatika.bisis.config_model.LibraryConfiguration;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
@@ -9,4 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 @RepositoryRestResource(collectionResourceRel = "configs", path = "configs")
 public interface LibraryConfigurationInterface extends MongoRepository<LibraryConfiguration, String> {
+
+    @Query("{ 'libraryName': ?0 }")
+    public LibraryConfiguration getByLibraryName(@Param("libName") String libName);
 }

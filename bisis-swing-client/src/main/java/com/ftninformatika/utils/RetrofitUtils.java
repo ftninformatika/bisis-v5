@@ -1,5 +1,7 @@
 package com.ftninformatika.utils;
 
+import com.ftninformatika.bisis.config_model.LibraryConfiguration;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.bisis.service.UserCredentials;
@@ -45,5 +47,19 @@ public class RetrofitUtils {
     }
 
 
+    public static LibraryConfiguration acquireLibraryConfiguration(String libNanme, Retrofit preparedRetrofitInstance){
+        LibraryConfiguration retVal = null;
+
+        BisisService bisisService =preparedRetrofitInstance.create(BisisService.class);
+        Call<LibraryConfiguration> lib = bisisService.getConfiguration(libNanme);
+
+        try {
+            retVal = lib.execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return retVal;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.service;
 /**
  * Created by Petar on 6/20/2017.
  */
+import com.ftninformatika.bisis.config_model.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
 import com.google.gson.JsonObject;
@@ -42,4 +43,7 @@ public interface BisisService {
 
     @GET("/expand_prefix_controller")
     Call<ArrayList<String>> getExpand();
+
+    @GET("/configs/search/getByLibraryName")
+    Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
 }

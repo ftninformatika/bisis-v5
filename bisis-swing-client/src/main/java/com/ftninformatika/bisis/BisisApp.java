@@ -65,6 +65,7 @@ public class BisisApp {
           }
           appConfig.setLibrarian(response);
           appConfig.setLibrary(response.getBiblioteka());
+          appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
 
 
           mf = new MainFrame();
@@ -75,6 +76,7 @@ public class BisisApp {
           mf.setVisible(true);
           mf.setJMenuBar(new MenuBuilder(appConfig.getLibrarian()));
           mf.initialize(appConfig.getLibrarian());
+
 
         } else {
           JOptionPane.showMessageDialog(null, "Pogre\u0161no ime/lozinka",

@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.config;
 
+import com.ftninformatika.bisis.config_model.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.utils.RetrofitUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.*;
@@ -24,6 +26,7 @@ public abstract class AppConfig {
   private Librarian librarian;
   private String library;
   private Retrofit retrofit;
+  private LibraryConfiguration clientConfig;
 
   public AppConfig(String serverUrl, Librarian librarian, String library, String token) {
     this.serverUrl = serverUrl;
@@ -68,5 +71,14 @@ public abstract class AppConfig {
         .client(okHttpClient.build())
         .addConverterFactory(GsonConverterFactory.create())
         .build();
+
+
+
+  }
+
+  public void setLibraryConfiguration(String libName, Retrofit ret){
+
+    clientConfig = RetrofitUtils.acquireLibraryConfiguration(libName, ret);
+
   }
 }
