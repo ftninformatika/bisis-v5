@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 import com.ftninformatika.bisis.rest_service.bisis4_model.Records;
 import com.ftninformatika.bisis.rest_service.repository.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class ExpandPrefixController {
     RecordsRepository recordsRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> sayHello() {
+    public ResponseEntity<?> getExpandPrefix(@Param("prefix") String prefix, @Param("text") String text) {
 
         ArrayList<String> res = new ArrayList<String>();
         res.add("izbor1 sa backenda");
