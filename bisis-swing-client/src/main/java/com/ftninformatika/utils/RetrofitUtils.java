@@ -1,22 +1,14 @@
 package com.ftninformatika.utils;
 
-import com.ftninformatika.bisis.config_model.LibraryConfiguration;
-import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.bisis.service.UserCredentials;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RetrofitUtils {
 

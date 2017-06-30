@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.config_model;
+package com.ftninformatika.bisis.library_configuration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

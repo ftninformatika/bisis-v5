@@ -1,6 +1,12 @@
 package com.ftninformatika.bisis.records;
 
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,7 +15,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_records")
 public class Record implements Serializable {
 
   /**
@@ -467,7 +476,7 @@ public class Record implements Serializable {
   public void set_id(String _id){this._id = _id;};
 
 
-
+    @Id
   private String _id;
   /** record identifier */
   private int recordID;

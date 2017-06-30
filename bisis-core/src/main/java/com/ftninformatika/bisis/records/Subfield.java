@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Transient;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -221,5 +224,7 @@ public class Subfield implements Serializable {
   /** the list of subsubfields */
   private List<Subsubfield> subsubfields;
   /** a secondary field contained by this subfield */
+  @JsonIgnore
+  @Transient
   private Field secField;
 }

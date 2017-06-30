@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import com.ftninformatika.bisis.rest_service.bisis4_model.Records;
+
 
 import java.util.List;
 
@@ -13,12 +13,12 @@ import java.util.List;
  * Created by Petar on 6/9/2017.
  */
 @RepositoryRestResource(collectionResourceRel = "records", path = "records")
-public interface RecordsRepository extends MongoRepository<Records, String> {
+public interface RecordsRepository extends MongoRepository<Record, String> {
 
     @Query("{ 'recordID': ?0 }")
     Record getByID(@Param("id") int id);
 
     @Query("{ 'pubType': 1 }")
-    List<Records> getFew();
+    List<Record> getFew();
 
 }

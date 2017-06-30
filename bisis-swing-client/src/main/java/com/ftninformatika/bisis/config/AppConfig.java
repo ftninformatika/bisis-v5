@@ -1,18 +1,13 @@
 package com.ftninformatika.bisis.config;
 
-import com.ftninformatika.bisis.config_model.LibraryConfiguration;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.utils.RetrofitUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.*;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.io.IOException;
 
 @Getter
 @Setter

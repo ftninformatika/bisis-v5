@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository;
 
-import com.ftninformatika.bisis.config_model.LibraryConfiguration;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;

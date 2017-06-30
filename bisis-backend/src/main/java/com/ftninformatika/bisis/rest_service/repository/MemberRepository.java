@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository;
 
+import com.ftninformatika.bisis.members.Member;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,14 +16,14 @@ import java.util.List;
  */
 @RepositoryRestResource(collectionResourceRel = "gbns.members", path = "members")
 @RequestMapping("/members")
-public interface MemberRepository extends MongoRepository<Users,String> {
+public interface MemberRepository extends MongoRepository<Member,String> {
 
 
     @Query("{ 'lastName' : ?0 }, { 'lending':0, 'signing':0}")
-    List<Users> byLastName(@Param("lastName") String lastName);
+    List<Member> byLastName(@Param("lastName") String lastName);
 
     @Query("{ }, { 'lending':0, 'signing':0}")
-    List<Users> getUsers();
+    List<Member> getUsers();
 
     @RestResource( path = "cnt", rel = "cnt")
     int countAllByGroups(@Param("groups") int groups);

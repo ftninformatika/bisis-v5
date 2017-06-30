@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.bisis4_model;
+package com.ftninformatika.bisis.members;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class Signing implements java.io.Serializable {
 
 	/** minimal constructor */
 	public Signing(String id, int location, String librarian,
-				   Date signDate) {
+                   Date signDate) {
 		this.id = id;
 		this.location = location;
 		this.librarian = librarian;

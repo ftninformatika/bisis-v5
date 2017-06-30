@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.service;
 /**
  * Created by Petar on 6/20/2017.
  */
-import com.ftninformatika.bisis.config_model.LibraryConfiguration;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
 import com.google.gson.JsonObject;
@@ -12,7 +12,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface BisisService {
 

@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.bisis4_model;
+package com.ftninformatika.bisis.members;
 
 
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_members")
-public class Users implements java.io.Serializable {
+public class Member implements java.io.Serializable {
 
 
 	@Id
@@ -65,7 +65,7 @@ public class Users implements java.io.Serializable {
 	private List<Signing> signing = new ArrayList<>();
 
 	/** minimal constructor */
-	public Users(int sysId, String userId) {
+	public Member(int sysId, String userId) {
 		this.sysId = sysId;
 		this.userId = userId;
 	}

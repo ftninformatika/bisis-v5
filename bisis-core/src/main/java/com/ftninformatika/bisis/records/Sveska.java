@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,6 +21,8 @@ public class Sveska implements Serializable{
   private String brojSveske;
   private String knjiga;
   private String inventator;
+  @JsonIgnore
+  @Transient
   private Godina parent;  
   private int version;
 

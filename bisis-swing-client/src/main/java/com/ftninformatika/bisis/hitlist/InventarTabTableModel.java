@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.hitlist;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.inventar.InventarConstraints;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
@@ -98,8 +99,7 @@ public class InventarTabTableModel extends AbstractTableModel {
     godineAll[16] = "Inventator";
     
     //kolone za primerke
-    String columnSetStrPrimerci = //BisisApp.getINIFile().getString("cataloguing", "primerciModel");
-								"0 1 2 3 13 10 11";
+    String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getPrimerciModel();
     columnSetPrimerci = columnSetStrPrimerci.split(" ");
     if(columnSetPrimerci.length<MAX_COLUMN_COUNT)
     	primerciColumnCount = columnSetPrimerci.length;
@@ -112,8 +112,7 @@ public class InventarTabTableModel extends AbstractTableModel {
     }		
         
     //kolone za godine
-    String columnSetStrGodine = //BisisApp.getINIFile().getString("cataloguing", "godineModel");
-								"0 1 2 3 12 13 15";
+    String columnSetStrGodine = BisisApp.appConfig.getClientConfig().getCatalougingGodineModel();
     columnSetGodine = columnSetStrGodine.split(" ");
     if(columnSetGodine.length<MAX_COLUMN_COUNT)
     	godineColumnCount=columnSetGodine.length;

@@ -33,7 +33,8 @@ public class HitListModel extends AbstractListModel {
   public void setHits(/*int[] recIDs*/ List<Record> fewRecs) {//TODO-hardcoded
 
     records = fewRecs.toArray(new Record[fewRecs.size()]);
-   //records[0].pack(); without packing
+    for (Record r: records)
+      r.pack();// without packing
    fireContentsChanged(this, 0, records.length - 1);
   }
   

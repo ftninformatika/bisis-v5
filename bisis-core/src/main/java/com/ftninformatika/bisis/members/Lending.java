@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.bisis4_model;
+package com.ftninformatika.bisis.members;
 
 // Generated Nov 15, 2006 4:24:31 PM by Hibernate Tools 3.2.0.beta8
 
@@ -36,7 +36,7 @@ public class Lending implements java.io.Serializable {
 
 	/** minimal constructor */
 	public Lending(String id, int location,
-			String librarianLend, String ctlgNo, Date lendDate) {
+                   String librarianLend, String ctlgNo, Date lendDate) {
 		this._id = id;
 		this.location = location;
 		this.librarianLend = librarianLend;
