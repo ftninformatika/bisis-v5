@@ -29,6 +29,7 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.Report;
+import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
@@ -273,24 +274,25 @@ public class HitListFrame extends JInternalFrame {
     btnEdit.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
           System.out.println("Usao u neki listener");
-    	/*	try {
+    		try {
     			int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
-       Record rec = BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
+       Record rec = //BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
+                    null; //TODO-hardcoded
     			Obrada.editRecord(rec);
-    		} catch (LockException e) {
+    		} catch (/*LockException e*/Exception e) {
     			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
-    		} catch (NullPointerException e) {
+    		} /*catch (NullPointerException e) {
     			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka",JOptionPane.INFORMATION_MESSAGE);
     			
-				}       */
+				}*/
           System.out.println("Action preformed!");
        }
     });
     
     btnNew.addActionListener(new ActionListener(){
     	public void actionPerformed(ActionEvent ev) {       
-       /* Record rec = ((Record)lbHitList.getSelectedValue()).copyWithoutHoldings();
-        if(rec!=null) Obrada.newRecord(rec);*/
+        Record rec = ((Record)lbHitList.getSelectedValue()).copyWithoutHoldings();
+        if(rec!=null) Obrada.newRecord(rec);
             System.out.println("Action preformed!");
        }
     });
@@ -300,8 +302,9 @@ public class HitListFrame extends JInternalFrame {
 						int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
 		    Record rec;
 						try {
-							//rec = BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
-							//Obrada.editInventar(rec);
+							rec = //BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
+                                    null; //TODO-hardcoded
+							Obrada.editInventar(rec);
 						//} catch (LockException e) {
 							//JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
 		    } catch (NullPointerException e) {
@@ -313,8 +316,8 @@ public class HitListFrame extends JInternalFrame {
     
     btnAnalitika.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {						
-				/*		Record rec = ((Record)lbHitList.getSelectedValue()).copyWithoutHoldings();
-      if(rec!=null) Obrada.editAnalitika(rec);*/
+						Record rec = ((Record)lbHitList.getSelectedValue()).copyWithoutHoldings();
+      if(rec!=null) Obrada.editAnalitika(rec);
                         System.out.println("Action preformed!");
 					}    	
     });

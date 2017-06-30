@@ -1,25 +1,6 @@
 //mongeez formatted javascript
 
 
-//changeset petar:ChangeSet-0
-db.configs.insert({
-    "libraryName" : "gbns",
-    "primerciModel" : "0 1 2 3 13 10 11",
-    "catalougingGodineModel" : "0 1 2 3 12 13 15",
-    "catalougingInvbrSubStr" : "1 4",
-    "catalougingDefaultPrimerakInvKnj" : "00",
-    "catalougingDefaultSveskaInvKnj" : "99",
-    "catalougingDefaultGodinaInvKnj" : "00",
-    "catalougingValidator" : "com.gint.app.bisis4.client.editor.validation.GBValidator",
-    "catalougingReportset" : "gbbg",
-    "bookcardsNextPage" : "Još...",
-    "bookcardsCurrentType" : "monografski",
-    "bookcardsTranslateX" : "15",
-    "bookcardsTranslateY" : "5",
-    "bookcardsFontSize" : "-1",
-    "bookcardsBrRedova" : 13
-})
-
 //changeset petar:ChangeSet-1
 db.user.insert({
 
@@ -36,11 +17,24 @@ db.user.insert({
     "context" : {"pref1": "AU", "pref2": "TI", "pref3": "KW", "pref4": "LA", "pref5": "PY"}
 });
 //changeset petar:ChangeSet-2
-db.libraries.insert({
-
+db.configs.insert({
     "libraryName" : "gbns",
+    "primerciModel" : "0 1 2 3 13 10 11",
+    "catalougingGodineModel" : "0 1 2 3 12 13 15",
+    "catalougingInvbrSubStr" : "1 4",
+    "catalougingDefaultPrimerakInvKnj" : "00",
+    "catalougingDefaultSveskaInvKnj" : "99",
+    "catalougingDefaultGodinaInvKnj" : "00",
+    "catalougingValidator" : "com.gint.app.bisis4.client.editor.validation.GBValidator",
+    "catalougingReportset" : "gbbg",
+    "bookcardsNextPage" : "Još...",
+    "bookcardsCurrentType" : "monografski",
+    "bookcardsTranslateX" : "15",
+    "bookcardsTranslateY" : "5",
+    "bookcardsFontSize" : "-1",
+    "bookcardsBrRedova" : "13"
+})
 
-        })
 //changeset petar:ChangeSet-3
 db.gbns_com_members.insert({
     "_id" : ObjectId("59391fc3ea9b8fbe1ed5ed28"),
