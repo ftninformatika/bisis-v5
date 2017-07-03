@@ -21,4 +21,6 @@ public interface RecordsRepository extends MongoRepository<Record, String> {
     @Query("{ 'pubType': 1 }")
     List<Record> getFew();
 
+    Long deleteByRecordID(@Param("id") int recId);
+
 }

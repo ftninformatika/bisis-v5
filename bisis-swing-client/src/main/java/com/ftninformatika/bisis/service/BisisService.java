@@ -46,4 +46,7 @@ public interface BisisService {
 
     @GET("/configs/search/getByLibraryName")
     Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
+
+    @GET("/records/search/deleteByRecordID")
+    Call<Long> deleteRecordByRecId(@Query("id") int id);
 }

@@ -695,6 +695,7 @@ public class HitListFrame extends JInternalFrame {
       private Record selectedRecord = null;
   
       //private Result queryResult;
+
       private String query;
       private int page = 0;
 }

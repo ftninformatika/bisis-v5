@@ -2,10 +2,14 @@ package com.ftninformatika.bisis.hitlist;
 
 import javax.swing.AbstractListModel;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.service.BisisService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -56,9 +60,20 @@ public class HitListModel extends AbstractListModel {
 	  		if(deleted)
 	  			records[index] = null;
 	  		return deleted;
-	  	}
-  		*/
-  	return false;
+	  	}*/
+    Long resp = null;
+    try {
+      resp = BisisApp.bisisService.deleteRecordByRecId(records[index].getRecordID()).execute().body(); //TODO- ovo i ostale operacije pozivanja resta objediniti i spakovati na jedno mesto
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    if ( resp != null && resp == 1) {
+      //ArrayUtils.removeElement(records, records[index]);
+      records[index] = null;
+      return true;
+    }
+    return false;
   }  
   
   private Record[] records; //promenjeno u drugi model radi testiranja hitlist frame-a
