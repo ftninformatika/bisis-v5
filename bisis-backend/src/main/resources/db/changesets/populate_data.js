@@ -153,7 +153,6 @@ db.gbns_com_members.insert({
 });
 //changeset petar:ChangeSet-4
 db.gbns_com_records.insertMany([{
-        "_id" : ObjectId("59391f89ea9b8fbe1ed417f7"),
         "recordID" : 16,
         "pubType" : 1,
         "fields" : [
@@ -401,11 +400,11 @@ db.gbns_com_records.insertMany([{
         "creationDate" : "2005-05-26",
         "lastModifiedDate" : "2012-07-25",
         "mr" : 0,
-        "rn" : 16
+        "rn" : 16,
+        "version" : 1.00
     }
         ,
         {
-            "_id" : ObjectId("59391f89ea9b8fbe1ed417f8"),
             "recordID" : 17,
             "pubType" : 1,
             "fields" : [
@@ -642,11 +641,11 @@ db.gbns_com_records.insertMany([{
             "creationDate" : "2005-05-26",
             "lastModifiedDate" : "2013-08-07",
             "mr" : 0,
-            "rn" : 17
+            "rn" : 17,
+            "version" : 1.00
         }
         ,
         {
-            "_id" : ObjectId("59391f89ea9b8fbe1ed417f9"),
             "recordID" : 18,
             "pubType" : 1,
             "fields" : [
@@ -933,6 +932,7 @@ db.gbns_com_records.insertMany([{
             "creationDate" : "2005-05-26",
             "lastModifiedDate" : "2016-03-28",
             "mr" : 0,
-            "rn" : 18
+            "rn" : 18,
+            "version" : 1.00
         }]
 )

@@ -12,9 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -29,22 +27,15 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.Report;
+import com.ftninformatika.bisis.editor.EditorFrame;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.GsonUtils;
-import com.ftninformatika.utils.RetrofitUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import net.miginfocom.swing.MigLayout;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 public class HitListFrame extends JInternalFrame {
 
@@ -70,10 +61,10 @@ public class HitListFrame extends JInternalFrame {
         "/icons/remove.gif")));
     btnNew.setIcon(new ImageIcon(getClass().getResource(
         "/icons/copy.gif")));
-    /*btnInventar.setIcon(new ImageIcon(EditorFrame.class
-        .getResource("/com/gint/app/bisis4/client/images/book16.png")));
+    btnInventar.setIcon(new ImageIcon(EditorFrame.class
+        .getResource("/icons/book16.png")));
     btnAnalitika.setIcon(new ImageIcon(EditorFrame.class
-        .getResource("/com/gint/app/bisis4/client/images/doc_rich16.png")));*/
+        .getResource("/icons/doc_rich16.png")));
     
     lbHitList.setModel(hitListModel);
     lbHitList.setCellRenderer(renderer);
@@ -306,7 +297,7 @@ public class HitListFrame extends JInternalFrame {
                                     null; //TODO-hardcoded
 							Obrada.editInventar(rec);
 						//} catch (LockException e) {
-							//JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
+						//	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
 		    } catch (NullPointerException e) {
 		    	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
 						}
@@ -384,18 +375,29 @@ public class HitListFrame extends JInternalFrame {
   }
   
   private void displayPage() {
-   // if (queryResult == null || queryResult.getRecords().length == 0)
- //     return;
-    int count = PAGE_SIZE;
+      JsonObject r = null;
 
-   // if (page == pageCount()-1 ){  //ako je poslednja stranica
-   // 	if (queryResult.getResultCount() % PAGE_SIZE==0){
-    //		count=PAGE_SIZE;
-  //  	}
-    //	else{
-    //     count = queryResult.getResultCount() % PAGE_SIZE;
-   // 	}
-   // }
+      try {
+          r = BisisApp.bisisService.getAllRecords(0).execute().body();
+          //za sada kolekcije vracamo kao JsonObject, a njega deserijalizujemo u preko GsonUtils
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+
+      List<Record> rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class,r);
+    if (r == null /*|| queryResult.getRecords().length == 0*/)
+      return;
+    int count = PAGE_SIZE;
+    int recCount = Integer.parseInt(String.valueOf(r.getAsJsonObject("page").get("totalElements")));
+
+    if (page == pageCount()-1 ){  //ako je poslednja stranica
+    	if (/*queryResult.getResultCount() */ recCount % PAGE_SIZE==0 ){
+    		count=PAGE_SIZE;
+    	}
+    	else{
+            count = recCount % PAGE_SIZE;
+    	}
+    }
     pageTxtFld.setText(String.valueOf(page));
     int[] recIDs = new int[count];
    // for (int i = 0; i < count; i++)
@@ -403,20 +405,14 @@ public class HitListFrame extends JInternalFrame {
 
       /////ovde ubacujemo neki record
 
-      Call<JsonObject> r = BisisApp.bisisService.getAllRecords();
-      List<Record> rec = null;
-      try {
-           rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class, r.execute().body()); //za sada kolekcije vracamo kao JsonObject, a njega deserijalizujemo u preko GsonUtils
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
+
 
     hitListModel.setHits(/*recIDs*/rec);
     lbHitList.setSelectedIndex(0);
     handleListSelectionChanged();    
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
-        rec.size()+ "</b></html>");//TODO-hardcoded
+       recCount + "</b></html>");//TODO-hardcoded
     lBrPrimeraka.setText("<html>Broj primeraka: <b>"/*+queryResult.getInvs().size()+*/+"nesto"+"</b></html>");
   }
   
@@ -577,11 +573,11 @@ public class HitListFrame extends JInternalFrame {
 	
 	
 	private void handleDeleteRecord(){
-	/*	Record rec = (Record)lbHitList.getSelectedValue();
+		Record rec = (Record)lbHitList.getSelectedValue();
 		Object[] options = { "Obri\u0161i", "Odustani" };
 		StringBuffer messBuff = new StringBuffer();
 		messBuff.append("Da li ste sigurni da \u017eelite da obri\u0161ete zapis:\n");
-		messBuff.append(RecordUtils.getDeleteRecordReport(rec));		
+		messBuff.append(RecordUtils.getDeleteRecordReport(rec));
 		int ret = JOptionPane.showOptionDialog(null, messBuff.toString() , "Brisanje", 
 		JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 		null, options, options[1]);
@@ -603,7 +599,7 @@ public class HitListFrame extends JInternalFrame {
 				else
 					JOptionPane.showMessageDialog(null, "Gre\u0161ka prilikom brisanja zapisa!");				
 			}			
-		}		*/
+		}
 	}
  
 	private void adjustInventarColumnWidth(){
@@ -643,62 +639,62 @@ public class HitListFrame extends JInternalFrame {
 	}
 
 
-		private JLabel lQuery = new JLabel();
-  private JLabel lFromTo = new JLabel();
-  private JLabel lBrPrimeraka = new JLabel();
-  private JToggleButton btnBrief = new JToggleButton("Sa\u017eeti");
-  private JToggleButton btnFull = new JToggleButton("Puni");
-  private JButton btnPrev = new JButton(/*"Prethodni"*/);
-  private JButton btnNext = new JButton(/*"Slede\u0107i"*/);
-  private JButton btnFirst = new JButton(/*"Prvi"*/);
-  private JButton btnLast = new JButton(/*"Poslednji"*/);
-  private JTextField pageTxtFld = new JTextField(3);
+      private JLabel lQuery = new JLabel();
+      private JLabel lFromTo = new JLabel();
+      private JLabel lBrPrimeraka = new JLabel();
+      private JToggleButton btnBrief = new JToggleButton("Sa\u017eeti");
+      private JToggleButton btnFull = new JToggleButton("Puni");
+      private JButton btnPrev = new JButton(/*"Prethodni"*/);
+      private JButton btnNext = new JButton(/*"Slede\u0107i"*/);
+      private JButton btnFirst = new JButton(/*"Prvi"*/);
+      private JButton btnLast = new JButton(/*"Poslednji"*/);
+      private JTextField pageTxtFld = new JTextField(3);
+
+      private JButton btnDelete = new JButton("Obri\u0161i");
+      private JButton btnEdit = new JButton("Otvori");
+      private JButton btnNew = new JButton("Novi");
+      private JButton btnInventar = new JButton("Inventar");
+      private JButton btnAnalitika = new JButton("Analitika");
+
+      private JButton btnBranches = new JButton("Grupni prikaz");
+
+      private JScrollPane spHitList = new JScrollPane();
+      private JList lbHitList = new JList();
+      private HitListModel hitListModel = new HitListModel();
+      private ListSelectionModel listSelModel;
+      private HitListRenderer renderer = new HitListRenderer();
+
+      private JPanel allResultsPanel = new JPanel();
+      private JPanel oneResultPanel = new JPanel();
+      private JSplitPane splitPane;
+
+      private JTabbedPane tabbedPane = new JTabbedPane();
+      private JLabel idLabel = new JLabel();
+      private JTextField idTxtFld = new JTextField(5);
+      private JLabel rnLabel = new JLabel();
+      private JTextField rnTxtFld = new JTextField(5);
+
+      private JLabel pubTypeLabel = new JLabel();
+      private JEditorPane fullFormatPane = new JEditorPane();
+      private JEditorPane cardPane = new JEditorPane();
+      private JPanel metaDataPanel = new JPanel();
+      private JLabel recCreatorLabel = new JLabel("");
+      private JLabel recModifierLabel = new JLabel("");
+      private JLabel recCreationDateLabel = new JLabel("");
+      private JLabel recModificationDateLabel = new JLabel("");
+
+      private JTable inventarTable = new JTable();
+      private InventarTabTableModel inventarTableModel = new InventarTabTableModel();
+      private InventarTabTableCellRenderer inventartTableRenderer = new InventarTabTableCellRenderer();
+
+      private JTable uploadedFilesTable = new JTable();
+      //private UploadedFilesTableModel uploadedFilesTableModel = new UploadedFilesTableModel();
+
+
+      private RecordFormatter formatter;
+      private Record selectedRecord = null;
   
-  private JButton btnDelete = new JButton("Obri\u0161i");
-  private JButton btnEdit = new JButton("Otvori");
-  private JButton btnNew = new JButton("Novi");
-  private JButton btnInventar = new JButton("Inventar");
-  private JButton btnAnalitika = new JButton("Analitika");
-  
-  private JButton btnBranches = new JButton("Grupni prikaz");
-  
-  private JScrollPane spHitList = new JScrollPane();
-  private JList lbHitList = new JList();
-  private HitListModel hitListModel = new HitListModel();
-  private ListSelectionModel listSelModel;
-  private HitListRenderer renderer = new HitListRenderer();
-  
-  private JPanel allResultsPanel = new JPanel();
-  private JPanel oneResultPanel = new JPanel(); 
-  private JSplitPane splitPane;
-  
-  private JTabbedPane tabbedPane = new JTabbedPane();
-  private JLabel idLabel = new JLabel();
-  private JTextField idTxtFld = new JTextField(5);
-  private JLabel rnLabel = new JLabel();
-  private JTextField rnTxtFld = new JTextField(5);
-  
-  private JLabel pubTypeLabel = new JLabel();
-  private JEditorPane fullFormatPane = new JEditorPane();	
-		private JEditorPane cardPane = new JEditorPane();
-		private JPanel metaDataPanel = new JPanel();
-		private JLabel recCreatorLabel = new JLabel("");
-		private JLabel recModifierLabel = new JLabel("");
-		private JLabel recCreationDateLabel = new JLabel("");
-		private JLabel recModificationDateLabel = new JLabel("");
-		
-		private JTable inventarTable = new JTable();
-		private InventarTabTableModel inventarTableModel = new InventarTabTableModel();
-		private InventarTabTableCellRenderer inventartTableRenderer = new InventarTabTableCellRenderer();
-		
-		private JTable uploadedFilesTable = new JTable();
-		//private UploadedFilesTableModel uploadedFilesTableModel = new UploadedFilesTableModel();
-		
-		
-		private RecordFormatter formatter;
-		private Record selectedRecord = null;
-  
- // private Result queryResult;
-  private String query;
-  private int page = 0;
+      //private Result queryResult;
+      private String query;
+      private int page = 0;
 }

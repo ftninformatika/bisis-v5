@@ -10,7 +10,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: bisis
+      database: bisisdev
 
 logging:
   level:

@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -424,7 +427,6 @@ public class Record implements Serializable {
   
   
   
-  
   public Record copy(){
   	Record rec = new Record();
   	rec.setPubType(pubType);
@@ -496,4 +498,16 @@ public class Record implements Serializable {
   private String creationDate; //ovde Date polje, trenutno ne radi
   /** last modification date */
   private String lastModifiedDate; //Takodje
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    @Version
+  private Long version;
+
 }

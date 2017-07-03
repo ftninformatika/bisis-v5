@@ -202,11 +202,11 @@ public class Base {
         		prim.put("cena", "");
         	
         	if (p.getDatumInventarisanja()!=null)
-        	    prim.put("datInv", sdf.format(p.getDatumInventarisanja()));
+        	    prim.put("datInv", /*sdf.format(p.getDatumInventarisanja())*/p.getDatumInventarisanja());//TODO-hardcoded
         	else
         		prim.put("datInv", "");
         	if (p.getDatumRacuna()!=null)
-        	    prim.put("datRacuna", sdf.format(p.getDatumRacuna()));
+        	    prim.put("datRacuna", /*sdf.format(p.getDatumRacuna())*/p.getDatumRacuna());
         	else
         		prim.put("datRacuna", "");
         	

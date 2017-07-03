@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
 import com.google.gson.JsonObject;
+import org.springframework.data.repository.query.Param;
 import retrofit2.http.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -33,8 +34,8 @@ public interface BisisService {
     @GET("/records/59391f89ea9b8fbe1ed417f7")
     Call<Record> getOneRecord();
 
-    @GET("/records")
-    Call<JsonObject> getAllRecords();
+    @GET("/records?size=10&")
+    Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
 
     @Headers({"ContentType: application/json"})
     @GET("/records/search/getByID")
