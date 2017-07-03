@@ -486,7 +486,14 @@ public class HitListFrame extends JInternalFrame {
 		}else if(tabbedPane.getSelectedIndex()==2){
 				int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
 				/*selectedRecord = BisisApp.getRecordManager().getRecord(recordId);*/
-				inventarTableModel.setRecord(selectedRecord);
+
+        try {
+            selectedRecord = BisisApp.bisisService.getRecordById(recordId).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        inventarTableModel.setRecord(selectedRecord);
 				System.out.println("inventar");
 				adjustInventarColumnWidth();
 		}else if(tabbedPane.getSelectedIndex()==3){
@@ -498,7 +505,7 @@ public class HitListFrame extends JInternalFrame {
  		int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
         Record zapis = null;
         try {
-            zapis = BisisApp.bisisService.getOneRecord().execute().body();
+            zapis = BisisApp.bisisService.getRecordById(recordId).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }

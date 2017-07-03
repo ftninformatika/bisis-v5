@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.rest_service.bisis4_model.Records;
 import com.ftninformatika.bisis.rest_service.repository.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
