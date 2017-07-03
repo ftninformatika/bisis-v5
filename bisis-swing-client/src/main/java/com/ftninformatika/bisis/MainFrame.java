@@ -2,6 +2,7 @@ package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
+import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
@@ -117,11 +118,11 @@ public class MainFrame extends JFrame {
         }
     */
     private void shutdown() {
-        /*if(Obrada.isEditorClosable()){
+        if(Obrada.isEditorClosable()){
             searchFrame.closeSearchFrame();
-            Cirkulacija.getApp().close();
+          //  Cirkulacija.getApp().close();
             System.exit(0);
-        }*/
+        }
         System.exit(0);
     }
 

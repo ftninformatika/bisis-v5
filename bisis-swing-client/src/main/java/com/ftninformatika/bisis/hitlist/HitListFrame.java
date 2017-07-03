@@ -400,8 +400,8 @@ public class HitListFrame extends JInternalFrame {
     }
     pageTxtFld.setText(String.valueOf(page));
     int[] recIDs = new int[count];
-   // for (int i = 0; i < count; i++)
-     // recIDs[i] = queryResult.getRecords()[page*PAGE_SIZE + i];
+    for (int i = 0; i < count; i++)
+      recIDs[i] = /*queryResult.getRecords()[page*PAGE_SIZE + i];*/ rec.get(page * PAGE_SIZE + i).getRecordID();
 
       /////ovde ubacujemo neki record
 
@@ -413,14 +413,14 @@ public class HitListFrame extends JInternalFrame {
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
        recCount + "</b></html>");//TODO-hardcoded
-    lBrPrimeraka.setText("<html>Broj primeraka: <b>"/*+queryResult.getInvs().size()+*/+"nesto"+"</b></html>");
+    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(rec)+"nesto"+"</b></html>");
   }
   
   private int pageCount() {
    /* if (queryResult == null || queryResult.getResultCount() == 0)
      return 0;
      return queryResult.getResultCount() / PAGE_SIZE + (queryResult.getResultCount() % PAGE_SIZE > 0 ? 1 : 0);   */
-    return 0;
+    return 1;
   }
   
   
@@ -454,7 +454,7 @@ public class HitListFrame extends JInternalFrame {
       }
    selectedRecord = //BisisApp.getRecordManager().getRecord(recordId);
                     zapis;
-      System.out.println(zapis.get_id());
+      //System.out.println(zapis.get_id());
    idTxtFld.setText(String.valueOf(selectedRecord.getRecordID()));//-----------------------
    rnTxtFld.setText(String.valueOf(selectedRecord.getRN()));
    String pubTypeStr = "";
@@ -492,12 +492,12 @@ public class HitListFrame extends JInternalFrame {
         inventarTableModel.setRecord(selectedRecord);
 				System.out.println("inventar");
 				adjustInventarColumnWidth();
-		}else if(tabbedPane.getSelectedIndex()==3){
+		}else if(tabbedPane.getSelectedIndex() == 3){
 			int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
        //selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
        //uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));
         System.out.println("getDocFiles");
- 	}else if(tabbedPane.getSelectedIndex()==4){
+ 	}else if(tabbedPane.getSelectedIndex() == 4){
  		int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
         Record zapis = null;
         try {
@@ -556,7 +556,7 @@ public class HitListFrame extends JInternalFrame {
     	recModifierLabel.setText("");
     
     if(rec.getCreationDate()!=null)
-    	recCreationDateLabel.setText(/*sdf.format(rec.getCreationDate())*/rec.getCreationDate());
+    	recCreationDateLabel.setText(/*sdf.format(rec.getCreationDate())*/rec.getCreationDate()); //TODO-hardcoded zbog datuma
     else
     	recCreationDateLabel.setText("");
     

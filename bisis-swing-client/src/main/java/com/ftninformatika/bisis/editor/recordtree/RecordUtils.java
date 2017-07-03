@@ -42,6 +42,25 @@ public class RecordUtils { //TODO-hardcoded all over the place
     }
    return record;
  }
+
+ public static int getInvNumsCountFromRecordCollection(List<Record> records){
+      int retVal = 0;
+
+      for (Record r: records){
+          if(r.getPrimerci() != null && r.getPrimerci().size() > 0)
+              retVal += r.getPrimerci().size();
+
+          if(r.getGodine() != null && r.getGodine().size() > 0) {
+              retVal += r.getGodine().size();
+              for(Godina g: r.getGodine())
+                  if(g.getSveske() != null && g.getSveskeCount() > 0)
+                      retVal += g.getSveskeCount();
+          }
+
+      }
+
+      return retVal;
+ }
   
   public static void addUFieldWithSubfields(UField uf){
    /* Field f = new Field(uf.getName());

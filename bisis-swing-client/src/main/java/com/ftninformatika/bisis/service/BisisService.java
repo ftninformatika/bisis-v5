@@ -34,7 +34,7 @@ public interface BisisService {
     @GET("/records/59391f89ea9b8fbe1ed417f7")
     Call<Record> getOneRecord();
 
-    @GET("/records?size=10&")
+    @GET("/records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
 
     @Headers({"ContentType: application/json"})
