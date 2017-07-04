@@ -28,6 +28,10 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.plaf.basic.BasicTreeUI;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
+import com.ftninformatika.bisis.editor.recordtree.RecordTree;
+import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
+import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.records.Record;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +41,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class EditorFrame extends JInternalFrame {	
 	
-	//private ZapisPanel zapisPanel = null;
+	private ZapisPanel zapisPanel = null;
 	private JPanel panel;
 	//private InventarPanel inventarPanel = null;
 	//private UploadPanel uploadPanel = null;
@@ -67,7 +71,7 @@ public class EditorFrame extends JInternalFrame {
 	}
 	
 	public boolean editorInitialize(Record rec){
-			/*if(rec!=null && !FormatUtils.isPubTypeDefined(BisisApp.appConfig.getLibrarian(), rec.getPubType())){
+			if(rec!=null /*&& !FormatUtils.isPubTypeDefined(BisisApp.appConfig.getLibrarian(), rec.getPubType())*/){
 				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 						Messages.getString("EDITOR_OPTIONPANEMISSINGPROCESSTYPE"), //$NON-NLS-1$
 						"Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
@@ -75,7 +79,7 @@ public class EditorFrame extends JInternalFrame {
 				return false;
 			}			
 			zapisPanel.initializeRecordPanel(rec);
-			if (BisisApp.isFileMgrEnabled())
+			/*if (BisisApp.isFileMgrEnabled())
 				uploadPanel.initializeDocList(rec);*/
 			initializeInventarPanel();				
     zapisButton.doClick();
@@ -160,8 +164,8 @@ public class EditorFrame extends JInternalFrame {
     toolBar.add(uploadButton);
     setUploadEnabled(false);
   	
-  	/*zapisPanel = new ZapisPanel();
-  	inventarPanel = new InventarPanel();
+  	zapisPanel = new ZapisPanel();
+  	/*inventarPanel = new InventarPanel();
   	uploadPanel = new UploadPanel();*/
    layoutPanels(); 
    
@@ -175,7 +179,7 @@ public class EditorFrame extends JInternalFrame {
     
     addComponentListener(new ComponentAdapter(){      
       public void componentShown(ComponentEvent arg0) {
-        //zapisPanel.getFormatTree().requestFocus();
+        zapisPanel.getFormatTree().requestFocus();
       }
     });
   	
@@ -199,12 +203,12 @@ public class EditorFrame extends JInternalFrame {
       public void actionPerformed(ActionEvent arg0) {      	
         cardLayout.show(panel, inventarPanel.getName());        
       }      
-    });
+    });*/
     zapisButton.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent arg0) {
         cardLayout.show(panel, zapisPanel.getName());        
       }      
-    });
+    });/*
     uploadButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0) {
 							cardLayout.show(panel, uploadPanel.getName());
@@ -216,11 +220,11 @@ public class EditorFrame extends JInternalFrame {
         handleShowCardFrame();
       }    
     });    
-    /*zapisPanel.getRecordTree().addKeyListener(new KeyAdapter(){
+    zapisPanel.getRecordTree().addKeyListener(new KeyAdapter(){
       public void keyPressed(KeyEvent arg0) {
           handleKeys(zapisPanel.getRecordTree(),arg0);        
       }
-    });
+    });/*
     zapisPanel.getFormatTree().addKeyListener(new KeyAdapter(){
       public void keyPressed(KeyEvent arg0) {
           handleKeys(zapisPanel.getRecordTree(),arg0);        
@@ -254,24 +258,21 @@ public class EditorFrame extends JInternalFrame {
      recordUpdated = false;
      setUploadEnabled(true);
      return true;
-		   } catch (/*UValidatorException*/Exception e) {
-		      JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$		      
-		      return false;
-		   }/*catch(Exception ex){
+		   } catch(Exception ex){
 		   	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 		   			"Zapis nije sa\u010Duvan!\n"+ex.getClass(),Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$		   	
 		   	log.fatal(ex);		   	
-		   }*/
+		   }
 			}
 			return false;
 	}
 	
-  private void handleAddUField(){/*
-    zapisPanel.getFormatTree().addElementAction();    */
+  private void handleAddUField(){
+    zapisPanel.getFormatTree().addElementAction();
   }	
 	private void handleValidateRecord(){
-		String mess = //CurrRecord.validateRecord();
-                    "nesto";//TODO-hardcoded
+		String mess = CurrRecord.validateRecord();
+                    //"nesto";//TODO-hardcoded
 		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),mess,Messages.getString("EDITOR_VALIDITYREPORT"),JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 	} 
   
@@ -298,13 +299,13 @@ public class EditorFrame extends JInternalFrame {
        listiciButton.doClick();
      if(e.getKeyCode()==KeyEvent.VK_V && e.getModifiers()== InputEvent.CTRL_MASK)
        validateRecord.doClick();
-     /*if(e.getKeyCode()==KeyEvent.VK_NUMPAD7)
-       addUField.doClick();  */
+     if(e.getKeyCode()==KeyEvent.VK_NUMPAD7)
+       addUField.doClick();
      if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
-      // if(comp.equals(zapisPanel.getRecordTree())){
-       //  if(!((BasicTreeUI)zapisPanel.getRecordTree().getUI()).isEditing(zapisPanel.getRecordTree()))
-        //   handleCloseEditor();
-      // }else
+       if(comp.equals(zapisPanel.getRecordTree())){
+         if(!((BasicTreeUI)zapisPanel.getRecordTree().getUI()).isEditing(zapisPanel.getRecordTree()))
+           handleCloseEditor();
+       }else
          handleCloseEditor();
      }
      if(e.getKeyCode()== KeyEvent.VK_S){
@@ -324,8 +325,8 @@ public class EditorFrame extends JInternalFrame {
     this.setLayout(cardLayout);
     getContentPane().setLayout(new BorderLayout());    
     this.getContentPane().add(toolBar,BorderLayout.NORTH);
-    //panel.add(zapisPanel,zapisPanel.getName());
-   // panel.add(inventarPanel,inventarPanel.getName());
+    panel.add(zapisPanel,zapisPanel.getName());
+   ///panel.add(inventarPanel,inventarPanel.getName());
    // panel.add(uploadPanel,uploadPanel.getName());
     this.getContentPane().add(panel,BorderLayout.CENTER);     
   }
@@ -388,12 +389,12 @@ public class EditorFrame extends JInternalFrame {
 		inventarButton.doClick();
 	}
   
-  /*public RecordTree getRecordTree(){
+  public RecordTree getRecordTree(){
     return zapisPanel.getRecordTree();
   }
   
   
-  public InventarPanel getInventarPanel(){
+  /*public InventarPanel getInventarPanel(){
     return inventarPanel;
   }*/
 
@@ -401,9 +402,9 @@ public class EditorFrame extends JInternalFrame {
     return addUField;
   }
   
- /* public ZapisPanel getZapisPanel(){
+  public ZapisPanel getZapisPanel(){
     return zapisPanel;
-  }*/
+  }
   
   public JButton getAddUFieldButton(){
   	return addUField;

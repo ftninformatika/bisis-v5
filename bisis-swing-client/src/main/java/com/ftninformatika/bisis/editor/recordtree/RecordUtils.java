@@ -601,7 +601,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   public static boolean invBrojSveskePostojiUZapisu(String invBroj){
   	/*for(Godina g:CurrRecord.record.getGodine())
   		for(Sveska s:g.getSveske())
-  			if(s.getInvBroj().equals(invBroj)) return true;
+  			if(s.getInvBroj().equals(invBroj)) return true;*/
   	return false;
   	}
   
@@ -609,8 +609,8 @@ public class RecordUtils { //TODO-hardcoded all over the place
   	Record rec = new Record();  	 
   	rec.setMR(masterRecord.getRN());
   	rec.setPubType(3);
-  	return rec;*/
-  	return false;
+  	return rec;
+
   	
   }
   

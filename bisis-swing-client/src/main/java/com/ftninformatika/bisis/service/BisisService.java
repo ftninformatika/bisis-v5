@@ -31,11 +31,17 @@ public interface BisisService {
     @GET("/librarians/search/getByUsername")
     Call<Librarian> getLibrarian(@Query("username") String username);
 
-    @GET("/records/59391f89ea9b8fbe1ed417f7")
-    Call<Record> getOneRecord();
+    @GET("/configs/search/getByLibraryName")
+    Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
 
     @GET("/records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
+
+    @GET("/records/59391f89ea9b8fbe1ed417f7")
+    Call<Record> getOneRecord();
+
+    @GET("/records/search/deleteByRecordID")
+    Call<Long> deleteRecordByRecId(@Query("id") int id);
 
     @Headers({"ContentType: application/json"})
     @GET("/records/search/getByID")
@@ -44,9 +50,7 @@ public interface BisisService {
     @GET("/expand_prefix_controller")
     Call<ArrayList<String>> getExpand();
 
-    @GET("/configs/search/getByLibraryName")
-    Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
 
-    @GET("/records/search/deleteByRecordID")
-    Call<Long> deleteRecordByRecId(@Query("id") int id);
+
+
 }

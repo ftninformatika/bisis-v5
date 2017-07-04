@@ -384,7 +384,7 @@ public class HitListFrame extends JInternalFrame {
           e.printStackTrace();
       }
 
-      List<Record> rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class,r);
+      List<Record> rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class,r); //TODO-objasniti zasto je ovo radjeno!
     if (r == null /*|| queryResult.getRecords().length == 0*/)
       return;
     int count = PAGE_SIZE;
@@ -413,7 +413,7 @@ public class HitListFrame extends JInternalFrame {
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
        recCount + "</b></html>");//TODO-hardcoded
-    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(rec)+"nesto"+"</b></html>");
+    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(rec)+"</b></html>");
   }
   
   private int pageCount() {
