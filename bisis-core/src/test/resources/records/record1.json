@@ -1,0 +1,251 @@
+{
+  "recordID" : 16,
+  "pubType" : 1,
+  "fields" : [
+    {
+      "name" : "001",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "c"
+        },
+        {
+          "name" : "b",
+          "content" : "a"
+        },
+        {
+          "name" : "c",
+          "content" : "m"
+        },
+        {
+          "name" : "d",
+          "content" : "b"
+        },
+        {
+          "name" : "e",
+          "content" : "16"
+        }
+      ]
+    },
+    {
+      "name" : "010",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "2-228-32590-2"
+        }
+      ]
+    },
+    {
+      "name" : "100",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "b",
+          "content" : "d"
+        },
+        {
+          "name" : "c",
+          "content" : "1975"
+        }
+      ]
+    },
+    {
+      "name" : "101",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "fre"
+        }
+      ]
+    },
+    {
+      "name" : "102",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "fra"
+        }
+      ]
+    },
+    {
+      "name" : "200",
+      "ind1" : "0",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "Ekole et psychologie individuelle comparee"
+        },
+        {
+          "name" : "e",
+          "content" : "avant-propos et traduction du dr H. Schaffer"
+        }
+      ]
+    },
+    {
+      "name" : "210",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "Paris"
+        },
+        {
+          "name" : "c",
+          "content" : "Payot"
+        },
+        {
+          "name" : "d",
+          "content" : "1975"
+        }
+      ]
+    },
+    {
+      "name" : "215",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "259 str."
+        },
+        {
+          "name" : "d",
+          "content" : "18 cm"
+        }
+      ]
+    },
+    {
+      "name" : "225",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "Petite bibliotheque Payot"
+        },
+        {
+          "name" : "v",
+          "content" : "259"
+        }
+      ]
+    },
+    {
+      "name" : "540",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "Ekole et psychologie"
+        }
+      ]
+    },
+    {
+      "name" : "675",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "a",
+          "content" : "159.9"
+        },
+        {
+          "name" : "v",
+          "content" : "1"
+        },
+        {
+          "name" : "z",
+          "content" : "scr"
+        }
+      ]
+    },
+    {
+      "name" : "700",
+      "ind1" : " ",
+      "ind2" : "1",
+      "subfields" : [
+        {
+          "name" : "4",
+          "content" : "070"
+        },
+        {
+          "name" : "a",
+          "content" : "ADLER"
+        },
+        {
+          "name" : "b",
+          "content" : "Alfred"
+        }
+      ]
+    },
+    {
+      "name" : "992",
+      "ind1" : " ",
+      "ind2" : " ",
+      "subfields" : [
+        {
+          "name" : "b",
+          "content" : "crob ; prbm20080623"
+        }
+      ]
+    }
+  ],
+  "primerci" : [
+    {
+      "primerakID" : 27,
+      "invBroj" : "01000045885",
+      "datumRacuna" : null,
+      "brojRacuna" : null,
+      "dobavljac" : null,
+      "cena" : null,
+      "finansijer" : null,
+      "usmeravanje" : null,
+      "datumInventarisanja" : null,
+      "sigFormat" : null,
+      "sigPodlokacija" : null,
+      "sigIntOznaka" : null,
+      "sigDublet" : null,
+      "sigNumerusCurens" : null,
+      "sigUDK" : "159.9",
+      "povez" : null,
+      "nacinNabavke" : null,
+      "odeljenje" : "21",
+      "status" : "5",
+      "datumStatusa" : "20120724",
+      "inventator" : "stgs20120725",
+      "stanje" : 0,
+      "dostupnost" : "3",
+      "napomene" : "pr20080623",
+      "version" : 1,
+      "sigDefined" : true
+    }
+  ],
+  "godine" : [],
+  "creator" : {
+    "username" : "import",
+    "institution" : "gb.ns.ac.yu",
+    "compact" : "import@gb.ns.ac.yu"
+  },
+  "modifier" : {
+    "username" : "galja",
+    "institution" : "gbns",
+    "compact" : "galja@gbns"
+  },
+  "creationDate" : "2005-05-26",
+  "lastModifiedDate" : "2012-07-25",
+  "mr" : 0,
+  "rn" : 16,
+  "version" : 1.00
+}

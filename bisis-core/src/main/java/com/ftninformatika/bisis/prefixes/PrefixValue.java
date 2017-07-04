@@ -9,7 +9,7 @@ import java.io.Serializable;
  * zapisa u prefikse za pretragu.
  * 
  * @see RecordParser
- * @author mbranko@uns.ns.ac.yu
+ * @author mbranko@uns.ac.rs
  */ 
 public class PrefixValue implements Serializable, Comparable {
   

@@ -10,14 +10,14 @@ import java.util.Map;
 
 /**
  * Represents a default prefix map.
- * 
- * @author mbranko@uns.ns.ac.yu
+ *
+ * @author mbranko@uns.ac.rs
  */
 public class DefaultPrefixMap implements PrefixMap {
 
   /**
    * Returns a list of prefix names (strings) mapped to the given subfield.
-   * 
+   *
    * @param subfieldName the four-character name of the subfield.
    * @return The list of corresponding prefixes.
    * @see com.ftninformatika.bisis.prefixes.PrefixMap#getPrefixes(String)
@@ -25,28 +25,28 @@ public class DefaultPrefixMap implements PrefixMap {
   public List<String> getPrefixes(String subfieldName) {
     List<String> list = prefixMap.get(subfieldName);
     if (list == null)
-      return new ArrayList<String>();
+      return new ArrayList<>();
     else
       return list;
   }
-  
+
   /**
    * Returns a list of subfield names (strings) mapped to the given prefix.
-   * 
+   *
    * @param prefix the two-character name of the prefix
    * @return The list of corresponding subfields (four-character names)
    */
   public List<String> getSubfields(String prefix) {
     List<String> list = subfieldMap.get(prefix);
     if (list == null)
-      return new ArrayList<String>();
+      return new ArrayList<>();
     else
       return list;
   }
-  
+
   public DefaultPrefixMap() {
-    prefixMap = new HashMap<String, List<String>>();
-    subfieldMap = new HashMap<String, List<String>>();
+    prefixMap = new HashMap<>();
+    subfieldMap = new HashMap<>();
     addToMap("AT", "531a");
     addToMap("AT", "531b");
     addToMap("AU", "700a");
@@ -310,7 +310,7 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("CB", "601g");
     addToMap("CB", "601h");
     addToMap("CB", "601w");
-    
+
     addToMap("CB", "961a");
     addToMap("CB", "961b");
     addToMap("CB", "961c");
@@ -400,7 +400,7 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("TS", "605m");
     addToMap("TS", "605n");
     addToMap("TS", "605q");
-    addToMap("TS", "605w");   
+    addToMap("TS", "605w");
     addToMap("TS", "965a");
     addToMap("TS", "965h");
     addToMap("TS", "965i");
@@ -421,100 +421,100 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("TA", "9014");
     addToMap("TA", "9024");
     //predmetne odrednice
-    addToMap("SB","600a");
-    addToMap("SB","600b");
-    addToMap("SB","601a");
-    addToMap("SB","602a");
-    addToMap("SB","605a");
-    addToMap("SB","606a");
-    addToMap("SB","607a");
-    addToMap("SB","608a");
-    addToMap("SB","609a");
-    addToMap("SB","610a");
-   //predmetne pododrednice
-    addToMap("SD","600w");
-    addToMap("SD","600x");
-    addToMap("SD","600y");
-    addToMap("SD","600z");
-    
-    addToMap("SD","601w");
-    addToMap("SD","601x");
-    addToMap("SD","601y");
-    addToMap("SD","601z");
-    
-    addToMap("SD","602w");
-    addToMap("SD","602x");
-    addToMap("SD","602y");
-    addToMap("SD","602z");
-    
-    addToMap("SD","605l");
-    addToMap("SD","605w");
-    addToMap("SD","605x");
-    addToMap("SD","605y");
-    addToMap("SD","605z");
-    
-    addToMap("SD","606w");
-    addToMap("SD","606x");
-    addToMap("SD","606y");
-    addToMap("SD","606z");
-    
-    addToMap("SD","607w");
-    addToMap("SD","607x");
-    addToMap("SD","607y");
-    addToMap("SD","607z");
-    
-    addToMap("SD","608w");
-    addToMap("SD","608x");
-    addToMap("SD","608y");
-    addToMap("SD","608z");
-    
-    addToMap("SD","609w");
-    addToMap("SD","609x");
-    addToMap("SD","609y");
-    addToMap("SD","609z");
-    
+    addToMap("SB", "600a");
+    addToMap("SB", "600b");
+    addToMap("SB", "601a");
+    addToMap("SB", "602a");
+    addToMap("SB", "605a");
+    addToMap("SB", "606a");
+    addToMap("SB", "607a");
+    addToMap("SB", "608a");
+    addToMap("SB", "609a");
+    addToMap("SB", "610a");
+    //predmetne pododrednice
+    addToMap("SD", "600w");
+    addToMap("SD", "600x");
+    addToMap("SD", "600y");
+    addToMap("SD", "600z");
+
+    addToMap("SD", "601w");
+    addToMap("SD", "601x");
+    addToMap("SD", "601y");
+    addToMap("SD", "601z");
+
+    addToMap("SD", "602w");
+    addToMap("SD", "602x");
+    addToMap("SD", "602y");
+    addToMap("SD", "602z");
+
+    addToMap("SD", "605l");
+    addToMap("SD", "605w");
+    addToMap("SD", "605x");
+    addToMap("SD", "605y");
+    addToMap("SD", "605z");
+
+    addToMap("SD", "606w");
+    addToMap("SD", "606x");
+    addToMap("SD", "606y");
+    addToMap("SD", "606z");
+
+    addToMap("SD", "607w");
+    addToMap("SD", "607x");
+    addToMap("SD", "607y");
+    addToMap("SD", "607z");
+
+    addToMap("SD", "608w");
+    addToMap("SD", "608x");
+    addToMap("SD", "608y");
+    addToMap("SD", "608z");
+
+    addToMap("SD", "609w");
+    addToMap("SD", "609x");
+    addToMap("SD", "609y");
+    addToMap("SD", "609z");
+
     //vrsta autorstva
-    addToMap("VA","702a");
-    addToMap("VA","702b");
-    addToMap("VA","702c");
-    addToMap("VA","902a");
-    addToMap("VA","902b");
-    addToMap("VA","902c");
-    
+    addToMap("VA", "702a");
+    addToMap("VA", "702b");
+    addToMap("VA", "702c");
+    addToMap("VA", "902a");
+    addToMap("VA", "902b");
+    addToMap("VA", "902c");
+
     //za korisnika 
     //PI se razlikuje od AU jer ne sadrzi 702 i 902
-    addToMap("PI","700a");
-    addToMap("PI","700b");
-    addToMap("PI","700c");
-    addToMap("PI","701a");
-    addToMap("PI","701b");
-    addToMap("PI","701c");
-    addToMap("PI","900a");
-    addToMap("PI","900b");
-    addToMap("PI","900c");
-    addToMap("PI","901a");
-    addToMap("PI","901b");
-    addToMap("PI","901c");
-    
+    addToMap("PI", "700a");
+    addToMap("PI", "700b");
+    addToMap("PI", "700c");
+    addToMap("PI", "701a");
+    addToMap("PI", "701b");
+    addToMap("PI", "701c");
+    addToMap("PI", "900a");
+    addToMap("PI", "900b");
+    addToMap("PI", "900c");
+    addToMap("PI", "901a");
+    addToMap("PI", "901b");
+    addToMap("PI", "901c");
+
   }
-  
+
   private void addToMap(String prefix, String subfield) {
-    List<String> list = prefixMap.get(subfield);  
+    List<String> list = prefixMap.get(subfield);
     if (list == null) {
       list = new ArrayList<String>();
       prefixMap.put(subfield, list);
     }
     list.add(prefix);
-    
+
     List<String> sfList = subfieldMap.get(prefix);
-    if(sfList == null) {
-    	sfList = new ArrayList<String>();
-    	subfieldMap.put(prefix, sfList);
+    if (sfList == null) {
+      sfList = new ArrayList<String>();
+      subfieldMap.put(prefix, sfList);
     }
     sfList.add(subfield);
-    
+
   }
-  
-  private Map<String, List<String>> prefixMap;  
+
+  private Map<String, List<String>> prefixMap;
   private Map<String, List<String>> subfieldMap;
 }

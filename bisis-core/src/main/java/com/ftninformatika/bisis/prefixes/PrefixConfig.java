@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Represents a configuration of prefix settings.
  * 
- * @author mbranko@uns.ns.ac.yu
+ * @author mbranko@uns.ac.rs
  */
 public interface PrefixConfig {
   public PrefixHandler getPrefixHandler();

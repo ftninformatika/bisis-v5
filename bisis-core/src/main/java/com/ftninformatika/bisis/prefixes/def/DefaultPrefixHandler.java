@@ -9,7 +9,7 @@ import com.ftninformatika.bisis.records.Subsubfield;
 /**
  * Default prefix handler.
  * 
- * @author mbranko@uns.ns.ac.yu
+ * @author mbranko@uns.ac.rs
  */
 public class DefaultPrefixHandler implements PrefixHandler {
 

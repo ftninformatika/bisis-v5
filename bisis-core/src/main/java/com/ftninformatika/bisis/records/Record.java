@@ -30,9 +30,9 @@ public class Record implements Serializable {
   public Record() {
     recordID = 0;
     pubType = 0;
-    fields = new ArrayList<Field>();
-    primerci = new ArrayList<Primerak>();
-    godine = new ArrayList<Godina>();
+    fields = new ArrayList<>();
+    primerci = new ArrayList<>();
+    godine = new ArrayList<>();
   }
 
   /**
@@ -42,9 +42,9 @@ public class Record implements Serializable {
   public Record(int recordID) {
     this.recordID = recordID;
     pubType = 0;
-    fields = new ArrayList<Field>();
-    primerci = new ArrayList<Primerak>();
-    godine = new ArrayList<Godina>();
+    fields = new ArrayList<>();
+    primerci = new ArrayList<>();
+    godine = new ArrayList<>();
   }
 
   /**
