@@ -24,6 +24,8 @@ classes/
 *.ipr
 *.iws
 *.idea
+*.ckp
+*.tlog
 
 # NetBeans Project Files #
 nbactions.xml
@@ -54,3 +56,7 @@ frontend/testem.log
 
 # Frontend compiled output
 resources/static
+
+# ElasticSearch
+
+data/elasticsearch/*

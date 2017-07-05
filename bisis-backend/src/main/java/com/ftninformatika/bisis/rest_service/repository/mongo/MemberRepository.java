@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.repository;
+package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.members.Member;
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -37,7 +37,7 @@ public class RecordsControllerTest {
   @Autowired
   private WebApplicationContext webApplicationContext;
 
-  @Autowired
+  /*@Autowired
   void setConverters(HttpMessageConverter<?>[] converters) {
 
     this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream()
@@ -48,7 +48,7 @@ public class RecordsControllerTest {
     assertNotNull("the JSON message converter must not be null",
         this.mappingJackson2HttpMessageConverter);
 
-  }
+  }*/
 
   @Before
   public void setup() {
