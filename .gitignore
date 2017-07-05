@@ -60,3 +60,4 @@ resources/static
 # ElasticSearch
 
 data/elasticsearch/*
+classes/production/bisis-backend/db/changesets/populate_data.js
