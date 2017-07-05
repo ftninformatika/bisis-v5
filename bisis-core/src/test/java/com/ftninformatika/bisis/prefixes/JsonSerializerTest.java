@@ -33,11 +33,19 @@ public class JsonSerializerTest {
   }
 
   @Test
-  public void toJsonShouldWork() {
+  public void toJson1ShouldWork() {
     List<PrefixValue> prefixes = PrefixConverter.toPrefixes(record1, null);
-    String json = JsonSerializer.toJson(prefixes);
+    String json = JsonSerializer.toJson1(prefixes);
     assertTrue("Record not properly serialized to prefixes",
-        json.indexOf("Alfred ADLER") != -1);
-    System.out.println(json);
+        json.indexOf("\"prefName\":\"AU\",\"value\":\"Alfred ADLER\"") != -1);
+  }
+
+  @Test
+  public void toJson2ShouldWork() {
+    List<PrefixValue> prefixes = PrefixConverter.toPrefixes(record1, null);
+    String json = JsonSerializer.toJson2(prefixes);
+    assertTrue("Record not properly serialized to prefixes",
+        json.indexOf("\"AU\": \"Alfred ADLER\"") != -1);
+
   }
 }

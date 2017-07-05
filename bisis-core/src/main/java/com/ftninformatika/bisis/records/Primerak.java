@@ -4,22 +4,26 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Primerak implements Serializable {
 
   private int primerakID;
   private String invBroj;
-  private String datumRacuna; //date
+  private Date datumRacuna; //date
   private String brojRacuna;
   private String dobavljac;
   private BigDecimal cena;
   private String finansijer;
   private String usmeravanje;
-  private String datumInventarisanja; //bio Date
+  private Date datumInventarisanja; //bio Date
   private String sigFormat;
   private String sigPodlokacija;
   private String sigIntOznaka;
@@ -30,23 +34,23 @@ public class Primerak implements Serializable {
   private String nacinNabavke;
   private String odeljenje;
   private String status;
-  private String datumStatusa;//date
+  private Date datumStatusa;//date
   private String inventator;
   private int stanje;
   private String dostupnost;
   private String napomene;
-  private int version;
+  private int version = 0;
 
-  public Primerak() {
-    version = 0;
-  }
-  
-  public Primerak(int primerakID, String invBroj, String datumRacuna,
+//  public Primerak() {
+//    version = 0;
+//  }
+//
+  public Primerak(int primerakID, String invBroj, Date datumRacuna,
       String brojRacuna, String dobavljac, BigDecimal cena, String finansijer,
-      String usmeravanje, String datumInventarisanja, String sigFormat,
+      String usmeravanje, Date datumInventarisanja, String sigFormat,
       String sigPodlokacija, String sigIntOznaka, String sigDublet,
       String sigNumerusCurens, String sigUDK, String povez,
-      String nacinNabavke, String odeljenje, String status, String datumStatusa,
+      String nacinNabavke, String odeljenje, String status, Date datumStatusa,
       String dostupnost, String napomene, int stanje, String inventator) {
     this.primerakID = primerakID;
     this.invBroj = invBroj;
@@ -72,7 +76,7 @@ public class Primerak implements Serializable {
     this.napomene = napomene;
     this.stanje = stanje;
     this.inventator = inventator;
-    version = 0;
+    this.version = 0;
   }
   
   public boolean isSigDefined() {
