@@ -7,6 +7,8 @@ import com.ftninformatika.bisis.prefixes.PrefixValue;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import javassist.NotFoundException;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,20 @@ public class RecordsController {
       throw new RecordNotFoundException(recordId);
     }
   }
+
+    @RequestMapping( method = RequestMethod.GET)
+    public List<Record> getRecords() {
+        try {
+
+            List<Record> recs = recordsRepository.findAll();
+            if (recs == null)
+                throw new NullPointerException("Nema zapisa!");
+            return recs;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<Record> add(@RequestBody Record record) {

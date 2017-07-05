@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Petar on 6/9/2017.
  */
-@RepositoryRestResource(collectionResourceRel = "records", path = "records")
+@RepositoryRestResource(collectionResourceRel = "records", path = "repository_records")
 public interface RecordsRepository extends MongoRepository<Record, String> {
 
     @Query("{ 'recordID': ?0 }")
