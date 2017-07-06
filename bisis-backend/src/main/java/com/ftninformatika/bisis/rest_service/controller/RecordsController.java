@@ -7,13 +7,21 @@ import com.ftninformatika.bisis.prefixes.PrefixValue;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.mongodb.QueryBuilder;
 import javassist.NotFoundException;
+import org.apache.commons.lang3.ArrayUtils;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.elasticsearch.repository.query.ElasticsearchStringQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -72,6 +80,33 @@ public class RecordsController {
     }
 
     return new ResponseEntity<>(record, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/query", method = RequestMethod.POST) //TODO- implementirati dolenavedeneo
+  public ResponseEntity<List<Record>> search(@RequestBody String query){ //dogovoriti se oko odgovarajuceg tipa parametra za pretragu
+      ArrayList<Record> retVal = new ArrayList<>();
+
+      org.elasticsearch.index.query.QueryBuilder qb = new MatchAllQueryBuilder(); //formirati ElasticQuery od parametra
+      Iterable<ElasticPrefixEntity> i = elasticRecordsRepository.search(qb); //sa elastikovog reposiztorijuma traziti sve ID-jeve elemenata koji su zadovoljili pretragu
+                                                                            //struktuirati adekvatn elastik upit!!!!
+
+      //fake recID kolekcija "vracena sa elastik repozitorijuma"
+      ArrayList<String> fakeIdColletion = new ArrayList<>();
+      fakeIdColletion.add("16"); fakeIdColletion.add("666"); fakeIdColletion.add("999");
+
+      retVal = (ArrayList<Record>) getRecordsForMultipleIDs(fakeIdColletion); //sa mongo repozitorijuma preuzeti sve zapise za prosledjene id-jeve
+
+      return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
+  }
+
+  public List<Record> getRecordsForMultipleIDs(ArrayList<String> ids){
+      ArrayList<Record> retVal = new ArrayList<>();
+
+      for (String id: ids){
+          retVal.add(recordsRepository.getByID(Integer.parseInt(id)));
+      }
+
+      return retVal;
   }
 
 }
