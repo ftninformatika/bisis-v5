@@ -48,17 +48,17 @@ public class RecordsController {
   }
 
     @RequestMapping( method = RequestMethod.GET)
-    public List<Record> getRecords() {
+    public ResponseEntity<List<Record>> getRecords() {
         try {
 
             List<Record> recs = recordsRepository.findAll();
             if (recs == null)
                 throw new NullPointerException("Nema zapisa!");
-            return recs;
+            return new ResponseEntity<List<Record>>(recs, HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return null;
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
   @RequestMapping(method = RequestMethod.POST)
@@ -86,7 +86,7 @@ public class RecordsController {
   public ResponseEntity<List<Record>> search(@RequestBody String query){ //dogovoriti se oko odgovarajuceg tipa parametra za pretragu
       ArrayList<Record> retVal = new ArrayList<>();
 
-      org.elasticsearch.index.query.QueryBuilder qb = new MatchAllQueryBuilder(); //formirati ElasticQuery od parametra
+      org.elasticsearch.index.query.QueryBuilder qb = new MatchAllQueryBuilder(); //formirati ElasticQuery od parametra(ovo je fake)
       Iterable<ElasticPrefixEntity> i = elasticRecordsRepository.search(qb); //sa elastikovog reposiztorijuma traziti sve ID-jeve elemenata koji su zadovoljili pretragu
                                                                             //struktuirati adekvatn elastik upit!!!!
 
