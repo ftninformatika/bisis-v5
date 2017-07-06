@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.List;
 
+
 /**
  * Created by Petar on 7/5/2017.
  */

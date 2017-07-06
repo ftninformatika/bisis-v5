@@ -64,7 +64,7 @@ public class RecordsController {
         List<PrefixValue> prefixes = PrefixConverter.toPrefixes(record, null);
         ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes); //JsonSerializer.toJson2(prefixes);
 
-        //save and index posted element
+        //save and index posted element via ElasticsearchRepository
         elasticRecordsRepository.save(ee);
         elasticRecordsRepository.index(ee);
     } catch (Exception et){
