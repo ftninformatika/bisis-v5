@@ -47,11 +47,18 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private JTextField tfPref3 = new JTextField();
   private JTextField tfPref4 = new JTextField();
   private JTextField tfPref5 = new JTextField();
+  // panel za unos sifriranih vrednosti
+  private CodedPrefPanel codedPref1 = new CodedPrefPanel();
+  private CodedPrefPanel codedPref2 = new CodedPrefPanel();
+  private CodedPrefPanel codedPref3 = new CodedPrefPanel();
+  private CodedPrefPanel codedPref4 = new CodedPrefPanel();
+  private CodedPrefPanel codedPref5 = new CodedPrefPanel();
   private JButton btnCoder1 = new JButton();
   private JButton btnCoder2 = new JButton();
   private JButton btnCoder3 = new JButton();
   private JButton btnCoder4 = new JButton();
   private JButton btnCoder5 = new JButton();
+  // operatori
   private JComboBox<String> cbOper1 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
   private JComboBox<String> cbOper2 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
   private JComboBox<String> cbOper3 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
@@ -378,7 +385,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 	 String text4 = "";
 	 String text5 = "";
 
-  	/*if(tfPref1.isVisible())
+  	if(tfPref1.isVisible())
   		text1 = tfPref1.getText();
   	else
   		text1 = codedPref1.getText();
@@ -401,18 +408,18 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   		text5 = tfPref5.getText();
   	else
   		text5 = codedPref5.getText(); 
-  	    */
+
   	    btnSearch.setEnabled(false);
   	    
-  	 //	String sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
-  	 	//sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
+  	 	String sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
+  	 	sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
   	    SearchStatusDlg statusDlg = new SearchStatusDlg();
     	
   	 	SearchTask task = new SearchTask( btnPref1.getText(), cbOper1.getSelectedItem().toString(), text1,
   	 	        btnPref2.getText(), cbOper2.getSelectedItem().toString(), text2, 
   	 	        btnPref3.getText(), cbOper3.getSelectedItem().toString(), text3, 
   	 	        btnPref4.getText(), cbOper4.getSelectedItem().toString(), text4, 
-  	 	        btnPref5.getText(), text5, /*sortPrefix*/ "neki sort prefix",statusDlg);
+  	 	        btnPref5.getText(), text5, sortPrefix, statusDlg);
   	 	statusDlg.addActionListener(task);
   	 	task.execute();
   	 	statusDlg.setVisible(true);
@@ -600,6 +607,8 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     }
   }
 
+
+
   // operatori
   private CharacterLookup lookup = new CharacterLookup(BisisApp.mf);
   
@@ -609,7 +618,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   
   //added by Miroslav Zaric -  required for NetSearch
   //private ThreadDispatcher td;
-//  private LinkedHashMap<String, NetHitListFrame> netSearchResultFrames=new LinkedHashMap<String, NetHitListFrame>();
+  //private LinkedHashMap<String, NetHitListFrame> netSearchResultFrames=new LinkedHashMap<String, NetHitListFrame>();
   //
   
   private static final Dimension textPanelDim = new Dimension(200,20);

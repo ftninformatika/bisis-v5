@@ -108,7 +108,6 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
   }
   
   @Override
-
   protected void done() {  
 	     if (!isCancelled){
 	       if (connError){

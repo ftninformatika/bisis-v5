@@ -13,6 +13,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface BisisService {
 
@@ -34,21 +35,24 @@ public interface BisisService {
     @GET("/configs/search/getByLibraryName")
     Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
 
-    @GET("/records?size=20&")
+    @GET("/mongo_repository_records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
 
     @GET("/records/59391f89ea9b8fbe1ed417f7")
     Call<Record> getOneRecord();
 
-    @GET("/records/search/deleteByRecordID")
+    @GET("/mongo_repository_records/search/deleteByRecordID")
     Call<Long> deleteRecordByRecId(@Query("id") int id);
 
     @Headers({"ContentType: application/json"})
-    @GET("/records/search/getByID")
+    @GET("/mongo_repository_records/search/getByID")
     Call<Record> getRecordById(@Query("id") int id);
 
     @GET("/expand_prefix_controller")
     Call<ArrayList<String>> getExpand();
+
+    @POST("records/search")
+    Call<List<Record>> searchRecords(@Body String queryString);
 
 
 

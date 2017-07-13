@@ -38,6 +38,7 @@ public class JsonSerializerTest {
     String json = JsonSerializer.toJson1(prefixes);
     assertTrue("Record not properly serialized to prefixes",
         json.indexOf("\"prefName\":\"AU\",\"value\":\"Alfred ADLER\"") != -1);
+    System.out.println(json);
   }
 
   @Test

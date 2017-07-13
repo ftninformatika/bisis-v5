@@ -114,64 +114,64 @@ public class HitListFrame extends JInternalFrame {
 			tabbedPane.addTab("Meta podaci", metaDataPanel);
 			pageTxtFld.setPreferredSize(new Dimension(35,25));   
     
-    // panel na kom su prikazani svi pogoci
-    MigLayout layout = new MigLayout(
-        "",
-        "[][][][]",
-        "[]rel[]rel[grow]para[]");
-    JPanel labelsPanel = new JPanel();
-    labelsPanel.setLayout(new GridLayout(3,1));
-    labelsPanel.add(lQuery);
-    labelsPanel.add(lFromTo);
-    labelsPanel.add(lBrPrimeraka);    
-    allResultsPanel.setLayout(layout);    
-    allResultsPanel.add(labelsPanel,"span 5,wrap");
-    allResultsPanel.add(btnFirst,"span 5, split 5");
-    allResultsPanel.add(btnPrev, "");
-    allResultsPanel.add(pageTxtFld,""); 
-    allResultsPanel.add(btnNext, "");
-    allResultsPanel.add(btnLast,"wrap");     
-    allResultsPanel.add(spHitList, "span 5, grow, wrap");
-    allResultsPanel.add(btnBranches,"span 5, left, wrap");
-    
-    
-    oneResultPanel.setLayout(new MigLayout("insets dialog, wrap","[]rel[]rel[grow]rel[]","[]10[grow]15[]"));    
-    
-    oneResultPanel.add(idLabel,"span 4, split 5");
-    oneResultPanel.add(idTxtFld,"");
-    oneResultPanel.add(rnLabel,"");
-    oneResultPanel.add(rnTxtFld,"");
-    oneResultPanel.add(pubTypeLabel,"wrap");
-    oneResultPanel.add(tabbedPane,"span 4, split 1, wrap, grow");
-    oneResultPanel.add(btnAnalitika,"span 5, split 5, right");
-    oneResultPanel.add(btnDelete,"");
-    oneResultPanel.add(btnInventar, "");
-    oneResultPanel.add(btnNew,"");
-    oneResultPanel.add(btnEdit,"wrap");    
-    splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-        allResultsPanel, oneResultPanel);        
-    splitPane.setOneTouchExpandable(true);
-    //int loc = (int)((splitPane.getBounds().getWidth()-splitPane.getDividerSize())/2);
-    splitPane.setDividerLocation(500);    
-    add(splitPane);    
-    pack();        
-    if(!BisisApp.appConfig.getLibrarian().isObrada()){
-      btnEdit.setEnabled(false);
-      btnNew.setEnabled(false);
-      btnDelete.setEnabled(false);
-      btnInventar.setEnabled(false);
-    }   
-    addInternalFrameListener(new InternalFrameAdapter() {
-      public void internalFrameClosing(InternalFrameEvent e) {
-        shutdown();
-      }
-    });   
-    listSelModel = lbHitList.getSelectionModel();
-    listSelModel.addListSelectionListener(new ListSelectionListener(){
-  		public void valueChanged(ListSelectionEvent e) {
-  			handleListSelectionChanged(); 							
-  		}			
-  	});
+            // panel na kom su prikazani svi pogoci
+            MigLayout layout = new MigLayout(
+                "",
+                "[][][][]",
+                "[]rel[]rel[grow]para[]");
+            JPanel labelsPanel = new JPanel();
+            labelsPanel.setLayout(new GridLayout(3,1));
+            labelsPanel.add(lQuery);
+            labelsPanel.add(lFromTo);
+            labelsPanel.add(lBrPrimeraka);
+            allResultsPanel.setLayout(layout);
+            allResultsPanel.add(labelsPanel,"span 5,wrap");
+            allResultsPanel.add(btnFirst,"span 5, split 5");
+            allResultsPanel.add(btnPrev, "");
+            allResultsPanel.add(pageTxtFld,"");
+            allResultsPanel.add(btnNext, "");
+            allResultsPanel.add(btnLast,"wrap");
+            allResultsPanel.add(spHitList, "span 5, grow, wrap");
+            allResultsPanel.add(btnBranches,"span 5, left, wrap");
+
+
+            oneResultPanel.setLayout(new MigLayout("insets dialog, wrap","[]rel[]rel[grow]rel[]","[]10[grow]15[]"));
+
+            oneResultPanel.add(idLabel,"span 4, split 5");
+            oneResultPanel.add(idTxtFld,"");
+            oneResultPanel.add(rnLabel,"");
+            oneResultPanel.add(rnTxtFld,"");
+            oneResultPanel.add(pubTypeLabel,"wrap");
+            oneResultPanel.add(tabbedPane,"span 4, split 1, wrap, grow");
+            oneResultPanel.add(btnAnalitika,"span 5, split 5, right");
+            oneResultPanel.add(btnDelete,"");
+            oneResultPanel.add(btnInventar, "");
+            oneResultPanel.add(btnNew,"");
+            oneResultPanel.add(btnEdit,"wrap");
+            splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                allResultsPanel, oneResultPanel);
+            splitPane.setOneTouchExpandable(true);
+            //int loc = (int)((splitPane.getBounds().getWidth()-splitPane.getDividerSize())/2);
+            splitPane.setDividerLocation(500);
+            add(splitPane);
+            pack();
+            if(!BisisApp.appConfig.getLibrarian().isObrada()){
+              btnEdit.setEnabled(false);
+              btnNew.setEnabled(false);
+              btnDelete.setEnabled(false);
+              btnInventar.setEnabled(false);
+            }
+            addInternalFrameListener(new InternalFrameAdapter() {
+              public void internalFrameClosing(InternalFrameEvent e) {
+                shutdown();
+              }
+            });
+            listSelModel = lbHitList.getSelectionModel();
+            listSelModel.addListSelectionListener(new ListSelectionListener(){
+                public void valueChanged(ListSelectionEvent e) {
+                    handleListSelectionChanged();
+                }
+            });
    
     btnPrev.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {

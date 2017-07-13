@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.JsonSerializer;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
@@ -7,10 +8,14 @@ import com.ftninformatika.bisis.prefixes.PrefixValue;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.search.SearchModel;
+import com.google.gson.JsonObject;
 import com.mongodb.QueryBuilder;
 import javassist.NotFoundException;
 import org.apache.commons.lang3.ArrayUtils;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchAllQueryBuilder;
+import org.json.JSONObject;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.query.Query;
@@ -70,10 +75,15 @@ public class RecordsController {
 
         //convert record to suitable prefix-json for elasticsearch
         List<PrefixValue> prefixes = PrefixConverter.toPrefixes(record, null);
-        ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes); //JsonSerializer.toJson2(prefixes);
+        ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes); //JsonSerializer.toJson2(prefixes)
+
+        //JSONObject ee = new JSONObject(JsonSerializer.toJson2(prefixes));
+        //ee.put("id",""+record.getRecordID());
+        //ee.accumulate("id",""+record.getRecordID());
 
         //save and index posted element via ElasticsearchRepository
         elasticRecordsRepository.save(ee);
+
         elasticRecordsRepository.index(ee);
     } catch (Exception et){
         et.printStackTrace();
@@ -83,12 +93,16 @@ public class RecordsController {
   }
 
   @RequestMapping(value = "/query", method = RequestMethod.POST) //TODO- implementirati dolenavedeneo
-  public ResponseEntity<List<Record>> search(@RequestBody String query){ //dogovoriti se oko odgovarajuceg tipa parametra za pretragu
+  public ResponseEntity<List<Record>> search(@RequestBody SearchModel search){ //dogovoriti se oko odgovarajuceg tipa parametra za pretragu
       ArrayList<Record> retVal = new ArrayList<>();
 
       org.elasticsearch.index.query.QueryBuilder qb = new MatchAllQueryBuilder(); //formirati ElasticQuery od parametra(ovo je fake)
-      Iterable<ElasticPrefixEntity> i = elasticRecordsRepository.search(qb); //sa elastikovog reposiztorijuma traziti sve ID-jeve elemenata koji su zadovoljili pretragu
+      //Iterable<ElasticPrefixEntity> i = elasticRecordsRepository.search(qb); //sa elastikovog reposiztorijuma traziti sve ID-jeve elemenata koji su zadovoljili pretragu
                                                                             //struktuirati adekvatn elastik upit!!!!
+
+      org.elasticsearch.index.query.BoolQueryBuilder b = new BoolQueryBuilder();
+      b.must(org.elasticsearch.index.query.QueryBuilders.matchPhrasePrefixQuery("BR","2-"));
+
 
       //fake recID kolekcija "vracena sa elastik repozitorijuma"
       ArrayList<String> fakeIdColletion = new ArrayList<>();
