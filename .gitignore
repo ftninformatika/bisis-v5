@@ -8,6 +8,7 @@ target
 build/
 classes/
 .gradle
+classes/production/
 
 # Eclipse Project Files
 .classpath
