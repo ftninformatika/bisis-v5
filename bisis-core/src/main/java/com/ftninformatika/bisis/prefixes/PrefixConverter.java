@@ -4,11 +4,18 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class PrefixConverter {
+
+  public static Map<String, String> toMap(Record rec, String stRashod) {
+    HashMap<String, String> retVal = new HashMap<>();
+    List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
+    for (PrefixValue pv: prefixes) {
+      retVal.put(pv.prefName, pv.value);
+    }
+    return retVal;
+  }
 
   public static List<PrefixValue> toPrefixes(Record rec, String stRashod) {
     List<PrefixValue> retVal = new ArrayList<>();
