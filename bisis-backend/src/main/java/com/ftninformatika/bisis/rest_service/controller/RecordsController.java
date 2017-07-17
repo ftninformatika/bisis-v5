@@ -1,33 +1,20 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.prefixes.JsonSerializer;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
-import com.ftninformatika.bisis.prefixes.PrefixValue;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
-import com.google.gson.JsonObject;
-import com.mongodb.QueryBuilder;
-import javassist.NotFoundException;
-import org.apache.commons.lang3.ArrayUtils;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchAllQueryBuilder;
-import org.json.JSONObject;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
+import com.ftninformatika.util.elastic.ElasticUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.query.Query;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
-import org.springframework.data.elasticsearch.repository.query.ElasticsearchStringQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/records")
@@ -72,18 +59,11 @@ public class RecordsController {
     try {
         //insert record in mongodb via MongoRepository
         recordsRepository.insert(record);
-
         //convert record to suitable prefix-json for elasticsearch
-        List<PrefixValue> prefixes = PrefixConverter.toPrefixes(record, null);
+        Map<String, String> prefixes = PrefixConverter.toMap(record, null);
         ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes); //JsonSerializer.toJson2(prefixes)
-
-        //JSONObject ee = new JSONObject(JsonSerializer.toJson2(prefixes));
-        //ee.put("id",""+record.getRecordID());
-        //ee.accumulate("id",""+record.getRecordID());
-
         //save and index posted element via ElasticsearchRepository
         elasticRecordsRepository.save(ee);
-
         elasticRecordsRepository.index(ee);
     } catch (Exception et){
         et.printStackTrace();
@@ -96,19 +76,10 @@ public class RecordsController {
   public ResponseEntity<List<Record>> search(@RequestBody SearchModel search){ //dogovoriti se oko odgovarajuceg tipa parametra za pretragu
       ArrayList<Record> retVal = new ArrayList<>();
 
-      org.elasticsearch.index.query.QueryBuilder qb = new MatchAllQueryBuilder(); //formirati ElasticQuery od parametra(ovo je fake)
-      //Iterable<ElasticPrefixEntity> i = elasticRecordsRepository.search(qb); //sa elastikovog reposiztorijuma traziti sve ID-jeve elemenata koji su zadovoljili pretragu
-                                                                            //struktuirati adekvatn elastik upit!!!!
+      Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(search.makeQuery());
 
-      org.elasticsearch.index.query.BoolQueryBuilder b = new BoolQueryBuilder();
-      b.must(org.elasticsearch.index.query.QueryBuilders.matchPhrasePrefixQuery("BR","2-"));
-
-
-      //fake recID kolekcija "vracena sa elastik repozitorijuma"
-      ArrayList<String> fakeIdColletion = new ArrayList<>();
-      fakeIdColletion.add("16"); fakeIdColletion.add("666"); fakeIdColletion.add("999");
-
-      retVal = (ArrayList<Record>) getRecordsForMultipleIDs(fakeIdColletion); //sa mongo repozitorijuma preuzeti sve zapise za prosledjene id-jeve
+      System.out.println(search.makeQuery().toString());
+      retVal = (ArrayList<Record>) getRecordsForMultipleIDs(ElasticUtility.getIdsFromElasticIterable(ii)); //sa mongo repozitorijuma preuzeti sve zapise za prosledjene id-jeve
 
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
   }

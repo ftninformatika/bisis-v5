@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -21,5 +21,5 @@ import java.util.List;
 public class ElasticPrefixEntity {
 
     @Id String id;
-    private List<PrefixValue> prefixes;
+    private Map<String,String> prefixes;
 }

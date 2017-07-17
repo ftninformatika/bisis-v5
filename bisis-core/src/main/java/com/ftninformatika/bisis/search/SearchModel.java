@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+
 /**
  * Created by Petar on 7/13/2017.
  */
@@ -38,45 +39,45 @@ public class SearchModel {
 
 
         try {
-            if (!"".equals(text1))
-                retVal.must(QueryBuilders.matchPhrasePrefixQuery(pref1, text1));
+            if (text1 != null && !"".equals(text1))
+                retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref1, text1));
 
-            if (!"".equals(text2)) {
+            if (text2 != null && !"".equals(text2)) {
                 if ( "AND".equals(oper1))
-                    retVal.must(QueryBuilders.matchPhrasePrefixQuery(pref2, text2));
+                    retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref2, text2));
                 if ( "OR".equals(oper1)) {
-                    retVal.should(QueryBuilders.matchPhrasePrefixQuery(pref2, text2));
+                    retVal.should(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref2, text2));
                 }
                 if ( "NOT".equals(oper1))
-                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery(pref2, text2));
+                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref2, text2));
             }
 
-            if (!"".equals(text3)) {
+            if (text3 != null && !"".equals(text3)) {
                 if ( "AND".equals(oper2))
-                    retVal.must(QueryBuilders.matchPhrasePrefixQuery(pref3, text3));
+                    retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref3, text3));
                 if ( "OR".equals(oper2))
-                    retVal.should(QueryBuilders.matchPhrasePrefixQuery(pref3, text3));
+                    retVal.should(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref3, text3));
                 if ( "NOT".equals(oper2))
-                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery(pref3, text3));
+                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref3, text3));
             }
 
-            if (!text4.equals("")) {
+            if (text4 != null && !text4.equals("")) {
             } else {
                 if ( "AND".equals(oper3))
-                    retVal.must(QueryBuilders.matchPhrasePrefixQuery(pref4, text4));
+                    retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref4, text4));
                 if ( "OR".equals(oper3))
-                    retVal.should(QueryBuilders.matchPhrasePrefixQuery(pref4, text4));
+                    retVal.should(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref4, text4));
                 if ( "NOT".equals(oper3))
-                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery(pref4, text4));
+                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref4, text4));
             }
 
-            if (!"".equals(text5)) {
+            if (text5 != null && !"".equals(text5)) {
                 if ( "AND".equals(oper4))
-                    retVal.must(QueryBuilders.matchPhrasePrefixQuery(pref5, text5));
+                    retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref5, text5));
                 if ( "OR".equals(oper4))
-                    retVal.should(QueryBuilders.matchPhrasePrefixQuery(pref5, text5));
+                    retVal.should(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref5, text5));
                 if ( "NOT".equals(oper4))
-                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery(pref5, text5));
+                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + pref5, text5));
             }
         }
         catch (NullPointerException e){
