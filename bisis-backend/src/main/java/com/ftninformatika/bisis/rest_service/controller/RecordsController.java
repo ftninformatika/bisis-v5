@@ -78,7 +78,7 @@ public class RecordsController {
 
       Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
 
-      System.out.println(search.makeQuery().toString());
+      System.out.println(ElasticUtility.makeQuery(search).toString());
       retVal = (ArrayList<Record>) getRecordsForMultipleIDs(ElasticUtility.getIdsFromElasticIterable(ii)); //sa mongo repozitorijuma preuzeti sve zapise za prosledjene id-jeve
 
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
