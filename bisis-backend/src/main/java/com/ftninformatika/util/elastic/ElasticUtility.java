@@ -49,8 +49,8 @@ public class ElasticUtility {
                     retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref3(), sm.getText3()));
             }
 
-            if (sm.getText4() != null && !sm.getText4().equals("")) {
-            } else {
+            if (sm.getText4() != null && !"".equals(sm.getText4())) {
+
                 if ( "AND".equals(sm.getOper3()))
                     retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref4(), sm.getText4()));
                 if ( "OR".equals(sm.getOper3()))

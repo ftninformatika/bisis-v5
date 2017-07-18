@@ -66,7 +66,7 @@ public class BisisApp {
           appConfig.setLibrarian(response);
           appConfig.setLibrary(response.getBiblioteka());
           appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
-
+          appConfig.initCoders();
 
           mf = new MainFrame();
           mf.setResizable(true);

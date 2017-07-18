@@ -1,5 +1,6 @@
 package com.ftninformatika.utils;
 
+import com.ftninformatika.bisis.coders.StatusPrimerka;
 import com.ftninformatika.bisis.records.Record;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -22,11 +23,18 @@ public class GsonUtils {
                 List<Record> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("records"), listType);
                 return yourClassList;
             }
+            if (cls == StatusPrimerka.class){
+                Type listType = new TypeToken<ArrayList<StatusPrimerka>>() {
+                }.getType();
+                List<StatusPrimerka> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("status"), listType);
+                return yourClassList;
+            }
         }
         catch(Exception e){
                 e.printStackTrace();;
         }
         return null;
     }
+
 
 }

@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
+import com.ftninformatika.bisis.search.SearchModel;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
@@ -81,16 +82,16 @@ public class MainFrame extends JFrame {
         }
     }
 
-        public void addHitListFrame(String query/*, Result queryResults*/) {
+        public void addHitListFrame(SearchModel sm/*String query/*, Result queryResults*/) {
             if(hlf==null){
                 System.out.println("usao u add hitlist frame");
            //     hlf = new HitListFrame(query, queryResults);
-                hlf = new HitListFrame(null); //TODO-hardcoded
+                hlf = new HitListFrame(sm); //TODO-hardcoded
                 desktop.add(hlf);
             }
             else
                 System.out.println("neki else");
-          //      hlf.setQueryResults(query, queryResults);
+                hlf.setSearchModel(sm);
             showHitlistFrame();
             try {
                 hlf.setMaximum(true);

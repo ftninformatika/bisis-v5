@@ -3,9 +3,11 @@ package com.ftninformatika.bisis.service;
 /**
  * Created by Petar on 6/20/2017.
  */
+import com.ftninformatika.bisis.coders.StatusPrimerka;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.search.SearchModel;
 import com.google.gson.JsonObject;
 import org.springframework.data.repository.query.Param;
 import retrofit2.http.*;
@@ -56,6 +58,12 @@ public interface BisisService {
 
     @GET("expand_prefix_controller")
     Call<List<String>> getExpand(@Query("prefix") String prefix, @Query("text") String text);
+
+    @POST("records/query")
+    Call<List<Record>> queryRecords(@Body SearchModel sm);
+
+    @GET("status_primerka")
+    Call<JsonObject> getStatusCoders();
 
 
 

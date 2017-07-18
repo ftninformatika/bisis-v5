@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.config;
 
+import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.utils.RetrofitUtils;
@@ -22,6 +23,7 @@ public abstract class AppConfig {
   private String library;
   private Retrofit retrofit;
   private LibraryConfiguration clientConfig;
+  private CodersHelper codersHelper;
 
   public AppConfig(String serverUrl, Librarian librarian, String library, String token) {
     this.serverUrl = serverUrl;
@@ -46,6 +48,11 @@ public abstract class AppConfig {
         .addConverterFactory(GsonConverterFactory.create())
         .build();
 
+  }
+
+  public void initCoders(){
+    this.codersHelper = new CodersHelper();
+    this.codersHelper.init();
   }
 
   public void setRetrofit(String token, String domain) {

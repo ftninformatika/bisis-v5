@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -32,6 +33,7 @@ import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.utils.GsonUtils;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.google.gson.JsonObject;
@@ -41,11 +43,11 @@ public class HitListFrame extends JInternalFrame {
 
   public static final int PAGE_SIZE = 10;
 
-  public HitListFrame(String query /*Result queryResult*/) { //TODO-hardcoded
+  public HitListFrame(SearchModel sm/*String query Result queryResult*/) { //TODO-hardcoded
     super("Rezultati pretrage", true, true, true, true);    
     //this.queryResult = queryResult;
     //renderer.setResults(queryResult);
-    this.query=query;    
+    this.searchModel=sm;
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     btnFirst.setIcon(new ImageIcon(getClass().getResource(
     "/icons/first.gif")));
@@ -376,20 +378,22 @@ public class HitListFrame extends JInternalFrame {
   
   private void displayPage() {
       JsonObject r = null;
+      List<Record> recs = new ArrayList<>();
 
       try {
-          r = BisisApp.bisisService.getAllRecords(0).execute().body();
+          //r = BisisApp.bisisService.getAllRecords(0).execute().body();
           //za sada kolekcije vracamo kao JsonObject, a njega deserijalizujemo u preko GsonUtils
+            recs = BisisApp.bisisService.queryRecords(this.searchModel).execute().body();
       } catch (IOException e) {
           e.printStackTrace();
       }
 
-      List<Record> rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class,r); //TODO-objasniti zasto je ovo radjeno!
-    if (r == null /*|| queryResult.getRecords().length == 0*/)
-      return;
+      //List<Record> rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class,r); //TODO-objasniti zasto je ovo radjeno!
+    //if (r == null /*|| queryResult.getRecords().length == 0*/)
+      //return;
     int count = PAGE_SIZE;
-    int recCount = Integer.parseInt(String.valueOf(r.getAsJsonObject("page").get("totalElements")));
-
+    int recCount = //Integer.parseInt(String.valueOf(r.getAsJsonObject("page").get("totalElements")));
+                    1;//TODO-hardcoded
     if (page == pageCount()-1 ){  //ako je poslednja stranica
     	if (/*queryResult.getResultCount() */ recCount % PAGE_SIZE==0 ){
     		count=PAGE_SIZE;
@@ -401,19 +405,19 @@ public class HitListFrame extends JInternalFrame {
     pageTxtFld.setText(String.valueOf(page));
     int[] recIDs = new int[count];
     for (int i = 0; i < count; i++)
-      recIDs[i] = /*queryResult.getRecords()[page*PAGE_SIZE + i];*/ rec.get(page * PAGE_SIZE + i).getRecordID();
+      recIDs[i] = /*queryResult.getRecords()[page*PAGE_SIZE + i];*/ recs.get(page * PAGE_SIZE + i).getRecordID();
 
       /////ovde ubacujemo neki record
 
 
 
-    hitListModel.setHits(/*recIDs*/rec);
+    hitListModel.setHits(/*recIDs*/recs);
     lbHitList.setSelectedIndex(0);
     handleListSelectionChanged();    
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
        recCount + "</b></html>");//TODO-hardcoded
-    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(rec)+"</b></html>");
+    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(recs)+"</b></html>");
   }
   
   private int pageCount() {
@@ -570,7 +574,10 @@ public class HitListFrame extends JInternalFrame {
 		
 		
 	}
-	
+
+	public void setSearchModel(SearchModel s){
+	    this.searchModel = s;
+    }
 	
 	private void handleDeleteRecord(){
 		Record rec = (Record)lbHitList.getSelectedValue();
@@ -693,6 +700,7 @@ public class HitListFrame extends JInternalFrame {
 
       private RecordFormatter formatter;
       private Record selectedRecord = null;
+      private SearchModel searchModel;
   
       //private Result queryResult;
 
