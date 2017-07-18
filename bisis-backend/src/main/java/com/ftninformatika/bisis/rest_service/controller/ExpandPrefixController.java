@@ -39,9 +39,10 @@ public class ExpandPrefixController {
 
         Iterable<ElasticPrefixEntity> ii = elasticsearchRepository.search(ElasticUtility.makeExpandQuery(prefix,text));
 
-        for (ElasticPrefixEntity ep: ii)
-            retVal.add(ep.getPrefixes().get(prefix));
-
+        for (ElasticPrefixEntity ep: ii) {
+            if (!retVal.contains(ep.getPrefixes().get(prefix)))
+                retVal.add(ep.getPrefixes().get(prefix));
+        }
         return new ResponseEntity<List<String>>(retVal, HttpStatus.OK);
     }
 
