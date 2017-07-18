@@ -94,4 +94,37 @@ public class RecordsController {
       return retVal;
   }
 
+      //za testiranje!!!!
+      @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
+      public ResponseEntity<String> clearElastic(){
+          try{
+              elasticRecordsRepository.deleteAll();
+              return new ResponseEntity<String>("Elastic storage cleared!", HttpStatus.OK);
+          }
+          catch (Exception e){
+              e.printStackTrace();
+              return new ResponseEntity<String>("Error!", HttpStatus.NO_CONTENT);
+          }
+
+      }
+    //za testiranje
+    @RequestMapping(value = "/fill_elastic", method = RequestMethod.GET)
+    public ResponseEntity<String> fillElastic(){
+        try{
+            List<Record> lr = recordsRepository.getRecordsByRecordIDIsLessThanEqual(200);
+            for(Record record: lr) {
+                Map<String, String> prefixes = PrefixConverter.toMap(record, null);
+                ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes);
+                elasticRecordsRepository.save(ee);
+                elasticRecordsRepository.index(ee);
+            }
+            return new ResponseEntity<String>("Elastic filled with data!", HttpStatus.OK);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<String>("Error!", HttpStatus.NO_CONTENT);
+        }
+
+    }
+
 }

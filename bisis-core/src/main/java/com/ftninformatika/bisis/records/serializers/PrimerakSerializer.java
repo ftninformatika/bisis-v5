@@ -31,7 +31,7 @@ public class PrimerakSerializer {
       if (!isEmpty(p.getBrojRacuna()))
         addSubsubfield(sf1, 'm', p.getBrojRacuna());
       if (!isEmpty(p.getDatumRacuna()))
-        addSubsubfield(sf1, 'q', dateFormat.format(p.getDatumRacuna()));
+        addSubsubfield(sf1, 'q', /*dateFormat.format(p.getDatumRacuna())*/p.getDatumInventarisanja());
       f.add(sf1);
     }
     
@@ -66,7 +66,7 @@ public class PrimerakSerializer {
       addSubfield(f, 'f', p.getInvBroj());
     
     if (!isEmpty(p.getDatumInventarisanja()))
-      addSubfield(f, 'o', dateFormat.format(p.getDatumInventarisanja()));
+      addSubfield(f, 'o', /*dateFormat.format(p.getDatumInventarisanja())*/p.getDatumInventarisanja());
     
     if (!isEmpty(p.getStatus()))
       addSubfield(f, 'q', p.getStatus());
@@ -87,7 +87,7 @@ public class PrimerakSerializer {
       addSubfield(f, 'p', p.getDostupnost());
     
     if(!isEmpty(p.getDatumStatusa()))
-    	addSubfield(f, 't', dateFormat.format(p.getDatumStatusa()));
+    	addSubfield(f, 't', /*dateFormat.format(p.getDatumStatusa())*/p.getDatumInventarisanja());
     
     //dodato zbog mobilne aplikacije	
     addSubfield(f, '9', String.valueOf(p.getStanje()));
@@ -104,7 +104,7 @@ public class PrimerakSerializer {
     try {
       String s = getSubsubfieldContent(f, '1', 'q');
       if (s != null)
-        p.setDatumRacuna(dateFormat.parse(s));
+        p.setDatumRacuna(/*dateFormat.parse(s)*/s);
     } catch (Exception ex) {
       log.warn("Neispravan datum racuna: " + 
           getSubsubfieldContent(f, '1', 'q'));
@@ -142,10 +142,10 @@ public class PrimerakSerializer {
     String s = getSubfieldContent(f, 'o');
     if (s != null)
       try {
-        p.setDatumInventarisanja(dateFormat.parse(s));
+        p.setDatumInventarisanja(/*dateFormat.parse(s)*/s);
       } catch (Exception ex) {
         try {
-          p.setDatumInventarisanja(dateFormat2.parse(s));
+          p.setDatumInventarisanja(/*dateFormat2.parse(s)*/s);
         } catch (Exception ex2) {
           log.warn("Neispravan datum inventarisanja: " + 
               getSubfieldContent(f, 'o'));
@@ -173,7 +173,7 @@ public class PrimerakSerializer {
     try {
       String ds = getSubfieldContent(f, 't');
       if (ds != null){
-        p.setDatumStatusa(dateFormat.parse(ds));
+        p.setDatumStatusa(/*dateFormat.parse(ds)*/s);
       }else {
     	  p.setDatumStatusa(null);
       }

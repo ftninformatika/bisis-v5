@@ -1,7 +1,6 @@
 //mongeez formatted javascript
 
 
-
 //changeset petar:ChangeSet-1
 db.user.insert({
 
@@ -18,11 +17,24 @@ db.user.insert({
     "context" : {"pref1": "AU", "pref2": "TI", "pref3": "KW", "pref4": "LA", "pref5": "PY"}
 });
 //changeset petar:ChangeSet-2
-db.libraries.insert({
-
+db.configs.insert({
     "libraryName" : "gbns",
+    "primerciModel" : "0 1 2 3 13 10 11",
+    "catalougingGodineModel" : "0 1 2 3 12 13 15",
+    "catalougingInvbrSubStr" : "1 4",
+    "catalougingDefaultPrimerakInvKnj" : "00",
+    "catalougingDefaultSveskaInvKnj" : "99",
+    "catalougingDefaultGodinaInvKnj" : "00",
+    "catalougingValidator" : "com.gint.app.bisis4.client.editor.validation.GBValidator",
+    "catalougingReportset" : "gbbg",
+    "bookcardsNextPage" : "Još...",
+    "bookcardsCurrentType" : "monografski",
+    "bookcardsTranslateX" : "15",
+    "bookcardsTranslateY" : "5",
+    "bookcardsFontSize" : "-1",
+    "bookcardsBrRedova" : "13"
+})
 
-        })
 //changeset petar:ChangeSet-3
 db.gbns_com_members.insert({
     "_id" : ObjectId("59391fc3ea9b8fbe1ed5ed28"),
@@ -141,7 +153,6 @@ db.gbns_com_members.insert({
 });
 //changeset petar:ChangeSet-4
 db.gbns_com_records.insertMany([{
-        "_id" : ObjectId("59391f89ea9b8fbe1ed417f7"),
         "recordID" : 16,
         "pubType" : 1,
         "fields" : [
@@ -389,11 +400,11 @@ db.gbns_com_records.insertMany([{
         "creationDate" : "2005-05-26",
         "lastModifiedDate" : "2012-07-25",
         "mr" : 0,
-        "rn" : 16
+        "rn" : 16,
+        "version" : 1.00
     }
         ,
         {
-            "_id" : ObjectId("59391f89ea9b8fbe1ed417f8"),
             "recordID" : 17,
             "pubType" : 1,
             "fields" : [
@@ -630,11 +641,11 @@ db.gbns_com_records.insertMany([{
             "creationDate" : "2005-05-26",
             "lastModifiedDate" : "2013-08-07",
             "mr" : 0,
-            "rn" : 17
+            "rn" : 17,
+            "version" : 1.00
         }
         ,
         {
-            "_id" : ObjectId("59391f89ea9b8fbe1ed417f9"),
             "recordID" : 18,
             "pubType" : 1,
             "fields" : [
@@ -921,6 +932,7 @@ db.gbns_com_records.insertMany([{
             "creationDate" : "2005-05-26",
             "lastModifiedDate" : "2016-03-28",
             "mr" : 0,
-            "rn" : 18
+            "rn" : 18,
+            "version" : 1.00
         }]
 )

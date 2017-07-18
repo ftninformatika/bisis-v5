@@ -81,9 +81,9 @@ public class PrefixConverter {
     if (p.getInventator() != null)
       dest.add(new PrefixValue("BI", p.getInventator()));
     if (p.getDatumRacuna() != null)
-      dest.add(new PrefixValue("DB", dateFormat.format(p.getDatumRacuna())));
+      dest.add(new PrefixValue("DB", /*dateFormat.format(p.getDatumRacuna()))*/p.getDatumRacuna()));
     if (p.getDatumStatusa() != null)
-      dest.add(new PrefixValue("DS", dateFormat.format(p.getDatumStatusa())));
+      dest.add(new PrefixValue("DS", /*dateFormat.format(p.getDatumStatusa()))*/p.getDatumInventarisanja()));
   }
 
   private static void indeksirajSvesku(List dest, Sveska s) {
@@ -155,7 +155,7 @@ public class PrefixConverter {
             String prefName = (String) it.next();
             if (prefName.equals("AU"))
               continue;
-            if (!subfield.getContent().equals(""))
+            if (subfield.getContent() != null && !subfield.getContent().equals(""))
               dest.add(new PrefixValue(prefName, subfield
                   .getContent()));
           }

@@ -312,7 +312,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     String expandQuery = "";
     List<String> expList = new ArrayList<>();
     try {
-      expList = (List<String>) BisisApp.bisisService.getExpand().execute().body();
+      expList = (List<String>) BisisApp.bisisService.getExpand(prefix, text).execute().body();
     } catch (IOException e) {
       e.printStackTrace();
     }

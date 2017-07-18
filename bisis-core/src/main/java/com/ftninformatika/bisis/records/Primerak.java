@@ -17,13 +17,13 @@ public class Primerak implements Serializable {
 
   private int primerakID;
   private String invBroj;
-  private Date datumRacuna; //date
+  private String datumRacuna; //date
   private String brojRacuna;
   private String dobavljac;
   private BigDecimal cena;
   private String finansijer;
   private String usmeravanje;
-  private Date datumInventarisanja; //bio Date
+  private String datumInventarisanja; //bio Date
   private String sigFormat;
   private String sigPodlokacija;
   private String sigIntOznaka;
@@ -34,7 +34,7 @@ public class Primerak implements Serializable {
   private String nacinNabavke;
   private String odeljenje;
   private String status;
-  private Date datumStatusa;//date
+  private String datumStatusa;//date
   private String inventator;
   private int stanje;
   private String dostupnost;
@@ -45,12 +45,12 @@ public class Primerak implements Serializable {
 //    version = 0;
 //  }
 //
-  public Primerak(int primerakID, String invBroj, Date datumRacuna,
+  public Primerak(int primerakID, String invBroj, String datumRacuna,
       String brojRacuna, String dobavljac, BigDecimal cena, String finansijer,
-      String usmeravanje, Date datumInventarisanja, String sigFormat,
+      String usmeravanje, String datumInventarisanja, String sigFormat,
       String sigPodlokacija, String sigIntOznaka, String sigDublet,
       String sigNumerusCurens, String sigUDK, String povez,
-      String nacinNabavke, String odeljenje, String status, Date datumStatusa,
+      String nacinNabavke, String odeljenje, String status, String datumStatusa,
       String dostupnost, String napomene, int stanje, String inventator) {
     this.primerakID = primerakID;
     this.invBroj = invBroj;

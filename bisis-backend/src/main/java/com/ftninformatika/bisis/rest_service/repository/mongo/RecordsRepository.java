@@ -23,6 +23,8 @@ public interface RecordsRepository extends MongoRepository<Record, String> {
 
     Long deleteByRecordID(@Param("id") int recId);
 
+    List<Record> getRecordsByRecordIDIsLessThanEqual(@Param("id") int recId);
+
 
 
 }
