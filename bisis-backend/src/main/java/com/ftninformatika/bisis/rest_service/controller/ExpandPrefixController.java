@@ -35,37 +35,16 @@ public class ExpandPrefixController {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getExpandPrefix(@Param("prefix") String prefix, @Param("text") String text) {
 
-        Iterable<ElasticPrefixEntity> ii = elasticsearchRepository.search(makeExpandQuery(prefix,text));
+        ArrayList<String> retVal = new ArrayList<String>();
 
-
-
-        ArrayList<String> res = new ArrayList<String>();
-        /*res.add("izbor1 sa backenda");
-        res.add("izbor2 sa backenda");
-        res.add("izbor3 sa backenda");
-        res.add("izbor4 sa backenda");*/
+        Iterable<ElasticPrefixEntity> ii = elasticsearchRepository.search(ElasticUtility.makeExpandQuery(prefix,text));
 
         for (ElasticPrefixEntity ep: ii)
-            res.add(ep.getPrefixes().get(prefix));
+            retVal.add(ep.getPrefixes().get(prefix));
 
-        return new ResponseEntity<List<String>>(res, HttpStatus.OK);
+        return new ResponseEntity<List<String>>(retVal, HttpStatus.OK);
     }
 
-    private BoolQueryBuilder makeExpandQuery(String prefName, String prefValue){
-        BoolQueryBuilder retVal = new BoolQueryBuilder();
 
-        try{
-            if ("".equals(prefName) || "".equals(prefValue))
-                return null;
-
-            retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes."+prefName, prefValue));
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
-            return null;
-        }
-
-        return retVal;
-    }
 
 }

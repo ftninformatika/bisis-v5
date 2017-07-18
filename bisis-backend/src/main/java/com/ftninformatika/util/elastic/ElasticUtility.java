@@ -21,6 +21,7 @@ public class ElasticUtility {
     }
 
 
+    //formiranje Query-ja za glavnu pretragu zapisa
     public static BoolQueryBuilder makeQuery(SearchModel sm){
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
 
@@ -76,5 +77,23 @@ public class ElasticUtility {
         return retVal;
     }
 
+
+    //expand search query
+    public static BoolQueryBuilder makeExpandQuery(String prefName, String prefValue){
+        BoolQueryBuilder retVal = new BoolQueryBuilder();
+
+        try{
+            if ("".equals(prefName) || "".equals(prefValue))
+                return null;
+
+            retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes."+prefName, prefValue));
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            return null;
+        }
+
+        return retVal;
+    }
 
 }
