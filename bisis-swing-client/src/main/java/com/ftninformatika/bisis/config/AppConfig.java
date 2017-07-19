@@ -4,6 +4,8 @@ import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.utils.RetrofitUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -58,6 +60,10 @@ public abstract class AppConfig {
   public void setRetrofit(String token, String domain) {
     OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
 
+    Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm.sss+0000")
+            .create();
+
     String finalToken = token;
     okHttpClient.addInterceptor(chain -> {
       Request req = chain.request();
@@ -71,7 +77,7 @@ public abstract class AppConfig {
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build();
 
 

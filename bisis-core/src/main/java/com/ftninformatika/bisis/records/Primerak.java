@@ -2,7 +2,10 @@ package com.ftninformatika.bisis.records;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +20,13 @@ public class Primerak implements Serializable {
 
   private int primerakID;
   private String invBroj;
-  private String datumRacuna; //date
+  private Date datumRacuna; //date
   private String brojRacuna;
   private String dobavljac;
   private BigDecimal cena;
   private String finansijer;
   private String usmeravanje;
-  private String datumInventarisanja; //bio Date
+  private Date datumInventarisanja; //bio Date
   private String sigFormat;
   private String sigPodlokacija;
   private String sigIntOznaka;
@@ -34,23 +37,34 @@ public class Primerak implements Serializable {
   private String nacinNabavke;
   private String odeljenje;
   private String status;
-  private String datumStatusa;//date
+  private Date datumStatusa;//date
   private String inventator;
   private int stanje;
   private String dostupnost;
   private String napomene;
   private int version = 0;
 
+  public String getDatumStatusa(){
+    if (this.datumStatusa == null)
+      return null;
+
+    TimeZone tz = TimeZone.getTimeZone("UTC");
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm.sss+0000"); // Quoted "Z" to indicate UTC, no timezone offset
+    df.setTimeZone(tz);
+    String nowAsISO = df.format(this.datumStatusa);
+    return nowAsISO;
+  }
+
 //  public Primerak() {
 //    version = 0;
 //  }
 //
-  public Primerak(int primerakID, String invBroj, String datumRacuna,
+  public Primerak(int primerakID, String invBroj, Date datumRacuna,
       String brojRacuna, String dobavljac, BigDecimal cena, String finansijer,
-      String usmeravanje, String datumInventarisanja, String sigFormat,
+      String usmeravanje, Date datumInventarisanja, String sigFormat,
       String sigPodlokacija, String sigIntOznaka, String sigDublet,
       String sigNumerusCurens, String sigUDK, String povez,
-      String nacinNabavke, String odeljenje, String status, String datumStatusa,
+      String nacinNabavke, String odeljenje, String status, Date datumStatusa,
       String dostupnost, String napomene, int stanje, String inventator) {
     this.primerakID = primerakID;
     this.invBroj = invBroj;
@@ -88,7 +102,7 @@ public class Primerak implements Serializable {
       sigNumerusCurens != null ||
       sigUDK != null;
   }
-  
+
   public String toString() {
     return ReflectionToStringBuilder.toString(this);
   }
@@ -99,7 +113,9 @@ public class Primerak implements Serializable {
         getUsmeravanje(), getDatumInventarisanja(), getSigFormat(),
         getSigPodlokacija(), getSigIntOznaka(), getSigDublet(),
         getSigNumerusCurens(),getSigUDK(), getPovez(),
-        getNacinNabavke(),getOdeljenje(), getStatus(), getDatumStatusa(),
+        getNacinNabavke(),getOdeljenje(), getStatus(), this.datumStatusa,
         getDostupnost(), getNapomene(), getStanje(),getInventator());
   }
+
+
 }

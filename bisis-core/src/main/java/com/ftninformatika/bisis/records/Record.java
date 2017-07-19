@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +13,10 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -34,6 +34,8 @@ public class Record implements Serializable {
     primerci = new ArrayList<>();
     godine = new ArrayList<>();
   }
+
+
 
   /**
    * Initializes the new record with the given record id.
@@ -66,6 +68,7 @@ public class Record implements Serializable {
    * Returns the number of fields in this record.
    * @return The number of fields in this record
    */
+  @JsonIgnore
   public int getFieldCount() {
     return fields.size();
   }
@@ -290,7 +293,8 @@ public class Record implements Serializable {
   public Record metapodaciUPolje000() {
     return PrimerakSerializer.metapodaciUPolje000(this);
   }
-  
+
+  @JsonIgnore
   public int getRN(){  	
   	try{
   		return Integer.parseInt(getSubfieldContent("001e"));
@@ -315,7 +319,7 @@ public class Record implements Serializable {
   		sfRN = f001.getSubfield('e');
   	sfRN.setContent(String.valueOf(rn));	
   }
-  
+  @JsonIgnore
   // get master record number
   public int getMR(){
   	try{
@@ -368,65 +372,7 @@ public class Record implements Serializable {
 	  return null;
   }
   
-  
-  public String getCreationDate() {
-    return creationDate;
-  }
-  public void setCreationDate(String creationDate) {
-    this.creationDate = creationDate;
-  }
-  public Author getCreator() {
-    return creator;
-  }
-  public void setCreator(Author creator) {
-    this.creator = creator;
-  }
-  public List<Field> getFields() {
-    return fields;
-  }
-  public void setFields(List<Field> fields) {
-    this.fields = fields;
-  }
-  public String getLastModifiedDate() {
-    return lastModifiedDate;
-  }
-  public void setLastModifiedDate(String lastModifiedDate) {
-    this.lastModifiedDate = lastModifiedDate;
-  }
-  public Author getModifier() {
-    return modifier;
-  }
-  public void setModifier(Author modifier) {
-    this.modifier = modifier;
-  }
-  public int getPubType() {
-    return pubType;
-  }
-  public void setPubType(int pubType) {
-    this.pubType = pubType;
-  }
-  public int getRecordID() {
-    return recordID;
-  }
-  public void setRecordID(int recordID) {
-    this.recordID = recordID;
-  }
-  public List<Primerak> getPrimerci() {
-    return primerci;
-  }
-  public void setPrimerci(List<Primerak> primerci) {
-    this.primerci = primerci;
-  }
-  public List<Godina> getGodine() {
-    return godine;
-  }
-  public void setGodine(List<Godina> godine) {
-    this.godine = godine;
-  }
-  
-  
-  
-  
+
   public Record copy(){
   	Record rec = new Record();
   	rec.setPubType(pubType);
@@ -471,15 +417,29 @@ public class Record implements Serializable {
   	return rec;  	
   }
 
+  public String getCreationDate(){
+      if (this.lastModifiedDate == null)
+          return null;
 
+      TimeZone tz = TimeZone.getTimeZone("UTC");
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm.sss+0000"); // Quoted "Z" to indicate UTC, no timezone offset
+      df.setTimeZone(tz);
+      String nowAsISO = df.format(this.creationDate);
+      return nowAsISO;
+  }
 
+    public String getLastModifiedDate(){
+        if (this.lastModifiedDate == null)
+            return null;
 
-  public String get_id(){return this._id;};
-  public void set_id(String _id){this._id = _id;};
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm.sss+0000"); // Quoted "Z" to indicate UTC, no timezone offset
+        df.setTimeZone(tz);
+        String nowAsISO = df.format(this.lastModifiedDate);
+        return nowAsISO;
+    }
 
-
-    @Id
-  private String _id;
+  @Id private String _id;
   /** record identifier */
   private int recordID;
   /** publication type */
@@ -495,19 +455,10 @@ public class Record implements Serializable {
   /** record modifier */
   private Author modifier;
   /** record creation date */
-  private String creationDate; //ovde Date polje, trenutno ne radi
+  private Date creationDate; //ovde Date polje, trenutno ne radi
   /** last modification date */
-  private String lastModifiedDate; //Takodje
+  private Date lastModifiedDate; //Takodje
 
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    @Version
-  private Long version;
+  @Version private Long version;
 
 }

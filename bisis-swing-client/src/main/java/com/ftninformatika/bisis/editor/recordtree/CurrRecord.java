@@ -76,9 +76,9 @@ public class CurrRecord {
           record.setPubType(CurrFormat.getPubType());   
           if(record.getCreator()==null){
           	record.setCreator(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
-          	record.setCreationDate(/*new Date()*/"2017-03-07");//TODO-hardcoded
+          	record.setCreationDate(new Date());
           }
-          record.setLastModifiedDate(/*new Date()*/"2017-04-07");
+          record.setLastModifiedDate(new Date());
           record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
           //ok = BisisApp.getRecordManager().add(record);
           //BisisApp.getRecordManager().lock(id,BisisApp.appConfig.getLibrarian().getUsername());
@@ -89,7 +89,7 @@ public class CurrRecord {
           ok = record!=null;          
         }
       }else{      	
-        record.setLastModifiedDate(/*new Date()*/"2017-04-07");   //TODO-ovde cuvanje zapisa
+        record.setLastModifiedDate(new Date());
         record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
         //record = BisisApp.getRecordManager().update(record);
         ok = record!=null;       

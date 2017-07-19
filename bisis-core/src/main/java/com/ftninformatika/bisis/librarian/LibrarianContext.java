@@ -2,6 +2,8 @@ package com.ftninformatika.bisis.librarian;
 
 import lombok.*;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @ToString
@@ -16,5 +18,6 @@ public class LibrarianContext {
   private String pref3;
   private String pref4;
   private String pref5;
+  private ArrayList<ProcessType> tipoviObrade = new ArrayList<ProcessType>();
 
 }

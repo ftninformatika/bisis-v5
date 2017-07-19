@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.format.USubfield;
 import com.ftninformatika.bisis.records.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -311,7 +312,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
         p.getUsmeravanje(), p.getDatumInventarisanja(), p.getSigFormat(),
         p.getSigPodlokacija(), p.getSigIntOznaka(), p.getSigDublet(),
         p.getSigNumerusCurens(),p.getSigUDK(), p.getPovez(),
-        p.getNacinNabavke(),p.getOdeljenje(), p.getStatus(), p.getDatumStatusa(),
+        p.getNacinNabavke(),p.getOdeljenje(), p.getStatus(), new Date(p.getDatumStatusa()),
         p.getDostupnost(), p.getNapomene(), p.getStanje(), p.getInventator());
   } 
  

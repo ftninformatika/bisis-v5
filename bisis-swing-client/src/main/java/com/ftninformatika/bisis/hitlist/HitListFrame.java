@@ -560,12 +560,12 @@ public class HitListFrame extends JInternalFrame {
     	recModifierLabel.setText("");
     
     if(rec.getCreationDate()!=null)
-    	recCreationDateLabel.setText(/*sdf.format(rec.getCreationDate())*/rec.getCreationDate()); //TODO-hardcoded zbog datuma
+    	recCreationDateLabel.setText(sdf.format(rec.getCreationDate()));
     else
     	recCreationDateLabel.setText("");
     
     if(rec.getLastModifiedDate()!=null)	
-    	recModificationDateLabel.setText(/*sdf.format(rec.getLastModifiedDate())*/rec.getLastModifiedDate());
+    	recModificationDateLabel.setText(sdf.format(rec.getLastModifiedDate()));
     else
     	recModificationDateLabel.setText("");
  	}
