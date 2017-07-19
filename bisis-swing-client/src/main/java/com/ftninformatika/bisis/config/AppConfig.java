@@ -60,9 +60,6 @@ public abstract class AppConfig {
   public void setRetrofit(String token, String domain) {
     OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
 
-    Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm.sss+0000")
-            .create();
 
     String finalToken = token;
     okHttpClient.addInterceptor(chain -> {
@@ -77,7 +74,7 @@ public abstract class AppConfig {
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(GsonConverterFactory.create())
         .build();
 
 

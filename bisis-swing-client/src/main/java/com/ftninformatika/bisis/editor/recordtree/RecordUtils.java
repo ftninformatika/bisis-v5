@@ -312,7 +312,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
         p.getUsmeravanje(), p.getDatumInventarisanja(), p.getSigFormat(),
         p.getSigPodlokacija(), p.getSigIntOznaka(), p.getSigDublet(),
         p.getSigNumerusCurens(),p.getSigUDK(), p.getPovez(),
-        p.getNacinNabavke(),p.getOdeljenje(), p.getStatus(), new Date(p.getDatumStatusa()),
+        p.getNacinNabavke(),p.getOdeljenje(), p.getStatus(), p.getDatumStatusa(),
         p.getDostupnost(), p.getNapomene(), p.getStanje(), p.getInventator());
   } 
  

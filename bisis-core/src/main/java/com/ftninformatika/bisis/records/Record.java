@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 import lombok.AllArgsConstructor;
@@ -417,7 +418,7 @@ public class Record implements Serializable {
   	return rec;  	
   }
 
-  public String getCreationDate(){
+/*  public String getCreationDate(){
       if (this.lastModifiedDate == null)
           return null;
 
@@ -437,7 +438,7 @@ public class Record implements Serializable {
         df.setTimeZone(tz);
         String nowAsISO = df.format(this.lastModifiedDate);
         return nowAsISO;
-    }
+    }*/
 
   @Id private String _id;
   /** record identifier */
@@ -455,8 +456,10 @@ public class Record implements Serializable {
   /** record modifier */
   private Author modifier;
   /** record creation date */
+  @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date creationDate; //ovde Date polje, trenutno ne radi
   /** last modification date */
+  @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date lastModifiedDate; //Takodje
 
   @Version private Long version;

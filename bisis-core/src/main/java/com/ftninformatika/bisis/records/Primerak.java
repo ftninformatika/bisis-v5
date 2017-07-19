@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +21,14 @@ public class Primerak implements Serializable {
 
   private int primerakID;
   private String invBroj;
+  @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date datumRacuna; //date
   private String brojRacuna;
   private String dobavljac;
   private BigDecimal cena;
   private String finansijer;
   private String usmeravanje;
+  @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date datumInventarisanja; //bio Date
   private String sigFormat;
   private String sigPodlokacija;
@@ -37,6 +40,7 @@ public class Primerak implements Serializable {
   private String nacinNabavke;
   private String odeljenje;
   private String status;
+  @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date datumStatusa;//date
   private String inventator;
   private int stanje;
@@ -44,7 +48,7 @@ public class Primerak implements Serializable {
   private String napomene;
   private int version = 0;
 
-  public String getDatumStatusa(){
+  /*public String getDatumStatusa(){
     if (this.datumStatusa == null)
       return null;
 
@@ -53,7 +57,7 @@ public class Primerak implements Serializable {
     df.setTimeZone(tz);
     String nowAsISO = df.format(this.datumStatusa);
     return nowAsISO;
-  }
+  }*/
 
 //  public Primerak() {
 //    version = 0;
