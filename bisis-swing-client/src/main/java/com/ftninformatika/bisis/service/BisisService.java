@@ -50,9 +50,6 @@ public interface BisisService {
     @GET("/mongo_repository_records/search/getByID")
     Call<Record> getRecordById(@Query("id") int id);
 
-    /*@GET("/expand_prefix_controller")
-    Call<ArrayList<String>> getExpand();*/
-
     @POST("records/search")
     Call<List<Record>> searchRecords(@Body String queryString);
 
@@ -65,7 +62,10 @@ public interface BisisService {
     @GET("status_primerka")
     Call<JsonObject> getStatusCoders();
 
+    @GET("records/clear_elastic")
+    Call<String> clearElasticStorage();
 
-
+    @GET("records/fill_elastic")
+    Call<String> fillElasticStorage();
 
 }

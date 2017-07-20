@@ -43,11 +43,14 @@ public abstract class AppConfig {
       return chain.proceed(newRequest.build());
     });
 
+    Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
 
     retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build();
 
   }
@@ -70,11 +73,14 @@ public abstract class AppConfig {
       return chain.proceed(newRequest.build());
     });
 
+    Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
 
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build();
 
 

@@ -68,6 +68,18 @@ public class BisisApp {
           appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
           appConfig.initCoders();
 
+          //testing purposes only!
+          try {
+            bisisService.clearElasticStorage().execute();
+            System.out.println("Elastic cleared!");
+            bisisService.fillElasticStorage().execute();
+            System.out.println("Elastic filled!");
+          } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Greska pri reinicijalizaciji podataka u elastic-u!");
+          }
+
+          //----------------------
           mf = new MainFrame();
           mf.setResizable(true);
           mf.setSize(Toolkit.getDefaultToolkit().getScreenSize());
