@@ -397,8 +397,8 @@ db.gbns_com_records.insertMany([{
             "institution" : "gbns",
             "compact" : "galja@gbns"
         },
-        "creationDate" : "2005-05-26",
-        "lastModifiedDate" : "2012-07-25",
+        "creationDate" : ISODate("2005-05-26T23:00:00.000Z"),
+        "lastModifiedDate" : ISODate("2012-07-25T23:00:00.000Z"),
         "mr" : 0,
         "rn" : 16,
         "version" : 1.00
@@ -638,8 +638,8 @@ db.gbns_com_records.insertMany([{
                 "institution" : "gbns",
                 "compact" : "ljiljakos@gbns"
             },
-            "creationDate" : "2005-05-26",
-            "lastModifiedDate" : "2013-08-07",
+            "creationDate" : ISODate("2005-05-26T23:00:00.000Z"),
+            "lastModifiedDate" : ISODate("2013-08-07T23:00:00.000Z"),
             "mr" : 0,
             "rn" : 17,
             "version" : 1.00
@@ -929,8 +929,8 @@ db.gbns_com_records.insertMany([{
                 "institution" : "gbns",
                 "compact" : "joca@gbns"
             },
-            "creationDate" : "2005-05-26",
-            "lastModifiedDate" : "2016-03-28",
+            "creationDate" : ISODate("2005-05-26T23:00:00.000Z"),
+            "lastModifiedDate" : ISODate("2016-03-28T23:00:00.000Z"),
             "mr" : 0,
             "rn" : 18,
             "version" : 1.00

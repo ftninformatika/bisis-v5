@@ -31,7 +31,6 @@ public class ElasticSearchConfiguration {
                         .put("path.home", "PATH_TO_YOUR_ELASTICSEARCH_DIRECTORY"); // 3
 
         //logger.debug(tmpDir.toAbsolutePath().toString());
-
         return new ElasticsearchTemplate(nodeBuilder()
                 .local(true)
                 .settings(elasticsearchSettings.build())

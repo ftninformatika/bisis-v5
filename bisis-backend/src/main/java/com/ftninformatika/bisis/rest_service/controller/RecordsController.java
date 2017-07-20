@@ -111,7 +111,7 @@ public class RecordsController {
     @RequestMapping(value = "/fill_elastic", method = RequestMethod.GET)
     public ResponseEntity<String> fillElastic(){
         try{
-            List<Record> lr = recordsRepository.getRecordsByRecordIDIsLessThanEqual(200);
+            List<Record> lr = recordsRepository.findAll();
             for(Record record: lr) {
                 Map<String, String> prefixes = PrefixConverter.toMap(record, null);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes);
