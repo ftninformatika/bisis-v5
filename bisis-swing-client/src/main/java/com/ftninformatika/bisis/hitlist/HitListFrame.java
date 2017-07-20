@@ -43,11 +43,12 @@ public class HitListFrame extends JInternalFrame {
 
   public static final int PAGE_SIZE = 10;
 
-  public HitListFrame(SearchModel sm/*String query Result queryResult*/) { //TODO-hardcoded
+  public HitListFrame(List<Record> recordList/*SearchModel smString query Result queryResult*/) { //TODO-hardcoded
     super("Rezultati pretrage", true, true, true, true);    
     //this.queryResult = queryResult;
     //renderer.setResults(queryResult);
-    this.searchModel=sm;
+    //this.searchModel=sm;
+    this.recordsQueryResult = recordList;
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     btnFirst.setIcon(new ImageIcon(getClass().getResource(
     "/icons/first.gif")));
@@ -310,7 +311,7 @@ public class HitListFrame extends JInternalFrame {
     btnAnalitika.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {						
 						Record rec = ((Record)lbHitList.getSelectedValue()).copyWithoutHoldings();
-      if(rec!=null) Obrada.editAnalitika(rec);
+                        if(rec!=null) Obrada.editAnalitika(rec);
                         System.out.println("Action preformed!");
 					}    	
     });
@@ -377,25 +378,11 @@ public class HitListFrame extends JInternalFrame {
   }
   
   private void displayPage() {
-      JsonObject r = null;
-      List<Record> recs = new ArrayList<>();
 
-      try {
-          //r = BisisApp.bisisService.getAllRecords(0).execute().body();
-          //za sada kolekcije vracamo kao JsonObject, a njega deserijalizujemo u preko GsonUtils
-            recs = BisisApp.bisisService.queryRecords(this.searchModel).execute().body();
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
-
-      //List<Record> rec = (List<Record>) GsonUtils.getCollectionFromJsonObject(Record.class,r); //TODO-objasniti zasto je ovo radjeno!
-    //if (r == null /*|| queryResult.getRecords().length == 0*/)
-      //return;
     int count = PAGE_SIZE;
-    int recCount = //Integer.parseInt(String.valueOf(r.getAsJsonObject("page").get("totalElements")));
-                    1;//TODO-hardcoded
+    int recCount = this.recordsQueryResult.size();
     if (page == pageCount()-1 ){  //ako je poslednja stranica
-    	if (/*queryResult.getResultCount() */ recCount % PAGE_SIZE==0 ){
+    	if ( recCount % PAGE_SIZE==0 ){
     		count=PAGE_SIZE;
     	}
     	else{
@@ -405,26 +392,21 @@ public class HitListFrame extends JInternalFrame {
     pageTxtFld.setText(String.valueOf(page));
     int[] recIDs = new int[count];
     for (int i = 0; i < count; i++)
-      recIDs[i] = /*queryResult.getRecords()[page*PAGE_SIZE + i];*/ recs.get(page * PAGE_SIZE + i).getRecordID();
+      recIDs[i] =  this.recordsQueryResult.get(page * PAGE_SIZE + i).getRecordID();
 
-      /////ovde ubacujemo neki record
-
-
-
-    hitListModel.setHits(/*recIDs*/recs);
+    hitListModel.setHits(this.recordsQueryResult);
     lbHitList.setSelectedIndex(0);
     handleListSelectionChanged();    
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
-       recCount + "</b></html>");//TODO-hardcoded
-    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(recs)+"</b></html>");
+       recCount + "</b></html>");
+    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(this.recordsQueryResult)+"</b></html>");
   }
   
   private int pageCount() {
-   /* if (queryResult == null || queryResult.getResultCount() == 0)
-     return 0;
-     return queryResult.getResultCount() / PAGE_SIZE + (queryResult.getResultCount() % PAGE_SIZE > 0 ? 1 : 0);   */
-    return 1;
+    if (recordsQueryResult == null || recordsQueryResult.size() == 0)
+        return 0;
+     return recordsQueryResult.size() / PAGE_SIZE + (recordsQueryResult.size() % PAGE_SIZE > 0 ? 1 : 0);
   }
   
   
@@ -456,9 +438,7 @@ public class HitListFrame extends JInternalFrame {
       } catch (IOException e) {
           e.printStackTrace();
       }
-   selectedRecord = //BisisApp.getRecordManager().getRecord(recordId);
-                    zapis;
-      //System.out.println(zapis.get_id());
+   selectedRecord =  zapis;
    idTxtFld.setText(String.valueOf(selectedRecord.getRecordID()));//-----------------------
    rnTxtFld.setText(String.valueOf(selectedRecord.getRN()));
    String pubTypeStr = "";
@@ -492,7 +472,6 @@ public class HitListFrame extends JInternalFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         inventarTableModel.setRecord(selectedRecord);
 				System.out.println("inventar");
 				adjustInventarColumnWidth();
@@ -509,10 +488,17 @@ public class HitListFrame extends JInternalFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-   selectedRecord //= BisisApp.getRecordManager().getRecord(recordId);
-                    = zapis;
+   selectedRecord  = zapis;
    loadMetaData(selectedRecord);
 	  }
+  }
+  public void setRecordsQueryResult(List<Record> recs){
+      this.recordsQueryResult = recs;
+      renderer.setResults();
+      updateAvailability();
+      page = 0;
+      lQuery.setText("<html>Upit: <b>" + " bla bla " + "</b></html>");
+      displayPage();
   }
   
   //private void handleTab
@@ -702,7 +688,7 @@ public class HitListFrame extends JInternalFrame {
       private Record selectedRecord = null;
       private SearchModel searchModel;
   
-      //private Result queryResult;
+      private List<Record> recordsQueryResult;
 
       private String query;
       private int page = 0;

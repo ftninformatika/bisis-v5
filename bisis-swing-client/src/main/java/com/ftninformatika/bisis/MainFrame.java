@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.bisis.search.SearchModel;
@@ -14,6 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.*;
@@ -82,17 +84,17 @@ public class MainFrame extends JFrame {
         }
     }
 
-        public void addHitListFrame(SearchModel sm/*String query/*, Result queryResults*/) {
+        public void addHitListFrame(List<Record> recordList/*SearchModel smString query/*, Result queryResults*/) {
             if(hlf==null){
-                System.out.println("usao u add hitlist frame");
            //     hlf = new HitListFrame(query, queryResults);
-                hlf = new HitListFrame(sm); //TODO-hardcoded
+              //  hlf = new HitListFrame(sm); //TODO-hardcoded
+                hlf = new HitListFrame(recordList);
                 desktop.add(hlf);
             }
-            else
-                System.out.println("neki else");
-                hlf.setSearchModel(sm);
-            showHitlistFrame();
+            else {
+                hlf.setRecordsQueryResult(recordList);
+                showHitlistFrame();
+            }
             try {
                 hlf.setMaximum(true);
             } catch (PropertyVetoException e) {

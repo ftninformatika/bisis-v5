@@ -418,27 +418,6 @@ public class Record implements Serializable {
   	return rec;  	
   }
 
-/*  public String getCreationDate(){
-      if (this.lastModifiedDate == null)
-          return null;
-
-      TimeZone tz = TimeZone.getTimeZone("UTC");
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm.sss+0000"); // Quoted "Z" to indicate UTC, no timezone offset
-      df.setTimeZone(tz);
-      String nowAsISO = df.format(this.creationDate);
-      return nowAsISO;
-  }
-
-    public String getLastModifiedDate(){
-        if (this.lastModifiedDate == null)
-            return null;
-
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm.sss+0000"); // Quoted "Z" to indicate UTC, no timezone offset
-        df.setTimeZone(tz);
-        String nowAsISO = df.format(this.lastModifiedDate);
-        return nowAsISO;
-    }*/
 
   @Id private String _id;
   /** record identifier */
@@ -457,10 +436,10 @@ public class Record implements Serializable {
   private Author modifier;
   /** record creation date */
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
-  private Date creationDate; //ovde Date polje, trenutno ne radi
+  private Date creationDate;
   /** last modification date */
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
-  private Date lastModifiedDate; //Takodje
+  private Date lastModifiedDate;
 
   @Version private Long version;
 

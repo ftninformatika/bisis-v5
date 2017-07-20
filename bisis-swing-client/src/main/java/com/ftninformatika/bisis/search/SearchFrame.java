@@ -252,7 +252,6 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 			lib.getContext().setPref3(btnPref3.getText());
 			lib.getContext().setPref4(btnPref4.getText());
 			lib.getContext().setPref5(btnPref5.getText());
-//			LibEnvironment.updateLibrarian(lib);
 		}
 		setVisible(false);
 	}  
@@ -306,22 +305,15 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 	  }
   }
 
+
   private List<String> getExpand(JTextField tfPref, String prefix) {
     String text = tfPref.getText();
     text = StringUtils.clearDelimiters(text, delims);
-    String expandQuery = "";
     List<String> expList = new ArrayList<>();
     try {
-      expList = (List<String>) BisisApp.bisisService.getExpand(prefix, text).execute().body();
+      expList = BisisApp.bisisService.getExpand(prefix, text).execute().body();
     } catch (IOException e) {
       e.printStackTrace();
-    }
-
-    if (!text.isEmpty()) {
-      String textWithoutAccent = LatCyrUtils.toLatinUnaccented(text);
-      expandQuery = prefix + " : " + textWithoutAccent + "*";
-      // TODO: implementiraj EXPAND upit
-      //expList=BisisApp.getRecordManager().selectExp(expandQuery, prefix, LatCyrUtils.toLatin(text));
     }
     return expList;
   }
@@ -412,14 +404,13 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   	    btnSearch.setEnabled(false);
   	    
   	 	String sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
-  	 	sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
   	    SearchStatusDlg statusDlg = new SearchStatusDlg();
     	
   	 	SearchTask task = new SearchTask( btnPref1.getText(), cbOper1.getSelectedItem().toString(), text1,
-  	 	        btnPref2.getText(), cbOper2.getSelectedItem().toString(), text2, 
-  	 	        btnPref3.getText(), cbOper3.getSelectedItem().toString(), text3, 
-  	 	        btnPref4.getText(), cbOper4.getSelectedItem().toString(), text4, 
-  	 	        btnPref5.getText(), text5, sortPrefix, statusDlg);
+                                          btnPref2.getText(), cbOper2.getSelectedItem().toString(), text2,
+                                          btnPref3.getText(), cbOper3.getSelectedItem().toString(), text3,
+                                          btnPref4.getText(), cbOper4.getSelectedItem().toString(), text4,
+                                          btnPref5.getText(), text5, sortPrefix, statusDlg);
   	 	statusDlg.addActionListener(task);
   	 	task.execute();
   	 	statusDlg.setVisible(true);
@@ -619,12 +610,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   //added by Miroslav Zaric -  required for NetSearch
   //private ThreadDispatcher td;
   //private LinkedHashMap<String, NetHitListFrame> netSearchResultFrames=new LinkedHashMap<String, NetHitListFrame>();
-  //
   
   private static final Dimension textPanelDim = new Dimension(200,20);
   private static final Dimension prefButtonDim = new Dimension(70,20);
   private static String delims = ", ;:\"()[]{}-+!\t\r\n\f";
-  // private static String delims = ", ;:()[]{}-+/.!\t\r\n\f";
+  //private static String delims = ", ;:()[]{}-+/.!\t\r\n\f";
 
 	 
   public class SortPrefix {

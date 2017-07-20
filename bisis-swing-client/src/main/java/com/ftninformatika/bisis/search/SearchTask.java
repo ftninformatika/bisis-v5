@@ -1,9 +1,8 @@
 package com.ftninformatika.bisis.search;
-
 import com.ftninformatika.bisis.BisisApp;
-
+import com.ftninformatika.bisis.records.Record;
+import java.io.IOException;
 import java.util.List;
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
@@ -29,10 +28,10 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
  private boolean bigSet=false;
  private boolean connError=false;
  private boolean sintaxError=false;
- /*private Result queryResult;
- private Query query;*/
  private String queryString="";
  private SearchStatusDlg statusDlg;
+ private SearchModel searchModel;
+ private List<Record> recordQueryResult;
  
   public SearchTask(String pref1, String oper1, String text1, 
 					String pref2, String oper2, String text2,
@@ -56,6 +55,8 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	  this.text4=text4;
 	  this.text5=text5;
 	  this.sort=sort;
+
+	  this.searchModel = new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,sort);
   }
   public SearchTask(String queryString, SearchStatusDlg statusDlg){
 	  this.statusDlg=statusDlg;
@@ -63,42 +64,22 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
   }
   @Override
   public Integer  doInBackground() {
-    
-/*	  try {
-		 if (queryString.equals("")){
-           query=QueryUtils.makeLuceneAPIQuery( pref1,oper1, text1, 
-    										  pref2,oper2, text2, 
-    										  pref3,oper3, text3, 
-    										  pref4,oper4, text4, 
-    										  pref5, text5);
-           
-         if (query==null)
-       	     return -1;	   
 
-  	      if(BisisApp.isStandalone()){
-	    	queryResult =BisisApp.getRecordManager().selectAll2(query, sort);
-	    	queryString=query.toString();
-	      }else{
-	    	  queryResult =BisisApp.getRecordManager().selectAll2x(SerializationUtils.serialize(query), sort);
-	    	  queryString=query.toString();
-	      }
-          return queryResult.getRecords().length;
-		}else{  //deo koji obradjuje naprednu pretragu
-			queryResult =BisisApp.getRecordManager().selectAll1(queryString, null);
-			return queryResult.getRecords().length;
-		}
-      } catch(ParseException e1){
-    	  statusDlg.dispose();
-	    	JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
-		      	      e1.getMessage(), "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
-	    	return -1;
-	    }catch(BurlapRuntimeException e){
-	        	connError=true;
-	        	return  -1;
-	  } catch (Exception e) {
-		    	 bigSet=true;
-		    	 return  -1;
-	   }	*/
+	  if (this.searchModel != null){
+          try {
+              this.recordQueryResult = BisisApp.bisisService.queryRecords(this.searchModel).execute().body();
+              return this.recordQueryResult.size();
+          } catch (IOException e) {
+              e.printStackTrace();
+              this.connError = true;
+              return -1;
+          } catch (Exception e2){
+              e2.printStackTrace();
+              this.bigSet = true;
+              return -1;
+          }
+      }
+
 	return -1;
   }
   
@@ -116,17 +97,16 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	       }else if(bigSet){
 	      	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
 	      	          "Prevelik skup pogodaka. Preformulisati upit!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
-	       }/*else if(queryResult==null){
+	       }else if(recordQueryResult == null){
 	    	   JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
 	    	           "Nema pogodaka!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
 	       }
-	       else if (queryResult.getRecords().length == 0){
+	       else if (recordQueryResult.size() == 0){
 	        JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
 	           "Nema pogodaka!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
-	       }*/
+	       }
 	       else{
-	       	SearchModel sm = new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,sort);
-	        BisisApp.getMainFrame().addHitListFrame(/*queryString, queryResult*/sm);
+	        BisisApp.getMainFrame().addHitListFrame(this.recordQueryResult); //da prosledjuje kolekciju objekata
 	       }
 	     } 
 	     statusDlg.dispose();  
