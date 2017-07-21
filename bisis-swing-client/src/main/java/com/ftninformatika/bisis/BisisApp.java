@@ -71,14 +71,13 @@ public class BisisApp {
           //testing purposes only!
           try {
             bisisService.clearElasticStorage().execute();
-            System.out.println("Elastic cleared!");
+            System.out.println("Elastic storage cleared!");
             bisisService.fillElasticStorage().execute();
-            System.out.println("Elastic filled!");
+            System.out.println("Elastic storage filled!");
           } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Greska pri reinicijalizaciji podataka u elastic-u!");
           }
-
           //----------------------
           mf = new MainFrame();
           mf.setResizable(true);

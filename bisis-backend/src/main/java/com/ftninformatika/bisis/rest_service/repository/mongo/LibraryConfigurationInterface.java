@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * Created by Petar on 6/30/2017.
  */
-@RepositoryRestResource(collectionResourceRel = "configs", path = "configs")
+@RepositoryRestResource(collectionResourceRel = "configs.js", path = "configs.js")
 public interface LibraryConfigurationInterface extends MongoRepository<LibraryConfiguration, String> {
 
     @Query("{ 'libraryName': ?0 }")

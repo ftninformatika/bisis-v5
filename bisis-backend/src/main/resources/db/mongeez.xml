@@ -1,4 +1,7 @@
 <changeFiles>
-    <file path="/changesets/populate_data.js"/>
     <file path="/changesets/coders.js"/>
+    <file path="/changesets/configs.js"/>
+    <file path="/changesets/librarians.js"/>
+    <file path="/changesets/members.js"/>
+    <file path="/changesets/records.js"/>
 </changeFiles>

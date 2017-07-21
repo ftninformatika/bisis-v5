@@ -26,6 +26,6 @@ public class Librarian {
   private boolean administracija;
   private LibrarianContext context = new LibrarianContext();
   private String biblioteka;
-
+  private ProcessType curentProcessType;
 
 }

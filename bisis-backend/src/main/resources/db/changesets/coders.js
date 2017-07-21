@@ -1,7 +1,7 @@
 //mongeez formatted javascript
 
 
-//changeset petar:ChangeSet-5
+//changeset petar:ChangeSet-coders
 db.coders.status.insert(
   [
       {'status': '+', 'opis': 'Slobodno za razmenu', 'zaduziv':0},
