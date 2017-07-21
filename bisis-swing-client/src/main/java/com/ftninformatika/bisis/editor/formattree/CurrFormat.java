@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.UFormat;
 import com.ftninformatika.bisis.format.USubfield;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,8 +19,8 @@ import org.apache.commons.logging.LogFactory;
 public class CurrFormat {
 
 	/** Current format*/
-	public  static UFormat format = null;
-  //public static ProcessType processType;
+  public  static UFormat format = null;
+  public static ProcessType processType;
   private static int pubType = 1;
   private static List<USubfield> mandatorySubfields = null;
   
@@ -41,7 +42,8 @@ public class CurrFormat {
       log.info("Initializing format tree from record.");
       try{       
         pubType = rec.getPubType();
-        //processType = FormatUtils.returnProcessTypeForPubtype(pubType);
+        //processType = FormatUtils.returnProcessTypeForPubtype(pubType); //TODO- napraviti kolekciju sa tipovima obrade i repozitorijum
+		processType = BisisApp.appConfig.getLibrarian().getCurentProcessType();
         createFormatFromRecord(rec);
         createFormatFromProcessType();
       }catch(NullPointerException ex){        
@@ -52,24 +54,25 @@ public class CurrFormat {
       log.info("Initializing format tree from process type.");
       try{        
         //processType = BisisApp.getLibrarian().getContext().getDefaultProcessType();
+		processType = BisisApp.appConfig.getLibrarian().getCurentProcessType();
         createFormatFromProcessType();
-        //pubType = processType.getPubType().getPubType();
+        pubType = processType.getPubType().getPubType();
       }catch(Exception ex){        
         log.fatal(ex);
       }
 		}
-    //mandatorySubfields = processType.getMandatorySubfields();
+    mandatorySubfields = processType.getMandatorySubfields();
     sortFields();		
 	}
 	
-	public static void changeProcessType(/*ProcessType pt*/){
-		/*processType = pt;
+	public static void changeProcessType(ProcessType pt){
+		processType = pt;
 		format = new UFormat();
 		createFormatFromProcessType();
 		CurrRecord.recordInitialize(null);
 		mandatorySubfields = pt.getMandatorySubfields();
 		sortFields();
-		pubType = pt.getPubType().getPubType();*/
+		pubType = pt.getPubType().getPubType();
 		
 	}
 	
@@ -106,12 +109,12 @@ public class CurrFormat {
 		return PubTypes.getFormat();
 	}
 	
-	/*public static ProcessType getProcessType(){
+	public static ProcessType getProcessType(){
 		return processType;
-	}*/
+	}
 	
 	public static void createFormatFromProcessType(){
-    /*format.setName(processType.getName());
+    format.setName(processType.getName());
 		UField owner;
 		String fieldName;    
 		for(int i=0;i<processType.getInitialSubfields().size();i++){
@@ -124,7 +127,7 @@ public class CurrFormat {
 			//usf.setMandatory(processType.getMandatorySubfields().contains(usf));
       if(owner.getSubfield(usf.getName())==null)
         owner.add(usf);
-		}  */
+		}
 	} 
 	
 	public static void sortFields(){
@@ -204,7 +207,7 @@ public class CurrFormat {
   
   public static List<UField> returnElementsFromProcesstype(){  	
     UFormat uf = new UFormat();     
-    /*UField owner;
+    UField owner;
     String fieldName;    
     for(int i=0;i<processType.getInitialSubfields().size();i++){
       USubfield usf = processType.getInitialSubfields().get(i);      
@@ -219,7 +222,7 @@ public class CurrFormat {
       }catch(Exception e){
       	 
       }
-    }*/
+    }
     return uf.getFields();
   }
 	

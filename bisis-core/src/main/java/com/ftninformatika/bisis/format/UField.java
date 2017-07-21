@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.format;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Transient;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -233,9 +236,15 @@ public void addSubfield(USubfield s){
   /** field description */
   private String description;
   /** first indicator */
+  @JsonIgnore
+  @Transient
   private UIndicator ind1;
   /** second indicator */
+  @JsonIgnore
+  @Transient
   private UIndicator ind2;
+  @JsonIgnore
+  @Transient
   /** list of available subfields */
   private List<USubfield> subfields = new ArrayList<USubfield>();
   /** is this field mandatory */

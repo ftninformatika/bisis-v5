@@ -13,7 +13,105 @@ db.user.insert({
     "obrada": true,
     "cirkulacija": true,
     "administracija": true,
-    "context": {"pref1": "AU", "pref2": "TI", "pref3": "KW", "pref4": "LA", "pref5": "PY"},
+    "context": {"pref1": "AU", "pref2": "TI", "pref3": "KW", "pref4": "LA", "pref5": "PY",
+        "processTypes": [
+            {
+                "name": "Monografski - kompletna obrada",
+                "pubType": {
+                    "pubType": 3,
+                    "name": "Monografska"
+                },
+                "initialSubfields": [
+                    {
+                        "owner": {
+                            "name": "001",
+                            "repetable": false,
+                            "mandatory": false
+                        },
+                        "name": 'a',
+                        "defaultValue": "n"
+                    },
+                    {   "owner": {
+                        "name": "001",
+                        "repetable": false,
+                        "mandatory": false
+                    },
+                        "name": "d",
+                        "defaultValue": "2"
+                    },
+                    {   "owner": {
+                        "name": "001",
+                        "repetable": false,
+                        "mandatory": false
+                    },
+                        "name": "c",
+                        "defaultValue": "a"
+                    },
+                    {   "owner": {
+                        "name": "101",
+                        "repetable": false,
+                        "mandatory": false
+                    },
+                        "name": "a",
+                        "defaultValue": "scc"
+                    },
+                    {   "owner": {
+                        "name": "606",
+                        "repetable": false,
+                        "mandatory": false
+                    },
+                        "name": "8"
+                    },
+                    {   "owner": {
+                        "name": "966",
+                        "repetable": false,
+                        "mandatory": false
+                    },
+                        "name": "a"
+                    }
+                ],
+                "mandatorySubfields": [
+                    {
+                        "owner": {
+                            "name": "001",
+                            "repetable": false,
+                            "mandatory": true
+                        },
+                        "name": "b"
+                    },
+                    {
+                        "owner": {
+                            "name": "001",
+                            "repetable": false,
+                            "mandatory": true
+                        },
+                        "name": "c"
+                    },
+                    {
+                        "owner": {
+                            "name": "001",
+                            "repetable": false,
+                            "mandatory": true
+                        },
+                        "name": "d"
+                    },
+                    {
+                        "owner": {
+                            "name": "200",
+                            "repetable": false,
+                            "mandatory": true
+                        },
+                        "name": "a"
+                    }
+                ],
+                "indicators": [
+                    {
+                        "description": "Neki opis"
+                    }
+                ]
+            }
+        ]
+    },
     "curentProcessType":
         {
             "name": "Monografski - kompletna obrada",

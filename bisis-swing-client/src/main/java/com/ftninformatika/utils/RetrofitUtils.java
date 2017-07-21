@@ -42,7 +42,7 @@ public class RetrofitUtils {
     public static LibraryConfiguration acquireLibraryConfiguration(String libNanme, Retrofit preparedRetrofitInstance){
         LibraryConfiguration retVal = null;
 
-        BisisService bisisService =preparedRetrofitInstance.create(BisisService.class);
+        BisisService bisisService = preparedRetrofitInstance.create(BisisService.class);
         Call<LibraryConfiguration> lib = bisisService.getConfiguration(libNanme);
 
         try {

@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.USubfield;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.ProcessType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -58,9 +59,9 @@ public class FormatUtils {
   }
   
   public static boolean isPubTypeDefined(Librarian lib, int pubType){     	
-  	//for(ProcessType pt : lib.getContext().getProcessTypes())
-  	//	if(pt.getPubType().getPubType()==pubType)
-  	//		return true;
+  	for(ProcessType pt : lib.getContext().getProcessTypes())
+  		if(pt.getPubType().getPubType()==pubType)
+  			return true;
   	return false;  	
   }
   
@@ -71,7 +72,7 @@ public class FormatUtils {
    * postojeci tip publikacije
    * ili je otvoren prazan zapis  
    */
-  /*public static List<ProcessType> getProcessTypeGroup(Librarian lib){
+  public static List<ProcessType> getProcessTypeGroup(Librarian lib){
   	List<ProcessType> retList = new ArrayList<ProcessType>();
   	if(CurrRecord.update){
   		//vracamo smao tipove obrade koji pripadaju tipu publikacije
@@ -84,7 +85,7 @@ public class FormatUtils {
   	}else
   		return lib.getContext().getProcessTypes();  	
   }
-  
+  /*
   public static void removeElementsFromProcessType(ProcessType pt){
   	for(UField uf:CurrFormat.format.getFields()){
   		Iterator<USubfield> it = uf.getSubfields().iterator();

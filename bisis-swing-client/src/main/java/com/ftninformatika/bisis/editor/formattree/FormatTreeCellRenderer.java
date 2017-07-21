@@ -39,11 +39,11 @@ public class FormatTreeCellRenderer extends DefaultTreeCellRenderer {
 		StringBuffer buff = new StringBuffer();
 		if (expanded) {
             setIcon(new ImageIcon(FormatTreeCellRenderer.class
-    				.getResource("/com/gint/app/bisis4/client/images/expanded.gif")));
+    				.getResource("/icons/expanded.gif")));
             
         } else {
             setIcon(new ImageIcon(FormatTreeCellRenderer.class
-    				.getResource("/com/gint/app/bisis4/client/images/collapsed.gif")));
+    				.getResource("/icons/collapsed.gif")));
         }	
 		
 		String text = "";
@@ -81,7 +81,7 @@ public class FormatTreeCellRenderer extends DefaultTreeCellRenderer {
 			buff.append(sf.getName()+"-"+sf.getDescription()+" ");
 			buff.append(sf.isRepeatable() ? "(R)" : "(NR)");			
 			text = buff.toString();					
-			if(/*CurrFormat.processType.getInitialSubfields().contains(sf)*/true)//TODO-hardcoded
+			if(CurrFormat.processType.getInitialSubfields().contains(sf))
 				setForeground(Color.BLUE);				
 		}		
 		this.setText(text);

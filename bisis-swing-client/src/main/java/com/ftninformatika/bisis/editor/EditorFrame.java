@@ -28,10 +28,13 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.plaf.basic.BasicTreeUI;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.formattree.CurrFormat;
+import com.ftninformatika.bisis.editor.formattree.FormatUtils;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordTree;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.format.UValidatorException;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,7 +74,7 @@ public class EditorFrame extends JInternalFrame {
 	}
 	
 	public boolean editorInitialize(Record rec){
-			if(rec!=null /*&& !FormatUtils.isPubTypeDefined(BisisApp.appConfig.getLibrarian(), rec.getPubType())*/){
+			if(rec!=null && !FormatUtils.isPubTypeDefined(BisisApp.appConfig.getLibrarian(), rec.getPubType())){
 				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 						Messages.getString("EDITOR_OPTIONPANEMISSINGPROCESSTYPE"), //$NON-NLS-1$
 						"Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
@@ -82,13 +85,13 @@ public class EditorFrame extends JInternalFrame {
 			/*if (BisisApp.isFileMgrEnabled())
 				uploadPanel.initializeDocList(rec);*/
 			initializeInventarPanel();				
-    zapisButton.doClick();
-    saveRecord.setEnabled(false);
-    if(rec==null)
-    	procTypesButton.setEnabled(true);
-    else
-    	procTypesButton.setEnabled(false);
-    return true;
+            zapisButton.doClick();
+            saveRecord.setEnabled(false);
+            if(rec==null)
+                procTypesButton.setEnabled(true);
+            else
+                procTypesButton.setEnabled(false);
+            return true;
 		
 	}
 	
@@ -281,12 +284,12 @@ public class EditorFrame extends JInternalFrame {
     //cardFrame.setVisible(true);
    } 
    
-   public void handleChangeProcessType(/*ProcessType pt*/){
-  		/* CurrFormat.changeProcessType(pt);
+   public void handleChangeProcessType(ProcessType pt){
+  		 CurrFormat.changeProcessType(pt);
   		 zapisPanel.getFormatTree().refreshView();  	
   		 zapisPanel.getRecordTree().refreshView();
   		 initializeInventarPanel();
-  		 zapisButton.doClick();     */
+  		 zapisButton.doClick();
    }   
    
    private void handleOpenProcessTypeDilaog(){

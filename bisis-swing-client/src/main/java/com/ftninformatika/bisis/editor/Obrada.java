@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.editor;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.records.Record;
 
 import java.beans.PropertyVetoException;
@@ -19,13 +20,13 @@ public class Obrada {
 			 editorClosed = editorFrame.handleCloseEditor();
 		}
 		if(editorClosed){		 
-			//CurrRecord.update = false;
+			CurrRecord.update = false;
 			if (rec!=null)rec.setRN(0);			
-			//CurrRecord.savedOnce = false;
+			CurrRecord.savedOnce = false;
 			editorFrame.setUploadEnabled(false);
 			editorFrame.editorInitialize(rec);
 			showEditorFrame();
-   editorFrame.setRecordUpdated(false);
+   			editorFrame.setRecordUpdated(false);
 		}
 	}
 	
@@ -36,8 +37,8 @@ public class Obrada {
 			 editorClosed = editorFrame.handleCloseEditor();
 		}
 		if(editorClosed){			
-			//CurrRecord.update = true;
-			//CurrRecord.savedOnce = false;
+			CurrRecord.update = true;
+			CurrRecord.savedOnce = false;
 			editorFrame.editorInitialize(rec);
 			showEditorFrame(); 
 			editorFrame.setRecordUpdated(false);
@@ -53,8 +54,8 @@ public class Obrada {
 			 editorClosed = editorFrame.handleCloseEditor();
 		}
 		if(editorClosed){
-			//CurrRecord.update = true;
-			//CurrRecord.savedOnce = false;
+			CurrRecord.update = true;
+			CurrRecord.savedOnce = false;
 			editorFrame.editorInitialize(rec);
 			showEditorFrame(); 
 			editorFrame.setRecordUpdated(false);
