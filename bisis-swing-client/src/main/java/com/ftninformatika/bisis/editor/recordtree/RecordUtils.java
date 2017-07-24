@@ -2,7 +2,9 @@ package com.ftninformatika.bisis.editor.recordtree;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.Obrada;
+import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.UField;
+import com.ftninformatika.bisis.format.UIndicator;
 import com.ftninformatika.bisis.format.USubfield;
 import com.ftninformatika.bisis.records.*;
 
@@ -18,7 +20,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   
   // sortira polja ali ne i potpolja
   public static void sortFields(){
-   /* for (int i = 1; i < CurrRecord.record.getFields().size(); i++) {
+    for (int i = 1; i < CurrRecord.record.getFields().size(); i++) {
           for (int j = 0; j < CurrRecord.record.getFields().size() - i; j++) {
             Field f1 = (Field)CurrRecord.record.getFields().get(j);
             Field f2 = (Field)CurrRecord.record.getFields().get(j+1);
@@ -27,7 +29,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
               CurrRecord.record.getFields().set(j+1, f1);
             }
           }
-        }   */
+        }
   }
   
   public static Record sortFields(Record record){
@@ -139,7 +141,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   }
   
   public static void addElementsFromProcessType(){
-   /* List<UField> ufL = CurrFormat.returnElementsFromProcesstype();
+   List<UField> ufL = CurrFormat.returnElementsFromProcesstype();
     for(int i=0;i<ufL.size();i++){
       UField uf = ufL.get(i); 
       if(CurrRecord.record.getField(uf.getName())==null){
@@ -181,7 +183,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
     				.setInd1(ui.getDefaultValue().charAt(0));
     		else
     			CurrRecord.record.getField(ui.getOwner().getName())
-   				.setInd2(ui.getDefaultValue().charAt(0));*/
+   				.setInd2(ui.getDefaultValue().charAt(0));
     } 
   
   public static void replaceSubfieldWithPrevious(Field f,Subfield sf){

@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.actions.NewRecordAction;
+import com.ftninformatika.bisis.actions.SearchAction;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -56,9 +58,9 @@ public class MenuBuilder extends JMenuBar {
   	private JMenuItem mCircReports = null;
 	private JMenuItem mOptions = null;
   private JMenu mObrada = null;
- /* private SearchAction searchAction = null;
+  private SearchAction searchAction = null;
   private NewRecordAction newRecordAction = null;
-  private GroupInventarAction groupInventarAction = null;  
+ /* private GroupInventarAction groupInventarAction = null;
   private InvHolesAction invHolesAction = null;
   private MergeRecordsAction mergeRecAction = null;*/
   private JMenu mIzvestaji = null;
@@ -139,16 +141,16 @@ public class MenuBuilder extends JMenuBar {
    if (mObrada == null){ 
     mObrada = new JMenu("Obrada");
     mObrada.setMnemonic(KeyEvent.VK_O);
-   // searchAction = new SearchAction();
-   // mObrada.add(new JMenuItem(searchAction));
+    searchAction = new SearchAction();
+    mObrada.add(new JMenuItem(searchAction));
    }
    return mObrada;
   }
 
   private JMenu getMObrada(){
-  /*  newRecordAction = new NewRecordAction();
+    newRecordAction = new NewRecordAction();
     getMObradaDefault().add(new JMenuItem(newRecordAction));
-    groupInventarAction = new GroupInventarAction();
+    /*groupInventarAction = new GroupInventarAction();
     getMObradaDefault().add(getSearchAdvanced());
     getMObradaDefault().add(new JMenuItem(groupInventarAction));
     invHolesAction = new InvHolesAction();
@@ -326,15 +328,15 @@ public class MenuBuilder extends JMenuBar {
       mAdministration.setMnemonic(KeyEvent.VK_A);
   //    mAdministration.add(getMBackup());
       mAdministration.addSeparator();
- //     mAdministration.add(getMiBibliotekari());
- //     mAdministration.add(getMiTipoviObrade());
-  //    mAdministration.add(getMSifInv());
+      mAdministration.add(getMiBibliotekari());
+      mAdministration.add(getMiTipoviObrade());
+      mAdministration.add(getMSifInv());
       mAdministration.addSeparator();
       mAdministration.add(getMSifCirc());
   //    mAdministration.add(getMOptions());
       mAdministration.add(getMiWarnings());
       mAdministration.addSeparator();
- //     mAdministration.add(getMiBrojaci());
+      mAdministration.add(getMiBrojaci());
     }
     return mAdministration;
   }
@@ -345,7 +347,7 @@ public class MenuBuilder extends JMenuBar {
 			mSistem.setText("Sistem");
 			mSistem.add(getMLog());
     //  mSistem.add(getMMonitor());
-      mSistem.add(getMIzlaz());
+      		mSistem.add(getMIzlaz());
 		}
 		return mSistem;
 	}

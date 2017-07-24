@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.librarian;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UFormat;
 import com.ftninformatika.bisis.format.UIndicator;
@@ -15,7 +16,7 @@ public class ProcessType implements Serializable {
   private String name;
   private UFormat pubType;
   private List<USubfield> initialSubfields;
-  private List<USubfield> mandatorySubfields;  
+  private List<USubfield> mandatorySubfields;
   // koristice se za default vrednosti indikatora
   private List<UIndicator> indicators;
 

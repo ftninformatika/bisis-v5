@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +42,7 @@ public class Field implements Serializable {
    * Returns the number of subfields in this field.
    * @return The number of subfields
    */
+  @JsonIgnore
   public int getSubfieldCount() {
     return subfields.size();
   }
@@ -95,6 +99,7 @@ public class Field implements Serializable {
    * subfields
    * @return true if it does, otherwise false
    */
+  @JsonIgnore
   public boolean containsSecondaryFields() {
     boolean retVal = false;
     Iterator<Subfield> it = subfields.iterator();
@@ -111,6 +116,7 @@ public class Field implements Serializable {
    * subfields of a possible secondary field
    * @return
    */
+  @JsonIgnore
   public String getSubfieldNames() {
     StringBuffer retVal = new StringBuffer();
     Iterator<Subfield> it = subfields.iterator();

@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
@@ -42,6 +44,7 @@ public class Subfield implements Serializable {
    * Returns the number of subsubfields in this subfield.
    * @return The number of subsubfields
    */
+  @JsonIgnore
   public int getSubsubfieldCount() {
     return subsubfields.size();
   }

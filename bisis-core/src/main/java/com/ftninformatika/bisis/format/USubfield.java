@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.format;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -275,7 +278,6 @@ public class USubfield implements Serializable {
   private UCoder coder;
   /** validator for subfield content */
   private UValidator validator;
-  
   private List<USubsubfield> subsubfields = new ArrayList<USubsubfield>();
   
 }
