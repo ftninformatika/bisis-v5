@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.UIndicator;
 import com.ftninformatika.bisis.format.USubfield;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.*;
 
 import java.text.SimpleDateFormat;
@@ -66,7 +67,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
  }
   
   public static void addUFieldWithSubfields(UField uf){
-   /* Field f = new Field(uf.getName());
+    Field f = new Field(uf.getName());
     CurrRecord.record.add(f);
     if(uf.getInd1()!=null && uf.getInd1().getDefaultValue()!=null)
       f.setInd1(uf.getInd1().getDefaultValue().charAt(0));
@@ -79,7 +80,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
         sf.setContent(usf.getDefaultValue());
       f.add(sf);
     } 
-    sortFields();*/
+    sortFields();
   } 
   
 
@@ -89,7 +90,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   
   
   public static void addUSubfield(USubfield usf){
-    /*Subfield sf = new Subfield(usf.getName());
+    Subfield sf = new Subfield(usf.getName());
     if(usf.getDefaultValue()!=null)
       sf.setContent(usf.getDefaultValue());
     List<Field> fields = CurrRecord.record.getFields(usf.getOwner().getName());
@@ -99,7 +100,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
     for(int i=0;i<fields.size();i++){
       fields.get(i).add(sf);
     }
-    }    */
+    }
   }
   
   public static void addUSubfields(List<USubfield> usfs){
@@ -110,26 +111,26 @@ public class RecordUtils { //TODO-hardcoded all over the place
   
 //vraca broj polja sa imenom name
   public static int getFieldCount(String name){
-   /* if(CurrRecord.record.getFields(name)!=null)
-      return CurrRecord.record.getFields(name).size();*/
+    if(CurrRecord.record.getFields(name)!=null)
+      return CurrRecord.record.getFields(name).size();
     return 0;
   }
   
 //vraca broj potplja u polju
   public static int getSubfieldCount(String name){
-    /*if(CurrRecord.record.getSubfields(name)!=null){
+    if(CurrRecord.record.getSubfields(name)!=null){
       return CurrRecord.record.getSubfields(name).size();
-    }*/
+    }
     return 0;
   } 
   
   //vraca ime prvog polja ciji naziv pocinje sa str
   public static String returnFirstFieldName(String str){
     Field f;
-   /* for(int i=0;i<CurrRecord.record.getFieldCount();i++){
+    for(int i=0;i<CurrRecord.record.getFieldCount();i++){
       f = CurrRecord.record.getField(i);
       if(f.getName().startsWith(str))  return f.getName();
-    }*/
+    }
     return null;    
   }
   
@@ -207,29 +208,29 @@ public class RecordUtils { //TODO-hardcoded all over the place
   }
   
   public static void replaceFieldWithPrevious(Field f){
-  	/*int index = CurrRecord.record.getFields().indexOf(f);
+  	int index = CurrRecord.record.getFields().indexOf(f);
   	if(index==0) return;
   	Field previous = CurrRecord.record.getField(index-1);
   	CurrRecord.record.remove(f);
   	CurrRecord.record.remove(previous);
   	CurrRecord.record.getFields().add(index-1,f);
-  	CurrRecord.record.getFields().add(index,previous); 	*/
+  	CurrRecord.record.getFields().add(index,previous);
   }
   
   public static void replaceFieldWithNext(Field f){
-  	/*int index = CurrRecord.record.getFields().indexOf(f);
+  	int index = CurrRecord.record.getFields().indexOf(f);
   	if(index==CurrRecord.record.getFieldCount()-1) return;
   	Field next = CurrRecord.record.getField(index+1);
   	CurrRecord.record.remove(f);  	
   	CurrRecord.record.getFields().add(index+1,f);
   	CurrRecord.record.remove(next);
   	CurrRecord.record.getFields().add(index,next);
-  	*/
+
   }
   public static int getIndexOfField(Field f){
-    /*for(int i=0;i<CurrRecord.record.getFieldCount();i++){
+    for(int i=0;i<CurrRecord.record.getFieldCount();i++){
       if(CurrRecord.record.getField(i).equals(f)) return i;
-    }*/
+    }
     return -1;
   }
   
@@ -244,7 +245,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   // zapisa dodje do polja kome pripada selektovano potpolje 
   static Field findParent(Subfield sf){
     Field f;
-   /* for (int i=0;i<CurrRecord.record.getFieldCount();i++){
+    for (int i=0;i<CurrRecord.record.getFieldCount();i++){
       f = (Field)CurrRecord.record.getField(i);
       if(isParent(f,sf)) return f;
     }
@@ -257,7 +258,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
         if(isParent(f,sf)) return f;
         }
       }
-    }   */
+    }
     return null;
   }
   
@@ -283,16 +284,16 @@ public class RecordUtils { //TODO-hardcoded all over the place
   // da li selektovano polje, koje je jedno od polja za povezivanje vec
   // sadrzi sekundarno polje uf
   static boolean secondaryFieldAlreadyExist(UField uf){
-   /* for(int i=0;i<CurrRecord.selectedField.getSubfieldCount();i++){
+    for(int i=0;i<CurrRecord.selectedField.getSubfieldCount();i++){
       if(CurrRecord.selectedField.getSubfield(i).getSecField()!=null &&
           CurrRecord.selectedField.getSubfield(i).getSecField().getName().equals(uf.getName()))
         return true;      
-    }*/
+    }
     return false;    
   }
   
   static String canBeDeleted(String name){    
-    /*if(name.length()==3){
+    if(name.length()==3){
       UField uf = CurrFormat.format.getField(name); 
       if(CurrFormat.isMandatoryFiled(name) && RecordUtils.getFieldCount(name)<2){
         return "Polje "+uf.getName()+"-"+uf.getDescription()+"\n"
@@ -304,7 +305,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
         return "Potpolje "+usf.getName()+"-"+usf.getDescription()+"\n"
         +"je obavezno i ne mo\u017ee biti obrisano!";     
       }
-    }*/
+    }
     return "";
   }
   
@@ -347,44 +348,40 @@ public class RecordUtils { //TODO-hardcoded all over the place
   public static int returnHoldingsNumber(){
 	  //1 - ako treba otvoriti formu sa primercima
 	  //2 - ako treba otvoriti formu sa sveskama
-	/*  if(CurrRecord.record.getPrimerci()!=null
+	  if(CurrRecord.record.getPrimerci()!=null
 			  && CurrRecord.record.getPrimerci().size()>0)
 		  return 1;
 	  else if(CurrRecord.record.getGodine()!=null
 			  && CurrRecord.record.getGodine().size()>0)
 		  return 2;
-	  else{
-	  	// za neknjiznu gradju otvaramo formu sa primercima
-	  	// za sada
-	  	if(CurrFormat.getPubType()==4 || CurrFormat.getPubType()==5) return 1;
-		  return CurrFormat.getPubType();
-	  }
-		  */
-	return -1;
+	  else {
+          // za neknjiznu gradju otvaramo formu sa primercima
+          // za sada
+          if (CurrFormat.getPubType() == 4 || CurrFormat.getPubType() == 5) return 1;
+          return CurrFormat.getPubType();
+      }
   }
   
   public static Primerak getPrimerakPoInv(String invBroj){
-	 /* for(Primerak p:CurrRecord.record.getPrimerci())
-		if(p.getInvBroj().equals(invBroj)) return p;*/
+	  for(Primerak p:CurrRecord.record.getPrimerci())
+		if(p.getInvBroj().equals(invBroj)) return p;
 	  return null;
 	  
   }
   
   public static Godina getGodinaPoInv(String invBroj){
-	  /*for(Godina g:CurrRecord.record.getGodine())
+	  for(Godina g:CurrRecord.record.getGodine())
 		  if(g.getInvBroj().equals(invBroj))
-			  return g;*/
+			  return g;
 	  return null;
   }
   
   public static int getIndexForPrimerak(Primerak p){
-	  /*return CurrRecord.record.getPrimerci().indexOf(p);*/
-	  return  0;
+	  return CurrRecord.record.getPrimerci().indexOf(p);
   }
   
   public static int getIndexForGodina(Godina g){
-	  /*return CurrRecord.record.getGodine().indexOf(g);*/
-	  return 0;
+	  return CurrRecord.record.getGodine().indexOf(g);
   }
   
   public static void unlockRecord(Record rec){
@@ -395,8 +392,8 @@ public class RecordUtils { //TODO-hardcoded all over the place
     }*/
   }
   
-  public static void removeSubfieldsFromProcesstype(/*ProcessType pt*/){
-  /*	for(int i=0;i<CurrRecord.record.getFieldCount();i++){
+  public static void removeSubfieldsFromProcesstype(ProcessType pt){
+  	for(int i=0;i<CurrRecord.record.getFieldCount();i++){
   		Field f = CurrRecord.record.getField(i);
   		Iterator<Subfield> it = f.getSubfields().iterator();
   		while(it.hasNext()){
@@ -407,7 +404,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   		}
   			
   	}  	
-  	CurrRecord.record.pack();  	*/
+  	CurrRecord.record.pack();
   }
   
   public static void addOnRightPlace(Field f, Subfield sf){
@@ -486,7 +483,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   
   public static Object[] deleteField(Object[] path){
     Obrada.editorFrame.recordUpdated();
-    /*if(path.length==2){
+    if(path.length==2){
       Object[] newPath = new Object[2];
       Field f = (Field) path[1];      
       int index = CurrRecord.record.getFields().indexOf(f);
@@ -508,8 +505,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
       newPath[0]= CurrRecord.record;
       newPath[1] = f4XX;
       return newPath;
-    }   */
-    return null;
+    }
   }  
   
   
@@ -523,14 +519,14 @@ public class RecordUtils { //TODO-hardcoded all over the place
   	Field f = new Field(uf.getName());
   	//dodavanje indikatora
   	
-    /*UIndicator ind1 = uf.getInd1();
+    UIndicator ind1 = uf.getInd1();
     UIndicator ind2 = uf.getInd2();
     if(ind1!=null) 
       if(ind1.getDefaultValue()!=null) f.setInd1(ind1.getDefaultValue().charAt(0));
       else f.setInd1(' ');
     if(ind2!=null) 
       if(ind2.getDefaultValue()!=null) f.setInd2(ind2.getDefaultValue().charAt(0));
-      else f.setInd2(' ');*/
+      else f.setInd2(' ');
     
     //dodavanje potpolja
     for(USubfield usf:uf.getSubfields()){
@@ -547,7 +543,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   	Field f = new Field(uf.getName());
   	//dodavanje indikatora
   	
-    /*UIndicator ind1 = uf.getInd1();
+    UIndicator ind1 = uf.getInd1();
     UIndicator ind2 = uf.getInd2();
     if(ind1!=null) 
       if(ind1.getDefaultValue()!=null) f.setInd1(ind1.getDefaultValue().charAt(0));
@@ -555,7 +551,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
     if(ind2!=null) 
       if(ind2.getDefaultValue()!=null) f.setInd2(ind2.getDefaultValue().charAt(0));
       else f.setInd2(' ');    
-   */
+
    
   	
   	return f;
@@ -568,7 +564,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   	Field f = new Field(uf.getName());
   	//dodavanje indikatora
   	
-    /*UIndicator ind1 = uf.getInd1();
+    UIndicator ind1 = uf.getInd1();
     UIndicator ind2 = uf.getInd2();
     if(ind1!=null) 
       if(ind1.getDefaultValue()!=null) f.setInd1(ind1.getDefaultValue().charAt(0));
@@ -576,8 +572,6 @@ public class RecordUtils { //TODO-hardcoded all over the place
     if(ind2!=null) 
       if(ind2.getDefaultValue()!=null) f.setInd2(ind2.getDefaultValue().charAt(0));
       else f.setInd2(' ');
-    */
-   
   	
   	return f;
   }
@@ -602,9 +596,9 @@ public class RecordUtils { //TODO-hardcoded all over the place
   }
   
   public static boolean invBrojSveskePostojiUZapisu(String invBroj){
-  	/*for(Godina g:CurrRecord.record.getGodine())
+  	for(Godina g:CurrRecord.record.getGodine())
   		for(Sveska s:g.getSveske())
-  			if(s.getInvBroj().equals(invBroj)) return true;*/
+  			if(s.getInvBroj().equals(invBroj)) return true;
   	return false;
   	}
   
