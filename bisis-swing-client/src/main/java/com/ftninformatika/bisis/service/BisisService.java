@@ -71,4 +71,7 @@ public interface BisisService {
     @POST("/records")
     Call<Record> createRecord(@Body Record rec);
 
+    @PUT("/records")
+    Call<Record> updateRecord(@Body Record rec);
+
 }

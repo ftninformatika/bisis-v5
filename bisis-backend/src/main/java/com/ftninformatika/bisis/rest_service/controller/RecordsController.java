@@ -53,6 +53,7 @@ public class RecordsController {
         return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
+  //dodavanje novog zapisa
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<Record> add(@RequestBody Record record) {
 
@@ -84,29 +85,35 @@ public class RecordsController {
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
   }
 
-  public List<Record> getRecordsForMultipleIDs(ArrayList<String> ids){
-      ArrayList<Record> retVal = new ArrayList<>();
+  @RequestMapping( method = RequestMethod.PUT)
+  public ResponseEntity<Record> update(@RequestBody Record rec){
+      Record retVal = null;
 
-      for (String id: ids){
-          retVal.add(recordsRepository.getByID(Integer.parseInt(id)));
-      }
+      recordsRepository.save(rec);
+      Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
+      ElasticPrefixEntity ee = new ElasticPrefixEntity("" + rec.getRecordID(), prefixes); //JsonSerializer.toJson2(prefixes)
+      //save and index posted element via ElasticsearchRepository
+      elasticRecordsRepository.save(ee);
+      elasticRecordsRepository.index(ee);
 
-      return retVal;
+      return new ResponseEntity<Record>(retVal, HttpStatus.OK);
   }
 
-      //za testiranje!!!!
-      @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
-      public ResponseEntity<String> clearElastic(){
-          try{
-              elasticRecordsRepository.deleteAll();
-              return new ResponseEntity<String>("Elastic storage cleared!", HttpStatus.OK);
-          }
-          catch (Exception e){
-              e.printStackTrace();
-              return new ResponseEntity<String>("Error!", HttpStatus.NO_CONTENT);
-          }
 
+  //za testiranje!!!!
+  @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
+  public ResponseEntity<String> clearElastic(){
+      try{
+          elasticRecordsRepository.deleteAll();
+          return new ResponseEntity<String>("Elastic storage cleared!", HttpStatus.OK);
       }
+      catch (Exception e){
+          e.printStackTrace();
+          return new ResponseEntity<String>("Error!", HttpStatus.NO_CONTENT);
+      }
+
+  }
+
     //za testiranje
     @RequestMapping(value = "/fill_elastic", method = RequestMethod.GET)
     public ResponseEntity<String> fillElastic(){
@@ -115,16 +122,25 @@ public class RecordsController {
             for(Record record: lr) {
                 Map<String, String> prefixes = PrefixConverter.toMap(record, null);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes);
-                elasticRecordsRepository.save(ee);
-                elasticRecordsRepository.index(ee);
+                    elasticRecordsRepository.save(ee);
+                    elasticRecordsRepository.index(ee);
+                }
+                return new ResponseEntity<String>("Elastic filled with data!", HttpStatus.OK);
             }
-            return new ResponseEntity<String>("Elastic filled with data!", HttpStatus.OK);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<String>("Error!", HttpStatus.NO_CONTENT);
+            catch (Exception e){
+                    e.printStackTrace();
+                    return new ResponseEntity<String>("Error!", HttpStatus.NO_CONTENT);
+                }
+
+            }
+
+    public List<Record> getRecordsForMultipleIDs(ArrayList<String> ids){
+        ArrayList<Record> retVal = new ArrayList<>();
+
+        for (String id: ids){
+            retVal.add(recordsRepository.getByID(Integer.parseInt(id)));
         }
 
+        return retVal;
     }
-
 }
