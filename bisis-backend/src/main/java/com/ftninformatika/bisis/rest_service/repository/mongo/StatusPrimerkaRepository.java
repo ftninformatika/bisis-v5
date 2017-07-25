@@ -8,4 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RepositoryRestResource(collectionResourceRel = "status", path = "status_primerka")
 //@RequestMapping("/coders/status_primerka")
 public interface StatusPrimerkaRepository extends MongoRepository<StatusPrimerka, String> {
+
+
 }

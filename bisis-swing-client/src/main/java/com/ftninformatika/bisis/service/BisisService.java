@@ -50,22 +50,25 @@ public interface BisisService {
     @GET("/mongo_repository_records/search/getByID")
     Call<Record> getRecordById(@Query("id") int id);
 
-    @POST("records/search")
+    @POST("/records/search")
     Call<List<Record>> searchRecords(@Body String queryString);
 
-    @GET("expand_prefix_controller")
+    @GET("/expand_prefix_controller")
     Call<List<String>> getExpand(@Query("prefix") String prefix, @Query("text") String text);
 
-    @POST("records/query")
+    @POST("/records/query")
     Call<List<Record>> queryRecords(@Body SearchModel sm);
 
-    @GET("status_primerka")
+    @GET("/status_primerka")
     Call<JsonObject> getStatusCoders();
 
-    @GET("records/clear_elastic")
+    @GET("/records/clear_elastic")
     Call<String> clearElasticStorage();
 
-    @GET("records/fill_elastic")
+    @GET("/records/fill_elastic")
     Call<String> fillElasticStorage();
+
+    @POST("/records")
+    Call<Record> createRecord(@Body Record rec);
 
 }

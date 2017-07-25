@@ -18,18 +18,19 @@ db.user.insert({
             {
                 "name": "Monografski - kompletna obrada",
                 "pubType": {
-                    "pubType": 3,
+                    "pubType": 1,
                     "name": "Monografska"
                 },
                 "initialSubfields": [
                     {
+                        "description": "Abeceda/pismo",
+                        "name": '7',
                         "owner": {
+                            "description": "Identifikator sloga",
                             "name": "001",
-                            "repetable": false,
-                            "mandatory": false
-                        },
-                        "name": 'a',
-                        "defaultValue": "n"
+                            "mandatory": true,
+                            "repeatable": false
+                        }
                     },
                     {   "owner": {
                         "name": "001",
@@ -116,18 +117,19 @@ db.user.insert({
         {
             "name": "Monografski - kompletna obrada",
             "pubType": {
-                "pubType": 3,
+                "pubType": 1,
                 "name": "Monografska"
             },
             "initialSubfields": [
                 {
+                    "description": "Abeceda/pismo",
+                    "name": '7',
                     "owner": {
+                        "description": "Identifikator sloga",
                         "name": "001",
-                        "repetable": false,
-                        "mandatory": false
-                    },
-                    "name": 'a',
-                    "defaultValue": "n"
+                        "mandatory": true,
+                        "repeatable": false
+                    }
                 },
                 {   "owner": {
                         "name": "001",
@@ -200,11 +202,6 @@ db.user.insert({
                         "mandatory": true
                     },
                     "name": "a"
-                }
-            ],
-            "indicators": [
-                {
-                    "description": "Neki opis"
                 }
             ]
         }

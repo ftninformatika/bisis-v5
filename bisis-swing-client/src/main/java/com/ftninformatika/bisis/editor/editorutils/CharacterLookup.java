@@ -37,10 +37,10 @@ public class CharacterLookup extends JDialog {
     
     btnOK = new JButton("Potvrdi");
     btnOK.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/ok.gif")));    
+        "/icons/images/ok.gif")));
     btnCancel = new JButton("Odustani");
     btnCancel.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/remove.gif")));  
+        "/icons/remove.gif")));
 
     this.addFocusListener(new FocusAdapter() {
       public void focusGained(FocusEvent ev) {

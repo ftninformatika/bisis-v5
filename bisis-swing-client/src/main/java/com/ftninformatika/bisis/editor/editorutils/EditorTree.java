@@ -36,11 +36,8 @@ public class EditorTree extends JTree {
       case(KeyEvent.VK_C):
         if(e.getModifiers() == InputEvent.SHIFT_MASK)
           collapseAll();
-        break;   
-         
+        break;
      }
   }
-  
-  
 
 }

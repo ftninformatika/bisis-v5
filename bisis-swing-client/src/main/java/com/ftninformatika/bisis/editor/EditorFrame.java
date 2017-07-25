@@ -241,7 +241,7 @@ public class EditorFrame extends JInternalFrame {
   }
 	
   private boolean handleSaveRecord(){
-  //	zapisPanel.getRecordTree().refreshView();
+  	zapisPanel.getRecordTree().refreshView();
    String message = "Potvrda za snimanje zapisa:\n";//+CurrRecord.saveRecordReport();
    Object[] options = {"Snimi", "Odustani"};
    int ret = JOptionPane.showOptionDialog(null, message , "Snimanje zapisa",  //$NON-NLS-1$
@@ -249,8 +249,8 @@ public class EditorFrame extends JInternalFrame {
 				null, options, options[1]);
 			if(ret==0){
 				try {
-					boolean ok = //zapisPanel.getRecordTree().saveRecord(); //TODO-hardcoded
-                                true;
+					boolean ok = zapisPanel.getRecordTree().saveRecord(); //TODO-hardcoded
+
 					if(!ok){		
 						String message1 = Messages.getString("EDITOR_SAVERECORDERROR"); //$NON-NLS-1$
 						JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message1,Messages.getString("EDITOR_SAVINGRECORDS"),JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$

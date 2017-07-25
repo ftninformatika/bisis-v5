@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.editor.recordtree;
 
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,11 +79,17 @@ public class CurrRecord {
           	record.setCreator(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
           	record.setCreationDate(new Date());
           }
-          record.setLastModifiedDate(new Date());
+          //record.setLastModifiedDate(new Date());
           record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
           //ok = BisisApp.getRecordManager().add(record);
           //BisisApp.getRecordManager().lock(id,BisisApp.appConfig.getLibrarian().getUsername());
-          savedOnce = true;
+            Record r = null;
+            try {
+               r =  BisisApp.bisisService.createRecord(record).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            savedOnce = true;
           log.info("add record, recordId="+/*id*/"12000234"+", creator: "+record.getCreator().getUsername());
         }else{    	
           //record = BisisApp.getRecordManager().update(record);

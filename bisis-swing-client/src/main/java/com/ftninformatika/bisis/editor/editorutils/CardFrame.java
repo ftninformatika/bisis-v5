@@ -82,10 +82,10 @@ public class CardFrame extends CenteredDialog implements Printable {
     buttonsPanel.add(stampajButton);
     buttonsPanel.add(zatvoriButton);
     
-    GridBagLayout layout = new GridBagLayout();
+    //GridBagLayout layout = new GridBagLayout();
     GridBagConstraints c = new GridBagConstraints();
     
-    /*MigLayout layout = new MigLayout("","[center]10[center]","[center]10[center]10[center]");*/
+    MigLayout layout = new MigLayout("","[center]10[center]","[center]10[center]10[center]");
     setLayout(layout);
     c.gridx = 0;
     c.gridy = 0;   

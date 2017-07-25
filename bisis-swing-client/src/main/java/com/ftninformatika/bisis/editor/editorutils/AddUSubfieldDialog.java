@@ -71,10 +71,10 @@ public class AddUSubfieldDialog extends CenteredDialog {
 		buttonsPanel = new JPanel();
 		okButton = new JButton("Potvrdi");
 		okButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/ok.gif")));		
+        "/icons/ok.gif")));
 		cancelButton = new JButton("Odustani");
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/remove.gif")));
+        "/icons/remove.gif")));
 		buttonsPanel.add(okButton,null);
 		buttonsPanel.add(cancelButton,null);		
 		c.gridy = 2;			
