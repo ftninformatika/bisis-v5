@@ -31,14 +31,14 @@ public class FormatUtils {
   //definisan tip obrade za taj tip publikacije
   //vraca default tip obrade za bibliotekara
   
-  /*public static ProcessType returnProcessTypeForPubtype(int pubType){
-    for(ProcessType pt: BisisApp.getLibrarian().getContext().getProcessTypes()){
+  public static ProcessType returnProcessTypeForPubtype(int pubType){
+    for(ProcessType pt: BisisApp.appConfig.getLibrarian().getContext().getProcessTypes()){
       if(pt.getPubType().getPubType()==pubType)
         return pt;
     }
     return null;
    // return BisisApp.getLibrarian().getContext().getDefaultProcessType();    
-  }*/
+  }
   
   /*
    * proverava da li prosledjeni tip publikacije 
@@ -85,7 +85,7 @@ public class FormatUtils {
   	}else
   		return lib.getContext().getProcessTypes();  	
   }
-  /*
+
   public static void removeElementsFromProcessType(ProcessType pt){
   	for(UField uf:CurrFormat.format.getFields()){
   		Iterator<USubfield> it = uf.getSubfields().iterator();
@@ -96,6 +96,6 @@ public class FormatUtils {
   		}
   	}
   	CurrFormat.format.pack();
-  }*/
+  }
 
 }

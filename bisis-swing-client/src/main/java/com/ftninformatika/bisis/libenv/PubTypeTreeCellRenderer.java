@@ -42,11 +42,11 @@ public class PubTypeTreeCellRenderer extends JLabel implements TreeCellRenderer 
 			setBackground(UIManager.getColor("Tree.textBackground"));
 		if (expanded) {
             setIcon(new ImageIcon(FormatTreeCellRenderer.class
-    				.getResource("/com/gint/app/bisis4/client/images/expanded.gif")));
+    				.getResource("/icons/expanded.gif")));
             
         } else {
             setIcon(new ImageIcon(FormatTreeCellRenderer.class
-    				.getResource("/com/gint/app/bisis4/client/images/collapsed.gif")));
+    				.getResource("/icons/collapsed.gif")));
         }	
 		
 		String text = "";

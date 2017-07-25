@@ -3,6 +3,8 @@ package com.ftninformatika.bisis.editor.formattree;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.Obrada;
+import com.ftninformatika.bisis.editor.editorutils.AddUFieldDialog;
+import com.ftninformatika.bisis.editor.editorutils.AddUSubfieldDialog;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.UIndicator;
@@ -30,8 +32,8 @@ public class FormatTree extends JTree {
 	
 	private FormatTreeModel model;
 	private FormatTreeCellRenderer renderer;	
-	//private AddUFieldDialog addDlg;
-	//private AddUSubfieldDialog addsfDialog;
+	private AddUFieldDialog addDlg;
+	private AddUSubfieldDialog addsfDialog;
 	
 	private JPopupMenu popupMenu;
 	
@@ -64,11 +66,11 @@ public class FormatTree extends JTree {
   }
 
   public void addElementAction(){		
-  	/*addDlg = new AddUFieldDialog(BisisApp.getMainFrame());
+  	addDlg = new AddUFieldDialog(BisisApp.getMainFrame());
   	addDlg.setVisible(true);
   	if(addDlg.getChosenUField()!=null){			
   		addNewUField(addDlg.getChosenUField());
-  	}*/
+  	}
   }
 
   public void setSecondaryMode(String fieldName){
@@ -187,12 +189,12 @@ public class FormatTree extends JTree {
 	}
 	
 	private void handleAddUSubfield(){
-		/*UField owner = CurrFormat.format.getField(getSelectedField().getName());
+		UField owner = CurrFormat.format.getField(getSelectedField().getName());
 		addsfDialog = new AddUSubfieldDialog(BisisApp.getMainFrame(),owner);
 		addsfDialog.setVisible(true);
 		if(addsfDialog.hasUSubfieldSelected() && addsfDialog.getChosenSubfields().size()>0){
 			addUSubfields(addsfDialog.getChosenSubfields(),owner);
-		}*/
+		}
 	}
 
 	private void addUSubfields(List<USubfield> sfList, UField uf){

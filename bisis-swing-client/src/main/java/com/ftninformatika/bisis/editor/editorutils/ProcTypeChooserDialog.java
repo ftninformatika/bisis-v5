@@ -48,11 +48,11 @@ public class ProcTypeChooserDialog extends CenteredDialog {
 			+ BisisApp.appConfig.getLibrarian().getUsername();
 		okButton = new JButton("Potvrdi");		
 		okButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/ok.gif")));
+        "/icons/ok.gif")));
 		
 		cancelButton = new JButton("Odustani");
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/remove.gif")));	
+        "/icons/remove.gif")));
 		layoutPanels();
 		
 		cancelButton.addActionListener(new ActionListener(){

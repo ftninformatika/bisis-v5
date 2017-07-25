@@ -1,6 +1,9 @@
 package com.ftninformatika.bisis.editor.recordtree;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.editorutils.IndicatorCodeChoiceDialog;
+import com.ftninformatika.bisis.editor.editorutils.SubfieldCodeChoiceDialog;
+import com.ftninformatika.bisis.editor.editorutils.TableCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.*;
 import com.ftninformatika.bisis.records.Subfield;
@@ -212,8 +215,8 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 		}		
 	}
   
-	private void handleOpenCoder(){
-		/*if(currElement instanceof IndicatorNode || currElement instanceof USubfield){
+	private void handleOpenCoder(){/*
+		if(currElement instanceof IndicatorNode || currElement instanceof USubfield){
 		  CodeChoiceDialog ccd = null;
 		if(currElement instanceof IndicatorNode){
 			IndicatorNode in = (IndicatorNode)currElement;
@@ -223,7 +226,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 				ui = uf.getInd1();
 			else
 				ui = uf.getInd2();
-			ccd = new IndicatorCodeChoiceDialog(ui,BisisApp.getMainFrame());			
+			ccd = new IndicatorCodeChoiceDialog(ui,BisisApp.getMainFrame());
 		}else if(currElement instanceof USubfield){
 			USubfield usf = (USubfield)currElement;
 			if(usf.getOwner().getName().equalsIgnoreCase("992")){ //cita sifarnik iz baze
@@ -245,7 +248,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 		//else codedCellEditor.setText("");
 		ccd.setVisible(false);
 		}
-		codedCellEditor.grabFocus();		*/
+		codedCellEditor.grabFocus();*/
 	}
 	
 	private void handleGenerateDate(){

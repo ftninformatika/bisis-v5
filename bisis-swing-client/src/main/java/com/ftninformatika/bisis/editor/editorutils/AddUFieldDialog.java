@@ -92,10 +92,10 @@ public class AddUFieldDialog extends CenteredDialog {
 			buttonsPanel = new JPanel();
 			okButton = new JButton(Messages.getString("EDITOR_BUTTONACCEPT")); //$NON-NLS-1$
 			okButton.setIcon(new ImageIcon(getClass().getResource(
-	        "/com/gint/app/bisis4/client/images/ok.gif")));		 //$NON-NLS-1$
+	        "/icons/ok.gif")));		 //$NON-NLS-1$
 			cancelButton = new JButton(Messages.getString("EDITOR_CANCEL")); //$NON-NLS-1$
 			cancelButton.setIcon(new ImageIcon(getClass().getResource(
-	        "/com/gint/app/bisis4/client/images/remove.gif")));		 //$NON-NLS-1$
+	        "/icons/remove.gif")));		 //$NON-NLS-1$
 			
 			// components laying out
 			

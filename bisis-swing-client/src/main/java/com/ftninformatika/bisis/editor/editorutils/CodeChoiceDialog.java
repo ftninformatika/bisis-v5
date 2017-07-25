@@ -98,7 +98,7 @@ public class CodeChoiceDialog extends CenteredDialog {
 		okButton.setSize(new java.awt.Dimension(88,26));
 		okButton.setText(Messages.getString("EDITOR_BUTTONACCEPT"));
 		okButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/ok.gif")));		
+        "/icons/ok.gif")));
 		okButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){				
 				handleOk();
@@ -111,7 +111,7 @@ public class CodeChoiceDialog extends CenteredDialog {
     });		
 		cancelButton = new JButton(Messages.getString("EDITOR_CANCEL"));
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/remove.gif")));		
+        "/icons/remove.gif")));
 		cancelButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {				
 				handleCancel();
@@ -135,8 +135,6 @@ public class CodeChoiceDialog extends CenteredDialog {
       handleCancel();   
     
   }
-
-  
 
 		/**
 	 * This method initializes jContentPane
