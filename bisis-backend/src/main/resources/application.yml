@@ -12,6 +12,8 @@ spring:
       port: 27017
       database: bisisdev
 
+
+
 logging:
   level:
     com.ftninformatika: DEBUG

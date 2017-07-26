@@ -28,4 +28,28 @@ public class Librarian {
   private String biblioteka;
   private ProcessType curentProcessType;
 
+    public boolean isAdministration() { //lakse zbog starog koda!
+        return this.administracija;
+    }
+
+    public boolean isCataloguing() {
+      return this.obrada;
+    }
+
+    public boolean isCirculation() {
+      return this.cirkulacija;
+    }
+
+
+  public void setAdministration(boolean administration) {
+    this.administracija = administration;
+  }
+
+  public void setCataloguing(boolean cataloguing) {
+    this.obrada = cataloguing;
+  }
+
+  public void setCirculation(boolean circulation) {
+    this.cirkulacija = circulation;
+  }
 }

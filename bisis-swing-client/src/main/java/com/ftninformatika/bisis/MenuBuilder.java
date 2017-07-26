@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.actions.NewRecordAction;
 import com.ftninformatika.bisis.actions.SearchAction;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
+import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 
@@ -707,7 +708,7 @@ public class MenuBuilder extends JMenuBar {
       miBibliotekari = new JMenuItem("Bibliotekari");
       miBibliotekari.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					//LibEnvironment.showLibrariansFrame();
+					LibEnvironment.showLibrariansFrame();
 					System.out.println("getMiBibliotekari");
 				}      	
       });     

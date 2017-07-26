@@ -18,6 +18,8 @@ public class LibrarianContext {
   private String pref3;
   private String pref4;
   private String pref5;
+  private ProcessType defaultProcessType;
   private ArrayList<ProcessType> processTypes = new ArrayList<ProcessType>();
+
 
 }
