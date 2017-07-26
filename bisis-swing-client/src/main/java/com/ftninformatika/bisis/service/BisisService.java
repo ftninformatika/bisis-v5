@@ -3,8 +3,7 @@ package com.ftninformatika.bisis.service;
 /**
  * Created by Petar on 6/20/2017.
  */
-import com.ftninformatika.bisis.coders.ItemStatus;
-import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -89,12 +88,34 @@ public interface BisisService {
 
     @PUT("/records")
     Call<Record> updateRecord(@Body Record rec);
-//coders
+
+//coders----------------------------------------------
+@GET("/coders/accession_register")
+Call<List<AccessionRegister>> getAccessionRegs(@Query("libName")String libName);
+
+    @GET("/coders/acquisiton_type")
+    Call<List<Acquisition>> getAcquisitonTypes(@Query("libName")String libName);
+
+    @GET("/coders/availability")
+    Call<List<Availability>> getAvailabilities(@Query("libName")String libName);
+
+    @GET("/coders/binding")
+    Call<List<Binding>> getBindings(@Query("libName")String libName);
+
+    @GET("/coders/format")
+    Call<List<Format>> getFormats(@Query("libName")String libName);
+
+    @GET("/coders/internal_mark")
+    Call<List<InternalMark>> getInterMarks(@Query("libName")String libName);
+
     @GET("/coders/item_status")
     Call<List<ItemStatus>> getStatusCoders(@Query("libName")String libName);
 
-    @GET("/coders/locations")
+    @GET("/coders/location")
     Call<List<Location>> getLocations(@Query("libName")String libName);
+
+    @GET("/coders/sublocation")
+    Call<List<Sublocation>> getSubLocations(@Query("libName")String libName);
 
 
 }
