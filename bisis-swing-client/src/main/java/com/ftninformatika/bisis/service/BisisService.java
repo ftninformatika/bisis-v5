@@ -3,18 +3,17 @@ package com.ftninformatika.bisis.service;
 /**
  * Created by Petar on 6/20/2017.
  */
-import com.ftninformatika.bisis.coders.StatusPrimerka;
+import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.google.gson.JsonObject;
-import org.springframework.data.repository.query.Param;
 import retrofit2.http.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface BisisService {
@@ -62,9 +61,6 @@ public interface BisisService {
     @POST("/records/query")
     Call<List<Record>> queryRecords(@Body SearchModel sm);
 
-    @GET("/status_primerka")
-    Call<JsonObject> getStatusCoders();
-
     @GET("/records/clear_elastic")
     Call<String> clearElasticStorage();
 
@@ -73,6 +69,13 @@ public interface BisisService {
 
     @POST("/records")
     Call<Record> createRecord(@Body Record rec);
+
+//coders
+    @GET("/coders/item_status")
+    Call<List<ItemStatus>> getStatusCoders(@Query("libName")String libName);
+
+    @GET("/coders/locations")
+    Call<List<Location>> getLocations(@Query("libName")String libName);
 
     @PUT("/records")
     Call<Record> updateRecord(@Body Record rec);
