@@ -36,6 +36,12 @@ public interface BisisService {
     @GET("/librarians/search/getLibrariansByBiblioteka")
     Call<JsonObject> getAllLibrarinasInThisLibrary(@Query("library") String library);
 
+    @POST("/librarians")
+    Call<Void> createLibrarian(@Body Librarian librarian);
+
+    @PUT("/librarians")
+    Call<Void> updateLibrarian(@Body Librarian librarian);
+
     @GET("/configs/search/getByLibraryName")
     Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
 

@@ -259,11 +259,19 @@ public class LibrarianFrame extends JInternalFrame {
 					librariansTable.convertRowIndexToModel(librariansTable.getSelectedRow()));
 		else return null;
 	}
+	private boolean validateUsername(String uname){
+		//if (uname == null || "".equals(uname))
+		//	return false;
+		if(uname.split("@").length == 2 && uname.split("@")[1].equals(BisisApp.appConfig.getLibrarian().getUsername().split("@")[1]))
+			return true;
+
+		return false;
+	}
 
 	private String validateFormData(){
 		StringBuffer message = new StringBuffer();
-		if(usernameTxtFld.getText().equals("")) //$NON-NLS-1$
-			message.append("Nije uneto obavezno polje Korisni\u010dko ime.\n"); //$NON-NLS-1$
+		if(!validateUsername(usernameTxtFld.getText())) //$NON-NLS-1$
+			message.append("Molimo vas unesite korisnicko ime u formatu: (zeljeno ime)@"+ BisisApp.appConfig.getLibrarian().getUsername().split("@")[1] + "\n"); //$NON-NLS-1$
 		if(passwordTxtFld.getText().equals("")) //$NON-NLS-1$
 			message.append("Nije uneto obavezno polje Lozinka.\n"); //$NON-NLS-1$
 		if(!administracijaCheckBox.isSelected() 
@@ -276,6 +284,8 @@ public class LibrarianFrame extends JInternalFrame {
 				&& libProcTypesListModel.getDefaultProcessType()==null)
 			message.append("Bibliotekar-obra\u0111iva\u010d " + //$NON-NLS-1$
 					"morati imati default tip obrade.\n"); //$NON-NLS-1$
+
+
 		return message.toString();		
 	}
 	

@@ -71,112 +71,38 @@ public class LibEnvProxy {
 
 	
 	public static boolean addLibrarian(Librarian lib){		
-		
-		/*int isCataloguing = lib.isCataloguing()? 1 : 0;
-		int isCirculation = lib.isCirculation()? 1 : 0;
-		int isAdmin = lib.isAdministration()? 1 : 0;		
-		String napomena = lib.getNapomena().replace("'", "").replace("\"", "");		
-		String sqlString = "INSERT INTO Bibliotekari (" +
-		"username, password, ime, prezime, email, napomena, obrada, cirkulacija, " +
-		"administracija, context) VALUES ('"+lib.getUsername()+"','"+lib.getPassword()+"','"+lib.getIme()
-		+"','"+lib.getPrezime()+"','"+lib.getEmail()+"','"+napomena+"','"+isCataloguing+"','"
-		+isCirculation+"','"+isAdmin+"','"+lib.getContext().toXML()+"')";		
-		ExecuteUpdateCommand command = new ExecuteUpdateCommand();
-		command.setSqlString(sqlString);
-		command = (ExecuteUpdateCommand)BisisApp.getJdbcService().executeCommand(command);
-		if(command!=null)
-			if(command.getException()==null){			
-				return true;
-			}else{
-				log.fatal("Cannot add librarian with username: "+lib.getUsername());
-				log.fatal(command.getException());			
-				return false;
-			}
-		else*/ return false;
-		
-		/*
-		AddLibrarianCommand addLibrarian = new AddLibrarianCommand();
-		addLibrarian.setLibrarian(lib);
-		BisisApp.getJdbcService().executeCommand(addLibrarian);		
-		return addLibrarian.isSaved();
-		*/
-		/*
+
+		String napomena = lib.getNapomena().replace("'", "").replace("\"", "");
+		lib.setNapomena(napomena);
+		lib.setBiblioteka(BisisApp.appConfig.getLibrary());
 		try {
-			PreparedStatement pstmt = conn.prepareStatement(INSERT_LIBRARIAN);			
-			pstmt.setString(1, lib.getUsername());
-			pstmt.setString(2, lib.getPassword());
-			pstmt.setString(3, lib.getIme());
-			pstmt.setString(4, lib.getPrezime());
-			pstmt.setString(5, lib.getEmail());
-			pstmt.setString(6, lib.getNapomena());
-			pstmt.setBoolean(7, lib.isCataloguing());
-			pstmt.setBoolean(8, lib.isCirculation());
-			pstmt.setBoolean(9, lib.isAdministration());
-			pstmt.setString(10, lib.getContext().toXML());
-			pstmt.executeUpdate();			
-			conn.commit();
-			pstmt.close();
-			return true;
-		} catch (SQLException e) {
-			log.fatal("Cannot add librarian with username: "+lib.getUsername());
-			log.fatal(e);			
-			return false;
-		}*/		
+			 BisisApp.bisisService.createLibrarian(lib).execute();
+			 return true;
+		} catch (IOException e) {
+			 e.printStackTrace();
+			 return false;
+		}
+
 	}
 	
 	public static boolean updateLibrarian(Librarian lib){
 		
-		/*int isCataloguing = lib.isCataloguing()? 1 : 0;
+		int isCataloguing = lib.isCataloguing()? 1 : 0;
 		int isCirculation = lib.isCirculation()? 1 : 0;
 		int isAdmin = lib.isAdministration()? 1 : 0;		
 		
 		String napomena = "";
 		if (lib.getNapomena() != null)
 			napomena = lib.getNapomena().replace("'", "").replace("\"", "");
-		
-		String sqlString = "UPDATE Bibliotekari SET " +
-			"password='"+lib.getPassword()+"', ime='"+lib.getIme()+"', prezime='"+lib.getPrezime()+"', email='"+
-			lib.getEmail()+"', napomena='"+napomena+"', obrada='"+isCataloguing+"', " +
-			"cirkulacija='"+isCirculation+"', administracija='"+isAdmin+"', context='"+lib.getContext().toXML()+
-			"' WHERE username='"+lib.getUsername()+"';";
-		
-		ExecuteUpdateCommand command = new ExecuteUpdateCommand();
-		command.setSqlString(sqlString);
-		command = (ExecuteUpdateCommand)BisisApp.getJdbcService().executeCommand(command);
-		if(command!=null){
-		if(command.getException()==null){
-			return true;
-		}else{
-			log.fatal("Cannot update librarian with username: "+lib.getUsername());
-			log.fatal(command.getException());
-			return false;
-		}
-		}else*/
-			return false;
-		/*
+
 		try {
-			PreparedStatement pstmt = conn.prepareStatement(UPDATE_LIBRARIAN);			
-			pstmt.setString(1, lib.getPassword());
-			pstmt.setString(2, lib.getIme());
-			pstmt.setString(3, lib.getPrezime());
-			pstmt.setString(4, lib.getEmail());
-			pstmt.setString(5, lib.getNapomena());
-			pstmt.setBoolean(6, lib.isCataloguing());
-			pstmt.setBoolean(7, lib.isCirculation());
-			pstmt.setBoolean(8, lib.isAdministration());
-			pstmt.setString(9, lib.getContext().toXML());
-			pstmt.setString(10, lib.getUsername());
-			pstmt.executeUpdate();			
-			conn.commit();
-			pstmt.close();
+			BisisApp.bisisService.updateLibrarian(lib).execute();
 			return true;
-		} catch (SQLException e) {
-			log.fatal("Cannot update librarian with username: "+lib.getUsername());
-			log.fatal(e);
+		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-		*/
+
 	}
 	
 	public static boolean deleteLibrarian(Librarian lib){			
