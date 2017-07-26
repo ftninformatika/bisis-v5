@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.utils.GsonUtils;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,9 +43,17 @@ public class LibEnvProxy {
 
 	
 	public static List<ProcessType> getAllProcTypes(){
-		List<ProcessType> processTypeList = BisisApp.appConfig.getLibrarian().getContext().getProcessTypes();//TODO- ovde treba na nivou biblioteke sve tipove obrade da izvuce
+		//List<ProcessType> processTypeList = BisisApp.appConfig.getLibrarian().getContext().getProcessTypes();//TODO- ovde treba na nivou biblioteke sve tipove obrade da izvuce
 
-			return processTypeList;
+		List<ProcessType> processTypeList = null;
+
+		try {
+			processTypeList =(List<ProcessType>) GsonUtils.getCollectionFromJsonObject(ProcessType.class, BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return processTypeList;
 		}
 
 	
@@ -69,9 +78,9 @@ public class LibEnvProxy {
 		String napomena = "";
 		if (lib.getNapomena() != null)
 			napomena = lib.getNapomena().replace("'", "").replace("\"", "");
-
+		Librarian l = null;
 		try {
-			BisisApp.bisisService.updateLibrarian(lib).execute();
+			l = BisisApp.bisisService.updateLibrarian(lib).execute().body();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();

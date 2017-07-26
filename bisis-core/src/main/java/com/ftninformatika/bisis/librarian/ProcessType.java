@@ -5,16 +5,26 @@ import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UFormat;
 import com.ftninformatika.bisis.format.UIndicator;
 import com.ftninformatika.bisis.format.USubfield;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Document(collection = "coders.process_types")
+@Getter
+@Setter
 public class ProcessType implements Serializable {
 
-  private int id;
+  @Id private String _id;
+  private Integer id;
   private String name;
   private UFormat pubType;
+  private String libName;
   private List<USubfield> initialSubfields;
   private List<USubfield> mandatorySubfields;
   // koristice se za default vrednosti indikatora
@@ -47,56 +57,10 @@ public class ProcessType implements Serializable {
     this.initialSubfields = initialSubfields;
     this.mandatorySubfields = mandatorySubfields;
     this.indicators = indicators;
+    this.libName = libName;
   }
 
-  public List<USubfield> getInitialSubfields() {
-    return initialSubfields;
-  }
 
-  public void setInitialSubfields(List<USubfield> initialSubfields) {
-    this.initialSubfields = initialSubfields;
-  }
-
-  public List<USubfield> getMandatorySubfields() {
-    return mandatorySubfields;
-  }
-
-  public void setMandatorySubfields(List<USubfield> mandatorySubfields) {
-    this.mandatorySubfields = mandatorySubfields;
-  }
-  
-  public void setIndicators(List<UIndicator> indicators){
-  	this.indicators = indicators;
-  }
-  
-  public List<UIndicator> getIndicators(){
-  	return indicators;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public UFormat getPubType() {
-    return pubType;
-  }
-
-  public void setPubType(UFormat pubType) {
-    this.pubType = pubType;
-  }
-  
-  public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
 	public boolean containsSubfield(USubfield usf){
 		for(USubfield us:initialSubfields)
 			if(us.equals(usf)) return true;

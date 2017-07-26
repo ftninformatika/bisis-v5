@@ -29,7 +29,10 @@ public interface BisisService {
     Call<ResponseBody> getLibs();
 
     @GET("/configs/search/getByLibraryName")
-    Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
+    Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
+
+    @GET("/process_types/search/getProcessTypesByLibNameIsNullOrLibName")
+    Call<JsonObject> getProcessTypesForLibrary(@Query("libName") String libName);
 
 //librarians------------------------------------------------------------
     @GET("/librarians/search/getByUsername")
@@ -42,7 +45,7 @@ public interface BisisService {
     Call<Void> createLibrarian(@Body Librarian librarian);
 
     @PUT("/librarians")
-    Call<Void> updateLibrarian(@Body Librarian librarian);
+    Call<Librarian> updateLibrarian(@Body Librarian librarian);
 
     @HTTP(method = "DELETE", path = "/librarians", hasBody = true)
     Call<Void> deleteLibraian(@Body Librarian librarian);

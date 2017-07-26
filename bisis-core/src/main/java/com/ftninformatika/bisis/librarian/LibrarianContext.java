@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.librarian;
 
+import com.ftninformatika.utils.string.StringUtils;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -22,4 +23,7 @@ public class LibrarianContext {
   private ArrayList<ProcessType> processTypes = new ArrayList<ProcessType>();
 
 
+  public String toString(){
+    return pref1 + "   itd.....";
+  }
 }

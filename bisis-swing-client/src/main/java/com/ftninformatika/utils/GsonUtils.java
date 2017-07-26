@@ -2,6 +2,7 @@ package com.ftninformatika.utils;
 
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -34,6 +35,12 @@ public class GsonUtils {
                 Type listType = new TypeToken<ArrayList<Librarian>>() {
                 }.getType();
                 List<Librarian> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("librarians"), listType);
+                return yourClassList;
+            }
+            if (cls == ProcessType.class){
+                Type listType = new TypeToken<ArrayList<ProcessType>>() {
+                }.getType();
+                List<ProcessType> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("processTypes"), listType);
                 return yourClassList;
             }
         }

@@ -721,7 +721,7 @@ public class MenuBuilder extends JMenuBar {
   		miTipoviObrade = new JMenuItem("Tipovi obrade");
   		miTipoviObrade.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					//LibEnvironment.showProcessTypesFrame();
+					LibEnvironment.showProcessTypesFrame();
 					System.out.println("getMiTipoviObrade");
 				}      	
       }); 
