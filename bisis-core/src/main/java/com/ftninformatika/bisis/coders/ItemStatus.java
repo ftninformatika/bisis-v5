@@ -10,9 +10,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @ToString
 @Document(collection="coders.status")
-public class StatusPrimerka {
+public class ItemStatus {
     @Id private String _id;
     private String status;
-    private String opis;
-    private int zaduziv;
+    private String description;
+    private boolean lendable;
+    private boolean showable;
 }
