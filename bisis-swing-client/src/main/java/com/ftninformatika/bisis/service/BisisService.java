@@ -5,6 +5,7 @@ package com.ftninformatika.bisis.service;
  */
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
@@ -30,6 +31,9 @@ public interface BisisService {
 
     @GET("/configs/search/getByLibraryName")
     Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
+
+    @POST("/process_types")
+    Call<Void> addProcessType(@Body ProcessType processType);
 
     @GET("/process_types/search/getProcessTypesByLibNameIsNullOrLibName")
     Call<JsonObject> getProcessTypesForLibrary(@Query("libName") String libName);

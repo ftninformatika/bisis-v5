@@ -102,8 +102,17 @@ public class LibEnvProxy {
 	}
 	
 	public static boolean addProcessType(ProcessType pt){	
-		
-		return false;
+
+		pt.setLibName(BisisApp.appConfig.getLibrary());
+
+		try {
+			BisisApp.bisisService.addProcessType(pt).execute(); //TODO - stackoverflow zbog beskonacnog json- a, bidirekcione reference!!!!!!
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 	
 	public static boolean updateProcessType(ProcessType pt){

@@ -83,9 +83,9 @@ public class ProcessTypeTableModel extends AbstractTableModel {
 			}
 		}
 		if(index==-1){
-			//insert 
-			procTypeList.add(pt);
+			//insert
 			successful = LibEnvProxy.addProcessType(pt);
+			procTypeList.add(pt);
 		}else{
 			//update
 			pt.setId(procTypeList.get(index).getId());
