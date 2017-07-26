@@ -86,8 +86,6 @@ public class MainFrame extends JFrame {
 
         public void addHitListFrame(List<Record> recordList/*SearchModel smString query/*, Result queryResults*/) {
             if(hlf==null){
-           //     hlf = new HitListFrame(query, queryResults);
-              //  hlf = new HitListFrame(sm); //TODO-hardcoded
                 hlf = new HitListFrame(recordList);
                 desktop.add(hlf);
             }

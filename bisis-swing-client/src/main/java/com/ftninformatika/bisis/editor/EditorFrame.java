@@ -28,6 +28,9 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.plaf.basic.BasicTreeUI;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.actions.NewRecordAction;
+import com.ftninformatika.bisis.editor.editorutils.CardFrame;
+import com.ftninformatika.bisis.editor.editorutils.ProcTypeChooserDialog;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.editor.formattree.FormatUtils;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
@@ -150,7 +153,7 @@ public class EditorFrame extends JInternalFrame {
     // tool bar
   	toolBar = new JToolBar();    
   	toolBar.setOrientation(JToolBar.HORIZONTAL);		
-  	//toolBar.add(new NewRecordAction());
+  	toolBar.add(new NewRecordAction());
   	toolBar.add(saveRecord);	
   	toolBar.add(addUField);		
   	toolBar.add(validateRecord);		 
@@ -227,12 +230,12 @@ public class EditorFrame extends JInternalFrame {
       public void keyPressed(KeyEvent arg0) {
           handleKeys(zapisPanel.getRecordTree(),arg0);        
       }
-    });/*
+    });
     zapisPanel.getFormatTree().addKeyListener(new KeyAdapter(){
       public void keyPressed(KeyEvent arg0) {
           handleKeys(zapisPanel.getRecordTree(),arg0);        
       }
-    });*/
+    });
     procTypesButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						handleOpenProcessTypeDilaog();				
@@ -280,8 +283,8 @@ public class EditorFrame extends JInternalFrame {
 	} 
   
    private void handleShowCardFrame() {
-    //CardFrame cardFrame = new CardFrame();
-    //cardFrame.setVisible(true);
+    CardFrame cardFrame = new CardFrame();
+    cardFrame.setVisible(true);
    } 
    
    public void handleChangeProcessType(ProcessType pt){
@@ -293,8 +296,8 @@ public class EditorFrame extends JInternalFrame {
    }   
    
    private void handleOpenProcessTypeDilaog(){
-  	// ProcTypeChooserDialog dialog = new ProcTypeChooserDialog();
-  	// dialog.setVisible(true);
+  	 ProcTypeChooserDialog dialog = new ProcTypeChooserDialog();
+  	 dialog.setVisible(true);
    }
    
    private void handleKeys(Component comp,KeyEvent e){
@@ -329,8 +332,8 @@ public class EditorFrame extends JInternalFrame {
     getContentPane().setLayout(new BorderLayout());    
     this.getContentPane().add(toolBar,BorderLayout.NORTH);
     panel.add(zapisPanel,zapisPanel.getName());
-   ///panel.add(inventarPanel,inventarPanel.getName());
-   // panel.add(uploadPanel,uploadPanel.getName());
+    //panel.add(inventarPanel,inventarPanel.getName());
+    //panel.add(uploadPanel,uploadPanel.getName());
     this.getContentPane().add(panel,BorderLayout.CENTER);     
   }
 	

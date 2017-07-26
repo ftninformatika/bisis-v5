@@ -271,7 +271,7 @@ public class HitListFrame extends JInternalFrame {
     		try {
     			int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
        Record rec = //BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
-                    null; //TODO-hardcoded
+                    selectedRecord; //TODO-hardcoded
     			Obrada.editRecord(rec);
     		} catch (/*LockException e*/Exception e) {
     			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);

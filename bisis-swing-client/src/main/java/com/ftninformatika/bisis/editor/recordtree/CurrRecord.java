@@ -96,8 +96,14 @@ public class CurrRecord {
           ok = record!=null;          
         }
       }else{      	
-        record.setLastModifiedDate(new Date());
+        //record.setLastModifiedDate(new Date());
         record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
+        Record r = null;
+          try {
+              r =  BisisApp.bisisService.updateRecord(record).execute().body();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
         //record = BisisApp.getRecordManager().update(record);
         ok = record!=null;       
       } 

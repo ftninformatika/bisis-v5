@@ -343,8 +343,7 @@ public class Record implements Serializable {
   	else
   		f474.getSubfield('1').setContent(String.valueOf(mr));
   }
-  
-  
+
   public Primerak getPrimerak(String invBroj){
 	  for(Primerak p:primerci){
 		  if(p.getInvBroj().equals(invBroj))
@@ -353,7 +352,6 @@ public class Record implements Serializable {
 	  }
 	  return null;
   }
-  
   
   public Godina getGodinaForInvBRSveske(String invBrojSveske){
 	  for(Godina g:godine){
