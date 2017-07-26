@@ -1,6 +1,6 @@
 package com.ftninformatika.utils;
 
-import com.ftninformatika.bisis.coders.StatusPrimerka;
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
 import com.google.gson.Gson;
@@ -24,10 +24,10 @@ public class GsonUtils {
                 List<Record> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("records"), listType);
                 return yourClassList;
             }
-            if (cls == StatusPrimerka.class){
-                Type listType = new TypeToken<ArrayList<StatusPrimerka>>() {
+            if (cls == ItemStatus.class){
+                Type listType = new TypeToken<ArrayList<ItemStatus>>() {
                 }.getType();
-                List<StatusPrimerka> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("status"), listType);
+                List<ItemStatus> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("status"), listType);
                 return yourClassList;
             }
             if (cls == Librarian.class){

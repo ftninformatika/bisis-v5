@@ -25,11 +25,13 @@ public interface BisisService {
     @GET("/members")
     Call<ResponseBody> getMembers();
 
-    @Headers({"ContentType: application/json"})
     @GET("/libraries")
     Call<ResponseBody> getLibs();
 
-    @Headers({"ContentType: application/json"})
+    @GET("/configs/search/getByLibraryName")
+    Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
+
+//librarians------------------------------------------------------------
     @GET("/librarians/search/getByUsername")
     Call<Librarian> getLibrarian(@Query("username") String username);
 
@@ -42,9 +44,11 @@ public interface BisisService {
     @PUT("/librarians")
     Call<Void> updateLibrarian(@Body Librarian librarian);
 
-    @GET("/configs/search/getByLibraryName")
-    Call<LibraryConfiguration> getConfiguration(@Query("libName")String libName);
+    @HTTP(method = "DELETE", path = "/librarians", hasBody = true)
+    Call<Void> deleteLibraian(@Body Librarian librarian);
 
+
+//records---------------------------------------------------------------
     @GET("/mongo_repository_records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
 
@@ -76,6 +80,8 @@ public interface BisisService {
     @POST("/records")
     Call<Record> createRecord(@Body Record rec);
 
+    @PUT("/records")
+    Call<Record> updateRecord(@Body Record rec);
 //coders
     @GET("/coders/item_status")
     Call<List<ItemStatus>> getStatusCoders(@Query("libName")String libName);
@@ -83,7 +89,5 @@ public interface BisisService {
     @GET("/coders/locations")
     Call<List<Location>> getLocations(@Query("libName")String libName);
 
-    @PUT("/records")
-    Call<Record> updateRecord(@Body Record rec);
 
 }

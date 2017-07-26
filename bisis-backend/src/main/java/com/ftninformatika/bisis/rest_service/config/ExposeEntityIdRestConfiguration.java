@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.rest_service.config;
 
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.members.Member;
+import com.ftninformatika.bisis.records.Record;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
@@ -13,6 +15,8 @@ public class ExposeEntityIdRestConfiguration extends RepositoryRestConfigurerAda
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config){
-        config.exposeIdsFor(Librarian.class);
+        config.exposeIdsFor(Librarian.class)
+              .exposeIdsFor(Record.class)
+              .exposeIdsFor(Member.class);
     }
 }
