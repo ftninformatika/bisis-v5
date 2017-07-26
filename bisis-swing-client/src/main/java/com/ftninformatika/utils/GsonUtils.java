@@ -25,12 +25,6 @@ public class GsonUtils {
                 List<Record> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("records"), listType);
                 return yourClassList;
             }
-            if (cls == ItemStatus.class){
-                Type listType = new TypeToken<ArrayList<ItemStatus>>() {
-                }.getType();
-                List<ItemStatus> yourClassList = new Gson().fromJson(response.getAsJsonObject("_embedded").getAsJsonArray("status"), listType);
-                return yourClassList;
-            }
             if (cls == Librarian.class){
                 Type listType = new TypeToken<ArrayList<Librarian>>() {
                 }.getType();

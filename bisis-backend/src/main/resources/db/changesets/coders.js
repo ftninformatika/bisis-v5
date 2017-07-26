@@ -1,29 +1,71 @@
 //mongeez formatted javascript
 
 
+//changeset petar:ChangeSet-coders
+
+db.coders.acquisition.insert(
+    [
+        {'coder_id':'c', 'description':'Poklon'}
+
+    ]
+);
+db.coders.accessionReg.insert(
+    [
+        {'library':'gbns','coder_id': '01', 'description': 'Monografske publikacije'}
+
+    ]
+);
+db.coders.availability.insert(
+    [
+        {'coder_id': '1', 'description': 'Vremenski ograničena dostupnost - do 7 dana'}
+
+    ]
+);
+
+db.coders.binding.insert(
+    [
+        {'coder_id':'t', 'description':'Tvrdi povez'}
+
+    ]
+);
+
+db.coders.format.insert(
+    [
+        {'coder_id':'I', 'description':'Format I – Monografske publikacije I format'}
+
+    ]
+);
+
+db.coders.internalMark.insert(
+    [
+        {'coder_id':'A1', 'description':'arheografsko odeljenje 1 (br. 20)'}
+
+    ]
+);
 //changeset petar:ChangeSet-coders_item_status
 db.coders.status.insert(
-  [
-      {'status': '+', 'description': 'Slobodno za razmenu', 'lendable':false, 'showable':false},
-      {'status': '-', 'description': 'Deziderat'},
-      {'status': '1', 'description': 'Naručeno'},
-      {'status': '2', 'description': 'U obradi'},
-      {'status': '3', 'description': 'U povezu'},
-      {'status': '4', 'description': 'U reviziji'},
-      {'status': '5', 'description': 'Preusmereno'},
-      {'status': '6', 'description': 'Oštećeno'},
-      {'status': '7', 'description': 'Zagubljeno'},
-      {'status': '8', 'description': 'Izgubljeno'},
-      {'status': '9', 'description': 'Otpisano'},
-      {'status': 'A', 'description': 'Aktivno'},
-      {'status': 'E', 'description': 'Britanski Savet'}
-  ]
+    [
+        {'coder_id': '+', 'description': 'Slobodno za razmenu', 'lendable':false, 'showable':true},
+        {'coder_id': '-', 'description': 'Deziderat'},
+        {'coder_id': '1', 'description': 'Naručeno'},
+        {'coder_id': '2', 'description': 'U obradi'},
+        {'coder_id': '3', 'description': 'U povezu'},
+        {'coder_id': '4', 'description': 'U reviziji'},
+        {'coder_id': '5', 'description': 'Preusmereno'},
+        {'coder_id': '6', 'description': 'Oštećeno'},
+        {'coder_id': '7', 'description': 'Zagubljeno'},
+        {'coder_id': '8', 'description': 'Izgubljeno'},
+        {'coder_id': '9', 'description': 'Otpisano'},
+        {'coder_id': 'A', 'description': 'Aktivno'},
+        {'coder_id': 'E', 'description': 'Britanski Savet'}
+    ]
 );
+
 
 //changeset dboberic:ChangeSet-coders_location
 db.coders.location.insert(
     [
-        {'library':'gbns','location_id': '01', 'location_name': 'Stevan Sremac'}
+        {'library':'gbns','coder_id': '01', 'description': 'Đura Daničić, Dunavska 1, Novi Sad'}
 
     ]
 );
@@ -221,3 +263,11 @@ db.coders.process_types.insert(
         }
     ]
 );
+
+db.coders.sublocation.insert(
+    [
+        {'coder_id': 's', 'description': 'Tekuća periodika'}
+
+    ]
+);
+

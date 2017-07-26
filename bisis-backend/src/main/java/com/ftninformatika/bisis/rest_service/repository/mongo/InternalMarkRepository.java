@@ -1,14 +1,13 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
-import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.coders.InternalMark;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-public interface ItemStatusRepository extends MongoRepository<ItemStatus, String> {
+public interface InternalMarkRepository extends MongoRepository<InternalMark, String> {
 
     @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
-    public List<ItemStatus> getCoders(String libName);
+    public List<InternalMark> getCoders(String libName);
 }
