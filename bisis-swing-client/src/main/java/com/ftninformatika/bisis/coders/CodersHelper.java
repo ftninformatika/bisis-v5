@@ -3,8 +3,12 @@ package com.ftninformatika.bisis.coders;
 import com.ftninformatika.bisis.BisisApp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Value;
+import org.elasticsearch.common.recycler.Recycler;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +17,79 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 public class CodersHelper {
+
+    public ArrayList<ArrayList<Object>> getCoderTableModelList(String coderName){
+        ArrayList<ArrayList<Object>> retVal = new ArrayList<>();
+
+        if (coderName.equals("Status_Primerka")) {
+                for (ItemStatus itemStatus : itemStatuses.values()) {
+                    ArrayList<Object> l = new ArrayList<>();
+                    l.add(itemStatus.getCoder_id());
+                    l.add(itemStatus.getDescription());
+                    l.add(itemStatus.isLendable());
+                    retVal.add(l);
+                }
+        }
+        if (coderName.equals("Odeljenje")){
+                for(Location i: locations.values()){
+                    ArrayList<Object> l = new ArrayList<>();
+                    l.add(i.getCoder_id());
+                    l.add(i.getDescription());
+                    retVal.add(l);
+                }
+        }
+
+        if (coderName.equals("SigFormat")){
+            for(Format i: formats.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
+
+        if (coderName.equals("Povez")){
+            for(Binding i: bindings.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
+
+        if (coderName.equals("Podlokacija")){
+            for(Sublocation i: sublocations.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
+
+        if (coderName.equals("Nacin_nabavke")){
+            for(Acquisition i: acquisitionTypes.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
+        if (coderName.equals("Interna_oznaka")){
+            for(InternalMark i: internalMarks.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
+
+
+
+
+        return retVal;
+    }
+
+
 
     public void init() {
 

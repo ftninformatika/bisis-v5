@@ -4,28 +4,26 @@
 package com.ftninformatika.bisis.libenv;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.utils.GsonUtils;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
 /**
- * @author dimicb
+ * @author Petar
  *
  */
 public class LibEnvProxy {
-	
 
-	
+
+	/***
+	 *
+	 * @return list of all Librarians in current Library or null
+	 */
 	public static List<Librarian> getAllLibrarians(){
 
 		List<Librarian> libList = null;

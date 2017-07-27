@@ -1,18 +1,17 @@
 package com.ftninformatika.bisis.admin.coders;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Array;
 import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.table.AbstractTableModel;
 
+import com.ftninformatika.bisis.BisisApp;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -68,46 +67,11 @@ public class CoderTableModel extends AbstractTableModel {
     data.get(row).set(col, value);
   }
   
-//  public void refresh() {
-//    data.clear();
-//    try {
-//      Statement stmt = BisisApp.getConnection().createStatement();
-//      ResultSet rset = stmt.executeQuery(getSelect());
-//      while (rset.next()) {
-//        ArrayList<Object> row = new ArrayList<Object>();
-//        data.add(row);
-//        int index = 1;
-//        for (Column c : table.getColumns()) {
-//          switch (c.getType()) {
-//            case Types.INTEGER:
-//              row.add(rset.getInt(index));
-//              break;
-//            case Types.CHAR:
-//            case Types.VARCHAR:
-//              row.add(rset.getString(index).trim());
-//              break;
-//            case Types.DECIMAL:
-//              row.add(rset.getBigDecimal(index));
-//              break;
-//            case Types.DATE:
-//              row.add(rset.getDate(index));
-//              break;
-//            default:
-//              row.add(rset.getObject(index));
-//          }
-//          index++;
-//        }
-//      }
-//      rset.close();
-//      stmt.close();
-//      fireTableDataChanged();
-//    } catch (Exception ex) {
-//      ex.printStackTrace();
-//    }
-//  }
-  
+
   public void refresh() throws Exception{
     data.clear();
+    data = BisisApp.appConfig.getCodersHelper().getCoderTableModelList(table.getName());
+    fireTableDataChanged();
     /*ExecuteQueryCommand command = new ExecuteQueryCommand();
     command.setSqlString(getSelect());
     command = (ExecuteQueryCommand)BisisApp.getJdbcService().executeCommand(command);

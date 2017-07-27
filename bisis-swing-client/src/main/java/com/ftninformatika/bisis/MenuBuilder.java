@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.actions.MonitorAction;
 import com.ftninformatika.bisis.actions.NewRecordAction;
 import com.ftninformatika.bisis.actions.SearchAction;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
@@ -347,7 +348,7 @@ public class MenuBuilder extends JMenuBar {
 			mSistem = new JMenu();
 			mSistem.setText("Sistem");
 			mSistem.add(getMLog());
-    //  mSistem.add(getMMonitor());
+    		mSistem.add(getMMonitor());
       		mSistem.add(getMIzlaz());
 		}
 		return mSistem;
@@ -520,7 +521,7 @@ public class MenuBuilder extends JMenuBar {
     return mCircReports;
   }
 	
-/*	private JMenuItem getMOptions() {
+	/*private JMenuItem getMOptions() {
 		if (mOptions == null) {
 			mOptions = new JMenuItem();
 			mOptions.setText("Opcije");
@@ -709,7 +710,6 @@ public class MenuBuilder extends JMenuBar {
       miBibliotekari.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					LibEnvironment.showLibrariansFrame();
-					System.out.println("getMiBibliotekari");
 				}      	
       });     
     }
@@ -722,7 +722,6 @@ public class MenuBuilder extends JMenuBar {
   		miTipoviObrade.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					LibEnvironment.showProcessTypesFrame();
-					System.out.println("getMiTipoviObrade");
 				}      	
       }); 
   		
@@ -749,7 +748,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return mLog;
   }
-  /*
+
   private JMenuItem getMMonitor() {
     if (mMonitor == null) {
       mMonitor = new JMenuItem(new MonitorAction());
@@ -757,7 +756,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return mMonitor;
   }
-  */
+
   private JMenu getMSifCirc(){
     if (mSifCirc == null){
       mSifCirc = new JMenu("\u0160ifarnici cirkulacije");
@@ -973,15 +972,15 @@ public class MenuBuilder extends JMenuBar {
     }
     return warningsFrame;
   }
-  
+
   public OptionsMainFrame getOptionsFrame(){
     if (optionsFrame == null){
       optionsFrame = new OptionsMainFrame();
       BisisApp.getMainFrame().insertFrame(optionsFrame);
     }
     return optionsFrame;
-  }*/
-  
+  }
+  */
   public SearchAdvancedFrame getSearchAdvancedFrame(){
 	    if (searchAdvancedFrame == null){
 	    	searchAdvancedFrame = new SearchAdvancedFrame();

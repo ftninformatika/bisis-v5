@@ -3,10 +3,13 @@ package com.ftninformatika.bisis.rest_service.controller;
 import com.ftninformatika.bisis.rest_service.Application;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import java.nio.charset.Charset;
@@ -15,6 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @SpringBootTest(classes = Application.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
 public class RecordsControllerTest {
 
   private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
@@ -50,7 +55,8 @@ public class RecordsControllerTest {
   }
 
   @Test
-  public void testGetSuccessful() {
+  public void testGetSuccessful() throws Exception {
+    mockMvc.perform(get("/records/16")).andExpect(status().isOk());
   }
 
   @Test

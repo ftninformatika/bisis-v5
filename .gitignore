@@ -62,3 +62,4 @@ resources/static
 
 data/elasticsearch/*
 classes/production/bisis-backend/db/changesets/records.js
+bisis-backend/data
