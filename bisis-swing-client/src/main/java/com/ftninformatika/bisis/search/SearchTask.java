@@ -94,17 +94,18 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	       if (connError){
 	    	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
 	       	         "Konekcija na server nije uspela!"+" \n"+" Obratite se administratoru!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
-	       }else if(bigSet){
-	      	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
-	      	          "Prevelik skup pogodaka. Preformulisati upit!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
 	       }else if(recordQueryResult == null){
-	    	   JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
+	    	   JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 	    	           "Nema pogodaka!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
 	       }
 	       else if (recordQueryResult.size() == 0){
-	        JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
+	        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 	           "Nema pogodaka!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
 	       }
+           else if(bigSet){
+               JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
+                       "Prevelik skup pogodaka. Preformulisati upit!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
+           }
 	       else{
 	        BisisApp.getMainFrame().addHitListFrame(this.recordQueryResult); //da prosledjuje kolekciju objekata
 	       }

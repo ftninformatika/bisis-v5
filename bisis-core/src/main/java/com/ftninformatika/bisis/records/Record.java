@@ -441,6 +441,5 @@ public class Record implements Serializable {
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date lastModifiedDate;
 
-  @Version private Long version;
 
 }

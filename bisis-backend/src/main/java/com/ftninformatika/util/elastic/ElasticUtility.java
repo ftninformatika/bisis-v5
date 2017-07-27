@@ -72,8 +72,6 @@ public class ElasticUtility {
             e.printStackTrace();
         }
 
-
-
         return retVal;
     }
 

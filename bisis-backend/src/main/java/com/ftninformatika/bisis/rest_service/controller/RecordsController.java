@@ -7,12 +7,15 @@ import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRe
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,24 +56,35 @@ public class RecordsController {
         return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
-  //dodavanje novog zapisa
+  //dodavanje novog ili izmena postojeceg zapisa
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<Record> add(@RequestBody Record record) {
 
-    try {
-        //insert record in mongodb via MongoRepository
-        recordsRepository.insert(record);
-        //convert record to suitable prefix-json for elasticsearch
-        Map<String, String> prefixes = PrefixConverter.toMap(record, null);
-        ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes); //JsonSerializer.toJson2(prefixes)
-        //save and index posted element via ElasticsearchRepository
-        elasticRecordsRepository.save(ee);
-        elasticRecordsRepository.index(ee);
-    } catch (Exception et){
-        et.printStackTrace();
-    }
+        try {
 
-    return new ResponseEntity<>(record, HttpStatus.OK);
+            if(record.get_id() == null){                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
+                record.setLastModifiedDate(new Date());
+                record.setCreationDate(new Date());
+            }
+            else
+                record.setLastModifiedDate(new Date());
+
+            //insert record in mongodb via MongoRepository
+            Record savedRecord = recordsRepository.save(record);
+            //convert record to suitable prefix-json for elasticsearch
+            Map<String, String> prefixes = PrefixConverter.toMap(record, null);
+            ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id(), prefixes); //JsonSerializer.toJson2(prefixes)
+            //save and index posted element via ElasticsearchRepository
+            elasticRecordsRepository.save(ee);
+            elasticRecordsRepository.index(ee);
+            return new ResponseEntity<>(record, HttpStatus.OK);
+
+        } catch (Exception et) {
+            et.printStackTrace();
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
   }
 
   @RequestMapping(value = "/query", method = RequestMethod.POST) //TODO- implementirati dolenavedeneo
@@ -80,12 +94,15 @@ public class RecordsController {
       Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
 
       System.out.println(ElasticUtility.makeQuery(search).toString());
-      retVal = (ArrayList<Record>) getRecordsForMultipleIDs(ElasticUtility.getIdsFromElasticIterable(ii)); //sa mongo repozitorijuma preuzeti sve zapise za prosledjene id-jeve
+      Iterable<String> ids = ElasticUtility.getIdsFromElasticIterable(ii);
+      //retVal = (ArrayList<Record>) getRecordsForMultipleIDs(ElasticUtility.getIdsFromElasticIterable(ii)); //sa mongo repozitorijuma preuzeti sve zapise za prosledjene id-jeve
+
+      retVal = (ArrayList<Record>) recordsRepository.findAll(ids);
 
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
   }
 
-  @RequestMapping( method = RequestMethod.PUT)
+  /*@RequestMapping( method = RequestMethod.PUT)
   public ResponseEntity<Record> update(@RequestBody Record rec){
       Record retVal = null;
 
@@ -97,7 +114,7 @@ public class RecordsController {
       elasticRecordsRepository.index(ee);
 
       return new ResponseEntity<Record>(retVal, HttpStatus.OK);
-  }
+  }*/
 
 
   //za testiranje!!!!
@@ -121,7 +138,7 @@ public class RecordsController {
             List<Record> lr = recordsRepository.findAll();
             for(Record record: lr) {
                 Map<String, String> prefixes = PrefixConverter.toMap(record, null);
-                ElasticPrefixEntity ee = new ElasticPrefixEntity("" + record.getRecordID(), prefixes);
+                ElasticPrefixEntity ee = new ElasticPrefixEntity(record.get_id(), prefixes);
                     elasticRecordsRepository.save(ee);
                     elasticRecordsRepository.index(ee);
                 }
@@ -138,7 +155,7 @@ public class RecordsController {
         ArrayList<Record> retVal = new ArrayList<>();
 
         for (String id: ids){
-            retVal.add(recordsRepository.getByID(Integer.parseInt(id)));
+            retVal.add(recordsRepository.findOne(id));
         }
 
         return retVal;

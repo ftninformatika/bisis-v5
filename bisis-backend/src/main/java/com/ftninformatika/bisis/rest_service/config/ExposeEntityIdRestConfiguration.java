@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.config;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.members.Member;
+import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -19,6 +20,7 @@ public class ExposeEntityIdRestConfiguration extends RepositoryRestConfigurerAda
         config.exposeIdsFor(Librarian.class)
               .exposeIdsFor(Record.class)
               .exposeIdsFor(Member.class)
-              .exposeIdsFor(ProcessType.class);
+              .exposeIdsFor(ProcessType.class)
+              .exposeIdsFor(ElasticPrefixEntity.class);
     }
 }

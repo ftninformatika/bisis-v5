@@ -72,14 +72,12 @@ public class CurrRecord {
         if(!savedOnce && record.getRecordID()==0){             
           //int id = BisisApp.getRecordManager().getNewID("recordid");
           //int rn = BisisApp.getRecordManager().getNewID("RN");
-          record.setRecordID(12000234);//TODO-hardcoded
-          record.setRN(1200023432);
           record.setPubType(CurrFormat.getPubType());   
           if(record.getCreator()==null){
           	record.setCreator(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
-          	//record.setCreationDate(new Date());
+          	//record.setCreationDate(new Date()); ovo se sad radi na backendu
           }
-          //record.setLastModifiedDate(new Date());
+          //record.setLastModifiedDate(new Date()); i ovo!
           record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
           //ok = BisisApp.getRecordManager().add(record);
           //BisisApp.getRecordManager().lock(id,BisisApp.appConfig.getLibrarian().getUsername());
@@ -90,7 +88,7 @@ public class CurrRecord {
                 e.printStackTrace();
             }
             savedOnce = true;
-          log.info("add record, recordId="+/*id*/"12000234"+", creator: "+record.getCreator().getUsername());
+          log.info("add record, recordId="+r.get_id()+ ", creator: "+record.getCreator().getUsername());
         }else{    	
           //record = BisisApp.getRecordManager().update(record);
           ok = record!=null;          
