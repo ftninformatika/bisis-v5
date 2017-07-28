@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 public class UserCategory {
     private String description;
-    private int titles_no;
+    private int titlesNo;
     private int period;
-    private int max_period;
+    private int maxPeriod;
 }
