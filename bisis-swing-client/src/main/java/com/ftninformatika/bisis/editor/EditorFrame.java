@@ -254,16 +254,16 @@ public class EditorFrame extends JInternalFrame {
 				try {
 					boolean ok = zapisPanel.getRecordTree().saveRecord(); //TODO-hardcoded
 
-					if(!ok){		
-						String message1 = Messages.getString("EDITOR_SAVERECORDERROR"); //$NON-NLS-1$
-						JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message1,Messages.getString("EDITOR_SAVINGRECORDS"),JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
-						return false;
-					}		      
-     JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Zapis je uspe\u0161no sa\u010Duvan!",Messages.getString("EDITOR_SAVINGRECORDS"),JOptionPane.INFORMATION_MESSAGE);		 //$NON-NLS-1$
-     saveRecord.setEnabled(false);
-     recordUpdated = false;
-     setUploadEnabled(true);
-     return true;
+                 if(!ok){
+                    String message1 = Messages.getString("EDITOR_SAVERECORDERROR"); //$NON-NLS-1$
+                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message1,Messages.getString("EDITOR_SAVINGRECORDS"),JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
+                    return false;
+                 }
+                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Zapis je uspe\u0161no sa\u010Duvan!",Messages.getString("EDITOR_SAVINGRECORDS"),JOptionPane.INFORMATION_MESSAGE);		 //$NON-NLS-1$
+                 saveRecord.setEnabled(false);
+                 recordUpdated = false;
+                 setUploadEnabled(true);
+                 return true;
 		   } catch(Exception ex){
 		   	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 		   			"Zapis nije sa\u010Duvan!\n"+ex.getClass(),Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$		   	

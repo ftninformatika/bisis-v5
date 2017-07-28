@@ -37,4 +37,30 @@ public class SearchModel {
     //sortiranje
     private String sort;
 
+    @Override
+    public String toString(){
+        StringBuffer retVal = new StringBuffer();
+
+        if (!"".equals(text1))
+            retVal.append(pref1 + ":" + text1);
+        if (!"".equals(text2))
+            retVal.append(" " + oper1 + " ");
+        if (!"".equals(text2))
+            retVal.append(pref2 + ":" + text2);
+        if (!"".equals(text3))
+            retVal.append(" " + oper2 + " ");
+        if (!"".equals(text3))
+            retVal.append(pref3 + ":" + text3);
+        if (!"".equals(text4))
+            retVal.append(" " + oper3 + " ");
+        if (!"".equals(text4))
+            retVal.append(pref4 + ":" + text4);
+        if (!"".equals(text5))
+            retVal.append(" " + oper4 + " ");
+        if (!"".equals(text5))
+            retVal.append(pref5 + ":" + text5);
+
+        return retVal.toString();
+    }
+
 }

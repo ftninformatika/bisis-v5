@@ -43,11 +43,12 @@ public class HitListFrame extends JInternalFrame {
 
   public static final int PAGE_SIZE = 10;
 
-  public HitListFrame(List<Record> recordList/*SearchModel smString query Result queryResult*/) { //TODO-hardcoded
+  public HitListFrame(List<Record> recordList, String sQuery) {
     super("Rezultati pretrage", true, true, true, true);    
     //this.queryResult = queryResult;
     //renderer.setResults(queryResult);
     //this.searchModel=sm;
+    this.query = sQuery;
     this.recordsQueryResult = recordList;
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     btnFirst.setIcon(new ImageIcon(getClass().getResource(
@@ -431,10 +432,10 @@ public class HitListFrame extends JInternalFrame {
   }
   
   private void handleListSelectionChanged(){
-  	int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();//--------------
+  	String recordId = ((Record)lbHitList.getSelectedValue()).get_id();//--------------
       Record zapis = null;
       try {
-          zapis = BisisApp.bisisService.getRecordById(recordId).execute().body();
+          zapis = BisisApp.bisisService.getOneRecord(recordId).execute().body();
       } catch (IOException e) {
           e.printStackTrace();
       }
@@ -464,11 +465,11 @@ public class HitListFrame extends JInternalFrame {
 				loadCard(selectedRecord);
                 System.out.println("loadCard");
 		}else if(tabbedPane.getSelectedIndex()==2){
-				int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
+				String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
 				/*selectedRecord = BisisApp.getRecordManager().getRecord(recordId);*/
 
         try {
-            selectedRecord = BisisApp.bisisService.getRecordById(recordId).execute().body();
+            selectedRecord = BisisApp.bisisService.getOneRecord(recordId).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -476,15 +477,15 @@ public class HitListFrame extends JInternalFrame {
 				System.out.println("inventar");
 				adjustInventarColumnWidth();
 		}else if(tabbedPane.getSelectedIndex() == 3){
-			int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
+			String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
        //selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
        //uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));
         System.out.println("getDocFiles");
  	}else if(tabbedPane.getSelectedIndex() == 4){
- 		int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
+ 		String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
         Record zapis = null;
         try {
-            zapis = BisisApp.bisisService.getRecordById(recordId).execute().body();
+            zapis = BisisApp.bisisService.getOneRecord(recordId).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -492,12 +493,13 @@ public class HitListFrame extends JInternalFrame {
    loadMetaData(selectedRecord);
 	  }
   }
-  public void setRecordsQueryResult(List<Record> recs){
+  public void setRecordsQueryResult(List<Record> recs, String sQuery){
       this.recordsQueryResult = recs;
+      this.query = sQuery;
       renderer.setResults();
       updateAvailability();
       page = 0;
-      lQuery.setText("<html>Upit: <b>" + " bla bla " + "</b></html>");
+      lQuery.setText("<html>Upit: <b>" + sQuery + "</b></html>");
       displayPage();
   }
   

@@ -32,9 +32,8 @@ public class RecordsController {
   @RequestMapping(value = "/{recordId}", method = RequestMethod.GET)
   public Record getRecord(@PathVariable String recordId) {
     try {
-      int id = Integer.parseInt(recordId);
-      Record rec = recordsRepository.getByID(id);
-      if (rec == null)
+      Record rec = recordsRepository.findOne(recordId);
+        if (rec == null)
         throw new RecordNotFoundException(recordId);
       return rec;
     } catch (Exception ex) {
@@ -58,7 +57,7 @@ public class RecordsController {
 
   //dodavanje novog ili izmena postojeceg zapisa
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<Record> add(@RequestBody Record record) {
+  public ResponseEntity<Record> addOrUpdate(@RequestBody Record record) {
 
         try {
 
@@ -102,9 +101,10 @@ public class RecordsController {
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
   }
 
-  /*@RequestMapping( method = RequestMethod.PUT)
-  public ResponseEntity<Record> update(@RequestBody Record rec){
-      Record retVal = null;
+  /*
+  @RequestMapping( value = "/lock", method = RequestMethod.POST)
+  public ResponseEntity<Boolean> lock(@RequestBody Record rec){
+      Boolean retVal = null;
 
       recordsRepository.save(rec);
       Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
@@ -114,8 +114,8 @@ public class RecordsController {
       elasticRecordsRepository.index(ee);
 
       return new ResponseEntity<Record>(retVal, HttpStatus.OK);
-  }*/
-
+  }
+*/
 
   //za testiranje!!!!
   @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)

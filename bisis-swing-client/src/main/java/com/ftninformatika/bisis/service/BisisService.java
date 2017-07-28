@@ -58,8 +58,8 @@ public interface BisisService {
     @GET("/mongo_repository_records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
 
-    @GET("/records/59391f89ea9b8fbe1ed417f7")
-    Call<Record> getOneRecord();
+    @GET("/records/{recordId}")
+    Call<Record> getOneRecord(@Path("recordId") String recordId);
 
     @GET("/mongo_repository_records/search/deleteByRecordID")
     Call<Long> deleteRecordByRecId(@Query("id") int id);

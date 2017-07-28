@@ -84,13 +84,13 @@ public class MainFrame extends JFrame {
         }
     }
 
-        public void addHitListFrame(List<Record> recordList/*SearchModel smString query/*, Result queryResults*/) {
+        public void addHitListFrame(List<Record> recordList, String sQuery/*SearchModel smString query/*, Result queryResults*/) {
             if(hlf==null){
-                hlf = new HitListFrame(recordList);
+                hlf = new HitListFrame(recordList,sQuery);
                 desktop.add(hlf);
             }
             else {
-                hlf.setRecordsQueryResult(recordList);
+                hlf.setRecordsQueryResult(recordList, sQuery);
                 showHitlistFrame();
             }
             try {

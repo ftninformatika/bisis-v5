@@ -69,15 +69,11 @@ public class CurrRecord {
       throw new UValidatorException(message);            
     }else{
       if(!update){
-        if(!savedOnce && record.getRecordID()==0){             
-          //int id = BisisApp.getRecordManager().getNewID("recordid");
-          //int rn = BisisApp.getRecordManager().getNewID("RN");
+        if(!savedOnce && record.getRecordID()==0){
           record.setPubType(CurrFormat.getPubType());   
           if(record.getCreator()==null){
           	record.setCreator(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
-          	//record.setCreationDate(new Date()); ovo se sad radi na backendu
           }
-          //record.setLastModifiedDate(new Date()); i ovo!
           record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
           //ok = BisisApp.getRecordManager().add(record);
           //BisisApp.getRecordManager().lock(id,BisisApp.appConfig.getLibrarian().getUsername());
@@ -87,26 +83,32 @@ public class CurrRecord {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            ok = r != null;
             savedOnce = true;
           log.info("add record, recordId="+r.get_id()+ ", creator: "+record.getCreator().getUsername());
         }else{    	
           //record = BisisApp.getRecordManager().update(record);
-          ok = record!=null;          
+            Record r = null;
+            try {
+                r =  BisisApp.bisisService.updateRecord(record).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+          ok = r != null;
         }
-      }else{      	
-        //record.setLastModifiedDate(new Date());
+      }else{
         record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
-        Record r = null;
-        //TODO-hardcoded kada su datumi Date ne prolazi do backenda
+        //TODO - kada saljemo sa datumima ne prolazi do backenda
         record.setCreationDate(null);
         record.setLastModifiedDate(null);
+        Record r = null;
           try {
               r =  BisisApp.bisisService.updateRecord(record).execute().body();
           } catch (IOException e) {
               e.printStackTrace();
           }
         //record = BisisApp.getRecordManager().update(record);
-        ok = record!=null;       
+        ok = r != null;
       } 
     }
     return ok;   

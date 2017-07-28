@@ -107,7 +107,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
                        "Prevelik skup pogodaka. Preformulisati upit!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
            }
 	       else{
-	        BisisApp.getMainFrame().addHitListFrame(this.recordQueryResult); //da prosledjuje kolekciju objekata
+	        BisisApp.getMainFrame().addHitListFrame(this.recordQueryResult, searchModel.toString()); //da prosledjuje kolekciju objekata
 	       }
 	     } 
 	     statusDlg.dispose();  
