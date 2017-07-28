@@ -18,7 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.format.UItem;
 import net.miginfocom.swing.MigLayout;
 
@@ -50,41 +51,42 @@ public class CodedValuePanel extends JPanel {
     this.parent = parent;
     allowedSymbols.clear();
 		switch(sifType){
-			case(HoldingsDataCoders.NACINNABAVKE_CODER):
+			case(CodersHelper.NACINNABAVKE_CODER):
 				labelStr = "Na\u010din nabavke";
-				codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.NACINNABAVKE_CODER);
+				codesList = //HoldingsDataCoders.getCoder(HoldingsDataCoders.NACINNABAVKE_CODER);
+						BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.NACINNABAVKE_CODER);
 				break;
-			case(HoldingsDataCoders.POVEZ_CODER):
+			case(CodersHelper.POVEZ_CODER):
 				labelStr = "Povez";
-				codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.POVEZ_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.POVEZ_CODER);
 				break;
-			case(HoldingsDataCoders.PODLOKACIJA_CODER):
+			case(CodersHelper.PODLOKACIJA_CODER):
 				labelStr = "Podlokacija";
-				codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.PODLOKACIJA_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.PODLOKACIJA_CODER);
 				break;
-			case(HoldingsDataCoders.FORMAT_CODER):
+			case(CodersHelper.FORMAT_CODER):
 				labelStr = "Format";
-				codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.FORMAT_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.FORMAT_CODER);
 				break;
-			case(HoldingsDataCoders.INTERNAOZNAKA_CODER):
+			case(CodersHelper.INTERNAOZNAKA_CODER):
 				labelStr = "Interna oznaka";
-				codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.INTERNAOZNAKA_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INTERNAOZNAKA_CODER);
 				break;
-			case(HoldingsDataCoders.ODELJENJE_CODER):
+			case(CodersHelper.ODELJENJE_CODER):
 				labelStr = "Odeljenje";
-				codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.ODELJENJE_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.ODELJENJE_CODER);
 				break;
-			case(HoldingsDataCoders.STATUS_CODER):
+			case(CodersHelper.STATUS_CODER):
 				labelStr = "Status";
-				codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.STATUS_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.STATUS_CODER);
 				break;
-			case(HoldingsDataCoders.INVENTARNAKNJIGA_CODER):
+			case(CodersHelper.INVENTARNAKNJIGA_CODER):
 				labelStr = "Inventarna knjiga";
-				codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.INVENTARNAKNJIGA_CODER);		
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INVENTARNAKNJIGA_CODER);
         break;
-      case(HoldingsDataCoders.DOSTUPNOST_CODER):
+      case(CodersHelper.DOSTUPNOST_CODER):
         labelStr = "Stepen dostupnosti/nedostupnosti";
-      codesList = HoldingsDataCoders.getCoder(HoldingsDataCoders.DOSTUPNOST_CODER);
+      codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.DOSTUPNOST_CODER);
 		}		
 		create();    
 	}
@@ -188,7 +190,7 @@ public class CodedValuePanel extends JPanel {
   
   //ako nema odeljenje stavljamo neku default vrednost
   public void setDefaultOdeljenje(){
-    if(sifType==HoldingsDataCoders.ODELJENJE_CODER 
+    if(sifType==CodersHelper.ODELJENJE_CODER
         && !InventarConstraints.imaOdeljenja){
       codeTxtFld.setText("00");   
       valueTxtFld.setText("Nema odeljenja");
@@ -199,7 +201,7 @@ public class CodedValuePanel extends JPanel {
   }
 	
 	public void setCode(String code){
-    if(sifType==HoldingsDataCoders.ODELJENJE_CODER 
+    if(sifType==CodersHelper.ODELJENJE_CODER
         && !InventarConstraints.imaOdeljenja){
       setDefaultOdeljenje();      
     }else{
@@ -216,16 +218,16 @@ public class CodedValuePanel extends JPanel {
 	
 	private void setForInv(String code){		
     if(parent instanceof InventarPanel){
-    	if(sifType==HoldingsDataCoders.ODELJENJE_CODER)       
+    	if(sifType==CodersHelper.ODELJENJE_CODER)
        if(((InventarPanel)parent).getInventarniBrojPanel().getOdeljenje().equals("")){
        		((InventarPanel)parent).getInventarniBrojPanel().setOdeljenje(code);
        }
-    	if(sifType==HoldingsDataCoders.INVENTARNAKNJIGA_CODER)
+    	if(sifType==CodersHelper.INVENTARNAKNJIGA_CODER)
         ((InventarPanel)parent).getInventarniBrojPanel().setInvKnj(code);        
     }else if(parent instanceof SveskePanel){
-      if(sifType==HoldingsDataCoders.ODELJENJE_CODER)       
+      if(sifType==CodersHelper.ODELJENJE_CODER)
         ((SveskePanel)parent).getInvBrojPanel().setOdeljenje(code);      
-      if(sifType==HoldingsDataCoders.INVENTARNAKNJIGA_CODER)
+      if(sifType==CodersHelper.INVENTARNAKNJIGA_CODER)
       	((SveskePanel)parent).getInvBrojPanel().setInvKnj(code);     
     }
 	}	

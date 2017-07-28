@@ -1,23 +1,20 @@
 package com.ftninformatika.bisis.coders;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.format.UItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Value;
-import org.elasticsearch.common.recycler.Recycler;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
 public class CodersHelper {
 
+
+
+    //za koder frejmove
     public ArrayList<ArrayList<Object>> getCoderTableModelList(String coderName){
         ArrayList<ArrayList<Object>> retVal = new ArrayList<>();
 
@@ -119,6 +116,28 @@ public class CodersHelper {
         }
 
     }
+
+    public ArrayList<UItem> getCoder(int coderCode){
+        List<UItem> retVal = null;
+        switch (coderCode){
+            case ODELJENJE_CODER: retVal = new ArrayList<Location>(locations.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList()); break;
+            case FORMAT_CODER: retVal = new ArrayList<Format>(formats.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+            case STATUS_CODER: retVal = new ArrayList<ItemStatus>(itemStatuses.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+            case POVEZ_CODER: retVal = new ArrayList<Binding>(bindings.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+            case PODLOKACIJA_CODER: retVal = new ArrayList<Sublocation>(sublocations.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+            case NACINNABAVKE_CODER: retVal = new ArrayList<Acquisition>(acquisitionTypes.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+            case INTERNAOZNAKA_CODER: retVal = new ArrayList<InternalMark>(internalMarks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+            case INVENTARNAKNJIGA_CODER: retVal = new ArrayList<AccessionRegister>(accessionRegs.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+            case DOSTUPNOST_CODER: retVal = new ArrayList<Availability>(availabilities.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+            case _992b_CODER: retVal = //new ArrayList<InternalMark>(internalMarks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());
+                                        new ArrayList<UItem>(Arrays.asList(new UItem("0", "hardcoded value"))); break; //TODO-hardcoded
+            case LIBRARIAN_CODER: retVal = //new ArrayList<InternalMark>(internalMarks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());
+                                            new ArrayList<UItem>(Arrays.asList(new UItem("0", "hardcoded value"))); break;
+        }
+
+        return (ArrayList<UItem>) retVal;
+    }
+
     private Map<String, AccessionRegister> accessionRegs = new HashMap<>();
     private Map<String, Acquisition> acquisitionTypes = new HashMap<>();
     private Map<String, Availability> availabilities = new HashMap<>();
@@ -128,4 +147,16 @@ public class CodersHelper {
     private Map<String, ItemStatus> itemStatuses = new HashMap<>();
     private Map<String, Sublocation> sublocations = new HashMap<>();
     private Map<String, Location> locations = new HashMap<>();
+
+    public static final int ODELJENJE_CODER = 				0;
+    public static final int FORMAT_CODER =    				1;
+    public static final int STATUS_CODER =    				2;
+    public static final int POVEZ_CODER =     				3;
+    public static final int PODLOKACIJA_CODER =   		4;
+    public static final int NACINNABAVKE_CODER =  		5;
+    public static final int INTERNAOZNAKA_CODER =   	6;
+    public static final int INVENTARNAKNJIGA_CODER =	7;
+    public static final int DOSTUPNOST_CODER =     		8;
+    public static final int _992b_CODER =     		9;
+    public static final int LIBRARIAN_CODER =     		10;
 }
