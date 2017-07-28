@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.coders;
+package com.ftninformatika.bisis.models.circ;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -16,4 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class WarningType {
     @Id
     private String _id;
+    private String library;
+    private String description;
+    private String template;
 }

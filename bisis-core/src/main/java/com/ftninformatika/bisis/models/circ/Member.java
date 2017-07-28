@@ -1,6 +1,12 @@
-package com.ftninformatika.bisis.members;
+package com.ftninformatika.bisis.models.circ;
 
-
+import com.ftninformatika.bisis.models.circ.pojo.Signing;
+import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
+import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
+import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
+import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.models.circ.pojo.Organization;
+import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,18 +24,18 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_members")
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_member")
 public class Member implements java.io.Serializable {
 
 
 	@Id
     private String _id;
-	private Integer sysId;
-	private Integer organizationId;
-	private Integer languages;
-	private Integer educationLevel;
-	private Integer membershipType;
-	private Integer userCategory;
+	private Organization organization;
+	private String language;
+	private String educationLevel;
+	private MembershipType membershipType;
+	private UserCategory userCategory;
+	private CorporateMember corporateMember;
 	private Integer groups;
 	private String userId;
 	private String firstName;
@@ -61,16 +67,8 @@ public class Member implements java.io.Serializable {
 	private String pass;
 	private String blockReason;
 
-	private List<Lending> lending = new ArrayList<>();
-	private List<Signing> signing = new ArrayList<>();
+	private List<Signing> signings = new ArrayList<>();
+	private List<Duplicate> duplicates = new ArrayList<>();
+	private List<PictureBook> picturebooks = new ArrayList<>();
 
-	/** minimal constructor */
-	public Member(int sysId, String userId) {
-		this.sysId = sysId;
-		this.userId = userId;
-	}
-
-
-
-	
 }

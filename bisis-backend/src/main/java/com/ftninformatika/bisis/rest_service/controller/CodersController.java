@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.coders.*;
+import com.ftninformatika.bisis.models.circ.EducationLvl;
+import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,8 @@ public class CodersController {
     @Autowired
     SublocationRepository sublocrep;
 
+    @Autowired
+    EducationLvlRepository edurep;
 
     @RequestMapping(path = "accession_register")
     public List<AccessionRegister> getAccessionRegs(String libName){
@@ -87,4 +90,11 @@ public class CodersController {
     public List<Sublocation> getSublocations(String libName){
         return sublocrep.getCoders(libName);
     }
+
+    //coders from circ------------------------------------
+    @RequestMapping(path = "education")
+    public List<EducationLvl> getEducation(String libName){
+        return edurep.getCoders(libName);
+    }
+
 }

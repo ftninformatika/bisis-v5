@@ -76,7 +76,7 @@ public class HitListModel extends AbstractListModel {
     return false;
   }  
   
-  private Record[] records; //promenjeno u drugi model radi testiranja hitlist frame-a
+  private Record[] records; //promenjeno u drugi models radi testiranja hitlist frame-a
   
   private static Log log = LogFactory.getLog(HitListModel.class);
 }

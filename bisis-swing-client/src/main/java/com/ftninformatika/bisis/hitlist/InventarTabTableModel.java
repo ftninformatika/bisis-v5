@@ -14,10 +14,10 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Bojana
- * model za tablu koja se prikazuje prilikom 
+ * models za tablu koja se prikazuje prilikom
  * pregleda rezultata pretrage
  * 
- * model je jedinstven i za godine i za primerke
+ * models je jedinstven i za godine i za primerke
  * ali se na osnovu zapisa record proverava o kom
  * tipu inventara se radi
  * 

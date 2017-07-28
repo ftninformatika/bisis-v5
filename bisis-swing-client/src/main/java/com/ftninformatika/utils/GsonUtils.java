@@ -1,6 +1,5 @@
 package com.ftninformatika.utils;
 
-import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;

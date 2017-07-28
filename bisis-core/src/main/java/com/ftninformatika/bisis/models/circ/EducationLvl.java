@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.coders;
+package com.ftninformatika.bisis.models.circ;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

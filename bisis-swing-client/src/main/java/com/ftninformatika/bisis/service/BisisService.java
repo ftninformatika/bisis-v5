@@ -3,10 +3,10 @@ package com.ftninformatika.bisis.service;
 /**
  * Created by Petar on 6/20/2017.
  */
-import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.google.gson.JsonObject;
@@ -22,7 +22,7 @@ public interface BisisService {
     @POST("/auth")
     Call<ResponseBody> getToken(@Body UserCredentials creds);
 
-    @GET("/members")
+    @GET("/circ")
     Call<ResponseBody> getMembers();
 
     @GET("/libraries")
