@@ -18,7 +18,7 @@ public class UserCategory {
     private String _id;
     private String library;
     private String description;
-    private int titles_no;
+    private int titlesNo;
     private int period;
-    private int max_period;
+    private int maxPeriod;
 }
