@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Document(collection="coders.member_type")
+@Document(collection="coders.membership_type")
 public class MembershipType {
     @Id
     private String _id;
