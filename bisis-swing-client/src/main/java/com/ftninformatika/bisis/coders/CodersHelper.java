@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.coders;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.UItem;
+import com.ftninformatika.bisis.models.coders.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.io.IOException;
@@ -157,6 +158,6 @@ public class CodersHelper {
     public static final int INTERNAOZNAKA_CODER =   	6;
     public static final int INVENTARNAKNJIGA_CODER =	7;
     public static final int DOSTUPNOST_CODER =     		8;
-    public static final int _992b_CODER =     		9;
+    public static final int _992b_CODER =     		9; //ovo je patch i treba drugacije da se resi
     public static final int LIBRARIAN_CODER =     		10;
 }
