@@ -17,8 +17,8 @@ public class InventarValidation {
   private static String codeMessagePref = "Neodgovaraju\u0107a \u0161ifra za polje: ";
   private static Log log = LogFactory.getLog(InventarValidation.class.getName());
 	
-  public static String validateInventarPanelData(/*InventarPanel panel, boolean all*/){
-    /*StringBuffer messageBuff = new StringBuffer();
+  public static String validateInventarPanelData(InventarPanel panel, boolean all){
+    StringBuffer messageBuff = new StringBuffer();
     messageBuff.append(
         validateCodes(
             panel.getNacinNabavkePanel().getCode(), 
@@ -40,12 +40,11 @@ public class InventarValidation {
       messageBuff.append(
           validateInventarniBroj(
               panel.getInventarniBrojPanel().getInventarniBroj()));    
-    return messageBuff.toString(); */
-    return "nesto";
+    return messageBuff.toString();
   } 
   
-  public static String validateSveskeFormData(/*SveskePanel panel, boolean all*/){
-   /* StringBuffer messageBuff = new StringBuffer();
+  public static String validateSveskeFormData(SveskePanel panel, boolean all){
+    StringBuffer messageBuff = new StringBuffer();
     if(all)
 //    proverava se i inventarni broj
       messageBuff.append(validateInventarniBroj
@@ -54,8 +53,7 @@ public class InventarValidation {
       messageBuff.append(codeMessagePref+"Status!\n");
     if(!panel.getCenaTxtFld().getText().equals("") && !isValidCena(panel.getCenaTxtFld().getText()))
       messageBuff.append("Gre\u0161ka u formatu broja u polju Cena!\n");    
-    return messageBuff.toString();*/
-   return "nesto";
+    return messageBuff.toString();
   }
 	
 	// proverava da li inventarni broj vec postoji

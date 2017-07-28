@@ -9,7 +9,7 @@ import java.beans.PropertyVetoException;
 
 public class Obrada {	
 	
-	public static EditorFrame editorFrame = new EditorFrame();		
+	public static EditorFrame editorFrame = new EditorFrame();
 	/*public static GroupInvFrame groupInvFrame = new GroupInvFrame();
 	public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();
 	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();*/

@@ -33,6 +33,9 @@ import com.ftninformatika.bisis.editor.editorutils.CardFrame;
 import com.ftninformatika.bisis.editor.editorutils.ProcTypeChooserDialog;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.editor.formattree.FormatUtils;
+import com.ftninformatika.bisis.editor.inventar.InventarPanel;
+import com.ftninformatika.bisis.editor.inventar.MonographInventarPanel;
+import com.ftninformatika.bisis.editor.inventar.SerialInventarPanel;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordTree;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
@@ -49,7 +52,7 @@ public class EditorFrame extends JInternalFrame {
 	
 	private ZapisPanel zapisPanel = null;
 	private JPanel panel;
-	//private InventarPanel inventarPanel = null;
+	private InventarPanel inventarPanel = null;
 	//private UploadPanel uploadPanel = null;
 	
 	private JToolBar toolBar;	
@@ -99,7 +102,7 @@ public class EditorFrame extends JInternalFrame {
 	}
 	
 	private void initializeInventarPanel(){	
-	/*	if(RecordUtils.returnHoldingsNumber()==1){
+		if(RecordUtils.returnHoldingsNumber()==1){
       inventarPanel = new MonographInventarPanel();
       inventarButton.setEnabled(true);
     }
@@ -112,7 +115,7 @@ public class EditorFrame extends JInternalFrame {
     }        
 	  inventarPanel.initializeForm();
    panel.add(inventarPanel,inventarPanel.getName());
-		*/
+
 	}
 	
 	
@@ -171,8 +174,8 @@ public class EditorFrame extends JInternalFrame {
     setUploadEnabled(false);
   	
   	zapisPanel = new ZapisPanel();
-  	/*inventarPanel = new InventarPanel();
-  	uploadPanel = new UploadPanel();*/
+  	inventarPanel = new InventarPanel();
+  	/*uploadPanel = new UploadPanel();*/
    layoutPanels(); 
    
     // action listeners
@@ -205,11 +208,11 @@ public class EditorFrame extends JInternalFrame {
   			handleValidateRecord();				
   		}			
   	});
-   /* inventarButton.addActionListener(new ActionListener(){
+    inventarButton.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent arg0) {      	
         cardLayout.show(panel, inventarPanel.getName());        
       }      
-    });*/
+    });
     zapisButton.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent arg0) {
         cardLayout.show(panel, zapisPanel.getName());        
@@ -332,7 +335,7 @@ public class EditorFrame extends JInternalFrame {
     getContentPane().setLayout(new BorderLayout());    
     this.getContentPane().add(toolBar,BorderLayout.NORTH);
     panel.add(zapisPanel,zapisPanel.getName());
-    //panel.add(inventarPanel,inventarPanel.getName());
+    panel.add(inventarPanel,inventarPanel.getName());
     //panel.add(uploadPanel,uploadPanel.getName());
     this.getContentPane().add(panel,BorderLayout.CENTER);     
   }
@@ -400,9 +403,9 @@ public class EditorFrame extends JInternalFrame {
   }
   
   
-  /*public InventarPanel getInventarPanel(){
+  public InventarPanel getInventarPanel(){
     return inventarPanel;
-  }*/
+  }
 
   public JButton getAddUField() {
     return addUField;
