@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.coders;
+package com.ftninformatika.bisis.models.circ.pojo;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -12,10 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Document(collection="coders.member_type")
-public class MemberType {
-    @Id
-    private String _id;
-    private String library;
-    private int period;
+public class Organization {
+    private String name;
+    private String address;
+    private String city;
+    private String zip;
 }

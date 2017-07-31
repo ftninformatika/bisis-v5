@@ -19,9 +19,9 @@ import javax.swing.tree.TreePath;
 /**
  * @author dimicb
  * 
- * model stabla koje sadrzi polja i potpolja
+ * models stabla koje sadrzi polja i potpolja
  * odgovarajuceg tipa publikacije
- * slican je kao model stabla u 
+ * slican je kao models stabla u
  * editoru, ali ne sadrzi indikatore
  */
 public class PubTypeTreeModel implements TreeModel {

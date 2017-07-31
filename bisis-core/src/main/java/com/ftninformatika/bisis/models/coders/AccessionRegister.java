@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.coders;
+package com.ftninformatika.bisis.models.coders;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.coders;
+package com.ftninformatika.bisis.models.circ;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -12,8 +12,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Document(collection="coders.warning_type")
-public class WarningType {
+@Document(collection="coders.user_categ")
+public class UserCategory {
     @Id
     private String _id;
+    private String library;
+    private String description;
+    private int titlesNo;
+    private int period;
+    private int maxPeriod;
 }

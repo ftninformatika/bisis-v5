@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.coders;
+package com.ftninformatika.bisis.models.circ;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -13,12 +13,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Document(collection="coders.membership")
-public class Membership {
+@Document(collection="coders.circ_location")
+public class CircLocation {
     @Id
     private String _id;
     private String library;
-    private String memberType;
-    private String userCateg;
-    private double cost;
+    private String location_id;
+    private String description;
+    private int lastUserId;
 }

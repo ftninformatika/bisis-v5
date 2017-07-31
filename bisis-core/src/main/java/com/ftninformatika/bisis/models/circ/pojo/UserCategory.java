@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.coders;
+package com.ftninformatika.bisis.models.circ.pojo;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -12,10 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Document(collection="coders.education")
-public class EducationLvl {
-    @Id
-    private String _id;
-    private String library;
+public class UserCategory {
     private String description;
+    private int titlesNo;
+    private int period;
+    private int maxPeriod;
 }

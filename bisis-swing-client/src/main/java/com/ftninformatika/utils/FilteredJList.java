@@ -65,7 +65,7 @@ public class FilteredJList extends JComponent {
     frame.setVisible(true);
   }
 
-  // inner class to provide filtered model
+  // inner class to provide filtered models
   class FilterModel extends AbstractListModel {
     ArrayList items;
     ArrayList filterItems;

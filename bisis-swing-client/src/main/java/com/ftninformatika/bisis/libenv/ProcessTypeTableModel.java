@@ -22,7 +22,7 @@ public class ProcessTypeTableModel extends AbstractTableModel {
 	private List<ProcessType> procTypeList = new ArrayList<ProcessType>();
 	
 	/**
-	 * ucitava sve tipove obrade u model
+	 * ucitava sve tipove obrade u models
 	 */
 	public ProcessTypeTableModel(){
 		procTypeList = LibEnvProxy.getAllProcTypes();
