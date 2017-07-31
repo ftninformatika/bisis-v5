@@ -35,7 +35,14 @@ public class CodersHelper {
                     retVal.add(l);
                 }
         }
-
+        if (coderName.equals("Invknj")){
+            for(AccessionRegister i: accessionRegs.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
         if (coderName.equals("SigFormat")){
             for(Format i: formats.values()){
                 ArrayList<Object> l = new ArrayList<>();
@@ -81,8 +88,6 @@ public class CodersHelper {
         }
 
 
-
-
         return retVal;
     }
 
@@ -113,6 +118,7 @@ public class CodersHelper {
 
         } catch (IOException e) {
             e.printStackTrace();
+
         }
 
     }
@@ -152,11 +158,11 @@ public class CodersHelper {
     public static final int FORMAT_CODER =    				1;
     public static final int STATUS_CODER =    				2;
     public static final int POVEZ_CODER =     				3;
-    public static final int PODLOKACIJA_CODER =   		4;
-    public static final int NACINNABAVKE_CODER =  		5;
-    public static final int INTERNAOZNAKA_CODER =   	6;
-    public static final int INVENTARNAKNJIGA_CODER =	7;
-    public static final int DOSTUPNOST_CODER =     		8;
-    public static final int _992b_CODER =     		9;
-    public static final int LIBRARIAN_CODER =     		10;
+    public static final int PODLOKACIJA_CODER =   		    4;
+    public static final int NACINNABAVKE_CODER =  		    5;
+    public static final int INTERNAOZNAKA_CODER =   	    6;
+    public static final int INVENTARNAKNJIGA_CODER =	    7;
+    public static final int DOSTUPNOST_CODER =     		    8;
+    public static final int _992b_CODER =     		        9;
+    public static final int LIBRARIAN_CODER =     		    10;
 }

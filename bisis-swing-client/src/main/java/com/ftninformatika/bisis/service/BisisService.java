@@ -89,9 +89,9 @@ public interface BisisService {
     @POST("/records")
     Call<Record> updateRecord(@Body Record rec);
 
-//coders----------------------------------------------
-@GET("/coders/accession_register")
-Call<List<AccessionRegister>> getAccessionRegs(@Query("libName")String libName);
+ //coders----------------------------------------------
+    @GET("/coders/accession_register")
+    Call<List<AccessionRegister>> getAccessionRegs(@Query("libName")String libName);
 
     @GET("/coders/acquisiton_type")
     Call<List<Acquisition>> getAcquisitonTypes(@Query("libName")String libName);

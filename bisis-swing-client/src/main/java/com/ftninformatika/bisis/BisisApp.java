@@ -109,7 +109,7 @@ public class BisisApp {
     return mf;
   }
 
-  private static Log log = LogFactory.getLog(BisisApp.class);
+  public static Log log = LogFactory.getLog(BisisApp.class);
 
   private static String getDomainFromUsername(String username) {
     //mora zbog header interceptora u retrofitu
