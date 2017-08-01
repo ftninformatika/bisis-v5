@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.coders;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.UItem;
+import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.coders.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -117,6 +118,8 @@ public class CodersHelper {
             locations = locCoders.stream().collect(Collectors.toMap(Location::getCoder_id, i -> i));
             sublocations = sublocCoders.stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
 
+            //circkulacija
+
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -154,6 +157,15 @@ public class CodersHelper {
     private Map<String, ItemStatus> itemStatuses = new HashMap<>();
     private Map<String, Sublocation> sublocations = new HashMap<>();
     private Map<String, Location> locations = new HashMap<>();
+
+    //circkulacija-----------------
+    private Map<String, Language> languages = new HashMap<>();
+    private Map<String, Membership> memberships = new HashMap<>();
+    private Map<String, MembershipType> membershipTypes = new HashMap<>();
+    private Map<String, Organization> organizations = new HashMap<>();
+    private Map<String, Place> places = new HashMap<>();
+    private Map<String, UserCategory> userCategoies = new HashMap<>();
+    private Map<String, WarningType> warningTypes = new HashMap<>();
 
     public static final int ODELJENJE_CODER = 				0;
     public static final int FORMAT_CODER =    				1;

@@ -83,6 +83,7 @@ public class CodersController {
     public List<Availability> getAvailabilities(String libName){
         return availrep.getCoders(libName);
     }
+
     @RequestMapping(path = "binding")
     public List<Binding> getBindings(String libName){
         return bindrep.getCoders(libName);

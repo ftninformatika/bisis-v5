@@ -6,6 +6,8 @@ package com.ftninformatika.bisis.service;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.models.circ.EducationLvl;
+import com.ftninformatika.bisis.models.circ.Language;
 import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
@@ -116,6 +118,37 @@ public interface BisisService {
 
     @GET("/coders/sublocation")
     Call<List<Sublocation>> getSubLocations(@Query("libName")String libName);
+
+//coders circulation----------------------------------------------------------
+
+    @GET("/coders/education")
+    Call<List<EducationLvl>> getEducationLvls(@Query("libName")String libName);
+
+    @GET("/coders/language")
+    Call<List<Language>> getLanguages(@Query("libName")String libName);
+
+    @GET("/coders/place")
+    Call<List<EducationLvl>> getPlaces(@Query("libName")String libName);
+
+    @GET("/coders/education")
+    Call<List<EducationLvl>> getEducations(@Query("libName")String libName);
+
+    @GET("/coders/membership")
+    Call<List<EducationLvl>> getMemberships(@Query("libName")String libName);
+
+    @GET("/coders/membership_type")
+    Call<List<EducationLvl>> getMembershipTypes(@Query("libName")String libName);
+
+    @GET("/coders/user_category")
+    Call<List<EducationLvl>> getUserCategories(@Query("libName")String libName);
+
+    @GET("/coders/warning_type")
+    Call<List<EducationLvl>> getWarningTypes(@Query("libName")String libName);
+
+    @GET("/coders/organization")
+    Call<List<EducationLvl>> getOrganizations(@Query("libName")String libName);
+
+
 
 
 }
