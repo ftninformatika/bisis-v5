@@ -119,6 +119,16 @@ public class CodersHelper {
             sublocations = sublocCoders.stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
 
             //circkulacija
+            List<EducationLvl> educationLvlList = BisisApp.bisisService.getEducationLvls(BisisApp.appConfig.getLibrary()).execute().body();
+            List<Language> languageList = BisisApp.bisisService.getLanguages(BisisApp.appConfig.getLibrary()).execute().body();
+            List<Place> placeList = BisisApp.bisisService.getPlaces(BisisApp.appConfig.getLibrary()).execute().body();
+            List<Membership> membershipList = BisisApp.bisisService.getMemberships(BisisApp.appConfig.getLibrary()).execute().body();
+            List<MembershipType> membershipTypeList = BisisApp.bisisService.getMembershipTypes(BisisApp.appConfig.getLibrary()).execute().body();
+            List<UserCategory> userCategoryList = BisisApp.bisisService.getUserCategories(BisisApp.appConfig.getLibrary()).execute().body();
+            List<WarningType> warningTypes = BisisApp.bisisService.getWarningTypes(BisisApp.appConfig.getLibrary()).execute().body();
+            List<Organization> organizationList = BisisApp.bisisService.getOrganizations(BisisApp.appConfig.getLibrary()).execute().body();
+
+            
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,6 +169,7 @@ public class CodersHelper {
     private Map<String, Location> locations = new HashMap<>();
 
     //circkulacija-----------------
+    private Map<String, EducationLvl> educationLevels = new HashMap<>();
     private Map<String, Language> languages = new HashMap<>();
     private Map<String, Membership> memberships = new HashMap<>();
     private Map<String, MembershipType> membershipTypes = new HashMap<>();
