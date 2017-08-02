@@ -99,9 +99,10 @@ public class CurrRecord {
       }else{
         record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
         //TODO - kada saljemo sa datumima ne prolazi do backenda
-        record.setCreationDate(null);
-        record.setLastModifiedDate(null);
+        //record.setCreationDate(null);
+        //record.setLastModifiedDate(null);
         Record r = null;
+        //record.setPrimerci(null);
           try {
               r =  BisisApp.bisisService.updateRecord(record).execute().body();
           } catch (IOException e) {

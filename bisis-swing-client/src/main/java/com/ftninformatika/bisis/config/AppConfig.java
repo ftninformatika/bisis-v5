@@ -1,16 +1,24 @@
 package com.ftninformatika.bisis.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.utils.GsonUTCDateAdapter;
 import com.ftninformatika.utils.RetrofitUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import lombok.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.springframework.data.web.ProjectingJackson2HttpMessageConverter;
 import retrofit2.Retrofit;
+//import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
+
+import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -45,12 +53,17 @@ public abstract class AppConfig {
 
     Gson gson = new GsonBuilder()
                     .setLenient()
+                    .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
+                    //.setDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
                     .create();
+
+    ObjectMapper jackson = new ObjectMapper();
 
     retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        //.addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(JacksonConverterFactory.create(jackson))
         .build();
 
   }
@@ -75,12 +88,19 @@ public abstract class AppConfig {
 
     Gson gson = new GsonBuilder()
             .setLenient()
+            .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
+            //.setDateFormat("yyyy-MM-dd'T'HH:mm:ssX")
             .create();
+
+
+    ObjectMapper jackson = new ObjectMapper();
+
 
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
         .addConverterFactory(GsonConverterFactory.create(gson))
+        //.addConverterFactory(JacksonConverterFactory.create(jackson))
         .build();
 
 

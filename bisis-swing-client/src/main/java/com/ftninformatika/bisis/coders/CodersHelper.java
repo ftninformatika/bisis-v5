@@ -128,7 +128,7 @@ public class CodersHelper {
             List<WarningType> warningTypes = BisisApp.bisisService.getWarningTypes(BisisApp.appConfig.getLibrary()).execute().body();
             List<Organization> organizationList = BisisApp.bisisService.getOrganizations(BisisApp.appConfig.getLibrary()).execute().body();
 
-            
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -175,7 +175,7 @@ public class CodersHelper {
     private Map<String, MembershipType> membershipTypes = new HashMap<>();
     private Map<String, Organization> organizations = new HashMap<>();
     private Map<String, Place> places = new HashMap<>();
-    private Map<String, UserCategory> userCategoies = new HashMap<>();
+    private Map<String, UserCategory> userCategories = new HashMap<>();
     private Map<String, WarningType> warningTypes = new HashMap<>();
 
     public static final int ODELJENJE_CODER = 				0;
@@ -187,6 +187,6 @@ public class CodersHelper {
     public static final int INTERNAOZNAKA_CODER =   	    6;
     public static final int INVENTARNAKNJIGA_CODER =	    7;
     public static final int DOSTUPNOST_CODER =     		    8;
-    public static final int _992b_CODER =     		9; //ovo je patch i treba drugacije da se resi
-    public static final int LIBRARIAN_CODER =     		10;
+    public static final int _992b_CODER =     		        9; //ovo je patch i treba drugacije da se resi
+    public static final int LIBRARIAN_CODER =     		    10;
 }
