@@ -7,7 +7,7 @@ import com.ftninformatika.bisis.editor.editorutils.TableCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.*;
 import com.ftninformatika.bisis.records.Subfield;
-import com.ftninformatika.bisis.search.CodeChoiceDialog;
+import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.utils.CharacterLookup;
 
 import java.awt.Component;
@@ -215,7 +215,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 		}		
 	}
   
-	private void handleOpenCoder(){/*
+	private void handleOpenCoder(){
 		if(currElement instanceof IndicatorNode || currElement instanceof USubfield){
 		  CodeChoiceDialog ccd = null;
 		if(currElement instanceof IndicatorNode){
@@ -248,7 +248,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 		//else codedCellEditor.setText("");
 		ccd.setVisible(false);
 		}
-		codedCellEditor.grabFocus();*/
+		codedCellEditor.grabFocus();
 	}
 	
 	private void handleGenerateDate(){

@@ -27,6 +27,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.text.JTextComponent;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;

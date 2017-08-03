@@ -4,6 +4,7 @@
 package com.ftninformatika.bisis.search;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
 
 import java.awt.Dimension;

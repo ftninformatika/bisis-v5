@@ -22,14 +22,14 @@ public class Primerak implements Serializable {
   private int primerakID;
   private String invBroj;
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
-  private Date datumRacuna; //date
+  private Date datumRacuna;
   private String brojRacuna;
   private String dobavljac;
   private BigDecimal cena;
   private String finansijer;
   private String usmeravanje;
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
-  private Date datumInventarisanja; //bio Date
+  private Date datumInventarisanja;
   private String sigFormat;
   private String sigPodlokacija;
   private String sigIntOznaka;
@@ -41,7 +41,7 @@ public class Primerak implements Serializable {
   private String odeljenje;
   private String status;
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
-  private Date datumStatusa;//date
+  private Date datumStatusa;
   private String inventator;
   private int stanje;
   private String dostupnost;
