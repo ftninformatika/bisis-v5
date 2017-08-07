@@ -13,12 +13,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.springframework.data.annotation.Id;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Primerak implements Serializable {
 
+  @Id
+  private String _id;
   private int primerakID;
   private String invBroj;
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
@@ -48,16 +52,7 @@ public class Primerak implements Serializable {
   private String napomene;
   private int version = 0;
 
-  /*public String getDatumStatusa(){
-    if (this.datumStatusa == null)
-      return null;
 
-    TimeZone tz = TimeZone.getTimeZone("UTC");
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm.sss+0000"); // Quoted "Z" to indicate UTC, no timezone offset
-    df.setTimeZone(tz);
-    String nowAsISO = df.format(this.datumStatusa);
-    return nowAsISO;
-  }*/
 
 //  public Primerak() {
 //    version = 0;

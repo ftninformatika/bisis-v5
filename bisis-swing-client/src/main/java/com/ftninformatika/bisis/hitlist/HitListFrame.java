@@ -268,7 +268,6 @@ public class HitListFrame extends JInternalFrame {
     
     btnEdit.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-          System.out.println("Usao u neki listener");
     		try {
     			int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
        Record rec = //BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
@@ -294,17 +293,19 @@ public class HitListFrame extends JInternalFrame {
     
     btnInventar.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent ev) {				
-						int recordId = ((Record)lbHitList.getSelectedValue()).getRecordID();
-		    Record rec;
+						String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
+		                Record rec = null;
 						try {
-							rec = //BisisApp.getRecordManager().getAndLock(recordId,BisisApp.getLibrarian().getUsername());
-                                    null; //TODO-hardcoded
+							rec = BisisApp.bisisService.getOneRecord(recordId).execute().body();
 							Obrada.editInventar(rec);
 						//} catch (LockException e) {
 						//	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
 		    } catch (NullPointerException e) {
 		    	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
-						}
+						} catch (IOException e) {
+                            e.printStackTrace();
+                            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greška sa servera","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
+                        }
                         System.out.println("Action preformed!");
 					}
 		  });
@@ -506,7 +507,7 @@ public class HitListFrame extends JInternalFrame {
   //private void handleTab
   
   private void handleBranches(){
-	//  BisisApp.mf.addBranchesFrame(query, queryResult.getRecords());
+	  BisisApp.mf.addBranchesFrame(query/*, queryResult.getRecords()*/);
   }
   
 	/*
@@ -612,7 +613,7 @@ public class HitListFrame extends JInternalFrame {
 			}
 	}
 	
-	public void setQueryResults(String query/*, Result queryResults*/){
+	public void setQueryResults(String query){
 		//this.queryResult = queryResults;
       this.query=query;
       //renderer.setResults(queryResults);

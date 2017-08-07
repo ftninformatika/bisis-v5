@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.editor;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.groupinv.GroupInvFrame;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.records.Record;
 
@@ -10,8 +11,8 @@ import java.beans.PropertyVetoException;
 public class Obrada {	
 	
 	public static EditorFrame editorFrame = new EditorFrame();
-	/*public static GroupInvFrame groupInvFrame = new GroupInvFrame();
-	public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();
+	public static GroupInvFrame groupInvFrame = new GroupInvFrame();
+	/*public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();
 	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();*/
 	
 	public static void newRecord(Record rec){
@@ -107,7 +108,7 @@ public class Obrada {
   }
   
   public static void openGroupInvFrame(){  	
-  	/*try {
+  	try {
       if (!groupInvFrame.isVisible())
       	groupInvFrame.setVisible(true);
       if (groupInvFrame.isIcon())
@@ -115,7 +116,7 @@ public class Obrada {
       if (!groupInvFrame.isSelected())
       	groupInvFrame.setSelected(true);
     } catch (Exception ex) {
-    }  	*/
+    }
   }
   
   public static void openInvHolesFrame(){
@@ -145,7 +146,7 @@ public class Obrada {
   
 	static{
 		BisisApp.getMainFrame().insertFrame(editorFrame);
-		//BisisApp.getMainFrame().insertFrame(groupInvFrame);
+		BisisApp.getMainFrame().insertFrame(groupInvFrame);
 		//BisisApp.getMainFrame().insertFrame(invHolesFrame);
 		//BisisApp.getMainFrame().insertFrame(mergeRecFrame);
     try {

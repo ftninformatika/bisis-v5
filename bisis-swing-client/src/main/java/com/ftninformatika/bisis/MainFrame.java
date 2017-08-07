@@ -99,8 +99,8 @@ public class MainFrame extends JFrame {
             }
             hlf.setVisible(true);
         }
-        public void addBranchesFrame(String query, int[] hits) {
-          /*  brf = new GrupniPrikazFrame(query, hits);
+        public void addBranchesFrame(String query/*, int[] hits*/) {
+           /* brf = new GrupniPrikazFrame(query, hits);
             desktop.add(brf);
             brf.setVisible(true);*/
         }

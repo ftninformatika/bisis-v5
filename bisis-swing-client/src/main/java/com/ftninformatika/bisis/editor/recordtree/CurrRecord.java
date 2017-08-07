@@ -102,9 +102,8 @@ public class CurrRecord {
         //record.setCreationDate(null);
         //record.setLastModifiedDate(null);
         Record r = null;
-        //record.setPrimerci(null);
           try {
-              r =  BisisApp.bisisService.updateRecord(record).execute().body();
+              r =  BisisApp.bisisService.updateRecord(record).execute().body(); //ovo je update
           } catch (IOException e) {
               e.printStackTrace();
           }
