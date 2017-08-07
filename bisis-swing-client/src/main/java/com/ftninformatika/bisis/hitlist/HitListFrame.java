@@ -13,7 +13,6 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -34,9 +33,7 @@ import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
-import com.ftninformatika.utils.GsonUtils;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
-import com.google.gson.JsonObject;
 import net.miginfocom.swing.MigLayout;
 
 public class HitListFrame extends JInternalFrame {

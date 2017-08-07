@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.librarian;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UFormat;
 import com.ftninformatika.bisis.format.UIndicator;
@@ -115,7 +116,8 @@ public class ProcessType implements Serializable {
   }
   
   public String toString() {
-    return toXML();
+    //"return toXML();" //TODO-hardcoded
+      return this.libName + " process type";
   }
 
 	

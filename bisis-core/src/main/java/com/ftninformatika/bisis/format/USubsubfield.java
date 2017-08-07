@@ -1,5 +1,9 @@
 package com.ftninformatika.bisis.format;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 /**
@@ -165,6 +169,7 @@ public class USubsubfield implements Serializable {
   }
   
   /** subsubfield owner (the field) */
+  @JsonBackReference(value = "subfield-subsubfields")
   private USubfield owner;
   /** subsubfield name */
   private char name;

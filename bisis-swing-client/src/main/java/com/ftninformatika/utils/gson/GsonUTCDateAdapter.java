@@ -1,4 +1,4 @@
-package com.ftninformatika.utils;
+package com.ftninformatika.utils.gson;
 
 import com.google.gson.*;
 

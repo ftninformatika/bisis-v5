@@ -8,7 +8,7 @@ import java.util.List;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
-import com.ftninformatika.utils.GsonUtils;
+import com.ftninformatika.utils.gson.GsonUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

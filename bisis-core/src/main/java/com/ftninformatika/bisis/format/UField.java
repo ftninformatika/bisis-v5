@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.format;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
@@ -54,6 +55,7 @@ public class UField implements Serializable {
   /** 
    * Return the number of subfields.
    */
+  @JsonIgnore
   public int getSubfieldCount() {
     return subfields.size();
   }
@@ -237,10 +239,13 @@ public void addSubfield(USubfield s){
   /** field description */
   private String description;
   /** first indicator */
+  @JsonManagedReference
   private UIndicator ind1;
+  @JsonManagedReference
   /** second indicator */
   private UIndicator ind2;
   /** list of available subfields */
+  @JsonManagedReference(value = "field-subfields")
   private List<USubfield> subfields = new ArrayList<USubfield>();
   /** is this field mandatory */
   private boolean mandatory;

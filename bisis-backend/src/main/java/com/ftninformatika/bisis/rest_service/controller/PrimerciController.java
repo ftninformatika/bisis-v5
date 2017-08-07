@@ -6,10 +6,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,4 +37,21 @@ public class PrimerciController {
         Record r = recordsRepository.getRecordByPrimerakInvNum(invNum);
         return r.getPrimerak(invNum);
     }
+
+    @RequestMapping( method = RequestMethod.DELETE )
+    public boolean deletePrimerak(@RequestBody Primerak primerak){
+        Record r = recordsRepository.getRecordByPrimerakInvNum(primerak.getInvBroj());
+        if ( r.getPrimerci().remove(r.getPrimerak(primerak.getInvBroj()))){
+            recordsRepository.save(r);
+            return true;
+        }
+        return false;
+    }
+
+   /* @RequestMapping( value = "/update", method = RequestMethod.PUT )
+    public void updatePrimerak(@RequestBody Primerak primerak){
+        Record r = recordsRepository.getRecordByPrimerakInvNum(primerak.getInvBroj());
+        r.updatePrimerak(primerak);
+        recordsRepository.save(r);
+    }*/
 }

@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.format;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
@@ -149,6 +150,7 @@ public String toString(){
   /** Default value. */
   private String defaultValue;
   /** indicator owner (field) (bojana)*/
+  @JsonBackReference
   private UField owner;
   /** The list of possible values, as a list of <code>UItem</code>s. */
   private List<UItem> values = new ArrayList<UItem>();

@@ -417,6 +417,12 @@ public class Record implements Serializable {
   	return rec;  	
   }
 
+  /*
+
+   */
+  public void updatePrimerak(Primerak primerak){
+      primerci.set(primerci.indexOf(getPrimerak(primerak.getInvBroj())), primerak);
+  }
 
   @Id private String _id;
   /** record identifier */

@@ -1,11 +1,12 @@
 package com.ftninformatika.bisis.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftninformatika.bisis.coders.CodersHelper;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.utils.GsonUTCDateAdapter;
+import com.ftninformatika.utils.gson.GsonUTCDateAdapter;
 import com.ftninformatika.utils.RetrofitUtils;
+import com.ftninformatika.utils.gson.ProcessTypeCustomJsonAdapter;
 import com.google.gson.*;
 import lombok.*;
 import okhttp3.OkHttpClient;
@@ -13,6 +14,7 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 //import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 import java.util.Date;
 
 @Getter
@@ -76,10 +78,12 @@ public abstract class AppConfig {
       return chain.proceed(newRequest.build());
     });
 
+
     Gson gson = new GsonBuilder()
             .setLenient()
             .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
             .create();
+
 
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)

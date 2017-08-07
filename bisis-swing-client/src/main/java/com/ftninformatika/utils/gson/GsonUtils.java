@@ -1,4 +1,4 @@
-package com.ftninformatika.utils;
+package com.ftninformatika.utils.gson;
 
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
