@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -14,6 +15,7 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 //import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.util.Date;
 
@@ -48,14 +50,19 @@ public abstract class AppConfig {
       return chain.proceed(newRequest.build());
     });
 
-    Gson gson = new GsonBuilder()
+    /*Gson gson = new GsonBuilder()
                     .setLenient()
                     .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
-                    .create();
+                    .create();*/
+
+
+
+    ObjectMapper jacksonMapper = new ObjectMapper();
 
     retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
+        .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
         .build();
 
   }
@@ -79,16 +86,20 @@ public abstract class AppConfig {
     });
 
 
-    Gson gson = new GsonBuilder()
+    /*Gson gson = new GsonBuilder()
             .setLenient()
             .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
-            .create();
+            .create();*/
+
+    ObjectMapper jacksonMapper = new ObjectMapper();
+
 
 
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        //.addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
         .build();
 
 

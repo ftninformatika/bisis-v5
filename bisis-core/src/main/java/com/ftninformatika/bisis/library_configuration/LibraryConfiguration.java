@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.library_configuration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "configs")
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class LibraryConfiguration {
 
     @Id

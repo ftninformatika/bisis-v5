@@ -121,21 +121,21 @@ public class RecordsController {
 
   //za testiranje!!!!
   @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
-  public ResponseEntity<String> clearElastic(){
+  public ResponseEntity<Boolean> clearElastic(){
       try{
           elasticRecordsRepository.deleteAll();
-          return new ResponseEntity<String>("Elastic storage cleared!", HttpStatus.OK);
+          return new ResponseEntity<>(true, HttpStatus.OK);
       }
       catch (Exception e){
           e.printStackTrace();
-          return new ResponseEntity<String>("Error!", HttpStatus.NO_CONTENT);
+          return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
       }
 
   }
 
     //za testiranje
     @RequestMapping(value = "/fill_elastic", method = RequestMethod.GET)
-    public ResponseEntity<String> fillElastic(){
+    public ResponseEntity<Boolean> fillElastic(){
         try{
             List<Record> lr = recordsRepository.findAll();
             for(Record record: lr) {
@@ -144,11 +144,11 @@ public class RecordsController {
                     elasticRecordsRepository.save(ee);
                     elasticRecordsRepository.index(ee);
                 }
-                return new ResponseEntity<String>("Elastic filled with data!", HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
             }
             catch (Exception e){
                     e.printStackTrace();
-                    return new ResponseEntity<String>("Error!", HttpStatus.NO_CONTENT);
+                    return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
                 }
 
             }

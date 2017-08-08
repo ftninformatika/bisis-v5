@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.records;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ import java.util.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonIgnoreProperties( ignoreUnknown = true )
 @Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_records")
 public class Record implements Serializable {
 

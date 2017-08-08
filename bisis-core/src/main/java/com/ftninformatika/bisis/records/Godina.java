@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class Godina implements Serializable{
 
   private int godinaID;

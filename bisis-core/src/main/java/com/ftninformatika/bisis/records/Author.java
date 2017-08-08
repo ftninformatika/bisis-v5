@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +9,8 @@ import java.io.Serializable;
  *  
  * @author mbranko@uns.ns.ac.yu
  */
+
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class Author implements Serializable {
 
   /**

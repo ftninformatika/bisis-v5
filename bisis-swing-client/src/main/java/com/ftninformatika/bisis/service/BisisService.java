@@ -79,10 +79,10 @@ public interface BisisService {
     Call<List<Record>> queryRecords(@Body SearchModel sm);
 
     @GET("/records/clear_elastic")
-    Call<String> clearElasticStorage();
+    Call<Boolean> clearElasticStorage();
 
     @GET("/records/fill_elastic")
-    Call<String> fillElasticStorage();
+    Call<Boolean> fillElasticStorage();
 
     @POST("/records")
     Call<Record> createRecord(@Body Record rec);
