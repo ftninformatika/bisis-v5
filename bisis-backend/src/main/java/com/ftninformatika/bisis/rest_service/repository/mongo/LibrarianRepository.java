@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Petar on 6/20/2017.
  */
-@RepositoryRestResource(collectionResourceRel = "librarians", path = "librarians")
+@RepositoryRestResource(collectionResourceRel = "librarians", path = "mongo_repository_librarians")
 public interface LibrarianRepository extends MongoRepository<Librarian, String> {
 
     public Librarian getByUsername(@Param("username") String username);

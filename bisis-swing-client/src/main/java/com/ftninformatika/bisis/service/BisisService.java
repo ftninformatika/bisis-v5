@@ -35,23 +35,23 @@ public interface BisisService {
     @POST("/process_types")
     Call<Void> addProcessType(@Body ProcessType processType);
 
-    @GET("/process_types/search/getProcessTypesByLibNameIsNullOrLibName")
-    Call<JsonObject> getProcessTypesForLibrary(@Query("libName") String libName);
+    @GET("/coders/process_types/getByLibrary")
+    Call<List<ProcessType>> getProcessTypesForLibrary(@Query("libName") String libName);
 
 //librarians------------------------------------------------------------
-    @GET("/librarians/search/getByUsername")
+    @GET("/mongo_repository_librarians/search/getByUsername")
     Call<Librarian> getLibrarian(@Query("username") String username);
 
-    @GET("/librarians/search/getLibrariansByBiblioteka")
-    Call<JsonObject> getAllLibrarinasInThisLibrary(@Query("library") String library);
+    @GET("/librarians/getByLibrary")
+    Call<List<Librarian>> getAllLibrarinasInThisLibrary(@Query("library") String library);
 
-    @POST("/librarians")
+    @POST("/mongo_repository_librarians")
     Call<Void> createLibrarian(@Body Librarian librarian);
 
-    @PUT("/librarians")
+    @PUT("/mongo_repository_librarians")
     Call<Librarian> updateLibrarian(@Body Librarian librarian);
 
-    @HTTP(method = "DELETE", path = "/librarians", hasBody = true)
+    @HTTP(method = "DELETE", path = "/mongo_repository_librarians", hasBody = true)
     Call<Void> deleteLibraian(@Body Librarian librarian);
 
 

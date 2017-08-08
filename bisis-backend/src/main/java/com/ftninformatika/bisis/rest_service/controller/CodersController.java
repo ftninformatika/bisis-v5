@@ -1,11 +1,13 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.model.User;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -68,6 +70,14 @@ public class CodersController {
 
     @Autowired
     OrganizationRepository orgrep;
+
+    @Autowired
+    ProcessTypeRepository processTypeRepository;
+
+    @RequestMapping(path = "process_types/getByLibrary")
+    public List<ProcessType> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
+        return processTypeRepository.getProcessTypesByLibNameIsNullOrLibName(libName);
+    }
 
     @RequestMapping(path = "accession_register")
     public List<AccessionRegister> getAccessionRegs(String libName){

@@ -29,8 +29,7 @@ public class LibEnvProxy {
 		List<Librarian> libList = null;
 
 		try {
-			libList = (List<Librarian>) GsonUtils.getCollectionFromJsonObject(Librarian.class,
-						BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body());
+			libList = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -41,12 +40,11 @@ public class LibEnvProxy {
 
 	
 	public static List<ProcessType> getAllProcTypes(){
-		//List<ProcessType> processTypeList = BisisApp.appConfig.getLibrarian().getContext().getProcessTypes();//TODO- ovde treba na nivou biblioteke sve tipove obrade da izvuce
 
 		List<ProcessType> processTypeList = null;
 
 		try {
-			processTypeList =(List<ProcessType>) GsonUtils.getCollectionFromJsonObject(ProcessType.class, BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body());
+			processTypeList = BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

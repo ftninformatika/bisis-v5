@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.config;
 
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.librarian.ProcessType;
@@ -58,6 +60,7 @@ public abstract class AppConfig {
 
 
     ObjectMapper jacksonMapper = new ObjectMapper();
+    jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO - prilagoditi na kraju tacno kako odgovara
 
     retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
@@ -92,7 +95,7 @@ public abstract class AppConfig {
             .create();*/
 
     ObjectMapper jacksonMapper = new ObjectMapper();
-
+    jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 
     this.retrofit = new Retrofit.Builder()
