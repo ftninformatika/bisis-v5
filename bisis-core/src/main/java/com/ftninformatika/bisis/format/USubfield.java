@@ -1,8 +1,6 @@
 package com.ftninformatika.bisis.format;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
@@ -62,7 +60,6 @@ public class USubfield implements Serializable {
    * @param name The name of the subsubfield
    * @return The retrieved subsubfield; null if not found
    */
-  @JsonIgnore
   public USubsubfield getSubsubfield(char name) {
     Iterator it = subsubfields.iterator();
     while (it.hasNext()) {
@@ -263,8 +260,10 @@ public class USubfield implements Serializable {
 	  this.subsubfields.add(ss);
   }
 
+  private String id;
   /** subfield owner (the field) */
   @JsonBackReference(value = "field-subfields")
+  //@JsonIdentityReference(alwaysAsId = true)
   private UField owner;
   /** subfield name */
   private char name;

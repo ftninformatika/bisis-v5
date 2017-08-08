@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.bisis.config.AppConfig;
@@ -49,6 +51,8 @@ public class BisisApp {
               "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
           System.exit(0);
         }
+
+
 
         if (token != null && !token.equals("")) {
           correct = true;
