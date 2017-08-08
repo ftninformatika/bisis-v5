@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,6 +74,14 @@ public class CodersController {
 
     @Autowired
     ProcessTypeRepository processTypeRepository;
+
+    @RequestMapping( path = "process_types")
+    public ProcessType addProcessType(@RequestBody ProcessType pt){
+        ProcessType retVal = null;
+        pt.getPubType().setFields(null);
+        retVal = processTypeRepository.save(pt);
+        return retVal;
+    }
 
     @RequestMapping(path = "process_types/getByLibrary")
     public List<ProcessType> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){

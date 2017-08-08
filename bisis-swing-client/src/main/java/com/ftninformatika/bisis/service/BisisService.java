@@ -32,7 +32,7 @@ public interface BisisService {
     @GET("/configs/search/getByLibraryName")
     Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
 
-    @POST("/process_types")
+    @POST("/coders/process_types")
     Call<Void> addProcessType(@Body ProcessType processType);
 
     @GET("/coders/process_types/getByLibrary")
