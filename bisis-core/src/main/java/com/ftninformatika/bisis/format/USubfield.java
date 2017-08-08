@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.format;
 
 import com.fasterxml.jackson.annotation.*;
 import com.google.gson.annotations.Expose;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,6 +14,10 @@ import java.util.List;
  * 
  * @author mbranko@uns.ns.ac.yu
  */
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,
+        property  = "id",
+        scope     = USubfield.class)
 public class USubfield implements Serializable {
   
   /**
@@ -219,6 +224,7 @@ public class USubfield implements Serializable {
   /**
    * Returns a printable string representation of this subfield.
    */
+
   public String toString() {
     StringBuffer retVal = new StringBuffer();
     retVal.append('[');
@@ -260,9 +266,8 @@ public class USubfield implements Serializable {
 	  this.subsubfields.add(ss);
   }
 
-  private String id;
   /** subfield owner (the field) */
-  @JsonBackReference(value = "field-subfields")
+  //@JsonManagedReference
   //@JsonIdentityReference(alwaysAsId = true)
   private UField owner;
   /** subfield name */

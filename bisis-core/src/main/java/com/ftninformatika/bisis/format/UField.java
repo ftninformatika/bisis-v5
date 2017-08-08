@@ -13,6 +13,9 @@ import java.util.List;
  * 
  * @author mbranko@uns.ns.ac.yu
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,
+        property  = "id",
+        scope     = UField.class)
 public class UField implements Serializable {
 
   /**
@@ -243,7 +246,7 @@ public void addSubfield(USubfield s){
   /** second indicator */
   private UIndicator ind2;
   /** list of available subfields */
-  @JsonManagedReference(value = "field-subfields")
+  //@JsonBackReference
   private List<USubfield> subfields = new ArrayList<USubfield>();
   /** is this field mandatory */
   private boolean mandatory;
