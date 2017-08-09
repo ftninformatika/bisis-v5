@@ -19,7 +19,6 @@ import java.util.List;
 
 public interface BisisService {
 
-    @Headers({"ContentType: application/json"})
     @POST("/auth")
     Call<ResponseBody> getToken(@Body UserCredentials creds);
 
@@ -65,7 +64,6 @@ public interface BisisService {
     @GET("/mongo_repository_records/search/deleteByRecordID")
     Call<Long> deleteRecordByRecId(@Query("id") int id);
 
-    @Headers({"ContentType: application/json"})
     @GET("/mongo_repository_records/search/getByID")
     Call<Record> getRecordById(@Query("id") int id);
 
@@ -149,8 +147,6 @@ public interface BisisService {
 
     @GET("/coders/organization")
     Call<List<Organization>> getOrganizations(@Query("libName")String libName);
-
-
 
 
 }
