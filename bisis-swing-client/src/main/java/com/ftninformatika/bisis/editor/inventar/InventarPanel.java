@@ -19,9 +19,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -96,23 +96,23 @@ public class InventarPanel extends JPanel{
     
     
     nacinNabavkePanel = 
-      new CodedValuePanel(HoldingsDataCoders.NACINNABAVKE_CODER,this);
+      new CodedValuePanel(CodersHelper.NACINNABAVKE_CODER,this);
     povezPanel = 
-      new CodedValuePanel(HoldingsDataCoders.POVEZ_CODER,this);
+      new CodedValuePanel(CodersHelper.POVEZ_CODER,this);
     podlokacijaPanel =
-      new CodedValuePanel(HoldingsDataCoders.PODLOKACIJA_CODER,this);
+      new CodedValuePanel(CodersHelper.PODLOKACIJA_CODER,this);
     formatPanel =
-      new CodedValuePanel(HoldingsDataCoders.FORMAT_CODER,this);
+      new CodedValuePanel(CodersHelper.FORMAT_CODER,this);
     intOznakaPanel =
-      new CodedValuePanel(HoldingsDataCoders.INTERNAOZNAKA_CODER,this);
+      new CodedValuePanel(CodersHelper.INTERNAOZNAKA_CODER,this);
     odeljenjePanel =
-      new CodedValuePanel(HoldingsDataCoders.ODELJENJE_CODER,this);    
+      new CodedValuePanel(CodersHelper.ODELJENJE_CODER,this);
     invKnjPanel =
-      new CodedValuePanel(HoldingsDataCoders.INVENTARNAKNJIGA_CODER,this);
+      new CodedValuePanel(CodersHelper.INVENTARNAKNJIGA_CODER,this);
     statusPanel =
-      new CodedValuePanel(HoldingsDataCoders.STATUS_CODER,this);
+      new CodedValuePanel(CodersHelper.STATUS_CODER,this);
     dostupnostPanel =
-      new CodedValuePanel(HoldingsDataCoders.DOSTUPNOST_CODER,this);
+      new CodedValuePanel(CodersHelper.DOSTUPNOST_CODER,this);
     
     sigNumerusCurensButton.setIcon(new ImageIcon(InventarPanel.class
 				.getResource("/icons/Check16.png")));

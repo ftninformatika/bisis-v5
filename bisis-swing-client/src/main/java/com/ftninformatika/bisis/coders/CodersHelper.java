@@ -14,6 +14,49 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class CodersHelper {
 
+    public boolean isValidOdeljenje(String code){
+        if(this.locations.size()>0)
+            return locations.containsKey(code);
+        else return true;
+    }
+
+    public boolean isValidFormat(String code){
+        return this.formats.containsKey(code);
+    }
+
+    public boolean isValidStatus(String code){
+        return itemStatuses.containsKey(code);
+    }
+
+    public boolean isValidPovez(String code){
+        return bindings.containsKey(code);
+    }
+
+    public boolean isValidPodlokacija(String code){
+        return sublocations.containsKey(code);
+    }
+
+    public boolean isValidNacinNabavke(String code){
+        return acquisitionTypes.containsKey(code);
+    }
+
+    public boolean isValidInternaOznaka(String code){
+        return internalMarks.containsKey(code);
+    }
+
+    public boolean isValidDostupnost(String code){
+        return availabilities.containsKey(code);
+    }
+
+  /*  public boolean isValid992b(String code){
+        itemStatuses.containsKey(code);
+    }
+*/
+    /*public boolean isValidLibrarian(String code){
+        itemStatuses.containsKey(code);
+    }*/
+
+
 
 
     //za koder frejmove

@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.editor.inventar;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.validators.DateValidator;
 import org.apache.commons.logging.Log;
@@ -130,31 +131,31 @@ public class InventarValidation {
             String dostupnost){
 		StringBuffer message = new StringBuffer();		
 		if(nacinNabavke!=null && !nacinNabavke.equals("")){
-			if(!HoldingsDataCoders.isValidNacinNabavke(nacinNabavke))
+			if(!BisisApp.appConfig.getCodersHelper().isValidNacinNabavke(nacinNabavke))
 				message.append(codeMessagePref+"Na\u010din nabavke!\n");				
 		}
 		if(povez!=null && !povez.equals("")){
-			if(!HoldingsDataCoders.isValidPovez(povez))
+			if(!BisisApp.appConfig.getCodersHelper().isValidPovez(povez))
 				message.append(codeMessagePref+"Povez!\n");
 		}
 		if(podlokacija!=null && !podlokacija.equals("")){
-			if(!HoldingsDataCoders.isValidPodlokacija(podlokacija))
+			if(!BisisApp.appConfig.getCodersHelper().isValidPodlokacija(podlokacija))
 				message.append(codeMessagePref+"Podlokacija (signatura)!\n");
 		}		
 		if(format!=null && !format.equals("")){
-			if(!HoldingsDataCoders.isValidFormat(format))
+			if(!BisisApp.appConfig.getCodersHelper().isValidFormat(format))
 				message.append(codeMessagePref+"Format (signatura)!\n");
 		}
 		if(intOznaka!=null && !intOznaka.equals("")){
-			if(!HoldingsDataCoders.isValidInternaOznaka(intOznaka))
+			if(!BisisApp.appConfig.getCodersHelper().isValidInternaOznaka(intOznaka))
 				message.append(codeMessagePref+"Interna oznaka (signatura)!\n");
 		}
 		if(odeljenje!=null && !odeljenje.equals("")){
-			if(!HoldingsDataCoders.isValidOdeljenje(odeljenje))
+			if(!BisisApp.appConfig.getCodersHelper().isValidOdeljenje(odeljenje))
 				message.append(codeMessagePref+"Odeljenje!\n");
 		}
     if(dostupnost!=null && !dostupnost.equals("")){
-      if(!HoldingsDataCoders.isValidDostupnost(dostupnost))
+      if(!BisisApp.appConfig.getCodersHelper().isValidDostupnost(dostupnost))
         message.append(codeMessagePref+"Dostupnost!\n");
     }
 		return message.toString();		
