@@ -31,7 +31,8 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
  private String queryString="";
  private SearchStatusDlg statusDlg;
  private SearchModel searchModel;
- private List<Record> recordQueryResult;
+ //private List<Record> recordQueryResult;
+ private List<String> recordQueryResultIds;
  
   public SearchTask(String pref1, String oper1, String text1, 
 					String pref2, String oper2, String text2,
@@ -67,8 +68,8 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 
 	  if (this.searchModel != null){
           try {
-              this.recordQueryResult = BisisApp.bisisService.queryRecords(this.searchModel).execute().body();
-              return this.recordQueryResult.size();
+              this.recordQueryResultIds = BisisApp.recMgr.select1(searchModel);
+              return this.recordQueryResultIds.size();
           } catch (IOException e) {
               e.printStackTrace();
               this.connError = true;
@@ -94,11 +95,11 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	       if (connError){
 	    	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
 	       	         "Konekcija na server nije uspela!"+" \n"+" Obratite se administratoru!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
-	       }else if(recordQueryResult == null){
+	       }else if(recordQueryResultIds == null){
 	    	   JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 	    	           "Nema pogodaka!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
 	       }
-	       else if (recordQueryResult.size() == 0){
+	       else if (recordQueryResultIds.size() == 0){
 	        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 	           "Nema pogodaka!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
 	       }
@@ -107,7 +108,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
                        "Prevelik skup pogodaka. Preformulisati upit!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
            }
 	       else{
-	        BisisApp.getMainFrame().addHitListFrame(this.recordQueryResult, searchModel.toString()); //da prosledjuje kolekciju objekata
+	        BisisApp.getMainFrame().addHitListFrame(this.recordQueryResultIds, searchModel.toString()); //da prosledjuje kolekciju objekata
 	       }
 	     } 
 	     statusDlg.dispose();  

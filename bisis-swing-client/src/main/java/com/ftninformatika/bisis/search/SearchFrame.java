@@ -312,7 +312,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     text = StringUtils.clearDelimiters(text, delims);
     List<String> expList = new ArrayList<>();
     try {
-      expList = BisisApp.bisisService.getExpand(prefix, text).execute().body();
+      expList = BisisApp.recMgr.selectExp(prefix, text);
     } catch (IOException e) {
       e.printStackTrace();
     }

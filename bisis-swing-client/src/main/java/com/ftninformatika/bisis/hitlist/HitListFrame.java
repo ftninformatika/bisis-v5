@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.*;
@@ -40,13 +41,13 @@ public class HitListFrame extends JInternalFrame {
 
   public static final int PAGE_SIZE = 10;
 
-  public HitListFrame(List<Record> recordList, String sQuery) {
+  public HitListFrame(List<String> recordIdsList, String sQuery) {
     super("Rezultati pretrage", true, true, true, true);    
     //this.queryResult = queryResult;
     //renderer.setResults(queryResult);
     //this.searchModel=sm;
     this.query = sQuery;
-    this.recordsQueryResult = recordList;
+    this.recordsQueryResultIds = recordIdsList;
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     btnFirst.setIcon(new ImageIcon(getClass().getResource(
     "/icons/first.gif")));
@@ -379,7 +380,7 @@ public class HitListFrame extends JInternalFrame {
   private void displayPage() {
 
     int count = PAGE_SIZE;
-    int recCount = this.recordsQueryResult.size();
+    int recCount = this.recordsQueryResultIds.size();
     if (page == pageCount()-1 ){  //ako je poslednja stranica
     	if ( recCount % PAGE_SIZE==0 ){
     		count=PAGE_SIZE;
@@ -388,24 +389,33 @@ public class HitListFrame extends JInternalFrame {
             count = recCount % PAGE_SIZE;
     	}
     }
-    pageTxtFld.setText(String.valueOf(page));
-    int[] recIDs = new int[count];
-    for (int i = 0; i < count; i++)
-      recIDs[i] =  this.recordsQueryResult.get(page * PAGE_SIZE + i).getRecordID();
 
-    hitListModel.setHits(this.recordsQueryResult);
+      Record[] recs = null;
+      try {
+           recs = BisisApp.recMgr.getRecords(this.recordsQueryResultIds);
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+
+
+      pageTxtFld.setText(String.valueOf(page));
+    String[] recIDs = new String[count];
+    for (int i = 0; i < count; i++)
+      recIDs[i] = this.recordsQueryResultIds.get(page * PAGE_SIZE + i); //TODO- za ovo dogovoriti sta da se prikazuje (mongod ID ?????)
+
+    hitListModel.setHits(recs);
     lbHitList.setSelectedIndex(0);
     handleListSelectionChanged();    
     lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
        recCount + "</b></html>");
-    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(this.recordsQueryResult)+"</b></html>");
+    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(Arrays.asList(recs))+"</b></html>");
   }
   
   private int pageCount() {
-    if (recordsQueryResult == null || recordsQueryResult.size() == 0)
+    if (recordsQueryResultIds == null || recordsQueryResultIds.size() == 0)
         return 0;
-     return recordsQueryResult.size() / PAGE_SIZE + (recordsQueryResult.size() % PAGE_SIZE > 0 ? 1 : 0);
+     return recordsQueryResultIds.size() / PAGE_SIZE + (recordsQueryResultIds.size() % PAGE_SIZE > 0 ? 1 : 0);
   }
   
   
@@ -491,8 +501,8 @@ public class HitListFrame extends JInternalFrame {
    loadMetaData(selectedRecord);
 	  }
   }
-  public void setRecordsQueryResult(List<Record> recs, String sQuery){
-      this.recordsQueryResult = recs;
+  public void setRecordsQueryResult(List<String> recs, String sQuery){
+      this.recordsQueryResultIds = recs;
       this.query = sQuery;
       renderer.setResults();
       updateAvailability();
@@ -688,7 +698,7 @@ public class HitListFrame extends JInternalFrame {
       private Record selectedRecord = null;
       private SearchModel searchModel;
   
-      private List<Record> recordsQueryResult;
+      private List<String> recordsQueryResultIds;
 
       private String query;
       private int page = 0;

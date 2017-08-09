@@ -9,6 +9,8 @@ import com.ftninformatika.bisis.config.ConfigType;
 import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.LoginFrame;
+import com.ftninformatika.bisis.service.RecordManager;
+import com.ftninformatika.bisis.service.RecordManagerImpl;
 import com.ftninformatika.utils.RetrofitUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,6 +74,7 @@ public class BisisApp {
           appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
           appConfig.initCoders();
 
+          recMgr = new RecordManagerImpl();
           //testing purposes only!
           try {
             bisisService.clearElasticStorage().execute();
@@ -108,6 +111,7 @@ public class BisisApp {
   public static BisisService bisisService;
   public static MainFrame mf;
   public static String appVersion;
+  public static RecordManager recMgr;
 
   public static MainFrame getMainFrame(){ //zbog lakseg refaktorisanja koda
     return mf;

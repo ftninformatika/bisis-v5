@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.List;
 
 
@@ -34,12 +35,16 @@ public class HitListModel extends AbstractListModel {
     return records.length;
   }
   
-  public void setHits(/*int[] recIDs*/ List<Record> fewRecs) {//TODO-hardcoded
+  public void setHits(/*int[] recIDs*/ Record[] recs) {
 
-    records = fewRecs.toArray(new Record[fewRecs.size()]);
-    for (Record r: records)
-      r.pack();// without packing
-   fireContentsChanged(this, 0, records.length - 1);
+    this.records = recs;
+
+      for (int i =0;i<recs.length;i++) {
+        if (records[i] != null)
+          records[i].pack();
+      }
+      fireContentsChanged(this, 0, records.length - 1);
+
   }
   
   public void refresh() {

@@ -26,7 +26,8 @@ public class RecordManagerImpl implements RecordManager {
 
     @Override
     public Record[] getRecords(List<String> recIDs) throws IOException {
-        return (Record[]) BisisApp.bisisService.getRecordsByIds(recIDs).execute().body().toArray();
+        Record[] retVal = new Record[recIDs.size()];
+        return  BisisApp.bisisService.getRecordsByIds(recIDs).execute().body().toArray(retVal);
     }
 
     @Override
