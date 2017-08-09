@@ -12,6 +12,8 @@ import com.ftninformatika.utils.string.Signature;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.IOException;
+
 
 /**
  * @author Bojana
@@ -137,7 +139,13 @@ public class PrimerciTableModel extends AbstractTableModel {
 			}
 			p.setStanje(0);
 			CurrRecord.addPrimerak(p);
-	    }	
+
+            try {
+                BisisApp.recMgr.add(CurrRecord.record); //obicno cuvanje zapisa
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 		fireTableDataChanged();   
 	}
   

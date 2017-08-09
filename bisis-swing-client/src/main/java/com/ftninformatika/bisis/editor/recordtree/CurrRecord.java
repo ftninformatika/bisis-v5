@@ -128,11 +128,13 @@ public class CurrRecord {
   }
   
   public static void unlockRecord(){
-   /* try{
-      BisisApp.getRecordManager().unlock(record.getRecordID());
+    try{
+      BisisApp.recMgr.unlock(record.get_id());
     }catch(NullPointerException e){
       log.fatal(e);
-    }*/
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
   } 
   
   public static Object[] addField(UField uf, boolean withSubfields) throws UValidatorException{

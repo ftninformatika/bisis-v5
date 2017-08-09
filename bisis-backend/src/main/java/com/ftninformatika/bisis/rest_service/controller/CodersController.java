@@ -78,7 +78,6 @@ public class CodersController {
     @RequestMapping( path = "process_types")
     public ProcessType addProcessType(@RequestBody ProcessType pt){
         ProcessType retVal = null;
-        pt.getPubType().setFields(null);
         retVal = processTypeRepository.save(pt);
         return retVal;
     }

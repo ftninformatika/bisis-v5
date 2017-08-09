@@ -343,7 +343,7 @@ public class EditorFrame extends JInternalFrame {
   private void closeEditor(){
   	sendFocus();
     this.setVisible(false);
-   // CurrRecord.unlockRecord();
+    CurrRecord.unlockRecord();
     
   }
   

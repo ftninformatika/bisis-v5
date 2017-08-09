@@ -46,6 +46,11 @@ public class RecordManagerImpl implements RecordManager {
     }
 
     @Override
+    public boolean add(Record rec) throws IOException {
+        return BisisApp.bisisService.createRecord(rec).execute().body() != null;
+    }
+
+    @Override
     public List<String> selectExp(/*String query,*/ String prefix, String text) throws IOException {
         return BisisApp.bisisService.getExpand(prefix, text).execute().body();
     }

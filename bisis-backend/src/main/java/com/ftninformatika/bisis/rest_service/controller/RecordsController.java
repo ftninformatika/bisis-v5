@@ -100,7 +100,7 @@ public class RecordsController {
             Record savedRecord = recordsRepository.save(record);
             //convert record to suitable prefix-json for elasticsearch
             Map<String, String> prefixes = PrefixConverter.toMap(record, null);
-            ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id(), prefixes);
+            ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id().toString(), prefixes);
             //save and index posted element via ElasticsearchRepository
             elasticRecordsRepository.save(ee);
             elasticRecordsRepository.index(ee);
@@ -108,7 +108,7 @@ public class RecordsController {
 
         } catch (Exception et) {
             et.printStackTrace();
-            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(  HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
@@ -187,7 +187,7 @@ public class RecordsController {
             List<Record> lr = recordsRepository.findAll();
             for(Record record: lr) {
                 Map<String, String> prefixes = PrefixConverter.toMap(record, null);
-                ElasticPrefixEntity ee = new ElasticPrefixEntity(record.get_id(), prefixes);
+                ElasticPrefixEntity ee = new ElasticPrefixEntity(record.get_id().toString(), prefixes);
                     elasticRecordsRepository.save(ee);
                     elasticRecordsRepository.index(ee);
                 }

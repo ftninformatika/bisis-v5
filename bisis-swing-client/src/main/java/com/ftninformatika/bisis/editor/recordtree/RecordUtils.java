@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.format.USubfield;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.*;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -385,11 +386,13 @@ public class RecordUtils { //TODO-hardcoded all over the place
   }
   
   public static void unlockRecord(Record rec){
-    /*try{
-      BisisApp.getRecordManager().unlock(rec.getRecordID());
+    try{
+      BisisApp.recMgr.unlock(rec.get_id());
     }catch(NullPointerException e){
       
-    }*/
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
   }
   
   public static void removeSubfieldsFromProcesstype(ProcessType pt){

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.gson.JsonObject;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
@@ -30,10 +31,10 @@ import java.io.IOException;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
-@Configuration
-@EnableMongoRepositories(basePackages = "com.ftninformatika")
-@ComponentScan(basePackages = {"com.ftninformatika"})
-@ContextConfiguration(initializers = YamlFileApplicationContextInitializer.class)
+//@Configuration
+//@EnableMongoRepositories(basePackages = "com.ftninformatika")
+//@ComponentScan(basePackages = {"com.ftninformatika"})
+//@ContextConfiguration(initializers = YamlFileApplicationContextInitializer.class)
 public class MongoConfig extends AbstractMongoConfiguration {
 
     @Value("${spring.data.mongodb.host}")
@@ -44,13 +45,6 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Value("${spring.data.mongodb.port}")
     private int port;
-
-   /* @Value("${spring.data.mongodb.user}")
-    private String user;
-
-    @Value("$spring.data.{mongodb.passwd}")
-    private String passwd;*/
-
 
     @Override
     protected String getDatabaseName() {
@@ -72,8 +66,8 @@ public class MongoConfig extends AbstractMongoConfiguration {
     public MappingMongoConverter mappingMongoConverter() throws Exception {
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDbFactory());
         ObjectMapper mapper = new ObjectMapper()
-                .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .registerModule(new SimpleModule() {
+                .configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+                /*.registerModule(new SimpleModule() {
                     {
                         addDeserializer(ObjectId.class, new JsonDeserializer<ObjectId>() {
                             @Override
@@ -85,11 +79,11 @@ public class MongoConfig extends AbstractMongoConfiguration {
                             }
                         });
                     }
-                });
+                });*/
 
 
         MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext()) {
-            @Override
+         /*   @Override
             public <S> S read(Class<S> clazz, DBObject dbo) {
                 String string = JSON.serialize(dbo);
                 try {
@@ -108,11 +102,12 @@ public class MongoConfig extends AbstractMongoConfiguration {
                     throw new RuntimeException(string, e);
                 }
                 dbo.putAll((DBObject) JSON.parse(string));
-            }
+            }*/
         };
 
-        return new MappingMongoConverter(dbRefResolver,mongoMappingContext());
+        return converter;
     }
+
 
     @Bean
     @NotNull

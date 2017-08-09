@@ -31,9 +31,9 @@ public interface RecordManager {
     public String unlock(String recID) throws IOException;
 
     // storing records
-    /*public int getNewID(String counterName);
-    public boolean add(Record rec);
-    public Record update(Record rec);
+    //public int getNewID(String counterName);
+    public boolean add(Record rec) throws IOException;
+    /*public Record update(Record rec);
     public boolean delete(int recID);
     public boolean reindex(int recID);*/
 
