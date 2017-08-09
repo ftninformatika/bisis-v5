@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.editor;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.groupinv.GroupInvFrame;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
+import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Record;
 
 import java.beans.PropertyVetoException;
@@ -72,11 +73,11 @@ public class Obrada {
 			 editorClosed = editorFrame.handleCloseEditor();
 		}
 		if(editorClosed){
-		 //CurrRecord.update = false;
-		// Record articleRec = RecordUtils.getAnalitickaObrada(rec);
-			//if (articleRec!=null)articleRec.setRN(0);
-			//CurrRecord.savedOnce = false;
-			//editorFrame.editorInitialize(articleRec);
+		 CurrRecord.update = false;
+		 Record articleRec = RecordUtils.getAnalitickaObrada(rec);
+			if (articleRec!=null)articleRec.setRN(0);
+			CurrRecord.savedOnce = false;
+			editorFrame.editorInitialize(articleRec);
 			showEditorFrame();
    editorFrame.setRecordUpdated(false);
 		}

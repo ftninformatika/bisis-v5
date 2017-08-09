@@ -33,8 +33,8 @@ public interface RecordManager {
     // storing records
     //public int getNewID(String counterName);
     public boolean add(Record rec) throws IOException;
-    /*public Record update(Record rec);
-    public boolean delete(int recID);
-    public boolean reindex(int recID);*/
+    public Record update(Record rec);
+    public boolean delete(String recID) throws IOException;
+    public boolean reindex(String recID);
 
 }

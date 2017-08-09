@@ -51,6 +51,21 @@ public class RecordManagerImpl implements RecordManager {
     }
 
     @Override
+    public Record update(Record rec) {
+        return null;
+    }
+
+    @Override
+    public boolean delete(String recID) throws IOException {
+        return BisisApp.bisisService.deleteRecord(recID).execute().body();
+    }
+
+    @Override
+    public boolean reindex(String recID) {
+        return false;
+    }
+
+    @Override
     public List<String> selectExp(/*String query,*/ String prefix, String text) throws IOException {
         return BisisApp.bisisService.getExpand(prefix, text).execute().body();
     }

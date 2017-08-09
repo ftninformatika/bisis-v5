@@ -100,6 +100,9 @@ public interface BisisService {
     @GET("/records/unlock")
     Call<String> unlockRecord(@Query("recId") String recId);
 
+    @HTTP(method = "DELETE", path = "/records", hasBody = true)
+    Call<Boolean> deleteRecord(String recID);
+
     //coders----------------------------------------------
     @GET("/coders/accession_register")
     Call<List<AccessionRegister>> getAccessionRegs(@Query("libName")String libName);

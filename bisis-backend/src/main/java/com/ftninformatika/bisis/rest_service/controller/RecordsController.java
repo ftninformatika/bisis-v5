@@ -31,6 +31,15 @@ public class RecordsController {
   @Autowired
   ElasticRecordsRepository elasticRecordsRepository;
 
+  @RequestMapping(method = RequestMethod.DELETE)
+  public boolean deleteRecord(@RequestBody String recId){
+      boolean retVal = false;
+      recordsRepository.delete(recId);
+      elasticRecordsRepository.delete(recId);
+      return true;
+
+  }
+
   @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
   public Record getAndLock(@RequestParam (value = "recId") String recId, @RequestParam (value = "librarianId") String librarianId){
       Record retVal = recordsRepository.findOne(recId);

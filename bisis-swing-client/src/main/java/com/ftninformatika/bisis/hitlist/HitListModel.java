@@ -61,7 +61,7 @@ public class HitListModel extends AbstractListModel {
 	  	}else
 	  			return false;
 	  	}else{
-	  		boolean deleted = BisisApp.getRecordManager().delete(records[index].getRecordID());
+	  		boolean deleted = BisisApp.recMgr).delete(records[index].getRecordID());
 	  		if(deleted)
 	  			records[index] = null;
 	  		return deleted;
