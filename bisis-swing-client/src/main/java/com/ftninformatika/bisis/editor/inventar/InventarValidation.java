@@ -154,6 +154,10 @@ public class InventarValidation {
 			if(!BisisApp.appConfig.getCodersHelper().isValidOdeljenje(odeljenje))
 				message.append(codeMessagePref+"Odeljenje!\n");
 		}
+		  if(status!=null && !status.equals("")){
+			  if(!BisisApp.appConfig.getCodersHelper().isValidStatus(status))
+				  message.append(codeMessagePref+"Status!\n");
+		  }
     if(dostupnost!=null && !dostupnost.equals("")){
       if(!BisisApp.appConfig.getCodersHelper().isValidDostupnost(dostupnost))
         message.append(codeMessagePref+"Dostupnost!\n");

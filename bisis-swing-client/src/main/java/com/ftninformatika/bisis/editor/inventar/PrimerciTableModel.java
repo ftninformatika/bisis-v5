@@ -140,11 +140,11 @@ public class PrimerciTableModel extends AbstractTableModel {
 			p.setStanje(0);
 			CurrRecord.addPrimerak(p);
 
-            try {
+            /*try {
                 BisisApp.recMgr.add(CurrRecord.record); //obicno cuvanje zapisa
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
 		fireTableDataChanged();   
 	}
