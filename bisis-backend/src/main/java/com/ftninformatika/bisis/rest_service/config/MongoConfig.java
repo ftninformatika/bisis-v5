@@ -15,13 +15,10 @@ import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.convert.DbRefResolver;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
@@ -30,8 +27,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.test.context.ContextConfiguration;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
@@ -76,24 +71,24 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Override
     public MappingMongoConverter mappingMongoConverter() throws Exception {
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDbFactory());
-        /*ObjectMapper mapper = new ObjectMapper()
+        ObjectMapper mapper = new ObjectMapper()
                 .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .registerModule(new SimpleModule() {
                     {
                         addDeserializer(ObjectId.class, new JsonDeserializer<ObjectId>() {
                             @Override
-                            public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+                            public ObjectId deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
                                 TreeNode oid = p.readValueAsTree().get("$oid");
                                 String string = oid.toString().replaceAll("\"", "");
 
-                                return new ObjectId(string)string;
+                                return new ObjectId(string);
                             }
                         });
                     }
-                });*/
+                });
 
 
-        /*MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext()) {
+        MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext()) {
             @Override
             public <S> S read(Class<S> clazz, DBObject dbo) {
                 String string = JSON.serialize(dbo);
@@ -114,7 +109,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
                 }
                 dbo.putAll((DBObject) JSON.parse(string));
             }
-        };*/
+        };
 
         return new MappingMongoConverter(dbRefResolver,mongoMappingContext());
     }

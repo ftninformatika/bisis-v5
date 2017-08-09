@@ -69,8 +69,11 @@ public interface BisisService {
     @GET("/mongo_repository_records/search/getByID")
     Call<Record> getRecordById(@Query("id") int id);
 
-    @POST("/records/search")
-    Call<List<Record>> searchRecords(@Body String queryString);
+    @POST("/records/search_ids") //vraca kolekciju id-jeva
+    Call<List<String>> searchRecordsIds(@Body SearchModel searchModel);
+
+    @POST("/records/multiple_ids")
+    Call<List<Record>>  getRecordsByIds(@Body List<String> idList);
 
     @GET("/expand_prefix_controller")
     Call<List<String>> getExpand(@Query("prefix") String prefix, @Query("text") String text);

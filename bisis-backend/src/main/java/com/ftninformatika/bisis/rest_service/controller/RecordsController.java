@@ -15,10 +15,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @EnableWebMvc
@@ -88,19 +88,38 @@ public class RecordsController {
 
   }
 
-  @RequestMapping(value = "/query", method = RequestMethod.POST) //TODO- implementirati dolenavedeneo
-  public ResponseEntity<List<Record>> search(@RequestBody SearchModel search){ //dogovoriti se oko odgovarajuceg tipa parametra za pretragu
+  @RequestMapping(value = "/query", method = RequestMethod.POST )
+  public ResponseEntity<List<Record>> search(@RequestBody SearchModel search){
       ArrayList<Record> retVal = new ArrayList<>();
 
       Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
 
       System.out.println(ElasticUtility.makeQuery(search).toString());
       Iterable<String> ids = ElasticUtility.getIdsFromElasticIterable(ii);
-      //retVal = (ArrayList<Record>) getRecordsForMultipleIDs(ElasticUtility.getIdsFromElasticIterable(ii)); //sa mongo repozitorijuma preuzeti sve zapise za prosledjene id-jeve
 
       retVal = (ArrayList<Record>) recordsRepository.findAll(ids);
 
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
+  }
+
+  public ResponseEntity<List<String>> searchIds(@RequestBody SearchModel search){
+      List<String> retVal = null;
+
+      Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
+      retVal = StreamSupport.stream(ii.spliterator(), false)
+                            .map(i -> i.getId())
+                            .collect(Collectors.toList());
+
+      return  new ResponseEntity<>(retVal, HttpStatus.OK);
+
+  }
+
+  @RequestMapping( value = "/multiple_ids", method = RequestMethod.POST )
+      List<Record> retVal = (List<Record>) recordsRepository.findAll(ids);
+      if (retVal != null)
+        return new ResponseEntity<>( retVal, HttpStatus.OK);
+      else
+        return new ResponseEntity<>( retVal, HttpStatus.NO_CONTENT);
   }
 
   /*

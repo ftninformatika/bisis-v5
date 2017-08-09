@@ -23,8 +23,6 @@ import org.springframework.data.annotation.Id;
 @JsonIgnoreProperties( ignoreUnknown = true )
 public class Primerak implements Serializable {
 
-  @Id
-  private String _id;
   private int primerakID;
   private String invBroj;
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
