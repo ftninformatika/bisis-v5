@@ -26,9 +26,9 @@ public interface RecordManager {
     public Record getRecord(String recID) throws IOException;
     //public List<DocFile> getDocFiles(int rn);
     public Record[] getRecords(List<String> recIDs) throws IOException;
-    public Record getAndLock(String recID, String userId);// throws LockException;
-    public String lock(String recID, String userId);
-    public void unlock(String recID);
+    public Record getAndLock(String recID, String userId) throws IOException;// throws LockException;
+    public String lock(String recID, String userId) throws IOException;
+    public String unlock(String recID) throws IOException;
 
     // storing records
     /*public int getNewID(String counterName);

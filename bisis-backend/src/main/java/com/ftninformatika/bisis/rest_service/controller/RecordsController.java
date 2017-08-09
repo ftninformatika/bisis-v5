@@ -31,6 +31,32 @@ public class RecordsController {
   @Autowired
   ElasticRecordsRepository elasticRecordsRepository;
 
+  @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
+  public Record getAndLock(@RequestParam (value = "recId") String recId, @RequestParam (value = "librarianId") String librarianId){
+      Record retVal = recordsRepository.findOne(recId);
+      retVal.setInUseBy(librarianId);
+      recordsRepository.save(retVal);
+      return retVal;
+  }
+
+
+  @RequestMapping(value = "/lock", method = RequestMethod.GET)
+  public String lock(@RequestParam (value = "recId") String recId, @RequestParam (value = "librarianId") String librarianId){
+      Record r = recordsRepository.findOne(recId);
+      r.setInUseBy(librarianId);
+      recordsRepository.save(r);
+      return "Locked record with ID: " + r.get_id();
+  }
+
+  @RequestMapping(value = "/unlock", method = RequestMethod.GET)
+  public String unlock(@RequestParam (value = "recId") String recId){
+      Record r = recordsRepository.findOne(recId);
+      r.setInUseBy(null);
+      recordsRepository.save(r);
+      return  "Unlocked record with ID: " + r.get_id();
+  }
+
+
   @RequestMapping(value = "/{recordId}", method = RequestMethod.GET)
   public Record getRecord(@PathVariable String recordId) {
     try {
@@ -74,7 +100,7 @@ public class RecordsController {
             Record savedRecord = recordsRepository.save(record);
             //convert record to suitable prefix-json for elasticsearch
             Map<String, String> prefixes = PrefixConverter.toMap(record, null);
-            ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id(), prefixes); //JsonSerializer.toJson2(prefixes)
+            ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id(), prefixes);
             //save and index posted element via ElasticsearchRepository
             elasticRecordsRepository.save(ee);
             elasticRecordsRepository.index(ee);
@@ -102,6 +128,7 @@ public class RecordsController {
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
   }
 
+  @RequestMapping( value = "/search_ids", method = RequestMethod.POST )
   public ResponseEntity<List<String>> searchIds(@RequestBody SearchModel search){
       List<String> retVal = null;
 
@@ -115,6 +142,7 @@ public class RecordsController {
   }
 
   @RequestMapping( value = "/multiple_ids", method = RequestMethod.POST )
+  public ResponseEntity<List<Record>> getMultipleRecordsByIds(@RequestBody List<String> ids){
       List<Record> retVal = (List<Record>) recordsRepository.findAll(ids);
       if (retVal != null)
         return new ResponseEntity<>( retVal, HttpStatus.OK);

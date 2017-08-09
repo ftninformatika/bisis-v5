@@ -30,18 +30,18 @@ public class RecordManagerImpl implements RecordManager {
     }
 
     @Override
-    public Record getAndLock(String recID, String userId) {
-        return null;
+    public Record getAndLock(String recID, String userId) throws IOException {
+        return BisisApp.bisisService.getAndLockRecord(recID, userId).execute().body();
     }
 
     @Override
-    public String lock(String recID, String userId) {
-        return null;
+    public String lock(String recID, String userId) throws IOException {
+        return BisisApp.bisisService.lockRecord(recID, userId).execute().body();
     }
 
     @Override
-    public void unlock(String recID) {
-
+    public String unlock(String recID) throws IOException {
+        return BisisApp.bisisService.unlockRecord(recID).execute().body();
     }
 
     @Override

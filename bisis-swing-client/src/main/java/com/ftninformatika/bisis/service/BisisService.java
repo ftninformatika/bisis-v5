@@ -91,7 +91,16 @@ public interface BisisService {
     @POST("/records")
     Call<Record> updateRecord(@Body Record rec);
 
- //coders----------------------------------------------
+    @GET("/records/get_and_lock")
+    Call<Record> getAndLockRecord(@Query("recid") String recId, @Query("lirbrarianId") String librarianId);
+
+    @GET("/records/lock")
+    Call<String> lockRecord(@Query("recid") String recId, @Query("lirbrarianId") String librarianId);
+
+    @GET("/unlock")
+    Call<String> unlockRecord(@Query("recid") String recId);
+
+    //coders----------------------------------------------
     @GET("/coders/accession_register")
     Call<List<AccessionRegister>> getAccessionRegs(@Query("libName")String libName);
 
