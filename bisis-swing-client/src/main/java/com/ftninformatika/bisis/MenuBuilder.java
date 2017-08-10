@@ -1,8 +1,6 @@
 package com.ftninformatika.bisis;
 
-import com.ftninformatika.bisis.actions.MonitorAction;
-import com.ftninformatika.bisis.actions.NewRecordAction;
-import com.ftninformatika.bisis.actions.SearchAction;
+import com.ftninformatika.bisis.actions.*;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
@@ -120,7 +118,7 @@ public class MenuBuilder extends JMenuBar {
       this.add(getMObradaDefault());
     }
     if (lib.isObrada() && lib.isCirkulacija()){
-      //this.add(getMCirculation());
+      this.add(getMCirculation());
       //this.add(getMAllReport());
       
     } else if (lib.isObrada()){
@@ -196,7 +194,7 @@ public class MenuBuilder extends JMenuBar {
 
 	private JMenuItem getMNewSingle() {
 		if (mNewSingle == null) {
-	//		mNewSingle = new JMenuItem(new CircNewUserAction());
+			//mNewSingle = new JMenuItem(new CircNewUserAction());
 		}
 		return mNewSingle;
 	}
@@ -216,7 +214,7 @@ public class MenuBuilder extends JMenuBar {
 			mUser.add(getMData());
 			mUser.add(getMMembership());
 			mUser.add(getMLending());
-			mUser.add(getMPicturebooks());
+			//mUser.add(getMPicturebooks());
 			
 		}
 		return mUser;
@@ -224,21 +222,21 @@ public class MenuBuilder extends JMenuBar {
 
 	private JMenuItem getMData() {
 		if (mData == null) {
-			//mData = new JMenuItem(new CircUserDataAction());
+			mData = new JMenuItem(new CircUserDataAction());
 		}
 		return mData;
 	}
 
 	private JMenuItem getMLending() {
 		if (mLending == null) {
-		//	mLending = new JMenuItem(new CircUserLendingAction());
+			mLending = new JMenuItem(new CircUserLendingAction());
 		}
 		return mLending;
 	}
 
 	private JMenuItem getMMembership() {
 		if (mMembership == null) {
-			//mMembership = new JMenuItem(new CircUserMembershipAction());
+			mMembership = new JMenuItem(new CircUserMembershipAction());
 		}
 		return mMembership;
 	}
@@ -262,8 +260,8 @@ public class MenuBuilder extends JMenuBar {
 			mSearch = new JMenu();
 			mSearch.setText("Pretra\u017eivanje");
 			mSearch.setMnemonic(KeyEvent.VK_P);
-			mSearch.add(getMSearchUser());
-			mSearch.add(getMSearchBooks());
+			//mSearch.add(getMSearchUser());
+			//mSearch.add(getMSearchBooks());
 		}
 		return mSearch;
 	}
@@ -280,7 +278,7 @@ public class MenuBuilder extends JMenuBar {
 			mReport = new JMenu();
 			mReport.setText("Izve\u0161taji");
 			mReport.setMnemonic(KeyEvent.VK_I);
-			mReport.add(getMCircReportItem());
+			//mReport.add(getMCircReportItem());
 		}
 		return mReport;
 	}

@@ -2,22 +2,18 @@ package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
+import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
-import com.ftninformatika.bisis.search.SearchModel;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Properties;
-
 import javax.swing.*;
 
 
@@ -54,7 +50,7 @@ public class MainFrame extends JFrame {
             desktop.add(getSearchAdvancedFrame());
         }
         if (lib.isCirkulacija() && !lib.isAdministracija() && !lib.isObrada()){
-        //    Cirkulacija.startApp(lib);
+            Cirkulacija.startApp(lib);
         }else{
             searchFrame.setVisible(true);
         }
@@ -121,7 +117,7 @@ public class MainFrame extends JFrame {
     private void shutdown() {
         if(Obrada.isEditorClosable()){
             searchFrame.closeSearchFrame();
-          //  Cirkulacija.getApp().close();
+            Cirkulacija.getApp().close();
             System.exit(0);
         }
         System.exit(0);
