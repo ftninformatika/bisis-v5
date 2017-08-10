@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.auth.model.User;
-import com.ftninformatika.bisis.librarian.ProcessType;
+import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
@@ -76,14 +75,14 @@ public class CodersController {
     ProcessTypeRepository processTypeRepository;
 
     @RequestMapping( path = "process_types")
-    public ProcessType addProcessType(@RequestBody ProcessType pt){
-        ProcessType retVal = null;
+    public ProcessTypeDTO addProcessType(@RequestBody ProcessTypeDTO pt){
+        ProcessTypeDTO retVal = null;
         retVal = processTypeRepository.save(pt);
         return retVal;
     }
 
     @RequestMapping(path = "process_types/getByLibrary")
-    public List<ProcessType> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
+    public List<ProcessTypeDTO> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
         return processTypeRepository.getProcessTypesByLibNameIsNullOrLibName(libName);
     }
 

@@ -7,14 +7,12 @@ import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.UIndicator;
 import com.ftninformatika.bisis.format.USubfield;
-import com.ftninformatika.bisis.librarian.process_type_dto.ProcessTypeDTO;
-import com.ftninformatika.bisis.librarian.process_type_dto.USubfieldDTO;
+import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.librarian.dto.USubfieldDTO;
 import com.ftninformatika.utils.xml.XMLUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -67,6 +65,9 @@ public class ProcessTypeBuilder extends DefaultHandler {
   }
 
   public static ProcessType buildProcessTypeFromDTO(ProcessTypeDTO ptDTO){
+      if (ptDTO == null)
+          return null;
+
       ProcessType retVal = new ProcessType();
       retVal.setPubType(PubTypes.getPubType(ptDTO.getPubType()));
       retVal.setName(ptDTO.getName());
@@ -92,6 +93,9 @@ public class ProcessTypeBuilder extends DefaultHandler {
   }
 
   public static ProcessTypeDTO buildDTOFromProcessType(ProcessType pt){
+      if (pt == null)
+          return null;
+
       ProcessTypeDTO retVal = new ProcessTypeDTO();
       retVal.setPubType(pt.getPubType().getPubType());
       retVal.setName(pt.getName());

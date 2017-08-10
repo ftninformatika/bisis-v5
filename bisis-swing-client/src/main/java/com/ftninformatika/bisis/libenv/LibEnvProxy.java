@@ -5,10 +5,15 @@ package com.ftninformatika.bisis.libenv;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.ProcessType;
-import com.ftninformatika.utils.gson.GsonUtils;
+import com.ftninformatika.bisis.librarian.ProcessTypeBuilder;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,15 +31,16 @@ public class LibEnvProxy {
 	 */
 	public static List<Librarian> getAllLibrarians(){
 
-		List<Librarian> libList = null;
+		 List<Librarian> librarians = null;
 
 		try {
-			libList = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
+			List<LibrarianDTO> libList = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
+			librarians = libList.stream().map(i -> LibrarianManager.initializeLibrarianFromDTO(i)).collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return libList;
+		return librarians;
 	 }
 		
 
@@ -43,8 +49,9 @@ public class LibEnvProxy {
 
 		List<ProcessType> processTypeList = null;
 
-		try {
-			processTypeList = BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body();
+		try { //ovo ubaciti u srednji sloj!!!
+			List<ProcessTypeDTO> processTypeListDTO = BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body();
+			processTypeList = processTypeListDTO.stream().map(i -> ProcessTypeBuilder.buildProcessTypeFromDTO(i)).collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,6 +74,7 @@ public class LibEnvProxy {
 		}
 
 	}
+
 	
 	public static boolean updateLibrarian(Librarian lib){
 

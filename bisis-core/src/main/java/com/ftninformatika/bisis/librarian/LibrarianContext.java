@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.librarian;
 
-import com.ftninformatika.utils.string.StringUtils;
+import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -12,8 +12,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class LibrarianContext {
 
-  //private List<ProcessType> processTypes;
-  //private ProcessType defaultProcessType;
   private String pref1;
   private String pref2;
   private String pref3;
@@ -23,7 +21,4 @@ public class LibrarianContext {
   private ArrayList<ProcessType> processTypes = new ArrayList<ProcessType>();
 
 
-  public String toString(){
-    return pref1 + "   itd.....";
-  }
 }

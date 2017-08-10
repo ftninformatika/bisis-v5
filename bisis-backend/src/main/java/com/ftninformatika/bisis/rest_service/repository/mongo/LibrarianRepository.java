@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,9 +13,9 @@ import java.util.List;
  * Created by Petar on 6/20/2017.
  */
 @RepositoryRestResource(collectionResourceRel = "librarians", path = "mongo_repository_librarians")
-public interface LibrarianRepository extends MongoRepository<Librarian, String> {
+public interface LibrarianRepository extends MongoRepository<LibrarianDTO, String> {
 
-    public Librarian getByUsername(@Param("username") String username);
+    public LibrarianDTO getByUsername(@Param("username") String username);
 
-    public List<Librarian> getLibrariansByBiblioteka(@Param("library") String library);
+    public List<LibrarianDTO> getLibrariansByBiblioteka(@Param("library") String library);
 }

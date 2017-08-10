@@ -1,25 +1,17 @@
 package com.ftninformatika.bisis.config;
 
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftninformatika.bisis.coders.CodersHelper;
-import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.utils.gson.GsonUTCDateAdapter;
 import com.ftninformatika.utils.RetrofitUtils;
-import com.ftninformatika.utils.gson.ProcessTypeCustomJsonAdapter;
-import com.google.gson.*;
 import lombok.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
 //import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-
-import java.util.Date;
 
 @Getter
 @Setter
@@ -60,7 +52,7 @@ public abstract class AppConfig {
 
 
     ObjectMapper jacksonMapper = new ObjectMapper();
-    jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO - prilagoditi na kraju tacno kako odgovara
+    jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)

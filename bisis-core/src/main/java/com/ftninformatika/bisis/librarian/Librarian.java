@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.librarian;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "user")
-@JsonIgnoreProperties( ignoreUnknown = true )
+//@Document(collection = "user")
+//@JsonIgnoreProperties( ignoreUnknown = true )
 public class Librarian {
 
   @Id private String _id;
@@ -31,18 +32,17 @@ public class Librarian {
   private String biblioteka;
   private ProcessType curentProcessType;
 
-    public boolean isAdministration() { //lakse zbog starog koda!
-        return this.administracija;
-    }
+  public boolean isAdministration() { //lakse zbog starog koda!
+      return this.administracija;
+  }
 
-    public boolean isCataloguing() {
-      return this.obrada;
-    }
+  public boolean isCataloguing() {
+    return this.obrada;
+  }
 
-    public boolean isCirculation() {
-      return this.cirkulacija;
-    }
-
+  public boolean isCirculation() {
+    return this.cirkulacija;
+  }
 
   public void setAdministration(boolean administration) {
     this.administracija = administration;

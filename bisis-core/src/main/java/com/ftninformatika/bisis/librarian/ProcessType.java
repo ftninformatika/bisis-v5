@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Document(collection = "coders.process_types")
+//@Document(collection = "coders.process_types")
 @Getter
 @Setter
 public class ProcessType implements Serializable {
@@ -30,6 +30,10 @@ public class ProcessType implements Serializable {
   private List<USubfield> mandatorySubfields;
   // koristice se za default vrednosti indikatora
   private List<UIndicator> indicators;
+
+  public void setUFormat(Integer pubType){
+      this.pubType = PubTypes.getPubType(pubType);
+  }
 
   public static ProcessType getProcessType(String xml) {
     return ProcessTypeBuilder.getProcessType(xml);

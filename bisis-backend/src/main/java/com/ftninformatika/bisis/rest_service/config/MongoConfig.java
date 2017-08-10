@@ -14,7 +14,6 @@ import com.google.gson.JsonObject;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,7 +24,6 @@ import org.springframework.data.mongodb.core.convert.DbRefResolver;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.io.IOException;
 
@@ -110,7 +108,6 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
 
     @Bean
-    @NotNull
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
     }

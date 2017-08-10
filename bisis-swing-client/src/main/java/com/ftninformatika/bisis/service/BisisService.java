@@ -4,6 +4,8 @@ package com.ftninformatika.bisis.service;
  * Created by Petar on 6/20/2017.
  */
 import com.ftninformatika.bisis.librarian.ProcessType;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.models.circ.*;
@@ -35,14 +37,18 @@ public interface BisisService {
     Call<Void> addProcessType(@Body ProcessType processType);
 
     @GET("/coders/process_types/getByLibrary")
-    Call<List<ProcessType>> getProcessTypesForLibrary(@Query("libName") String libName);
+    Call<List<ProcessTypeDTO>> getProcessTypesForLibrary(@Query("libName") String libName);
 
 //librarians------------------------------------------------------------
+
+    @GET("/librarians/getByUsername")
+    Call<LibrarianDTO> getLibrarianByUsername(@Query("username") String username);
+
     @GET("/mongo_repository_librarians/search/getByUsername")
     Call<Librarian> getLibrarian(@Query("username") String username);
 
     @GET("/librarians/getByLibrary")
-    Call<List<Librarian>> getAllLibrarinasInThisLibrary(@Query("library") String library);
+    Call<List<LibrarianDTO>> getAllLibrarinasInThisLibrary(@Query("library") String library);
 
     @POST("/mongo_repository_librarians")
     Call<Void> createLibrarian(@Body Librarian librarian);

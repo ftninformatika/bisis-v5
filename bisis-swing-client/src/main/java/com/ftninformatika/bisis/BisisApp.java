@@ -1,7 +1,10 @@
 package com.ftninformatika.bisis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ftninformatika.bisis.libenv.LibEnvProxy;
+import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.ProcessType;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.bisis.config.AppConfig;
@@ -61,15 +64,15 @@ public class BisisApp {
           login.disp();
           appConfig.setRetrofit(token, getDomainFromUsername(login.getUsername()));
           bisisService = appConfig.getRetrofit().create(BisisService.class);
-          Call<Librarian> lib = bisisService.getLibrarian(login.getUsername());
-          Librarian response = null;
+          Call<LibrarianDTO> lib = bisisService.getLibrarianByUsername(login.getUsername());
+          LibrarianDTO response = null;
           try {
             response = lib.execute().body();
             log.info("Prijavljen bibliotekar: " + response.getUsername());
           } catch (IOException e) {
             System.err.println(e);
           }
-          appConfig.setLibrarian(response);
+          appConfig.setLibrarian(LibrarianManager.initializeLibrarianFromDTO(response));
           appConfig.setLibrary(response.getBiblioteka());
           appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
           appConfig.initCoders();

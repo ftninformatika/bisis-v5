@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.librarian.process_type_dto;
+package com.ftninformatika.bisis.librarian.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
