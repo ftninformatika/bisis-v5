@@ -13,6 +13,10 @@ import com.ftninformatika.utils.xml.XMLUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class ProcessTypeBuilder extends DefaultHandler {
 
@@ -85,6 +89,29 @@ public class ProcessTypeBuilder extends DefaultHandler {
                   }
 
       return retVal;
+  }
+
+  public static ProcessTypeDTO buildDTOFromProcessType(ProcessType pt){
+      ProcessTypeDTO retVal = new ProcessTypeDTO();
+      retVal.setPubType(pt.getPubType().getPubType());
+      retVal.setName(pt.getName());
+      retVal.setLibName(pt.getLibName());
+
+      //List<USubfieldDTO> initialSubfieldDTOList = null;
+      //List<USubfieldDTO> mandatoryUSubfieldDTOList = null;
+
+      if (pt.getInitialSubfields() != null && pt.getInitialSubfields().size() > 0)
+        retVal.setInitialFields(pt.getInitialSubfields().stream()
+                                   .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName()))
+                                   .collect(Collectors.toList()));
+
+
+      if (pt.getMandatorySubfields() != null && pt.getMandatorySubfields().size() > 0)
+          retVal.setMandatoryFields(pt.getMandatorySubfields().stream()
+                  .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName()))
+                  .collect(Collectors.toList()));
+
+    return retVal;
   }
   
   ProcessType pt;
