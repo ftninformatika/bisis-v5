@@ -30,32 +30,24 @@ public class LibEnvProxy {
 	 * @return list of all Librarians in current Library or null
 	 */
 	public static List<Librarian> getAllLibrarians(){
-
-		 List<Librarian> librarians = null;
-
+		List<Librarian> librarians = null;
 		try {
 			List<LibrarianDTO> libList = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
 			librarians = libList.stream().map(i -> LibrarianManager.initializeLibrarianFromDTO(i)).collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return librarians;
 	 }
-		
-
 	
 	public static List<ProcessType> getAllProcTypes(){
-
 		List<ProcessType> processTypeList = null;
-
-		try { //ovo ubaciti u srednji sloj!!!
+		try {
 			List<ProcessTypeDTO> processTypeListDTO = BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body();
 			processTypeList = processTypeListDTO.stream().map(i -> ProcessTypeBuilder.buildProcessTypeFromDTO(i)).collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return processTypeList;
 		}
 
@@ -65,8 +57,9 @@ public class LibEnvProxy {
 		String napomena = lib.getNapomena().replace("'", "").replace("\"", "");
 		lib.setNapomena(napomena);
 		lib.setBiblioteka(BisisApp.appConfig.getLibrary());
+		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
 		try {
-			 BisisApp.bisisService.createLibrarian(lib).execute();
+			 BisisApp.bisisService.createLibrarian(librarianDTO).execute();
 			 return true;
 		} catch (IOException e) {
 			 e.printStackTrace();
@@ -82,9 +75,12 @@ public class LibEnvProxy {
 		String napomena = "";
 		if (lib.getNapomena() != null)
 			napomena = lib.getNapomena().replace("'", "").replace("\"", "");
+		lib.setNapomena(napomena);
+		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
 		Librarian l = null;
 		try {
-			l = BisisApp.bisisService.updateLibrarian(lib).execute().body();
+			LibrarianDTO l1 = BisisApp.bisisService.updateLibrarian(librarianDTO).execute().body();
+			//l = LibrarianManager.initializeLibrarianFromDTO(l1);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -96,7 +92,7 @@ public class LibEnvProxy {
 	public static boolean deleteLibrarian(Librarian lib){
 
 		try {
-			BisisApp.bisisService.deleteLibraian(lib).execute();
+			BisisApp.bisisService.deleteLibraian(LibrarianManager.initializeDTOFromLibrarian(lib)).execute();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -108,9 +104,9 @@ public class LibEnvProxy {
 	public static boolean addProcessType(ProcessType pt){	
 
 		pt.setLibName(BisisApp.appConfig.getLibrary());
-
+		ProcessTypeDTO processTypeDTO = ProcessTypeBuilder.buildDTOFromProcessType(pt);
 		try {
-			BisisApp.bisisService.addProcessType(pt).execute(); //TODO - stackoverflow zbog beskonacnog json- a, bidirekcione reference!!!!!!
+			BisisApp.bisisService.addProcessType(processTypeDTO).execute();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -123,9 +119,9 @@ public class LibEnvProxy {
 
 
 		pt.setLibName(BisisApp.appConfig.getLibrary());
-
+		ProcessTypeDTO processTypeDTO = ProcessTypeBuilder.buildDTOFromProcessType(pt);
 		try {
-			BisisApp.bisisService.addProcessType(pt).execute();
+			BisisApp.bisisService.addProcessType(processTypeDTO).execute();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();

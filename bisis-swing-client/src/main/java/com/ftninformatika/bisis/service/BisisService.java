@@ -34,7 +34,7 @@ public interface BisisService {
     Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
 
     @POST("/coders/process_types")
-    Call<Void> addProcessType(@Body ProcessType processType);
+    Call<Void> addProcessType(@Body ProcessTypeDTO processType);
 
     @GET("/coders/process_types/getByLibrary")
     Call<List<ProcessTypeDTO>> getProcessTypesForLibrary(@Query("libName") String libName);
@@ -45,19 +45,19 @@ public interface BisisService {
     Call<LibrarianDTO> getLibrarianByUsername(@Query("username") String username);
 
     @GET("/mongo_repository_librarians/search/getByUsername")
-    Call<Librarian> getLibrarian(@Query("username") String username);
+    Call<LibrarianDTO> getLibrarian(@Query("username") String username);
 
     @GET("/librarians/getByLibrary")
     Call<List<LibrarianDTO>> getAllLibrarinasInThisLibrary(@Query("library") String library);
 
     @POST("/mongo_repository_librarians")
-    Call<Void> createLibrarian(@Body Librarian librarian);
+    Call<Void> createLibrarian(@Body LibrarianDTO librarian);
 
     @PUT("/mongo_repository_librarians")
-    Call<Librarian> updateLibrarian(@Body Librarian librarian);
+    Call<LibrarianDTO> updateLibrarian(@Body LibrarianDTO librarian);
 
     @HTTP(method = "DELETE", path = "/mongo_repository_librarians", hasBody = true)
-    Call<Void> deleteLibraian(@Body Librarian librarian);
+    Call<Void> deleteLibraian(@Body LibrarianDTO librarian);
 
 
 //records---------------------------------------------------------------

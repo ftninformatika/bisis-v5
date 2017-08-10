@@ -74,20 +74,16 @@ public class ProcessTypeBuilder extends DefaultHandler {
       retVal.setLibName(ptDTO.getLibName());
 
       if (ptDTO.getInitialFields() != null)
-      for (USubfieldDTO sfDTO: ptDTO.getInitialFields())
-          for (UField sf: retVal.getPubType().getFields())
-              if (sfDTO.getFieldName().equals(sf.getName())) {
-                  retVal.getInitialSubfields().add(sf.getSubfield(sfDTO.getSubfieldName()));
-                  continue;
-              }
+         retVal.setInitialSubfields( ptDTO.getInitialFields().stream().
+                  map(i -> retVal.getPubType().getSubfield(i.getFieldName()+i.getSubfieldName())).
+                  collect(Collectors.toList()) );
+
 
       if (ptDTO.getMandatoryFields() != null)
-          for (USubfieldDTO sfDTO: ptDTO.getMandatoryFields())
-              for (UField sf: retVal.getPubType().getFields())
-                  if (sfDTO.getFieldName().equals(sf.getName())) {
-                      retVal.getMandatorySubfields().add(sf.getSubfield(sfDTO.getSubfieldName()));
-                      continue;
-                  }
+          retVal.setMandatorySubfields( ptDTO.getMandatoryFields().stream().
+                  map(i -> retVal.getPubType().getSubfield(i.getFieldName()+i.getSubfieldName())).
+                  collect(Collectors.toList()) );
+
 
       return retVal;
   }
@@ -100,9 +96,6 @@ public class ProcessTypeBuilder extends DefaultHandler {
       retVal.setPubType(pt.getPubType().getPubType());
       retVal.setName(pt.getName());
       retVal.setLibName(pt.getLibName());
-
-      //List<USubfieldDTO> initialSubfieldDTOList = null;
-      //List<USubfieldDTO> mandatoryUSubfieldDTOList = null;
 
       if (pt.getInitialSubfields() != null && pt.getInitialSubfields().size() > 0)
         retVal.setInitialFields(pt.getInitialSubfields().stream()
