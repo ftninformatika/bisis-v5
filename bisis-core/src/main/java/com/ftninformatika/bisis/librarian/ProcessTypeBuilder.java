@@ -4,8 +4,11 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.ftninformatika.bisis.format.PubTypes;
+import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.UIndicator;
 import com.ftninformatika.bisis.format.USubfield;
+import com.ftninformatika.bisis.librarian.process_type_dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.librarian.process_type_dto.USubfieldDTO;
 import com.ftninformatika.utils.xml.XMLUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
@@ -57,6 +60,31 @@ public class ProcessTypeBuilder extends DefaultHandler {
     			pt.getIndicators().add(ui);    			
     		}    			
     }
+  }
+
+  public static ProcessType buildProcessTypeFromDTO(ProcessTypeDTO ptDTO){
+      ProcessType retVal = new ProcessType();
+      retVal.setPubType(PubTypes.getPubType(ptDTO.getPubType()));
+      retVal.setName(ptDTO.getName());
+      retVal.setLibName(ptDTO.getLibName());
+
+      if (ptDTO.getInitialFields() != null)
+      for (USubfieldDTO sfDTO: ptDTO.getInitialFields())
+          for (UField sf: retVal.getPubType().getFields())
+              if (sfDTO.getFieldName().equals(sf.getName())) {
+                  retVal.getInitialSubfields().add(sf.getSubfield(sfDTO.getSubfieldName()));
+                  continue;
+              }
+
+      if (ptDTO.getMandatoryFields() != null)
+          for (USubfieldDTO sfDTO: ptDTO.getMandatoryFields())
+              for (UField sf: retVal.getPubType().getFields())
+                  if (sfDTO.getFieldName().equals(sf.getName())) {
+                      retVal.getMandatorySubfields().add(sf.getSubfield(sfDTO.getSubfieldName()));
+                      continue;
+                  }
+
+      return retVal;
   }
   
   ProcessType pt;
