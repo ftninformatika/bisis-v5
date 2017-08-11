@@ -41,4 +41,27 @@ public class LibrarianController {
         return librarianRepository.getLibrariansByBiblioteka(libName);
     }
 
+    @RequestMapping( value = "/update", method = RequestMethod.POST)
+    public boolean updateLibrarian(@RequestBody LibrarianDTO lib){
+
+        LibrarianDTO librarian = librarianRepository.getByUsername(lib.getUsername());
+
+        librarian.setUsername(lib.getUsername());
+        librarian.setPassword(lib.getPassword());
+        librarian.setIme(lib.getIme());
+        librarian.setPrezime(lib.getPrezime());
+        librarian.setEmail(lib.getEmail());
+        librarian.setNapomena(lib.getNapomena());
+        librarian.setObrada(lib.isObrada());
+        librarian.setCirkulacija(lib.isCirkulacija());
+        librarian.setAdministracija(lib.isAdministracija());
+        librarian.setBiblioteka(lib.getBiblioteka());
+        librarian.setContext(lib.getContext());
+        librarian.setCurentProcessType(lib.getCurentProcessType());
+
+        librarianRepository.save(librarian);
+
+        return true;
+    }
+
 }

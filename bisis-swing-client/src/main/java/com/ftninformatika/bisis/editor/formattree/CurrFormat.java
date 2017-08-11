@@ -42,9 +42,7 @@ public class CurrFormat {
       log.info("Initializing format tree from record.");
       try{       
         pubType = rec.getPubType();
-        //processType = FormatUtils.returnProcessTypeForPubtype(pubType); //TODO- napraviti kolekciju sa tipovima obrade i repozitorijum
-		processType = //BisisApp.appConfig.getLibrarian().getCurentProcessType();
-						FormatUtils.returnProcessTypeForPubtype(rec.getPubType());
+		processType = FormatUtils.returnProcessTypeForPubtype(rec.getPubType());
         createFormatFromRecord(rec);
         createFormatFromProcessType();
       }catch(NullPointerException ex){        
@@ -54,8 +52,7 @@ public class CurrFormat {
       // otvara se potpuno novi zapis
       log.info("Initializing format tree from process type.");
       try{        
-        //processType = BisisApp.getLibrarian().getContext().getDefaultProcessType();
-		processType = BisisApp.appConfig.getLibrarian().getCurentProcessType();
+        processType = BisisApp.appConfig.getLibrarian().getContext().getDefaultProcessType();
         createFormatFromProcessType();
         pubType = processType.getPubType().getPubType();
       }catch(Exception ex){        

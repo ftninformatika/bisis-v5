@@ -49,38 +49,36 @@ public class HitListModel extends AbstractListModel {
   
   public void refresh() {
     fireContentsChanged(this, 0, records.length - 1);
-  }  
-  
+  }
+
   public boolean remove(int index){
-  	/*if(BisisApp.isFileMgrEnabled()){
-	  	if(FileManagerClient.deleteAllForRecord(BisisApp.getFileManagerURL(), records[index].getRecordID())){
-	  		boolean deleted = BisisApp.getRecordManager().delete(records[index].getRecordID());
-	  		if(deleted)
-	  			records[index] = null;
-	  		return deleted;
-	  	}else
-	  			return false;
-	  	}else{
-	  		boolean deleted = BisisApp.recMgr).delete(records[index].getRecordID());
-	  		if(deleted)
-	  			records[index] = null;
-	  		return deleted;
-	  	}*/
-    Long resp = null;
-    try {
-      resp = BisisApp.bisisService.deleteRecordByRecId(records[index].getRecordID()).execute().body(); //TODO- ovo i ostale operacije pozivanja resta objediniti i spakovati na jedno mesto
-    } catch (IOException e) {
-      e.printStackTrace();
+    if(/*BisisApp.isFileMgrEnabled()*/true){
+      if(/*FileManagerClient.deleteAllForRecord(BisisApp.getFileManagerURL(), records[index].get_id())*/true){
+        boolean deleted = false;
+        try {
+          deleted = BisisApp.recMgr.delete(records[index].get_id());
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        if(deleted)
+          records[index] = null;
+        return deleted;
+      }else
+        return false;
+    }else{
+      boolean deleted = false;
+      try {
+        deleted = BisisApp.recMgr.delete(records[index].get_id());
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      if(deleted)
+        records[index] = null;
+      return deleted;
     }
 
-    if ( resp != null && resp == 1) {
-      //ArrayUtils.removeElement(records, records[index]);
-      records[index] = null;
-      return true;
-    }
-    return false;
-  }  
-  
+  }
+
   private Record[] records; //promenjeno u drugi models radi testiranja hitlist frame-a
   
   private static Log log = LogFactory.getLog(HitListModel.class);

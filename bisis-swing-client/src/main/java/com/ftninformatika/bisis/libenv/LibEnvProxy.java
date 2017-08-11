@@ -33,7 +33,9 @@ public class LibEnvProxy {
 		List<Librarian> librarians = null;
 		try {
 			List<LibrarianDTO> libList = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
-			librarians = libList.stream().map(i -> LibrarianManager.initializeLibrarianFromDTO(i)).collect(Collectors.toList());
+
+			librarians = libList.stream().map(i -> LibrarianManager.initializeLibrarianFromDTO(i))
+										 .collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -44,7 +46,9 @@ public class LibEnvProxy {
 		List<ProcessType> processTypeList = null;
 		try {
 			List<ProcessTypeDTO> processTypeListDTO = BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body();
-			processTypeList = processTypeListDTO.stream().map(i -> ProcessTypeBuilder.buildProcessTypeFromDTO(i)).collect(Collectors.toList());
+
+			processTypeList = processTypeListDTO.stream().map(i -> ProcessTypeBuilder.buildProcessTypeFromDTO(i))
+														 .collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -71,7 +75,6 @@ public class LibEnvProxy {
 	
 	public static boolean updateLibrarian(Librarian lib){
 
-		
 		String napomena = "";
 		if (lib.getNapomena() != null)
 			napomena = lib.getNapomena().replace("'", "").replace("\"", "");
@@ -80,7 +83,6 @@ public class LibEnvProxy {
 		Librarian l = null;
 		try {
 			LibrarianDTO l1 = BisisApp.bisisService.updateLibrarian(librarianDTO).execute().body();
-			//l = LibrarianManager.initializeLibrarianFromDTO(l1);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();

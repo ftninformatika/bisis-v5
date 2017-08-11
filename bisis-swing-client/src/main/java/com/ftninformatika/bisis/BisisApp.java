@@ -65,6 +65,7 @@ public class BisisApp {
           login.disp();
           appConfig.setRetrofit(token, getDomainFromUsername(login.getUsername()));
           bisisService = appConfig.getRetrofit().create(BisisService.class);
+
           Call<LibrarianDTO> lib = bisisService.getLibrarianByUsername(login.getUsername());
           LibrarianDTO response = null;
           try {

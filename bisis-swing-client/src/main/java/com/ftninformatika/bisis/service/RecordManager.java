@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.service;
 
+import com.ftninformatika.bisis.records.LockException;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
 
@@ -26,7 +27,7 @@ public interface RecordManager {
     public Record getRecord(String recID) throws IOException;
     //public List<DocFile> getDocFiles(int rn);
     public Record[] getRecords(List<String> recIDs) throws IOException;
-    public Record getAndLock(String recID, String userId) throws IOException;// throws LockException;
+    public Record getAndLock(String recID, String userId) throws IOException, LockException;
     public String lock(String recID, String userId) throws IOException;
     public String unlock(String recID) throws IOException;
 
