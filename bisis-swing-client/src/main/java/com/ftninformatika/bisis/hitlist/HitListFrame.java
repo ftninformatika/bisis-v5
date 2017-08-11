@@ -32,6 +32,7 @@ import com.ftninformatika.bisis.editor.EditorFrame;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
+import com.ftninformatika.bisis.records.LockException;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
@@ -267,17 +268,22 @@ public class HitListFrame extends JInternalFrame {
     btnEdit.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
     		try {
-    			String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
-       Record rec = //BisisApp.recMgr.getAndLock(recordId,BisisApp.appConfig.getLibrarian().get_id());
-                    selectedRecord; //TODO-hardcoded
-    			Obrada.editRecord(rec);
-    		} catch (/*LockException e*/Exception e) {
-    			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
-    		} /*catch (NullPointerException e) {
-    			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka",JOptionPane.INFORMATION_MESSAGE);
-    			
-				}*/
-          System.out.println("Action preformed!");
+                String recordId = ((Record) lbHitList.getSelectedValue()).get_id();
+                Record rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
+
+                if (rec == null) {
+                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(), "Zapis sa ID: " + recordId + " vec obradjuje neko!", "Zaklju\u010dan zapis", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+
+                Obrada.editRecord(rec);
+                }/* catch (LockException e) {
+                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
+                }*/catch (IOException e) {
+                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Doslo je do greske!",JOptionPane.INFORMATION_MESSAGE);
+
+                    e.printStackTrace();
+                }
        }
     });
     
@@ -285,7 +291,6 @@ public class HitListFrame extends JInternalFrame {
     	public void actionPerformed(ActionEvent ev) {       
         Record rec = ((Record)lbHitList.getSelectedValue()).copyWithoutHoldings();
         if(rec!=null) Obrada.newRecord(rec);
-            System.out.println("Action preformed!");
        }
     });
     
@@ -295,16 +300,21 @@ public class HitListFrame extends JInternalFrame {
 		                Record rec = null;
 						try {
 							rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
+
+                            if(rec == null) { //vraca null ako je vec u upotrebi
+                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), "Zapis sa ID: " + recordId + " vec obradjuje neko!", "Zaklju\u010dan zapis", JOptionPane.INFORMATION_MESSAGE);
+                                return;
+                            }
+
 							Obrada.editInventar(rec);
-						//} catch (LockException e) {
-						//	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
-		    } catch (NullPointerException e) {
-		    	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
+						} /*catch (LockException e) {
+							JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
+		                } */catch (NullPointerException e) {
+		    	            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
 						} catch (IOException e) {
                             e.printStackTrace();
                             JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greška sa servera","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
                         }
-                        System.out.println("Action preformed!");
 					}
 		  });
     
@@ -312,7 +322,6 @@ public class HitListFrame extends JInternalFrame {
 					public void actionPerformed(ActionEvent e) {						
 						Record rec = ((Record)lbHitList.getSelectedValue()).copyWithoutHoldings();
                         if(rec!=null) Obrada.editAnalitika(rec);
-                        System.out.println("Action preformed!");
 					}    	
     });
     
@@ -441,9 +450,9 @@ public class HitListFrame extends JInternalFrame {
   
   private void handleListSelectionChanged(){
   	String recordId = ((Record)lbHitList.getSelectedValue()).get_id();//--------------
-      Record zapis = null;
+    Record zapis = null;
       try {
-          zapis = BisisApp.bisisService.getOneRecord(recordId).execute().body();
+          zapis = BisisApp.recMgr.getRecord(recordId);
       } catch (IOException e) {
           e.printStackTrace();
       }
@@ -471,34 +480,31 @@ public class HitListFrame extends JInternalFrame {
   		fullFormatPane.setCaretPosition(0);
 		}else if(tabbedPane.getSelectedIndex()==1){
 				loadCard(selectedRecord);
-                System.out.println("loadCard");
 		}else if(tabbedPane.getSelectedIndex()==2){
-				String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
-				/*selectedRecord = BisisApp.getRecordManager().getRecord(recordId);*/
 
-        try {
-            selectedRecord = BisisApp.bisisService.getOneRecord(recordId).execute().body();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        inventarTableModel.setRecord(selectedRecord);
-				System.out.println("inventar");
+				String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
+                try {
+                    selectedRecord = BisisApp.recMgr.getRecord(recordId);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                inventarTableModel.setRecord(selectedRecord);
 				adjustInventarColumnWidth();
+
 		}else if(tabbedPane.getSelectedIndex() == 3){
 			String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
-       //selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
-       //uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));
-        System.out.println("getDocFiles");
- 	}else if(tabbedPane.getSelectedIndex() == 4){
- 		String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
-        Record zapis = null;
-        try {
-            zapis = BisisApp.bisisService.getOneRecord(recordId).execute().body();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-   selectedRecord  = zapis;
-   loadMetaData(selectedRecord);
+           //selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
+           //uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));
+        }else if(tabbedPane.getSelectedIndex() == 4){
+            String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
+            Record zapis = null;
+            try {
+                zapis = BisisApp.recMgr.getRecord(recordId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+       selectedRecord  = zapis;
+       loadMetaData(selectedRecord);
 	  }
   }
   public void setRecordsQueryResult(List<String> recs, String sQuery){
