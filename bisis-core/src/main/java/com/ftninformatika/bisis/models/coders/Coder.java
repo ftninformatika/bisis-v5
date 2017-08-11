@@ -15,6 +15,4 @@ public class Coder {
     private String library;
     private String coder_id;
     private String description;
-
-
 }

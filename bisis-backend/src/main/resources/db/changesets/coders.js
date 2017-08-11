@@ -87,12 +87,14 @@ db.coders.process_types.insert(
         }
     ]
 );
+
 db.coders.sublocation.insert(
     [
         {'coder_id': 's', 'description': 'Tekuća periodika'}
 
     ]
 );
+
 
 
 

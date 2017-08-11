@@ -63,6 +63,70 @@ public class CodersHelper {
     public ArrayList<ArrayList<Object>> getCoderTableModelList(String coderName){
         ArrayList<ArrayList<Object>> retVal = new ArrayList<>();
 
+
+
+        if (coderName.equals("location")){
+            for(Location i: locations.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
+
+
+        if (coderName.equals("organization")){
+            for(Organization i: organizations.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.get_id());
+                l.add(i.getName());
+                l.add(i.getAddress());
+                l.add(i.getCity());
+                l.add(i.getZip());
+                retVal.add(l);
+            }
+        }
+
+        if (coderName.equals("languages")){
+            for(Language i: languages.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.get_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
+
+        if (coderName.equals("edu_lvl")){
+            for(EducationLvl i: educationLevels.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.get_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
+
+        if (coderName.equals("mmbr_types")){
+            for(MembershipType i: membershipTypes.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.get_id());
+                l.add(i.getDescription());
+                l.add(i.getPeriod());
+                retVal.add(l);
+            }
+        }
+
+
+        if (coderName.equals("user_categs"))
+                for(UserCategory uc: userCategories.values()){
+                    ArrayList<Object> l = new ArrayList<>();
+                    l.add(uc.get_id());
+                    l.add(uc.getDescription());
+                    l.add(uc.getTitlesNo());
+                    l.add(uc.getPeriod());
+                    l.add(uc.getMaxPeriod());
+                    retVal.add(l);
+                }
+
         if (coderName.equals("Status_Primerka")) {
                 for (ItemStatus itemStatus : itemStatuses.values()) {
                     ArrayList<Object> l = new ArrayList<>();
@@ -168,9 +232,18 @@ public class CodersHelper {
             List<Membership> membershipList = BisisApp.bisisService.getMemberships(BisisApp.appConfig.getLibrary()).execute().body();
             List<MembershipType> membershipTypeList = BisisApp.bisisService.getMembershipTypes(BisisApp.appConfig.getLibrary()).execute().body();
             List<UserCategory> userCategoryList = BisisApp.bisisService.getUserCategories(BisisApp.appConfig.getLibrary()).execute().body();
-            List<WarningType> warningTypes = BisisApp.bisisService.getWarningTypes(BisisApp.appConfig.getLibrary()).execute().body();
+            List<WarningType> warningTypesList = BisisApp.bisisService.getWarningTypes(BisisApp.appConfig.getLibrary()).execute().body();
             List<Organization> organizationList = BisisApp.bisisService.getOrganizations(BisisApp.appConfig.getLibrary()).execute().body();
 
+
+            educationLevels = educationLvlList.stream().collect(Collectors.toMap(EducationLvl::get_id, i-> i));
+            languages = languageList.stream().collect(Collectors.toMap(Language::get_id, i-> i));
+            places = placeList.stream().collect(Collectors.toMap(Place::get_id, i-> i));
+            memberships = membershipList.stream().collect(Collectors.toMap(Membership::get_id, i-> i));
+            membershipTypes = membershipTypeList.stream().collect(Collectors.toMap(MembershipType::get_id, i-> i));
+            userCategories = userCategoryList.stream().collect(Collectors.toMap(UserCategory::get_id, i-> i));
+            warningTypes = warningTypesList.stream().collect(Collectors.toMap(WarningType::get_id, i-> i));
+            organizations = organizationList.stream().collect(Collectors.toMap(Organization::get_id, i-> i));
 
 
         } catch (IOException e) {

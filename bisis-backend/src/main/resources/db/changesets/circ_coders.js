@@ -7,14 +7,14 @@ db.coders.warning_type.insert([
     {"description": "univerzalna opomena", "template": "univerzalni template"}
 ]);
 
-db.coders.coders.user_categ.insert(
+db.coders.user_categ.insert(
     [
         {'description':'zaposlen','titlesNo':500, 'period':30, 'maxPeriod':500 }
 
     ]
 );
 
-db.coders.coders.membership_type.insert(
+db.coders.membership_type.insert(
     [
         { 'description': 'redovan', 'period':365}
 
@@ -47,4 +47,11 @@ db.coders.organization.insert(
     [
         {"library": "gbns", "name": "FTN Informatika", "adress": "Laze Nancic 123", "city": "Novi Sad", "zip": "21000"}
     ]
+);
+
+db.coders.language.insert(
+  [
+      {'library': "gbns", 'description': "Srpski jezik"},
+      {'library': "gbns", 'description': "Engleski jezik"}
+  ]
 );
