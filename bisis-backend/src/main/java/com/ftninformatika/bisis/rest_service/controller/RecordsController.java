@@ -2,20 +2,19 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
+import com.ftninformatika.bisis.records.LockException;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.RecordNotFoundException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -40,9 +39,12 @@ public class RecordsController {
 
   }
 
+  @ExceptionHandler(LockException.class)
   @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
   public Record getAndLock(@RequestParam (value = "recId") String recId, @RequestParam (value = "librarianId") String librarianId){
       Record retVal = recordsRepository.findOne(recId);
+      if(retVal.getInUseBy() != null)
+          throw new LockException(recId);
       retVal.setInUseBy(librarianId);
       recordsRepository.save(retVal);
       return retVal;

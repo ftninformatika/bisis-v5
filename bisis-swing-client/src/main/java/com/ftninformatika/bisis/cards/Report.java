@@ -93,7 +93,7 @@ public class Report {
     
     Configuration  cfg = new Configuration();
     String locale = BisisApp.appConfig.getClientConfig().getLibraryName();
-    cfg.setClassForTemplateLoading(Report.class, "com.ftninformatika.cards/templejti/" +locale+"/");
+    cfg.setClassForTemplateLoading(Report.class, "/templejti/" +locale+"/");
 
     Base Base=new Base(docID, rec, typeCode);   
     
@@ -133,11 +133,11 @@ public class Report {
 		
 		try{
 			ResourceBundle rb = PropertyResourceBundle.getBundle(
-			        Report.class.getPackage().getName()+".templejti."+locale+"."+typeCode,new Locale(locale));
-			
+					//Report.class.getPackage().getName()+".templejti."+locale+"."+typeCode,new Locale(locale));//
+					"templejti." + locale + "." + typeCode,new Locale(locale));
 			
 		    //format=rb.getString("format").equals("true");
-		  formatRed=rb.getString("formatRed").equals("true");
+		  	formatRed=rb.getString("formatRed").equals("true");
 			formatStrana=rb.getString("formatStrana").equals("true");
 			
 			brmax=Base.toInt(rb.getString("brmax"));
@@ -154,14 +154,14 @@ public class Report {
 	if (!Base.checkPubType(type))
 		return izlaz = "<BR><BR>Pogresan tip publikacije"; //+ com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_WRONGPUBTYPE") + "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
 
-    Writer out=new StringWriter();
-    Writer out1=new StringWriter();
-    try {    	
-      temp.process(root,out);      
-      temp1.process(root,out1);
-	} catch (Exception ex) {
-    log.fatal("Ne valja templejt1");
-  }
+		Writer out=new StringWriter();
+		Writer out1=new StringWriter();
+		try {
+		  temp.process(root,out);
+		  temp1.process(root,out1);
+		} catch (Exception ex) {
+		log.fatal("Ne valja templejt1");
+	  }
 	
 	try {
 		out.flush();
@@ -272,7 +272,7 @@ public class Report {
 			
 			
 		    //format=rb.getString("format").equals("true");
-		  formatRed=rb.getString("formatRed").equals("true");
+		  	formatRed=rb.getString("formatRed").equals("true");
 			formatStrana=rb.getString("formatStrana").equals("true");
 			
 			brmax=Base.toInt(rb.getString("brmax"));
@@ -296,7 +296,7 @@ public class Report {
       temp1.process(root,out1);
 	} catch (Exception ex) {
     log.fatal("Ne valja templejt1");
-  }
+	}
 	
 	try {
 		out.flush();

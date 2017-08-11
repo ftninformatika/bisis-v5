@@ -78,7 +78,7 @@ public class CurrFormat {
 		UField uf;
 		USubfield usf;		
 		for(int i =0;i<rec.getFieldCount();i++){
-     try{
+		 try{
 							uf = getFullFormat().getField(rec.getField(i).getName()).shallowCopy();
 							if(format.getField(uf.getName())==null)
 								uf.getSubfields().clear();
@@ -93,7 +93,7 @@ public class CurrFormat {
 								if(format.getField(uf.getName())==null)
 									format.add(uf);								
 							
-     }catch(NullPointerException ex){
+     		}catch(NullPointerException ex){
        log.fatal("Cannot find field "+rec.getField(i).getName()+" in full format definition.");
      }
 		}

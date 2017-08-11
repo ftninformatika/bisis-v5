@@ -75,17 +75,17 @@ public class CardFrame extends CenteredDialog implements Printable {
     buttonsPanel.setLayout(new MigLayout("","","[]5[]"));
     zatvoriButton = new JButton("Zatvori");
     zatvoriButton.setIcon(new ImageIcon(getClass().getResource(
-    "/com/gint/app/bisis4/client/images/remove.gif")));
+    "/icons/remove.gif")));
     stampajButton = new JButton("\u0160tampaj");
     stampajButton.setIcon(new ImageIcon(getClass().getResource(
-    "/com/gint/app/bisis4/client/images/print_16.png")));
+    "/icons/print_16.png")));
     buttonsPanel.add(stampajButton);
     buttonsPanel.add(zatvoriButton);
     
-    //GridBagLayout layout = new GridBagLayout();
+    GridBagLayout layout = new GridBagLayout();
     GridBagConstraints c = new GridBagConstraints();
     
-    MigLayout layout = new MigLayout("","[center]10[center]","[center]10[center]10[center]");
+    //MigLayout layout = new MigLayout("","[center]10[center]","[center]10[center]10[center]");
     setLayout(layout);
     c.gridx = 0;
     c.gridy = 0;   
@@ -93,7 +93,7 @@ public class CardFrame extends CenteredDialog implements Printable {
     c.insets = new Insets(0,10,0,10);
     c.anchor = GridBagConstraints.CENTER;
     c.weightx = 0;
-    add(choicePanel,c);    
+    add(choicePanel,c);
     c.gridy = 1;  
     c.weightx = 1;
    // c.weightx = 0.9;
