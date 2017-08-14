@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.SplashScreen;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.PropertyConfigurator;
 
 public class Cirkulacija {
 
@@ -94,8 +95,8 @@ public class Cirkulacija {
     }
 
     private void init() {
-//    PropertyConfigurator.configure(Cirkulacija.class
-//        .getResource("/log4j.properties"));
+    PropertyConfigurator.configure(Cirkulacija.class
+        .getResource("/log4j.properties"));
         log.info("Application startup");
 
         UIManager.put("swing.boldMetal", Boolean.FALSE);
@@ -110,7 +111,7 @@ public class Cirkulacija {
 
         splash = new SplashScreen();
         splash = BisisApp.getSplash();
-        splash.setImage("/icons/splash.png");
+       // splash.setImage("/circ-images/splash.png"); //TODO- set image
         splash.setVisible(true);
         splash.getMessage().setText("initializing environment");
 

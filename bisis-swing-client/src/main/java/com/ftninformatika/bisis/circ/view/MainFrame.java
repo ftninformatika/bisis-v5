@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.actions.CircUserDataAction;
+import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.editor.Messages;
 
 import java.awt.BorderLayout;
@@ -35,7 +37,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton btnSearchBook = null;
 	private JButton btnReports = null;
 	private JButton btnBack = null;
-	//private User userPanel = null;
+	private User userPanel = null;
 	//private Group groupPanel = null;
 	private JPanel searchBooksPanel = null;
 	//private SearchBooks searchBooks = null;
@@ -50,7 +52,7 @@ public class MainFrame extends JInternalFrame {
 	private JPanel reportResultsPanel = null;
 	//private ReportResults reportResults = null;
 	private Stack<String> panelStack = null;
-	//private UserID userIDPanel = null;
+	private UserID userIDPanel = null;
 	//private UserIDRemote userIDPanel = null;
 	private ActionListener userIDOK = null;
 	private ActionListener userIDCancel = null;
@@ -93,7 +95,7 @@ public class MainFrame extends JInternalFrame {
 		return jContentPane;
 	}
 	
-	/*public UserID getUserIDPanel() {
+	public UserID getUserIDPanel() {
 		if (userIDPanel == null){
 			userIDPanel = new UserID(BisisApp.getMainFrame());
 			userIDPanel.setLocationRelativeTo(this);
@@ -102,7 +104,7 @@ public class MainFrame extends JInternalFrame {
 			userIDPanel.addSearchListener(getUserIDSearch());
 		}
 		return userIDPanel;
-	}*/
+	}
 	
 //	public UserIDRemote getUserIDPanel() {
 //		if (userIDPanel == null){

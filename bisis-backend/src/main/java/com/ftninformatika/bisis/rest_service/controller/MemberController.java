@@ -15,9 +15,21 @@ public class MemberController {
     @Autowired
     MemberRepository memberRep;
 
+    @RequestMapping( path = "/addUpdate", method = RequestMethod.POST)
+    public Member addUpdateMember(@RequestBody Member member){
+        Member retVal  = memberRep.save(member);
+        return retVal;
+    }
+
     @RequestMapping(path = "/getById", method = RequestMethod.GET)
     public Member getMember(@RequestParam (value = "userId") String userId){
         return memberRep.getMemberByUserId(userId);
+    }
+
+    @RequestMapping( path = "/existUser", method = RequestMethod.GET)
+    public boolean existUser(@RequestParam (value = "userId") String userId){
+        Member m = memberRep.getMemberByUserId(userId);
+        return m != null;
     }
 
 }

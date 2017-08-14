@@ -9,6 +9,7 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
 
+    //dok ne sredimo da lepo ucitava dependency
     flatDir{
         dirs 'libs'
     }
@@ -16,8 +17,10 @@ repositories {
 
 dependencies {
     compile project(":bisis-core")
+    compile group: 'com.jgoodies', name: 'jgoodies-forms', version: '1.6.0'
+    compile group: 'com.jgoodies', name: 'jgoodies-common', version: '1.6.0'
     compile group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
-    compile group: 'com.jtattoo', name: 'JTattoo', version: '1.6.7'
+    //compile group: 'com.jtattoo', name: 'JTattoo', version: '1.6.7'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     //compile 'com.squareup.retrofit2:converter-gson:latest.version'
@@ -30,7 +33,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.9'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.9'
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.4.1'
-    compile group: 'com.jgoodies', name: 'jgoodies-forms', version: '1.6.0'
+
 
 }
 

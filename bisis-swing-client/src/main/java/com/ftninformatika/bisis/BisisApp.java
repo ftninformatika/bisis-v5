@@ -47,12 +47,17 @@ public class BisisApp {
       return;
     }
     JDialog.setDefaultLookAndFeelDecorated(true);
+    splashScreen = new SplashScreen();
+    splashScreen.setImage("/icons/book-big.png");
+    splashScreen.setVisible(true);
+    splashScreen.getMessage().setText("Pokre\u0107em menad\u017eer zapisa");
     LoginFrame login = new LoginFrame();
     boolean correct = false;
     while (!correct) {
       if (login.isConfirmed()) {
         String token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), login.getUsername(), login.getPassword());
         if (token == null) {
+          splashScreen.setVisible(false);
           JOptionPane.showMessageDialog(null, "Server je nedostupan!",
               "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
           System.exit(0);
@@ -102,6 +107,7 @@ public class BisisApp {
 
 
         } else {
+          splashScreen.setVisible(false);
           JOptionPane.showMessageDialog(null, "Pogre\u0161no ime/lozinka",
               "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
           login.setVis(true);
@@ -119,7 +125,7 @@ public class BisisApp {
   public static RecordManager recMgr;
   public static SplashScreen splashScreen;
 
-  public static com.ftninformatika.bisis.login.SplashScreen getSplash(){
+  public static SplashScreen getSplash(){
     return splashScreen;
   }
 
