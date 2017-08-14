@@ -24,7 +24,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_member")
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_members")
 public class Member implements java.io.Serializable {
 
 
@@ -68,6 +68,7 @@ public class Member implements java.io.Serializable {
 	private String blockReason;
 
 	private List<Signing> signings = new ArrayList<>();
+	private List<Lending> lendings = new ArrayList<>();
 	private List<Duplicate> duplicates = new ArrayList<>();
 	private List<PictureBook> picturebooks = new ArrayList<>();
 

@@ -64,7 +64,6 @@ public class CodersHelper {
         ArrayList<ArrayList<Object>> retVal = new ArrayList<>();
 
 
-
         if (coderName.equals("location")){
             for(Location i: locations.values()){
                 ArrayList<Object> l = new ArrayList<>();
@@ -73,7 +72,6 @@ public class CodersHelper {
                 retVal.add(l);
             }
         }
-
 
         if (coderName.equals("organization")){
             for(Organization i: organizations.values()){
@@ -136,6 +134,7 @@ public class CodersHelper {
                     retVal.add(l);
                 }
         }
+
         if (coderName.equals("Odeljenje")){
                 for(Location i: locations.values()){
                     ArrayList<Object> l = new ArrayList<>();
@@ -144,6 +143,7 @@ public class CodersHelper {
                     retVal.add(l);
                 }
         }
+
         if (coderName.equals("Invknj")){
             for(AccessionRegister i: accessionRegs.values()){
                 ArrayList<Object> l = new ArrayList<>();
@@ -152,6 +152,7 @@ public class CodersHelper {
                 retVal.add(l);
             }
         }
+
         if (coderName.equals("SigFormat")){
             for(Format i: formats.values()){
                 ArrayList<Object> l = new ArrayList<>();
@@ -195,7 +196,6 @@ public class CodersHelper {
                 retVal.add(l);
             }
         }
-
 
         return retVal;
     }

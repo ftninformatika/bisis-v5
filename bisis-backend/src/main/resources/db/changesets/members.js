@@ -8,8 +8,16 @@ db.gbns_com_members.insert({
     "organizationId" : 0,
     "languages" : 0,
     "educationLevel" : 0,
-    "membershipType" : 1,
-    "userCategory" : 2,
+    "membershipType" : {
+        "description": "Opis vrste clanarine",
+        "period": 365
+    },
+    "userCategory" : {
+        "description": "Opis kategorije korisnika",
+        "titlesNo": 2,
+        "period": 7,
+        "maxperiod": 14
+    },
     "groups" : 0,
     "userId" : "01000000000",
     "firstName" : "Milka",
@@ -40,7 +48,7 @@ db.gbns_com_members.insert({
     "classNo" : 0,
     "pass" : null,
     "blockReason" : null,
-    "lending" : [
+    "lendings" : [
         {
             "id" : 339,
             "ctlgNo" : "17000019566",
@@ -115,5 +123,5 @@ db.gbns_com_members.insert({
             "librarianResume" : null
         }
     ],
-    "signing" : []
+    "signings" : []
 });

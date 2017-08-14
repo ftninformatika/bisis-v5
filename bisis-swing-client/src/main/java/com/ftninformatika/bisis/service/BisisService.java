@@ -39,6 +39,11 @@ public interface BisisService {
     @GET("/coders/process_types/getByLibrary")
     Call<List<ProcessTypeDTO>> getProcessTypesForLibrary(@Query("libName") String libName);
 
+//members---------------------------------------------------------------
+
+    @GET("/members/getById")
+    Call<Member> getMemberById(@Query("userId") String userId);
+
 //librarians------------------------------------------------------------
 
     @GET("/librarians/getByUsername")
