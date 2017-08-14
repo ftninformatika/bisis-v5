@@ -9,6 +9,7 @@ import java.util.Set;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.commands.GetUserCommand;
+import com.ftninformatika.bisis.circ.view.User;
 import com.ftninformatika.bisis.models.circ.Lending;
 import com.ftninformatika.bisis.models.circ.Member;
 import com.ftninformatika.bisis.models.circ.Membership;
@@ -151,11 +152,11 @@ public class UserManager {
     /*groupModel = null;*/
   }
   
-  public void initialiseUser(Member user){
-    /*userModel = new Users();
-    user.getMmbrship().setTableModel(userModel.getSignings());
-    user.getLending().setTableModel(userModel.getLendings());
-    user.getUserData().setDupTableModel(userModel.getDuplicates());*/
+  public void initialiseUser(User user){
+    userModel = new Member();
+    //user.getMmbrship().setTableModel(userModel.getSignings());
+    //user.getLending().setTableModel(userModel.getLendings());
+    //user.getUserData().setDupTableModel(userModel.getDuplicates());
   }
   
   public void showUser(Member user, String userID){

@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.models.circ.Membership;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -95,7 +96,7 @@ public class User extends JPanel {
 									"Valid"; //TODO- hardcoded
 					if (result != null){
 						JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), result, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
-								new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png"))); //$NON-NLS-1$
+								new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 					}else {
 						if (/*BisisApp.getINIFile().getBoolean("pincode", "enabled") && pinRequired()*/true){
 							JPasswordField pwd = new JPasswordField(10);
@@ -134,13 +135,13 @@ public class User extends JPanel {
 			btnCancel = new JButton();
 			btnCancel.setText(Messages.getString("circulation.cancel")); //$NON-NLS-1$
 			btnCancel.setFocusable(false);
-			btnCancel.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/Delete16.png"))); //$NON-NLS-1$
+			btnCancel.setIcon(new ImageIcon(getClass().getResource("/circ-images/Delete16.png"))); //$NON-NLS-1$
 			btnCancel.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 			          if (dirty){
 			            String[] options = {Messages.getString("circulation.yes"),Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
 			            int op = JOptionPane.showOptionDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.savewarning"), Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION,  //$NON-NLS-1$ //$NON-NLS-2$
-			                JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/critical32.png")), options, options[0]); //$NON-NLS-1$
+			                JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[0]); //$NON-NLS-1$
 			            if (op == JOptionPane.YES_OPTION){
 			              getBtnSave().doClick();
 			            }else{
@@ -175,22 +176,22 @@ public class User extends JPanel {
 			//btnArchive.setText(Messages.getString("circulation.archive")); //$NON-NLS-1$
 			btnArchive.setToolTipText(Messages.getString("circulation.archive")); //$NON-NLS-1$
 			btnArchive.setFocusable(false);
-			btnArchive.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/remove_user16_button.png"))); //$NON-NLS-1$
+			btnArchive.setIcon(new ImageIcon(getClass().getResource("/circ-images/remove_user16_button.png"))); //$NON-NLS-1$
 			btnArchive.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					String[] options = {Messages.getString("circulation.yes"),Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
 		            int op = JOptionPane.showOptionDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.archivewarning"), Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION,  //$NON-NLS-1$ //$NON-NLS-2$
-		                JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/critical32.png")), options, options[1]); //$NON-NLS-1$
+		                JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
 		            if (op == JOptionPane.YES_OPTION){
 		            	if (/*getLending().existLending()*/false){
 							JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.archiveerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
-									new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png"))); //$NON-NLS-1$
+									new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 						} else {
 							String message = //Cirkulacija.getApp().getUserManager().archiveUser(getUser());
 											"nesto";
 							if (message.equals("ok")){ //$NON-NLS-1$
 								JOptionPane.showMessageDialog(null, Messages.getString("circulation.archived"), Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-									new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/hand32.png"))); //$NON-NLS-1$
+									new ImageIcon(getClass().getResource("/circ-images/hand32.png"))); //$NON-NLS-1$
 								Cirkulacija.getApp().getMainFrame().previousPanel();
 					            getTpMain().remove(getPMain4());
 					            //getTpMain().remove(getPMain5());
@@ -198,7 +199,7 @@ public class User extends JPanel {
 					            	getTpMain().setEnabledAt(3, true);
 							}else{
 								JOptionPane.showMessageDialog(null, Messages.getString("circulation.archiveerror2"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-										new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png"))); //$NON-NLS-1$
+										new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 							}
 							
 						}
@@ -231,14 +232,15 @@ public class User extends JPanel {
 		return getUserData().getPMain1();
 	}
 	
-	/*public Membership getMmbrship(){
-		if (mmbrship == null){
+	public Membership getMmbrship(){
+		/*if (mmbrship == null){
 			mmbrship = new Membership(this);
 		}
-		return mmbrship;
+		return mmbrship;*/
+		return null;
 	}
 	
-	private JPanel getPMain2(){
+	/*private JPanel getPMain2(){
 		return getMmbrship().getPanel();
 	}
 	*/
@@ -416,12 +418,12 @@ public class User extends JPanel {
   }
 	
 	public void loadDefault(){
-		/*Cirkulacija.getApp().getUserManager().initialiseUser(this);
+		Cirkulacija.getApp().getUserManager().initialiseUser(this);
 		getUserData().loadDefault();
-		getMmbrship().loadDefault();
-		getLending().loadDefault();*/
+		//getMmbrship().loadDefault();
+		//getLending().loadDefault();
 		getTpMain().setSelectedComponent(getPMain0());
-		getTpMain().setEnabledAt(3, false);
+		//getTpMain().setEnabledAt(3, false);
 		dirty = false;
 	}
 	

@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
+
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -88,7 +89,7 @@ public class UserID extends JDialog {
 		if (btnOK == null) {
 			btnOK = new JButton();
 			btnOK.setText(Messages.getString("circulation.ok")); //$NON-NLS-1$
-			btnOK.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/Check16.png"))); //$NON-NLS-1$
+			btnOK.setIcon(new ImageIcon(getClass().getResource("/circ-images/Check16.png"))); //$NON-NLS-1$
 		}
 		return btnOK;
 	}
@@ -112,7 +113,7 @@ public class UserID extends JDialog {
 		if (btnCancel == null) {
 			btnCancel = new JButton();
 			btnCancel.setText(Messages.getString("circulation.cancel")); //$NON-NLS-1$
-			btnCancel.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/Delete16.png"))); //$NON-NLS-1$
+			btnCancel.setIcon(new ImageIcon(getClass().getResource("/circ-images/Delete16.png"))); //$NON-NLS-1$
 		}
 		return btnCancel;
 	}
@@ -121,7 +122,7 @@ public class UserID extends JDialog {
 		if (btnSearch == null) {
 			btnSearch = new JButton();
 			btnSearch.setText(Messages.getString("circulation.find")); //$NON-NLS-1$
-			btnSearch.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/find16.png"))); //$NON-NLS-1$
+			btnSearch.setIcon(new ImageIcon(getClass().getResource("/circ-images/find16.png"))); //$NON-NLS-1$
 		}
 		return btnSearch;
 	}

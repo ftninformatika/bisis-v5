@@ -6,19 +6,17 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-    mavenCentral()
 
-    //dok ne sredimo da lepo ucitava dependency
-    flatDir{
-        dirs 'libs'
-    }
+
+repositories {
+    maven { url "https://clojars.org/repo" }
+    mavenCentral()
 }
+
+
 
 dependencies {
     compile project(":bisis-core")
-    compile group: 'com.jgoodies', name: 'jgoodies-forms', version: '1.6.0'
-    compile group: 'com.jgoodies', name: 'jgoodies-common', version: '1.6.0'
     compile group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
     //compile group: 'com.jtattoo', name: 'JTattoo', version: '1.6.7'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -32,13 +30,18 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.9'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.9'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.9'
-    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.4.1'
+    //compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.4.1'
+    compile "com.jgoodies:forms:1.3.0"
+    compile group: 'com.jgoodies', name: 'jgoodies-common', version: '1.6.0'
+    compile group: 'com.jgoodies', name: 'forms', version: '1.3.0'
+    compile group: 'com.jgoodies', name: 'looks', version: '2.2.2'
 
 
 }
 
 jar {
     mainClassName = 'com.ftninformatika.bisis.BisisApp'
+
 }
 
 processResources {

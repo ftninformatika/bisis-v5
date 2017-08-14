@@ -5,6 +5,9 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.models.circ.EducationLvl;
 import com.ftninformatika.bisis.models.circ.Language;
 import com.ftninformatika.bisis.models.circ.pojo.Organization;
+import com.jgoodies.forms.builder.PanelBuilder;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,8 +42,8 @@ import javax.swing.JTextField;
 
 public class UserData {
 	
-	/*private PanelBuilder pMain0 = null;
-	private PanelBuilder pMain1 = null;*/
+	private PanelBuilder pMain0 = null;
+	private PanelBuilder pMain1 = null;
 	private JCheckBox chkWarning = null;
 	private JTextField tfFirstName = null;
   	private JLabel lFirstName = null;
@@ -105,7 +108,7 @@ public class UserData {
 	//private DuplicateTableModel duplicateTableModel = null;
 	private JButton btnAdd = null;
 	private JButton btnRemove = null;
-	//private PanelBuilder pDup = null;
+	private PanelBuilder pDup = null;
 	private JButton btnBlock = null;
 	private JButton btnPrint = null;
 	private JButton btnPin = null;
@@ -136,7 +139,7 @@ public class UserData {
 	}
 	
 	private void makePMain0(){
-		/*if (pMain0 == null) {
+		if (pMain0 == null) {
 			FormLayout layout = new FormLayout(
 			        "2dlu:grow, right:55dlu, 3dlu, 100dlu, 35dlu, right:40dlu, 3dlu, 30dlu, 7dlu, right:20dlu, 3dlu, 70dlu, 2dlu:grow",  //$NON-NLS-1$
 			        "5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 40dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu:grow"); //$NON-NLS-1$
@@ -145,7 +148,7 @@ public class UserData {
 			pMain0.setDefaultDialogBorder();
 			
 			pMain0.addSeparator("",cc.xyw(2,2,3)); //$NON-NLS-1$
-      pMain0.add(getFirstNameLabel(), cc.xy(2,4));
+            pMain0.add(getFirstNameLabel(), cc.xy(2,4));
 			pMain0.add(getTfFirstName(), cc.xy(4,4));
 			pMain0.add(getLastNameLabel(), cc.xy(2,6));
 			pMain0.add(getTfLastName(), cc.xy(4,6));
@@ -188,12 +191,11 @@ public class UserData {
 			pMain0.add(getChkWarning(), cc.xyw(9,22,2));
 			pMain0.add(getBtnPrint(), cc.xy(12,22, "right, center")); //$NON-NLS-1$
 		
-		}*/
+		}
 	}
 	
 	public JPanel getPMain0(){
-		//return pMain0.getPanel();
-		return null;
+		return pMain0.getPanel();
 	}
 
 	private JCheckBox getChkWarning() {
@@ -453,7 +455,7 @@ public class UserData {
 	}
 
 	private void makePMain1() {
-		/*if (pMain1 == null) {
+		if (pMain1 == null) {
 			FormLayout layout = new FormLayout(
 			        "2dlu:grow, right:40dlu, 3dlu, 30dlu, 7dlu, right:20dlu, 3dlu, 70dlu, 35dlu, right:55dlu, 3dlu, 40dlu, 60dlu, 3dlu:grow",  //$NON-NLS-1$
 			        "5dlu, pref, 2dlu, 15dlu, 2dlu, pref, 2dlu, pref, 20dlu, 20dlu, pref, 2dlu, 15dlu, 2dlu, 15dlu, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu:grow"); //$NON-NLS-1$
@@ -496,14 +498,14 @@ public class UserData {
 			pMain1.add(getPDup(), cc.xywh(10,13,4,7));
 			pMain1.addSeparator("", cc.xyw(10,21,4)); //$NON-NLS-1$
 			pMain1.add(getBtnBlock(), cc.xy(10,23,"fill, center")); //$NON-NLS-1$
-			if (BisisApp.getINIFile().getBoolean("pincode", "enabled")){
+			if (/*BisisApp.getINIFile().getBoolean("pincode", "enabled")*/true){//TODO-hardcoded
 				pMain1.add(getBtnPin(), cc.xy(13,23,"fill, center")); //$NON-NLS-1$
 			}	
-		}*/
+		}
 	}
 	
 	public JPanel getPMain1(){
-		/*return pMain1.getPanel();*/return null;
+		return pMain1.getPanel();
 	}
 
 	private JTextField getTfTmpAddress() {
@@ -1030,7 +1032,7 @@ public class UserData {
 	}
 	
 	private void makePDup() {
-		/*if (pDup == null) {
+		if (pDup == null) {
 			FormLayout layout = new FormLayout(
 			        "132dlu, 5dlu, 18dlu",  //$NON-NLS-1$
 			        "8dlu, 18dlu, 6dlu, 18dlu, 7dlu"); //$NON-NLS-1$
@@ -1039,12 +1041,11 @@ public class UserData {
 			pDup.add(getJScrollPane(), cc.xywh(1,1,1,5));
 			pDup.add(getBtnAdd(), cc.xy(3,2,"fill, fill")); //$NON-NLS-1$
 			pDup.add(getBtnRemove(), cc.xy(3,4,"fill, fill")); //$NON-NLS-1$
-		}*/
+		}
 	}
 	
 	private JPanel getPDup(){
-		//return pDup.getPanel();
-		return null;
+		return pDup.getPanel();
 	}
 	
 	private JButton getBtnBlock() {
@@ -1052,7 +1053,7 @@ public class UserData {
 			btnBlock = new JButton();
 			btnBlock.setText(Messages.getString("circulation.block")); //$NON-NLS-1$
 			btnBlock.setFocusable(false);
-			btnBlock.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/block16.png"))); //$NON-NLS-1$
+			btnBlock.setIcon(new ImageIcon(getClass().getResource("/circ-images/block16.png"))); //$NON-NLS-1$
       btnBlock.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           handleKeyTyped();
