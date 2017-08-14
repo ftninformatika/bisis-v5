@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.circ.view;
 
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.models.circ.EducationLvl;
 import com.ftninformatika.bisis.models.circ.Language;
 import com.ftninformatika.bisis.models.circ.pojo.Organization;
@@ -113,9 +114,9 @@ public class UserData {
 	private JButton btnPrint = null;
 	private JButton btnPin = null;
 	private User parent = null;
-	/*private ComboBoxRenderer cmbRenderer = null;
-  	private ZipPlaceDlg zipplace = null;
-  	private CmbKeySelectionManager cmbKeySelectionManager = null;*/
+	private ComboBoxRenderer cmbRenderer = null;
+  	/*private ZipPlaceDlg zipplace = null;*/
+  	private CmbKeySelectionManager cmbKeySelectionManager = null;
   	private boolean blocked;
   	//private Note note;
   	private String blockedReason;
@@ -762,7 +763,7 @@ public class UserData {
     return lIndexNo;
   }
 	
-	/*private ComboBoxRenderer getCmbRenderer(){
+	private ComboBoxRenderer getCmbRenderer(){
 		if (cmbRenderer == null){
 			cmbRenderer = new ComboBoxRenderer();
 		}
@@ -774,13 +775,13 @@ public class UserData {
       cmbKeySelectionManager = new CmbKeySelectionManager();
     }
     return cmbKeySelectionManager;
-  }*/
+  }
 
 	private JComboBox getCmbOrg() {
 		if (cmbOrg == null) {
 			cmbOrg = new JComboBox();
-			//cmbOrg.setRenderer(getCmbRenderer());
-      //cmbOrg.setKeySelectionManager(getCmbKeySelectionManager());
+			cmbOrg.setRenderer(getCmbRenderer());
+      cmbOrg.setKeySelectionManager(getCmbKeySelectionManager());
       cmbOrg.addItemListener(new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
           handleKeyTyped();
@@ -800,8 +801,8 @@ public class UserData {
 	private JComboBox getCmbEduLevel() {
 		if (cmbEduLevel == null) {
 			cmbEduLevel = new JComboBox();
-			//cmbEduLevel.setRenderer(getCmbRenderer());
-      //cmbEduLevel.setKeySelectionManager(getCmbKeySelectionManager());
+			cmbEduLevel.setRenderer(getCmbRenderer());
+      cmbEduLevel.setKeySelectionManager(getCmbKeySelectionManager());
       cmbEduLevel.addItemListener(new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
           handleKeyTyped();
@@ -821,8 +822,8 @@ public class UserData {
 	private JComboBox getCmbLanguage() {
 		if (cmbLanguage == null) {
 			cmbLanguage = new JComboBox();
-			//cmbLanguage.setRenderer(getCmbRenderer());
-      //cmbLanguage.setKeySelectionManager(getCmbKeySelectionManager());
+			cmbLanguage.setRenderer(getCmbRenderer());
+      cmbLanguage.setKeySelectionManager(getCmbKeySelectionManager());
       cmbLanguage.addItemListener(new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
           handleKeyTyped();
@@ -1246,18 +1247,18 @@ public class UserData {
 		return (String)getCmbClass().getSelectedItem();
 	}
 	
-	/*public Organization getOrganization(){
-		return (Organization)Utils.getCmbValue(getCmbOrg());
+	public Organization getOrganization(){
+		return (Organization) Utils.getCmbValue(getCmbOrg());
 	}
 	
-	public EduLvl getEduLvl(){
-		return (EduLvl)Utils.getCmbValue(getCmbEduLevel());
+	public EducationLvl getEduLvl(){
+		return (EducationLvl)Utils.getCmbValue(getCmbEduLevel());
 	}
 	
-	public Languages getLanguages(){
-		return (Languages)Utils.getCmbValue(getCmbLanguage());
+	public Language getLanguages(){
+		return (Language)Utils.getCmbValue(getCmbLanguage());
 	}
-	*/
+
 	public String getGender(){
 		if (getRbGenderF().isSelected()){
 			return "F"; //$NON-NLS-1$

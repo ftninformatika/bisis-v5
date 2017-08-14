@@ -283,7 +283,7 @@ public class User extends JPanel {
 	}
   
   private Warnings getPMain5() {
-   /* if (pWarnings == null) {
+    /*if (pWarnings == null) {
       pWarnings = new Warnings(this);
     }*/
     return pWarnings;
@@ -431,9 +431,9 @@ public class User extends JPanel {
 		getTpMain().setSelectedComponent(getPMain0());
 	}
 	
-	/*public void showMmbrship(){
-		getTpMain().setSelectedComponent(getPMain2());
-	}*/
+	public void showMmbrship(){
+		//getTpMain().setSelectedComponent(getPMain2());
+	}
 	
 	public void showLending(){
     /*getLending().getTfCtlgNo().requestFocusInWindow();

@@ -208,36 +208,36 @@ public class MainFrame extends JInternalFrame {
 	}
 
 	private JPanel getMPanel() {
-		/*if (mPanel == null) {
+		if (mPanel == null) {
 			mPanel = new JPanel();
 			mPanel.setPreferredSize(null);
 			mCardLayout = new CardLayout();
 			mPanel.setLayout(mCardLayout);
 			mPanel.add(getBlankPanel(), getBlankPanel().getName());
 			mPanel.add(getUserPanel(),getUserPanel().getName());
-			mPanel.add(getSearchBooksPanel(), getSearchBooksPanel().getName());
-			mPanel.add(getSearchBooksResultsPanel(), getSearchBooksResultsPanel().getName());
-			mPanel.add(getSearchUsersPanel(), getSearchUsersPanel().getName());
-			mPanel.add(getSearchUsersResultsPanel(), getSearchUsersResultsPanel().getName());
-			mPanel.add(getReportPanel(), getReportPanel().getName());
-			mPanel.add(getReportResultsPanel(), getReportResultsPanel().getName());
-			mPanel.add(getGroupPanel(), getGroupPanel().getName());
+			//mPanel.add(getSearchBooksPanel(), getSearchBooksPanel().getName());
+			//mPanel.add(getSearchBooksResultsPanel(), getSearchBooksResultsPanel().getName());
+			//mPanel.add(getSearchUsersPanel(), getSearchUsersPanel().getName());
+			//mPanel.add(getSearchUsersResultsPanel(), getSearchUsersResultsPanel().getName());
+			//mPanel.add(getReportPanel(), getReportPanel().getName());
+			//mPanel.add(getReportResultsPanel(), getReportResultsPanel().getName());
+			//mPanel.add(getGroupPanel(), getGroupPanel().getName());
 			initHash();
-		}*/
+		}
 		return mPanel;
 	}
   
   private void initHash(){
-	   /* panels = new HashMap<String, JPanel>();
+	    panels = new HashMap<String, JPanel>();
 	    panels.put(getBlankPanel().getName(), getBlankPanel());
 	    panels.put(getUserPanel().getName(), getUserPanel());
-	    panels.put(getSearchBooksPanel().getName(), getSearchBooksPanel());
-	    panels.put(getSearchBooksResultsPanel().getName(), getSearchBooksResultsPanel());
-	    panels.put(getSearchUsersPanel().getName(), getSearchUsersPanel());
-	    panels.put(getSearchUsersResultsPanel().getName(), getSearchUsersResultsPanel());
-	    panels.put(getReportPanel().getName(), getReportPanel());
-	    panels.put(getReportResultsPanel().getName(), getReportResultsPanel());
-	    panels.put(getGroupPanel().getName(), getGroupPanel());*/
+	    //panels.put(getSearchBooksPanel().getName(), getSearchBooksPanel());
+	    //panels.put(getSearchBooksResultsPanel().getName(), getSearchBooksResultsPanel());
+	    //panels.put(getSearchUsersPanel().getName(), getSearchUsersPanel());
+	    //panels.put(getSearchUsersResultsPanel().getName(), getSearchUsersResultsPanel());
+	    //panels.put(getReportPanel().getName(), getReportPanel());
+	    //panels.put(getReportResultsPanel().getName(), getReportResultsPanel());
+	    //panels.put(getGroupPanel().getName(), getGroupPanel());
   }
 
 	private JPanel getBlankPanel() {
@@ -249,22 +249,22 @@ public class MainFrame extends JInternalFrame {
 	}
 
 	private JButton getBtnNew() {
-		/*if (btnNew == null) {
-			btnNew = new JButton(new CircNewUserAction());
+		if (btnNew == null) {
+			btnNew = new JButton(/*new CircNewUserAction()*/);
 			btnNew.setFocusable(false);
 			btnNew.setPreferredSize(new Dimension(30,30));
 			btnNew.setText(""); //$NON-NLS-1$
-		}*/
+		}
 		return btnNew;
 	}
 
 	private JButton getBtnUser() {
-		/*if (btnUser == null) {
+		if (btnUser == null) {
 			btnUser = new JButton(new CircUserDataAction());
 			btnUser.setFocusable(false);
 			btnUser.setPreferredSize(new Dimension(30,30));
 			btnUser.setText(""); //$NON-NLS-1$
-		}*/
+		}
 		return btnUser;
 	}
 
@@ -276,13 +276,13 @@ public class MainFrame extends JInternalFrame {
 		return groupPanel;
 	}*/
 	
-	/*public User getUserPanel() {
+	public User getUserPanel() {
 		if (userPanel == null) {
 			userPanel = new User();
 			userPanel.setName("userPanel"); //$NON-NLS-1$
 		}
 		return userPanel;
-	}*/
+	}
 	
  /* public SearchBooks getSearchBooks(){
 	if (searchBooks == null) {
@@ -317,7 +317,7 @@ public class MainFrame extends JInternalFrame {
 	
 	private JButton getBtnSearchBook() {
 		if (btnSearchBook == null) {
-			//btnSearchBook = new JButton(new CircSearchBooksAction());
+			btnSearchBook = new JButton(/*new CircSearchBooksAction()*/);
 			btnSearchBook.setFocusable(false);
 			btnSearchBook.setPreferredSize(new Dimension(30,30));
 			btnSearchBook.setText(""); //$NON-NLS-1$
@@ -357,7 +357,7 @@ public class MainFrame extends JInternalFrame {
 
 	private JButton getBtnSearchUser() {
 		if (btnSearchUser == null) {
-			//btnSearchUser = new JButton(new CircSearchUsersAction());
+			btnSearchUser = new JButton(/*new CircSearchUsersAction()*/);
 			btnSearchUser.setFocusable(false);
 			btnSearchUser.setPreferredSize(new Dimension(30,30));
 			btnSearchUser.setText(""); //$NON-NLS-1$
@@ -397,7 +397,7 @@ public class MainFrame extends JInternalFrame {
 
 	private JButton getBtnReports() {
 		if (btnReports == null) {
-			//btnReports = new JButton(new CircReportAction());
+			btnReports = new JButton(/*new CircReportAction()*/);
 			btnReports.setFocusable(false);
 			btnReports.setPreferredSize(new Dimension(30,30));
 			btnReports.setText(""); //$NON-NLS-1$
@@ -408,7 +408,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton getBtnBack() {
 		if (btnBack == null) {
 			btnBack = new JButton();
-			btnBack.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/back.png"))); //$NON-NLS-1$
+			btnBack.setIcon(new ImageIcon(getClass().getResource("/circ-images/back.png"))); //$NON-NLS-1$
 			btnBack.setToolTipText(Messages.getString("circulation.back")); //$NON-NLS-1$
 			btnBack.setFocusable(false);
 			btnBack.setPreferredSize(new Dimension(30,30));

@@ -7,9 +7,12 @@ import javax.swing.UIManager;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Environment;
+import com.ftninformatika.bisis.circ.manager.UserManager;
 import com.ftninformatika.bisis.circ.view.MainFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.SplashScreen;
+import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticTheme;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
@@ -22,9 +25,9 @@ public class Cirkulacija {
     private Librarian lib;
     private static Log log = LogFactory.getLog(Cirkulacija.class.getName());
     private Environment env;
-    /*private RecordsManager recmng;
+    //private RecordsManager recmng;
     private UserManager usermng;
-    private SearchUsersManager susermng;
+    /*private SearchUsersManager susermng;
     private Service service;
     private Service serviceArchive;*/
 
@@ -121,18 +124,18 @@ public class Cirkulacija {
         if (service == null){
             JOptionPane.showMessageDialog(null, "Gre\u0161ka pri konekciji sa bazom podataka!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
-        }
+        }*/
         usermng = new UserManager();
-        recmng = new RecordsManager();
-        susermng = new SearchUsersManager();
+        //recmng = new RecordsManager();
+        //susermng = new SearchUsersManager();
 
-        if (usermng.getEnvFile() == null){
+        /*if (usermng.getEnvFile() == null){
             JOptionPane.showMessageDialog(null, "Gre\u0161ka pri ucitavanju parametara!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
-        }
+        }*/
         env = new Environment(usermng.getEnvFile());
         int i = env.loadOptions();
-        if (i == 1) {
+        if (/*i == 1*/true) {
             if (!env.getLookAndFeel().equals("default")) {
                 try {
                     Class themeName = Class.forName(env.getTheme());
@@ -143,7 +146,7 @@ public class Cirkulacija {
                     log.error(e);
                 }
             }
-            Utils.setUIFontSize(env.getFontSize());
+            //Utils.setUIFontSize(env.getFontSize());
 
             splash.getMessage().setText("initializing GUI");
             mf = new MainFrame();
@@ -166,7 +169,7 @@ public class Cirkulacija {
             mf.setVisible(true);
         } else {
             System.exit(0);
-        }*/
+        }
     }
 
     private void loadDefaults() {
@@ -197,14 +200,14 @@ public class Cirkulacija {
         return env;
     }
 
-   /* public RecordsManager getRecordsManager() {
+    /*public RecordsManager getRecordsManager() {
         return recmng;
-    }
+    }*/
 
     public UserManager getUserManager() {
         return usermng;
     }
-
+/*
     public SearchUsersManager getSearchUsersManager() {
         return susermng;
     }
