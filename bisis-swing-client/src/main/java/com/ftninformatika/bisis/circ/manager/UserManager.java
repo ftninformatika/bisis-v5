@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -11,14 +10,12 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.commands.GetUserCommand;
 import com.ftninformatika.bisis.circ.view.Group;
 import com.ftninformatika.bisis.circ.view.User;
+import com.ftninformatika.bisis.circ.view.Warnings;
 import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.models.circ.pojo.Signing;
 import com.ftninformatika.bisis.models.circ.pojo.Warning;
-import org.apache.commons.lang.SerializationUtils;
-import org.apache.commons.lang.time.StopWatch;
-
 
 
 public class UserManager {

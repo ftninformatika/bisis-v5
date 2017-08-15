@@ -281,9 +281,9 @@ public class User extends JPanel {
 	}
   
   private Warnings getPMain5() {
-    /*if (pWarnings == null) {
+    if (pWarnings == null) {
       pWarnings = new Warnings(this);
-    }*/
+    }
     return pWarnings;
   }
 	
@@ -409,9 +409,9 @@ public class User extends JPanel {
   
   public void showWarnings(){
     boolean tmp = dirty;
-    //getPMain5().setData(Cirkulacija.getApp().getUserManager().getWarnings());
-    //getTpMain().addTab(Messages.getString("circulation.reminders"), null, getPMain5(), null); //$NON-NLS-1$
-    //getTpMain().setSelectedComponent(getPMain5());
+    getPMain5().setData(Cirkulacija.getApp().getUserManager().getWarnings());
+    getTpMain().addTab(Messages.getString("circulation.reminders"), null, getPMain5(), null); //$NON-NLS-1$
+    getTpMain().setSelectedComponent(getPMain5());
     dirty = tmp;
   }
 	
@@ -421,7 +421,7 @@ public class User extends JPanel {
 		getMmbrship().loadDefault();
 		getLending().loadDefault();
 		getTpMain().setSelectedComponent(getPMain0());
-		//getTpMain().setEnabledAt(3, false);
+		getTpMain().setEnabledAt(3, false);
 		dirty = false;
 	}
 	
@@ -430,12 +430,12 @@ public class User extends JPanel {
 	}
 	
 	public void showMmbrship(){
-		//getTpMain().setSelectedComponent(getPMain2());
+		getTpMain().setSelectedComponent(getPMain2());
 	}
 	
 	public void showLending(){
-    /*getLending().getTfCtlgNo().requestFocusInWindow();
-		getTpMain().setSelectedComponent(getPMain3());*/
+    getLending().getTfCtlgNo().requestFocusInWindow();
+		getTpMain().setSelectedComponent(getPMain3());
 	}
 	
 	public void showPicturebooks(){
@@ -454,7 +454,7 @@ public class User extends JPanel {
   
   private void fixTables(){
     getUserData().fixTable();
-    //getMmbrship().fixTable();
+    getMmbrship().fixTable();
   }
   
   private boolean pinRequired(){
