@@ -30,7 +30,7 @@ public class User extends JPanel {
 	private JPanel pMain0 = null;
 	private UserData userData = null;
 	private Membership mmbrship = null;
-	//private Lending lending = null;
+	private Lending lending = null;
 	private PictureBook picturebooks = null;
 	private JPanel pPrint = null;
 	private Warnings pWarnings = null;
@@ -242,12 +242,12 @@ public class User extends JPanel {
 		return getMmbrship().getPanel();
 	}
 
-	/*public Lending getLending(){
+	public Lending getLending(){
 		if (lending == null){
 			lending = new Lending(this);
 		}
 		return lending;
-	}*/
+	}
 	
 	public PictureBook getPicturebooks(){
 		/*if (picturebooks == null){
@@ -256,9 +256,9 @@ public class User extends JPanel {
 		return picturebooks;
 	}
 	
-	/*private JPanel getPMain3(){
+	private JPanel getPMain3(){
 		return getLending().getPanel();
-	}*/
+	}
 		
 	private JTabbedPane getTpMain() {
 		if (tpMain == null) {
@@ -266,7 +266,7 @@ public class User extends JPanel {
 			tpMain.addTab(Messages.getString("circulation.basicdata"), null, getPMain0(), null); //$NON-NLS-1$
 			tpMain.addTab(Messages.getString("circulation.additionaldata"), null, getPMain1(), null); //$NON-NLS-1$
 			tpMain.addTab(Messages.getString("circulation.membershipfee"), null, getPMain2(), null); //$NON-NLS-1$
-			//tpMain.addTab(Messages.getString("circulation.charging"), null, getPMain3(), null); //$NON-NLS-1$
+			tpMain.addTab(Messages.getString("circulation.charging"), null, getPMain3(), null); //$NON-NLS-1$
       tpMain.setSelectedIndex(-1);
 		}
 		return tpMain;
@@ -307,7 +307,7 @@ public class User extends JPanel {
   private JPanel getRevers(){
     try {
       Map<String, Object> params = new HashMap<String, Object>(3);
-      //params.put("korisnik", lending.getUser()); //$NON-NLS-1$
+      params.put("korisnik", lending.getUser()); //$NON-NLS-1$
       params.put("korisnik-adresa", userData.getAddressRevers()); //$NON-NLS-1$
       params.put("broj-indeksa", userData.getIndexNoRevers());
       params.put("biblioteka", Cirkulacija.getApp().getEnvironment().getReversLibraryName()); //$NON-NLS-1$
@@ -334,7 +334,7 @@ public class User extends JPanel {
     try {
       Map<String, Object> params = new HashMap<String, Object>(3);
       //params.put("library", BisisApp.getINIFile().getString("pincode", "library")); //$NON-NLS-1$
-      //params.put("userid", mmbrship.getUserID()); //$NON-NLS-1$
+      params.put("userid", mmbrship.getUserID()); //$NON-NLS-1$
       params.put("name", userData.getFirstName() + " " + userData.getLastName());//$NON-NLS-1$
       params.put("pincode", userData.getPinCode()); //$NON-NLS-1$
       
@@ -418,8 +418,8 @@ public class User extends JPanel {
 	public void loadDefault(){
 		Cirkulacija.getApp().getUserManager().initialiseUser(this);
 		getUserData().loadDefault();
-		//getMmbrship().loadDefault();
-		//getLending().loadDefault();
+		getMmbrship().loadDefault();
+		getLending().loadDefault();
 		getTpMain().setSelectedComponent(getPMain0());
 		//getTpMain().setEnabledAt(3, false);
 		dirty = false;
@@ -448,8 +448,8 @@ public class User extends JPanel {
   
   public void clearPanels(){
     getUserData().clear();
-    //getMmbrship().clear();
-    //getLending().clear();
+    getMmbrship().clear();
+    getLending().clear();
   }
   
   private void fixTables(){

@@ -9,6 +9,7 @@ import java.util.Set;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.commands.GetUserCommand;
+import com.ftninformatika.bisis.circ.view.Group;
 import com.ftninformatika.bisis.circ.view.User;
 import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
@@ -131,7 +132,7 @@ public class UserManager {
     return userModel != null;
   }
   
-  public String saveGroup(/*Group group*/){
+  public String saveGroup(Group group){
     /*if (groupModel == null){
       groupModel = new Groups();  
     }

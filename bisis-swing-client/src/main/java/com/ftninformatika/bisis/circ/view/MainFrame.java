@@ -38,7 +38,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton btnReports = null;
 	private JButton btnBack = null;
 	private User userPanel = null;
-	//private Group groupPanel = null;
+	private Group groupPanel = null;
 	private JPanel searchBooksPanel = null;
 	//private SearchBooks searchBooks = null;
 	private JPanel searchBooksResultsPanel = null;
@@ -221,7 +221,7 @@ public class MainFrame extends JInternalFrame {
 			//mPanel.add(getSearchUsersResultsPanel(), getSearchUsersResultsPanel().getName());
 			//mPanel.add(getReportPanel(), getReportPanel().getName());
 			//mPanel.add(getReportResultsPanel(), getReportResultsPanel().getName());
-			//mPanel.add(getGroupPanel(), getGroupPanel().getName());
+			mPanel.add(getGroupPanel(), getGroupPanel().getName());
 			initHash();
 		}
 		return mPanel;
@@ -237,7 +237,7 @@ public class MainFrame extends JInternalFrame {
 	    //panels.put(getSearchUsersResultsPanel().getName(), getSearchUsersResultsPanel());
 	    //panels.put(getReportPanel().getName(), getReportPanel());
 	    //panels.put(getReportResultsPanel().getName(), getReportResultsPanel());
-	    //panels.put(getGroupPanel().getName(), getGroupPanel());
+	    panels.put(getGroupPanel().getName(), getGroupPanel());
   }
 
 	private JPanel getBlankPanel() {
@@ -268,13 +268,13 @@ public class MainFrame extends JInternalFrame {
 		return btnUser;
 	}
 
-	/*public Group getGroupPanel() {
+	public Group getGroupPanel() {
 		if (groupPanel == null) {
 			groupPanel = new Group();
 			groupPanel.setName("groupPanel"); //$NON-NLS-1$
 		}
 		return groupPanel;
-	}*/
+	}
 	
 	public User getUserPanel() {
 		if (userPanel == null) {

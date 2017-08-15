@@ -492,7 +492,7 @@ public class Membership {
 	}
 	
 	public void loadDefault(){
-		getCmbGroups().setSelectedIndex(0);
+		//getCmbGroups().setSelectedIndex(0);
 		getRbGroupN().setSelected(true);
 	    if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
 	      int loc =  Cirkulacija.getApp().getEnvironment().getUseridDefaultPrefix();
