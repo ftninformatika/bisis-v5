@@ -10,7 +10,6 @@ import javax.swing.JTabbedPane;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.Membership;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,7 +29,7 @@ public class User extends JPanel {
 	private JTabbedPane tpMain = null;
 	private JPanel pMain0 = null;
 	private UserData userData = null;
-	//private Membership mmbrship = null;
+	private Membership mmbrship = null;
 	//private Lending lending = null;
 	private PictureBook picturebooks = null;
 	private JPanel pPrint = null;
@@ -233,17 +232,16 @@ public class User extends JPanel {
 	}
 	
 	public Membership getMmbrship(){
-		/*if (mmbrship == null){
+		if (mmbrship == null){
 			mmbrship = new Membership(this);
 		}
-		return mmbrship;*/
-		return null;
+		return mmbrship;
 	}
 	
-	/*private JPanel getPMain2(){
+	private JPanel getPMain2(){
 		return getMmbrship().getPanel();
 	}
-	*/
+
 	/*public Lending getLending(){
 		if (lending == null){
 			lending = new Lending(this);
@@ -267,7 +265,7 @@ public class User extends JPanel {
 			tpMain = new JTabbedPane();
 			tpMain.addTab(Messages.getString("circulation.basicdata"), null, getPMain0(), null); //$NON-NLS-1$
 			tpMain.addTab(Messages.getString("circulation.additionaldata"), null, getPMain1(), null); //$NON-NLS-1$
-			//tpMain.addTab(Messages.getString("circulation.membershipfee"), null, getPMain2(), null); //$NON-NLS-1$
+			tpMain.addTab(Messages.getString("circulation.membershipfee"), null, getPMain2(), null); //$NON-NLS-1$
 			//tpMain.addTab(Messages.getString("circulation.charging"), null, getPMain3(), null); //$NON-NLS-1$
       tpMain.setSelectedIndex(-1);
 		}

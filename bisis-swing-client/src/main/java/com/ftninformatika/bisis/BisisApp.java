@@ -16,6 +16,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.service.RecordManager;
 import com.ftninformatika.bisis.service.RecordManagerImpl;
 import com.ftninformatika.utils.RetrofitUtils;
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import retrofit2.Call;
@@ -40,21 +41,27 @@ public class BisisApp {
     appConfig = ConfigFactory.getConfig(ConfigType.DEVELOPMENT);
 
     UIManager.put("swing.boldMetal", Boolean.FALSE);
+
     try {
+      //UIManager.installLookAndFeel("SeaGlass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
+      //UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
       //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
       return;
     }
     JDialog.setDefaultLookAndFeelDecorated(true);
-    splashScreen = new SplashScreen();
-    splashScreen.setImage("/icons/book-big.png");
-    splashScreen.setVisible(true);
-    splashScreen.getMessage().setText("Pokre\u0107em menad\u017eer zapisa");
+
     LoginFrame login = new LoginFrame();
     boolean correct = false;
     while (!correct) {
       if (login.isConfirmed()) {
+
+        splashScreen = new SplashScreen();
+        splashScreen.setImage("/icons/book-big.png");
+        splashScreen.setVisible(true);
+        splashScreen.getMessage().setText("Pokre\u0107em menad\u017eer zapisa");
+
         String token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), login.getUsername(), login.getPassword());
         if (token == null) {
           splashScreen.setVisible(false);
@@ -66,6 +73,8 @@ public class BisisApp {
 
 
         if (token != null && !token.equals("")) {
+
+
           correct = true;
           login.disp();
           appConfig.setRetrofit(token, getDomainFromUsername(login.getUsername()));
