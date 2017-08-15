@@ -19,9 +19,9 @@ public class CircUserMembershipAction extends AbstractAction {
   }
   
   public void actionPerformed(ActionEvent ev) {
-   /* if (Cirkulacija.getApp().getMainFrame().getBlank()){
+    if (Cirkulacija.getApp().getMainFrame().getBlank()){
       Cirkulacija.getApp().getMainFrame().setRequestedPanel(2);
       Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true); 
-    }*/
+    }
   }
 }

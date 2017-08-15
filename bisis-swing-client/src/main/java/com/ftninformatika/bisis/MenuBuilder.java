@@ -3,6 +3,7 @@ package com.ftninformatika.bisis;
 import com.ftninformatika.bisis.actions.*;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
+import com.ftninformatika.bisis.circ.view.MmbrshipCoder;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
@@ -105,8 +106,8 @@ public class MenuBuilder extends JMenuBar {
   private CoderFrame organizationFrame = null;
   private CoderFrame placesFrame = null;
   private CoderFrame warnCountersFrame = null;
-  /*private MmbrshipCoder mmbrshipFrame = null;
-  private WarningsFrame warningsFrame = null;
+  private MmbrshipCoder mmbrshipFrame = null;
+  /*private WarningsFrame warningsFrame = null;
   private OptionsMainFrame optionsFrame = null;*/
   private SearchAdvancedFrame searchAdvancedFrame=null;
   /*private  OnlineReportFrame onlineReportFrame=null;*/
@@ -261,14 +262,14 @@ public class MenuBuilder extends JMenuBar {
 			mSearch.setText("Pretra\u017eivanje");
 			mSearch.setMnemonic(KeyEvent.VK_P);
 			//mSearch.add(getMSearchUser());
-			//mSearch.add(getMSearchBooks());
+			mSearch.add(getMSearchBooks());
 		}
 		return mSearch;
 	}
 
 	private JMenuItem getMSearchBooks() {
 		if (mSearchBooks == null) {
-		//	mSearchBooks = new JMenuItem(new CircSearchBooksAction());
+			mSearchBooks = new JMenuItem(new CircSearchBooksAction());
 		}
 		return mSearchBooks;
 	}
@@ -314,8 +315,8 @@ public class MenuBuilder extends JMenuBar {
 	    	mObradaReport = new JMenu();
 	    	mObradaReport.setText("Izve\u0161taji");
 	    	mObradaReport.setMnemonic(KeyEvent.VK_I);
-	      getMObradaReport().setText("Obrada");
-	      mObradaReport.add(getMObradaReport());
+		  getMObradaReport().setText("Obrada");
+		  mObradaReport.add(getMObradaReport());
 	   //   mObradaReport.add(getOnlineReports());
 	    }
 	    return mObradaReport;

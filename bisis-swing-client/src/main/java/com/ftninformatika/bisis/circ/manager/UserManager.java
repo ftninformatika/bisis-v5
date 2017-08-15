@@ -176,7 +176,7 @@ public class UserManager {
 //    System.out.println("clock:"+clock.getTime());
   }
   
-  public int showChargedUser(Member user){
+  public int showChargedUser(User user){
     return /*getUser(user, null, chargedUser);*/ -1;
   }
   

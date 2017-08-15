@@ -134,6 +134,8 @@ public class BisisApp {
   public static RecordManager recMgr;
   public static SplashScreen splashScreen;
 
+
+
   public static SplashScreen getSplash(){
     return splashScreen;
   }

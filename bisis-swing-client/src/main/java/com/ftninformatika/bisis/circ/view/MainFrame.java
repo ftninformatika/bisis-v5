@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.circ.view;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.actions.CircUserDataAction;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.editor.Messages;
 
 import java.awt.BorderLayout;
@@ -40,10 +41,10 @@ public class MainFrame extends JInternalFrame {
 	private User userPanel = null;
 	private Group groupPanel = null;
 	private JPanel searchBooksPanel = null;
-	//private SearchBooks searchBooks = null;
+	private SearchBooks searchBooks = null;
 	private JPanel searchBooksResultsPanel = null;
-	//private SearchBooksResults searchBooksResults = null;
-	//private SearchUsers searchUsers = null;
+	private SearchBooksResults searchBooksResults = null;
+	private SearchUsers searchUsers = null;
 	private JPanel searchUsersPanel = null;
 	private JPanel searchUsersResultsPanel = null;
 	//private SearchUsersResults searchUsersResults = null;
@@ -119,12 +120,13 @@ public class MainFrame extends JInternalFrame {
 	
 	
 	private ActionListener getUserIDOK(){
-		/*if (userIDOK == null){
+		if (userIDOK == null){
 			userIDOK = new ActionListener(){	
 				public void actionPerformed(ActionEvent e){
-					String userid = Validator.convertUserId2DB(getUserIDPanel().getValue());
-					if (!userid.equals("")){ //$NON-NLS-1$
-						int found = Cirkulacija.getApp().getUserManager().getUser(getUserPanel(), getGroupPanel(), userid);
+					//String userid = Validator.convertUserId2DB(getUserIDPanel().getValue());
+					if (/*!userid.equals("")*/true){ //$NON-NLS-1$ //TODO-hardcoded
+						//int found = Cirkulacija.getApp().getUserManager().getUser(getUserPanel(), getGroupPanel(), userid);
+						int found = 1;
 						if (found == 1){
 							getUserIDPanel().clear();
 							getUserIDPanel().setVisible(false);
@@ -141,20 +143,20 @@ public class MainFrame extends JInternalFrame {
 							showPanel("groupPanel"); //$NON-NLS-1$
 						} else {
 							JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.userdontexists"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-									new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png"))); //$NON-NLS-1$
+									new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 						}
 					} else {
 						JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.usernumberisnotvalid"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-								new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png"))); //$NON-NLS-1$
+								new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 					}
 				}
 			};
-		}*/
+		}
 		return userIDOK;
 	}
 	
 	private ActionListener getUserIDCancel(){
-		/*if (userIDCancel == null){
+		if (userIDCancel == null){
 			userIDCancel = new ActionListener(){
 				public void actionPerformed(ActionEvent e){ 
 			        getUserIDPanel().clear();
@@ -162,7 +164,7 @@ public class MainFrame extends JInternalFrame {
 			        Cirkulacija.getApp().getUserManager().releaseUser();
 				}
 			};
-		}*/
+		}
 		return userIDCancel;
 	}
   
@@ -215,8 +217,8 @@ public class MainFrame extends JInternalFrame {
 			mPanel.setLayout(mCardLayout);
 			mPanel.add(getBlankPanel(), getBlankPanel().getName());
 			mPanel.add(getUserPanel(),getUserPanel().getName());
-			//mPanel.add(getSearchBooksPanel(), getSearchBooksPanel().getName());
-			//mPanel.add(getSearchBooksResultsPanel(), getSearchBooksResultsPanel().getName());
+			mPanel.add(getSearchBooksPanel(), getSearchBooksPanel().getName());
+			mPanel.add(getSearchBooksResultsPanel(), getSearchBooksResultsPanel().getName());
 			//mPanel.add(getSearchUsersPanel(), getSearchUsersPanel().getName());
 			//mPanel.add(getSearchUsersResultsPanel(), getSearchUsersResultsPanel().getName());
 			//mPanel.add(getReportPanel(), getReportPanel().getName());
@@ -231,8 +233,8 @@ public class MainFrame extends JInternalFrame {
 	    panels = new HashMap<String, JPanel>();
 	    panels.put(getBlankPanel().getName(), getBlankPanel());
 	    panels.put(getUserPanel().getName(), getUserPanel());
-	    //panels.put(getSearchBooksPanel().getName(), getSearchBooksPanel());
-	    //panels.put(getSearchBooksResultsPanel().getName(), getSearchBooksResultsPanel());
+	    panels.put(getSearchBooksPanel().getName(), getSearchBooksPanel());
+	    panels.put(getSearchBooksResultsPanel().getName(), getSearchBooksResultsPanel());
 	    //panels.put(getSearchUsersPanel().getName(), getSearchUsersPanel());
 	    //panels.put(getSearchUsersResultsPanel().getName(), getSearchUsersResultsPanel());
 	    //panels.put(getReportPanel().getName(), getReportPanel());
@@ -284,31 +286,31 @@ public class MainFrame extends JInternalFrame {
 		return userPanel;
 	}
 	
- /* public SearchBooks getSearchBooks(){
+  public SearchBooks getSearchBooks(){
 	if (searchBooks == null) {
 	  searchBooks = new SearchBooks();
 	}
 	return searchBooks;
-  }*/
+  }
   
-	/*public JPanel getSearchBooksPanel() {
+	public JPanel getSearchBooksPanel() {
 		if (searchBooksPanel == null) {
 			searchBooksPanel = getSearchBooks().getPanel();
 			searchBooksPanel.setName("searchBooksPanel"); //$NON-NLS-1$
 		}
 		return searchBooksPanel;
-	}*/
+	}
 	
-  /*public SearchBooksResults getSearchBooksResults(){
+  public SearchBooksResults getSearchBooksResults(){
     if (searchBooksResults == null) {
       searchBooksResults = new SearchBooksResults();
     }
     return searchBooksResults;
-  }*/
+  }
   
 	private JPanel getSearchBooksResultsPanel() {
 		if (searchBooksResultsPanel == null) {
-			//searchBooksResultsPanel = getSearchBooksResults();
+			searchBooksResultsPanel = getSearchBooksResults();
 			searchBooksResultsPanel.setName("searchBooksResultsPanel"); //$NON-NLS-1$
 			searchBooksResultsPanel.setPreferredSize(new Dimension(676, 356));
 		}
@@ -435,11 +437,11 @@ public class MainFrame extends JInternalFrame {
 	}
 	
 	public void previousPanel() {
-		/*if (!panelStack.empty()){
+		if (!panelStack.empty()){
 			String name = panelStack.pop();
 			if (name.equals("userPanel")){ //$NON-NLS-1$
 				Cirkulacija.getApp().getUserManager().releaseUser();
-				Cirkulacija.getApp().getRecordsManager().releaseList();
+				//Cirkulacija.getApp().getRecordsManager().releaseList();
 				((User)panels.get(name)).clearPanels();
 			}
 			Utils.clear(panels.get(name));
@@ -452,11 +454,11 @@ public class MainFrame extends JInternalFrame {
 				}
 				mCardLayout.show(mPanel, name);
 			}
-		}*/
-  }
+		}
+  	}
   
   public void previousTwoPanels() {
-   /* if (!panelStack.empty())
+    if (!panelStack.empty())
       Utils.clear(panels.get(panelStack.pop()));
     if (!panelStack.empty())
       Utils.clear(panels.get(panelStack.pop()));
@@ -467,11 +469,11 @@ public class MainFrame extends JInternalFrame {
         blank = true;
       }
       mCardLayout.show(mPanel, name);
-    }*/
+    }
   }
   
   public void handleClose(){
-    /*while (!panelStack.empty()){
+    while (!panelStack.empty()){
       String name = panelStack.pop();
       if (name.equals("userPanel")){ //$NON-NLS-1$
       	User user = (User)panels.get(name);
@@ -482,11 +484,11 @@ public class MainFrame extends JInternalFrame {
       }
     }
     Cirkulacija.getApp().getUserManager().releaseUser();
-    Cirkulacija.getApp().getRecordsManager().releaseList();
+    //Cirkulacija.getApp().getRecordsManager().releaseList();
     showPanel("blankPanel"); //$NON-NLS-1$
     //getBtnBack().setEnabled(false);
     blank = true;
-    this.setVisible(false);*/
+    this.setVisible(false);
   }
 
 }
