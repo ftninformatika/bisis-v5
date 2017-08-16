@@ -3,6 +3,7 @@ package com.ftninformatika.bisis;
 import com.ftninformatika.bisis.actions.*;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
+import com.ftninformatika.bisis.circ.options.OptionsMainFrame;
 import com.ftninformatika.bisis.circ.view.MmbrshipCoder;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -107,8 +108,8 @@ public class MenuBuilder extends JMenuBar {
   private CoderFrame placesFrame = null;
   private CoderFrame warnCountersFrame = null;
   private MmbrshipCoder mmbrshipFrame = null;
-  /*private WarningsFrame warningsFrame = null;
-  private OptionsMainFrame optionsFrame = null;*/
+  //private WarningsFrame warningsFrame = null;
+  private OptionsMainFrame optionsFrame = null;
   private SearchAdvancedFrame searchAdvancedFrame=null;
   /*private  OnlineReportFrame onlineReportFrame=null;*/
 	public MenuBuilder(Librarian lib) {
@@ -334,7 +335,7 @@ public class MenuBuilder extends JMenuBar {
       mAdministration.add(getMSifInv());
       mAdministration.addSeparator();
       mAdministration.add(getMSifCirc());
-  //    mAdministration.add(getMOptions());
+      mAdministration.add(getMOptions());
       mAdministration.add(getMiWarnings());
       mAdministration.addSeparator();
       mAdministration.add(getMiBrojaci());
@@ -520,7 +521,7 @@ public class MenuBuilder extends JMenuBar {
     return mCircReports;
   }
 	
-	/*private JMenuItem getMOptions() {
+	private JMenuItem getMOptions() {
 		if (mOptions == null) {
 			mOptions = new JMenuItem();
 			mOptions.setText("Opcije");
@@ -532,7 +533,7 @@ public class MenuBuilder extends JMenuBar {
 		}
 		return mOptions;
 	}
-  
+  /*
   private JMenuItem getMBackup() {
     if (mBackup == null) {
       mBackup = new JMenuItem("Bekap");
@@ -971,7 +972,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return warningsFrame;
   }
-
+*/
   public OptionsMainFrame getOptionsFrame(){
     if (optionsFrame == null){
       optionsFrame = new OptionsMainFrame();
@@ -979,7 +980,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return optionsFrame;
   }
-  */
+
   public SearchAdvancedFrame getSearchAdvancedFrame(){
 	    if (searchAdvancedFrame == null){
 	    	searchAdvancedFrame = new SearchAdvancedFrame();

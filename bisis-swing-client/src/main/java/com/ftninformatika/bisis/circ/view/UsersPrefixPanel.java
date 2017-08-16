@@ -120,7 +120,7 @@ public class UsersPrefixPanel extends JDialog {
     if (btnOK == null) {
       btnOK = new JButton();
       btnOK.setText(Messages.getString("circulation.ok")); //$NON-NLS-1$
-      btnOK.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/Check16.png"))); //$NON-NLS-1$
+      btnOK.setIcon(new ImageIcon(getClass().getResource("/circ-images/Check16.png"))); //$NON-NLS-1$
       btnOK.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
         	if (prefixList.getSelectedIndex() != -1){
@@ -139,7 +139,7 @@ public class UsersPrefixPanel extends JDialog {
     if (btnCancel == null) {
       btnCancel = new JButton();
       btnCancel.setText(Messages.getString("circulation.cancel")); //$NON-NLS-1$
-      btnCancel.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/Delete16.png"))); //$NON-NLS-1$
+      btnCancel.setIcon(new ImageIcon(getClass().getResource("/circ-images/Delete16.png"))); //$NON-NLS-1$
       btnCancel.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           selected = false;

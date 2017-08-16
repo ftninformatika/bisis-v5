@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.actions.CircUserDataAction;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.circ.validator.Validator;
 import com.ftninformatika.bisis.editor.Messages;
 
 import java.awt.BorderLayout;
@@ -123,10 +124,10 @@ public class MainFrame extends JInternalFrame {
 		if (userIDOK == null){
 			userIDOK = new ActionListener(){	
 				public void actionPerformed(ActionEvent e){
-					//String userid = Validator.convertUserId2DB(getUserIDPanel().getValue());
-					if (/*!userid.equals("")*/true){ //$NON-NLS-1$ //TODO-hardcoded
-						//int found = Cirkulacija.getApp().getUserManager().getUser(getUserPanel(), getGroupPanel(), userid);
-						int found = 1;
+					String userid = Validator.convertUserId2DB(getUserIDPanel().getValue());
+					if (!userid.equals("")){ //$NON-NLS-1$ //TODO-hardcoded
+						int found = Cirkulacija.getApp().getUserManager().getUser(getUserPanel(), getGroupPanel(), userid);
+
 						if (found == 1){
 							getUserIDPanel().clear();
 							getUserIDPanel().setVisible(false);

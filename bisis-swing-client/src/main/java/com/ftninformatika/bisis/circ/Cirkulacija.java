@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Environment;
+import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.manager.UserManager;
 import com.ftninformatika.bisis.circ.view.MainFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -114,7 +115,7 @@ public class Cirkulacija {
 
         splash = new SplashScreen();
         splash = BisisApp.getSplash();
-       // splash.setImage("/circ-images/splash.png"); //TODO- set image
+        splash.setImage("/circ-images/splash.png"); //TODO- set image
         splash.setVisible(true);
         splash.getMessage().setText("initializing environment");
 

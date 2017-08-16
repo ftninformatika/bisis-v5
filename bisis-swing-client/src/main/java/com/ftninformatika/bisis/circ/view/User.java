@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.circ.validator.Validate;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -91,8 +92,8 @@ public class User extends JPanel {
 			btnSave.setIcon(new ImageIcon(getClass().getResource("/circ-images/Check16.png"))); //$NON-NLS-1$
 			btnSave.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String result = //Validate.validateUser(getUser());
-									"Valid"; //TODO- hardcoded
+					String result = Validate.validateUser(getUser());
+									//"Valid"; //TODO- hardcoded
 					if (result != null){
 						JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), result, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
 								new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$

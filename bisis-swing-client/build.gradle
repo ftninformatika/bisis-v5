@@ -38,6 +38,9 @@ dependencies {
     compile group: 'com.toedter', name: 'jcalendar', version: '1.4'
     //compile group: 'com.seaglasslookandfeel', name: 'seaglasslookandfeel', version: '0.1.6.1'
     compile group: 'com.seaglasslookandfeel', name: 'seaglasslookandfeel', version: '0.2.1'
+    compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
+    compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
+    compile group: 'stax', name: 'stax-api', version: '1.0.1'
 
 
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opt:options xmlns:opt="options">
+	<general>
+		<nonCtlgNo>false</nonCtlgNo>
+		<blockedCard>true</blockedCard>
+		<autoReturn>false</autoReturn>
+		<defaultZipCity>true</defaultZipCity>
+		<defaultCity>Novi Sad</defaultCity>
+		<defaultZip>21000</defaultZip>
+		<fontSize>12</fontSize>
+		<maximize>true</maximize>
+		<lookAndFeel>default</lookAndFeel>
+		<theme>com.jgoodies.looks.plastic.theme.LightGray</theme>
+		<location>1</location>
+	</general>
+	<userid>
+		<length>11</length>
+		<prefix>true</prefix>
+		<prefixLength>2</prefixLength>
+		<defaultPrefix>1</defaultPrefix>
+		<separator>true</separator>
+		<separatorSign>/</separatorSign>
+		<input>1</input>
+	</userid>
+	<ctlgno>
+		<length>11</length>
+		<location>true</location>
+		<locationLength>2</locationLength>
+		<defaultLocation>1</defaultLocation>
+		<book>true</book>
+		<bookLength>2</bookLength>
+		<defaultBook>0</defaultBook>
+		<separators>true</separators>
+		<separator1>/</separator1>
+		<separator2>-</separator2>
+		<input>1</input>
+	</ctlgno>
+	<revers>
+		<libraryName>Biblioteka</libraryName>
+		<libraryAddress>Adresa</libraryAddress>
+		<selected>true</selected>
+		<height>1</height>
+		<width>1</width>
+		<rowCount>1</rowCount>
+		<count>1</count>
+	</revers>
+</opt:options>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.3.0//EN" "http://jakarta.apache.org/commons/dtds/validator_1_3_0.dtd">
+<form-validation>
+	<global>
+		<validator name="required"
+			classname="com.ftninformatika.bisis.circ.validator.Validator"
+			method="validateRequired"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="required.field" />
+		<validator name="int"
+			classname="com.ftninformatika.bisis.circ.validator.Validator"
+			method="validateInt"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="int.field" />
+		<validator name="intornotenabled"
+			classname="com.ftninformatika.bisis.circ.validator.Validator"
+			method="validateIntOrNotEnabled"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="int.field" />
+		<validator name="stringornotenabled"
+			classname="com.ftninformatika.bisis.circ.validator.Validator"
+			method="validateStringOrNotEnabled"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="required.field" />
+		<validator name="dateorblank"
+			classname="com.ftninformatika.bisis.circ.validator.Validator"
+			method="validateDateOrBlank"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="invalid.date" />
+	</global>
+	<formset>
+		<form name="options">
+			<field property="userIDLength" depends="int">
+				<arg key="options.useridlength.displayname" />
+			</field>
+			<field property="prefixLength" depends="intornotenabled">
+				<arg key="options.prefixlength.displayname" />
+			</field>
+			<field property="defaultPrefix" depends="intornotenabled">
+				<arg key="options.defaultprefix.displayname" />
+			</field>
+			<field property="separator" depends="stringornotenabled">
+				<arg key="options.separator.displayname" />
+			</field>
+			<field property="ctlgNoLength" depends="int">
+				<arg key="options.ctlgnolength.displayname" />
+			</field>
+			<field property="locationLength"
+				depends="intornotenabled">
+				<arg key="options.locationlength.displayname" />
+			</field>
+			<field property="defaultLocation"
+				depends="intornotenabled">
+				<arg key="options.defaultlocation.displayname" />
+			</field>
+			<field property="bookLength" depends="intornotenabled">
+				<arg key="options.booklength.displayname" />
+			</field>
+			<field property="defaultBook" depends="intornotenabled">
+				<arg key="options.defaultbook.displayname" />
+			</field>
+			<field property="separator1" depends="stringornotenabled">
+				<arg key="options.separator1.displayname" />
+			</field>
+			<field property="separator2" depends="stringornotenabled">
+				<arg key="options.separator2.displayname" />
+			</field>
+			<field property="defaultCity"
+				depends="stringornotenabled">
+				<arg key="options.defaultcity.displayname" />
+			</field>
+			<field property="defaultZip" depends="intornotenabled">
+				<arg key="options.defaultzip.displayname" />
+			</field>
+			<field property="locationValue" depends="int">
+				<arg key="options.locationvalue.displayname" />
+			</field>
+			<field property="libraryName" depends="required">
+				<arg key="options.libraryname.displayname" />
+			</field>
+			<field property="libraryAddress" depends="">
+				<arg key="options.libraryaddress.displayname" />
+			</field>
+			<field property="reversHeight" depends="int">
+				<arg key="options.reversheight.displayname" />
+			</field>
+			<field property="reversWidth" depends="int">
+				<arg key="options.reverswidth.displayname" />
+			</field>
+			<field property="reversRowCount" depends="int">
+				<arg key="options.reversrowcount.displayname" />
+			</field>
+			<field property="reversCount" depends="int">
+				<arg key="options.reverscount.displayname" />
+			</field>
+			<field property="macAddress" depends="required">
+				<arg key="options.macaddress.displayname" />
+			</field>
+			<field property="note" depends="">
+				<arg key="options.note.displayname" />
+			</field>
+		</form>
+	</formset>
+</form-validation>

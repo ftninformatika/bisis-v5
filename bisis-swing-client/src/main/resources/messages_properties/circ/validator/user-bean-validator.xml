@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.3.0//EN" "http://jakarta.apache.org/commons/dtds/validator_1_3_0.dtd">
+<form-validation>
+	<global>
+		<validator name="required"
+			classname="com.gint.app.bisis4.client.circ.validator.Validator"
+			method="validateRequired"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="required.field" />
+		<validator name="intorblank"
+			classname="com.gint.app.bisis4.client.circ.validator.Validator"
+			method="validateIntOrBlank"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="int.field" />
+		<validator name="positiveorblank"
+			classname="com.gint.app.bisis4.client.circ.validator.Validator"
+			method="validatePositiveOrBlank"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="positive.field" />
+		<validator name="doubleorblank"
+			classname="com.gint.app.bisis4.client.circ.validator.Validator"
+			method="validateDoubleOrBlank"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="double.field" />
+		<validator name="emailorblank"
+			classname="com.gint.app.bisis4.client.circ.validator.Validator"
+			method="validateEmailOrBlank"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="invalid.email" />
+		<validator name="dateorblank"
+			classname="com.gint.app.bisis4.client.circ.validator.Validator"
+			method="validateDateOrBlank"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="invalid.date" />
+		<validator name="userorblank"
+			classname="com.gint.app.bisis4.client.circ.validator.Validator"
+			method="validateUserIdOrBlank"
+			methodParams="java.lang.Object, org.apache.commons.validator.Field"
+			msg="invalid.userid" />
+	</global>
+	<formset>
+		<form name="userData">
+			<field property="firstName" depends="required">
+				<arg key="userData.firstname.displayname" />
+			</field>
+			<field property="lastName" depends="required">
+				<arg key="userData.lastname.displayname" />
+			</field>
+			<field property="parentName" depends="required">
+				<arg key="userData.parentname.displayname" />
+			</field>
+			<field property="address" depends="required">
+				<arg key="userData.address.displayname" />
+			</field>
+			<field property="zip" depends="intorblank,required">
+				<arg key="userData.zip.displayname" />
+			</field>
+			<field property="city" depends="required">
+				<arg key="userData.city.displayname" />
+			</field>
+			<field property="phone" depends="">
+				<arg key="userData.phone.displayname" />
+			</field>
+			<field property="email" depends="emailorblank">
+				<arg key="userData.email.displayname" />
+			</field>
+			<field property="tmpAddress" depends="">
+				<arg key="userData.tmpaddress.displayname" />
+			</field>
+			<field property="tmpZip" depends="intorblank">
+				<arg key="userData.tmpzip.displayname" />
+			</field>
+			<field property="tmpCity" depends="">
+				<arg key="userData.tmpcity.displayname" />
+			</field>
+			<field property="tmpPhone" depends="">
+				<arg key="userData.tmpphone.displayname" />
+			</field>
+			<field property="jmbg" depends="">
+				<arg key="userData.jmbg.displayname" />
+			</field>
+			<field property="docNo" depends="">
+				<arg key="userData.docno.displayname" />
+			</field>
+			<field property="docCity" depends="">
+				<arg key="userData.doccity.displayname" />
+			</field>
+			<field property="country" depends="">
+				<arg key="userData.country.displayname" />
+			</field>
+			<field property="title" depends="">
+				<arg key="userData.title.displayname" />
+			</field>
+			<field property="occupation" depends="">
+				<arg key="userData.occupation.displayname" />
+			</field>
+			<field property="organization" depends="">
+				<arg key="userData.organization.displayname" />
+			</field>
+			<field property="eduLvl" depends="">
+				<arg key="userData.edulvl.displayname" />
+			</field>
+			<field property="classNo" depends="">
+				<arg key="userData.classno.displayname" />
+			</field>
+			<field property="indexNo" depends="">
+				<arg key="userData.indexno.displayname" />
+			</field>
+			<field property="note" depends="">
+				<arg key="userData.note.displayname" />
+			</field>
+			<field property="interests" depends="">
+				<arg key="userData.interests.displayname" />
+			</field>
+			<field property="languages" depends="">
+				<arg key="userData.language.displayname" />
+			</field>
+			<field property="dupDate" depends="">
+				<var>
+					<var-name>datePattern</var-name>
+					<var-value>dd.MM.yyyy</var-value>
+				</var>
+				<arg key="userData.dupdate.displayname" />
+			</field>
+			<field property="dupNo" depends="intorblank">
+				<arg key="userData.dupno.displayname" />
+			</field>
+		</form>
+		<form name="mmbrship">
+			<field property="userID" depends="userorblank,required">
+				<arg key="mmbrship.userid.displayname" />
+			</field>
+			<field property="mmbrshipDate" depends="required">
+				<var>
+					<var-name>datePattern</var-name>
+					<var-value>dd.MM.yyyy</var-value>
+				</var>
+				<arg key="mmbrship.mmbrshipdate.displayname" />
+			</field>
+			<field property="mmbrshipUntilDate" depends="required">
+				<var>
+					<var-name>datePattern</var-name>
+					<var-value>dd.MM.yyyy</var-value>
+				</var>
+				<arg key="mmbrship.mmbrshipuntildate.displayname" />
+			</field>
+			<field property="mmbrshipCost" depends="">
+				<arg key="mmbrship.mmbrshipcost.displayname" />
+			</field>
+			<field property="mmbrshipReceiptId" depends="">
+				<arg key="mmbrship.mmbrshipreceiptid.displayname" />
+			</field>
+			<field property="mmbrType" depends="required">
+				<arg key="mmbrship.mmbrtype.displayname" />
+			</field>
+			<field property="userCateg" depends="required">
+				<arg key="mmbrship.usercateg.displayname" />
+			</field>
+		</form>
+	</formset>
+</form-validation>

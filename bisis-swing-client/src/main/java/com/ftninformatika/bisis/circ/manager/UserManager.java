@@ -230,7 +230,7 @@ public class UserManager {
 		}*/ return null;
   }
 	
-  public int getUser(Member user/*, Group group*/, String userID){
+  public int getUser(User user, Group group, String userID){
     int found = 0;
 //  StopWatch clock = new StopWatch();
 //  clock.start();
