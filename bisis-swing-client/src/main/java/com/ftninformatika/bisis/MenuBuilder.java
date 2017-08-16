@@ -188,7 +188,7 @@ public class MenuBuilder extends JMenuBar {
 			mNewUser.setText("Novi korisnik");
 			mNewUser.setIcon(new ImageIcon(getClass().getResource("/circ-images/add_user_bold16.png")));
 			mNewUser.add(getMNewSingle());
-		//	mNewUser.add(getMNewGroup());
+			mNewUser.add(getMNewGroup());
 		}
 		return mNewUser;
 	}
@@ -202,7 +202,7 @@ public class MenuBuilder extends JMenuBar {
 
 	private JMenuItem getMNewGroup() {
 		if (mNewGroup == null) {
-			//mNewGroup = new JMenuItem(new CircNewGroupAction());
+			mNewGroup = new JMenuItem(new CircNewGroupAction());
 		}
 		return mNewGroup;
 	}

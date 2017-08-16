@@ -190,9 +190,9 @@ public class Cirkulacija {
     }
 
     public Librarian getLibrarian() {
-        //if (lib == null){
-          //  lib = new Librarian("admin", "admin");
-        //}
+        if (lib == null){
+            lib = new Librarian("admin", "admin");
+        }
         return lib;
     }
 
@@ -257,8 +257,8 @@ public class Cirkulacija {
     }*/
 
     public void close(){
-        /*if (mf != null && mf.isVisible())
-            mf.handleClose();*/
+        if (mf != null && mf.isVisible())
+            mf.handleClose();
     }
 
     static {

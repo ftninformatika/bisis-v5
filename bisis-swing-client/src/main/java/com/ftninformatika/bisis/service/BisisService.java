@@ -44,6 +44,9 @@ public interface BisisService {
     @GET("/members/getById")
     Call<Member> getMemberById(@Query("userId") String userId);
 
+    @POST("/members/addUpdate")
+    Call<Member> addUpdateMember(@Body Member member);
+
 //librarians------------------------------------------------------------
 
     @GET("/librarians/getByUsername")

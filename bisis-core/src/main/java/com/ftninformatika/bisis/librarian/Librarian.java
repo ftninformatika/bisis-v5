@@ -32,6 +32,11 @@ public class Librarian {
   private String biblioteka;
   private ProcessType curentProcessType;
 
+  public Librarian(String username, String password) {
+    this.username = username;
+    this.password = password;
+  }
+
   public boolean isAdministration() { //lakse zbog starog koda!
       return this.administracija;
   }
