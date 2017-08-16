@@ -1,7 +1,10 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.models.circ.Lending;
+import com.ftninformatika.bisis.models.circ.Member;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +23,24 @@ import java.util.List;
 public class PrimerciController {
 
     @Autowired private RecordsRepository recordsRepository;
+    @Autowired private MemberController memberController;
+
+    @RequestMapping( value = "/lendPrimerak", method = RequestMethod.GET)
+    public Record lendPrimerak(@RequestParam (value = "ctlgNo") String ctlgNo, @RequestParam (value = "memberId") String memberId){
+        Record retVal = null;
+
+        Member m = memberController.getMember(memberId);
+        retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
+        //TODO- sve sto treba kod zaduzivanja
+        retVal.getPrimerak(ctlgNo).setStatus("9"); //hardcoded
+        Lending l = new Lending(null, memberId, ctlgNo, null, null, null, null, new Date(), null, null, null, null);
+        m.getLendings().add(l);
+
+        memberController.memberRep.save(m);
+        recordsRepository.save(retVal);
+
+        return retVal;
+    }
 
     @RequestMapping( method = RequestMethod.GET )
     public List<Primerak> getPrimerci(){

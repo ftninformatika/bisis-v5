@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.records;
+package com.ftninformatika.bisis.rest_service.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

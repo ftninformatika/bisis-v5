@@ -2,9 +2,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
-import com.ftninformatika.bisis.records.LockException;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.RecordNotFoundException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
@@ -37,6 +35,15 @@ public class RecordsController {
       elasticRecordsRepository.delete(recId);
       return true;
 
+  }
+
+  @RequestMapping(value = "/getRecordForPrimerak")
+  public Record getRecordForPrimerak(@RequestParam (value = "ctlgno")String ctlgno){
+      Record retVal = null;
+
+      retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
+
+      return retVal;
   }
 
   @ExceptionHandler(LockException.class)
