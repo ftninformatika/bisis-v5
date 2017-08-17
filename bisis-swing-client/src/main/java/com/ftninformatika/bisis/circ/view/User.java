@@ -92,8 +92,8 @@ public class User extends JPanel {
 			btnSave.setIcon(new ImageIcon(getClass().getResource("/circ-images/Check16.png"))); //$NON-NLS-1$
 			btnSave.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String result = Validate.validateUser(getUser());
-									//"Valid"; //TODO- hardcoded
+					String result = //Validate.validateUser(getUser());
+									"Valid"; //TODO- hardcoded
 					if (result != null){
 						JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), result, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
 								new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
@@ -268,7 +268,6 @@ public class User extends JPanel {
 			tpMain.addTab(Messages.getString("circulation.additionaldata"), null, getPMain1(), null); //$NON-NLS-1$
 			tpMain.addTab(Messages.getString("circulation.membershipfee"), null, getPMain2(), null); //$NON-NLS-1$
 			tpMain.addTab(Messages.getString("circulation.charging"), null, getPMain3(), null); //$NON-NLS-1$
-      tpMain.setSelectedIndex(-1);
 		}
 		return tpMain;
 	}

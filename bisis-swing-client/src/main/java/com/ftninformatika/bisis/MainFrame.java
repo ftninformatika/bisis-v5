@@ -8,6 +8,7 @@ import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
+import com.seaglasslookandfeel.ui.SeaGlassInternalFrameUI;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
@@ -132,6 +133,8 @@ public class MainFrame extends JFrame {
     }
 
     public void insertFrame(JInternalFrame frame){
+
+
         desktop.add(frame);
     }
 /*
