@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.circ.view;
 
 import javax.swing.JPanel;
 
-import java.awt.FlowLayout;
+import java.awt.*;
 import javax.swing.JTextField;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -85,12 +85,12 @@ public class SearchBooks {
 	private void makePanel() {
 		
 		FormLayout layout = new FormLayout(
-		        "2dlu:grow, right:65dlu, 5dlu, 10dlu, 5dlu, 70dlu, 10dlu, 70dlu, 5dlu, 30dlu, 50dlu, 2dlu:grow",  //$NON-NLS-1$
+		        "2dlu:grow, right:65dlu, 5dlu, 20dlu, 5dlu, 70dlu, 10dlu, 70dlu, 5dlu, 40dlu, 50dlu, 2dlu:grow",  //$NON-NLS-1$
 		        "20dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 20dlu, pref, 10dlu, pref, 2dlu, pref, 20dlu, pref, 2dlu:grow"); //$NON-NLS-1$
 		CellConstraints cc = new CellConstraints();
 		pb = new PanelBuilder(layout);
 		pb.setDefaultDialogBorder();
-		
+
 		pb.add(getLPref1(), cc.xy(2,2));
 		pb.add(getBtnPref1(), cc.xy(4,2));
 		pb.add(getTfPref1(), cc.xyw(6,2,3));
@@ -115,7 +115,9 @@ public class SearchBooks {
 		pb.add(getBtnPref5(), cc.xy(4,10));
 		pb.add(getTfPref5(), cc.xyw(6,10,3));
 		pb.add(getCodedPref5(), cc.xyw(6,10,3));
-		
+
+
+
 		pb.addSeparator("", cc.xyw(2,12,10)); //$NON-NLS-1$
 		pb.addLabel(Messages.getString("circulation.chargingdate"), cc.xyw(2,14,3,"right, center")); //$NON-NLS-1$ //$NON-NLS-2$
 		pb.add(getTfStartDateL(), cc.xy(6,14));

@@ -59,7 +59,6 @@ public class BisisApp {
     Font f = new Font("sans-serif", Font.PLAIN, 15);
     UIManager.put("Menu.font", f);
 
-
     LoginFrame login = new LoginFrame();
     boolean correct = false;
     while (!correct) {
