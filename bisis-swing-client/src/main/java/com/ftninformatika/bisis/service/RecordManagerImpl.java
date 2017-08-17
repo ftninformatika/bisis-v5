@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.service;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.records.LockException;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
 
@@ -32,7 +31,7 @@ public class RecordManagerImpl implements RecordManager {
     }
 
     @Override
-    public Record getAndLock(String recID, String userId) throws IOException, LockException {
+    public Record getAndLock(String recID, String userId) throws IOException {
         return BisisApp.bisisService.getAndLockRecord(recID, userId).execute().body();
     }
 

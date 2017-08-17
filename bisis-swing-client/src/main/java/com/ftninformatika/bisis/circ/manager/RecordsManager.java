@@ -33,6 +33,7 @@ public class RecordsManager {
 
         try {
             primerak = BisisApp.bisisService.getPrimerakByInvNum(ctlgno).execute().body();
+            sveska = BisisApp.bisisService.getSveskaByInvNum(ctlgno).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,24 +61,27 @@ public class RecordsManager {
             }
         }
         else {
-            //TODO- implementirati za svesku isto
-            /*
+
             if (sveska != null){
-                listContainsSveska(sveska);
-                if (sveska.getStatusPrimerka() == null){
-                    zaduziv = 1;
+                //listContainsSveska(sveska);
+                if (sveska.getStatus() == null){
+                    zaduziv = true;
                 }else{
-                    zaduziv = sveska.getStatusPrimerka().getZaduziv();
+                    zaduziv = BisisApp.appConfig.getCodersHelper().getItemStatuses().get( sveska.getStatus()).isLendable();
                 }
-                if (zaduziv == 1){
+                if (zaduziv == true){
                     if (sveska.getStanje() != 1){
                         sveska.setStanje(1);
                         list.add(sveska);
-                        record = getRecord(ctlgno);
+                        try {
+                            retVal = BisisApp.bisisService.getRecordForSveska(ctlgno).execute().body();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         //record = BisisApp.getRecordManager().getRecord(sveska.getGodine().getRecords().getRecordId());
                     }
                 }
-            }*/
+            }
         }
         return retVal;
     }

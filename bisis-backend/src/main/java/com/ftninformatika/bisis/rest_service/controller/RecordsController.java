@@ -37,6 +37,15 @@ public class RecordsController {
 
   }
 
+    @RequestMapping(value = "/getRecordForSveska")
+    public Record getRecordForSveska(@RequestParam (value = "ctlgno")String ctlgno){
+        Record retVal = null;
+
+        retVal = recordsRepository.getRecordBySveskaInvNum(ctlgno);
+
+        return retVal;
+    }
+
   @RequestMapping(value = "/getRecordForPrimerak")
   public Record getRecordForPrimerak(@RequestParam (value = "ctlgno")String ctlgno){
       Record retVal = null;

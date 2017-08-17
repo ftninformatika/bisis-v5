@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Environment;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.circ.manager.RecordsManager;
 import com.ftninformatika.bisis.circ.manager.UserManager;
 import com.ftninformatika.bisis.circ.view.MainFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -26,7 +27,7 @@ public class Cirkulacija {
     private Librarian lib;
     private static Log log = LogFactory.getLog(Cirkulacija.class.getName());
     private Environment env;
-    //private RecordsManager recmng;
+    private RecordsManager recmng;
     private UserManager usermng;
     /*private SearchUsersManager susermng;
     private Service service;

@@ -32,7 +32,6 @@ import com.ftninformatika.bisis.editor.EditorFrame;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
-import com.ftninformatika.bisis.records.LockException;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;

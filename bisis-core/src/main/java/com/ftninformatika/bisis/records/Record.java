@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -418,6 +419,15 @@ public class Record implements Serializable {
   	for(Field f:fields)
   		rec.add(f.copy());
   	return rec;  	
+  }
+
+  public List<Sveska> getAllSveske(){
+      List<Sveska> retVal = new ArrayList<>();
+
+      for (Godina g: godine)
+          retVal.addAll(g.getSveske());
+
+      return retVal;
   }
 
   /*

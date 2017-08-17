@@ -30,6 +30,9 @@ import java.util.Properties;
 public class BisisApp {
 
   public static void main(String[] args) {
+
+
+
     Properties props = new Properties();
     try (final InputStream stream = BisisApp.class.getResourceAsStream("/config.properties")) {
       props.load(stream);
@@ -43,8 +46,8 @@ public class BisisApp {
     UIManager.put("swing.boldMetal", Boolean.FALSE);
 
     try {
-      //UIManager.installLookAndFeel("SeaGlass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
-      //UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+      UIManager.installLookAndFeel("SeaGlass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
+      UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
       //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
     } catch (Exception ex) {
       System.err.println(ex.getMessage());

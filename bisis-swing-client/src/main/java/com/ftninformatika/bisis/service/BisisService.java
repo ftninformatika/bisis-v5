@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.google.gson.JsonObject;
 import retrofit2.http.*;
@@ -39,6 +40,9 @@ public interface BisisService {
 
     @GET("/coders/process_types/getByLibrary")
     Call<List<ProcessTypeDTO>> getProcessTypesForLibrary(@Query("libName") String libName);
+
+    @GET("sveske/{invNum}")
+    Call<Sveska> getSveskaByInvNum(@Path("invNum") String invNum);
 
 //primerci--------------------------------------------------------------
 
@@ -77,6 +81,9 @@ public interface BisisService {
 //records---------------------------------------------------------------
     @GET("/records/getRecordForPrimerak")
     Call<Record> getRecordForPrimerak(@Query("ctlgno") String ctlgno);
+
+    @GET("/records/getRecordForSveska")
+    Call<Record> getRecordForSveska(@Query("ctlgno") String ctlgno);
 
     @GET("/mongo_repository_records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
