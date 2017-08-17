@@ -22,7 +22,7 @@ public class SearchStatusDlg extends JDialog {
 		    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		    progressBar.setMinimum(0);
 		    progressBar.setIndeterminate(true);
-		    progressBar.setMinimumSize(new Dimension(200,5));
+		    progressBar.setMinimumSize(new Dimension(206,6));
 		    cancelBtn.setIcon(new ImageIcon(getClass().getResource(
 		        "/icons/remove.gif")));
 		   

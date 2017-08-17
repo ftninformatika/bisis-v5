@@ -43,10 +43,10 @@ public class BisisApp {
     }
     appConfig = ConfigFactory.getConfig(ConfigType.DEVELOPMENT);
 
-    UIManager.put("swing.boldMetal", Boolean.FALSE);
+    //UIManager.put("swing.boldMetal", Boolean.FALSE);
 
     try {
-      UIManager.installLookAndFeel("SeaGlass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
+      UIManager.installLookAndFeel("seaglass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
       UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
       //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
     } catch (Exception ex) {

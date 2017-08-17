@@ -22,9 +22,6 @@ public class InventarTabTableCellRenderer extends JLabel
 		  setBorder(getNoFocusBorder());
    }
 
-	
-	
-
   
     protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1); 
     private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
@@ -32,7 +29,7 @@ public class InventarTabTableCellRenderer extends JLabel
     private Color unselectedForeground; 
     private Color unselectedBackground; 
     
-    private Color selectedRowBackground = new Color(255,255,230);
+    private Color selectedRowBackground = new Color(128,202,232);
     
    
 
@@ -139,9 +136,7 @@ public class InventarTabTableCellRenderer extends JLabel
 
 	return this;
     }
-    
-   
-   
+
     public boolean isOpaque() { 
     	Color back = getBackground();
     	Component p = getParent(); 
@@ -160,14 +155,11 @@ public class InventarTabTableCellRenderer extends JLabel
     public void validate() {}
    
     public void revalidate() {}
-
     
     public void repaint(long tm, int x, int y, int width, int height) {}
-
     
     public void repaint(Rectangle r) { }
 
-   
     public void repaint() {
     }
    

@@ -16,7 +16,7 @@ public class FullFormatter implements RecordFormatter {
   }
 
   public String toHTML(Record record, String locale) {
-    return "<code>" + RecordFactory.toFullFormat(0, record, true) + "</code>";
+    return "<code><font size=\"5\">" + RecordFactory.toFullFormat(0, record, true) + "</font></code>";
   }
 
 }

@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.search;
 
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -72,6 +71,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 
   private JComboBox cbSort = new JComboBox();
 
+
   public SearchFrame() {
     super("Pretra\u017eivanje zapisa", true, true, false, true);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -91,6 +91,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         "/icons/coder.gif")));
     btnCoder5.setIcon(new ImageIcon(getClass().getResource(
         "/icons/coder.gif")));
+
 
     MigLayout layout = new MigLayout(
         "insets dialog, wrap",
@@ -124,7 +125,14 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     add(cbSort, "wrap");
     add(btnSearch, "span 5, tag ok, growy");
     pack();
-    
+
+    //zbog seaglass teme
+    Font f = new Font("TimesNewRoman", Font.PLAIN, 13);
+    cbOper1.setFont(f);
+    cbOper2.setFont(f);
+    cbOper3.setFont(f);
+    cbOper4.setFont(f);
+
     btnPref1.setFocusable(false);
     btnPref2.setFocusable(false);
     btnPref3.setFocusable(false);
