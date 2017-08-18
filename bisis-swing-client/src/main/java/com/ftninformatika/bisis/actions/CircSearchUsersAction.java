@@ -9,20 +9,21 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-public class CircSearchBooksAction extends AbstractAction {
 
-  public CircSearchBooksAction() {
-    putValue(SHORT_DESCRIPTION, "Pretra\u017eivanje publikacija");
-    putValue(NAME, "Publikacije");
+public class CircSearchUsersAction extends AbstractAction {
+
+  public CircSearchUsersAction() {
+    putValue(SHORT_DESCRIPTION, "Pretra\u017eivanje korisnika");
+    putValue(NAME, "Korisnici");
     putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
-        "/circ-images/find_book16.png")));
+        "/circ-images/find_user16.png")));
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(
-        "/new-circ-images/Book-Search-32.png")));
+        "/new-circ-images/Search-male-user-32.png")));
   }
   
   public void actionPerformed(ActionEvent ev) {
     if (Cirkulacija.getApp().getMainFrame().getBlank()){
-      Cirkulacija.getApp().getMainFrame().showPanel("searchBooksPanel");
+      Cirkulacija.getApp().getMainFrame().showPanel("searchUsersPanel");
     }
   }
 }

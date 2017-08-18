@@ -1,6 +1,9 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.actions.CircNewUserAction;
+import com.ftninformatika.bisis.actions.CircSearchBooksAction;
+import com.ftninformatika.bisis.actions.CircSearchUsersAction;
 import com.ftninformatika.bisis.actions.CircUserDataAction;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
@@ -197,6 +200,7 @@ public class MainFrame extends JInternalFrame {
 	private JToolBar getToolBar() {
 		if (toolBar == null) {
 			toolBar = new JToolBar();
+			toolBar.addSeparator(new Dimension(280, 0));
 			toolBar.add(getBtnNew());
 			toolBar.add(getBtnUser());
 			toolBar.add(getBtnSearchUser());
@@ -224,7 +228,7 @@ public class MainFrame extends JInternalFrame {
 			//mPanel.add(getSearchUsersResultsPanel(), getSearchUsersResultsPanel().getName());
 			//mPanel.add(getReportPanel(), getReportPanel().getName());
 			//mPanel.add(getReportResultsPanel(), getReportResultsPanel().getName());
-			mPanel.add(getGroupPanel(), getGroupPanel().getName());
+			//mPanel.add(getGroupPanel(), getGroupPanel().getName());
 			initHash();
 		}
 		return mPanel;
@@ -240,7 +244,7 @@ public class MainFrame extends JInternalFrame {
 	    //panels.put(getSearchUsersResultsPanel().getName(), getSearchUsersResultsPanel());
 	    //panels.put(getReportPanel().getName(), getReportPanel());
 	    //panels.put(getReportResultsPanel().getName(), getReportResultsPanel());
-	    panels.put(getGroupPanel().getName(), getGroupPanel());
+	    //panels.put(getGroupPanel().getName(), getGroupPanel());
   }
 
 	private JPanel getBlankPanel() {
@@ -253,7 +257,7 @@ public class MainFrame extends JInternalFrame {
 
 	private JButton getBtnNew() {
 		if (btnNew == null) {
-			btnNew = new JButton(/*new CircNewUserAction()*/);
+			btnNew = new JButton(new CircNewUserAction());
 			btnNew.setFocusable(false);
 			btnNew.setPreferredSize(new Dimension(30,30));
 			btnNew.setText(""); //$NON-NLS-1$
@@ -320,7 +324,7 @@ public class MainFrame extends JInternalFrame {
 	
 	private JButton getBtnSearchBook() {
 		if (btnSearchBook == null) {
-			btnSearchBook = new JButton(/*new CircSearchBooksAction()*/);
+			btnSearchBook = new JButton(new CircSearchBooksAction());
 			btnSearchBook.setFocusable(false);
 			btnSearchBook.setPreferredSize(new Dimension(30,30));
 			btnSearchBook.setText(""); //$NON-NLS-1$
@@ -360,7 +364,7 @@ public class MainFrame extends JInternalFrame {
 
 	private JButton getBtnSearchUser() {
 		if (btnSearchUser == null) {
-			btnSearchUser = new JButton(/*new CircSearchUsersAction()*/);
+			btnSearchUser = new JButton(new CircSearchUsersAction());
 			btnSearchUser.setFocusable(false);
 			btnSearchUser.setPreferredSize(new Dimension(30,30));
 			btnSearchUser.setText(""); //$NON-NLS-1$
