@@ -43,7 +43,7 @@ public class BisisApp {
     }
     appConfig = ConfigFactory.getConfig(ConfigType.DEVELOPMENT);
 
-    //UIManager.put("swing.boldMetal", Boolean.FALSE);
+    UIManager.put("swing.boldMetal", Boolean.FALSE);
 
 
     try {

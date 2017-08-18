@@ -8,6 +8,7 @@ import com.ftninformatika.bisis.circ.view.MmbrshipCoder;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
+import com.ftninformatika.bisis.style.ChoseTheme;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -99,6 +100,7 @@ public class MenuBuilder extends JMenuBar {
   private JMenuItem mi992b = null;
   private JMenuItem miMmbrship = null;
   private JMenuItem miWarnings = null;
+  private JMenuItem miChoseTeme = null;
   private CoderFrame userCategsFrame = null;
   private CoderFrame mmbrTypesFrame = null;
   private CoderFrame eduLvlFrame = null;
@@ -111,6 +113,7 @@ public class MenuBuilder extends JMenuBar {
   //private WarningsFrame warningsFrame = null;
   private OptionsMainFrame optionsFrame = null;
   private SearchAdvancedFrame searchAdvancedFrame=null;
+  private ChoseTheme choseTheme = null;
   /*private  OnlineReportFrame onlineReportFrame=null;*/
 	public MenuBuilder(Librarian lib) {
 		super();
@@ -349,9 +352,23 @@ public class MenuBuilder extends JMenuBar {
 			mSistem.setText("Sistem");
 			mSistem.add(getMLog());
     		mSistem.add(getMMonitor());
+    		mSistem.add(getMiTeme());
       		mSistem.add(getMIzlaz());
 		}
 		return mSistem;
+	}
+
+	private JMenuItem getMiTeme(){
+  		if( miChoseTeme == null){
+  			miChoseTeme = new JMenuItem("Teme aplikacije");
+			miChoseTeme.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					getTeme().setVisible(true);
+				}
+			});
+		}
+
+		return miChoseTeme;
 	}
 
 	private JMenu getMUserRep() {
@@ -988,6 +1005,14 @@ public class MenuBuilder extends JMenuBar {
 	    }
 	    return searchAdvancedFrame;
 	  }
+
+	public ChoseTheme getTeme() {
+		if (choseTheme == null) {
+			choseTheme = new ChoseTheme();
+			BisisApp.mf.insertFrame(choseTheme);
+		}
+		return choseTheme;
+	}
 	  /*
   public OnlineReportFrame getOnlineReportFrame(){
 	    if (onlineReportFrame == null){

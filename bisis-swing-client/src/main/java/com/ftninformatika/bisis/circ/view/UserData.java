@@ -458,7 +458,7 @@ public class UserData {
 	private void makePMain1() {
 		if (pMain1 == null) {
 			FormLayout layout = new FormLayout(
-			        "2dlu:grow, right:40dlu, 3dlu, 30dlu, 7dlu, right:20dlu, 3dlu, 70dlu, 35dlu, right:55dlu, 3dlu, 40dlu, 60dlu, 3dlu:grow",  //$NON-NLS-1$
+			        "2dlu:grow, right:40dlu, 3dlu, 30dlu, 7dlu, right:25dlu, 3dlu, 70dlu, 35dlu, right:55dlu, 3dlu, 40dlu, 60dlu, 3dlu:grow",  //$NON-NLS-1$
 			        "5dlu, pref, 2dlu, 15dlu, 2dlu, pref, 2dlu, pref, 20dlu, 20dlu, pref, 2dlu, 15dlu, 2dlu, 15dlu, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu:grow"); //$NON-NLS-1$
 			CellConstraints cc = new CellConstraints();
 			pMain1 = new PanelBuilder(layout);

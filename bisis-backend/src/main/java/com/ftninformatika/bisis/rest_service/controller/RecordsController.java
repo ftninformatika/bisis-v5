@@ -76,11 +76,11 @@ public class RecordsController {
   }
 
   @RequestMapping(value = "/unlock", method = RequestMethod.GET)
-  public String unlock(@RequestParam (value = "recId") String recId){
+  public boolean unlock(@RequestParam (value = "recId") String recId){
       Record r = recordsRepository.findOne(recId);
       r.setInUseBy(null);
       recordsRepository.save(r);
-      return  "Unlocked record with ID: " + r.get_id();
+      return  true;
   }
 
 
