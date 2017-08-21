@@ -13,10 +13,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.coders.CodersHelper;
@@ -94,7 +91,11 @@ public class CodedValuePanel extends JPanel {
 	private void create() {			
 		codeTxtFld = new JTextField(2);
 		valueTxtFld = new JTextField(18);
-		valueTxtFld.setEditable(false);		
+		valueTxtFld.setEditable(false);
+
+		if (UIManager.getLookAndFeel().getName().equals("SeaGlass"))
+			valueTxtFld.setBackground( new Color(193, 229, 242));
+
 		valueTxtFld.setCaretPosition(0);
 		coderButton = new JButton(new ImageIcon(getClass().getResource(
         	"/icons/coder.gif")));

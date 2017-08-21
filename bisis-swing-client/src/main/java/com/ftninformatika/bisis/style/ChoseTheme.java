@@ -10,7 +10,9 @@ public class ChoseTheme extends JInternalFrame {
     private JPanel panel1;
     private JButton poništiButton;
     private JButton sačuvajButton;
-    private JComboBox comboBox1;
+    private JTabbedPane tabbedPane1;
+    private JList list1;
+    private JButton button1;
 
     public ChoseTheme(){
         initialize();

@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import retrofit2.Call;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,8 +57,10 @@ public class BisisApp {
     }
     //JDialog.setDefaultLookAndFeelDecorated(true);
 
+
     Font f = new Font("sans-serif", Font.PLAIN, 15);
     UIManager.put("Menu.font", f);
+
 
     LoginFrame login = new LoginFrame();
     boolean correct = false;
