@@ -72,7 +72,7 @@ public interface BisisService {
     Call<Void> createLibrarian(@Body LibrarianDTO librarian);
 
     @POST("/librarians/update")
-    Call<LibrarianDTO> updateLibrarian(@Body LibrarianDTO librarian);
+    Call<Boolean> updateLibrarian(@Body LibrarianDTO librarian);
 
     @HTTP(method = "DELETE", path = "/mongo_repository_librarians", hasBody = true)
     Call<Void> deleteLibraian(@Body LibrarianDTO librarian);

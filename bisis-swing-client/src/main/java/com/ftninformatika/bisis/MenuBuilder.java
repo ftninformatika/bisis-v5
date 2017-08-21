@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.style.ChoseTheme;
+import com.ftninformatika.bisis.style.ChoseThemeFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -113,7 +114,7 @@ public class MenuBuilder extends JMenuBar {
   //private WarningsFrame warningsFrame = null;
   private OptionsMainFrame optionsFrame = null;
   private SearchAdvancedFrame searchAdvancedFrame=null;
-  private ChoseTheme choseTheme = null;
+  private ChoseThemeFrame choseTheme = null;
   /*private  OnlineReportFrame onlineReportFrame=null;*/
 	public MenuBuilder(Librarian lib) {
 		super();
@@ -1006,9 +1007,9 @@ public class MenuBuilder extends JMenuBar {
 	    return searchAdvancedFrame;
 	  }
 
-	public ChoseTheme getTeme() {
+	public ChoseThemeFrame getTeme() {
 		if (choseTheme == null) {
-			choseTheme = new ChoseTheme();
+			choseTheme = new ChoseThemeFrame();
 			BisisApp.mf.insertFrame(choseTheme);
 		}
 		return choseTheme;

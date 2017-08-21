@@ -171,6 +171,7 @@ public class LibrarianFrame extends JInternalFrame {
 		lib.setPrezime(lastnameTxtFld.getText());
 		lib.setEmail(emailTxtFld.getText());
 		lib.setNapomena(notesTxtArea.getText());
+		lib.setBiblioteka(BisisApp.appConfig.getLibrary());
 		lib.getContext().setProcessTypes((ArrayList<ProcessType>) libProcTypesListModel.getProcessTypes());
 		lib.getContext().setDefaultProcessType(libProcTypesListModel.getDefaultProcessType());
 		return lib;

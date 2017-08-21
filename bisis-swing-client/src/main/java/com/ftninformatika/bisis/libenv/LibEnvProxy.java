@@ -60,7 +60,6 @@ public class LibEnvProxy {
 
 		String napomena = lib.getNapomena().replace("'", "").replace("\"", "");
 		lib.setNapomena(napomena);
-		lib.setBiblioteka(BisisApp.appConfig.getLibrary());
 		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
 		try {
 			 BisisApp.bisisService.createLibrarian(librarianDTO).execute();
@@ -80,9 +79,8 @@ public class LibEnvProxy {
 			napomena = lib.getNapomena().replace("'", "").replace("\"", "");
 		lib.setNapomena(napomena);
 		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
-		Librarian l = null;
 		try {
-			LibrarianDTO l1 = BisisApp.bisisService.updateLibrarian(librarianDTO).execute().body();
+			BisisApp.bisisService.updateLibrarian(librarianDTO).execute().body();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();

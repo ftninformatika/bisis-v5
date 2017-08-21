@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +43,7 @@ public class LibrarianController {
     }
 
     @RequestMapping( value = "/update", method = RequestMethod.POST)
-    public boolean updateLibrarian(@RequestBody LibrarianDTO lib){
+    public Boolean updateLibrarian(@RequestBody LibrarianDTO lib){
 
         LibrarianDTO librarian = librarianRepository.getByUsername(lib.getUsername());
 
