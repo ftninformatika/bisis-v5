@@ -8,8 +8,9 @@ import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
+import sun.java2d.SunGraphicsEnvironment;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
@@ -26,12 +27,23 @@ public class MainFrame extends JFrame {
         add(desktop, BorderLayout.CENTER);
         add(getStatusnaLinija(), BorderLayout.SOUTH);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        if (UIManager.getLookAndFeel().getName().equals("SeaGlass"))
+            fixFullScreen();
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 shutdown();
             }
         });
         desktop.add(searchFrame);
+    }
+
+    private void fixFullScreen(){
+        GraphicsConfiguration config = this.getGraphicsConfiguration();
+        Rectangle usableBounds = SunGraphicsEnvironment.getUsableBounds(config.getDevice());
+        setMaximizedBounds(usableBounds);
+        setExtendedState(MAXIMIZED_BOTH);
     }
 
     public void initialize(Librarian lib){
