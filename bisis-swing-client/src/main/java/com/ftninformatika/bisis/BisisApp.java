@@ -124,6 +124,8 @@ public class BisisApp {
           mf.setJMenuBar(new MenuBuilder(appConfig.getLibrarian()));
           mf.initialize(appConfig.getLibrarian());
 
+          splashScreen.setVisible(false);
+          splashScreen.dispose();
 
         } else {
           splashScreen.setVisible(false);

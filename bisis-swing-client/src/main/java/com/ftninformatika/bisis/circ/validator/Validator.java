@@ -172,8 +172,8 @@ public class Validator {
     	 if (userid.startsWith("K")){
     		 return userid.substring(1);
     	 }
-    	 
-    	 if ((userid.length() == Cirkulacija.getApp().getEnvironment().getUseridLength()) && (userid.indexOf(Cirkulacija.getApp().getEnvironment().getUseridSeparatorSign()) == -1)){
+    	 //TODO- hardcoded zbog (ne)ucivanja okruzenja cirkulacije
+    	 if ((userid.length() == 11/*Cirkulacija.getApp().getEnvironment().getUseridLength()*/) && (/*userid.indexOf(Cirkulacija.getApp().getEnvironment().getUseridSeparatorSign())*/-1 == -1)){
     		 return userid;
     	 }
     	 

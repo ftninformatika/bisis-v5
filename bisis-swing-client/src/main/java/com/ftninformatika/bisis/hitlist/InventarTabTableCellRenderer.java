@@ -26,8 +26,8 @@ public class InventarTabTableCellRenderer extends JLabel
     protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1); 
     private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
   
-    private Color unselectedForeground; 
-    private Color unselectedBackground; 
+    private Color unselectedForeground;
+    private Color unselectedBackground;
     
     private Color selectedRowBackground = new Color(128,202,232);
     
@@ -45,14 +45,14 @@ public class InventarTabTableCellRenderer extends JLabel
 
   
     public void setForeground(Color c) {
-        super.setForeground(c); 
-        unselectedForeground = c; 
+        super.setForeground(c);
+        unselectedForeground = c;
     }
     
     
     public void setBackground(Color c) {
-        super.setBackground(c); 
-        unselectedBackground = c; 
+        super.setBackground(c);
+        unselectedBackground = c;
     }
 
    

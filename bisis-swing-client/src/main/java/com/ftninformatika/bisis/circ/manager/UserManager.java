@@ -1,13 +1,12 @@
 package com.ftninformatika.bisis.circ.manager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.commands.GetUserCommand;
+import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.view.Group;
 import com.ftninformatika.bisis.circ.view.User;
 import com.ftninformatika.bisis.circ.view.Warnings;
@@ -232,22 +231,24 @@ public class UserManager {
 	
   public int getUser(User user, Group group, String userID){
     int found = 0;
-//  StopWatch clock = new StopWatch();
-//  clock.start();
-    GetUserCommand getUser = new GetUserCommand(userID);
-    //getUser = (GetUserCommand)service.executeCommand(getUser);
+    //GetUserCommand getUser = new GetUserCommand(userID);
+      Member getUser = null;
+      try {
+          getUser = BisisApp.bisisService.getMemberById(userID).execute().body();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+      //getUser = (GetUserCommand)service.executeCommand(getUser);
     if (getUser != null){
-		userModel = getUser.getUser();
+		userModel = getUser;
 		if (userModel != null){
 			children.clear();
 			removedchildren.clear();
-	//		Cirkulacija.getApp().getRecordsManager().getList().clear();
-	//		loadUser(user, userModel);
+			//Cirkulacija.getApp().getRecordsManager().getList().clear();
+			loadUser(user, userModel);
 			found = 1;
 			return found;
 		}
-//  clock.stop();
-//  System.out.println("clock:"+clock.getTime());
     }
     
     /*GetGroupCommand getGroup = new GetGroupCommand(userID);
@@ -265,13 +266,13 @@ public class UserManager {
     return found;
   }
   
-  private void loadUser(Member user/*, Users userModel*/){
+  private void loadUser(User user, Member userModel){
     boolean blocked = false;
     String blockedInfo = "";
-    /*if (userModel.getBlockReasons()!=null && !"".equals(userModel.getBlockReasons())){
-      blockedInfo = "Blokirano: "+userModel.getBlockReasons();
+    if (userModel.getBlockReason()!=null && !"".equals(userModel.getBlockReason())){
+      blockedInfo = "Blokirano: "+userModel.getBlockReason();
       blocked = true;  
-    }*/
+    }
     
     Iterator it = userModel.getDuplicates().iterator();
     String dupno = "";
@@ -280,16 +281,16 @@ public class UserManager {
       dupno = "Duplikat " + dup.getDupNo();
     }
     
-    /*user.getUserData().loadUser(userModel.getFirstName(), userModel.getLastName(), userModel.getParentName(),
-        userModel.getAddress(), Utils.getString(userModel.getZip()), userModel.getCity(), userModel.getPhone(), 
+    user.getUserData().loadUser(userModel.getFirstName(), userModel.getLastName(), userModel.getParentName(),
+        userModel.getAddress(), Utils.getString(userModel.getZip()), userModel.getCity(), userModel.getPhone(),
         userModel.getEmail(), userModel.getGender(), userModel.getAge(), userModel.getSecAddress(),
         userModel.getSecCity(), Utils.getString(userModel.getSecZip()), userModel.getSecPhone(), userModel.getJmbg(),
         userModel.getDocId().intValue(), userModel.getDocNo(), userModel.getDocCity(), userModel.getCountry(), 
         userModel.getTitle(), userModel.getOccupation(), userModel.getIndexNo(), Utils.getString(userModel.getClassNo()),
-        userModel.getOrganization(), userModel.getEduLvl(), userModel.getLanguages(), userModel.getNote(),
-        userModel.getInterests(), userModel.getWarningInd().intValue(), blocked, userModel.getBlockReasons(), userModel.getDuplicates(), userModel.getPass());
-    
-    user.getMmbrship().loadUser(userModel.getUserId(), userModel.getMmbrTypes(), userModel.getUserCategs(), userModel.getGroups(), userModel.getSignings());
+        userModel.getOrganization(), userModel.getEducationLevel(), userModel.getLanguage(), userModel.getNote(),
+        userModel.getInterests(), userModel.getWarningInd().intValue(), blocked, userModel.getBlockReason(), new HashSet(userModel.getDuplicates()), userModel.getPass());
+
+    user.getMmbrship().loadUser(userModel.getUserId(), userModel.getMembershipType(), userModel.getUserCategory(), userModel.getGroups().toString(), new HashSet(userModel.getSignings()));
 
     Date maxDate = null;
     Date date = null;
@@ -308,15 +309,15 @@ public class UserManager {
     }
     
     warnings = new ArrayList<Warnings>();
-    Set<Lending> lendings = userModel.getLendings();
+    Set<Lending> lendings = new HashSet<>(userModel.getLendings());
     for (Lending lend : lendings){
-      Set<Warnings> warns = lend.getWarningses();
-      for (Warnings warn : warns){
+      Set<Warning> warns = new HashSet<Warning>(lend.getWarnings());
+      for (Warning warn : warns){
         warnings.add(warn);
       }
     }
     
-    user.getLending().loadUser(userModel.getUserId(), userModel.getFirstName(), userModel.getLastName(), maxDate, userModel.getNote(), dupno, blockedInfo, userModel.getLendings(), !warnings.isEmpty());
+    user.getLending().loadUser(userModel.getUserId(), userModel.getFirstName(), userModel.getLastName(), maxDate, userModel.getNote(), dupno, blockedInfo, new HashSet(userModel.getLendings()), !warnings.isEmpty());
     
     user.setDirty(false);
     
@@ -324,8 +325,8 @@ public class UserManager {
       user.getLending().lendBook(chargeBook);
       chargeBook = "";
       user.setDirty(true);
-    }*/
-    
+    }
+
   }
   
   public void refreshInfo(Member user/*, Users userModel*/){
@@ -734,7 +735,7 @@ public class UserManager {
   	}*/
   	return env;
   }
-  
+
   public String getValidatorFile(){
   	/*if (validator == null){
   		try{

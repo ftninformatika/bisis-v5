@@ -130,7 +130,7 @@ public class OptionsFrame extends JInternalFrame {
     }else{
       EnvironmentOptions.loadDefaults(this);
     }
-    ValidatorOptions.loadOptions(this);
+    //ValidatorOptions.loadOptions(this);
     this.setVisible(true);
   }
 
@@ -1715,9 +1715,9 @@ public class OptionsFrame extends JInternalFrame {
 			JOptionPane.showMessageDialog(null, result, "Greska", JOptionPane.ERROR_MESSAGE,
 					new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 		} else {
-			ValidatorOptions.saveOptions(this);
+			//ValidatorOptions.saveOptions(this);
 			EnvironmentOptions.saveOptions(this, row);
-			if (ValidatorOptions.save() && EnvironmentOptions.save()){
+			if (/*ValidatorOptions.save() &&*/ EnvironmentOptions.save()){
 				JOptionPane.showMessageDialog(null, "OK", "Info", JOptionPane.INFORMATION_MESSAGE,
 						new ImageIcon(getClass().getResource("/circ-images/hand32.png")));
 				parent.save();

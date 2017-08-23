@@ -5,7 +5,7 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.models.circ.EducationLvl;
 import com.ftninformatika.bisis.models.circ.Language;
-import com.ftninformatika.bisis.models.circ.pojo.Organization;
+import com.ftninformatika.bisis.models.circ.Organization;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -161,7 +161,7 @@ public class UserData {
 			pMain0.add(getTfAddress(), cc.xyw(8,4,5));
 			pMain0.add(getZipLabel(), cc.xy(6,6));
 			pMain0.add(getTfZip(), cc.xy(8,6));
-			pMain0.add(getCityLabel(), cc.xy(10,6));
+			pMain0.add(getCityLabel(), cc.xyw(10,6, 4));
 			pMain0.add(getTfCity(), cc.xy(12,6));
 			pMain0.add(getPhoneLabel(), cc.xy(6,8));
 			pMain0.add(getTfPhone(), cc.xyw(8,8,5));
@@ -1310,7 +1310,7 @@ public class UserData {
 						 String gender, String age, String tmpAddress, String tmpCity, String tmpZip,
 						 String tmpPhone, String jmbg, int docId, String docNo, String docCity, String country,
 						 String title, String occupation, String indexNo, String classNo, Organization org,
-						 EducationLvl eduLvl, Language languages, String note, String interests, int warn, boolean blocked, String blockedReason, Set duplicates, String pincode){
+						 String eduLvl, String languages, String note, String interests, int warn, boolean blocked, String blockedReason, Set duplicates, String pincode){
 		getTfFirstName().setText(firstName);
 		getTfLastName().setText(lastName);
 		getTfParentName().setText(parentName);
@@ -1363,7 +1363,7 @@ public class UserData {
     this.pincode = pincode;
 	}
 	
-	/*public void loadEduLvl(List data){
+	public void loadEduLvl(List data){
 		Utils.loadCombo(getCmbEduLevel(), data);
 	}
 	
@@ -1374,7 +1374,7 @@ public class UserData {
 	public void loadOrganization(List data){
 		Utils.loadCombo(getCmbOrg(), data);
 	}
-  */
+
   public void clear(){
     //Utils.clear(getPMain0());
     //Utils.clear(getPMain1());

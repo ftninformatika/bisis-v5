@@ -110,25 +110,13 @@ public class MainFrame extends JInternalFrame {
 		}
 		return userIDPanel;
 	}
-	
-//	public UserIDRemote getUserIDPanel() {
-//		if (userIDPanel == null){
-//			userIDPanel = new UserIDRemote(BisisApp.getMainFrame());
-//			userIDPanel.setLocationRelativeTo(this);
-//			userIDPanel.addOKListener(getUserIDOK());
-//			userIDPanel.addCancelListener(getUserIDCancel());
-//			userIDPanel.addSearchListener(getUserIDSearch());
-//		}
-//		return userIDPanel;
-//	}
-	
-	
+
 	private ActionListener getUserIDOK(){
 		if (userIDOK == null){
 			userIDOK = new ActionListener(){	
 				public void actionPerformed(ActionEvent e){
 					String userid = Validator.convertUserId2DB(getUserIDPanel().getValue());
-					if (!userid.equals("")){ //$NON-NLS-1$ //TODO-hardcoded
+					if (!userid.equals("")){ //$NON-NLS-1$
 						int found = Cirkulacija.getApp().getUserManager().getUser(getUserPanel(), getGroupPanel(), userid);
 
 						if (found == 1){
@@ -258,7 +246,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton getBtnNew() {
 		if (btnNew == null) {
 			btnNew = new JButton(new CircNewUserAction());
-			btnNew.setFocusable(false);
+			//btnNew.setFocusable(true);
 			btnNew.setPreferredSize(new Dimension(30,30));
 			btnNew.setText(""); //$NON-NLS-1$
 		}
@@ -268,7 +256,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton getBtnUser() {
 		if (btnUser == null) {
 			btnUser = new JButton(new CircUserDataAction());
-			btnUser.setFocusable(false);
+			//btnUser.setFocusable(false);
 			btnUser.setPreferredSize(new Dimension(30,30));
 			btnUser.setText(""); //$NON-NLS-1$
 		}
@@ -365,7 +353,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton getBtnSearchUser() {
 		if (btnSearchUser == null) {
 			btnSearchUser = new JButton(new CircSearchUsersAction());
-			btnSearchUser.setFocusable(false);
+			//btnSearchUser.setFocusable(false);
 			btnSearchUser.setPreferredSize(new Dimension(30,30));
 			btnSearchUser.setText(""); //$NON-NLS-1$
 		}
@@ -405,7 +393,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton getBtnReports() {
 		if (btnReports == null) {
 			btnReports = new JButton(/*new CircReportAction()*/);
-			btnReports.setFocusable(false);
+			//btnReports.setFocusable(false);
 			btnReports.setPreferredSize(new Dimension(30,30));
 			btnReports.setText(""); //$NON-NLS-1$
 		}

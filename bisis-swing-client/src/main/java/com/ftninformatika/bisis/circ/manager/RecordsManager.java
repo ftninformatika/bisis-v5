@@ -78,11 +78,13 @@ public class RecordsManager {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        //record = BisisApp.getRecordManager().getRecord(sveska.getGodine().getRecords().getRecordId());
                     }
                 }
             }
         }
+
         return retVal;
     }
+
+
 }

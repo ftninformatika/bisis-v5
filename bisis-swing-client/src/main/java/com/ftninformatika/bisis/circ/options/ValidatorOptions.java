@@ -5,14 +5,13 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import noNamespace.FormValidationDocument;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.impl.xb.xsdschema.FieldDocument;
 
 
 public class ValidatorOptions {
 
-  private static FormValidationDocument doc = null;
+ /* private static FormValidationDocument doc = null;
   
   
   public static void setDoc(String xml){
@@ -255,5 +254,5 @@ public class ValidatorOptions {
 				return depends;
 			}
 		}
-	}
+	}*/
 }

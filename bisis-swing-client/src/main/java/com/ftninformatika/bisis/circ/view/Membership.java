@@ -529,23 +529,24 @@ public class Membership {
   public void loadBranchID(List data){
     Utils.loadCombo(getCmbBranchID(), data);
   }
-	
-	public void loadUser(String userID, MembershipType mt, UserCategory uc/*, Groups group*/, Set signings){
-	    if (userID.length() == Cirkulacija.getApp().getEnvironment().getUseridLength() && Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
-	  		getTfBranch().setText(userID.substring(0,Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
+
+  	//TODO - hardcoded zbog (ne)ucitavanja orkuzenja
+	public void loadUser(String userID, MembershipType mt, UserCategory uc, String group, Set signings){
+	    if (true/*userID.length() == Cirkulacija.getApp().getEnvironment().getUseridLength() && Cirkulacija.getApp().getEnvironment().getUseridPrefix()*/){
+	  		getTfBranch().setText(userID.substring(0,/*Cirkulacija.getApp().getEnvironment().getUseridPrefixLength())*/2));
 	  		int loc = Integer.parseInt(getTfBranch().getText());
 	  		for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
 	  			if (Integer.parseInt(((Location)getCmbBranchID().getModel().getElementAt(i)).getCoder_id()) == loc) {
 	  				getCmbBranchID().setSelectedIndex(i);
 	  			}
 	  		} 
-	  		getTfUserID().setText(userID.substring(Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
+	  		getTfUserID().setText(userID.substring(/*Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()*/2));
 	    } else {
 	      getTfUserID().setText(userID);
 	    }
 		Utils.setComboItem(getCmbMmbrType(), mt);
 		Utils.setComboItem(getCmbCateg(), uc);
-		//Utils.setComboItem(getCmbGroups(), group);
+		Utils.setComboItem(getCmbGroups(), group);
 		getTableModel().setData(signings);
 	}
   
