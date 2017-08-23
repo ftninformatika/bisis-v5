@@ -12,10 +12,10 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.commands.GetUserCommand;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.circ.view.Group;
-import com.ftninformatika.bisis.circ.view.User;
-import com.ftninformatika.bisis.circ.view.Warnings;
+import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.models.circ.*;
+import com.ftninformatika.bisis.models.circ.Lending;
+import com.ftninformatika.bisis.models.circ.Membership;
 import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.models.circ.pojo.Signing;
@@ -376,82 +376,79 @@ public class UserManager {
   }
 	
 	
-  public void loadCombos(Member user) throws Exception {
-	/*GetAllCommand getAll = new GetAllCommand();
-	getAll.setArg(EduLvl.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
+  public void loadCombos(User user) throws Exception {
+
+
+	if (BisisApp.appConfig.getCodersHelper() == null)
 		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-	user.getUserData().loadEduLvl(getAll.getList());
-	getAll.setArg(Languages.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-	user.getUserData().loadLanguage(getAll.getList());
-	getAll.setArg(Organization.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-	user.getUserData().loadOrganization(getAll.getList());
-	getAll.setArg(Groups.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-	user.getMmbrship().loadGroups(getAll.getList());
-	getAll.setArg(Location.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-	user.getMmbrship().loadLocation(getAll.getList());
-	user.getMmbrship().loadBranchID(getAll.getList());
-	getAll.setArg(MmbrTypes.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-	user.getMmbrship().loadMmbrType(getAll.getList());
-	getAll.setArg(UserCategs.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-	user.getMmbrship().loadUserCateg(getAll.getList());
-	getAll.setArg(Location.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-	user.getLending().loadLocation(getAll.getList());
+	user.getUserData().loadEduLvl(BisisApp.appConfig.getCodersHelper()
+                                .getEducationLevels().values().stream()
+                                .map(i -> i.getDescription()).collect(Collectors.toList()));
+
+	user.getUserData().loadLanguage(BisisApp.appConfig.getCodersHelper()
+            .getLanguages().values().stream()
+            .map(i -> i.getDescription()).collect(Collectors.toList()));
+
+	user.getUserData().loadOrganization(BisisApp.appConfig.getCodersHelper()
+            .getOrganizations().values().stream()
+            .map(i -> i.getName()).collect(Collectors.toList()));
+
+	/*user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
+            .getMembershipTypes().values().stream()
+            .map(i -> i.getDescription()).collect(Collectors.toList()));*/
+
+	/*user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
+            .getLocations().values().stream()
+            .map(i -> i.getDescription()).collect(Collectors.toList()));
+
+	user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
+            .getLocations().values().stream()
+            .map(i -> i.getDescription()).collect(Collectors.toList()));
+
+	user.getMmbrship().loadMmbrType(BisisApp.appConfig.getCodersHelper()
+            .getMembershipTypes().values().stream()
+            .map(i -> i.getDescription()).collect(Collectors.toList()));
+
+	user.getMmbrship().loadUserCateg(BisisApp.appConfig.getCodersHelper()
+            .getUserCategories().values().stream()
+            .map(i -> i.getDescription()).collect(Collectors.toList()));
+
+	user.getLending().loadLocation(BisisApp.appConfig.getCodersHelper()
+            .getLocations().values().stream()
+            .map(i -> i.getDescription()).collect(Collectors.toList()));*/
   }
   
   public void loadCombos(Group group) throws Exception {
-  	GetAllCommand getAll = new GetAllCommand();
+  	/*GetAllCommand getAll = new GetAllCommand();
 	getAll.setArg(Location.class);
 	getAll = (GetAllCommand)service.executeCommand(getAll);
 	if (getAll == null)
 		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-    group.loadBranchID(getAll.getList());
+    group.loadBranchID(getAll.getList());*/
   }
   
   public void loadCombos(SearchUsers searchusers) throws Exception {
-  	GetAllCommand getAll = new GetAllCommand();
+  	/*GetAllCommand getAll = new GetAllCommand();
 	getAll.setArg(Location.class);
 	getAll = (GetAllCommand)service.executeCommand(getAll);
 	if (getAll == null)
 		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
     searchusers.loadCmbLoc1(getAll.getList());
-    searchusers.loadCmbLoc2(getAll.getList());
+    searchusers.loadCmbLoc2(getAll.getList());*/
   }
   
   public void loadCombos(SearchBooks searchusers) throws Exception {
-  	GetAllCommand getAll = new GetAllCommand();
+  	/*GetAllCommand getAll = new GetAllCommand();
 	getAll.setArg(Location.class);
 	getAll = (GetAllCommand)service.executeCommand(getAll);
 	if (getAll == null)
 		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
     searchusers.loadCmbLocL(getAll.getList());
-    searchusers.loadCmbLocR(getAll.getList());
+    searchusers.loadCmbLocR(getAll.getList());*/
   }
   
-  public void loadCombos(Report report) throws Exception {
-  	GetAllCommand getAll = new GetAllCommand();
+  public void loadCombos(/*Report report*/) throws Exception {
+  	/*GetAllCommand getAll = new GetAllCommand();
 	getAll.setArg(Location.class);
 	getAll = (GetAllCommand)service.executeCommand(getAll);
 	if (getAll == null)
@@ -724,7 +721,7 @@ public class UserManager {
       if (env == null){
           try{
 
-              env = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("circ-circ-options.xml").toURI())));
+              env = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("circ-options.xml").toURI())));
           }catch (Exception e) {
           }
       }
@@ -734,29 +731,14 @@ public class UserManager {
 
 
   public String getValidatorFile(){
-  	/*if (validator == null){
-  		try{
-  			GetAllCommand getAll = new GetAllCommand();
-  			getAll.setArg(Configs.class);
-  			getAll = (GetAllCommand)service.executeCommand(getAll);
-  			if (getAll == null)
-  				return null;
-	  		List list = getAll.getList();
-	  		if (list != null){
-		  		Iterator it = list.iterator();
-		  		while (it.hasNext()){
-		  			Configs config = (Configs)it.next();
-		  			if (config.getName().equals("circ-options")){
-		  				env = config.getText();
-		  			}
-		  			if (config.getName().equals("circ-validator")){
-		  				validator = config.getText();
-		  			}
-		  		}
-	  		}
-  		}catch (Exception e) {
+  	if (validator == null) {
+        try {
+            validator = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("options-validator.xml").toURI())));
+        }
+
+  		catch (Exception e) {
   		}
-  	}*/
+  	}
   	return validator;
   }
 

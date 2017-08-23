@@ -45,49 +45,6 @@ public class Cirkulacija {
         return app;
     }
 
-//  public void restart() {
-//    mf.setVisible(false);
-//    splash.setImage("/com/gint/app/bisis4/client/circ/images/splash.png");
-//    splash.setVisible(true);
-//
-//    splash.getMessage().setText("initializing environment");
-//    env = new Environment();
-//    int i = env.loadOptions();
-//
-//    if (i == 1) {
-//      if (!env.getLookAndFeel().equals("default")) {
-//        try {
-//          Class themeName = Class.forName(env.getTheme());
-//          PlasticLookAndFeel.setPlasticTheme((PlasticTheme) (themeName
-//              .newInstance()));
-//          UIManager.setLookAndFeel(env.getLookAndFeel());
-//        } catch (Exception e) {
-//          log.error(e);
-//        }
-//      } else {
-//        try {
-//          UIManager.put("swing.boldMetal", Boolean.FALSE);
-//          MetalLookAndFeel.setCurrentTheme(new OceanTheme());
-//          UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-//        } catch (Exception e) {
-//          log.error(e);
-//        }
-//      }
-//      Utils.setUIFontSize(env.getFontSize());
-//      Font f = DefaultUnitConverter.getInstance().getDefaultDialogFont();
-//      Font ff = f.deriveFont((float)env.getFontSize());
-//      DefaultUnitConverter.getInstance().setDefaultDialogFont(ff);
-//
-//      splash.getMessage().setText("initializing GUI");
-//      SwingUtilities.updateComponentTreeUI(mf);
-//      mf.pack();
-//
-//      splash.setVisible(false);
-//      mf.setVisible(true);
-//    } else {
-//      System.exit(0);
-//    }
-//  }
 
     public MainFrame getMainFrame() {
         if (mf == null){
@@ -116,7 +73,7 @@ public class Cirkulacija {
 
         splash = new SplashScreen();
         splash = BisisApp.getSplash();
-        splash.setImage("/circ-images/splash.png"); //TODO- set image
+        splash.setImage("/circ-images/splash.png");
         splash.setVisible(true);
         splash.getMessage().setText("initializing environment");
 
@@ -137,7 +94,7 @@ public class Cirkulacija {
         }
         env = new Environment(usermng.getEnvFile());
         int i = env.loadOptions();
-        if (/*i == 1*/true) {
+        if (i == 1) {
             if (!env.getLookAndFeel().equals("default")) {
                 try {
                     Class themeName = Class.forName(env.getTheme());
@@ -175,16 +132,16 @@ public class Cirkulacija {
     }
 
     private void loadDefaults() {
-       /* try{
+        try{
             getUserManager().loadCombos(mf.getUserPanel());
-            getUserManager().loadCombos(mf.getGroupPanel());
-            getUserManager().loadCombos(mf.getSearchUsers());
-            getUserManager().loadCombos(mf.getSearchBooks());
-            getUserManager().loadCombos(mf.getReport());
+            //getUserManager().loadCombos(mf.getGroupPanel());
+            //getUserManager().loadCombos(mf.getSearchUsers());
+            //getUserManager().loadCombos(mf.getSearchBooks());
+            //getUserManager().loadCombos(mf.getReport());
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
-        }*/
+        }
     }
 
     private void setLibrarian(Librarian lib) {
