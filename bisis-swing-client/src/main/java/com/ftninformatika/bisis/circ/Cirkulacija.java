@@ -131,10 +131,10 @@ public class Cirkulacija {
         //recmng = new RecordsManager();
         //susermng = new SearchUsersManager();
 
-        /*if (usermng.getEnvFile() == null){
+        if (usermng.getEnvFile() == null){
             JOptionPane.showMessageDialog(null, "Gre\u0161ka pri ucitavanju parametara!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
-        }*/
+        }
         env = new Environment(usermng.getEnvFile());
         int i = env.loadOptions();
         if (/*i == 1*/true) {
@@ -202,9 +202,9 @@ public class Cirkulacija {
         return env;
     }
 
-    /*public RecordsManager getRecordsManager() {
+    public RecordsManager getRecordsManager() {
         return recmng;
-    }*/
+    }
 
     public UserManager getUserManager() {
         return usermng;

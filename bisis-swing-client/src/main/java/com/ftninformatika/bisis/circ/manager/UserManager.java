@@ -1,7 +1,12 @@
 package com.ftninformatika.bisis.circ.manager;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
@@ -15,6 +20,12 @@ import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.models.circ.pojo.Signing;
 import com.ftninformatika.bisis.models.circ.pojo.Warning;
+import javafx.scene.shape.Path;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 
 public class UserManager {
@@ -710,31 +721,17 @@ public class UserManager {
   }
   
   public String getEnvFile(){
-  	/*if (env == null){
-  		try{
-  			GetAllCommand getAll = new GetAllCommand();
-  			getAll.setArg(Configs.class);
-  			getAll = (GetAllCommand)service.executeCommand(getAll);
-  			if (getAll == null)
-  				return null;
-	  		List list = getAll.getList();
-	  		if (list != null){
-		  		Iterator it = list.iterator();
-		  		while (it.hasNext()){
-		  			Configs config = (Configs)it.next();
-		  			if (config.getName().equals("circ-options")){
-		  				env = config.getText();
-		  			}
-		  			if (config.getName().equals("circ-validator")){
-		  				validator = config.getText();
-		  			}
-		  		}
-	  		}
-  		}catch (Exception e) {
-  		}
-  	}*/
-  	return env;
+      if (env == null){
+          try{
+
+              env = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("circ-circ-options.xml").toURI())));
+          }catch (Exception e) {
+          }
+      }
+      return env;
   }
+
+
 
   public String getValidatorFile(){
   	/*if (validator == null){
