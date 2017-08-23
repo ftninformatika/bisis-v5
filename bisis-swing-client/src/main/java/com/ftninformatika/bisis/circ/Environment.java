@@ -66,7 +66,7 @@ public class Environment extends DefaultHandler{
 		if (xml != null){
 			xmlsource = new InputSource(new StringReader(xml));
 		} else {
-			xmlsource = new InputSource(Environment.class.getResourceAsStream("/circ-options.xml"));
+			xmlsource = new InputSource(Environment.class.getResourceAsStream("/circ-circ-options.xml"));
 		}
     mac = NetUtils.getMACAddress();
   }
@@ -413,7 +413,7 @@ public class Environment extends DefaultHandler{
         if (xml != null){
     			xmlsource = new InputSource(new StringReader(xml));
     		} else {
-    			xmlsource = new InputSource(Environment.class.getResourceAsStream("/circ-options.xml"));
+    			xmlsource = new InputSource(Environment.class.getResourceAsStream("/circ-circ-options.xml"));
     		}
         parser.parse(xmlsource, this);
       }
