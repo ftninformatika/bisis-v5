@@ -343,10 +343,10 @@ public class UserManager {
   public void refreshInfo(Member user/*, Users userModel*/){
   	boolean blocked = false;
     String blockedInfo = "";
-    /*if (userModel.getBlockReasons()!=null && !"".equals(userModel.getBlockReasons())){
-      blockedInfo = "Blokirano: "+userModel.getBlockReasons();
+    if (userModel.getBlockReason()!=null && !"".equals(userModel.getBlockReason())){
+      blockedInfo = "Blokirano: "+userModel.getBlockReason();
       blocked = true;  
-    }*/
+    }
     
     Iterator it = userModel.getDuplicates().iterator();
     String dupno = "";
@@ -355,7 +355,7 @@ public class UserManager {
       dupno = "Duplikat " + dup.getDupNo();
     }
     
-    /*Date maxDate = null;
+    Date maxDate = null;
     Date date = null;
     it = userModel.getSignings().iterator();
     while (it.hasNext()){
@@ -371,7 +371,7 @@ public class UserManager {
       blockedInfo = blockedInfo + "Istekla \u010dlanarina";
     }
     
-    user.getLending().refreshInfo(userModel.getUserId(), userModel.getFirstName(), userModel.getLastName(), maxDate, userModel.getNote(), dupno, blockedInfo);*/
+    //user.getLending().refreshInfo(userModel.getUserId(), userModel.getFirstName(), userModel.getLastName(), maxDate, userModel.getNote(), dupno, blockedInfo);
     
   }
 	
@@ -382,16 +382,13 @@ public class UserManager {
 	if (BisisApp.appConfig.getCodersHelper() == null)
 		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
 	user.getUserData().loadEduLvl(BisisApp.appConfig.getCodersHelper()
-                                .getEducationLevels().values().stream()
-                                .map(i -> i.getDescription()).collect(Collectors.toList()));
+                                .getEducationLevels().values().stream().collect(Collectors.toList()));
 
 	user.getUserData().loadLanguage(BisisApp.appConfig.getCodersHelper()
-            .getLanguages().values().stream()
-            .map(i -> i.getDescription()).collect(Collectors.toList()));
+            .getLanguages().values().stream().collect(Collectors.toList()));
 
 	user.getUserData().loadOrganization(BisisApp.appConfig.getCodersHelper()
-            .getOrganizations().values().stream()
-            .map(i -> i.getName()).collect(Collectors.toList()));
+            .getOrganizations().values().stream().collect(Collectors.toList()));
 
 	/*user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
             .getMembershipTypes().values().stream()
@@ -457,8 +454,8 @@ public class UserManager {
     
   }
 	
-	private Member toObjectModel(Member user, Member userModel){
-		/*UserData data = user.getUserData();
+	private Member toObjectModel(User user, Member userModel){
+		UserData data = user.getUserData();
 		userModel.setAddress(data.getAddress().trim());
 		userModel.setAge(data.getAge());
 		userModel.setCity(data.getCity().trim());
@@ -467,14 +464,14 @@ public class UserManager {
 		userModel.setDocCity(data.getDocCity().trim());
 		userModel.setDocId(Integer.valueOf(data.getDocId()));
 		userModel.setDocNo(data.getDocNo().trim());
-		userModel.setEduLvl(data.getEduLvl());
+		userModel.setEducationLevel(data.getEduLvl().getDescription());// TODO- usaglasiti sifarnike i model kornisnika cirukalcije???
 		userModel.setEmail(data.getEmail().trim());
 		userModel.setFirstName(data.getFirstName().trim());
 		userModel.setGender(data.getGender());
 		userModel.setIndexNo(data.getIndexNo().trim());
 		userModel.setInterests(data.getInterests().trim());
 		userModel.setJmbg(data.getJmbg().trim());
-		userModel.setLanguages(data.getLanguages());
+		userModel.setLanguage(data.getLanguages().getDescription());
 		userModel.setLastName(data.getLastName().trim());
 		userModel.setNote(data.getNote().trim());
 		userModel.setOccupation(data.getOccupation().trim());
@@ -489,18 +486,18 @@ public class UserManager {
 		userModel.setWarningInd(Integer.valueOf(data.getWarning()));
 		userModel.setZip(Utils.getInteger(data.getZip()));
     if (data.getBlocked()){
-      userModel.setBlockReasons(data.getBlockedReason().trim());
+      userModel.setBlockReason(data.getBlockedReason().trim());
     } else {
-      userModel.setBlockReasons("");
+      userModel.setBlockReason("");
     }
 		
-		Membership mmbrship = user.getMmbrship();
-		userModel.setGroups(mmbrship.getGroup());
+		com.ftninformatika.bisis.circ.view.Membership mmbrship = user.getMmbrship();
+		//userModel.setGroups(mmbrship.getGroup());
 		userModel.setUserId(mmbrship.getUserID());
-		userModel.setMmbrTypes(mmbrship.getMmbrType());
-		userModel.setUserCategs(mmbrship.getUserCateg());
+		userModel.setMembershipType(mmbrship.getMmbrType());
+		userModel.setUserCategory(mmbrship.getUserCateg());
 		
-		return userModel;*/ return null;
+		return userModel;
 	}
   
   /*private Groups toObjectModel(Group group, Groups groupModel){
@@ -626,14 +623,13 @@ public class UserManager {
   }
   
   public boolean existsUser(String userID){
-  	/*GetSysIDCommand getSysID = new GetSysIDCommand(userID);
-  	getSysID = (GetSysIDCommand)service.executeCommand(getSysID);
-  	if (getSysID == null)
-  		return true;
-    Integer sysid = getSysID.getSysID();
-    if (sysid != null)
-      return true;*/
-    return false;
+  	boolean retVal = false;
+      try {
+          retVal = BisisApp.bisisService.memberExist(userID).execute().body();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+      return retVal;
   }
   
   public String getChargedUser(String ctlgno){
@@ -720,9 +716,9 @@ public class UserManager {
   public String getEnvFile(){
       if (env == null){
           try{
-
               env = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("circ-options.xml").toURI())));
           }catch (Exception e) {
+              e.printStackTrace();
           }
       }
       return env;
@@ -735,8 +731,8 @@ public class UserManager {
         try {
             validator = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("options-validator.xml").toURI())));
         }
-
   		catch (Exception e) {
+            e.printStackTrace();
   		}
   	}
   	return validator;

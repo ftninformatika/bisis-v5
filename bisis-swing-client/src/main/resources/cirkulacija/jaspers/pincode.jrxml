@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pincode" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="56" bottomMargin="56">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="library" class="java.lang.String"/>
+	<parameter name="name" class="java.lang.String"/>
+	<parameter name="userid" class="java.lang.String"/>
+	<parameter name="pincode" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="250" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="5" width="162" height="26"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Поштовани корисниче,
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="39" width="225" height="15"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Ради лакшег и ефикаснијег пословања
+]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="226" y="39" width="247" height="15"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{library}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="51" width="428" height="37"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[је уз издавање чланске карте издала и обавезан ПИН код (лични идентификациони број корисника) који се користи једино уз чланску карту ради задуживања и раздуживања књига.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="139" width="110" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Име и презиме:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="157" width="110" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Број чланске карте:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="175" width="110" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Пин код:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="122" y="139" width="281" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="122" y="157" width="281" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{userid}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="122" y="175" width="281" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{pincode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="210" width="100" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Хвала!]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="227" width="36" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Ваша]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="42" y="227" width="355" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{library}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="92" width="426" height="39"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[ПИН код је Ваш електронски потпис и молимо Вас да га меморишете. Тако ћете нам помоћи у заједничком настојању да као Библиотека пружимо што квалитетнију услугу.]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

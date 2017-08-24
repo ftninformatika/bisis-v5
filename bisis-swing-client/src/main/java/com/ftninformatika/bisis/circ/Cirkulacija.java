@@ -105,7 +105,7 @@ public class Cirkulacija {
                     log.error(e);
                 }
             }
-            //Utils.setUIFontSize(env.getFontSize());
+            Utils.setUIFontSize(env.getFontSize());
 
             splash.getMessage().setText("initializing GUI");
             mf = new MainFrame();

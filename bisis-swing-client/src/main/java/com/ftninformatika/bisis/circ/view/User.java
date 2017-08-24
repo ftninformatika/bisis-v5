@@ -12,6 +12,11 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.validator.Validate;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.swing.JRViewer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -173,7 +178,6 @@ public class User extends JPanel {
   private JButton getBtnArchive() {
 		if (btnArchive == null) {
 			btnArchive = new JButton();
-			//btnArchive.setText(Messages.getString("circulation.archive")); //$NON-NLS-1$
 			btnArchive.setToolTipText(Messages.getString("circulation.archive")); //$NON-NLS-1$
 			btnArchive.setFocusable(false);
 			btnArchive.setIcon(new ImageIcon(getClass().getResource("/circ-images/remove_user16_button.png"))); //$NON-NLS-1$
@@ -318,11 +322,11 @@ public class User extends JPanel {
       params.put("zaglavlje-broj", Cirkulacija.getApp().getEnvironment().getReversHeight());
       
       
-      /*JasperPrint jp = JasperFillManager.fillReport(User.class.getResource(
-            "/com/gint/app/bisis4/client/circ/jaspers/revers.jasper").openStream(),  //$NON-NLS-1$
+      JasperPrint jp = JasperFillManager.fillReport(Thread.currentThread().getContextClassLoader()
+					  .getResourceAsStream("cirkulacija/jaspers/revers.jasper"),  //$NON-NLS-1$
             params, new JRTableModelDataSource(lending.getReversTableModel()));
-      JRViewer jr = new JRViewer(jp);*/
-      return null; //jr; //TODO-hardcoded
+      JRViewer jr = new JRViewer(jp);
+      return jr;
     } catch (Exception e) {
       e.printStackTrace();
       log.error(e);
@@ -334,17 +338,17 @@ public class User extends JPanel {
   private JPanel getPinCard(){
     try {
       Map<String, Object> params = new HashMap<String, Object>(3);
-      //params.put("library", BisisApp.getINIFile().getString("pincode", "library")); //$NON-NLS-1$
+      //params.put("library", BisisApp.getINIFile().getString("pincode", "library")); //$NON-NLS-1$ TODO- dodati sve parametre u konfiguraciju
       params.put("userid", mmbrship.getUserID()); //$NON-NLS-1$
       params.put("name", userData.getFirstName() + " " + userData.getLastName());//$NON-NLS-1$
       params.put("pincode", userData.getPinCode()); //$NON-NLS-1$
       
       
-     /* JasperPrint jp = JasperFillManager.fillReport(User.class.getResource(
-            "/com/gint/app/bisis4/client/circ/jaspers/pincode.jasper").openStream(),  //$NON-NLS-1$
+     JasperPrint jp = JasperFillManager.fillReport(Thread.currentThread().getContextClassLoader()
+					 .getResourceAsStream("cirkulacija/jaspers/pincode.jasper"),  //$NON-NLS-1$
             params, new JREmptyDataSource());
       JRViewer jr = new JRViewer(jp);
-      return jr;*/return null;
+      return jr;
     } catch (Exception e) {
       e.printStackTrace();
       log.error(e);

@@ -54,6 +54,9 @@ public interface BisisService {
     @GET("/members/getById")
     Call<Member> getMemberById(@Query("userId") String userId);
 
+    @GET("/members/memberExist")
+    Call<Boolean> memberExist(@Query("userId") String userId);
+
     @POST("/members/addUpdate")
     Call<Member> addUpdateMember(@Body Member member);
 
@@ -76,7 +79,6 @@ public interface BisisService {
 
     @HTTP(method = "DELETE", path = "/mongo_repository_librarians", hasBody = true)
     Call<Void> deleteLibraian(@Body LibrarianDTO librarian);
-
 
 //records---------------------------------------------------------------
     @GET("/records/getRecordForPrimerak")

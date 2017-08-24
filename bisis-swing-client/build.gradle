@@ -40,7 +40,7 @@ dependencies {
     compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
     compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
     compile group: 'stax', name: 'stax-api', version: '1.0.1'
-
+    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.4.1'
 
 }
 

@@ -214,6 +214,7 @@ public class Lending {
 		}
 		return lendingTableModel;
 	}
+
   
   public LendingTableModel getReversTableModel(){
     if (Cirkulacija.getApp().getEnvironment().getReversSelected()){

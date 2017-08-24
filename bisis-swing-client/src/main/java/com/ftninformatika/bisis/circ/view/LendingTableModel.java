@@ -33,10 +33,10 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
       columnIdentifiers.add(Messages.getString("circulation.author")); //$NON-NLS-1$
       columnIdentifiers.add(Messages.getString("circulation.pubtitle")); //$NON-NLS-1$
       columnIdentifiers.add(Messages.getString("circulation.signature")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.chargingdate")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.renewdate")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.duedate")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.days")); //$NON-NLS-1$
+      columnIdentifiers.add("Datum zaduzenja"/*Messages.getString("circulation.chargingdate")*/); //$NON-NLS-1$
+      columnIdentifiers.add("Datum produzenja"/*Messages.getString("circulation.renewdate")*/); //$NON-NLS-1$
+      columnIdentifiers.add("Rok vracanja"/*Messages.getString("circulation.duedate")*/); //$NON-NLS-1$
+      columnIdentifiers.add("Prekoracenje"/*Messages.getString("circulation.days")*/); //$NON-NLS-1$
       //columnIdentifiers.add("Lokacija");
       dataView = new ArrayList<Lending>();
       authors = new ArrayList<String>();

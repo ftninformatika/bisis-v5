@@ -24,7 +24,7 @@ public class EnvironmentOptions {
   			input = new ByteArrayInputStream(xml.getBytes());
   		}
 		} else {
-			input = EnvironmentOptions.class.getResourceAsStream("/circ-circ-options.xml");
+			input = EnvironmentOptions.class.getResourceAsStream("/circ-options.xml");
 		}
   	
     try{
