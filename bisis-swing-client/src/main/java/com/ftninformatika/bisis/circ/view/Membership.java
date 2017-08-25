@@ -29,6 +29,7 @@ import javax.swing.table.TableColumn;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.models.circ.CorporateMember;
 import com.ftninformatika.bisis.models.circ.MembershipType;
 import com.ftninformatika.bisis.models.circ.UserCategory;
 import com.ftninformatika.bisis.models.coders.Location;
@@ -455,9 +456,9 @@ public class Membership {
 		return (UserCategory)Utils.getCmbValue(getCmbCateg());
 	}
 	
-	/*public Groups getGroup(){
-		return (Groups)Utils.getCmbValue(getCmbGroups());
-	}*/
+	public CorporateMember getGroup(){
+		return (CorporateMember)Utils.getCmbValue(getCmbGroups());
+	}
 	
 	public String getMmbrshipDate(){
 		try{

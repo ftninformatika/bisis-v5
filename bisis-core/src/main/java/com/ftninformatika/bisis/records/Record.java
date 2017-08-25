@@ -454,10 +454,8 @@ public class Record implements Serializable {
   private Author modifier;
   /** record creation date */
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
-  @CreatedDate
   private Date creationDate;
   /** last modification date */
-  @LastModifiedDate
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date lastModifiedDate;
 

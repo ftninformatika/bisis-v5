@@ -453,8 +453,8 @@ public class User extends JPanel {
   
   public void clearPanels(){
     getUserData().clear();
-    getMmbrship().clear();
-    getLending().clear();
+    //getMmbrship().clear();
+    //getLending().clear();
   }
   
   private void fixTables(){
