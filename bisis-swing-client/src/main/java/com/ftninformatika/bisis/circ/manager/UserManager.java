@@ -31,7 +31,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class UserManager {
 	
   private Member userModel;
-  //private Groups groupModel;
+  private CorporateMember groupModel;
   private String chargedUser;
   private String chargeBook = "";
   private List warnings = null;
@@ -158,14 +158,14 @@ public class UserManager {
   }
   
   public void releaseGroup(){
-    /*groupModel = null;*/
+    groupModel = null;
   }
   
   public void initialiseUser(User user){
     userModel = new Member();
-    //user.getMmbrship().setTableModel(userModel.getSignings());
-    //user.getLending().setTableModel(userModel.getLendings());
-    //user.getUserData().setDupTableModel(userModel.getDuplicates());
+    user.getMmbrship().setTableModel(new HashSet(userModel.getSignings()));
+    user.getLending().setTableModel(new HashSet(userModel.getLendings()));
+    user.getUserData().setDupTableModel(new HashSet(userModel.getDuplicates()));
   }
   
   public void showUser(Member user, String userID){
@@ -242,7 +242,6 @@ public class UserManager {
 	
   public int getUser(User user, Group group, String userID){
     int found = 0;
-    //GetUserCommand getUser = new GetUserCommand(userID);
       Member getUser = null;
       try {
           getUser = BisisApp.bisisService.getMemberById(userID).execute().body();
@@ -261,8 +260,8 @@ public class UserManager {
 			return found;
 		}
     }
-    
-    /*GetGroupCommand getGroup = new GetGroupCommand(userID);
+
+    /*
     getGroup = (GetGroupCommand)service.executeCommand(getGroup);
     if (getGroup != null){
     	groupModel = getGroup.getUser();
@@ -340,7 +339,7 @@ public class UserManager {
 
   }
   
-  public void refreshInfo(Member user/*, Users userModel*/){
+  public void refreshInfo(User user, Member userModel){
   	boolean blocked = false;
     String blockedInfo = "";
     if (userModel.getBlockReason()!=null && !"".equals(userModel.getBlockReason())){
@@ -371,7 +370,7 @@ public class UserManager {
       blockedInfo = blockedInfo + "Istekla \u010dlanarina";
     }
     
-    //user.getLending().refreshInfo(userModel.getUserId(), userModel.getFirstName(), userModel.getLastName(), maxDate, userModel.getNote(), dupno, blockedInfo);
+    user.getLending().refreshInfo(userModel.getUserId(), userModel.getFirstName(), userModel.getLastName(), maxDate, userModel.getNote(), dupno, blockedInfo);
     
   }
 	
@@ -390,9 +389,9 @@ public class UserManager {
 	user.getUserData().loadOrganization(BisisApp.appConfig.getCodersHelper()
             .getOrganizations().values().stream().collect(Collectors.toList()));
 
-	/*user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
+	user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
             .getMembershipTypes().values().stream()
-            .map(i -> i.getDescription()).collect(Collectors.toList()));*/
+            .map(i -> i.getDescription()).collect(Collectors.toList()));
 
 	/*user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
             .getLocations().values().stream()

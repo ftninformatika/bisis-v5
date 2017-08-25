@@ -42,7 +42,7 @@ public class SveskePanel extends JPanel {
   private SveskeTableModel sveskeTableModel;
   private JScrollPane sveskeScrollPane;
  
-  //private CodedValuePanel invKnjPanel;
+  private CodedValuePanel invKnjPanel;
   private CodedValuePanel statusPanel;
   private InventarniBrojPanel invBrojPanel;
   private JTextField cenaTxtFld;
@@ -55,7 +55,7 @@ public class SveskePanel extends JPanel {
   
   public SveskePanel(SerialInventarPanel parent){
     sveskeTableModel = new SveskeTableModel(null);    
-   // invKnjPanel = new CodedValuePanel(HoldingsDataCoders.INVENTARNAKNJIGA_CODER,this);
+    invKnjPanel = new CodedValuePanel(HoldingsDataCoders.INVENTARNAKNJIGA_CODER,this);
     statusPanel = new CodedValuePanel(HoldingsDataCoders.STATUS_CODER,this);
     invBrojPanel = new InventarniBrojPanel();   
     this.parent = parent;
@@ -65,7 +65,7 @@ public class SveskePanel extends JPanel {
     datumStatusaTxtFld = new JTextField(10);
     dodajSveskuButton = new JButton("Dodaj");
     dodajSveskuButton.setIcon(new ImageIcon(getClass().getResource(
-    "/com/gint/app/bisis4/client/images/plus16.png")));   
+    "/icons/plus16.png")));
     createSveskeTable();
     layoutPanels();   
     initializeSveskePanel();
@@ -80,11 +80,11 @@ public class SveskePanel extends JPanel {
         handleAddSveska();        
       }     
     }); 
-   /* invKnjPanel.addKeyListener(new KeyAdapter(){
+    invKnjPanel.addKeyListener(new KeyAdapter(){
       public void keyReleased(KeyEvent arg0) {
         handleKeys(invKnjPanel,arg0);        
       }
-    });*/
+    });
     statusPanel.addKeyListener(new KeyAdapter(){
       public void keyReleased(KeyEvent arg0) {
         handleKeys(statusPanel,arg0);        

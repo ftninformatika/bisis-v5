@@ -497,14 +497,14 @@ public class SerialInventarPanel extends InventarPanel {
     buttonsPanel = new JPanel();
     sacuvajButton = new JButton("Sa\u010duvaj");
     sacuvajButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/ok.gif")));
+        "/icons/ok.gif")));
     ponistiButton = new JButton("Poni\u0161ti");
     ponistiButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/remove.gif")));
+        "/icons/remove.gif")));
     ponistiButton.setSelected(false); 
     raspodelaButton = new JButton("Raspodela");
     raspodelaButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/edit.gif")));    
+        "/icons/edit.gif")));
     
     MigLayout layout = new MigLayout("","5[]300[right]5[right]","");
     buttonsPanel.setLayout(layout);   
