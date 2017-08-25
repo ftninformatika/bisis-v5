@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.models.circ.Organization;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import com.toedter.calendar.JDateChooserCellEditor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -993,7 +994,7 @@ public class UserData {
 	}
   
   public void fixTable(){
-    //getTblDuplicate().setDefaultEditor(Date.class, new JDateChooserCellEditor());
+    getTblDuplicate().setDefaultEditor(Date.class, new JDateChooserCellEditor());
   }
 	
 	private JButton getBtnAdd() {
@@ -1341,10 +1342,10 @@ public class UserData {
 		getTfTitle().setText(title);
 		getTfOccupation().setText(occupation);
 		getTfIndexNo().setText(indexNo);
-		//Utils.setComboItem(getCmbClass(), classNo);
-		//Utils.setComboItem(getCmbOrg(), org);
-		//Utils.setComboItem(getCmbEduLevel(), eduLvl);
-		//Utils.setComboItem(getCmbLanguage(), languages);
+		Utils.setComboItem(getCmbClass(), classNo);
+		Utils.setComboItem(getCmbOrg(), org);
+		Utils.setComboItem(getCmbEduLevel(), eduLvl);
+		Utils.setComboItem(getCmbLanguage(), languages);
 		getTfNote().setText(note);
 		getTfInterests().setText(interests);
 		if (warn == 1){
@@ -1376,8 +1377,8 @@ public class UserData {
 	}
 
   public void clear(){
-    //Utils.clear(getPMain0());
-    //Utils.clear(getPMain1());
+    Utils.clear(getPMain0());
+    Utils.clear(getPMain1());
     if (getTblDuplicate().getCellEditor() != null)
     	getTblDuplicate().getCellEditor().stopCellEditing();
   }
