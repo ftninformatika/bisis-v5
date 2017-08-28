@@ -44,6 +44,9 @@ public interface BisisService {
     @GET("sveske/{invNum}")
     Call<Sveska> getSveskaByInvNum(@Path("invNum") String invNum);
 
+    @GET("/lendings/getLendingsByUserId")
+    Call<List<Lending>> getLendingsByUserId(@Query("userId") String userId);
+
 //primerci--------------------------------------------------------------
 
     @GET("primerci/{ctlgno}")
