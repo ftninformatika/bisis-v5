@@ -19,4 +19,7 @@ public class CircConfig {
     private String library;
     private String description;
     private String text;
+
+    private String circOptionsXML;
+    private String validatorOptionsXML;
 }
