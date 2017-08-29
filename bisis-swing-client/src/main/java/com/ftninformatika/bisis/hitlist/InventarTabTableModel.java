@@ -99,7 +99,7 @@ public class InventarTabTableModel extends AbstractTableModel {
     godineAll[16] = "Inventator";
     
     //kolone za primerke
-    String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getPrimerciModel();
+    String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getCatalougingPrimerciModel();
     columnSetPrimerci = columnSetStrPrimerci.split(" ");
     if(columnSetPrimerci.length<MAX_COLUMN_COUNT)
     	primerciColumnCount = columnSetPrimerci.length;

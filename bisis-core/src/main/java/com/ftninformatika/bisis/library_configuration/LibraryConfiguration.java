@@ -63,6 +63,7 @@ public class LibraryConfiguration {
     private String barcodeUsersPageCode;
     private String barcodeUsersLinelength;
 
-
+    private String circOptionsXML;
+    private String validatorOptionsXML;
 
 }
