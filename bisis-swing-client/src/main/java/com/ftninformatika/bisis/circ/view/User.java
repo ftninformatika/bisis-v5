@@ -11,7 +11,6 @@ import javax.swing.JTabbedPane;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.validator.Validate;
-import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -37,7 +36,7 @@ public class User extends JPanel {
 	private UserData userData = null;
 	private Membership mmbrship = null;
 	private Lending lending = null;
-	private PictureBook picturebooks = null;
+	private Picturebooks picturebooks = null;
 	private JPanel pPrint = null;
 	private Warnings pWarnings = null;
 	private static Log log = LogFactory.getLog(User.class.getName());
@@ -156,14 +155,14 @@ public class User extends JPanel {
 			          if (!dirty){
 			  			Cirkulacija.getApp().getMainFrame().previousPanel();
 			            getTpMain().remove(getPMain4());
-			           // getTpMain().remove(getPMain5());
+			            getTpMain().remove(getPMain5());
 			            if (!getTpMain().isEnabledAt(3))
 			            	getTpMain().setEnabledAt(3, true);
 			            //clearPanels();
-			           /* if (picturebooks != null){
+			           if (picturebooks != null){
 			      		  getPicturebooks().setPinRequired(false);
 			      	  	}
-			            getLending().setPinRequired(false);*/
+			            getLending().setPinRequired(false);
 			          }
 				}
 			});
@@ -254,10 +253,10 @@ public class User extends JPanel {
 		return lending;
 	}
 	
-	public PictureBook getPicturebooks(){
-		/*if (picturebooks == null){
-			picturebooks = new PictureBook(this);
-		}*/
+	public Picturebooks getPicturebooks(){
+		if (picturebooks == null){
+			picturebooks = new Picturebooks(this);
+		}
 		return picturebooks;
 	}
 	
@@ -444,17 +443,17 @@ public class User extends JPanel {
 	}
 	
 	public void showPicturebooks(){
-		//getPicturebooks().setData(Cirkulacija.getApp().getUserManager().getPicturebooks());
+		getPicturebooks().setData(Cirkulacija.getApp().getUserManager().getPicturebooks());
 		getPMain4().removeAll();
-		//getPMain4().add(getPicturebooks().getPanel(), BorderLayout.CENTER);
+		getPMain4().add(getPicturebooks().getPanel(), BorderLayout.CENTER);
 		getTpMain().addTab(Messages.getString("circulation.picturebooks"), null, getPMain4(), null); //$NON-NLS-1$
 		getTpMain().setSelectedComponent(getPMain4());
 	}
   
   public void clearPanels(){
     getUserData().clear();
-    //getMmbrship().clear();
-    //getLending().clear();
+    getMmbrship().clear();
+    getLending().clear();
   }
   
   private void fixTables(){
@@ -463,10 +462,10 @@ public class User extends JPanel {
   }
   
   private boolean pinRequired(){
-	  /*if (picturebooks != null){
+	  if (picturebooks != null){
 		  return getPicturebooks().pinRequired() || getLending().pinRequired();
 	  }
-	  return getLending().pinRequired();*/return false;
+	  return getLending().pinRequired();
   }
   
 

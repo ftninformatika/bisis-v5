@@ -77,13 +77,6 @@ public class Cirkulacija {
         splash.setVisible(true);
         splash.getMessage().setText("initializing environment");
 
-        /*if (service == null){
-            createServices();
-        }
-        if (service == null){
-            JOptionPane.showMessageDialog(null, "Gre\u0161ka pri konekciji sa bazom podataka!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
-        }*/
         usermng = new UserManager();
         //recmng = new RecordsManager();
         //susermng = new SearchUsersManager();
@@ -134,7 +127,7 @@ public class Cirkulacija {
     private void loadDefaults() {
         try{
             getUserManager().loadCombos(mf.getUserPanel());
-            //getUserManager().loadCombos(mf.getGroupPanel());
+            getUserManager().loadCombos(mf.getGroupPanel());
             //getUserManager().loadCombos(mf.getSearchUsers());
             //getUserManager().loadCombos(mf.getSearchBooks());
             //getUserManager().loadCombos(mf.getReport());
@@ -166,54 +159,11 @@ public class Cirkulacija {
     public UserManager getUserManager() {
         return usermng;
     }
-/*
-    public SearchUsersManager getSearchUsersManager() {
-        return susermng;
-    }
 
-    public Service getService(){
-        if (service == null){
-            createServices();
-        }
-        return service;
-    }
+//    public SearchUsersManager getSearchUsersManager() {
+//        return susermng;
+//    }
 
-    public Service getServiceArchive(){
-        if (serviceArchive == null && BisisApp.getINIFile().getBoolean("database-archive", "enabled")){
-            createServices();
-        }
-        return serviceArchive;
-    }
-
-    private void createServices(){
-        ServiceFactory factory = BisisApp.getFactory(CommandType.HIBERNATE);
-        ServiceFactory factoryArchive = null;
-        if (BisisApp.getINIFile().getBoolean("database-archive", "enabled")){
-            factoryArchive = BisisApp.getFactory(CommandType.HIBERNATEARCHIVE);
-        }
-        String mac = NetUtils.getMACAddress();
-        log.info("Procitana MAC adresa: " + mac);
-        String category = "commandsrv";
-        if (BisisApp.getINIFile().getCategories().contains(mac)){
-            category = mac;
-            log.info("Pronadjena konfiguracija za MAC adresu: " + mac);
-        }else{
-            log.info("Nije pronadjena konfiguracija za MAC adresu: " + mac +". Koristi se default konfiguracija [commandsrv]");
-        }
-        if (BisisApp.getINIFile().getBoolean(category, "remote")){
-            service = factory.createService(ServiceType.REMOTE, BisisApp.getINIFile().getString(category, "service"));
-            if (BisisApp.getINIFile().getBoolean("database-archive", "enabled")){
-                serviceArchive = service;
-            }
-            log.info("Kreirana instanca za udaljen pristup serveru.");
-        } else {
-            service = factory.createService(ServiceType.LOCAL, null);
-            if (BisisApp.getINIFile().getBoolean("database-archive", "enabled")){
-                serviceArchive = factoryArchive.createService(ServiceType.LOCAL, null);
-            }
-            log.info("Kreirana instanca za lokalni pristup serveru.");
-        }
-    }*/
 
     public void close(){
         if (mf != null && mf.isVisible())

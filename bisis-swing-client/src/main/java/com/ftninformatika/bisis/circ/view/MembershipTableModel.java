@@ -1,10 +1,10 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.models.circ.CircLocation;
 import com.ftninformatika.bisis.models.circ.MembershipType;
 import com.ftninformatika.bisis.models.circ.UserCategory;
 import com.ftninformatika.bisis.models.circ.pojo.Signing;
-import com.ftninformatika.bisis.models.coders.Location;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,14 +43,14 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
     
 //		 Manipulating rows
     
-	    public void addRow(Location loc) {
+	    public void addRow(CircLocation loc) {
 	    	int row = getRowCount();
 	    	Signing rowData = new Signing();
 	    	rowData.setLibrarian(Cirkulacija.getApp().getLibrarian().getUsername());
 	    	rowData.setSignDate(new Date());
-        rowData.setLocation(loc.getDescription());
-        Cirkulacija.getApp().getUserManager().addSigning(rowData);
-        this.dataView.add(rowData);
+        	rowData.setLocation(loc.getDescription());
+        	Cirkulacija.getApp().getUserManager().addSigning(rowData);
+        	this.dataView.add(rowData);
 	    	fireTableRowsInserted(row, row);
 	    }
 
@@ -103,7 +103,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 	        	case 1: return rowData.getSignDate();
 	        	case 2: return rowData.getUntilDate();
 	        	case 3: return rowData.getCost();
-	        	//case 4: return rowData.getReceiptId();
+	        	case 4: return rowData.getReceipt();
 	        	default: return null;
 			}
 	    }
@@ -111,7 +111,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 	    public void setValueAt(Object aValue, int row, int column) {
 	        Signing rowData = dataView.get(row);
 	        switch (column){
-	        	case 0: rowData.setLocation(((Location)aValue).getDescription());
+	        	case 0: rowData.setLocation(((CircLocation)aValue).getDescription());
 	        			break;
 	        	case 1: rowData.setSignDate((Date)aValue);
 	        			break;
@@ -119,7 +119,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 	        			break;
 	        	case 3: rowData.setCost((Double)aValue);
 	        			break;
-	        	//case 4: rowData.setReceiptId((String)aValue);
+	        	case 4: rowData.setReceipt((String)aValue);
 	        }
 	        fireTableCellUpdated(row, column);
 	        Cirkulacija.getApp().getUserManager().updateSigning(rowData);
@@ -127,7 +127,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 
 	    public Class getColumnClass(int col) {
 			switch (col){
-			 case 0: return Location.class;
+			 case 0: return String.class;
 			 case 1: return Date.class;
 			 case 2: return Date.class;
 			 case 3: return Double.class;

@@ -29,10 +29,10 @@ import javax.swing.table.TableColumn;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.models.circ.CircLocation;
 import com.ftninformatika.bisis.models.circ.CorporateMember;
 import com.ftninformatika.bisis.models.circ.MembershipType;
 import com.ftninformatika.bisis.models.circ.UserCategory;
-import com.ftninformatika.bisis.models.coders.Location;
 import com.ftninformatika.utils.string.StringUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -64,7 +64,7 @@ public class Membership {
 	private JButton btnRemove = null;
 	private JButton btnPrint = null;
 	private ComboBoxRenderer cmbRenderer = null;
-	private Location defaultLocation = null;
+	private CircLocation defaultLocation = null;
 	private CmbKeySelectionManager cmbKeySelectionManager = null;
 	private User parent = null;
 	
@@ -210,16 +210,16 @@ public class Membership {
 			cmbBranchID.setKeySelectionManager(getCmbKeySelectionManager());
 			if (!Cirkulacija.getApp().getEnvironment().getUseridPrefix())
 				cmbBranchID.setEnabled(false);
-			cmbBranchID.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
-						if (Utils.getCmbValue(cmbBranchID) != null){  //TODO- ?????/
-							getTfBranch().setText(StringUtils.padZeros(Integer.parseInt(((Location)cmbBranchID.getSelectedItem()).getCoder_id()),Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
-							getTfUserID().setText(""); //$NON-NLS-1$
+				cmbBranchID.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
+							if (Utils.getCmbValue(cmbBranchID) != null){  //TODO- ?????/
+								getTfBranch().setText(StringUtils.padZeros(Integer.parseInt(((CircLocation)cmbBranchID.getSelectedItem()).getLocation_id()),Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
+								getTfUserID().setText(""); //$NON-NLS-1$
+							}
 						}
 					}
-				}
-			});
+				});
 			cmbBranchID.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent e) {
 					handleKeyTyped();
@@ -344,6 +344,10 @@ public class Membership {
 		return mmbrshipTableModel;
 	}
   
+  public void setTableModel(Set signings){
+    getTableModel().setData(signings);
+  }
+  
   public void fixTable(){
     TableColumn comboColumn = getTblMmbrship().getColumnModel().getColumn(0);
     comboColumn.setCellEditor(new DefaultCellEditor(getCmbBranch()));
@@ -363,7 +367,7 @@ public class Membership {
   public JLabel getMmbrshipCostLabel() {
     return new ColumnNameLabel(3);
   }
-  
+	
   public JLabel getMmbrshipReceiptIdLabel() {
     return new ColumnNameLabel(4);
   }
@@ -396,7 +400,7 @@ public class Membership {
 		          }
 		          if (addRow){
 		            getTableModel().addRow(defaultLocation);
-		            computeMmbrship(); 
+		            computeMmbrship();
 		            computePeriod();
 		          }
 				}
@@ -404,7 +408,7 @@ public class Membership {
 		}
 		return btnAdd;
 	}
-	
+  
 	private JButton getBtnRemove() {
 		if (btnRemove == null){
 			btnRemove = new JButton();
@@ -426,7 +430,7 @@ public class Membership {
 		}
 		return btnRemove;
 	}
-  
+	
   private JButton getBtnPrint() {
     if (btnPrint == null){
       btnPrint = new JButton();
@@ -437,7 +441,7 @@ public class Membership {
         public void actionPerformed(ActionEvent e) {
           if (getTblMmbrship().getSelectedRow() != -1){
 //          TODO print receipt
-          } 
+          }
         }
       });
     }
@@ -445,7 +449,7 @@ public class Membership {
   }
 	
 	public String getUserID(){
-    return Utils.makeUserId(getTfBranch().getText().trim(), getTfUserID().getText().trim());   
+    return Utils.makeUserId(getTfBranch().getText().trim(), getTfUserID().getText().trim());
 	}
 	
 	public MembershipType getMmbrType(){
@@ -493,15 +497,15 @@ public class Membership {
 	}
 	
 	public void loadDefault(){
-		//getCmbGroups().setSelectedIndex(0);
+		getCmbGroups().setSelectedIndex(0);
 		getRbGroupN().setSelected(true);
 	    if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
 	      int loc =  Cirkulacija.getApp().getEnvironment().getUseridDefaultPrefix();
 	      for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
-	        if (Integer.parseInt(((Location)getCmbBranchID().getModel().getElementAt(i)).getCoder_id()) == loc) {
+	        if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocation_id()) == loc) {
 	          getCmbBranchID().setSelectedIndex(i);
 	        }
-	      } 
+	      }
 	    }
 	}
 	
@@ -516,44 +520,40 @@ public class Membership {
 	public void loadGroups(List data){
 		Utils.loadCombo(getCmbGroups(), data);
 	}
-	
+  
 	public void loadLocation(List data){
 		Utils.loadCombo(getCmbBranch(), data);
 		int loc =  Cirkulacija.getApp().getEnvironment().getLocation();
 	    for (int i = 1; i < getCmbBranch().getModel().getSize(); i++) {
-	      if (Integer.parseInt(((Location)getCmbBranch().getModel().getElementAt(i)).getCoder_id()) == loc) {
-	        defaultLocation = (Location)getCmbBranch().getModel().getElementAt(i);
+	      if (Integer.parseInt(((CircLocation)getCmbBranch().getModel().getElementAt(i)).getLocation_id()) == loc) {
+	        defaultLocation = (CircLocation)getCmbBranch().getModel().getElementAt(i);
 	      }
-	    } 
+	    }
 	}
-  
+
   public void loadBranchID(List data){
     Utils.loadCombo(getCmbBranchID(), data);
   }
-
+  
   	//TODO - hardcoded zbog (ne)ucitavanja orkuzenja
 	public void loadUser(String userID, MembershipType mt, UserCategory uc, String group, Set signings){
 	    if (true/*userID.length() == Cirkulacija.getApp().getEnvironment().getUseridLength() && Cirkulacija.getApp().getEnvironment().getUseridPrefix()*/){
 	  		getTfBranch().setText(userID.substring(0,/*Cirkulacija.getApp().getEnvironment().getUseridPrefixLength())*/2));
 	  		int loc = Integer.parseInt(getTfBranch().getText());
 	  		for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
-	  			if (Integer.parseInt(((Location)getCmbBranchID().getModel().getElementAt(i)).getCoder_id()) == loc) {
+	  			if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocation_id()) == loc) {
 	  				getCmbBranchID().setSelectedIndex(i);
 	  			}
-	  		} 
+	  		}
 	  		getTfUserID().setText(userID.substring(/*Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()*/2));
 	    } else {
 	      getTfUserID().setText(userID);
 	    }
-		Utils.setComboItem(getCmbMmbrType(), mt);
-		Utils.setComboItem(getCmbCateg(), uc);
-		Utils.setComboItem(getCmbGroups(), group);
+		Utils.setComboItem(getCmbMmbrType(), mt,"MembershipType");
+		Utils.setComboItem(getCmbCateg(), uc, "UserCategory");
+		Utils.setComboItem(getCmbGroups(), group, "CorporateMember");
 		getTableModel().setData(signings);
 	}
-  
-  public void setTableModel(Set signings){
-    getTableModel().setData(signings);
-  }
   
   public void clear(){
     Utils.clear(getPanel());

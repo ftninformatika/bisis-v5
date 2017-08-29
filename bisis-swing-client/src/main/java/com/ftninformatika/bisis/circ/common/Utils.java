@@ -3,8 +3,13 @@ package com.ftninformatika.bisis.circ.common;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.view.WarningTypes;
-import com.ftninformatika.bisis.models.circ.*;
-import com.ftninformatika.bisis.models.coders.Location;
+import com.ftninformatika.bisis.models.circ.CircLocation;
+import com.ftninformatika.bisis.models.circ.EducationLvl;
+import com.ftninformatika.bisis.models.circ.Language;
+import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
+import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.models.circ.pojo.Organization;
+import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
 import com.ftninformatika.utils.string.StringUtils;
 import com.toedter.calendar.JDateChooser;
 
@@ -80,51 +85,56 @@ public class Utils {
 		}
 	}
 	
-	public static void setComboItem(JComboBox cmb, Object obj){
+	public static void setComboItem(JComboBox cmb, Object obj, String type){
 		
 		if (obj != null){
 			for (int i = 1; i < cmb.getModel().getSize(); i++) {
-				/*if (obj instanceof Group) {
-					if (((Groups)obj).getSysId() == ((Groups)cmb.getModel().getElementAt(i)).getSysId()) {
+				if (type.equals("CorporateMember")) {
+					if (((CorporateMember)obj).getInstName().equals(((CorporateMember)cmb.getModel().getElementAt(i)).getInstName())){
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else*/ if (obj instanceof EducationLvl){
-					if (((EducationLvl)obj).get_id() == ((EducationLvl)cmb.getModel().getElementAt(i)).get_id()) {
-						 cmb.setSelectedIndex(i); //TODO - get_id() -> getCoderId() ??????????
-						 break;
-				    }
-				} else if (obj instanceof Language){
-					if (((Language)obj).get_id() == ((Language)cmb.getModel().getElementAt(i)).get_id()) {
+				} else if (type.equals("EducationLvl")){
+					if (((String)obj).equals(((EducationLvl)cmb.getModel().getElementAt(i)).getDescription())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (obj instanceof Location){
-					if (((Location)obj).getCoder_id() == ((Location)cmb.getModel().getElementAt(i)).getCoder_id()) {
+				} else if (type.equals("Language")){
+					if (((String)obj).equals(((Language)cmb.getModel().getElementAt(i)).get_id())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (obj instanceof MembershipType){
-					if (((MembershipType)obj).get_id() == ((MembershipType)cmb.getModel().getElementAt(i)).get_id()) {
+				} else if (type.equals("CircLocation")){
+					if (((String)obj).equals(((CircLocation)cmb.getModel().getElementAt(i)).getDescription())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (obj instanceof Organization){
-					if (((Organization)obj).get_id() == ((Organization)cmb.getModel().getElementAt(i)).get_id()) {
+				} else if (type.equals("MembershipType")){
+					if (((MembershipType)obj).getDescription().equals(((MembershipType)cmb.getModel().getElementAt(i)).getDescription())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (obj instanceof UserCategory){
-					if (((UserCategory)obj).get_id() == ((UserCategory)cmb.getModel().getElementAt(i)).get_id()) {
+				} else if (type.equals("Organization")){
+					if (((Organization)obj).getId().equals(((Organization)cmb.getModel().getElementAt(i)).getId())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (obj instanceof WarningTypes){
-					if (((WarningTypes)obj).getId() == ((WarningTypes)cmb.getModel().getElementAt(i)).getId()) {
+				} else if (type.equals("UserCategory")){
+					if (((UserCategory)obj).getDescription().equals(((UserCategory)cmb.getModel().getElementAt(i)).getDescription())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else {
+				} else if (type.equals("WarningTypes")){
+					if (((String)obj).equals(((WarningTypes)cmb.getModel().getElementAt(i)).getName())) {
+						 cmb.setSelectedIndex(i);
+						 break;
+				    }
+				} else if (type.equals("Class")){
+                    if (((Integer)obj).toString().equals((cmb.getModel().getElementAt(i)).toString())) {
+                    cmb.setSelectedIndex(i);
+                    break;
+                }
+            } else {
 					cmb.setSelectedIndex(0);
 				}
 			}

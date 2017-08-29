@@ -20,7 +20,6 @@ import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.models.circ.pojo.Signing;
 import com.ftninformatika.bisis.models.circ.pojo.Warning;
-import javafx.scene.shape.Path;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -295,10 +294,10 @@ public class UserManager {
         userModel.getAddress(), Utils.getString(userModel.getZip()), userModel.getCity(), userModel.getPhone(),
         userModel.getEmail(), userModel.getGender(), userModel.getAge(), userModel.getSecAddress(),
         userModel.getSecCity(), Utils.getString(userModel.getSecZip()), userModel.getSecPhone(), userModel.getJmbg(),
-        userModel.getDocId().intValue(), userModel.getDocNo(), userModel.getDocCity(), userModel.getCountry(), 
+        userModel.getDocId(), userModel.getDocNo(), userModel.getDocCity(), userModel.getCountry(),
         userModel.getTitle(), userModel.getOccupation(), userModel.getIndexNo(), Utils.getString(userModel.getClassNo()),
         userModel.getOrganization(), userModel.getEducationLevel(), userModel.getLanguage(), userModel.getNote(),
-        userModel.getInterests(), userModel.getWarningInd().intValue(), blocked, userModel.getBlockReason(), new HashSet(userModel.getDuplicates()), userModel.getPass());
+        userModel.getInterests(), userModel.getWarningInd(), blocked, userModel.getBlockReason(), new HashSet(userModel.getDuplicates()), userModel.getPass());
 
     user.getMmbrship().loadUser(userModel.getUserId(), userModel.getMembershipType(), userModel.getUserCategory(), userModel.getGroups().toString(), new HashSet(userModel.getSignings()));
 
@@ -318,7 +317,7 @@ public class UserManager {
       blockedInfo = blockedInfo + "Istekla \u010dlanarina";
     }
     
-    warnings = new ArrayList<Warnings>();
+    warnings = new ArrayList<Warning>();
     Set<Lending> lendings = new HashSet<>(userModel.getLendings());
     for (Lending lend : lendings){
       Set<Warning> warns = new HashSet<Warning>(lend.getWarnings());

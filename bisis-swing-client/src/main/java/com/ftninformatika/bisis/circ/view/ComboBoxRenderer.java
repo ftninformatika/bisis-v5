@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.models.circ.*;
-import com.ftninformatika.bisis.models.coders.Location;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -53,14 +52,14 @@ public class ComboBoxRenderer extends JLabel implements ListCellRenderer, Serial
 		    setForeground(list.getForeground());
 		}
 
-		/*if (value instanceof Groups) {
-		    setText(((Groups)value).getInstName());
-		} else */if (value instanceof EducationLvl){
+		if (value instanceof CorporateMember) {
+		    setText(((CorporateMember)value).getInstName());
+		} else if (value instanceof EducationLvl){
 			setText(((EducationLvl)value).getDescription());
 		} else if (value instanceof Language){
 			setText(((Language)value).getDescription());
-		} else if (value instanceof Location){
-			setText(((Location)value).getDescription());
+		} else if (value instanceof CircLocation){
+			setText(((CircLocation)value).getDescription());
 		} else if (value instanceof MembershipType){
 			setText(((MembershipType)value).getDescription());
 		} else if (value instanceof Organization){

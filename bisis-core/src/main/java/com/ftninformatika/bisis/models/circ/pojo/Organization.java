@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @ToString
 public class Organization {
+    private String id;
     private String name;
     private String address;
     private String city;
