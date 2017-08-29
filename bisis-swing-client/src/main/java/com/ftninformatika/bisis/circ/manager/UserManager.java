@@ -242,12 +242,14 @@ public class UserManager {
   public int getUser(User user, Group group, String userID){
     int found = 0;
       Member getUser = null;
+      List<Lending> lendings = new ArrayList<>();
       try {
           getUser = BisisApp.bisisService.getMemberById(userID).execute().body();
+          lendings = BisisApp.bisisService.getLendingsByUserId(userID).execute().body();
       } catch (IOException e) {
           e.printStackTrace();
       }
-      //getUser = (GetUserCommand)service.executeCommand(getUser);
+      getUser.setLendings(lendings);
     if (getUser != null){
 		userModel = getUser;
 		if (userModel != null){

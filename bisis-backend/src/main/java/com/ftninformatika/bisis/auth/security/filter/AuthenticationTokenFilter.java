@@ -33,11 +33,12 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final Authentication authentication = authenticationService.authenticate(httpRequest);
 
+
         String lib = ((HttpServletRequest) request).getHeader("Library");
 
 
         if (lib != null && !lib.equals("")) {
-            prefixProvider.setPrefix(lib);
+            prefixProvider.setPrefix(lib); //Usmeravanje na odredjenu kolekciju u zavisnosti od hedera (Library)
         }
         else {
             prefixProvider.setPrefix("exile");
