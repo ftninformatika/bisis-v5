@@ -12,23 +12,18 @@ import javax.swing.JPanel;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.models.coders.Location;
+import com.ftninformatika.bisis.models.circ.CircLocation;
 import com.ftninformatika.bisis.records.Record;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableColumn;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
@@ -54,7 +49,7 @@ public class Lending {
 	private JLabel lBlockCard = null;
 	private JLabel lDuplicate = null;
 	private ComboBoxRenderer cmbRenderer = null;
-	private Location defaultLocation = null;
+	private String defaultLocation = null;
 	private User parent = null;
 	private boolean pinRequired;
 	
@@ -264,6 +259,7 @@ public class Lending {
 		              modelrows[j] = getTblLending().convertRowIndexToModel(rows[j]);
 		            }
 		            for (int i = 0; i < modelrows.length; i++){
+		            	//TODO
 		              //Cirkulacija.getApp().getRecordsManager().returnBook((String)getTableModel().getValueAt(modelrows[i],0));
 		            }
 		            getTableModel().removeRows(modelrows);
@@ -326,6 +322,7 @@ public class Lending {
 			btnHistory.setIcon(new ImageIcon(getClass().getResource("/circ-images/doc16.png"))); //$NON-NLS-1$
 			btnHistory.addActionListener(new java.awt.event.ActionListener() {
 		        public void actionPerformed(java.awt.event.ActionEvent e) {
+		        	//TODO
 		          //Cirkulacija.getApp().getMainFrame().getReport().selectMemberHistory(parent.getMmbrship().getUserID());
 		          Cirkulacija.getApp().getMainFrame().showPanel("reportPanel"); //$NON-NLS-1$
 		        }
@@ -477,8 +474,8 @@ public class Lending {
     Utils.loadCombo(getCmbLocation(), data);
     int loc = Cirkulacija.getApp().getEnvironment().getLocation();
     for (int i = 1; i < getCmbLocation().getModel().getSize(); i++) {
-      if (Integer.parseInt(((Location)getCmbLocation().getModel().getElementAt(i)).getCoder_id()) == loc) {
-        defaultLocation = (Location)getCmbLocation().getModel().getElementAt(i);
+      if (Integer.parseInt(((CircLocation)getCmbLocation().getModel().getElementAt(i)).getLocation_id()) == loc) {
+        defaultLocation = ((CircLocation) getCmbLocation().getModel().getElementAt(i)).getDescription();
       }
     } 
   }

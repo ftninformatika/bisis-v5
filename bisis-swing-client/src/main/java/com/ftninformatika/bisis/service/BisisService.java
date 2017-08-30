@@ -168,6 +168,12 @@ public interface BisisService {
 
 //coders circulation----------------------------------------------------------
 
+    @GET("/coders/circlocation")
+    Call<List<CircLocation>> getCircLocations(@Query("libName")String libName);
+
+    @GET("/coders/corporatemember")
+    Call<List<CorporateMember>> getCorporateMembers(@Query("libName")String libName);
+
     @GET("/coders/education")
     Call<List<EducationLvl>> getEducationLvls(@Query("libName")String libName);
 
@@ -195,5 +201,7 @@ public interface BisisService {
     @GET("/coders/organization")
     Call<List<Organization>> getOrganizations(@Query("libName")String libName);
 
+    @GET("/circ_configs/search/findByLibrary")
+    Call<List<CircConfig>> getCircConfigs(@Query("libName")String libName);
 
 }

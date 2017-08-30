@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.models.circ.*;
+import com.ftninformatika.bisis.models.circ.CircLocation;
+import com.ftninformatika.bisis.models.circ.WarningType;
+import com.ftninformatika.bisis.models.circ.pojo.*;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -54,10 +56,6 @@ public class ComboBoxRenderer extends JLabel implements ListCellRenderer, Serial
 
 		if (value instanceof CorporateMember) {
 		    setText(((CorporateMember)value).getInstName());
-		} else if (value instanceof EducationLvl){
-			setText(((EducationLvl)value).getDescription());
-		} else if (value instanceof Language){
-			setText(((Language)value).getDescription());
 		} else if (value instanceof CircLocation){
 			setText(((CircLocation)value).getDescription());
 		} else if (value instanceof MembershipType){
@@ -66,8 +64,8 @@ public class ComboBoxRenderer extends JLabel implements ListCellRenderer, Serial
 			setText(((Organization)value).getName());
 		} else if (value instanceof UserCategory){
 			setText(((UserCategory)value).getDescription());
-		} else if (value instanceof WarningTypes){
-			setText(((WarningTypes)value).getName());
+		} else if (value instanceof WarningType){
+			setText(((WarningType)value).getDescription());
 		} else {
 			setText((value == null) ? "" : value.toString());
 		}

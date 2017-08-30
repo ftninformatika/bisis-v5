@@ -30,9 +30,9 @@ import javax.swing.table.TableColumn;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.models.circ.CircLocation;
-import com.ftninformatika.bisis.models.circ.CorporateMember;
-import com.ftninformatika.bisis.models.circ.MembershipType;
-import com.ftninformatika.bisis.models.circ.UserCategory;
+import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
+import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
 import com.ftninformatika.utils.string.StringUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -64,7 +64,7 @@ public class Membership {
 	private JButton btnRemove = null;
 	private JButton btnPrint = null;
 	private ComboBoxRenderer cmbRenderer = null;
-	private CircLocation defaultLocation = null;
+	private String defaultLocation = null;
 	private CmbKeySelectionManager cmbKeySelectionManager = null;
 	private User parent = null;
 	
@@ -526,7 +526,7 @@ public class Membership {
 		int loc =  Cirkulacija.getApp().getEnvironment().getLocation();
 	    for (int i = 1; i < getCmbBranch().getModel().getSize(); i++) {
 	      if (Integer.parseInt(((CircLocation)getCmbBranch().getModel().getElementAt(i)).getLocation_id()) == loc) {
-	        defaultLocation = (CircLocation)getCmbBranch().getModel().getElementAt(i);
+	        defaultLocation = ((CircLocation) getCmbBranch().getModel().getElementAt(i)).getDescription();
 	      }
 	    }
 	}
@@ -536,7 +536,7 @@ public class Membership {
   }
   
   	//TODO - hardcoded zbog (ne)ucitavanja orkuzenja
-	public void loadUser(String userID, MembershipType mt, UserCategory uc, String group, Set signings){
+	public void loadUser(String userID, MembershipType mt, UserCategory uc, CorporateMember group, Set signings){
 	    if (true/*userID.length() == Cirkulacija.getApp().getEnvironment().getUseridLength() && Cirkulacija.getApp().getEnvironment().getUseridPrefix()*/){
 	  		getTfBranch().setText(userID.substring(0,/*Cirkulacija.getApp().getEnvironment().getUseridPrefixLength())*/2));
 	  		int loc = Integer.parseInt(getTfBranch().getText());
@@ -549,9 +549,9 @@ public class Membership {
 	    } else {
 	      getTfUserID().setText(userID);
 	    }
-		Utils.setComboItem(getCmbMmbrType(), mt,"MembershipType");
-		Utils.setComboItem(getCmbCateg(), uc, "UserCategory");
-		Utils.setComboItem(getCmbGroups(), group, "CorporateMember");
+		Utils.setComboItem(getCmbMmbrType(), mt);
+		Utils.setComboItem(getCmbCateg(), uc);
+		Utils.setComboItem(getCmbGroups(), group);
 		getTableModel().setData(signings);
 	}
   

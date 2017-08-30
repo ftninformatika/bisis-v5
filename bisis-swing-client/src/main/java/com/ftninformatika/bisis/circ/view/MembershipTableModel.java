@@ -1,9 +1,8 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.CircLocation;
-import com.ftninformatika.bisis.models.circ.MembershipType;
-import com.ftninformatika.bisis.models.circ.UserCategory;
+import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.models.circ.pojo.Signing;
 
 import java.io.Serializable;
@@ -43,12 +42,12 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
     
 //		 Manipulating rows
     
-	    public void addRow(CircLocation loc) {
+	    public void addRow(String location) {
 	    	int row = getRowCount();
 	    	Signing rowData = new Signing();
 	    	rowData.setLibrarian(Cirkulacija.getApp().getLibrarian().getUsername());
 	    	rowData.setSignDate(new Date());
-        	rowData.setLocation(loc.getDescription());
+        	rowData.setLocation(location);
         	Cirkulacija.getApp().getUserManager().addSigning(rowData);
         	this.dataView.add(rowData);
 	    	fireTableRowsInserted(row, row);
@@ -56,8 +55,8 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 
 
 	    public void removeRow(int row) {
-	      Signing sig = dataView.remove(row);    
-        Cirkulacija.getApp().getUserManager().removeSigning(sig);
+	      Signing sig = dataView.remove(row);
+	      Cirkulacija.getApp().getUserManager().removeSigning(sig);
 	      fireTableRowsDeleted(row, row);
 	    }
 
@@ -111,7 +110,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 	    public void setValueAt(Object aValue, int row, int column) {
 	        Signing rowData = dataView.get(row);
 	        switch (column){
-	        	case 0: rowData.setLocation(((CircLocation)aValue).getDescription());
+	        	case 0: rowData.setLocation((String)aValue);
 	        			break;
 	        	case 1: rowData.setSignDate((Date)aValue);
 	        			break;
@@ -137,7 +136,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 	    }
       
       public void computeMmbrship(MembershipType mt, UserCategory uc){
-          Double cost = Cirkulacija.getApp().getUserManager().getMembership(mt, uc);
+          Double cost = Cirkulacija.getApp().getUserManager().getMembership(mt.getDescription(), uc.getDescription());
           setValueAt(cost, getRowCount()-1, 3);
       }
       

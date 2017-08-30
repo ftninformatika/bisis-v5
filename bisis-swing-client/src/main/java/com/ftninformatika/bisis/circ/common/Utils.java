@@ -2,10 +2,7 @@ package com.ftninformatika.bisis.circ.common;
 
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.circ.view.WarningTypes;
-import com.ftninformatika.bisis.models.circ.CircLocation;
-import com.ftninformatika.bisis.models.circ.EducationLvl;
-import com.ftninformatika.bisis.models.circ.Language;
+import com.ftninformatika.bisis.models.circ.WarningType;
 import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
 import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
 import com.ftninformatika.bisis.models.circ.pojo.Organization;
@@ -85,55 +82,45 @@ public class Utils {
 		}
 	}
 	
-	public static void setComboItem(JComboBox cmb, Object obj, String type){
+	public static void setComboItem(JComboBox cmb, Object obj){
 		
 		if (obj != null){
 			for (int i = 1; i < cmb.getModel().getSize(); i++) {
-				if (type.equals("CorporateMember")) {
+				if (obj instanceof CorporateMember) {
 					if (((CorporateMember)obj).getInstName().equals(((CorporateMember)cmb.getModel().getElementAt(i)).getInstName())){
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (type.equals("EducationLvl")){
-					if (((String)obj).equals(((EducationLvl)cmb.getModel().getElementAt(i)).getDescription())) {
-						 cmb.setSelectedIndex(i);
-						 break;
-				    }
-				} else if (type.equals("Language")){
-					if (((String)obj).equals(((Language)cmb.getModel().getElementAt(i)).get_id())) {
-						 cmb.setSelectedIndex(i);
-						 break;
-				    }
-				} else if (type.equals("CircLocation")){
-					if (((String)obj).equals(((CircLocation)cmb.getModel().getElementAt(i)).getDescription())) {
-						 cmb.setSelectedIndex(i);
-						 break;
-				    }
-				} else if (type.equals("MembershipType")){
+				} else if (obj instanceof MembershipType){
 					if (((MembershipType)obj).getDescription().equals(((MembershipType)cmb.getModel().getElementAt(i)).getDescription())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (type.equals("Organization")){
+				} else if (obj instanceof Organization){
 					if (((Organization)obj).getId().equals(((Organization)cmb.getModel().getElementAt(i)).getId())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (type.equals("UserCategory")){
+				} else if (obj instanceof UserCategory){
 					if (((UserCategory)obj).getDescription().equals(((UserCategory)cmb.getModel().getElementAt(i)).getDescription())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (type.equals("WarningTypes")){
-					if (((String)obj).equals(((WarningTypes)cmb.getModel().getElementAt(i)).getName())) {
+				} else if (obj instanceof WarningType){
+					if (((String)obj).equals(((WarningType)cmb.getModel().getElementAt(i)).getDescription())) {
 						 cmb.setSelectedIndex(i);
 						 break;
 				    }
-				} else if (type.equals("Class")){
+				} else if (obj instanceof Integer){
                     if (((Integer)obj).toString().equals((cmb.getModel().getElementAt(i)).toString())) {
-                    cmb.setSelectedIndex(i);
-                    break;
-                }
+                        cmb.setSelectedIndex(i);
+                        break;
+                    }
+                } else if (obj instanceof String){
+                    if (obj.equals(cmb.getModel().getElementAt(i))) {
+                        cmb.setSelectedIndex(i);
+                        break;
+                    }
             } else {
 					cmb.setSelectedIndex(0);
 				}

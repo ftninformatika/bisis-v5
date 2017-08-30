@@ -1363,10 +1363,10 @@ public class UserData {
         getTfTitle().setText(title);
         getTfOccupation().setText(occupation);
         getTfIndexNo().setText(indexNo);
-        Utils.setComboItem(getCmbClass(), classNo, "Class");
-        Utils.setComboItem(getCmbOrg(), org, "Organization");
-        Utils.setComboItem(getCmbEduLevel(), eduLvl, "EducationLvl");
-        Utils.setComboItem(getCmbLanguage(), languages, "Language");
+        Utils.setComboItem(getCmbClass(), classNo);
+        Utils.setComboItem(getCmbOrg(), org);
+        Utils.setComboItem(getCmbEduLevel(), eduLvl);
+        Utils.setComboItem(getCmbLanguage(), languages);
         getTfNote().setText(note);
         getTfInterests().setText(interests);
         if (warn == 1) {

@@ -1,13 +1,10 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.models.coders.Location;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -131,18 +128,7 @@ public class CmbTableRenderer extends JLabel implements TableCellRenderer, Seria
     public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) { }
 
     protected void setValue(Object value, JTable table) {
-    	if (value instanceof Location){
-//    		JComboBox cmb = (JComboBox)table.getCellEditor(0, 0).;
-//    		int i = 0;
-//    		while (i < cmb.getModel().getSize()){
-//    			if (((Location)cmb.getModel().getElementAt(i)).getId() == ((Location)value).getId()){
-//    				setText(((Location)cmb.getModel().getElementAt(i)).getName());
-//    			}
-//    		}
-			setText(((Location)value).getDescription());
-		} else {
-			setText((value == null) ? "" : value.toString());
-		}
+        setText((value == null) ? "" : value.toString());
     }
 	
     public static class UIResource extends DefaultTableCellRenderer 

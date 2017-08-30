@@ -301,7 +301,7 @@ public class UserManager {
         userModel.getOrganization(), userModel.getEducationLevel(), userModel.getLanguage(), userModel.getNote(),
         userModel.getInterests(), userModel.getWarningInd(), blocked, userModel.getBlockReason(), new HashSet(userModel.getDuplicates()), userModel.getPass());
 
-    user.getMmbrship().loadUser(userModel.getUserId(), userModel.getMembershipType(), userModel.getUserCategory(), userModel.getGroups().toString(), new HashSet(userModel.getSignings()));
+    user.getMmbrship().loadUser(userModel.getUserId(), userModel.getMembershipType(), userModel.getUserCategory(), userModel.getCorporateMember(), new HashSet(userModel.getSignings()));
 
     Date maxDate = null;
     Date date = null;
@@ -378,41 +378,92 @@ public class UserManager {
 	
   public void loadCombos(User user) throws Exception {
 
-
 	if (BisisApp.appConfig.getCodersHelper() == null)
 		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
+
 	user.getUserData().loadEduLvl(BisisApp.appConfig.getCodersHelper()
-                                .getEducationLevels().values().stream().collect(Collectors.toList()));
+            .getEducationLevels().values().stream()
+            .map(i -> i.getDescription())
+            .collect(Collectors.toList()));
 
 	user.getUserData().loadLanguage(BisisApp.appConfig.getCodersHelper()
-            .getLanguages().values().stream().collect(Collectors.toList()));
+            .getLanguages().values().stream()
+            .map(i -> i.getDescription())
+            .collect(Collectors.toList()));
 
 	user.getUserData().loadOrganization(BisisApp.appConfig.getCodersHelper()
-            .getOrganizations().values().stream().collect(Collectors.toList()));
+            .getOrganizations().values().stream()
+            .map( i -> {
+                com.ftninformatika.bisis.models.circ.pojo.Organization o = new com.ftninformatika.bisis.models.circ.pojo.Organization();
+                o.setAddress(i.getAddress());
+                o.setCity(i.getCity());
+                o.setId(i.get_id());
+                o.setName(i.getName());
+                o.setZip(i.getZip());
+                return o;
+            })
+            .collect(Collectors.toList()));
 
 	user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
-            .getMembershipTypes().values().stream()
-            .map(i -> i.getDescription()).collect(Collectors.toList()));
+            .getCorporateMembers().values().stream()
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CorporateMember c = new com.ftninformatika.bisis.models.circ.pojo.CorporateMember();
+                c.setAddress(i.getAddress());
+                c.setCity(i.getCity());
+                c.setContEmail(i.getContEmail());
+                c.setContFirstName(i.getContFirstName());
+                c.setContLastName(i.getContLastName());
+                c.setEmail(i.getEmail());
+                c.setFax(i.getFax());
+                c.setInstName(i.getInstName());
+                c.setUserId(i.getUserId());
+                c.setPhone(i.getPhone());
+                c.setSecAddress(i.getSecAddress());
+                c.setSecCity(i.getSecCity());
+                c.setSecPhone(i.getSecPhone());
+                c.setSecZip(i.getSecZip());
+                c.setSignDate(i.getSignDate());
+                c.setZip(i.getZip());
+                return c;
+            })
+            .collect(Collectors.toList()));
 
-	/*user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
-            .getLocations().values().stream()
-            .map(i -> i.getDescription()).collect(Collectors.toList()));
+	user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
+            .getCircLocations().values().stream()
+            .map(i -> i.getDescription())
+            .collect(Collectors.toList()));
 
 	user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
-            .getLocations().values().stream()
-            .map(i -> i.getDescription()).collect(Collectors.toList()));
+            .getCircLocations().values().stream().collect(Collectors.toList()));
 
 	user.getMmbrship().loadMmbrType(BisisApp.appConfig.getCodersHelper()
             .getMembershipTypes().values().stream()
-            .map(i -> i.getDescription()).collect(Collectors.toList()));
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.MembershipType m = new com.ftninformatika.bisis.models.circ.pojo.MembershipType();
+                m.setDescription(i.getDescription());
+                m.setPeriod(i.getPeriod());
+                return m;
+            })
+            .collect(Collectors.toList()));
 
 	user.getMmbrship().loadUserCateg(BisisApp.appConfig.getCodersHelper()
             .getUserCategories().values().stream()
-            .map(i -> i.getDescription()).collect(Collectors.toList()));
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.UserCategory u = new com.ftninformatika.bisis.models.circ.pojo.UserCategory();
+                u.setDescription(i.getDescription());
+                u.setMaxPeriod(i.getMaxPeriod());
+                u.setPeriod(i.getPeriod());
+                u.setTitlesNo(i.getTitlesNo());
+                return u;
+            })
+            .collect(Collectors.toList()));
 
 	user.getLending().loadLocation(BisisApp.appConfig.getCodersHelper()
-            .getLocations().values().stream()
-            .map(i -> i.getDescription()).collect(Collectors.toList()));*/
+            .getCircLocations().values().stream()
+            .map(i -> i.getDescription())
+            .collect(Collectors.toList()));
+
+
   }
   
   public void loadCombos(Group group) throws Exception {
@@ -589,13 +640,12 @@ public class UserManager {
     }
   }
 	
-  public Double getMembership(MembershipType mt, UserCategory uc){
+  public Double getMembership(String membershipType, String userCategory){
 
   	for(Membership m: BisisApp.appConfig.getCodersHelper().getMemberships().values()) {
-		if (m.getMemberType().equals(mt.getDescription()) && m.getUserCateg().equals(uc.getDescription()))
-			return m.getCost(); //TODO-????
+		if (m.getMemberType().equals(membershipType) && m.getUserCateg().equals(userCategory))
+			return m.getCost();
   	}
-
   	return null;
   }
   

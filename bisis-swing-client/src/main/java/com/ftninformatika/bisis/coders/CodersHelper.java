@@ -226,6 +226,8 @@ public class CodersHelper {
             sublocations = sublocCoders.stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
 
             //circkulacija
+            List<CircLocation> circLocationList = BisisApp.bisisService.getCircLocations(BisisApp.appConfig.getLibrary()).execute().body();
+            List<CorporateMember> corporateMemberList = BisisApp.bisisService.getCorporateMembers(BisisApp.appConfig.getLibrary()).execute().body();
             List<EducationLvl> educationLvlList = BisisApp.bisisService.getEducationLvls(BisisApp.appConfig.getLibrary()).execute().body();
             List<Language> languageList = BisisApp.bisisService.getLanguages(BisisApp.appConfig.getLibrary()).execute().body();
             List<Place> placeList = BisisApp.bisisService.getPlaces(BisisApp.appConfig.getLibrary()).execute().body();
@@ -235,7 +237,8 @@ public class CodersHelper {
             List<WarningType> warningTypesList = BisisApp.bisisService.getWarningTypes(BisisApp.appConfig.getLibrary()).execute().body();
             List<Organization> organizationList = BisisApp.bisisService.getOrganizations(BisisApp.appConfig.getLibrary()).execute().body();
 
-
+            circLocations = circLocationList.stream().collect(Collectors.toMap(CircLocation::get_id, i-> i));
+            corporateMembers = corporateMemberList.stream().collect(Collectors.toMap(CorporateMember::get_id, i-> i));
             educationLevels = educationLvlList.stream().collect(Collectors.toMap(EducationLvl::get_id, i-> i));
             languages = languageList.stream().collect(Collectors.toMap(Language::get_id, i-> i));
             places = placeList.stream().collect(Collectors.toMap(Place::get_id, i-> i));
@@ -285,6 +288,8 @@ public class CodersHelper {
     private Map<String, Location> locations = new HashMap<>();
 
     //circkulacija-----------------
+    private Map<String, CircLocation> circLocations = new HashMap<>();
+    private Map<String, CorporateMember> corporateMembers = new HashMap<>();
     private Map<String, EducationLvl> educationLevels = new HashMap<>();
     private Map<String, Language> languages = new HashMap<>();
     private Map<String, Membership> memberships = new HashMap<>();

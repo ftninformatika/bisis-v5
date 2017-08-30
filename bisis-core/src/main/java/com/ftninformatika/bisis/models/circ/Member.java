@@ -4,6 +4,8 @@ import com.ftninformatika.bisis.models.circ.pojo.Signing;
 import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
+import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +35,6 @@ public class Member implements java.io.Serializable {
 	private MembershipType membershipType;
 	private UserCategory userCategory;
 	private CorporateMember corporateMember;
-	private Integer groups;
 	private String userId;
 	private String firstName;
 	private String lastName;

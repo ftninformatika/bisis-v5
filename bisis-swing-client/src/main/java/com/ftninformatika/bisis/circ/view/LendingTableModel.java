@@ -1,14 +1,12 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.UserCategory;
-import com.ftninformatika.bisis.models.coders.Location;
 import com.ftninformatika.bisis.models.circ.Lending;
+import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.records.Record;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -74,7 +72,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
     
 //		 Manipulating rows
     
-	    public boolean addRow(String ctlgno, Record record, Location loc, UserCategory usrctg) {
+	    public boolean addRow(String ctlgno, Record record, String location, UserCategory usrctg) {
 	    	Iterator<Lending> it = dataView.iterator();
 	    	while (it.hasNext()){
 	    		Lending row = it.next();
@@ -87,7 +85,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	    	rowData.setCtlgNo(ctlgno);
 	    	rowData.setLibrarianLend(Cirkulacija.getApp().getLibrarian().getUsername());
 	    	rowData.setLendDate(new Date());
-	        rowData.setLocation(loc.getDescription());
+	        rowData.setLocation(location);
 	        dataView.add(rowData);
 	        Cirkulacija.getApp().getUserManager().addLending(rowData);
 	        computeDeadline(new Date(), rowData, usrctg);
