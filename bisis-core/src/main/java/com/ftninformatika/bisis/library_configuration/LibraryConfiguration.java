@@ -63,5 +63,8 @@ public class LibraryConfiguration {
     private String barcodeUsersPageCode;
     private String barcodeUsersLinelength;
 
+    private String pincodeEnabled;
+    private String pincodeLibrary;
+
 
 }
