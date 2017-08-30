@@ -47,7 +47,6 @@ db.configs.insert({
     "barcodeUsersPageCode": "1251",
     "barcodeUsersLinelength": "19",
 
-
 });
 
 db.coders.circ_config.insert({
