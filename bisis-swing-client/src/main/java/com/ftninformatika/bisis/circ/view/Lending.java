@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.circ.validator.Validator;
 import com.ftninformatika.bisis.models.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.records.Record;
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -358,8 +359,7 @@ public class Lending {
 			btnLend.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if (!getTfCtlgNo().getText().equals("")){ //$NON-NLS-1$
-						String ctlgno = //Validator.convertCtlgNo2DB(getTfCtlgNo().getText().trim()); TODO-hardcoded
-										"";
+						String ctlgno = Validator.convertCtlgNo2DB(getTfCtlgNo().getText().trim());
 						if (!ctlgno.equals("")){ //$NON-NLS-1$
 							lendAction(ctlgno);
 						} else {
@@ -387,8 +387,7 @@ public class Lending {
   private void lendAction(String ctlgno){
   	if (getLBlockCard().getText().equals("") || Cirkulacija.getApp().getEnvironment().getBlockedCard()){ //$NON-NLS-1$
       if (getTableModel().getRowCount() < parent.getMmbrship().getUserCateg().getTitlesNo()){  
-  		Record record = //Cirkulacija.getApp().getRecordsManager().lendBook(ctlgno); TODO-hardcoded
-						null;
+  		Record record = Cirkulacija.getApp().getRecordsManager().lendBook(ctlgno);
         handleKeyTyped();
         if (record != null){
           boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg());

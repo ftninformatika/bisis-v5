@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
 import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
 import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.models.circ.pojo.Organization;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

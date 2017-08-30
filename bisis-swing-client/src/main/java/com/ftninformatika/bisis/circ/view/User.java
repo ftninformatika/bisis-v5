@@ -9,8 +9,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.barcode.epl2.IPrinter;
+import com.ftninformatika.bisis.barcode.epl2.Label;
+import com.ftninformatika.bisis.barcode.epl2.Printer2;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.validator.Validate;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -96,16 +100,15 @@ public class User extends JPanel {
 			btnSave.setIcon(new ImageIcon(getClass().getResource("/circ-images/Check16.png"))); //$NON-NLS-1$
 			btnSave.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String result = //Validate.validateUser(getUser());
-									"Valid"; //TODO- hardcoded
+					String result = Validate.validateUser(getUser());
 					if (result != null){
 						JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), result, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
 								new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 					}else {
-						if (/*BisisApp.getINIFile().getBoolean("pincode", "enabled") && pinRequired()*/true){
+						if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("yes") && pinRequired()){
 							JPasswordField pwd = new JPasswordField(10);
 							JOptionPane.showConfirmDialog(Cirkulacija.getApp().getMainFrame(), pwd,"Unesite pin:",JOptionPane.OK_CANCEL_OPTION);
-							if (!/*getUserData().getPinCode().equals(new String(pwd.getPassword()))*/true){
+							if (!getUserData().getPinCode().equals(new String(pwd.getPassword()))){
 								JOptionPane.showMessageDialog(null, Messages.getString("circulation.pinerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
 										new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 								return;
@@ -186,7 +189,7 @@ public class User extends JPanel {
 		            int op = JOptionPane.showOptionDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.archivewarning"), Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION,  //$NON-NLS-1$ //$NON-NLS-2$
 		                JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
 		            if (op == JOptionPane.YES_OPTION){
-		            	if (/*getLending().existLending()*/false){
+		            	if (getLending().existLending()){
 							JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.archiveerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
 									new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 						} else {
@@ -337,7 +340,7 @@ public class User extends JPanel {
   private JPanel getPinCard(){
     try {
       Map<String, Object> params = new HashMap<String, Object>(3);
-      //params.put("library", BisisApp.getINIFile().getString("pincode", "library")); //$NON-NLS-1$ TODO- dodati sve parametre u konfiguraciju
+      params.put("library", BisisApp.appConfig.getClientConfig().getPincodeLibrary());
       params.put("userid", mmbrship.getUserID()); //$NON-NLS-1$
       params.put("name", userData.getFirstName() + " " + userData.getLastName());//$NON-NLS-1$
       params.put("pincode", userData.getPinCode()); //$NON-NLS-1$
@@ -362,15 +365,15 @@ public class User extends JPanel {
     // getPMain4(), null); //$NON-NLS-1$
     // getTpMain().setSelectedComponent(getPMain4());
 
-    /*String port = BisisApp.getINIFile().getString("barcode", "port");
-    int labelWidth = BisisApp.getINIFile().getInt("barcode-users", "labelWidth");
-    int labelHeight = BisisApp.getINIFile().getInt("barcode-users", "labelHeight");
-    int labelResolution = BisisApp.getINIFile().getInt("barcode-users", "labelResolution");
-    String pageCode = BisisApp.getINIFile().getString("barcode-users", "pageCode");
-    int widebar = BisisApp.getINIFile().getInt("barcode-users", "widebar");
-    int narrowbar = BisisApp.getINIFile().getInt("barcode-users", "narrowbar");
-    int barwidth = BisisApp.getINIFile().getInt("barcode-users", "barwidth");
-    int linelength = BisisApp.getINIFile().getInt("barcode-users", "linelength");
+    String port = BisisApp.appConfig.getClientConfig().getBarcodePort();
+    int labelWidth = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeUsersLabelWidth());
+    int labelHeight = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeUsersLabelHeight());
+    int labelResolution = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeUsersLabelResolution());
+    String pageCode = BisisApp.appConfig.getClientConfig().getBarcodeUsersPageCode();
+    int widebar = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeUsersWidebar());
+    int narrowbar = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeUsersNarrowbar());
+    int barwidth = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeUsersBarwidth());
+    int linelength = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeUsersLinelength());
 
     // TODO:
     IPrinter printer = Printer2.getInstance();
@@ -393,7 +396,7 @@ public class User extends JPanel {
       label.appendBlankLine();
     }
     label.appendCode128("K" + mmbrship.getUserID());
-    printer.print(label, pageCode);*/
+    printer.print(label, pageCode);
 
   }
 	

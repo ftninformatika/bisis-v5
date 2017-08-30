@@ -246,11 +246,12 @@ public class UserManager {
       try {
           getUser = BisisApp.bisisService.getMemberById(userID).execute().body();
           lendings = BisisApp.bisisService.getLendingsByUserId(userID).execute().body();
-      } catch (IOException e) {
+      } catch (Exception e) {
           e.printStackTrace();
       }
-      getUser.setLendings(lendings);
+
     if (getUser != null){
+        getUser.setLendings(lendings);
 		userModel = getUser;
 		if (userModel != null){
 			children.clear();
@@ -487,12 +488,16 @@ public class UserManager {
   }
   
   public void loadCombos(Group group) throws Exception {
-  	/*GetAllCommand getAll = new GetAllCommand();
-	getAll.setArg(Location.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-    group.loadBranchID(getAll.getList());*/
+      group.loadBranchID((BisisApp.appConfig.getCodersHelper()
+              .getCircLocations().values().stream()
+              .map(i -> {
+                  com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                  l.setDescription(i.getDescription());
+                  l.setLocation_id(i.getLocation_id());
+                  return l;
+
+              })
+              .collect(Collectors.toList())));
   }
   
   public void loadCombos(SearchUsers searchusers) throws Exception {
@@ -535,14 +540,14 @@ public class UserManager {
 		userModel.setDocCity(data.getDocCity().trim());
 		userModel.setDocId(Integer.valueOf(data.getDocId()));
 		userModel.setDocNo(data.getDocNo().trim());
-		userModel.setEducationLevel(data.getEduLvl().getDescription());// TODO- usaglasiti sifarnike i model kornisnika cirukalcije???
+		userModel.setEducationLevel(data.getEduLvl());
 		userModel.setEmail(data.getEmail().trim());
 		userModel.setFirstName(data.getFirstName().trim());
 		userModel.setGender(data.getGender());
 		userModel.setIndexNo(data.getIndexNo().trim());
 		userModel.setInterests(data.getInterests().trim());
 		userModel.setJmbg(data.getJmbg().trim());
-		userModel.setLanguage(data.getLanguages().getDescription());
+		userModel.setLanguage(data.getLanguages());
 		userModel.setLastName(data.getLastName().trim());
 		userModel.setNote(data.getNote().trim());
 		userModel.setOccupation(data.getOccupation().trim());
@@ -786,7 +791,10 @@ public class UserManager {
   public String getEnvFile(){
       if (env == null){
           try{
-              env = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("circ-options.xml").toURI())));
+              CircConfig config = BisisApp.bisisService.getCircConfigs(BisisApp.appConfig.getLibrary()).execute().body();
+              env = config.getCircOptionsXML();
+              validator = config.getValidatorOptionsXML();
+              //env = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("circ-options.xml").toURI())));
           }catch (Exception e) {
               e.printStackTrace();
           }
@@ -799,7 +807,10 @@ public class UserManager {
   public String getValidatorFile(){
   	if (validator == null) {
         try {
-            validator = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("options-validator.xml").toURI())));
+            CircConfig config = BisisApp.bisisService.getCircConfigs(BisisApp.appConfig.getLibrary()).execute().body();
+            env = config.getCircOptionsXML();
+            validator = config.getValidatorOptionsXML();
+            //validator = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("options-validator.xml").toURI())));
         }
   		catch (Exception e) {
             e.printStackTrace();

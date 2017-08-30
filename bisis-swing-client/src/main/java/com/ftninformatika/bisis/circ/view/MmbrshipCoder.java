@@ -13,11 +13,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -143,15 +146,22 @@ public class MmbrshipCoder extends JInternalFrame {
   private DefaultListModel getUserCategsModel() {
     if (userCategsModel == null){
       userCategsModel = new DefaultListModel();
-      /*GetAllCommand getAll = new GetAllCommand();
-  		getAll.setArg(UserCategs.class);
-  		getAll = (GetAllCommand) Cirkulacija.getApp().getService().executeCommand(getAll);
-      List data = getAll.getList();
+      List data = BisisApp.appConfig.getCodersHelper()
+              .getUserCategories().values().stream()
+              .map(i -> {
+                UserCategory u = new UserCategory();
+                u.setDescription(i.getDescription());
+                u.setMaxPeriod(i.getMaxPeriod());
+                u.setPeriod(i.getPeriod());
+                u.setTitlesNo(i.getTitlesNo());
+                return u;
+              })
+              .collect(Collectors.toList());
       if (data != null){
         for (Object o : data){
           userCategsModel.addElement(o);
         }
-      }*/
+      }
     }
     return userCategsModel;
   }
@@ -168,15 +178,20 @@ public class MmbrshipCoder extends JInternalFrame {
   private DefaultListModel getMmbrTypesModel() {
     if (mmbrTypesModel == null){
       mmbrTypesModel = new DefaultListModel();
-      /*GetAllCommand getAll = new GetAllCommand();
-  		getAll.setArg(MmbrTypes.class);
-  		getAll = (GetAllCommand)Cirkulacija.getApp().getService().executeCommand(getAll);
-      List data = getAll.getList();
+      List data = BisisApp.appConfig.getCodersHelper()
+              .getMembershipTypes().values().stream()
+              .map(i -> {
+                MembershipType m = new MembershipType();
+                m.setDescription(i.getDescription());
+                m.setPeriod(i.getPeriod());
+                return m;
+              })
+              .collect(Collectors.toList());
       if (data != null){
         for (Object o : data){
           mmbrTypesModel.addElement(o);
         }
-      }*/return null;
+      }
     }
     return mmbrTypesModel;
   }
@@ -195,13 +210,13 @@ public class MmbrshipCoder extends JInternalFrame {
       btnAdd.setIcon(new ImageIcon(getClass().getResource("/circ-images/down16.png")));
       btnAdd.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent e) {
-          Object[] usercategs = getUserCategsList().getSelectedValues();
-          Object[] mmbrtypes = getMmbrTypesList().getSelectedValues();
+          List usercategs = getUserCategsList().getSelectedValuesList();
+          List mmbrtypes = getMmbrTypesList().getSelectedValuesList();
           
-          if (mmbrtypes.length == 0){
+          if (mmbrtypes == null || mmbrtypes.size() == 0){
             JOptionPane.showMessageDialog(null, "Kategorija korsinika nije selektovana!", "Greska", JOptionPane.ERROR_MESSAGE,
                 new ImageIcon(getClass().getResource("/circ-images/x32.png")));
-          } else if (usercategs.length == 0){
+          } else if (usercategs == null || usercategs.size() == 0){
             JOptionPane.showMessageDialog(null, "Vrsta \u010dlanstva nije selektovana!", "Greska", JOptionPane.ERROR_MESSAGE,
                 new ImageIcon(getClass().getResource("/circ-images/x32.png")));
           } else if (getTfCost().getText().equals("")){
@@ -210,9 +225,9 @@ public class MmbrshipCoder extends JInternalFrame {
           } else {
             try {
               Double cost = Double.parseDouble(getTfCost().getText());
-              for (int i = 0; i < mmbrtypes.length; i++){
-                for (int j = 0; j < usercategs.length; j++){
-                  //getTableModel().addRow((MmbrTypes)mmbrtypes[i], (UserCategs)usercategs[j], cost);
+              for (int i = 0; i < mmbrtypes.size(); i++){
+                for (int j = 0; j < usercategs.size(); j++){
+                  getTableModel().addRow((MembershipType)mmbrtypes.get(i), (UserCategory)usercategs.get(j), cost);
                 }
               }
             } catch (NumberFormatException e1) {

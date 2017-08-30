@@ -173,7 +173,7 @@ public class MainFrame extends JInternalFrame {
   }
 	
 	private ActionListener getUserIDSearch(){
-		/*if (userIDSearch == null){
+		if (userIDSearch == null){
 			userIDSearch = new ActionListener(){
 				public void actionPerformed(ActionEvent e){ 
 			        showPanel("searchUsersPanel"); //$NON-NLS-1$
@@ -181,7 +181,7 @@ public class MainFrame extends JInternalFrame {
 			        getUserIDPanel().setVisible(false);
 				}
 			};
-		}*/
+		}
 		return userIDSearch;
 	}
 	
@@ -246,7 +246,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton getBtnNew() {
 		if (btnNew == null) {
 			btnNew = new JButton(new CircNewUserAction());
-			//btnNew.setFocusable(true);
+			btnNew.setFocusable(false);
 			btnNew.setPreferredSize(new Dimension(30,30));
 			btnNew.setText(""); //$NON-NLS-1$
 		}
@@ -256,7 +256,7 @@ public class MainFrame extends JInternalFrame {
 	private JButton getBtnUser() {
 		if (btnUser == null) {
 			btnUser = new JButton(new CircUserDataAction());
-			//btnUser.setFocusable(false);
+			btnUser.setFocusable(false);
 			btnUser.setPreferredSize(new Dimension(30,30));
 			btnUser.setText(""); //$NON-NLS-1$
 		}

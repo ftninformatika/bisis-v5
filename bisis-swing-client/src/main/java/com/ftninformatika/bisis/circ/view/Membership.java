@@ -210,16 +210,16 @@ public class Membership {
 			cmbBranchID.setKeySelectionManager(getCmbKeySelectionManager());
 			if (!Cirkulacija.getApp().getEnvironment().getUseridPrefix())
 				cmbBranchID.setEnabled(false);
-				cmbBranchID.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e){
-						if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
-							if (Utils.getCmbValue(cmbBranchID) != null){  //TODO- ?????/
-								getTfBranch().setText(StringUtils.padZeros(Integer.parseInt(((CircLocation)cmbBranchID.getSelectedItem()).getLocation_id()),Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
-								getTfUserID().setText(""); //$NON-NLS-1$
-							}
+			cmbBranchID.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
+						if (Utils.getCmbValue(cmbBranchID) != null){
+							getTfBranch().setText(StringUtils.padZeros(Integer.parseInt(((CircLocation)cmbBranchID.getSelectedItem()).getLocation_id()),Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
+							getTfUserID().setText(""); //$NON-NLS-1$
 						}
 					}
-				});
+				}
+			});
 			cmbBranchID.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent e) {
 					handleKeyTyped();
@@ -534,18 +534,17 @@ public class Membership {
   public void loadBranchID(List data){
     Utils.loadCombo(getCmbBranchID(), data);
   }
-  
-  	//TODO - hardcoded zbog (ne)ucitavanja orkuzenja
+
 	public void loadUser(String userID, MembershipType mt, UserCategory uc, CorporateMember group, Set signings){
-	    if (true/*userID.length() == Cirkulacija.getApp().getEnvironment().getUseridLength() && Cirkulacija.getApp().getEnvironment().getUseridPrefix()*/){
-	  		getTfBranch().setText(userID.substring(0,/*Cirkulacija.getApp().getEnvironment().getUseridPrefixLength())*/2));
+	    if (userID.length() == Cirkulacija.getApp().getEnvironment().getUseridLength() && Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
+	  		getTfBranch().setText(userID.substring(0,Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
 	  		int loc = Integer.parseInt(getTfBranch().getText());
 	  		for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
 	  			if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocation_id()) == loc) {
 	  				getCmbBranchID().setSelectedIndex(i);
 	  			}
 	  		}
-	  		getTfUserID().setText(userID.substring(/*Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()*/2));
+	  		getTfUserID().setText(userID.substring(Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
 	    } else {
 	      getTfUserID().setText(userID);
 	    }

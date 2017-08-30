@@ -4,9 +4,7 @@ package com.ftninformatika.bisis.circ.view;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.models.circ.EducationLvl;
-import com.ftninformatika.bisis.models.circ.Language;
-import com.ftninformatika.bisis.models.circ.Organization;
+import com.ftninformatika.bisis.models.circ.pojo.Organization;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -1273,12 +1271,12 @@ public class UserData {
         return (Organization) Utils.getCmbValue(getCmbOrg());
     }
 
-    public EducationLvl getEduLvl() {
-        return (EducationLvl) Utils.getCmbValue(getCmbEduLevel());
+    public String getEduLvl() {
+        return (String)Utils.getCmbValue(getCmbEduLevel());
     }
 
-    public Language getLanguages() {
-        return (Language) Utils.getCmbValue(getCmbLanguage());
+    public String getLanguages() {
+        return (String) Utils.getCmbValue(getCmbLanguage());
     }
 
     public String getGender() {

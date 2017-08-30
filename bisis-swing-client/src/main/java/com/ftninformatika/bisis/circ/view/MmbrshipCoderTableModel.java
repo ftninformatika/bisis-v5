@@ -1,12 +1,16 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.MembershipType;
-import com.ftninformatika.bisis.models.circ.UserCategory;
+import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.models.circ.Membership;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -23,9 +27,9 @@ public class MmbrshipCoderTableModel extends AbstractTableModel implements Seria
         columnIdentifiers.add("Vrsta \u010dlanstva");
     	columnIdentifiers.add("Kategorija korisnika");   	
         columnIdentifiers.add("Cena");
-        /*GetAllMembershipCommand getAll = new GetAllMembershipCommand();
-  		getAll = (GetAllMembershipCommand) Cirkulacija.getApp().getService().executeCommand(getAll);
-        data = getAll.getList();*/
+		data = BisisApp.appConfig.getCodersHelper()
+				.getMemberships().values().stream()
+				.collect(Collectors.toList());
     }
     
 //		 Manipulating rows
@@ -34,42 +38,54 @@ public class MmbrshipCoderTableModel extends AbstractTableModel implements Seria
 	    	int row = getRowCount();
 	    	Membership rowData = null;
         
-	       /* for (Membership m : data){
-	          if (m.getMmbrTypes().getId() == mmbrTypes.getId() && m.getUserCategs().getId() == userCateg.getId()){
+	       for (Membership m : data){
+	          if (m.getMemberType() == mmbrTypes.getDescription() && m.getUserCateg() == userCateg.getDescription()){
 	            rowData = m;
 	          }
 	        }
 	        if (rowData == null){
 	          rowData = new Membership();
-	          rowData.setUserCategs(userCateg);
-	          rowData.setMmbrTypes(mmbrTypes);
+	          rowData.setUserCateg(userCateg.getDescription());
+	          rowData.setMemberType(mmbrTypes.getDescription());
 	          rowData.setCost(cost);
-	          SaveObjectCommand save = new SaveObjectCommand(rowData);
-	          save = (SaveObjectCommand)Cirkulacija.getApp().getService().executeCommand(save);
-	          if (save.isSaved()){
+	          rowData.setLibrary(BisisApp.appConfig.getLibrary());
+                try {
+                    rowData = BisisApp.bisisService.addMembership(rowData).execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+	          if (rowData.get_id() != null){
 	            data.add(rowData);
 	            fireTableRowsInserted(row, row);
 	          }
 	        }else{
 	          rowData.setCost(cost);
-	          SaveObjectCommand save = new SaveObjectCommand(rowData);
-	      		save = (SaveObjectCommand)Cirkulacija.getApp().getService().executeCommand(save);
-	          if (save.isSaved())
+	          rowData.setLibrary(BisisApp.appConfig.getLibrary());
+                try {
+                    rowData = BisisApp.bisisService.addMembership(rowData).execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+	          if (rowData.get_id() != null)
 	            fireTableRowsUpdated(0, row);
 	        }
-	    	*/
 	    }
 
 
 	    public void removeRows(int[] rows) {
         for (int i = rows.length-1; i >= 0; i--){
           Membership m = data.get(rows[i]);
-          /*DeleteObjectCommand delete = new DeleteObjectCommand(m);
-          delete = (DeleteObjectCommand)Cirkulacija.getApp().getService().executeCommand(delete);
-          if (delete.isSaved()){
+            try {
+                m = BisisApp.bisisService.deleteMembership(m).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+          if (m == null){
             data.remove(rows[i]);
             fireTableRowsDeleted(rows[i], rows[i]);
-          }*/
+          }
         }
 	    }
 
@@ -111,9 +127,9 @@ public class MmbrshipCoderTableModel extends AbstractTableModel implements Seria
 	    public Object getValueAt(int row, int column) {
 	        Membership rowData = (Membership)data.get(row);
 	        switch (column){
-            	case 0: return rowData.getMmbrType().getDescription();
-	        	case 1: return rowData.getUserCateg().getDescription();
-	        	case 2: return rowData.getMmbrshipCost();
+            	case 0: return rowData.getMemberType();
+	        	case 1: return rowData.getUserCateg();
+	        	case 2: return rowData.getCost();
 	        	default: return null;
 			}
 	    }
@@ -122,7 +138,7 @@ public class MmbrshipCoderTableModel extends AbstractTableModel implements Seria
 			switch (col){
 			 case 0: return String.class;
 			 case 1: return String.class;
-       case 2: return Double.class;
+			 case 2: return Double.class;
 			 default: return String.class;
 			}
 	    }

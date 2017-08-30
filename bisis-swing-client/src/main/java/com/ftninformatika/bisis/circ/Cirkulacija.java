@@ -127,7 +127,7 @@ public class Cirkulacija {
     private void loadDefaults() {
         try{
             getUserManager().loadCombos(mf.getUserPanel());
-            //getUserManager().loadCombos(mf.getGroupPanel());
+            getUserManager().loadCombos(mf.getGroupPanel());
             //getUserManager().loadCombos(mf.getSearchUsers());
             //getUserManager().loadCombos(mf.getSearchBooks());
             //getUserManager().loadCombos(mf.getReport());

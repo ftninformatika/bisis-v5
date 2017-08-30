@@ -1,10 +1,12 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.models.circ.Place;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -22,10 +24,9 @@ public class ZipPlaceTableModel extends AbstractTableModel implements Serializab
     columnIdentifiers = new ArrayList<String>();
     columnIdentifiers.add(Messages.getString("circulation.zipcode")); //$NON-NLS-1$
     columnIdentifiers.add(Messages.getString("circulation.place"));     //$NON-NLS-1$
-//    GetAllCommand getAll = new GetAllCommand();
-//		getAll.setArg(Places.class);
-//		getAll = (GetAllCommand)Cirkulacija.getApp().getService().executeCommand(getAll);
-//    data = getAll.getList();
+      data = BisisApp.appConfig.getCodersHelper()
+              .getPlaces().values().stream()
+              .collect(Collectors.toList());
 	}
   
   public int getRowCount() {

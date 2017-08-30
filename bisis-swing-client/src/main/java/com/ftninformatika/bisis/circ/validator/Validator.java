@@ -40,7 +40,7 @@ public class Validator {
 	   /**
 	    * Checks if the field can be successfully converted to a <code>int</code>.
 	    *
-	    * @param 	value 		The value validation is being performed on.
+	    * @param 	bean 		The value validation is being performed on.
 	    * @return	boolean		If the field can be successfully converted 
 	    *                           to a <code>int</code> <code>true</code> is returned.  
 	    *                           Otherwise <code>false</code>.
@@ -58,7 +58,7 @@ public class Validator {
 	   /**
 	    * Checks if field is positive assuming it is an integer
 	    * 
-	    * @param    value       The value validation is being performed on.
+	    * @param    bean       The value validation is being performed on.
 	    * @param    field       Description of the field to be evaluated
 	    * @return   boolean     If the integer field is greater than zero, returns
 	    *                        true, otherwise returns false.
@@ -76,7 +76,7 @@ public class Validator {
 	   /**
 	    * Checks if the field can be successfully converted to a <code>double</code>.
 	    *
-	    * @param 	value 		The value validation is being performed on.
+	    * @param 	bean 		The value validation is being performed on.
 	    * @return	boolean		If the field can be successfully converted 
 	    *                           to a <code>double</code> <code>true</code> is returned.  
 	    *                           Otherwise <code>false</code>.
@@ -94,7 +94,7 @@ public class Validator {
 	   /**
 	    * Checks if the field is an e-mail address.
 	    *
-	    * @param 	value 		The value validation is being performed on.
+	    * @param 	bean 		The value validation is being performed on.
 	    * @return	boolean		If the field is an e-mail address
 	    *                           <code>true</code> is returned.  
 	    *                           Otherwise <code>false</code>.
@@ -112,7 +112,7 @@ public class Validator {
 	   /**
 	    * Checks if the field can be successfully converted to a <code>date</code>.
 	    *
-	    * @param value The value validation is being performed on.
+	    * @param bean The value validation is being performed on.
 	    * @return boolean If the field can be successfully converted 
 	    * to a <code>date</code> <code>true</code> is returned.  
 	    * Otherwise <code>false</code>.
@@ -172,8 +172,7 @@ public class Validator {
     	 if (userid.startsWith("K")){
     		 return userid.substring(1);
     	 }
-    	 //TODO- hardcoded zbog (ne)ucivanja okruzenja cirkulacije
-    	 if ((userid.length() == 11/*Cirkulacija.getApp().getEnvironment().getUseridLength()*/) && (/*userid.indexOf(Cirkulacija.getApp().getEnvironment().getUseridSeparatorSign())*/-1 == -1)){
+    	 if ((userid.length() == Cirkulacija.getApp().getEnvironment().getUseridLength()) && (userid.indexOf(Cirkulacija.getApp().getEnvironment().getUseridSeparatorSign()) == -1)){
     		 return userid;
     	 }
     	 

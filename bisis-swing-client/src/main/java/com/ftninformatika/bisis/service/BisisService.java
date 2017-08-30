@@ -202,6 +202,20 @@ public interface BisisService {
     Call<List<Organization>> getOrganizations(@Query("libName")String libName);
 
     @GET("/circ_configs/search/findByLibrary")
-    Call<List<CircConfig>> getCircConfigs(@Query("libName")String libName);
+    Call<CircConfig> getCircConfigs(@Query("libname") String libName);
+
+
+
+    //TODO
+
+    @POST("/addMembership")
+    Call<Membership> addMembership(@Body Membership membership);
+    //sta vraca? kako da proverim da li je snimljeno? ako ima id onda je snimljeno?
+
+
+    @POST("/deleteMembership")
+    Call<Membership> deleteMembership(@Body Membership membership);
+    //sta vraca? kako da proverim da je obrisan? ako je null obrisan je ako je objekat nije?
+
 
 }
