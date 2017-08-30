@@ -73,6 +73,12 @@ public class CodersController {
     @Autowired
     ProcessTypeRepository processTypeRepository;
 
+    @Autowired
+    CircLocationRepository circLocationRepository;
+
+    @Autowired
+    CorporateMemberRepository corporateMemberRepository;
+
     @RequestMapping( path = "process_types")
     public ProcessTypeDTO addProcessType(@RequestBody ProcessTypeDTO pt){
         ProcessTypeDTO retVal = null;
@@ -168,4 +174,13 @@ public class CodersController {
     @RequestMapping(path = "organization")
     public List<Organization> getOrganizations(String libName){return orgrep.getCoders(libName);}
 
+    @RequestMapping(path = "circlocation")
+    public List<CircLocation> getCircLocations(String libName){
+        return circLocationRepository.getCoders(libName);
+    }
+
+    @RequestMapping(path = "corporatemember")
+    public List<CorporateMember> getCorporateMembers(String libName){
+        return corporateMemberRepository.getCoders(libName);
+    }
 }
