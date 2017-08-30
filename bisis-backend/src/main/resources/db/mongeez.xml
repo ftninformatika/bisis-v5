@@ -5,4 +5,5 @@
     <file path="/changesets/members.js"/>
     <file path="/changesets/records.js"/>
     <file path="/changesets/circ_coders.js"/>
+    <file path="/changesets/lendings.js"/>
 </changeFiles>
