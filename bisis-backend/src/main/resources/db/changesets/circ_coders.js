@@ -55,3 +55,37 @@ db.coders.language.insert(
       {'library': "gbns", 'description': "Engleski jezik"}
   ]
 );
+
+db.coders.circ_location.insert([
+    {
+        'library': "gbns",
+        'location_id': "01",
+        'description': "Some description",
+        'lastUserId': 1
+    },
+    {
+        'library': "gbns",
+        'location_id': "02",
+        'description': "Some description2",
+        'lastUserId': 2
+    }
+]);
+
+db.coders.corporate_member.insert([
+    {
+        'library': "gbns",
+        'userId': "01000000000",
+        'instName': "FTN Informatika doo",
+        'signDate': ISODate("2002-12-15T23:00:00.000Z"),
+        'address': "Laze Nancica 36",
+        'city': "Novi Sad",
+        'zip': 21000,
+        'phone': "012301230123",
+        'email': "nesto@email.com",
+        'fax': "fax",
+        'secAddress': "/",
+        'contFirstName': "Petar",
+        'contLastName': "Petrovic",
+        'contEmail': 'cont@email.com'
+    }
+]);
