@@ -23,7 +23,6 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.models.coders.Location;
 import com.ftninformatika.bisis.search.CodedPrefPanel;
 import com.ftninformatika.bisis.search.CodedPrefUtils;
 import com.ftninformatika.bisis.search.PrefixListDlg;

@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.models.circ.CircLocation;
 import com.ftninformatika.bisis.models.circ.WarningType;
 import com.ftninformatika.bisis.models.circ.pojo.*;
 

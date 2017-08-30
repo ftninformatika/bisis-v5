@@ -1,7 +1,8 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.models.circ.*;
-import com.ftninformatika.bisis.models.coders.Location;
+import com.ftninformatika.bisis.models.circ.WarningType;
+import com.ftninformatika.bisis.models.circ.pojo.*;
+
 
 import java.io.Serializable;
 
@@ -31,22 +32,18 @@ public class CmbKeySelectionManager implements KeySelectionManager, Serializable
         for ( i = ++currentSelection, c = aModel.getSize() ; i < c ; i++ ) {
             Object elem = aModel.getElementAt(i);
             String name;
-            /*if (elem instanceof Groups) {
-              name = (((Groups)elem).getInstName());
-            } else*/if (elem instanceof EducationLvl){
-              name = (((EducationLvl)elem).getDescription());
-            } else if (elem instanceof Language){
-              name = (((Language)elem).getDescription());
-            } else if (elem instanceof Location){
-              name = (((Location)elem).getDescription());
+            if (elem instanceof CorporateMember) {
+              name = (((CorporateMember)elem).getInstName());
+            } else if (elem instanceof CircLocation){
+              name = (((CircLocation)elem).getDescription());
             } else if (elem instanceof MembershipType){
               name = (((MembershipType)elem).getDescription());
             } else if (elem instanceof Organization){
               name = (((Organization)elem).getName());
             } else if (elem instanceof UserCategory){
               name = (((UserCategory)elem).getDescription());
-            } else if (elem instanceof WarningTypes){
-              name = (((WarningTypes)elem).getName());
+            } else if (elem instanceof WarningType){
+              name = (((WarningType)elem).getDescription());
             } else {
               name = ((elem == null) ? "" : elem.toString());
             }
@@ -58,22 +55,18 @@ public class CmbKeySelectionManager implements KeySelectionManager, Serializable
         for ( i = 0 ; i < currentSelection ; i ++ ) {
             Object elem = aModel.getElementAt(i);
             String name;
-            /*if (elem instanceof Groups) {
-              name = (((Groups)elem).getInstName());
-            } else*/ if (elem instanceof EducationLvl){
-              name = (((EducationLvl)elem).getDescription());
-            } else if (elem instanceof Language){
-              name = (((Language)elem).getDescription());
-            } else if (elem instanceof Location){
-              name = (((Location)elem).getDescription());
+            if (elem instanceof CorporateMember) {
+              name = (((CorporateMember)elem).getInstName());
+            } else if (elem instanceof CircLocation){
+              name = (((CircLocation)elem).getDescription());
             } else if (elem instanceof MembershipType){
               name = (((MembershipType)elem).getDescription());
             } else if (elem instanceof Organization){
               name = (((Organization)elem).getName());
             } else if (elem instanceof UserCategory){
               name = (((UserCategory)elem).getDescription());
-            } else if (elem instanceof WarningTypes){
-              name = (((WarningTypes)elem).getName());
+            } else if (elem instanceof WarningType){
+              name = (((WarningType)elem).getDescription());
             } else {
               name = ((elem == null) ? "" : elem.toString());
             }

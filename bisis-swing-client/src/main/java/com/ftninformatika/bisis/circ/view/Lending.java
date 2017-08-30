@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.models.circ.CircLocation;
+import com.ftninformatika.bisis.models.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.records.Record;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -477,7 +477,7 @@ public class Lending {
       if (Integer.parseInt(((CircLocation)getCmbLocation().getModel().getElementAt(i)).getLocation_id()) == loc) {
         defaultLocation = ((CircLocation) getCmbLocation().getModel().getElementAt(i)).getDescription();
       }
-    } 
+    }
   }
   
   public void loadUser(String userID, String firstName, String lastName, Date untilDate, String note, String dupno, String blocked, Set lendings, boolean warnings){

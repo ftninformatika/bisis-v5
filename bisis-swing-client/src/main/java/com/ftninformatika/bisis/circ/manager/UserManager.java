@@ -430,11 +430,25 @@ public class UserManager {
 
 	user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
-            .map(i -> i.getDescription())
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                l.setDescription(i.getDescription());
+                l.setLocation_id(i.getLocation_id());
+                return l;
+
+            })
             .collect(Collectors.toList()));
 
 	user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream().collect(Collectors.toList()));
+            .getCircLocations().values().stream()
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                l.setDescription(i.getDescription());
+                l.setLocation_id(i.getLocation_id());
+                return l;
+
+            })
+            .collect(Collectors.toList()));
 
 	user.getMmbrship().loadMmbrType(BisisApp.appConfig.getCodersHelper()
             .getMembershipTypes().values().stream()
@@ -460,7 +474,13 @@ public class UserManager {
 
 	user.getLending().loadLocation(BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
-            .map(i -> i.getDescription())
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                l.setDescription(i.getDescription());
+                l.setLocation_id(i.getLocation_id());
+                return l;
+
+            })
             .collect(Collectors.toList()));
 
 

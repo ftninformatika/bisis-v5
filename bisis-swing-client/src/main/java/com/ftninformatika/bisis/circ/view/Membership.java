@@ -29,7 +29,7 @@ import javax.swing.table.TableColumn;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.models.circ.CircLocation;
+import com.ftninformatika.bisis.models.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
 import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
 import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
