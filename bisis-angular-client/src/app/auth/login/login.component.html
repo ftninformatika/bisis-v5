@@ -1,0 +1,34 @@
+<div class="card login-panel ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <img src="../../../assets/layout/images/logo-ultima.svg">
+    </div>
+    <form role="form" (submit)="login($event, username.value, password.value)">
+      <div class="ui-g-12">
+        <span class="md-inputfield">
+          <input type="text" autocomplete="off" #username id="username"
+                 class="ui-inputtext ui-corner-all ui-state-default ui-widget">
+          <label>Username</label>
+        </span>
+      </div>
+      <div class="ui-g-12">
+        <span class="md-inputfield">
+          <input type="password" autocomplete="off" #password id="password"
+                 class="ui-inputtext ui-corner-all ui-state-default ui-widget">
+          <label>Password</label>
+        </span>
+      </div>
+      <div class="ui-g-12">
+        <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left">
+          <span class="ui-button-icon-left ui-c fa fa-fw ui-icon-person"></span>
+          <span class="ui-button-text ui-c">Sign In</span>
+        </button>
+        <button type="button" (click)="signup($event)"
+                class="secondary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left">
+          <span class="ui-button-icon-left ui-c fa fa-fw ui-icon-help"></span>
+          <span class="ui-button-text ui-c">Sign Up</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

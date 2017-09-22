@@ -41,22 +41,22 @@ nbdist/
 .pmd
 
 # Frontend sources
-frontend/node_modules
-frontend/tmp
-frontend/dist
-frontend/out-tsc
-frontend/e2e/*.js
-frontend/e2e/*.map
-frontend/npm-debug.log
-frontend/typings
-frontend/.sass-cache
-frontend/connect.lock
-frontend/coverage/*
-frontend/libpeerconnection.log
-frontend/testem.log
+bisis-angular-client/node_modules
+bisis-angular-client/tmp
+bisis-angular-client/dist
+bisis-angular-client/out-tsc
+bisis-angular-client/e2e/*.js
+bisis-angular-client/e2e/*.map
+bisis-angular-client/npm-debug.log
+bisis-angular-client/typings
+bisis-angular-client/.sass-cache
+bisis-angular-client/connect.lock
+bisis-angular-client/coverage/*
+bisis-angular-client/libpeerconnection.log
+bisis-angular-client/testem.log
 
 # Frontend compiled output
-resources/static
+bisis-angular-client/static
 
 # ElasticSearch
 
