@@ -17,6 +17,7 @@ import {Documentation} from './demo/view/documentation';
 
 import {AuthGuard} from "app/auth/authguard";
 import {LoginComponent} from "./auth/login/login.component";
+import { BisisPretragaComponent } from './components/bisis-pretraga/bisis-pretraga.component';
 
 
 export const routes: Routes = [
@@ -38,7 +39,8 @@ export const routes: Routes = [
   {path: 'charts', component: ChartsDemo},
   {path: 'file', component: FileDemo},
   {path: 'utils', component: UtilsDemo},
-  {path: 'documentation', component: Documentation}
+  {path: 'documentation', component: Documentation},
+  {path: 'bisisPretraga', component: BisisPretragaComponent}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

@@ -23,7 +23,7 @@ export class AppMenuComponent implements OnInit {
         this.model = [
             {label: 'Dashboard', icon: 'dashboard', routerLink: ['/']},
             {
-                label: 'BISIS pretraga', icon: 'search', routerLink: ['/bisisSearch'],
+                label: 'BISIS pretraga', icon: 'search', routerLink: ['/bisisPretraga'],
                 
             },
             {

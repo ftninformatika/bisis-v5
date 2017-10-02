@@ -1,0 +1,20 @@
+<div class="card card-w-title">
+<h1>Forma za pretragu</h1>
+  <div class="ui-g form-group ui-fluid">
+    <div class="ui-g-12 ui-lg-4">
+        <span class="md-inputfield">
+            <p-dropdown [options]="searchChoices" [(ngModel)]="selectedSearchChoice"></p-dropdown>  
+        </span>                
+    </div>
+    <div class="ui-g-12 ui-lg-4">
+        <span class="md-inputfield">
+            <input pinputtext="" type="text" class="ui-inputtext ui-corner-all ui-state-default ui-widget">
+            <label>Search text</label>
+        </span>
+    </div>   
+    <div class="ui-g-12 ui-lg-4">
+        <span class="md-inputfield">
+            <button type="button" pButton label="search" icon="ui-icon-search" (click)="searchDummy()"></button>
+        </span>
+    </div>     
+</div>

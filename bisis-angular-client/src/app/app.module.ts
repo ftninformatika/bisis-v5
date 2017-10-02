@@ -105,6 +105,10 @@ import { AuthModule } from './auth/auth.module';
 
 
 import { LoginComponent } from './auth/login/login.component';
+import { BisisPretragaComponent } from './components/bisis-pretraga/bisis-pretraga.component';
+import { SearchFormComponent } from './components/bisis-pretraga/search-form/search-form.component';
+import { GeneralInfoComponent } from './components/bisis-pretraga/general-info/general-info.component';
+import { ResultViewComponent } from './components/bisis-pretraga/result-view/result-view.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -202,6 +206,10 @@ import { LoginComponent } from './auth/login/login.component';
         UtilsDemo,
         Documentation,
         LoginComponent,
+        BisisPretragaComponent,
+        SearchFormComponent,
+        GeneralInfoComponent,
+        ResultViewComponent,
        
     ],
     providers: [
