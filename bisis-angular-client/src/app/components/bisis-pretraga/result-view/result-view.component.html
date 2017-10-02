@@ -1,6 +1,65 @@
 <p>
-  <p-dataTable [value]="records">
-    
+  <!-- Tabelarni prikaz zapisa -->
+  <p-dataTable *ngIf="resultViewType == 'table' "[value]="records">
     <p-column field="_id" header="MongoId" [sortable]="true"></p-column>
   </p-dataTable>
 </p>
+
+<p>
+  <!-- List prikaz zapisa -->
+  <p-dataList *ngIf="resultViewType == 'list' " [value]="records" [paginator]="true" [rows]="10">
+    <p-header>List of Records</p-header>
+    <ng-template let-rec pTemplate="item">
+        <div class="ui-g ui-fluid rec-item">
+            <div class="ui-g-12 ui-md-3" style="text-align:center">
+                <img src="http://pngimg.com/uploads/book/book_PNG2116.png" width="60">
+            </div>
+            <div class="ui-g-12 ui-md-9 rec-details">
+                <div class="ui-g">
+                    <div class="ui-g-2 ui-sm-6">Author: </div>
+                    <div class="ui-g-10 ui-sm-6">{{rec.creator.username}}</div>
+                    
+                    <div class="ui-g-2 ui-sm-6">Description: </div>
+                    <div class="ui-g-10 ui-sm-6">{{rec.creator.institution}}</div>
+                    
+                    <div class="ui-g-2 ui-sm-6">Year: </div>
+                    <div class="ui-g-10 ui-sm-6">{{rec.creationDate}}</div>
+                    
+                    <div class="ui-g-2 ui-sm-6">Genre: </div>
+                    <div class="ui-g-10 ui-sm-6">{{rec._id}}</div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+  </p-dataList>
+</p>
+
+
+<!--p-growl [value]="msgs"></p-growl-->
+
+<p-carousel headerText="Cars" [value]="records">
+    <ng-template let-car pTemplate="item">
+        <div class="ui-grid ui-grid-responsive">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12"><img src="http://pngimg.com/uploads/book/book_PNG2116.png" width="60"></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-6">Vin</div>
+                <div class="ui-grid-col-6">{{car.vin}}</div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-6">Year</div>
+                <div class="ui-grid-col-6">{{car.year}}</div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-6">Color</div>
+                <div class="ui-grid-col-6">{{car.color}}</div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <button type="button" pButton icon="fa-search" (click)="selectCar(car)"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-carousel>

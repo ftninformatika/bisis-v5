@@ -8,9 +8,16 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ResultViewComponent implements OnInit {
 
   @Input() records: any[];
-  data: any[];
+  @Input() resultViewType: any;
+  //msgs: Message[];
 
-  constructor() { }
+  constructor() { 
+  }
+
+  selectCar(rec: any) {
+    //this.msgs = [];
+    //this.msgs.push({severity: 'info', summary: 'Car Selected', detail: 'Vin:'});
+  }
 
   ngOnInit() {
     //this.data = this.sharedService.dataArray;
