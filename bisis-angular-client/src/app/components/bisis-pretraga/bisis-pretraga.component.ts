@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BisisPretragaComponent implements OnInit {
 
+  data: any[];
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  setRecords(event) {
+    this.data = event;
+    
   }
 
 }

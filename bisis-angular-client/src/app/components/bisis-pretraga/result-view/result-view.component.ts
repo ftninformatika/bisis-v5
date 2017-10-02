@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-result-view',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultViewComponent implements OnInit {
 
+  @Input() records: any[];
+  data: any[];
+
   constructor() { }
 
   ngOnInit() {
+    //this.data = this.sharedService.dataArray;
+    //console.log("obavios")
   }
 
 }

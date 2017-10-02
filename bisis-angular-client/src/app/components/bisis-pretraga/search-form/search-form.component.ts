@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {DropdownModule} from 'primeng/primeng';
 import {SelectItem} from 'primeng/primeng';
 import {BisisPretragaService} from "../service/bisis-pretraga.service";
@@ -11,8 +11,10 @@ import {BisisPretragaService} from "../service/bisis-pretraga.service";
 })
 export class SearchFormComponent implements OnInit {
 
+  @Output() recordsCollection: EventEmitter<any> = new EventEmitter();
+
   searchChoices: SelectItem[];
-  selectedSearchChoice: any[];
+  selectedSearchChoice: any;
 
   results: any[];
   errorMessage: any;
@@ -31,7 +33,7 @@ export class SearchFormComponent implements OnInit {
   searchDummy(){
     this.bisisService.search()
     .subscribe(
-      response =>{ this.results = response; console.log(response) },
+      response =>{ this.results = response; console.log(response);  this.recordsCollection.emit(response)},
       error => this.errorMessage = <any>error
     )
   }
