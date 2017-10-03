@@ -1,15 +1,11 @@
-import {Component,Input,OnInit,EventEmitter,ViewChild,trigger,state,transition,style,animate,Inject,forwardRef} from '@angular/core';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {MenuItem} from 'primeng/primeng';
-import {AppComponent} from './app.component';
+import {Component, trigger, state, transition, style, animate} from '@angular/core';
 
 @Component({
-    selector: 'inline-profile',
+    selector: 'app-inline-profile',
     template: `
         <div class="profile" [ngClass]="{'profile-expanded':active}">
-            <div class="profile-image"></div>
             <a href="#" (click)="onClick($event)">
+                <img class="profile-image" src="assets/layout/images/avatar.png" />
                 <span class="profile-name">Jane Williams</span>
                 <i class="material-icons">keyboard_arrow_down</i>
             </a>
@@ -55,7 +51,7 @@ import {AppComponent} from './app.component';
         ])
     ]
 })
-export class InlineProfileComponent {
+export class AppInlineProfileComponent {
 
     active: boolean;
 

@@ -3341,7 +3341,7 @@ jQuery.extend( {
 	Deferred: function( func ) {
 		var tuples = [
 
-				// action, add event, event list, final state
+				// action, add listener, listener list, final state
 				[ "resolve", "done", jQuery.Callbacks( "once memory" ), "resolved" ],
 				[ "reject", "fail", jQuery.Callbacks( "once memory" ), "rejected" ],
 				[ "notify", "progress", jQuery.Callbacks( "memory" ) ]

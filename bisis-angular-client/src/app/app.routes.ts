@@ -1,46 +1,37 @@
 import {Routes, RouterModule} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
-import {DashboardDemo} from './demo/view/dashboarddemo';
-import {SampleDemo} from './demo/view/sampledemo';
-import {FormsDemo} from './demo/view/formsdemo';
-import {DataDemo} from './demo/view/datademo';
-import {PanelsDemo} from './demo/view/panelsdemo';
-import {OverlaysDemo} from './demo/view/overlaysdemo';
-import {MenusDemo} from './demo/view/menusdemo';
-import {MessagesDemo} from './demo/view/messagesdemo';
-import {MiscDemo} from './demo/view/miscdemo';
-import {EmptyDemo} from './demo/view/emptydemo';
-import {ChartsDemo} from './demo/view/chartsdemo';
-import {FileDemo} from './demo/view/filedemo';
-import {UtilsDemo} from './demo/view/utilsdemo';
-import {Documentation} from './demo/view/documentation';
-
-import {AuthGuard} from "app/auth/authguard";
-import {LoginComponent} from "./auth/login/login.component";
-import { BisisPretragaComponent } from './components/bisis-pretraga/bisis-pretraga.component';
-
+import {DashboardDemoComponent} from './demo/view/dashboarddemo.component';
+import {SampleDemoComponent} from './demo/view/sampledemo.component';
+import {FormsDemoComponent} from './demo/view/formsdemo.component';
+import {DataDemoComponent} from './demo/view/datademo.component';
+import {PanelsDemoComponent} from './demo/view/panelsdemo.component';
+import {OverlaysDemoComponent} from './demo/view/overlaysdemo.component';
+import {MenusDemoComponent} from './demo/view/menusdemo.component';
+import {MessagesDemoComponent} from './demo/view/messagesdemo.component';
+import {MiscDemoComponent} from './demo/view/miscdemo.component';
+import {EmptyDemoComponent} from './demo/view/emptydemo.component';
+import {ChartsDemoComponent} from './demo/view/chartsdemo.component';
+import {FileDemoComponent} from './demo/view/filedemo.component';
+import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
+import {DocumentationComponent} from './demo/view/documentation.component';
+import {BisisSearchComponent} from './bisis-search/bisis-search.component';
 
 export const routes: Routes = [
-  {path: '', component: DashboardDemo},
-
-  // {path: 'institutions', component: InstitutionsListComponent, canActivate: [AuthGuard]},  // zakomentarisano da nam ne bi svaki put trazili logovanje
-  {path: 'login', component: LoginComponent},
-  
-
-  {path: 'sample', component: SampleDemo},
-  {path: 'forms', component: FormsDemo},
-  {path: 'data', component: DataDemo},
-  {path: 'panels', component: PanelsDemo},
-  {path: 'overlays', component: OverlaysDemo},
-  {path: 'menus', component: MenusDemo},
-  {path: 'messages', component: MessagesDemo},
-  {path: 'misc', component: MiscDemo},
-  {path: 'empty', component: EmptyDemo},
-  {path: 'charts', component: ChartsDemo},
-  {path: 'file', component: FileDemo},
-  {path: 'utils', component: UtilsDemo},
-  {path: 'documentation', component: Documentation},
-  {path: 'bisisPretraga', component: BisisPretragaComponent}
+    {path: '', component: DashboardDemoComponent},
+    {path: 'sample', component: SampleDemoComponent},
+    {path: 'forms', component: FormsDemoComponent},
+    {path: 'data', component: DataDemoComponent},
+    {path: 'panels', component: PanelsDemoComponent},
+    {path: 'overlays', component: OverlaysDemoComponent},
+    {path: 'menus', component: MenusDemoComponent},
+    {path: 'messages', component: MessagesDemoComponent},
+    {path: 'misc', component: MiscDemoComponent},
+    {path: 'empty', component: EmptyDemoComponent},
+    {path: 'charts', component: ChartsDemoComponent},
+    {path: 'file', component: FileDemoComponent},
+    {path: 'utils', component: UtilsDemoComponent},
+    {path: 'documentation', component: DocumentationComponent},
+    {path: 'bisis-search', component: BisisSearchComponent}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

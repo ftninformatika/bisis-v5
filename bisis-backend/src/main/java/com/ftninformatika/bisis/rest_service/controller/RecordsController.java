@@ -168,6 +168,11 @@ public class RecordsController {
 
   }
 
+  @RequestMapping( value = "/search_records_ep_format", method = RequestMethod.POST)
+  public ResponseEntity<List<ElasticPrefixEntity>> searchRecordsElasticPrefixFormat(@RequestBody SearchModel search){
+      return null;
+  }
+
   @RequestMapping( value = "/multiple_ids", method = RequestMethod.POST )
   public ResponseEntity<List<Record>> getMultipleRecordsByIds(@RequestBody List<String> ids){
       List<Record> retVal = (List<Record>) recordsRepository.findAll(ids);
@@ -176,22 +181,6 @@ public class RecordsController {
       else
         return new ResponseEntity<>( retVal, HttpStatus.NO_CONTENT);
   }
-
-  /*
-  @RequestMapping( value = "/lock", method = RequestMethod.POST)
-  public ResponseEntity<Boolean> lock(@RequestBody Record rec){
-      Boolean retVal = null;
-
-      recordsRepository.save(rec);
-      Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
-      ElasticPrefixEntity ee = new ElasticPrefixEntity("" + rec.getRecordID(), prefixes); //JsonSerializer.toJson2(prefixes)
-      //save and index posted element via ElasticsearchRepository
-      elasticRecordsRepository.save(ee);
-      elasticRecordsRepository.index(ee);
-
-      return new ResponseEntity<Record>(retVal, HttpStatus.OK);
-  }
-*/
 
   //za testiranje!!!!
   @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
@@ -227,13 +216,4 @@ public class RecordsController {
 
             }
 
-    public List<Record> getRecordsForMultipleIDs(ArrayList<String> ids){
-        ArrayList<Record> retVal = new ArrayList<>();
-
-        for (String id: ids){
-            retVal.add(recordsRepository.findOne(id));
-        }
-
-        return retVal;
-    }
 }

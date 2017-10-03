@@ -1,0 +1,7 @@
+<div class="card card-w-title">
+  <!-- Select preview type -->
+  <div>
+    <h3>Način prikaza rezultata: <p-dropdown [options]="resultViewTypes" [(ngModel)]="selectedResultViewType"></p-dropdown> </h3>
+  </div>
+  <app-table-view *ngIf="selectedResultViewType == 'table'" [resultRecords]='data'></app-table-view>
+</div>

@@ -1,7 +1,5 @@
-import {Component,Input,OnInit,EventEmitter,ViewChild,Inject,forwardRef} from '@angular/core';
-import {trigger,state,style,transition,animate} from '@angular/animations';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
+import {Component, Input, OnInit} from '@angular/core';
+import {trigger, state, style, transition, animate} from '@angular/animations';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from './app.component';
 
@@ -17,30 +15,27 @@ export class AppMenuComponent implements OnInit {
 
     model: any[];
 
-    constructor(@Inject(forwardRef(() => AppComponent)) public app:AppComponent) {}
+    constructor(public app: AppComponent) {}
 
     ngOnInit() {
         this.model = [
             {label: 'Dashboard', icon: 'dashboard', routerLink: ['/']},
+            {label: 'Bisis pretraga', icon: 'search', routerLink: ['/bisis-search']},
             {
-                label: 'BISIS pretraga', icon: 'search', routerLink: ['/bisisPretraga'],
-                
-            },
-            {
-                label: 'Themes', icon: 'palette',
+                label: 'Themes', icon: 'palette', badge: '6',
                 items: [
-                    {label: 'Indigo - Pink', icon: 'brush', command: (event) => {this.changeTheme('indigo')}},
-                    {label: 'Brown - Green', icon: 'brush', command: (event) => {this.changeTheme('brown')}},
-                    {label: 'Blue - Amber', icon: 'brush', command: (event) => {this.changeTheme('blue')}},
-                    {label: 'Blue Grey - Green', icon: 'brush', command: (event) => {this.changeTheme('blue-grey')}},
-                    {label: 'Dark - Blue', icon: 'brush', command: (event) => {this.changeTheme('dark-blue')}},
-                    {label: 'Dark - Green', icon: 'brush', command: (event) => {this.changeTheme('dark-green')}},
-                    {label: 'Green - Yellow', icon: 'brush', command: (event) => {this.changeTheme('green')}},
-                    {label: 'Purple - Cyan', icon: 'brush', command: (event) => {this.changeTheme('purple-cyan')}},
-                    {label: 'Purple - Amber', icon: 'brush', command: (event) => {this.changeTheme('purple-amber')}},
-                    {label: 'Teal - Lime', icon: 'brush', command: (event) => {this.changeTheme('teal')}},
-                    {label: 'Cyan - Amber', icon: 'brush', command: (event) => {this.changeTheme('cyan')}},
-                    {label: 'Grey - Deep Orange', icon: 'brush', command: (event) => {this.changeTheme('grey')}}
+                    {label: 'Indigo - Pink', icon: 'brush', command: (event) => {this.changeTheme('indigo'); }},
+                    {label: 'Brown - Green', icon: 'brush', command: (event) => {this.changeTheme('brown'); }},
+                    {label: 'Blue - Amber', icon: 'brush', command: (event) => {this.changeTheme('blue'); }},
+                    {label: 'Blue Grey - Green', icon: 'brush', command: (event) => {this.changeTheme('blue-grey'); }},
+                    {label: 'Dark - Blue', icon: 'brush', command: (event) => {this.changeTheme('dark-blue'); }},
+                    {label: 'Dark - Green', icon: 'brush', command: (event) => {this.changeTheme('dark-green'); }},
+                    {label: 'Green - Yellow', icon: 'brush', command: (event) => {this.changeTheme('green'); }},
+                    {label: 'Purple - Cyan', icon: 'brush', command: (event) => {this.changeTheme('purple-cyan'); }},
+                    {label: 'Purple - Amber', icon: 'brush', command: (event) => {this.changeTheme('purple-amber'); }},
+                    {label: 'Teal - Lime', icon: 'brush', command: (event) => {this.changeTheme('teal'); }},
+                    {label: 'Cyan - Amber', icon: 'brush', command: (event) => {this.changeTheme('cyan'); }},
+                    {label: 'Grey - Deep Orange', icon: 'brush', command: (event) => {this.changeTheme('grey'); }}
                 ]
             },
             {
@@ -50,6 +45,7 @@ export class AppMenuComponent implements OnInit {
                     {label: 'Material Size', icon: 'fiber_smart_record',  command: () => this.app.layoutCompact = false},
                     {label: 'Static Menu', icon: 'menu',  command: () => this.app.changeToStaticMenu()},
                     {label: 'Overlay Menu', icon: 'exit_to_app',  command: () => this.app.changeToOverlayMenu()},
+                    {label: 'Slim Menu', icon: 'more_vert',  command: () => this.app.changeToSlimMenu()},
                     {label: 'Horizontal Menu', icon: 'border_horizontal',  command: () => this.app.changeToHorizontalMenu()},
                     {label: 'Light Menu', icon: 'label_outline',  command: () => this.app.darkMenu = false},
                     {label: 'Dark Menu', icon: 'label',  command: () => this.app.darkMenu = true},
@@ -58,7 +54,7 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label: 'Components', icon: 'list',
+                label: 'Components', icon: 'list', badge: '2', badgeStyleClass: 'teal-badge',
                 items: [
                     {label: 'Sample Page', icon: 'desktop_mac', routerLink: ['/sample']},
                     {label: 'Forms', icon: 'input', routerLink: ['/forms']},
@@ -134,49 +130,68 @@ export class AppMenuComponent implements OnInit {
     }
 
     changeTheme(theme) {
-        let themeLink: HTMLLinkElement = <HTMLLinkElement> document.getElementById('theme-css');
-        let layoutLink: HTMLLinkElement = <HTMLLinkElement> document.getElementById('layout-css');
+        const themeLink: HTMLLinkElement = <HTMLLinkElement> document.getElementById('theme-css');
+        const layoutLink: HTMLLinkElement = <HTMLLinkElement> document.getElementById('layout-css');
 
-        themeLink.href = 'assets/theme/theme-' + theme +'.css';
-        layoutLink.href = 'assets/layout/css/layout-' + theme +'.css';
+        themeLink.href = 'assets/theme/theme-' + theme + '.css';
+        layoutLink.href = 'assets/layout/css/layout-' + theme + '.css';
     }
 }
 
 @Component({
+	/* tslint:disable:component-selector */
     selector: '[app-submenu]',
+	/* tslint:enable:component-selector */
     template: `
         <ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
-            <li [ngClass]="{'active-menuitem': isActive(i)}" *ngIf="child.visible === false ? false : true">
-                <a [href]="child.url||'#'" (click)="itemClick($event,child,i)" class="ripplelink" *ngIf="!child.routerLink" [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
+            <li [ngClass]="{'active-menuitem': isActive(i)}" [class]="child.badgeStyleClass" *ngIf="child.visible === false ? false : true">
+                <a [href]="child.url||'#'" (click)="itemClick($event,child,i)" (mouseenter)="onMouseEnter(i)"
+                   class="ripplelink" *ngIf="!child.routerLink"
+                    [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
                     <i class="material-icons">{{child.icon}}</i>
                     <span>{{child.label}}</span>
-                    <i class="material-icons" *ngIf="child.items">keyboard_arrow_down</i>
+                    <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
+                    <i class="material-icons submenu-icon" *ngIf="child.items">keyboard_arrow_down</i>
                 </a>
 
-                <a (click)="itemClick($event,child,i)" class="ripplelink" *ngIf="child.routerLink"
-                    [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink" [routerLinkActiveOptions]="{exact: true}" [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
+                <a (click)="itemClick($event,child,i)" (mouseenter)="onMouseEnter(i)" class="ripplelink" *ngIf="child.routerLink"
+                    [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink"
+                   [routerLinkActiveOptions]="{exact: true}" [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
                     <i class="material-icons">{{child.icon}}</i>
                     <span>{{child.label}}</span>
-                    <i class="material-icons" *ngIf="child.items">keyboard_arrow_down</i>
+                    <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
+                    <i class="material-icons submenu-icon" *ngIf="child.items">keyboard_arrow_down</i>
                 </a>
-                <ul app-submenu [item]="child" *ngIf="child.items" [@children]="isActive(i) ? 'visible' : 'hidden'" [visible]="isActive(i)" [reset]="reset"></ul>
+                <div class="layout-menu-tooltip">
+                    <div class="layout-menu-tooltip-arrow"></div>
+                    <div class="layout-menu-tooltip-text">{{child.label}}</div>
+                </div>
+                <ul app-submenu [item]="child" *ngIf="child.items" [visible]="isActive(i)" [reset]="reset"
+                    [@children]="(app.isSlim()||app.isHorizontal())&&root ? isActive(i) ?
+                    'visible' : 'hidden' : isActive(i) ? 'visibleAnimated' : 'hiddenAnimated'"></ul>
             </li>
         </ng-template>
     `,
     animations: [
         trigger('children', [
-            state('hidden', style({
+            state('hiddenAnimated', style({
                 height: '0px'
+            })),
+            state('visibleAnimated', style({
+                height: '*'
             })),
             state('visible', style({
                 height: '*'
             })),
-            transition('visible => hidden', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
-            transition('hidden => visible', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
+            state('hidden', style({
+                height: '0px'
+            })),
+            transition('visibleAnimated => hiddenAnimated', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
+            transition('hiddenAnimated => visibleAnimated', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
         ])
     ]
 })
-export class AppSubMenu {
+export class AppSubMenuComponent {
 
     @Input() item: MenuItem;
 
@@ -188,40 +203,47 @@ export class AppSubMenu {
 
     activeIndex: number;
 
-    constructor(@Inject(forwardRef(() => AppComponent)) public app:AppComponent, public router: Router, public location: Location) {}
+    constructor(public app: AppComponent) {}
 
-    itemClick(event: Event, item: MenuItem, index: number) {
-        //avoid processing disabled items
-        if(item.disabled) {
+    itemClick(event: Event, item: MenuItem, index: number) {
+        if (this.root) {
+            this.app.menuHoverActive = !this.app.menuHoverActive;
+        }
+
+        // avoid processing disabled items
+        if (item.disabled) {
             event.preventDefault();
             return true;
         }
-        
-        //activate current item and deactivate active sibling if any
+
+        // activate current item and deactivate active sibling if any
         this.activeIndex = (this.activeIndex === index) ? null : index;
-                
-        //execute command
-        if(item.command) {
-            item.command({
-               originalEvent: event,
-                item: item
-            });
+
+        // execute command
+        if (item.command) {
+            item.command({originalEvent: event, item: item});
         }
 
-        //prevent hash change
-        if(item.items || (!item.url && !item.routerLink)) {
+        // prevent hash change
+        if (item.items || (!item.url && !item.routerLink)) {
             event.preventDefault();
         }
-        
-        //hide menu
-        if(!item.items) {
-            if(this.app.isHorizontal())
-                this.app.resetMenu = true;
-            else
-                this.app.resetMenu = false;
-                
+
+        // hide menu
+        if (!item.items) {
+            if (this.app.isHorizontal() || this.app.isSlim()) {
+                this.app.resetMenu = true; } else {
+                this.app.resetMenu = false; }
+
             this.app.overlayMenuActive = false;
             this.app.staticMenuMobileActive = false;
+            this.app.menuHoverActive = !this.app.menuHoverActive;
+        }
+    }
+
+    onMouseEnter(index: number) {
+        if (this.root && this.app.menuHoverActive && (this.app.isHorizontal() || this.app.isSlim())) {
+            this.activeIndex = index;
         }
     }
 
@@ -233,10 +255,10 @@ export class AppSubMenu {
         return this._reset;
     }
 
-    set reset(val:boolean) {
+    set reset(val: boolean) {
         this._reset = val;
 
-        if(this._reset && this.app.isHorizontal()) {
+        if (this._reset && (this.app.isHorizontal() || this.app.isSlim())) {
             this.activeIndex = null;
         }
     }

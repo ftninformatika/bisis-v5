@@ -4,7 +4,7 @@ body {
         border-width: 0 0 1px 0;  
         padding: 2px 2px 1px 2px;
         font-size: $inputFontSize;
-        border-color: #bdbdbd;
+        border-color: $inputBorderColor;
         border-style: solid;
         @include transition(border-color .3s);
         @include border-radius(0px);
@@ -25,7 +25,7 @@ body {
         }
         
         &.ui-state-error {
-            border-color: #e62a10;  
+            border-color: $inputBorderErrorColor;  
         }
     }
     
@@ -203,7 +203,7 @@ body {
             padding-right: 2.5em;
         }
                         
-        &.secondary {
+        &.secondary, &.ui-secondary-button {
             background-color: $accentColor;
             color: $accentTextColor;
             
@@ -256,7 +256,7 @@ body {
             }
         }
         
-        &.red-btn {
+        &.red-btn, &.ui-danger-button {
             background-color: #F44336;
             
             &:enabled:not(:focus):hover {
@@ -269,7 +269,7 @@ body {
             }
         }
         
-        &.green-btn {
+        &.green-btn, &.ui-success-button {
             background-color: #4CAF50;
             
            &:enabled:not(:focus):hover {
@@ -321,7 +321,7 @@ body {
             }
         }
         
-        &.amber-btn {
+        &.amber-btn, &.ui-warning-button {
             background-color: #FFC107;
             color: #212121;
             
@@ -371,6 +371,20 @@ body {
             &:focus {
                 outline: 0 none;
                 background-color: lighten(#3F51B5,10%);
+            }
+        }
+        
+        &.blue-btn, &.ui-info-button {
+            background-color: #03A9F4;
+            color: #ffffff;
+            
+            &:enabled:not(:focus):hover {
+                background-color: #0277BD;   
+            }
+            
+            &:focus {
+                outline: 0 none;
+                background-color: lighten(#03A9F4,10%);
             }
         }
         
@@ -497,6 +511,7 @@ body {
                 transition: transform ease .28s;
                 -webkit-transform: scale(0);
                 transform: scale(0);
+                margin: 0;
             }
             
             .fa-circle {
@@ -621,7 +636,7 @@ body {
     }
 
     .ui-dropdown {
-        border-bottom: 1px solid #bdbdbd;
+        border-bottom: 1px solid $inputBorderColor;
         box-sizing: border-box;
         @include border-radius(0); 
         @include transition(border-color .3s);      
@@ -687,7 +702,7 @@ body {
         
         .ui-dropdown-filter-container {
             display: block;
-            border-bottom: 1px solid #bdbdbd;
+            border-bottom: 1px solid $inputBorderColor;
             background-color: $primaryColor;
             padding: $inputHeaderPadding;
             
@@ -708,7 +723,7 @@ body {
     }
     
     .ui-multiselect {
-        border-bottom: 1px solid #bdbdbd;
+        border-bottom: 1px solid $inputBorderColor;
         box-sizing: border-box;
         @include border-radius(0);
         @include transition(border-color .3s); 
@@ -863,7 +878,7 @@ body {
 
             &:enabled:hover,
             &:active {
-                background-color: #ffffff;
+                background-color: transparent;
             }
         }
         
@@ -906,7 +921,7 @@ body {
         @include border-radius(8px);
     
         .ui-inputswitch-handle {
-            top: -3px;
+            top: -4px;
             background-color: #ffffff;
             @include border-radius(50%);
             @include transition(background-color .3s);
@@ -960,7 +975,7 @@ body {
         &.ui-slider-horizontal {
             height: 2px;
             border: 0 none;
-            background-color: #bdbdbd;
+            background-color: $inputBorderColor;
             
             .ui-slider-handle {
                 top: -.55em;
@@ -970,7 +985,7 @@ body {
         &.ui-slider-vertical {
             width: 2px;
             border: 0 none;
-            background-color: #bdbdbd;
+            background-color: $inputBorderColor;
             
             .ui-slider-handle {
                 left: -.55em;
@@ -1098,7 +1113,7 @@ body {
                 box-sizing: border-box;
 
                 &.ui-datepicker-today {
-                    a,span {
+                    a {
                         color: #ffffff;
                         background: lighten($primaryColor,20%);
                         
@@ -1110,7 +1125,7 @@ body {
                     }
                 }
                 
-                a,span {
+                a {
                     padding: .25em;
                     margin: 0;
                     text-align: center;
@@ -1129,6 +1144,12 @@ body {
 
                     &:not(.ui-state-active):not(.ui-state-highlight):hover {
                         @include hover-element();
+                    }
+                    
+                    span {
+                        display: inline;
+                        padding: 0;
+                        text-align: center;
                     }
                 }                
             }
@@ -1258,6 +1279,19 @@ body {
         }
     }
     
+    .ui-fileupload-choose:not(.ui-state-disabled):hover,
+    .ui-fileupload-choose.ui-state-focus {
+        &.ui-button {
+            background-color: darken($accentColor, 5%);
+        }
+    }
+    
+    .ui-fileupload-choose:not(.ui-state-disabled):active {
+        &.ui-button {
+            background-color: darken($accentColor, 10%);
+        }
+    }
+    
     .ui-editor-container {
         .ui-editor-toolbar {
             background-color: #e8e8e8;
@@ -1266,6 +1300,56 @@ body {
         .ql-picker.ql-expanded {
             .ql-picker-label {
                 color: #444444;
+            }
+        }
+    }
+    
+    /* InputGroup */
+    .ui-inputgroup {
+        .ui-inputgroup-addon {
+            border-width: 0 0 1px 0;
+            border-color: $inputBorderColor;
+            color: $textSecondaryColor;
+            padding: 2px 2px 1px 2px;
+            align-self: flex-end;
+            
+            > i {
+                @include flex();
+                align-self: flex-end;
+            }
+        }
+        
+        .ui-inputtext {
+            align-self: flex-end;
+        }
+        
+        .md-inputfield {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            width: 1%;
+            display: inherit;
+            
+            label {
+                top: 5px;
+            }
+        }
+        
+        .ui-chkbox, .ui-radiobutton {
+            margin-bottom: .125em;
+        }
+    }
+    
+    .ui-fluid {
+        .ui-inputgroup {
+            .ui-button-icon-only {
+                width: 1.643em;
+                height: 1.643em;
+                padding: 0;
+                
+                .ui-button-icon-left {
+                    margin-left: -.45em;
+                }
             }
         }
     }

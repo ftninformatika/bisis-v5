@@ -1,13 +1,11 @@
-import {NgModule}      from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule}    from '@angular/http';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {LocationStrategy,HashLocationStrategy} from '@angular/common';
+import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {AppRoutes} from './app.routes';
 import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
-import 'rxjs/Rx';
 
 import {AccordionModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
@@ -15,6 +13,7 @@ import {BreadcrumbModule} from 'primeng/primeng';
 import {ButtonModule} from 'primeng/primeng';
 import {CalendarModule} from 'primeng/primeng';
 import {CarouselModule} from 'primeng/primeng';
+import {ColorPickerModule} from 'primeng/primeng';
 import {ChartModule} from 'primeng/primeng';
 import {CheckboxModule} from 'primeng/primeng';
 import {ChipsModule} from 'primeng/primeng';
@@ -47,6 +46,7 @@ import {MenubarModule} from 'primeng/primeng';
 import {MessagesModule} from 'primeng/primeng';
 import {MultiSelectModule} from 'primeng/primeng';
 import {OrderListModule} from 'primeng/primeng';
+import {OrganizationChartModule} from 'primeng/primeng';
 import {OverlayPanelModule} from 'primeng/primeng';
 import {PaginatorModule} from 'primeng/primeng';
 import {PanelModule} from 'primeng/primeng';
@@ -73,51 +73,44 @@ import {TooltipModule} from 'primeng/primeng';
 import {TreeModule} from 'primeng/primeng';
 import {TreeTableModule} from 'primeng/primeng';
 
-import {AppComponent}  from './app.component';
-import {AppMenuComponent,AppSubMenu}  from './app.menu.component';
-import {AppTopBar}  from './app.topbar.component';
-import {AppFooter}  from './app.footer.component';
-import {InlineProfileComponent}  from './app.profile.component';
-import {DashboardDemo} from './demo/view/dashboarddemo';
-import {SampleDemo} from './demo/view/sampledemo';
-import {FormsDemo} from './demo/view/formsdemo';
-import {DataDemo} from './demo/view/datademo';
-import {PanelsDemo} from './demo/view/panelsdemo';
-import {OverlaysDemo} from './demo/view/overlaysdemo';
-import {MenusDemo} from './demo/view/menusdemo';
-import {MessagesDemo} from './demo/view/messagesdemo';
-import {MiscDemo} from './demo/view/miscdemo';
-import {EmptyDemo} from './demo/view/emptydemo';
-import {ChartsDemo} from './demo/view/chartsdemo';
-import {FileDemo} from './demo/view/filedemo';
-import {UtilsDemo} from './demo/view/utilsdemo';
-import {Documentation} from './demo/view/documentation';
-import {Observable} from 'rxjs/Rx';
+import {AppComponent} from './app.component';
+import {AppMenuComponent, AppSubMenuComponent} from './app.menu.component';
+import {AppTopbarComponent} from './app.topbar.component';
+import {AppFooterComponent} from './app.footer.component';
+import {AppRightpanelComponent} from './app.rightpanel.component';
+import {AppInlineProfileComponent} from './app.profile.component';
+import {DashboardDemoComponent} from './demo/view/dashboarddemo.component';
+import {SampleDemoComponent} from './demo/view/sampledemo.component';
+import {FormsDemoComponent} from './demo/view/formsdemo.component';
+import {DataDemoComponent} from './demo/view/datademo.component';
+import {PanelsDemoComponent} from './demo/view/panelsdemo.component';
+import {OverlaysDemoComponent} from './demo/view/overlaysdemo.component';
+import {MenusDemoComponent} from './demo/view/menusdemo.component';
+import {MessagesDemoComponent} from './demo/view/messagesdemo.component';
+import {MiscDemoComponent} from './demo/view/miscdemo.component';
+import {EmptyDemoComponent} from './demo/view/emptydemo.component';
+import {ChartsDemoComponent} from './demo/view/chartsdemo.component';
+import {FileDemoComponent} from './demo/view/filedemo.component';
+import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
+import {DocumentationComponent} from './demo/view/documentation.component';
 
 import {CarService} from './demo/service/carservice';
 import {CountryService} from './demo/service/countryservice';
 import {EventService} from './demo/service/eventservice';
 import {NodeService} from './demo/service/nodeservice';
+import { BisisSearchService } from './bisis-search/service/bisis-search.service';
 
-//import { AUTH_PROVIDERS } from 'angular2-jwt';
-import { AuthGuard } from './auth/authguard';
-import { AuthModule } from './auth/auth.module';
+import { BisisSearchComponent } from './bisis-search/bisis-search.component';
+import { ResultViewComponent } from './bisis-search/result-view/result-view.component';
+import { SearchFormComponent } from './bisis-search/search-form/search-form.component';
+import { TableViewComponent } from './bisis-search/result-view/table-view/table-view.component';
 
-
-import { LoginComponent } from './auth/login/login.component';
-import { BisisPretragaComponent } from './components/bisis-pretraga/bisis-pretraga.component';
-import { SearchFormComponent } from './components/bisis-pretraga/search-form/search-form.component';
-import { GeneralInfoComponent } from './components/bisis-pretraga/general-info/general-info.component';
-import { ResultViewComponent } from './components/bisis-pretraga/result-view/result-view.component';
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
-        ReactiveFormsModule,
         AppRoutes,
         HttpModule,
-        AuthModule,
-
         BrowserAnimationsModule,
         AccordionModule,
         AutoCompleteModule,
@@ -125,6 +118,7 @@ import { ResultViewComponent } from './components/bisis-pretraga/result-view/res
         ButtonModule,
         CalendarModule,
         CarouselModule,
+        ColorPickerModule,
         ChartModule,
         CheckboxModule,
         ChipsModule,
@@ -157,6 +151,7 @@ import { ResultViewComponent } from './components/bisis-pretraga/result-view/res
         MessagesModule,
         MultiSelectModule,
         OrderListModule,
+        OrganizationChartModule,
         OverlayPanelModule,
         PaginatorModule,
         PanelModule,
@@ -186,37 +181,33 @@ import { ResultViewComponent } from './components/bisis-pretraga/result-view/res
     declarations: [
         AppComponent,
         AppMenuComponent,
-        AppSubMenu,
-        AppTopBar,
-        AppFooter,
-        InlineProfileComponent,
-        DashboardDemo,
-        SampleDemo,
-        FormsDemo,
-        DataDemo,
-        PanelsDemo,
-        OverlaysDemo,
-        MenusDemo,
-        MessagesDemo,
-        MessagesDemo,
-        MiscDemo,
-        ChartsDemo,
-        EmptyDemo,
-        FileDemo,
-        UtilsDemo,
-        Documentation,
-        LoginComponent,
-        BisisPretragaComponent,
-        SearchFormComponent,
-        GeneralInfoComponent,
+        AppSubMenuComponent,
+        AppTopbarComponent,
+        AppFooterComponent,
+        AppRightpanelComponent,
+        AppInlineProfileComponent,
+        DashboardDemoComponent,
+        SampleDemoComponent,
+        FormsDemoComponent,
+        DataDemoComponent,
+        PanelsDemoComponent,
+        OverlaysDemoComponent, MenusDemoComponent,
+        MessagesDemoComponent,
+        MiscDemoComponent,
+        ChartsDemoComponent,
+        EmptyDemoComponent,
+        FileDemoComponent,
+        UtilsDemoComponent,
+        DocumentationComponent,
+        BisisSearchComponent,
         ResultViewComponent,
-       
+        SearchFormComponent,
+        TableViewComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CarService,CountryService,EventService,NodeService,
-        AuthGuard
+        CarService, CountryService, EventService, NodeService, BisisSearchService
     ],
-    bootstrap:[AppComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

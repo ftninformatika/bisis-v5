@@ -1,10 +1,11 @@
-import {Component,AfterViewInit,ElementRef,Renderer,ViewChild} from '@angular/core';
+import {Component, AfterViewInit, ElementRef, Renderer, ViewChild, OnDestroy} from '@angular/core';
 
 enum MenuOrientation {
     STATIC,
     OVERLAY,
+    SLIM,
     HORIZONTAL
-};
+}
 
 declare var jQuery: any;
 
@@ -13,15 +14,15 @@ declare var jQuery: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
-    
-    layoutCompact: boolean = false;
+export class AppComponent implements AfterViewInit, OnDestroy {
+
+    layoutCompact = true;
 
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
-    
-    darkMenu: boolean = false;
-    
-    profileMode: string = 'inline';
+
+    darkMenu = false;
+
+    profileMode = 'inline';
 
     rotateMenuButton: boolean;
 
@@ -33,6 +34,10 @@ export class AppComponent implements AfterViewInit {
 
     staticMenuMobileActive: boolean;
 
+    rightPanelActive: boolean;
+
+    rightPanelClick: boolean;
+
     layoutContainer: HTMLDivElement;
 
     layoutMenuScroller: HTMLDivElement;
@@ -43,9 +48,9 @@ export class AppComponent implements AfterViewInit {
 
     activeTopbarItem: any;
 
-    documentClickListener: Function;
-
     resetMenu: boolean;
+
+    menuHoverActive: boolean;
 
     @ViewChild('layoutContainer') layourContainerViewChild: ElementRef;
 
@@ -57,38 +62,49 @@ export class AppComponent implements AfterViewInit {
         this.layoutContainer = <HTMLDivElement> this.layourContainerViewChild.nativeElement;
         this.layoutMenuScroller = <HTMLDivElement> this.layoutMenuScrollerViewChild.nativeElement;
 
-        //hides the horizontal submenus or top menu if outside is clicked
-        this.documentClickListener = this.renderer.listenGlobal('body', 'click', (event) => {            
-            if(!this.topbarItemClick) {
-                this.activeTopbarItem = null;
-                this.topbarMenuActive = false;
-            }
-
-            if(!this.menuClick && this.isHorizontal()) {
-                this.resetMenu = true;
-            }
-
-            this.topbarItemClick = false;
-            this.menuClick = false;
-        });
-        
         setTimeout(() => {
-            jQuery(this.layoutMenuScroller).nanoScroller({flash:true});
+            jQuery(this.layoutMenuScroller).nanoScroller({flash: true});
         }, 10);
     }
 
+    onLayoutClick() {
+        if (!this.topbarItemClick) {
+            this.activeTopbarItem = null;
+            this.topbarMenuActive = false;
+        }
+
+        if (!this.menuClick) {
+            if (this.isHorizontal() || this.isSlim()) {
+                this.resetMenu = true;
+            }
+
+            if (this.overlayMenuActive || this.staticMenuMobileActive) {
+                this.hideOverlayMenu();
+            }
+
+            this.menuHoverActive = false;
+        }
+
+        if (!this.rightPanelClick) {
+            this.rightPanelActive = false;
+        }
+
+        this.topbarItemClick = false;
+        this.menuClick = false;
+        this.rightPanelClick = false;
+    }
+
     onMenuButtonClick(event) {
+        this.menuClick = true;
         this.rotateMenuButton = !this.rotateMenuButton;
         this.topbarMenuActive = false;
 
-        if(this.layoutMode === MenuOrientation.OVERLAY) {
+        if (this.layoutMode === MenuOrientation.OVERLAY) {
             this.overlayMenuActive = !this.overlayMenuActive;
-        }
-        else {
-            if(this.isDesktop())
-                this.staticMenuDesktopInactive = !this.staticMenuDesktopInactive;
-            else
-                this.staticMenuMobileActive = !this.staticMenuMobileActive;
+        } else {
+            if (this.isDesktop()) {
+                this.staticMenuDesktopInactive = !this.staticMenuDesktopInactive; } else {
+                this.staticMenuMobileActive = !this.staticMenuMobileActive; }
         }
 
         event.preventDefault();
@@ -98,7 +114,7 @@ export class AppComponent implements AfterViewInit {
         this.menuClick = true;
         this.resetMenu = false;
 
-        if(!this.isHorizontal()) {
+        if (!this.isHorizontal()) {
             setTimeout(() => {
                 jQuery(this.layoutMenuScroller).nanoScroller();
             }, 500);
@@ -108,29 +124,40 @@ export class AppComponent implements AfterViewInit {
     onTopbarMenuButtonClick(event) {
         this.topbarItemClick = true;
         this.topbarMenuActive = !this.topbarMenuActive;
-        
-        if(this.overlayMenuActive || this.staticMenuMobileActive) {
-            this.rotateMenuButton = false;
-            this.overlayMenuActive = false;
-            this.staticMenuMobileActive = false;
-        }
-        
+
+        this.hideOverlayMenu();
+
         event.preventDefault();
     }
 
     onTopbarItemClick(event, item) {
         this.topbarItemClick = true;
 
-        if(this.activeTopbarItem === item)
-            this.activeTopbarItem = null;
-        else
-            this.activeTopbarItem = item;
+        if (this.activeTopbarItem === item) {
+            this.activeTopbarItem = null; } else {
+            this.activeTopbarItem = item; }
 
         event.preventDefault();
     }
 
+    onRightPanelButtonClick(event) {
+        this.rightPanelClick = true;
+        this.rightPanelActive = !this.rightPanelActive;
+        event.preventDefault();
+    }
+
+    onRightPanelClick() {
+        this.rightPanelClick = true;
+    }
+
+    hideOverlayMenu() {
+        this.rotateMenuButton = false;
+        this.overlayMenuActive = false;
+        this.staticMenuMobileActive = false;
+    }
+
     isTablet() {
-        let width = window.innerWidth;
+        const width = window.innerWidth;
         return width <= 1024 && width > 640;
     }
 
@@ -150,6 +177,10 @@ export class AppComponent implements AfterViewInit {
         return this.layoutMode === MenuOrientation.HORIZONTAL;
     }
 
+    isSlim() {
+        return this.layoutMode === MenuOrientation.SLIM;
+    }
+
     changeToStaticMenu() {
         this.layoutMode = MenuOrientation.STATIC;
     }
@@ -162,12 +193,12 @@ export class AppComponent implements AfterViewInit {
         this.layoutMode = MenuOrientation.HORIZONTAL;
     }
 
-    ngOnDestroy() {
-        if(this.documentClickListener) {
-            this.documentClickListener();
-        }  
+    changeToSlimMenu() {
+        this.layoutMode = MenuOrientation.SLIM;
+    }
 
-        jQuery(this.layoutMenuScroller).nanoScroller({flash:true});
+    ngOnDestroy() {
+        jQuery(this.layoutMenuScroller).nanoScroller({flash: true});
     }
 
 }
