@@ -9,7 +9,8 @@ import {Message} from 'primeng/components/common/api';
 export class TableViewComponent implements OnInit {
 
   @Input() resultRecords: any[];
-  msgs: Message[];
+  selectedRec: any;
+  displayDialog: boolean;
 
   constructor() { }
 
@@ -17,8 +18,9 @@ export class TableViewComponent implements OnInit {
   }
 
   onRowSelect(event) {
-    this.msgs = [];
-    this.msgs.push({severity: 'info', summary: 'Record Selected:', detail: event.data._id + ' - ' + event.data.creator.username});
+    console.log(event);
+    this.selectedRec = event.data;
+    this.displayDialog = true;
   }
 
 

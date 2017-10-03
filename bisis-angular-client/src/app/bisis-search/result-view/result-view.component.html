@@ -4,4 +4,7 @@
     <h3>Način prikaza rezultata: <p-dropdown [options]="resultViewTypes" [(ngModel)]="selectedResultViewType"></p-dropdown> </h3>
   </div>
   <app-table-view *ngIf="selectedResultViewType == 'table'" [resultRecords]='data'></app-table-view>
+  <app-data-grid-view *ngIf="selectedResultViewType == 'data-grid'" [resultRecords]='data'></app-data-grid-view>
+  <app-scroller-view *ngIf="selectedResultViewType == 'scroller'" [resultRecords]='data'></app-scroller-view>
+  <app-list-view *ngIf="selectedResultViewType == 'list'" [resultRecords]='data'></app-list-view>
 </div>

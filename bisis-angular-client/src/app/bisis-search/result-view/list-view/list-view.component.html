@@ -1,0 +1,27 @@
+<p-dataList [value]="resultRecords" [paginator]="true" [rows]="5">
+  <p-header>
+      List of Records
+  </p-header>
+  <ng-template let-rec pTemplate="item">
+      <div class="ui-g ui-fluid car-item">
+          <div class="ui-g-12 ui-md-3" style="text-align:center">
+              <img src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="120">
+          </div>
+          <div class="ui-g-12 ui-md-9 car-details">
+              <div class="ui-g">
+                  <div class="ui-g-2 ui-sm-6">Title: </div>
+                  <div class="ui-g-10 ui-sm-6">{{rec.prefixes.TI}}</div>
+                  
+                  <div class="ui-g-2 ui-sm-6">Author: </div>
+                  <div class="ui-g-10 ui-sm-6">{{rec.prefixes.AU}}</div>
+                  
+                  <div class="ui-g-2 ui-sm-6">Publisher: </div>
+                  <div class="ui-g-10 ui-sm-6">{{rec.prefixes.PU}}</div>
+                  
+                  <div class="ui-g-2 ui-sm-6">Publishing year: </div>
+                  <div class="ui-g-10 ui-sm-6">{{rec.prefixes.PY}}</div>
+              </div>
+          </div>
+      </div>
+  </ng-template>
+</p-dataList>

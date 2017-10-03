@@ -7,6 +7,8 @@ import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRe
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import com.sun.org.apache.regexp.internal.RE;
+import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -108,6 +110,12 @@ public class RecordsController {
             ex.printStackTrace();
         }
         return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping( value = "/ep", method = RequestMethod.GET)
+    public List<ElasticPrefixEntity> getRecordsEP(){
+      Iterable<ElasticPrefixEntity> s = elasticRecordsRepository.findAll();
+      return IteratorUtils.toList(s.iterator());
     }
 
   //dodavanje novog ili izmena postojeceg zapisa

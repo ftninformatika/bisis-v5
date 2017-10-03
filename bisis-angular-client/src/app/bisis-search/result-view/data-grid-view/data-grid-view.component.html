@@ -1,14 +1,18 @@
-
-<p-dataTable [value]="resultRecords" [rows]="10" [paginator]="true" [pageLinks]="3" 
-resizableColumns="true" 
-selectionMode="single"  (onRowSelect)="onRowSelect($event)"  dataKey="_id"
-[rowsPerPageOptions]="[5,10,20]" reorderableColumns="true">
-    <p-header>List of Records</p-header>
-    <p-column field="prefixes.AU" header="Author" [sortable]="true"></p-column>
-    <p-column field="prefixes.TI" header="Title" [sortable]="true"></p-column>
-    <p-column field="prefixes.PU" header="Publisher" [sortable]="true"></p-column>
-    <p-column field="prefixes.PY" header="Year published" [sortable]="true"></p-column>
-</p-dataTable>
+<p-dataGrid [value]="resultRecords" [paginator]="true" [rows]="20">
+  <p-header>
+      List of Records
+  </p-header>
+  <ng-template let-rec pTemplate="item">
+      <div style="padding:3px" class="ui-g-12 ui-md-3">
+          <p-panel [header]="rec._id" [style]="{'text-align':'center'}">
+              <img src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="60">
+              <div class="rec-detail">{{rec.prefixes.TI}} - {{rec.prefixes.AU}}</div>
+              <hr class="ui-widget-content" style="border-top:0">
+              <i class="fa fa-search" (click)="selectRecord(rec)" style="cursor:pointer"></i>
+          </p-panel>
+      </div>
+  </ng-template>
+</p-dataGrid>
 
 <p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="500" (onAfterHide)="onDialogHide()">
     <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec" style="font-size:16px;text-align:center;padding:20px">
