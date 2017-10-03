@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {Message} from 'primeng/components/common/api';
+import { Message } from 'primeng/components/common/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table-view',
@@ -12,7 +13,8 @@ export class TableViewComponent implements OnInit {
   selectedRec: any;
   displayDialog: boolean;
 
-  constructor() { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
   }
@@ -21,6 +23,10 @@ export class TableViewComponent implements OnInit {
     console.log(event);
     this.selectedRec = event.data;
     this.displayDialog = true;
+  }
+
+  redirectToRecordView(rec) {
+    this.router.navigate(['record-view'], { queryParams: this.selectedRec.id });
   }
 
 

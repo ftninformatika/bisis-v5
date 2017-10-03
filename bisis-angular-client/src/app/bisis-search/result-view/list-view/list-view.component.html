@@ -7,7 +7,7 @@
           <div class="ui-g-12 ui-md-3" style="text-align:center">
               <img src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="120">
           </div>
-          <div class="ui-g-12 ui-md-9 car-details">
+          <div class="ui-g-12 ui-md-9 car-details" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
               <div class="ui-g">
                   <div class="ui-g-2 ui-sm-6">Title: </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixes.TI}}</div>
@@ -21,7 +21,10 @@
                   <div class="ui-g-2 ui-sm-6">Publishing year: </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixes.PY}}</div>
               </div>
+              <div class="ui-g-2 ui-sm-6">Add to favorites: </div>
+              <button type="button" pButton  icon="ui-icon-add" (click)="search()"></button>
           </div>
+          
       </div>
   </ng-template>
 </p-dataList>

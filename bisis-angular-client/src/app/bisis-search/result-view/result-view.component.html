@@ -1,7 +1,7 @@
 <div class="card card-w-title">
   <!-- Select preview type -->
   <div>
-    <h3>Način prikaza rezultata: <p-dropdown [options]="resultViewTypes" [(ngModel)]="selectedResultViewType"></p-dropdown> </h3>
+    <h3>Način prikaza rezultata: <p-dropdown [options]="resultViewTypes" [(ngModel)]="selectedResultViewType" [style]="{'width':'300px'}"></p-dropdown> </h3>
   </div>
   <app-table-view *ngIf="selectedResultViewType == 'table'" [resultRecords]='data'></app-table-view>
   <app-data-grid-view *ngIf="selectedResultViewType == 'data-grid'" [resultRecords]='data'></app-data-grid-view>

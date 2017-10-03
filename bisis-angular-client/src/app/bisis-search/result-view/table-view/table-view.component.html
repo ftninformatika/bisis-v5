@@ -13,7 +13,7 @@ selectionMode="single"  (onRowSelect)="onRowSelect($event)"  dataKey="_id"
 <p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="500" (onAfterHide)="onDialogHide()">
     <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec" style="font-size:16px;text-align:center;padding:20px">
         <div class="ui-grid-row">
-            <div class="ui-grid-col-12" style="text-align:center"><img src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="200"></div>
+            <div class="ui-grid-col-12" style="text-align:center"><img (click)="redirectToRecordView(selectedRec)" src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="200"></div>
         </div>
         <div class="ui-grid-row">
             <div class="ui-grid-col-4">Title: </div>
