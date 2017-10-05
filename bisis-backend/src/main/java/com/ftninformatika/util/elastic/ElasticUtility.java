@@ -21,19 +21,29 @@ public class ElasticUtility {
         return retVal;
     }
 
+    public static BoolQueryBuilder searchByAuthorQuery(String author){
+        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+        retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes.AU", author));
+        return retVal;
+    }
 
-    public static <E> Collection<E> makeCollection(Iterable<E> iter) {
-        Collection<E> list = new ArrayList<E>();
-        for (E item : iter) {
-            list.add(item);
-        }
-        return list;
+    public static BoolQueryBuilder searchByTitleQuery(String title){
+        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+        retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes.TI", title));
+        return retVal;
+    }
+
+    public static BoolQueryBuilder searchByKeywordQuery(String kw){
+        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+        retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes.KW", kw));
+        return retVal;
     }
 
     //formiranje Query-ja za glavnu pretragu zapisa
     public static BoolQueryBuilder makeQuery(SearchModel sm){
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
 
+        retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref1(), sm.getText1()));
 
         try {
             if (sm.getText1() != null && !"".equals(sm.getText1()))

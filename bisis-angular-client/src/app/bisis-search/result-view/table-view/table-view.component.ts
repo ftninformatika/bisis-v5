@@ -26,7 +26,7 @@ export class TableViewComponent implements OnInit {
   }
 
   redirectToRecordView(rec) {
-    this.router.navigate(['record-view'], { queryParams: this.selectedRec.id });
+    this.router.navigate(['record-view'], { queryParams: {recId: this.selectedRec.id} });
   }
 
 

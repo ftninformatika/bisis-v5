@@ -98,6 +98,42 @@ public class RecordsController {
     }
   }
 
+    @RequestMapping(value = "/ep/{recordId}", method = RequestMethod.GET)
+    public ElasticPrefixEntity getRecordEP(@PathVariable String recordId) {
+        try {
+            ElasticPrefixEntity rec = elasticRecordsRepository.findOne(recordId);
+            if (rec == null)
+                throw new RecordNotFoundException(recordId);
+            return rec;
+        } catch (Exception ex) {
+            throw new RecordNotFoundException(recordId);
+        }
+    }
+
+    @RequestMapping(value = "/author/ep/{author}", method = RequestMethod.GET)
+    public List<ElasticPrefixEntity> getRecordsByAuthorEP(@PathVariable String author){
+      List<ElasticPrefixEntity> retVal = new ArrayList<>();
+      Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(ElasticUtility.searchByAuthorQuery(author));
+      iRecs.iterator().forEachRemaining(retVal::add);
+      return retVal;
+    }
+
+    @RequestMapping(value = "/title/ep/{title}", method = RequestMethod.GET)
+    public List<ElasticPrefixEntity> getRecordsByTitleEP(@PathVariable String title){
+        List<ElasticPrefixEntity> retVal = new ArrayList<>();
+        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(ElasticUtility.searchByTitleQuery(title));
+        iRecs.iterator().forEachRemaining(retVal::add);
+        return retVal;
+    }
+
+    @RequestMapping(value = "/keyword/ep/{kw}", method = RequestMethod.GET)
+    public List<ElasticPrefixEntity> getRecordsByKeywordEP(@PathVariable String kw){
+        List<ElasticPrefixEntity> retVal = new ArrayList<>();
+        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(ElasticUtility.searchByKeywordQuery(kw));
+        iRecs.iterator().forEachRemaining(retVal::add);
+        return retVal;
+    }
+
     @RequestMapping( method = RequestMethod.GET)
     public ResponseEntity<List<Record>> getRecords() {
         try {
@@ -145,8 +181,6 @@ public class RecordsController {
             et.printStackTrace();
             return new ResponseEntity<>(  HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
   }
 
   @RequestMapping(value = "/query", method = RequestMethod.POST )

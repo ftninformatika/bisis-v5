@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { BisisSearchService } from '../service/bisis-search.service';
 @Component({
   selector: 'app-record-view',
   templateUrl: './record-view.component.html',
@@ -12,16 +12,16 @@ export class RecordViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    public bisisService: BisisSearchService
+  ) {
+    this. record = null;
+  }
 
   ngOnInit() {
      this.route
     .queryParams
     .subscribe(params => {
-      // Defaults to 0 if no query param provided.
-      this.record = params;
-      console.log(params);
     });
   }
 

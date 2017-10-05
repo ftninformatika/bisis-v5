@@ -5,7 +5,7 @@
     <div class="ui-g ui-fluid">
         <div class="ui-g-12 ui-md-4">
                 <div class="ui-inputgroup">
-                    <p-dropdown [options]="searchChoices" [(ngModel)]="selectedChoice" [style]="{'width':'250px'}"></p-dropdown>
+                    <p-splitButton [model]="searchChoices"></p-splitButton>
                     <input type="text" pInputText placeholder="Keyword">   
                     <button pButton type="button" icon="fa-search" class="ui-button-secondary" (click)="search()"></button>      
                 </div>
