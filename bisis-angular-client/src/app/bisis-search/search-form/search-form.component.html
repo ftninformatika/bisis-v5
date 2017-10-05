@@ -17,10 +17,11 @@
                                     <div class="ui-g-3">
                                         <p-radioButton name="rg" value="keyword" label="Keyword" [(ngModel)]="radioValue"></p-radioButton>
                                     </div>
-                                </div><br>
+                                </div><br>    
                             <div class="ui-inputgroup">
-                                <input type="text" pInputText placeholder="text">  
-                                <button pButton type="button" label="Search" (click)="search()"></button>       
+                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">  
+                                <button pButton type="button" label="Search all(testing)" (click)="search()"></button>  
+                                <button pButton type="button" label="Search by" (click)="searchBy(radioValue,searchText1)"></button>      
                             </div>
                         </div>
                 </div>   
@@ -29,10 +30,9 @@
                     <div class="ui-g form-group ui-fluid">
                             <div class="ui-g-12 ui-lg-12">
                                     <span class="md-inputfield">
-                                            
+                                        <input type="">
                                     </span>    
                                     <span class="md-inputfield">
-                                            <button pButton type="button"  label="Click"></button>
                                             <input type="text" pInputText >
                                             <label>{{prefix1.label}}</label>
                                     </span>       

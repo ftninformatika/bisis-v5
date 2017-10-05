@@ -14,6 +14,7 @@ export class SearchFormComponent implements OnInit {
   searchChoices: SelectItem[];
   // 1st Form
   radioValue: string;
+  searchText1: string;
   // 2nd Form
   prefix1: SelectItem;
   prefix2: string;
@@ -30,6 +31,7 @@ export class SearchFormComponent implements OnInit {
     this.searchChoices.push({label: 'Keyword', value: 'keyword'});
     this.radioValue = 'universal';
     this.prefix1 = {label: 'Author', value: 'AU'};
+    this.searchText1 = '';
   }
 
   search() {
@@ -38,6 +40,28 @@ export class SearchFormComponent implements OnInit {
       response => this.serviceCallResult.emit(response),
       error => console.log(error)
     );
+  }
+
+  searchBy(choice, text) {
+    if (!this.validateQuery(choice, text)) {
+      return;
+    }
+    this.bisisService.searchRecordsByEP(choice, text)
+    .subscribe(
+      response => this.serviceCallResult.emit(response),
+      error => console.log(error)
+    );
+  }
+  private validateQuery(choice, text): boolean {
+    // tslint:disable-next-line:triple-equals
+    if (text === '' || text === undefined || text === null || (choice != 'universal'
+    // tslint:disable-next-line:triple-equals
+        && choice != 'author' && choice != 'title' && choice != 'keyword' )) {
+      console.log('Query error');
+      console.log('SearchBy ' + choice + ':' + text);
+      return false;
+    }
+    return true;
   }
 
   ngOnInit() {

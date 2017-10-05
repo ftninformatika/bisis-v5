@@ -115,7 +115,7 @@ public class RecordsController {
         }
     }
 
-    @RequestMapping(value = "/universal/ep/{text}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ep/universal/{text}", method = RequestMethod.GET)
     public List<ElasticPrefixEntity> getRecordsUniversalEP(@PathVariable String text){
         List<ElasticPrefixEntity> retVal = new ArrayList<>();
         SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
@@ -124,7 +124,7 @@ public class RecordsController {
         return retVal;
     }
 
-    @RequestMapping(value = "/author/ep/{author}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ep/author/{author}", method = RequestMethod.GET)
     public List<ElasticPrefixEntity> getRecordsByAuthorEP(@PathVariable String author){
       List<ElasticPrefixEntity> retVal = new ArrayList<>();
       Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(ElasticUtility.searchByAuthorQuery(author));
@@ -132,7 +132,7 @@ public class RecordsController {
       return retVal;
     }
 
-    @RequestMapping(value = "/title/ep/{title}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ep/title/{title}", method = RequestMethod.GET)
     public List<ElasticPrefixEntity> getRecordsByTitleEP(@PathVariable String title){
         List<ElasticPrefixEntity> retVal = new ArrayList<>();
         Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(ElasticUtility.searchByTitleQuery(title));

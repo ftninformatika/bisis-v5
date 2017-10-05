@@ -16,7 +16,17 @@ export class BisisSearchService {
 
     }
 
-    
+    searchRecordsByEP(choice, text) {
+        const headers = new Headers();
+        // TODO-hardcoded
+        headers.append('Authorization', this.token);
+        headers.append('Library', 'gbns_com');
+        console.log('Searching ' + choice + ':' + text);
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.url_ep_format + '/' + choice + '/' + text, options)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
 
     getRecordEP(recId: String): Observable<any> {
         const headers = new Headers();
