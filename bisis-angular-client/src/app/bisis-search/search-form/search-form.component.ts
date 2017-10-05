@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BisisSearchService } from '../service/bisis-search.service';
 import {SelectItem} from 'primeng/primeng';
 
+
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
@@ -11,7 +12,15 @@ export class SearchFormComponent implements OnInit {
 
   @Output() serviceCallResult: EventEmitter<any> = new EventEmitter();
   searchChoices: SelectItem[];
-  selectedChoice: any;
+  // 1st Form
+  radioValue: string;
+  // 2nd Form
+  prefix1: SelectItem;
+  prefix2: string;
+  prefix3: string;
+  prefix4: string;
+  prefix5: string;
+  prefix6: string;
 
   constructor( public bisisService: BisisSearchService) {
     this.searchChoices = [];
@@ -19,7 +28,8 @@ export class SearchFormComponent implements OnInit {
     this.searchChoices.push({label: 'Author', value: 'author'});
     this.searchChoices.push({label: 'Title', value: 'title'});
     this.searchChoices.push({label: 'Keyword', value: 'keyword'});
-    this.selectedChoice = 'universal';
+    this.radioValue = 'universal';
+    this.prefix1 = {label: 'Author', value: 'AU'};
   }
 
   search() {

@@ -1,14 +1,43 @@
 <div class="card card-w-title">
-    <!--span class="md-inputfield">
-        <button type="button" pButton label="search" icon="ui-icon-search" (click)="search()"></button>
-    </span>      Search form.........-->
-    <div class="ui-g ui-fluid">
-        <div class="ui-g-12 ui-md-4">
-                <div class="ui-inputgroup">
-                    <p-splitButton [model]="searchChoices"></p-splitButton>
-                    <input type="text" pInputText placeholder="Keyword">   
-                    <button pButton type="button" icon="fa-search" class="ui-button-secondary" (click)="search()"></button>      
-                </div>
-        </div>
-    </div>
+    <p-tabView>
+        <p-tabPanel header="Basic Search">  
+                <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-4">
+                            <span class="ui-inputgroup-addon"><b>Search by:</b></span><br><br>
+                                <div class="ui-g">
+                                    <div class="ui-g-3 " >
+                                        <p-radioButton name="rg" value="universal" label="Universal" [(ngModel)]="radioValue"></p-radioButton>
+                                    </div>
+                                    <div class="ui-g-3">
+                                        <p-radioButton name="rg" value="author" label="Author" [(ngModel)]="radioValue"></p-radioButton>
+                                    </div>
+                                    <div class="ui-g-3">
+                                        <p-radioButton name="rg" value="title" label="Title" [(ngModel)]="radioValue"></p-radioButton>
+                                    </div>
+                                    <div class="ui-g-3">
+                                        <p-radioButton name="rg" value="keyword" label="Keyword" [(ngModel)]="radioValue"></p-radioButton>
+                                    </div>
+                                </div><br>
+                            <div class="ui-inputgroup">
+                                <input type="text" pInputText placeholder="text">  
+                                <button pButton type="button" label="Search" (click)="search()"></button>       
+                            </div>
+                        </div>
+                </div>   
+            </p-tabPanel>          
+            <p-tabPanel header="Advanced Search">
+                    <div class="ui-g form-group ui-fluid">
+                            <div class="ui-g-12 ui-lg-12">
+                                    <span class="md-inputfield">
+                                            
+                                    </span>    
+                                    <span class="md-inputfield">
+                                            <button pButton type="button"  label="Click"></button>
+                                            <input type="text" pInputText >
+                                            <label>{{prefix1.label}}</label>
+                                    </span>       
+                            </div>    
+                    </div>
+            </p-tabPanel>
+    </p-tabView>
 </div> 
