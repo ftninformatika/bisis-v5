@@ -3,7 +3,9 @@ package com.ftninformatika.util.elastic;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.data.elasticsearch.core.query.StringQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +40,11 @@ public class ElasticUtility {
         retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes.KW", kw));
         return retVal;
     }
+
+    /*public static BoolQueryBuilder searchUniversalQuery(String text) {
+        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+        retVal.must()
+    }*/
 
     //formiranje Query-ja za glavnu pretragu zapisa
     public static BoolQueryBuilder makeQuery(SearchModel sm){

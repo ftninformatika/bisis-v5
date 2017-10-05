@@ -8,10 +8,18 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ListViewComponent implements OnInit {
 
   @Input() resultRecords: any[];
+  selectedRec: any;
+  displayDialog: boolean;
 
   constructor() { }
 
   ngOnInit() {
   }
+
+  selectRecord(event) {
+    this.selectedRec = event;
+    this.displayDialog = true;
+  }
+
 
 }

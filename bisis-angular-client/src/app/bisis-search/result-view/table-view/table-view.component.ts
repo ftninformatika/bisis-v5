@@ -23,6 +23,7 @@ export class TableViewComponent implements OnInit {
     console.log(event);
     this.selectedRec = event.data;
     this.displayDialog = true;
+    console.log(this.selectedRec);
   }
 
   redirectToRecordView(rec) {

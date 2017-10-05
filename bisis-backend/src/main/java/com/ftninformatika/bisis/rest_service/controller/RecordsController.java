@@ -9,7 +9,11 @@ import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.sun.org.apache.regexp.internal.RE;
 import org.apache.commons.collections.IteratorUtils;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.repository.query.ElasticsearchStringQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +60,7 @@ public class RecordsController {
 
       return retVal;
   }
+
 
   @ExceptionHandler(LockException.class)
   @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
@@ -108,6 +113,15 @@ public class RecordsController {
         } catch (Exception ex) {
             throw new RecordNotFoundException(recordId);
         }
+    }
+
+    @RequestMapping(value = "/universal/ep/{text}", method = RequestMethod.GET)
+    public List<ElasticPrefixEntity> getRecordsUniversalEP(@PathVariable String text){
+        List<ElasticPrefixEntity> retVal = new ArrayList<>();
+        SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
+        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query);
+        iRecs.iterator().forEachRemaining(retVal::add);
+        return retVal;
     }
 
     @RequestMapping(value = "/author/ep/{author}", method = RequestMethod.GET)

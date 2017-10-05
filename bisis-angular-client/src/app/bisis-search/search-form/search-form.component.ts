@@ -23,7 +23,7 @@ export class SearchFormComponent implements OnInit {
   }
 
   search() {
-    this.bisisService.fullSearch()
+    this.bisisService.getRecordsEP()
     .subscribe(
       response => this.serviceCallResult.emit(response),
       error => console.log(error)

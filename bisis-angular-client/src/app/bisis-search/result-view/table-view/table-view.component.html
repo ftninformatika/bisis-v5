@@ -1,7 +1,7 @@
 
 <p-dataTable [value]="resultRecords" [rows]="10" [paginator]="true" [pageLinks]="3" 
 resizableColumns="true" 
-selectionMode="single"  (onRowSelect)="onRowSelect($event)"  dataKey="_id"
+selectionMode="single"  (onRowSelect)="onRowSelect($event)"  
 [rowsPerPageOptions]="[5,10,20]" reorderableColumns="true">
     <p-header>List of Records</p-header>
     <p-column field="prefixes.AU" header="Author" [sortable]="true"></p-column>
@@ -11,34 +11,5 @@ selectionMode="single"  (onRowSelect)="onRowSelect($event)"  dataKey="_id"
 </p-dataTable>
 
 <p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="500" (onAfterHide)="onDialogHide()">
-    <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec" style="font-size:16px;text-align:center;padding:20px">
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-12" style="text-align:center"><img (click)="redirectToRecordView(selectedRec)" src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="200"></div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Title: </div>
-            <div class="ui-grid-col-8">{{selectedRec.prefixes.TI}}</div>
-
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Author: </div>
-            <div class="ui-grid-col-8">{{selectedRec.prefixes.AU}}</div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Year published: </div>
-            <div class="ui-grid-col-8">{{selectedRec.prefixes.PY}}</div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Publisher: </div>
-            <div class="ui-grid-col-8">{{selectedRec.prefixes.PU}}</div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Keywords: </div>
-            <div class="ui-grid-col-8">{{selectedRec.prefixes.KW}}</div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Signature: </div>
-            <div class="ui-grid-col-8">{{selectedRec.prefixes.SG}}</div>
-        </div>
-    </div>
-  </p-dialog>
+    <app-record-view  [selectedRec]='selectedRec'></app-record-view>
+</p-dialog>

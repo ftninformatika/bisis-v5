@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BisisSearchService } from '../service/bisis-search.service';
 @Component({
@@ -8,14 +8,14 @@ import { BisisSearchService } from '../service/bisis-search.service';
 })
 export class RecordViewComponent implements OnInit {
 
-  record: any;
+  @Input() selectedRec: any;
+
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public bisisService: BisisSearchService
   ) {
-    this. record = null;
   }
 
   ngOnInit() {

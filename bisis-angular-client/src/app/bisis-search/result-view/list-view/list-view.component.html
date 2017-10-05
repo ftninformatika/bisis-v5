@@ -5,10 +5,13 @@
   <ng-template let-rec pTemplate="item">
       <div class="ui-g ui-fluid car-item">
           <div class="ui-g-12 ui-md-3" style="text-align:center">
+                <i class="fa fa-search" (click)="selectRecord(rec)" style="cursor:hand;float:right;margin-top:40px">
+                </i>
               <img src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="120">
           </div>
           <div class="ui-g-12 ui-md-9 car-details" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
-              <div class="ui-g">
+                
+               <div class="ui-g">
                   <div class="ui-g-2 ui-sm-6">Title: </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixes.TI}}</div>
                   
@@ -28,3 +31,7 @@
       </div>
   </ng-template>
 </p-dataList>
+
+<p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="500" (onAfterHide)="onDialogHide()">
+<app-record-view  [selectedRec]='selectedRec'></app-record-view>
+</p-dialog>
