@@ -1,6 +1,6 @@
 <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec" style="font-size:16px;text-align:center;padding:20px">
   <div class="ui-grid-row">
-      <div class="ui-grid-col-12" style="text-align:center"><img (click)="redirectToRecordView(selectedRec)" src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="200"></div>
+      <div class="ui-grid-col-12" style="text-align:center"><img (click)="readUnimarc(selectedRec)" src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="200"></div>
   </div>
   <div class="ui-grid-row">
       <div class="ui-grid-col-4">Title: </div>
@@ -31,11 +31,11 @@
         <div class="ui-grid-col-8">{{selectedRec.prefixes.DC}}</div>
   </div>
   <div class="ui-grid-row">
-        <div class="ui-grid-col-4">Dimenzije: </div>
+        <div class="ui-grid-col-4">Dimensions: </div>
         <div class="ui-grid-col-8">{{selectedRec.prefixes['215d']}}</div>
   </div>
   <div class="ui-grid-row">
-        <div class="ui-grid-col-4">Stranica: </div>
+        <div class="ui-grid-col-4">Pages: </div>
         <div class="ui-grid-col-8">{{selectedRec.prefixes['215a']}}</div>
   </div>
 </div>

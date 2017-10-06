@@ -2,26 +2,15 @@
     <p-tabView>
         <p-tabPanel header="Basic Search">  
                 <div class="ui-g ui-fluid">
-                        <div class="ui-g-12 ui-md-4">
-                            <span class="ui-inputgroup-addon"><b>Search by:</b></span><br><br>
-                                <div class="ui-g">
-                                    <div class="ui-g-3 " >
-                                        <p-radioButton name="rg" value="universal" label="Universal" [(ngModel)]="radioValue"></p-radioButton>
-                                    </div>
-                                    <div class="ui-g-3">
-                                        <p-radioButton name="rg" value="author" label="Author" [(ngModel)]="radioValue"></p-radioButton>
-                                    </div>
-                                    <div class="ui-g-3">
-                                        <p-radioButton name="rg" value="title" label="Title" [(ngModel)]="radioValue"></p-radioButton>
-                                    </div>
-                                    <div class="ui-g-3">
-                                        <p-radioButton name="rg" value="keyword" label="Keyword" [(ngModel)]="radioValue"></p-radioButton>
-                                    </div>
-                                </div><br>    
+                        <div class="ui-g-12 ui-md-6" >
+                                <h3 class="first">Search by:</h3>
+                                <p-selectButton [options]="searchChoices" [(ngModel)]="selectedChoice"></p-selectButton><br><br>
                             <div class="ui-inputgroup">
-                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">  
-                                <button pButton type="button" label="Search all(testing)" (click)="search()"></button>  
-                                <button pButton type="button" label="Search by" (click)="searchBy(radioValue,searchText1)"></button>      
+                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1"> <br>  
+                            </div><br>
+                            <div class="ui-inputgroup">
+                                <!--button pButton type="button" label="Search all(testing)" (click)="search()"></button>  <br-->
+                                <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Search" (click)="searchBy(selectedChoice,searchText1)"></button>    
                             </div>
                         </div>
                 </div>   

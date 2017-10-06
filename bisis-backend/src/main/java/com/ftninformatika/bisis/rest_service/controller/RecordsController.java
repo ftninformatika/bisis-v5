@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
@@ -90,6 +91,18 @@ public class RecordsController {
       return  true;
   }
 
+    @RequestMapping(value = "/unimarc/{recordId}", method = RequestMethod.GET)
+    public String getRecordUnimarc(@PathVariable String recordId) {
+      String retVal = "";
+        try {
+            Record rec = recordsRepository.findOne(recordId);
+            if (rec == null)
+                throw new RecordNotFoundException(recordId);
+            return UnimarcSerializer.toUNIMARC(rec.getPubType(), rec,false);
+        } catch (Exception ex) {
+            throw new RecordNotFoundException(recordId);
+        }
+    }
 
   @RequestMapping(value = "/{recordId}", method = RequestMethod.GET)
   public Record getRecord(@PathVariable String recordId) {

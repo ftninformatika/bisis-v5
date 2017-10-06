@@ -13,7 +13,7 @@ export class SearchFormComponent implements OnInit {
   @Output() serviceCallResult: EventEmitter<any> = new EventEmitter();
   searchChoices: SelectItem[];
   // 1st Form
-  radioValue: string;
+  selectedChoice: string;
   searchText1: string;
   // 2nd Form
   prefix1: SelectItem;
@@ -29,7 +29,7 @@ export class SearchFormComponent implements OnInit {
     this.searchChoices.push({label: 'Author', value: 'author'});
     this.searchChoices.push({label: 'Title', value: 'title'});
     this.searchChoices.push({label: 'Keyword', value: 'keyword'});
-    this.radioValue = 'universal';
+    this.selectedChoice = 'universal';
     this.prefix1 = {label: 'Author', value: 'AU'};
     this.searchText1 = '';
   }

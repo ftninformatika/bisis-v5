@@ -25,4 +25,12 @@ export class RecordViewComponent implements OnInit {
     });
   }
 
+  readUnimarc(rec) {
+    this.bisisService.getUnimarcForRecord(rec.id)
+    .subscribe(
+      response => console.log(response),
+      error => console.log(error)
+    );
+  }
+
 }
