@@ -46,7 +46,6 @@ dependencies {
 
 jar {
     mainClassName = 'com.ftninformatika.bisis.BisisApp'
-
 }
 
 processResources {

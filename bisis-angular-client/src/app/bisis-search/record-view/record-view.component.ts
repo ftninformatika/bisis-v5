@@ -6,24 +6,27 @@ import { BisisSearchService } from '../service/bisis-search.service';
   templateUrl: './record-view.component.html',
   styleUrls: ['./record-view.component.css']
 })
-export class RecordViewComponent implements OnInit {
+export class RecordViewComponent  {
 
-  @Input() selectedRec: any;
+  _selectedRec: any;
+  fullRecord: any;
 
+  @Input() set selectedRec(rec: any) {
+    this._selectedRec = rec;
+    if (rec) { // Prvi put ulazi sa rec == undefined
+      this.getFullRec(rec.id);
+    }
+  }
+
+  get selectedRec(): any {
+    return this._selectedRec;
+  }
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public bisisService: BisisSearchService
-  ) {
-  }
-
-  ngOnInit() {
-     this.route
-    .queryParams
-    .subscribe(params => {
-    });
-  }
+  ) {}
 
   readUnimarc(rec) {
     this.bisisService.getUnimarcForRecord(rec.id)
@@ -31,6 +34,30 @@ export class RecordViewComponent implements OnInit {
       response => console.log(response),
       error => console.log(error)
     );
+    console.log(this.fullRecord);
+    this.makeUnimarc(this.fullRecord);
+    console.log('onde');
+    }
+
+  getFullRec(id: any) {
+    this.bisisService.getRecord(id)
+    .subscribe(
+      response => {
+        console.log(response);
+        console.log('ovde');
+        this.fullRecord = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  makeUnimarc(record: any): any {
+    var retVal = '';
+
+    record.fields.forEach(element => {
+      console.log(element);
+    });
+
   }
 
 }

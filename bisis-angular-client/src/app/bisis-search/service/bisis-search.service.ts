@@ -16,6 +16,17 @@ export class BisisSearchService {
 
     }
 
+    getRecord(recId) {
+        const headers = new Headers();
+        // TODO-hardcoded
+        headers.append('Authorization', this.token);
+        headers.append('Library', 'gbns_com');
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.url + '/' + recId, options)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
     getUnimarcForRecord(recId) {
         const headers = new Headers();
         // TODO-hardcoded
