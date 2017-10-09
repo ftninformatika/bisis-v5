@@ -36,15 +36,12 @@ export class RecordViewComponent  {
     );
     console.log(this.fullRecord);
     this.makeUnimarc(this.fullRecord);
-    console.log('onde');
     }
 
   getFullRec(id: any) {
     this.bisisService.getRecord(id)
     .subscribe(
       response => {
-        console.log(response);
-        console.log('ovde');
         this.fullRecord = response;
       },
       error => console.log(error)
@@ -52,12 +49,32 @@ export class RecordViewComponent  {
   }
 
   makeUnimarc(record: any): any {
-    var retVal = '';
+    let retVal = '';
 
     record.fields.forEach(element => {
-      console.log(element);
-    });
+      retVal += element.name + ' ';
+      // tslint:disable-next-line:triple-equals
+      if (element.ind1 == undefined || element.ind1 == null || element.ind1 == ' ' || element.ind1 == '' ) {
+        retVal += '#';
+      } else {
+        retVal += element.ind1;
+      }
+      // tslint:disable-next-line:triple-equals
+      if (element.ind2 == undefined || element.ind2 == null || element.ind2 == ' ' || element.ind2 == '' ) {
+        retVal += '#';
+      } else {
+        retVal += element.ind2;
+      }
 
+      element.subfields.forEach(e => {
+        retVal += '[' + e.name + ']' + e.content;
+      });
+
+       retVal += ' \n';
+
+    });
+    console.log(retVal);
+    return retVal;
   }
 
 }
