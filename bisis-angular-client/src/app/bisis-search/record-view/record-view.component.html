@@ -2,43 +2,43 @@
     <p-selectButton [options]="viewTypes" [(ngModel)]="selectedViewType"></p-selectButton><br><br>
 </div>
 <!--Default prikaz-->
-<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'general'" style="font-size:16px;text-align:center;padding:20px">
+<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'general'" style="font-size:16px;text-align:center;padding:20px; border:1px solid black;">
   <div class="ui-grid-row">
       <div class="ui-grid-col-12" style="text-align:center"><img (click)="readUnimarc(selectedRec)" src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="100"></div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixes.TI">
       <div class="ui-grid-col-4">Title: </div>
       <div class="ui-grid-col-8">{{selectedRec.prefixes.TI}}</div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row" *ngIf="selectedRec.prefixes.AU">
       <div class="ui-grid-col-4">Author: </div>
       <div class="ui-grid-col-8">{{selectedRec.prefixes.AU}}</div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixes.PY">
       <div class="ui-grid-col-4">Year published: </div>
       <div class="ui-grid-col-8">{{selectedRec.prefixes.PY}}</div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixes.PU">
       <div class="ui-grid-col-4">Publisher: </div>
       <div class="ui-grid-col-8">{{selectedRec.prefixes.PU}}</div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixes.KW">
       <div class="ui-grid-col-4">Keywords: </div>
       <div class="ui-grid-col-8">{{selectedRec.prefixes.KW}}</div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixes.SG">
       <div class="ui-grid-col-4">Signature: </div>
       <div class="ui-grid-col-8">{{selectedRec.prefixes.SG}}</div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixes.DC">
         <div class="ui-grid-col-4">UDK: </div>
         <div class="ui-grid-col-8">{{selectedRec.prefixes.DC}}</div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixes['215d']">
         <div class="ui-grid-col-4">Dimensions: </div>
         <div class="ui-grid-col-8">{{selectedRec.prefixes['215d']}}</div>
   </div>
-  <div class="ui-grid-row">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixes['215a']">
         <div class="ui-grid-col-4">Pages: </div>
         <div class="ui-grid-col-8">{{selectedRec.prefixes['215a']}}</div>
   </div>
@@ -48,6 +48,6 @@
     </div>
 </div>
 <!-- Unimark prikaz-->
-<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'unimarc'" style="font-size:16px;text-align:left;padding:20px">
+<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'unimarc'" style="font-size:16px;text-align:left;padding:20px; border:1px solid black;">
     <div class="ui-grid-col-12" *ngFor="let row of unimarcRows;">{{row}}</div>
 </div>
