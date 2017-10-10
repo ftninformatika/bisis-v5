@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BisisSearchService } from '../service/bisis-search.service';
+import {SelectItem} from 'primeng/primeng';
 @Component({
   selector: 'app-record-view',
   templateUrl: './record-view.component.html',
@@ -10,6 +10,9 @@ export class RecordViewComponent  {
 
   _selectedRec: any;
   fullRecord: any;
+  viewTypes: SelectItem[];
+  selectedViewType: string;
+  unimarcRows: string[];
 
   @Input() set selectedRec(rec: any) {
     this._selectedRec = rec;
@@ -23,10 +26,13 @@ export class RecordViewComponent  {
   }
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     public bisisService: BisisSearchService
-  ) {}
+  ) {
+    this.viewTypes = [];
+    this.viewTypes.push({label: 'General', value:'general'});
+    this.viewTypes.push({label: 'Unimarc', value:'unimarc'});
+    this.selectedViewType = 'general';
+  }
 
   readUnimarc(rec) {
     this.bisisService.getUnimarcForRecord(rec.id)
@@ -43,37 +49,40 @@ export class RecordViewComponent  {
     .subscribe(
       response => {
         this.fullRecord = response;
+        this.unimarcRows = this.makeUnimarc(this.fullRecord);
       },
       error => console.log(error)
     );
   }
 
   makeUnimarc(record: any): any {
-    let retVal = '';
+    if(!record) {
+      console.log('something went wrong');
+      return;
+    }
+
+    var retVal = new Array();
 
     record.fields.forEach(element => {
-      retVal += element.name + ' ';
-      // tslint:disable-next-line:triple-equals
+      var el = '';
+      el += element.name + ' ';
       if (element.ind1 == undefined || element.ind1 == null || element.ind1 == ' ' || element.ind1 == '' ) {
-        retVal += '#';
+        el += '#';
       } else {
-        retVal += element.ind1;
+        el += element.ind1;
       }
-      // tslint:disable-next-line:triple-equals
       if (element.ind2 == undefined || element.ind2 == null || element.ind2 == ' ' || element.ind2 == '' ) {
-        retVal += '#';
+        el += '#';
       } else {
-        retVal += element.ind2;
+        el += element.ind2;
       }
 
       element.subfields.forEach(e => {
-        retVal += '[' + e.name + ']' + e.content;
+        el += '[' + e.name + ']' + e.content;
       });
-
-       retVal += ' \n';
+       retVal.push(el);
 
     });
-    console.log(retVal);
     return retVal;
   }
 
