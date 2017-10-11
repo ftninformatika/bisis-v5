@@ -16,11 +16,14 @@ public class MemberController {
     MemberRepository memberRep;
 
     @RequestMapping( path = "/memberExist", method = RequestMethod.GET)
-    public Boolean userExist(@RequestParam (value = "userId") String userId){
-        return memberRep.exists(userId);
+    public String userExist(@RequestParam (value = "userId") String userId){
+        Member m = memberRep.getMemberByUserId(userId);
+        if (m != null)
+            return m.get_id();
+        return null;
     }
 
-    @RequestMapping( path = "/addUpdate", method = RequestMethod.POST)
+    @RequestMapping( path = "/addUpdate", method = RequestMethod.POST) //TODO-multipart member, lendings
     public Member addUpdateMember(@RequestBody Member member){
         Member retVal  = memberRep.save(member);
         return retVal;

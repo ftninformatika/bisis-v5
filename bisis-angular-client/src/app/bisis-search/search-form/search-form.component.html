@@ -2,7 +2,7 @@
     <p-tabView>
         <p-tabPanel header="Basic Search">  
                 <div class="ui-g ui-fluid">
-                        <div class="ui-g-12 ui-md-6" >
+                        <div class="ui-g-12 ui-md-6 ui-lg-12" >
                                 <h3 class="first">Search by:</h3>
                                 <p-selectButton [options]="searchChoices" [(ngModel)]="selectedChoice"></p-selectButton><br><br>
                             <div class="ui-inputgroup">
@@ -10,7 +10,7 @@
                             </div><br>
                             <div class="ui-inputgroup">
                                 <!--button pButton type="button" label="Search all(testing)" (click)="search()"></button>  <br-->
-                                <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Search" (click)="searchBy(selectedChoice,searchText1)"></button>    
+                                <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Search" (click)="searchBy(selectedChoice,searchText1)"></button>
                             </div>
                         </div>
                 </div>   
@@ -18,14 +18,68 @@
             <p-tabPanel header="Advanced Search">
                     <div class="ui-g form-group ui-fluid">
                             <div class="ui-g-12 ui-lg-12">
-                                    <span class="md-inputfield">
-                                        <input type="">
-                                    </span>    
-                                    <span class="md-inputfield">
-                                            <input type="text" pInputText >
-                                            <label>{{prefix1.label}}</label>
-                                    </span>       
-                            </div>    
+                                <div class="ui-g-2 ui-lg-2">
+                                    <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Prefix" (click)="searchBy(selectedChoice,searchText1)"></button>
+                                </div>
+                                <div class="ui-g-4 ui-lg-4">
+                                    <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">
+                                </div>
+                                <div class="ui-g-2 ui-lg-2">
+                                    <button icon="ui-icon-add" class="primary-btn" pButton type="button" label="AND" (click)="searchBy(selectedChoice,searchText1)"></button>
+                                </div>
+                            </div>
+                        <div class="ui-g-12 ui-lg-12">
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Prefix" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                            <div class="ui-g-4 ui-lg-4">
+                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">
+                            </div>
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="primary-btn" pButton type="button" label="AND" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-lg-12">
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Prefix" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                            <div class="ui-g-4 ui-lg-4">
+                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">
+                            </div>
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="primary-btn" pButton type="button" label="AND" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-lg-12">
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Prefix" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                            <div class="ui-g-4 ui-lg-4">
+                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">
+                            </div>
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="primary-btn" pButton type="button" label="AND" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-lg-12">
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Prefix" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                            <div class="ui-g-4 ui-lg-4">
+                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">
+                            </div>
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="primary-btn" pButton type="button" label="AND" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-lg-12">
+                            <div class="ui-g-2 ui-lg-2">
+                                <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Prefix" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            </div>
+                            <div class="ui-g-4 ui-lg-4">
+                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">
+                            </div>
+                        </div>
                     </div>
             </p-tabPanel>
     </p-tabView>
