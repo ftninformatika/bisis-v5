@@ -2,7 +2,10 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
+import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.RecordResponseWrapper;
+import com.ftninformatika.bisis.records.StanjePrimerka;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
@@ -14,6 +17,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.repository.query.ElasticsearchStringQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -129,11 +133,35 @@ public class RecordsController {
     }
 
     @RequestMapping(value = "/ep/universal/{text}", method = RequestMethod.GET)
-    public List<ElasticPrefixEntity> getRecordsUniversalEP(@PathVariable String text){
-        List<ElasticPrefixEntity> retVal = new ArrayList<>();
+    public List<RecordResponseWrapper> getRecordsUniversalEP(@PathVariable String text){
+        List<RecordResponseWrapper> retVal = new ArrayList<>();
         SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
         Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query);
-        iRecs.iterator().forEachRemaining(retVal::add);
+
+        iRecs.forEach(
+                e -> {
+                    System.out.println(e);
+                    RecordResponseWrapper rw = new RecordResponseWrapper();
+                    rw.setPrefixEntity(e);
+                    rw.setFullRecord(recordsRepository.findOne(e.getId()));
+                    rw.setListOfItems(getStanjaDummy(rw.getFullRecord())); //TODO ovo je dummy, za potrebe testrianja frontenda
+                    retVal.add(rw);
+                }
+        );
+
+        return retVal;
+    }
+
+    private List<StanjePrimerka> getStanjaDummy(Record rec){
+        List<StanjePrimerka> retVal = new ArrayList<>();
+
+        for (Primerak p: rec.getPrimerci()){
+            if (p.getDostupnost() == null)
+                retVal.add(new StanjePrimerka(p.getInvBroj(), true));
+            else
+                retVal.add(new StanjePrimerka(p.getInvBroj(), true));
+        }
+
         return retVal;
     }
 

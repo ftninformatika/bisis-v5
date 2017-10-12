@@ -12,6 +12,6 @@ import lombok.*;
 @ToString
 public class StanjePrimerka {
 
-    private String primerakId;
+    private String invBroj;
     private boolean slobodan;
 }
