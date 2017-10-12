@@ -140,7 +140,6 @@ public class RecordsController {
 
         iRecs.forEach(
                 e -> {
-                    System.out.println(e);
                     RecordResponseWrapper rw = new RecordResponseWrapper();
                     rw.setPrefixEntity(e);
                     rw.setFullRecord(recordsRepository.findOne(e.getId()));

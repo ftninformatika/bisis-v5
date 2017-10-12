@@ -1,16 +1,15 @@
 
 <p-dataTable [value]="resultRecords" [rows]="10" [paginator]="true" [pageLinks]="3"
-resizableColumns="true" expandableRows="true"
-selectionMode="single"  (onRowSelect)="onRowSelect($event)"  
+resizableColumns="true" expandableRows="true" [responsive]="true"
 [rowsPerPageOptions]="[5,10,20]" reorderableColumns="true">
-    <p-header>List of Records</p-header>
-    <p-column expander="true" styleClass="col-icon"></p-column>
-    <p-column field="prefixEntity.prefixes.AU" header="Author" [sortable]="true"></p-column>
-    <p-column field="prefixEntity.prefixes.TI" header="Title" [sortable]="true"></p-column>
-    <p-column field="prefixEntity.prefixes.PU" header="Publisher" [sortable]="true"></p-column>
-    <p-column field="prefixEntity.prefixes.PY" header="Year published" [sortable]="true"></p-column>
+    <p-header><b>Резултати претраге</b> ({{resultRecords.length}})</p-header>
+    <p-column expander="true" styleClass="col-icon arrow-drop-down-circle" [style]="{'width':'50px'}" >asd</p-column>
+    <p-column field="prefixEntity.prefixes.AU" header="Аутор" [sortable]="true"></p-column>
+    <p-column field="prefixEntity.prefixes.TI" header="Наслов" [sortable]="true"></p-column>
+    <p-column field="prefixEntity.prefixes.PU" header="Издавач" [sortable]="true"></p-column>
+    <p-column field="prefixEntity.prefixes.PY" header="Година издавања" [sortable]="true"></p-column>
     <ng-template let-rec pTemplate="rowexpansion">
-        <app-record-view  [selectedRec]='rec.prefixEntity'></app-record-view>
+        <app-record-view  [selectedRec]='rec'></app-record-view>
     </ng-template>
 </p-dataTable>
 

@@ -1,21 +1,20 @@
 <div class="card card-w-title">
     <p-tabView>
-        <p-tabPanel header="Basic Search">  
+        <p-tabPanel header="Универзална претрага">
                 <div class="ui-g ui-fluid">
                         <div class="ui-g-12 ui-md-6 ui-lg-12" >
-                                <h3 class="first">Search by:</h3>
-                                <p-selectButton [options]="searchChoices" [(ngModel)]="selectedChoice"></p-selectButton><br><br>
+                                <h3 class="first">Унесите текст претраге:</h3>
                             <div class="ui-inputgroup">
                                 <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1"> <br>  
                             </div><br>
                             <div class="ui-inputgroup">
                                 <!--button pButton type="button" label="Search all(testing)" (click)="search()"></button>  <br-->
-                                <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Search" (click)="searchBy(selectedChoice,searchText1)"></button>
+                                <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Претражи" (click)="searchBy(searchText1)"></button>
                             </div>
                         </div>
                 </div>   
             </p-tabPanel>          
-            <p-tabPanel header="Advanced Search">
+            <p-tabPanel header="Напредна претрага">
                     <div class="ui-g form-group ui-fluid">
                             <div class="ui-g-12 ui-lg-12">
                                 <div class="ui-g-2 ui-lg-2"></div>
@@ -93,7 +92,7 @@
                             <div class="ui-g-4 ui-lg-4"></div>
                         </div>
                         <div class="ui-g-12 ui-lg-12">
-                            <button icon="ui-icon-search" class="teal-btn" pButton type="button" label="Search" (click)="searchBy(selectedChoice,searchText1)"></button>
+                            <button icon="ui-icon-search" class="teal-btn" pButton type="button" label="Претражи" (click)="searchBy(selectedChoice,searchText1)"></button>
                         </div>
                     </div>
             </p-tabPanel>

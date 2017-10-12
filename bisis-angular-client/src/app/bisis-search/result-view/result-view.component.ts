@@ -13,10 +13,10 @@ export class ResultViewComponent implements OnInit {
 
   constructor() {
     this.resultViewTypes = [];
-    this.resultViewTypes.push({label: 'Tabelar', value: 'table'});
-    this.resultViewTypes.push({label: 'Data grid', value: 'data-grid'});
-    this.resultViewTypes.push({label: 'Scroller', value: 'scroller'});
-    this.resultViewTypes.push({label: 'List', value: 'list'});
+    this.resultViewTypes.push({label: 'Табеларно', value: 'table'});
+    this.resultViewTypes.push({label: 'Грид', value: 'data-grid'});
+    this.resultViewTypes.push({label: 'Скролер', value: 'scroller'});
+    this.resultViewTypes.push({label: 'Листа', value: 'list'});
     this.selectedResultViewType = 'table';
 
   }

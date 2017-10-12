@@ -6,7 +6,7 @@
       <div style="padding:3px" class="ui-g-12 ui-md-3">
           <p-panel [header]="rec._id" [style]="{'text-align':'center'}">
               <img src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="60">
-              <div class="rec-detail">{{rec.prefixes.TI}} - {{rec.prefixes.AU}}</div>
+              <div class="rec-detail">{{rec.prefixEntity.prefixes.TI}} - {{rec.prefixEntity.prefixes.AU}}</div>
               <hr class="ui-widget-content" style="border-top:0">
               <i class="fa fa-search" (click)="selectRecord(rec)" style="cursor:pointer"></i>
           </p-panel>

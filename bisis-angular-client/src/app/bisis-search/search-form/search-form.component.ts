@@ -11,9 +11,7 @@ import {SelectItem} from 'primeng/primeng';
 export class SearchFormComponent implements OnInit {
 
   @Output() serviceCallResult: EventEmitter<any> = new EventEmitter();
-  searchChoices: SelectItem[];
   // 1st Form
-  selectedChoice: string;
   searchText1: string;
   // 2nd Form
   prefix1: SelectItem;
@@ -24,12 +22,6 @@ export class SearchFormComponent implements OnInit {
   prefix6: string;
 
   constructor( public bisisService: BisisSearchService) {
-    this.searchChoices = [];
-    this.searchChoices.push({label: 'Universal', value: 'universal'});
-    this.searchChoices.push({label: 'Author', value: 'author'});
-    this.searchChoices.push({label: 'Title', value: 'title'});
-    this.searchChoices.push({label: 'Keyword', value: 'keyword'});
-    this.selectedChoice = 'universal';
     this.prefix1 = {label: 'Author', value: 'AU'};
     this.searchText1 = '';
   }
@@ -42,7 +34,8 @@ export class SearchFormComponent implements OnInit {
     );
   }
 
-  searchBy(choice, text) {
+  searchBy( text) {
+    var choice = 'universal';
     if (!this.validateQuery(choice, text)) {
       return;
     }

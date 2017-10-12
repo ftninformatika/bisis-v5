@@ -8,22 +8,11 @@ import {SelectItem} from 'primeng/primeng';
 })
 export class RecordViewComponent  {
 
-  _selectedRec: any;
-  fullRecord: any;
+  @Input() selectedRec: any;
   viewTypes: SelectItem[];
   selectedViewType: string;
   unimarcRows: string[];
 
-  @Input() set selectedRec(rec: any) {
-    this._selectedRec = rec;
-    if (rec) { // Prvi put ulazi sa rec == undefined
-      this.getFullRec(rec.id);
-    }
-  }
-
-  get selectedRec(): any {
-    return this._selectedRec;
-  }
 
   constructor(
     public bisisService: BisisSearchService
@@ -34,28 +23,7 @@ export class RecordViewComponent  {
     this.selectedViewType = 'general';
   }
 
-  readUnimarc(rec) {
-    this.bisisService.getUnimarcForRecord(rec.id)
-    .subscribe(
-      response => console.log(response),
-      error => console.log(error)
-    );
-    console.log(this.fullRecord);
-    this.makeUnimarc(this.fullRecord);
-    }
-
-  getFullRec(id: any) {
-    this.bisisService.getRecord(id)
-    .subscribe(
-      response => {
-        this.fullRecord = response;
-        this.unimarcRows = this.makeUnimarc(this.fullRecord);
-      },
-      error => console.log(error)
-    );
-  }
-
-  makeUnimarc(record: any): any {
+  makeUnimarc(record: any) {
     if(!record) {
       console.log('something went wrong');
       return;
@@ -83,7 +51,7 @@ export class RecordViewComponent  {
        retVal.push(el);
 
     });
-    return retVal;
+    this.unimarcRows = retVal;
   }
 
 }
