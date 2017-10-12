@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Message } from 'primeng/components/common/api';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,14 +20,11 @@ export class TableViewComponent implements OnInit {
 
   onRowSelect(event) {
     console.log(event);
-    this.selectedRec = event.data;
+    this.selectedRec = event.data.prefixEntity;
     this.displayDialog = true;
     console.log(this.selectedRec);
   }
 
-  redirectToRecordView(rec) {
-    this.router.navigate(['record-view'], { queryParams: {recId: this.selectedRec.id} });
-  }
 
 
 }

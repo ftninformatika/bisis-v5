@@ -46,7 +46,7 @@ export class BisisSearchService {
         console.log('Searching ' + choice + ':' + text);
         const options = new RequestOptions({ headers: headers });
         return this.http.get(this.url_ep_format + '/' + choice + '/' + text, options)
-            .map(response => response.json())
+            .map(response =>response.json())
             .catch(this.handleError);
     }
 
