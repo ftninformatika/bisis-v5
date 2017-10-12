@@ -45,6 +45,7 @@ export class SearchFormComponent implements OnInit {
       error => console.log(error)
     );
   }
+
   private validateQuery(choice, text): boolean {
     // tslint:disable-next-line:triple-equals
     if (text === '' || text === undefined || text === null || (choice != 'universal'

@@ -5,7 +5,7 @@
                         <div class="ui-g-12 ui-md-6 ui-lg-12" >
                                 <h3 class="first">Унесите текст претраге:</h3>
                             <div class="ui-inputgroup">
-                                <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1"> <br>  
+                                <input type="text" pInputText placeholder="текст" [(ngModel)]="searchText1"> <br>
                             </div><br>
                             <div class="ui-inputgroup">
                                 <!--button pButton type="button" label="Search all(testing)" (click)="search()"></button>  <br-->
@@ -22,7 +22,7 @@
                                     <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Prefix" (click)="searchBy(selectedChoice,searchText1)"></button>
                                 </div>
                                 <div class="ui-g-4 ui-lg-4">
-                                    <input type="text" pInputText placeholder="text" [(ngModel)]="searchText1">
+                                    <input type="text" pInputText  [(ngModel)]="searchText1">
                                 </div>
                                 <div class="ui-g-2 ui-lg-2">
                                     <button icon="ui-icon-add" class="primary-btn" pButton type="button" label="AND" (click)="searchBy(selectedChoice,searchText1)"></button>

@@ -1,3 +1,5 @@
+
+
 <div class="ui-grid ui-grid-responsive ui-grid-pad">
     <p-selectButton [options]="viewTypes" [(ngModel)]="selectedViewType" (click)="makeUnimarc(selectedRec.fullRecord)"></p-selectButton><br><br>
 </div>
@@ -31,6 +33,20 @@
         <div class="ui-grid-col-2"  align="right"><b>УДК: </b></div>
         <div class="ui-grid-col-10" align="left">{{selectedRec.prefixEntity.prefixes.DC}}</div>
   </div>
+    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC">
+        <div class="ui-grid-col-2"  align="right"></div>
+        <div class="ui-grid-col-10" align="left">
+            <p-fieldset [toggleable]="true" [collapsed]="true">
+                <p-header>Слободни примерци</p-header>
+                    <div class="ui-grid-row" align="left" *ngFor="let p of selectedRec.listOfItems">
+                        <div class="ui-grid-col-2">
+                        {{p.invBroj}} - <span *ngIf="p.slobodan"><font color="green"><b>слободан</b></font></span>
+                        <span *ngIf="p.slobodan == false"><font color="red"><b>заузет</b></font></span>
+                        </div>
+                    </div>
+                </p-fieldset>
+        </div>
+    </div>
   <!--div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['215d'] !== undefined && selectedRec.prefixEntity.prefixes['215d']">
         <div class="ui-grid-col-4">Dimensions: </div>
         <div class="ui-grid-col-8">{{selectedRec.prefixEntity.prefixes['215d']}}</div>
@@ -39,12 +55,14 @@
         <div class="ui-grid-col-4">Pages: </div>
         <div class="ui-grid-col-8">{{selectedRec.prefixEntity.prefixes['215a']}}</div>
   </div-->
-  <div class="ui-grid-row"> 
+  <div class="ui-grid-row">
     <div class="ui-grid-col-2" align="left">
-      <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Резервиши" ></button>
-      <button icon="ui-icon-add" class="primary-btn" pButton type="button" label="Додај на полицу" ></button>
+
     </div>
-    <div class="ui-grid-col-10" align="left"></div>
+    <div class="ui-grid-col-10" align="left">
+        <button icon="ui-icon-add" class="blue-grey-btn" pButton type="button" label="Резервиши" ></button>
+        <button icon="ui-icon-add" class="primary-btn" pButton type="button" label="Додај на полицу" ></button>
+    </div>
   </div>
 
 </div>

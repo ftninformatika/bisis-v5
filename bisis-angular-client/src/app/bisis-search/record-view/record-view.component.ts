@@ -40,7 +40,7 @@ export class RecordViewComponent  {
         el += element.ind1;
       }
       if (element.ind2 == undefined || element.ind2 == null || element.ind2 == ' ' || element.ind2 == '' ) {
-        el += '#';
+        el += '# ';
       } else {
         el += element.ind2;
       }
