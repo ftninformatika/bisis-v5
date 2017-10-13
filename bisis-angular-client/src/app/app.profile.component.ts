@@ -6,7 +6,7 @@ import {Component, trigger, state, transition, style, animate} from '@angular/co
         <div class="profile" [ngClass]="{'profile-expanded':active}">
             <a href="#" (click)="onClick($event)">
                 <img class="profile-image" src="assets/layout/images/avatar.png" />
-                <span class="profile-name">Jane Williams</span>
+                <span class="profile-name">Неки чова</span>
                 <i class="material-icons">keyboard_arrow_down</i>
             </a>
         </div>
@@ -15,25 +15,25 @@ import {Component, trigger, state, transition, style, animate} from '@angular/co
             <li role="menuitem">
                 <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">person</i>
-                    <span>Profile</span>
+                    <span>Профил</span>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">security</i>
-                    <span>Privacy</span>
+                    <span>Приватност</span>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">settings_application</i>
-                    <span>Settings</span>
+                    <span>Подешавања</span>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">power_settings_new</i>
-                    <span>Logout</span>
+                    <span>Излогујте се</span>
                 </a>
             </li>
         </ul>
