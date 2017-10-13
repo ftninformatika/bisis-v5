@@ -1,13 +1,15 @@
 <h1>Бисис претраживање</h1>
-
+<div class="card card-w-title">
  <div *ngIf="lib">
    pretrazuje kao biblioteka: {{lib}}
  </div>
- <div *ngIf="lib == undefined">
-  Одаберите библиотеку по којо желите да вршите претрагу:
-  <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event)"></p-dropdown>
- </div>
-
+ <div *ngIf="lib == undefined" style="margin-top: 10px;">
+     Одаберите библиотеку по којој желите да вршите претрагу:
+  <span style="margin-left: 20px;">
+    <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event)"></p-dropdown>
+  </span>
+  </div>
+</div>
 <app-search-form #bisisSearchForm (serviceCallResult)='setRecords($event)'
                  [lib]=lib [selectedLibrary]=selectedLibrary></app-search-form>
 <app-result-view [data]=searchResults ></app-result-view>
