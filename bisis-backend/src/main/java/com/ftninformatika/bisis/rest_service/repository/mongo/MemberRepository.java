@@ -12,5 +12,7 @@ public interface MemberRepository extends MongoRepository<Member,String> {
 
     public Member getMemberByUserId(String userId);
 
+    public Member getMemberByEmail(String email);
+
 
 }

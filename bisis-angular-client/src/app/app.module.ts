@@ -111,12 +111,21 @@ import { RecordViewComponent } from './bisis-search/record-view/record-view.comp
 import { AboutViewComponent } from './about-view/about-view.component';
 import { MyBookshelfComponent } from './my-bookshelf/my-bookshelf.component';
 
+
+import { AuthGuard } from './auth/authguard';
+import { AuthModule } from './auth/auth.module';
+import { LoginComponent } from './auth/login/login.component';
+import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
+
+
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         AppRoutes,
         HttpModule,
+        AuthModule,
         BrowserAnimationsModule,
         AccordionModule,
         AutoCompleteModule,
@@ -214,11 +223,15 @@ import { MyBookshelfComponent } from './my-bookshelf/my-bookshelf.component';
         ListViewComponent,
         RecordViewComponent,
         AboutViewComponent,
-        MyBookshelfComponent
+        MyBookshelfComponent,
+        LoginComponent,
+        ProfileComponent,
+        HomeComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CarService, CountryService, EventService, NodeService, BisisSearchService
+        CarService, CountryService, EventService, NodeService, BisisSearchService,
+        AuthGuard
     ],
     bootstrap: [AppComponent]
 })

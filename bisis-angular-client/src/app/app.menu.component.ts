@@ -19,6 +19,7 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
+            {label: 'Почетна страница', icon: 'home', routerLink: ['/']},
             {label: 'Бисис претрага', icon: 'search', routerLink: ['/bisis-search']},
             {label: 'Моја полица', icon: 'book', routerLink: ['/my-bookshelf']},
             {label: 'О нама', icon: 'info', routerLink: ['/about-view']}

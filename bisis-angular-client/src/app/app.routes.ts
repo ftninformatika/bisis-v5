@@ -18,9 +18,13 @@ import {BisisSearchComponent} from './bisis-search/bisis-search.component';
 import {RecordViewComponent} from './bisis-search/record-view/record-view.component';
 import {AboutViewComponent} from './about-view/about-view.component';
 import {MyBookshelfComponent} from './my-bookshelf/my-bookshelf.component';
+import {LoginComponent} from "./auth/login/login.component";
+import {ProfileComponent} from "./profile/profile.component";
+import {HomeComponent} from "./home/home.component";
 
 export const routes: Routes = [
-    {path: '', component: DashboardDemoComponent},
+    {path: '', component: HomeComponent},
+    {path: '#/:email', component: HomeComponent},
     {path: 'sample', component: SampleDemoComponent},
     {path: 'forms', component: FormsDemoComponent},
     {path: 'data', component: DataDemoComponent},
@@ -38,7 +42,9 @@ export const routes: Routes = [
     {path: 'bisis-search/:lib', component: BisisSearchComponent},
     {path: 'record-view', component: RecordViewComponent},
     {path: 'about-view', component: AboutViewComponent},
-    {path: 'my-bookshelf', component: MyBookshelfComponent}
+    {path: 'my-bookshelf', component: MyBookshelfComponent},
+    {path: 'login', component: LoginComponent},
+    {path: 'profile', component: ProfileComponent}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

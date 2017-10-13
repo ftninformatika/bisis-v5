@@ -53,13 +53,7 @@ import {AppComponent} from './app.component';
                         </ul>
                     </li>-->
                     <li #login [ngClass]="{'active-top-menu':app.activeTopbarItem === login}">
-                         <a href="#" (click)="app.onTopbarItemClick($event,settings)">
-                            <i class="topbar-icon material-icons">person</i>
-                            <span class="topbar-item-name">Login</span>
-                        </a>
-                    </li>
-                    <li #logout [ngClass]="{'active-top-menu':app.activeTopbarItem === login}">
-                         <a href="#" (click)="app.onTopbarItemClick($event,settings)">
+                         <a href="#/login" >
                             <i class="topbar-icon material-icons">person</i>
                             <span class="topbar-item-name">Login</span>
                         </a>
