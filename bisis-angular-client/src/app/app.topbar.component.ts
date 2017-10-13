@@ -90,7 +90,7 @@ import {AppComponent} from './app.component';
                             </li>
                         </ul>
                     </li>
-                    <li #messages [ngClass]="{'active-top-menu':app.activeTopbarItem === messages}">
+                    <!--li #messages [ngClass]="{'active-top-menu':app.activeTopbarItem === messages}">
                         <a href="#" (click)="app.onTopbarItemClick($event,messages)">
                             <i class="topbar-icon material-icons animated swing">message</i>
                             <span class="topbar-badge animated rubberBand">5</span>
@@ -128,8 +128,8 @@ import {AppComponent} from './app.component';
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li #notifications [ngClass]="{'active-top-menu':app.activeTopbarItem === notifications}">
+                    </li-->
+                    <!--li #notifications [ngClass]="{'active-top-menu':app.activeTopbarItem === notifications}">
                         <a href="#" (click)="app.onTopbarItemClick($event,notifications)">
                             <i class="topbar-icon material-icons">timer</i>
                             <span class="topbar-badge animated rubberBand">4</span>
@@ -161,15 +161,15 @@ import {AppComponent} from './app.component';
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li #search class="search-item" [ngClass]="{'active-top-menu':app.activeTopbarItem === search}"
+                    </li-->
+                    <!--li #search class="search-item" [ngClass]="{'active-top-menu':app.activeTopbarItem === search}"
                         (click)="app.onTopbarItemClick($event,search)">
                         <span class="md-inputfield">
                             <input type="text" pInputText>
                             <label>Search</label>
                             <i class="topbar-icon material-icons">search</i>
                         </span>
-                    </li>
+                    </li-->
                 </ul>
             </div>
         </div>

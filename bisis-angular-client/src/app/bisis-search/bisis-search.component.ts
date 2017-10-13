@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-bisis-search',
   templateUrl: './bisis-search.component.html',
@@ -8,12 +8,21 @@ import { Component, OnInit } from '@angular/core';
 export class BisisSearchComponent implements OnInit {
 
   searchResults: any[];
+  lib: string;
 
-  constructor() {
+  constructor(private route:ActivatedRoute) {
     this.searchResults = [];
-   }
+    this.lib ='';
+  }
 
   ngOnInit() {
+    this.route.params.subscribe(
+      params => {
+    this.lib = params['lib'];
+    console.log("biblioteka " + this.lib);
+    }
+    );
+
   }
 
   setRecords(event) {

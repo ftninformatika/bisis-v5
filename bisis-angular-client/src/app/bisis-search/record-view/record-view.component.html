@@ -4,37 +4,37 @@
     <p-selectButton [options]="viewTypes" [(ngModel)]="selectedViewType" (click)="makeUnimarc(selectedRec.fullRecord)"></p-selectButton><br><br>
 </div>
 <!--Default prikaz-->
-<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'general'" style="font-size:16px;text-align:center;padding:20px; border:1px solid #717e89;">
-  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.TI">
-      <div class="ui-grid-col-2"  align="right"><b>Наслов: </b></div>
+<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'general'" style="font-size:16px;text-align:center;padding:20px; border:1px solid #D5D5D5;">
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.TI" style="border-bottom:1px solid #D5D5D5">
+      <div class="ui-grid-col-2"  align="left"><b>Наслов: </b></div>
       <div class="ui-grid-col-10" align="left">{{selectedRec.prefixEntity.prefixes.TI}}</div>
   </div>
-  <div class="ui-grid-row" *ngIf="selectedRec.prefixEntity.prefixes.AU">
-      <div class="ui-grid-col-2"  align="right"><b>Аутор: </b></div>
+  <div class="ui-grid-row" *ngIf="selectedRec.prefixEntity.prefixes.AU" style="border-bottom:1px solid #D5D5D5">
+      <div class="ui-grid-col-2"  align="left"><b>Аутор: </b></div>
       <div class="ui-grid-col-10" align="left">{{selectedRec.prefixEntity.prefixes.AU}}</div>
   </div>
-  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.PY">
-      <div class="ui-grid-col-2"  align="right"><b>Година издавања: </b></div>
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.PY" style="border-bottom:1px solid #D5D5D5">
+      <div class="ui-grid-col-2"  align="left"><b>Година издавања: </b></div>
       <div class="ui-grid-col-10" align="left">{{selectedRec.prefixEntity.prefixes.PY}}</div>
   </div>
-  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.PU">
-      <div class="ui-grid-col-2"  align="right"><b>Издавач: </b></div>
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.PU" style="border-bottom:1px solid #D5D5D5">
+      <div class="ui-grid-col-2"  align="left"><b>Издавач: </b></div>
       <div class="ui-grid-col-10" align="left">{{selectedRec.prefixEntity.prefixes.PU}}</div>
   </div>
-  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.KW">
-      <div class="ui-grid-col-2"  align="right"><b>Кључне речи: </b></div>
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.KW" style="border-bottom:1px solid #D5D5D5">
+      <div class="ui-grid-col-2"  align="left"><b>Кључне речи: </b></div>
       <div class="ui-grid-col-10" align="left">{{selectedRec.prefixEntity.prefixes.KW}}</div>
   </div>
-  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.SG">
-      <div class="ui-grid-col-2"  align="right"><b>Сигнатура: </b></div>
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.SG" style="border-bottom:1px solid #D5D5D5">
+      <div class="ui-grid-col-2"  align="left"><b>Сигнатура: </b></div>
       <div class="ui-grid-col-10" align="left">{{selectedRec.prefixEntity.prefixes.SG}}</div>
   </div>
-  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC">
-        <div class="ui-grid-col-2"  align="right"><b>УДК: </b></div>
+  <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC" style="border-bottom:1px solid #D5D5D5">
+        <div class="ui-grid-col-2"  align="left"><b>УДК: </b></div>
         <div class="ui-grid-col-10" align="left">{{selectedRec.prefixEntity.prefixes.DC}}</div>
   </div>
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC">
-        <div class="ui-grid-col-2"  align="right"></div>
+        <div class="ui-grid-col-2"  align="left"></div>
         <div class="ui-grid-col-10" align="left">
             <p-fieldset [toggleable]="true" [collapsed]="true">
                 <p-header>Слободни примерци</p-header>
@@ -67,6 +67,6 @@
 
 </div>
 <!-- Unimark prikaz-->
-<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'unimarc'" style="font-size:16px;text-align:left;padding:20px; border:1px solid #717e89;">
+<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'unimarc'" style="font-size:16px;text-align:left;padding:20px; border:1px solid #D5D5D5;">
     <div class="ui-grid-col-12" *ngFor="let row of unimarcRows;">{{row}}</div>
 </div>

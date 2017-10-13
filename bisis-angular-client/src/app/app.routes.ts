@@ -16,6 +16,7 @@ import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
 import {DocumentationComponent} from './demo/view/documentation.component';
 import {BisisSearchComponent} from './bisis-search/bisis-search.component';
 import {RecordViewComponent} from './bisis-search/record-view/record-view.component';
+import {AboutViewComponent} from './about-view/about-view.component';
 
 export const routes: Routes = [
     {path: '', component: DashboardDemoComponent},
@@ -33,7 +34,9 @@ export const routes: Routes = [
     {path: 'utils', component: UtilsDemoComponent},
     {path: 'documentation', component: DocumentationComponent},
     {path: 'bisis-search', component: BisisSearchComponent},
-    {path: 'record-view', component: RecordViewComponent}
+    {path: 'bisis-search/:lib', component: BisisSearchComponent},
+    {path: 'record-view', component: RecordViewComponent},
+    {path: 'about-view', component: AboutViewComponent}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

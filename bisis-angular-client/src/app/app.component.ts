@@ -20,7 +20,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
 
-    darkMenu = false;
+    darkMenu = true;
 
     profileMode = 'inline';
 

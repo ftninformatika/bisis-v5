@@ -108,6 +108,7 @@ import { DataGridViewComponent } from './bisis-search/result-view/data-grid-view
 import { ScrollerViewComponent } from './bisis-search/result-view/scroller-view/scroller-view.component';
 import { ListViewComponent } from './bisis-search/result-view/list-view/list-view.component';
 import { RecordViewComponent } from './bisis-search/record-view/record-view.component';
+import { AboutViewComponent } from './about-view/about-view.component';
 
 @NgModule({
     imports: [
@@ -210,7 +211,8 @@ import { RecordViewComponent } from './bisis-search/record-view/record-view.comp
         DataGridViewComponent,
         ScrollerViewComponent,
         ListViewComponent,
-        RecordViewComponent
+        RecordViewComponent,
+        AboutViewComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
