@@ -4,7 +4,7 @@
    pretrazuje kao biblioteka: {{lib}}
  </div>
  <div *ngIf="lib == undefined" style="margin-top: 10px;">
-     Одаберите библиотеку по којој желите да вршите претрагу:
+     <font size="4"> Одаберите библиотеку по којој желите да вршите претрагу: </font>
   <span style="margin-left: 20px;">
     <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event)"></p-dropdown>
   </span>
