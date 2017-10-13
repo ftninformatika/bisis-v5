@@ -18,8 +18,8 @@ export class RecordViewComponent  {
     public bisisService: BisisSearchService
   ) {
     this.viewTypes = [];
-    this.viewTypes.push({label: 'General', value:'general'});
-    this.viewTypes.push({label: 'Unimarc', value:'unimarc'});
+    this.viewTypes.push({label: 'Уопштено', value:'general'});
+    this.viewTypes.push({label: 'Унимарк', value:'unimarc'});
     this.selectedViewType = 'general';
   }
 

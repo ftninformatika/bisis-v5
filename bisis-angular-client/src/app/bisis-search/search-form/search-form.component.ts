@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import { BisisSearchService } from '../service/bisis-search.service';
 import {SelectItem} from 'primeng/primeng';
 
@@ -10,6 +10,8 @@ import {SelectItem} from 'primeng/primeng';
 })
 export class SearchFormComponent implements OnInit {
 
+  @Input() lib: string;
+  @Input() selectedLibrary: string;
   @Output() serviceCallResult: EventEmitter<any> = new EventEmitter();
   // 1st Form
   searchText1: string;
@@ -46,10 +48,13 @@ export class SearchFormComponent implements OnInit {
     );
   }
 
+  setLib(lib) {
+    this.selectedLibrary = lib.value;
+    console.log(this.lib, this.selectedLibrary);
+  }
+
   private validateQuery(choice, text): boolean {
-    // tslint:disable-next-line:triple-equals
     if (text === '' || text === undefined || text === null || (choice != 'universal'
-    // tslint:disable-next-line:triple-equals
         && choice != 'author' && choice != 'title' && choice != 'keyword' )) {
       console.log('Query error');
       console.log('SearchBy ' + choice + ':' + text);

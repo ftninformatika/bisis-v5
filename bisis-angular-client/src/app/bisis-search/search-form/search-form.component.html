@@ -1,4 +1,5 @@
 <div class="card card-w-title">
+    {{selectedLib}} {{lib}}
     <p-tabView>
         <p-tabPanel header="Универзална претрага">
                 <div class="ui-g ui-fluid">
@@ -9,7 +10,7 @@
                             </div><br>
                             <div class="ui-inputgroup">
                                 <!--button pButton type="button" label="Search all(testing)" (click)="search()"></button>  <br-->
-                                <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Претражи" (click)="searchBy(searchText1)"></button>
+                                <button [disabled]="lib == undefined && (selectedLibrary == null || selectedLibrary == undefined || selectedLibrary == '')" icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Претражи" (click)="searchBy(searchText1)"></button>
                             </div>
                         </div>
                 </div>   

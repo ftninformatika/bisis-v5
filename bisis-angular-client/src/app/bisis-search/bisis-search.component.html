@@ -1,6 +1,13 @@
 <h1>Бисис претраживање</h1>
-<p>
- АЕОИУ и понекад Р
-</p>
-<app-search-form (serviceCallResult)='setRecords($event)'></app-search-form>
+
+ <div *ngIf="lib">
+   pretrazuje kao biblioteka: {{lib}}
+ </div>
+ <div *ngIf="lib == undefined">
+  Одаберите библиотеку по којо желите да вршите претрагу:
+  <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event)"></p-dropdown>
+ </div>
+
+<app-search-form #bisisSearchForm (serviceCallResult)='setRecords($event)'
+                 [lib]=lib [selectedLibrary]=selectedLibrary></app-search-form>
 <app-result-view [data]=searchResults ></app-result-view>
