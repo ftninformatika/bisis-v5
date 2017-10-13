@@ -19,9 +19,10 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
-            {label: 'Dashboard', icon: 'dashboard', routerLink: ['/']},
-            {label: 'Bisis pretraga', icon: 'search', routerLink: ['/bisis-search']},
-            {
+            {label: 'Бисис претрага', icon: 'search', routerLink: ['/bisis-search']},
+            {label: 'Моја полица', icon: 'book', routerLink: ['/my-bookshelf']},
+            {label: 'О нама', icon: 'info', routerLink: ['/about-view']}
+            /*{
                 label: 'Themes', icon: 'palette', badge: '6',
                 items: [
                     {label: 'Indigo - Pink', icon: 'brush', command: (event) => {this.changeTheme('indigo'); }},
@@ -125,7 +126,7 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {label: 'Utils', icon: 'build', routerLink: ['/utils']},
-            {label: 'Documentation', icon: 'find_in_page', routerLink: ['/documentation']}
+            {label: 'Documentation', icon: 'find_in_page', routerLink: ['/documentation']}*/
         ];
     }
 

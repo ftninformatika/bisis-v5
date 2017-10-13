@@ -1,6 +1,6 @@
 <p-dataGrid [value]="resultRecords" [paginator]="true" [rows]="20">
   <p-header>
-      List of Records
+      <b>Резултати претраге</b> ({{resultRecords.length}})
   </p-header>
   <ng-template let-rec pTemplate="item">
       <div style="padding:3px" class="ui-g-12 ui-md-3">

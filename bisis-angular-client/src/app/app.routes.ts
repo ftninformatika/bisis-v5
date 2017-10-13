@@ -17,6 +17,7 @@ import {DocumentationComponent} from './demo/view/documentation.component';
 import {BisisSearchComponent} from './bisis-search/bisis-search.component';
 import {RecordViewComponent} from './bisis-search/record-view/record-view.component';
 import {AboutViewComponent} from './about-view/about-view.component';
+import {MyBookshelfComponent} from './my-bookshelf/my-bookshelf.component';
 
 export const routes: Routes = [
     {path: '', component: DashboardDemoComponent},
@@ -36,7 +37,8 @@ export const routes: Routes = [
     {path: 'bisis-search', component: BisisSearchComponent},
     {path: 'bisis-search/:lib', component: BisisSearchComponent},
     {path: 'record-view', component: RecordViewComponent},
-    {path: 'about-view', component: AboutViewComponent}
+    {path: 'about-view', component: AboutViewComponent},
+    {path: 'my-bookshelf', component: MyBookshelfComponent}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

@@ -1,6 +1,6 @@
 <p-dataScroller [value]="resultRecords" [rows]="10" [inline]="true" scrollHeight="500px">
   <p-header>
-      Scroll Down to to Load More
+     <b>Резултати претраге </b> ({{resultRecords.length}})
   </p-header>
   <ng-template let-rec pTemplate="item">
       <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
@@ -9,20 +9,20 @@
               <div class="ui-grid-col-9">
                   <div class="ui-grid ui-grid-responsive ui-fluid">
                       <div class="ui-grid-row">
-                          <div class="ui-grid-col-2">Title: </div>
-                          <div class="ui-grid-col-10">{{rec.prefixes.TI}}</div>
+                          <div class="ui-grid-col-2">Наслов: </div>
+                          <div class="ui-grid-col-10">{{rec.prefixEntity.prefixes.TI}}</div>
                       </div>
                       <div class="ui-grid-row">
-                          <div class="ui-grid-col-2">Author: </div>
-                          <div class="ui-grid-col-10">{{rec.prefixes.AU}}</div>
+                          <div class="ui-grid-col-2">Аутор: </div>
+                          <div class="ui-grid-col-10">{{rec.prefixEntity.prefixes.AU}}</div>
                       </div>
                       <div class="ui-grid-row">
-                          <div class="ui-grid-col-2">Publisher: </div>
-                          <div class="ui-grid-col-10">{{rec.prefixes.PU}}</div>
+                          <div class="ui-grid-col-2">Издавач: </div>
+                          <div class="ui-grid-col-10">{{rec.prefixEntity.prefixes.PU}}</div>
                       </div>
                       <div class="ui-grid-row">
-                          <div class="ui-grid-col-2">Year published: </div>
-                          <div class="ui-grid-col-10">{{rec.prefixes.PY}}</div>
+                          <div class="ui-grid-col-2">Година издавања: </div>
+                          <div class="ui-grid-col-10">{{rec.prefixEntity.prefixes.PY}}</div>
                       </div>
                   </div>
               </div>
@@ -31,6 +31,6 @@
   </ng-template>
 </p-dataScroller>
   
-<p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="500" (onAfterHide)="onDialogHide()">
+<p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
     <app-record-view  [selectedRec]='selectedRec'></app-record-view>
 </p-dialog>

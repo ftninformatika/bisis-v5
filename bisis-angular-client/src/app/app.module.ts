@@ -109,6 +109,7 @@ import { ScrollerViewComponent } from './bisis-search/result-view/scroller-view/
 import { ListViewComponent } from './bisis-search/result-view/list-view/list-view.component';
 import { RecordViewComponent } from './bisis-search/record-view/record-view.component';
 import { AboutViewComponent } from './about-view/about-view.component';
+import { MyBookshelfComponent } from './my-bookshelf/my-bookshelf.component';
 
 @NgModule({
     imports: [
@@ -212,7 +213,8 @@ import { AboutViewComponent } from './about-view/about-view.component';
         ScrollerViewComponent,
         ListViewComponent,
         RecordViewComponent,
-        AboutViewComponent
+        AboutViewComponent,
+        MyBookshelfComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
