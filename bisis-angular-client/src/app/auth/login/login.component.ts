@@ -13,16 +13,16 @@ export class LoginComponent implements OnInit {
   constructor(public router: Router, public http: Http) {
   }
 
-  login(event, email, password) {
+  login(event, username, password) {
     event.preventDefault();
-    let body = JSON.stringify({ email, password });
+    let body = JSON.stringify({ username, password });
     this.http.post('/auth', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.setItem('token', response.json().token);
           console.log(response.json().token);
 
-          this.router.navigate(['/' + email]);
+          this.router.navigate(['/']);
         },
         error => {
           alert(error.text());
