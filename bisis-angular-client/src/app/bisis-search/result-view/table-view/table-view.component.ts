@@ -20,8 +20,6 @@ export class TableViewComponent implements OnInit {
 
   onRowSelect(event) {
     console.log(event);
-    this.selectedRec = event.data.prefixEntity;
-    this.displayDialog = true;
     console.log(this.selectedRec);
   }
 

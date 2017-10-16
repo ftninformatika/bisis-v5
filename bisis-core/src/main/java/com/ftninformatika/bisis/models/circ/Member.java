@@ -44,7 +44,8 @@ public class Member implements java.io.Serializable {
 	private String city;
 	private Integer zip;
 	private String phone;
-	private String email;
+	private String email; // ovo je username za prijavljivanje
+	private String password;
 	private String jmbg;
 	private Integer docId;
 	private String docNo;
@@ -63,7 +64,6 @@ public class Member implements java.io.Serializable {
 	private String title;
 	private String indexNo;
 	private Integer classNo;
-	private String pass;
 	private String blockReason;
 
 	private List<Signing> signings = new ArrayList<>();

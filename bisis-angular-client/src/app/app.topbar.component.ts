@@ -54,7 +54,7 @@ import {AppComponent} from './app.component';
                     </li>-->
                     <li #login [ngClass]="{'active-top-menu':app.activeTopbarItem === login}">
                          <a href="#/login" >
-                            <button pButton label="Улогујте се" icon="ui-icon-person" class="blue-grey-btn"></button>
+                            <button pButton label="Пријавите се" icon="ui-icon-person" class="blue-grey-btn"></button>
                         </a>
                     </li>
                     <!--li #settings [ngClass]="{'active-top-menu':app.activeTopbarItem === settings}">

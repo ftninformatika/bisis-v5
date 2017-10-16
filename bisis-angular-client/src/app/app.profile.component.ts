@@ -33,7 +33,7 @@ import {Component, trigger, state, transition, style, animate} from '@angular/co
             <li role="menuitem">
                 <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">power_settings_new</i>
-                    <span>Излогујте се</span>
+                    <span>Одјавите се</span>
                 </a>
             </li>
         </ul>

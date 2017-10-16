@@ -24,11 +24,8 @@ public class MemberController {
     }
 
     @RequestMapping( path = "/getByEmail", method = RequestMethod.GET)
-    public Member getMemberByUsername(@RequestParam (value = "email") String email){
-        Member m = memberRep.getMemberByEmail(email);
-        if (m != null)
-            return m;
-        return null;
+    public Member getMemberByEmail(@RequestParam (value = "email") String email){
+        return memberRep.getMemberByEmail(email);
     }
 
     @RequestMapping( path = "/addUpdate", method = RequestMethod.POST) //TODO-multipart member, lendings

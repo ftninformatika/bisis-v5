@@ -10,9 +10,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface MemberRepository extends MongoRepository<Member,String> {
 
 
-    public Member getMemberByUserId(String userId);
+     Member getMemberByUserId(String userId);
 
-    public Member getMemberByEmail(String email);
+     Member getMemberByEmail(String email);
 
 
 }

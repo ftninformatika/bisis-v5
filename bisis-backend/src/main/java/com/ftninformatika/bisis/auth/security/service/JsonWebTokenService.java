@@ -2,6 +2,11 @@ package com.ftninformatika.bisis.auth.security.service;
 
 import com.ftninformatika.bisis.auth.exception.model.ServiceException;
 import com.ftninformatika.bisis.auth.model.User;
+import com.ftninformatika.bisis.models.circ.Member;
+import com.ftninformatika.bisis.models.circ.pojo.LibraryMember;
+import com.ftninformatika.bisis.rest_service.controller.MemberController;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,6 +36,9 @@ public class JsonWebTokenService implements TokenService {
         this.userDetailsService = userDetailsService;
     }
 
+    @Autowired
+    LibraryMemberRepository libraryMemberRepository;
+
     @Override
     public String getToken(final String username, final String password) {
         if (username == null || password == null) {
@@ -41,6 +49,30 @@ public class JsonWebTokenService implements TokenService {
         if (password.equals(user.getPassword())) {
             tokenData.put("clientType", "librarian");
             tokenData.put("userID", user.getId());
+            tokenData.put("username", user.getUsername());
+            tokenData.put("token_create_date", LocalDateTime.now());
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, tokenExpirationTime);
+            tokenData.put("token_expiration_date", calendar.getTime());
+            JwtBuilder jwtBuilder = Jwts.builder();
+            jwtBuilder.setExpiration(calendar.getTime());
+            jwtBuilder.setClaims(tokenData);
+            return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
+
+        } else {
+            throw new ServiceException("Authentication error", this.getClass().getName());
+        }
+    }
+
+    public String getMemberToken(final String username, final String password) {
+        if (username == null || password == null) {
+            return null;
+        }
+        final LibraryMember user = libraryMemberRepository.findByUsername(username); //email im je username
+        Map<String, Object> tokenData = new HashMap<>();
+        if (password.equals(user.getPassword())) {
+            tokenData.put("clientType", "member");
+            tokenData.put("userID", user.get_id());
             tokenData.put("username", user.getUsername());
             tokenData.put("token_create_date", LocalDateTime.now());
             Calendar calendar = Calendar.getInstance();

@@ -3,7 +3,9 @@ package com.ftninformatika.bisis.auth.controller;
 import com.ftninformatika.bisis.auth.dto.LoginDTO;
 import com.ftninformatika.bisis.auth.dto.TokenDTO;
 import com.ftninformatika.bisis.auth.security.service.TokenService;
+import com.ftninformatika.bisis.models.circ.Member;
 import com.ftninformatika.bisis.rest_service.controller.MemberController;
+import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +32,19 @@ public class MemberAuthenticationController {
         this.tokenService = tokenService;
     }
 
-    @Autowired MemberController memberController;
+    @Autowired
+    MemberRepository memberRepository;
 
     @RequestMapping(method = RequestMethod.POST)
     public Map<String, Object> authenticate(@RequestBody final LoginDTO dto) {
         Map<String, Object> retVal = new HashMap<>();
-        final String token = tokenService.getToken(dto.getUsername(), dto.getPassword());
+        final String token = tokenService.getMemberToken(dto.getUsername(), dto.getPassword());
         if (token != null) {
             final TokenDTO response = new TokenDTO();
             response.setToken(token);
             retVal.put("token", response);
-            retVal.put("member_info", memberController.getMemberByUsername(dto.getUsername()));
+            Member m = memberRepository.getMemberByEmail(dto.getUsername());
+            retVal.put("member_info", m);
 
             return retVal;
         } else {

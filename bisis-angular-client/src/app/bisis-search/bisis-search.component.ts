@@ -33,7 +33,7 @@ export class BisisSearchComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         if (params['lib']) {
-          if (/*bisisGlobals.ourLibs.includes(params['lib']*/params['lib']=="gbns"){
+          if (bisisGlobals.ourLibs.includes(params['lib'])/*params['lib']=="gbns"*/){
             this.lib = params['lib'];
             console.log("pretraga kao bilbioteka :" + this.lib);
             console.log(bisisGlobals.ourLibs);
