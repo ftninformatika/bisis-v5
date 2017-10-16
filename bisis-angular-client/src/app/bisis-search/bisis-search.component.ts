@@ -1,6 +1,7 @@
 import {Component,  OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SelectItem} from "primeng/primeng";
+import * as bisisGlobals from "../globals";
 
 @Component({
   selector: 'app-bisis-search',
@@ -17,9 +18,8 @@ export class BisisSearchComponent implements OnInit {
   libList: SelectItem[];
   selectedLibrary: string;
 
-  constructor(private route:ActivatedRoute) {
+  constructor(private route:ActivatedRoute, public router: Router) {
     this.searchResults = [];
-    this.lib ='';
     this.selectedLibrary = '';
     this.libList = [];
     this.libList.push({label:'Одабери библиотеку', value:null});
@@ -32,8 +32,17 @@ export class BisisSearchComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       params => {
-    this.lib = params['lib'];
-    console.log("biblioteka " + this.lib);
+        if (params['lib']) {
+          if (/*bisisGlobals.ourLibs.includes(params['lib']*/params['lib']=="gbns"){
+            this.lib = params['lib'];
+            console.log("pretraga kao bilbioteka :" + this.lib);
+            console.log(bisisGlobals.ourLibs);
+          }
+          else{
+            console.log("nepostojeca putanja, biblioteka, redirekcija na univerazalnu!!!");
+            this.router.navigate(['/bisis-search']);
+          }
+        }
     }
     );
 
