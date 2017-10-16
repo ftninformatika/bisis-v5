@@ -52,12 +52,12 @@ import {AppComponent} from './app.component';
                             </li>
                         </ul>
                     </li>-->
-                    <li #login [ngClass]="{'active-top-menu':app.activeTopbarItem === login}">
+                    <li #login *ngIf="!(isAuthenticated())" [ngClass]="{'active-top-menu':app.activeTopbarItem === login}">
                          <a href="#/login" >
                             <button pButton label="Пријавите се" icon="ui-icon-person" class="blue-grey-btn"></button>
                         </a>
                     </li>
-                     <li #login [ngClass]="{'active-top-menu':app.activeTopbarItem === logout}">
+                     <li #login *ngIf="isAuthenticated()" [ngClass]="{'active-top-menu':app.activeTopbarItem === logout}">
                          <a (click)="logout()" >
                             <button pButton label="Одјавите се" icon="ui-icon-highlight-off" class="blue-grey-btn"></button>
                         </a>
@@ -184,6 +184,11 @@ export class AppTopbarComponent {
     constructor(public app: AppComponent) {}
 
 
+    isAuthenticated(): boolean {
+        if (localStorage.getItem('authenticated') != undefined)
+            return true;
+        return false;
+    }
 
     logout(){
         console.log("logging out");
