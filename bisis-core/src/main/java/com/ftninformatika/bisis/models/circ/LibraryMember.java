@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.models.circ.pojo;
+package com.ftninformatika.bisis.models.circ;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -18,7 +18,7 @@ public class LibraryMember {
     @Id String _id;
     private String username; // (email)
     private String password;
-    private String library;
+    private String libraryPrefix;
     private String index;
 
 }

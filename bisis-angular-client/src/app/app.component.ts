@@ -202,4 +202,5 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         jQuery(this.layoutMenuScroller).nanoScroller({flash: true});
     }
 
+
 }

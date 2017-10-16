@@ -3,12 +3,9 @@ package com.ftninformatika.bisis.auth.controller;
 import com.ftninformatika.bisis.auth.dto.LoginDTO;
 import com.ftninformatika.bisis.auth.dto.TokenDTO;
 import com.ftninformatika.bisis.auth.security.service.TokenService;
-import com.ftninformatika.bisis.models.circ.Member;
-import com.ftninformatika.bisis.rest_service.controller.MemberController;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import com.ftninformatika.bisis.models.circ.LibraryMember;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +30,7 @@ public class MemberAuthenticationController {
     }
 
     @Autowired
-    MemberRepository memberRepository;
+    LibraryMemberRepository libraryMemberRepository;
 
     @RequestMapping(method = RequestMethod.POST)
     public Map<String, Object> authenticate(@RequestBody final LoginDTO dto) {
@@ -43,7 +40,7 @@ public class MemberAuthenticationController {
             final TokenDTO response = new TokenDTO();
             response.setToken(token);
             retVal.put("token", response);
-            Member m = memberRepository.getMemberByEmail(dto.getUsername());
+            LibraryMember m = libraryMemberRepository.findByUsername(dto.getUsername());
             retVal.put("member_info", m);
 
             return retVal;

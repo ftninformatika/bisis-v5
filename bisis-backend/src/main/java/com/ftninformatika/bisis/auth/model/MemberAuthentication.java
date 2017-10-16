@@ -1,10 +1,7 @@
 package com.ftninformatika.bisis.auth.model;
 
-import com.ftninformatika.bisis.models.circ.Member;
-import com.ftninformatika.bisis.models.circ.pojo.LibraryMember;
-import lombok.AllArgsConstructor;
+import com.ftninformatika.bisis.models.circ.LibraryMember;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

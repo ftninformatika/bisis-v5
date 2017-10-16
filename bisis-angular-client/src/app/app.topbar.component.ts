@@ -57,6 +57,11 @@ import {AppComponent} from './app.component';
                             <button pButton label="Пријавите се" icon="ui-icon-person" class="blue-grey-btn"></button>
                         </a>
                     </li>
+                     <li #login [ngClass]="{'active-top-menu':app.activeTopbarItem === logout}">
+                         <a (click)="logout()" >
+                            <button pButton label="Одјавите се" icon="ui-icon-highlight-off" class="blue-grey-btn"></button>
+                        </a>
+                    </li>
                     <!--li #settings [ngClass]="{'active-top-menu':app.activeTopbarItem === settings}">
                         <a href="#" (click)="app.onTopbarItemClick($event,settings)">
                             <i class="topbar-icon material-icons">settings</i>
@@ -178,4 +183,10 @@ export class AppTopbarComponent {
 
     constructor(public app: AppComponent) {}
 
+
+
+    logout(){
+        console.log("logging out");
+        localStorage.clear();
+    }
 }

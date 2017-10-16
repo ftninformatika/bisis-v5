@@ -16,11 +16,13 @@ export class LoginComponent implements OnInit {
   login(event, username, password) {
     event.preventDefault();
     let body = JSON.stringify({ username, password });
-    this.http.post('/auth', body, { headers: contentHeaders })
+    this.http.post('/memauth', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.setItem('token', response.json().token);
-          console.log(response.json().token);
+          localStorage.setItem('authenticated', response.json().member_info.username);
+          localStorage.setItem('shortInfo', JSON.stringify(response.json().member_info));
+          console.log(response.json());
 
           this.router.navigate(['/']);
         },
@@ -34,6 +36,11 @@ export class LoginComponent implements OnInit {
   signup(event) {
     event.preventDefault();
     this.router.navigate(['signup']);
+  }
+
+  logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('shortInfo');
   }
 
   ngOnInit() {

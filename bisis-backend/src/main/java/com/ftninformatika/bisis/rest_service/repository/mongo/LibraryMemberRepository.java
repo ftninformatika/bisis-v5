@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
-import com.ftninformatika.bisis.models.circ.pojo.LibraryMember;
-import com.mongodb.Mongo;
+import com.ftninformatika.bisis.models.circ.LibraryMember;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
