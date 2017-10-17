@@ -1,3 +1,3 @@
-<p *ngIf="user">
-  ulogovao se: {{user}}
+<p *ngIf="this.ah.authenticated != undefined && this.ah.authenticated != null && this.ah.authenticated != ''">
+  ulogovao se: {{this.ah.authenticated}}
 </p>

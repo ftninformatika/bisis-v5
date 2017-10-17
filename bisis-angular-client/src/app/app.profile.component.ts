@@ -1,39 +1,56 @@
 import {Component, trigger, state, transition, style, animate} from '@angular/core';
+import {AuthHelper} from "./auth/utilities/authhelper";
 
 @Component({
     selector: 'app-inline-profile',
     template: `
-        <div class="profile" [ngClass]="{'profile-expanded':active}">
-            <a href="#" (click)="onClick($event)">
-                <img class="profile-image" src="assets/layout/images/avatar.png" />
-                <span class="profile-name">Неки чова</span>
-                <i class="material-icons">keyboard_arrow_down</i>
-            </a>
-        </div>
-
-        <ul class="ultima-menu profile-menu" [@menu]="active ? 'visible' : 'hidden'">
-            <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+        
+        <ul class="ultima-menu profile-menu " *ngIf="(this.ah.authenticated)" >
+            <li  role="menuitem">
+                <a href="#" class="ripplelink" >
                     <i class="material-icons">person</i>
                     <span>Профил</span>
                 </a>
             </li>
             <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+                <a href="#" class="ripplelink" >
                     <i class="material-icons">security</i>
                     <span>Приватност</span>
                 </a>
             </li>
             <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+                <a href="#" class="ripplelink" >
                     <i class="material-icons">settings_application</i>
                     <span>Подешавања</span>
                 </a>
             </li>
             <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+                <a href="#" (click)="this.ah.logout()" class="ripplelink" >
                     <i class="material-icons">power_settings_new</i>
                     <span>Одјавите се</span>
+                </a>
+            </li>
+        </ul>
+        
+        <!-- Disabled buttons, kada korisnik nije ulogovan -->
+         <ul class="ultima-menu profile-menu fc-state-disabled" *ngIf="!(this.ah.authenticated)" 
+            pTooltip="Молимо вас пријавите се, како би могли да приступите свом профилу!" >
+            <li  role="menuitem">
+                <a  class="ripplelink" >
+                    <i class="material-icons">person</i>
+                    <span>Профил</span>
+                </a>
+            </li>
+            <li role="menuitem">
+                <a class="ripplelink" >
+                    <i class="material-icons">security</i>
+                    <span>Приватност</span>
+                </a>
+            </li>
+            <li role="menuitem">
+                <a class="ripplelink" >
+                    <i class="material-icons">settings_application</i>
+                    <span>Подешавања</span>
                 </a>
             </li>
         </ul>
@@ -55,8 +72,15 @@ export class AppInlineProfileComponent {
 
     active: boolean;
 
+    constructor( public ah: AuthHelper ) {
+
+    }
+
     onClick(event) {
         this.active = !this.active;
         event.preventDefault();
     }
+
+
+
 }

@@ -117,7 +117,7 @@ import { AuthModule } from './auth/auth.module';
 import { LoginComponent } from './auth/login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
-
+import { AuthHelper } from './auth/utilities/authhelper';
 
 @NgModule({
     imports: [
@@ -231,7 +231,7 @@ import { HomeComponent } from './home/home.component';
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CarService, CountryService, EventService, NodeService, BisisSearchService,
-        AuthGuard
+        AuthGuard, AuthHelper
     ],
     bootstrap: [AppComponent]
 })

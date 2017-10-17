@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthHelper} from "../auth/utilities/authhelper";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -6,17 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  someText: string;
 
-  constructor() { }
+  constructor(public ah: AuthHelper) { }
 
-  get user(): string {
-    return localStorage.getItem('authenticated');
-  }
 
   ngOnInit() {
-    console.log(localStorage);
-    this.someText = JSON.parse(localStorage.getItem('shortInfo')).username;
+
   }
 
 }
