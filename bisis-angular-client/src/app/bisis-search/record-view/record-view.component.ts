@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BisisSearchService } from '../service/bisis-search.service';
 import {SelectItem} from 'primeng/primeng';
+import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-record-view',
   templateUrl: './record-view.component.html',
@@ -12,15 +13,39 @@ export class RecordViewComponent  {
   viewTypes: SelectItem[];
   selectedViewType: string;
   unimarcRows: string[];
+  isPage: boolean;
 
 
-  constructor(
-    public bisisService: BisisSearchService
-  ) {
+  constructor( private route:ActivatedRoute, public router: Router, public bisisService: BisisSearchService ) {
     this.viewTypes = [];
     this.viewTypes.push({label: 'Основно', value:'general'});
     this.viewTypes.push({label: 'Unimarc', value:'unimarc'});
     this.selectedViewType = 'general';
+  }
+
+  ngOnInit() {
+    if (this.selectedRec == undefined) {
+        this.route.params.subscribe(
+              params => {
+                if(params['recId'] != undefined)
+                {
+                  this.bisisService.getRecord(params['recId']).subscribe(
+                    response => {
+                      if ( response != null && response != undefined)
+                        this.selectedRec = response;
+                        this.isPage = true;
+                    },
+                    error => {
+                      this.router.navigate(['/bisis-search']);
+                    }
+                );
+                }
+              }
+        );
+      }
+    else
+      console.log("something");
+
   }
 
   makeUnimarc(record: any) {

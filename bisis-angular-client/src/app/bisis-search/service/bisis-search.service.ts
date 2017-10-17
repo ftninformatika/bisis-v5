@@ -22,7 +22,7 @@ export class BisisSearchService {
         headers.append('Authorization', this.token);
         headers.append('Library', 'gbns_com');
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(this.url + '/' + recId, options)
+        return this.http.get(this.url + '/full/' + recId, options)
             .map(response => response.json())
             .catch(this.handleError);
     }

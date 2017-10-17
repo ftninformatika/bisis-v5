@@ -36,7 +36,6 @@ export class BisisSearchComponent implements OnInit {
           if (bisisGlobals.ourLibs.includes(params['lib'])/*params['lib']=="gbns"*/){
             this.lib = params['lib'];
             console.log("pretraga kao bilbioteka :" + this.lib);
-            console.log(bisisGlobals.ourLibs);
           }
           else{
             console.log("nepostojeca putanja, biblioteka, redirekcija na univerazalnu!!!");

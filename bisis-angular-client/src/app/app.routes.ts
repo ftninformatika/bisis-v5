@@ -41,7 +41,7 @@ export const routes: Routes = [
     {path: 'documentation', component: DocumentationComponent},
     {path: 'bisis-search', component: BisisSearchComponent},
     {path: 'bisis-search/:lib', component: BisisSearchComponent},
-    {path: 'record-view', component: RecordViewComponent},
+    {path: 'record-view/:recId', component: RecordViewComponent},
     {path: 'about-view', component: AboutViewComponent},
     {path: 'my-bookshelf', component: MyBookshelfComponent},
     {path: 'login', component: LoginComponent},

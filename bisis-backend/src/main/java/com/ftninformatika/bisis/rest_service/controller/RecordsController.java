@@ -120,6 +120,23 @@ public class RecordsController {
     }
   }
 
+    @RequestMapping(value = "/full/{recordId}", method = RequestMethod.GET)
+    public RecordResponseWrapper getFullWrapperRecord(@PathVariable String recordId) {
+        RecordResponseWrapper retVal = new RecordResponseWrapper();
+        try {
+            Record rec = recordsRepository.findOne(recordId);
+            ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
+            retVal.setFullRecord(rec);
+            retVal.setPrefixEntity(e);
+            retVal.setListOfItems(getStanjaDummy(rec));
+            if (rec == null)
+                throw new RecordNotFoundException(recordId);
+            return retVal;
+        } catch (Exception ex) {
+            throw new RecordNotFoundException(recordId);
+        }
+    }
+
     @RequestMapping(value = "/ep/{recordId}", method = RequestMethod.GET)
     public ElasticPrefixEntity getRecordEP(@PathVariable String recordId) {
         try {

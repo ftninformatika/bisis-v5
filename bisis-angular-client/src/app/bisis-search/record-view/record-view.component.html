@@ -3,6 +3,7 @@
 <div class="ui-grid ui-grid-responsive ui-grid-pad">
     <p-selectButton [options]="viewTypes" [(ngModel)]="selectedViewType" (click)="makeUnimarc(selectedRec.fullRecord)"></p-selectButton><br><br>
 </div>
+<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && (isPage != true)"><a href="#/record-view/{{selectedRec.prefixEntity.id}}">Линк ка примерку</a></div>
 <!--Default prikaz-->
 <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'general'" style="font-size:16px;text-align:center;padding:20px; border:1px solid #D5D5D5;">
   <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.TI" style="border-bottom:1px solid #D5D5D5">
