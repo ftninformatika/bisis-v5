@@ -26,7 +26,7 @@ import {AuthHelper} from "./auth/utilities/authhelper";
                     </li>
                      <li #login *ngIf="this.ah.authenticated" [ngClass]="{'active-top-menu':app.activeTopbarItem === logout}">
                          <a (click)="logout()" >
-                            <button pButton label="Одјавите се" icon="ui-icon-highlight-off" class="blue-grey-btn"></button>
+                            <button pButton label="Одјавите се" icon="ui-icon-power-settings-new" class="blue-grey-btn"></button>
                         </a>
                     </li>
                    

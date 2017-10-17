@@ -24,12 +24,12 @@ import {AuthHelper} from "./auth/utilities/authhelper";
                     <span>Подешавања</span>
                 </a>
             </li>
-            <li role="menuitem">
+            <!--li role="menuitem">
                 <a href="#" (click)="this.ah.logout()" class="ripplelink" >
                     <i class="material-icons">power_settings_new</i>
                     <span>Одјавите се</span>
                 </a>
-            </li>
+            </li-->
         </ul>
         
         <!-- Disabled buttons, kada korisnik nije ulogovan -->

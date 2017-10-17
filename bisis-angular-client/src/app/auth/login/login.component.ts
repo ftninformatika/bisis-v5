@@ -14,21 +14,23 @@ export class LoginComponent implements OnInit {
   }
 
   login(event, username, password) {
+    username = 'member@member.com';
+    password = 'member1';
     event.preventDefault();
     let body = JSON.stringify({ username, password });
     this.http.post('/memauth', body, { headers: contentHeaders })
       .subscribe(
         response => {
+          localStorage.clear();
           localStorage.setItem('token', response.json().token);
           localStorage.setItem('authenticated', response.json().member_info.username);
           localStorage.setItem('shortInfo', JSON.stringify(response.json().member_info));
-          console.log(response.json());
-
+          //console.log(response.json());
           this.router.navigate(['/']);
         },
         error => {
           alert(error.text());
-          console.log(error.text());
+          //console.log(error.text());
         }
       );
   }

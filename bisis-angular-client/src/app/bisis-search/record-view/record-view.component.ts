@@ -19,6 +19,7 @@ export class RecordViewComponent  {
   constructor( private route:ActivatedRoute, public router: Router, public bisisService: BisisSearchService ) {
     this.viewTypes = [];
     this.viewTypes.push({label: 'Основно', value:'general'});
+    this.viewTypes.push({label: 'Детаљно', value:'detail'});
     this.viewTypes.push({label: 'Unimarc', value:'unimarc'});
     this.selectedViewType = 'general';
   }
