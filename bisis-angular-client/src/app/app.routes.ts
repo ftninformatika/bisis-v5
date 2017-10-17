@@ -21,6 +21,7 @@ import {MyBookshelfComponent} from './my-bookshelf/my-bookshelf.component';
 import {LoginComponent} from "./auth/login/login.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {HomeComponent} from "./home/home.component";
+import {AuthGuard} from "./auth/authguard";
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -44,7 +45,7 @@ export const routes: Routes = [
     {path: 'about-view', component: AboutViewComponent},
     {path: 'my-bookshelf', component: MyBookshelfComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'profile', component: ProfileComponent}
+    {path: 'profile', canActivate: [ AuthGuard ], component: ProfileComponent}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

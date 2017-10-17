@@ -1,21 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
+import {AuthHelper} from "./utilities/authhelper";
 
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,public ah: AuthHelper) {}
 
   canActivate() {
-    if (tokenNotExpired()) {
+    console.log("Usao u can activate")
+    if (!(this.ah.authenticated)) {
+      this.router.navigate(['login']);
+      console.log("Niste ulogovani");
+      return false;
+    }
+    /*if (tokenNotExpired()) {
       console.log('not expired');
       return true;
-    }
-    console.log('expired');
-    this.router.navigate(['login']);
-    return false;
+    }*/
+    return true;
   }
 
 }

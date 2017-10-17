@@ -7,7 +7,7 @@ import {AuthHelper} from "./auth/utilities/authhelper";
         
         <ul class="ultima-menu profile-menu " *ngIf="(this.ah.authenticated)" >
             <li  role="menuitem">
-                <a href="#" class="ripplelink" >
+                <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">person</i>
                     <span>Профил</span>
                 </a>
@@ -36,19 +36,19 @@ import {AuthHelper} from "./auth/utilities/authhelper";
          <ul class="ultima-menu profile-menu fc-state-disabled" *ngIf="!(this.ah.authenticated)" 
             pTooltip="Молимо вас пријавите се, како би могли да приступите свом профилу!" >
             <li  role="menuitem">
-                <a  class="ripplelink" >
+                <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">person</i>
                     <span>Профил</span>
                 </a>
             </li>
             <li role="menuitem">
-                <a class="ripplelink" >
+                <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">security</i>
                     <span>Приватност</span>
                 </a>
             </li>
             <li role="menuitem">
-                <a class="ripplelink" >
+                <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">settings_application</i>
                     <span>Подешавања</span>
                 </a>
