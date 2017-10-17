@@ -1,9 +1,9 @@
 
-<p-dataTable [value]="resultRecords" [rows]="10" [paginator]="true" [pageLinks]="3"
-resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode="single"
-[rowsPerPageOptions]="[5,10,20]" reorderableColumns="true"> (onRowClick)="toggleRow($event)"
+<p-dataTable #tableView [value]="resultRecords" [rows]="10" [paginator]="true" [pageLinks]="3"
+resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode="none"
+[rowsPerPageOptions]="[5,10,20]" reorderableColumns="true" (onRowClick)="tableView.toggleRow($event.data)">
     <p-header><b>Резултати претраге</b> ({{resultRecords.length}})</p-header>
-    <p-column expander="true" styleClass="col-icon arrow-drop-down-circle" [style]="{'width':'50px'}" >asd</p-column>
+    <p-column expander="true" styleClass="col-icon arrow-drop-down-circle" [style]="{'width':'43px'}" >asd</p-column>
     <p-column field="prefixEntity.prefixes.AU" header="Аутор" [sortable]="true"></p-column>
     <p-column field="prefixEntity.prefixes.TI" header="Наслов" [sortable]="true"></p-column>
     <p-column field="prefixEntity.prefixes.PU" header="Издавач" [sortable]="true"></p-column>

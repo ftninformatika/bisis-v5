@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router,public ah: AuthHelper) {}
 
   canActivate() {
-    console.log("Usao u can activate")
+
     if (!(this.ah.authenticated)) {
       this.router.navigate(['login']);
       console.log("Niste ulogovani");
