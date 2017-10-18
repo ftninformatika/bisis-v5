@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 /**
  * Created by Petar on 6/30/2017.
  */
@@ -23,6 +25,7 @@ public class LibraryConfiguration {
     private String _id;
     private String libraryName;
     private String networkServerList;
+    private String libCollectionSufix;
 
     private String catalougingPrimerciModel;
     private String catalougingGodineModel;
@@ -65,6 +68,8 @@ public class LibraryConfiguration {
 
     private String pincodeEnabled;
     private String pincodeLibrary;
+
+    private List<Report> reports;
 
 
 }
