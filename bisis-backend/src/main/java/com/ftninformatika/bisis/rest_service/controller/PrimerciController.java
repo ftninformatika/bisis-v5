@@ -34,7 +34,7 @@ public class PrimerciController {
         //TODO- sve sto treba kod zaduzivanja
         retVal.getPrimerak(ctlgNo).setStatus("9"); //hardcoded
         Lending l = new Lending(null, memberId, ctlgNo, null, null, null, null, new Date(), null, null, null, null);
-        m.getLendings().add(l);
+        //m.getLendings().add(l);
 
         memberController.memberRep.save(m);
         recordsRepository.save(retVal);

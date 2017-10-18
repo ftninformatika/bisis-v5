@@ -90,7 +90,7 @@ public class PrimerakSerializer {
     	addSubfield(f, 't', dateFormat.format(p.getDatumStatusa()));
     
     //dodato zbog mobilne aplikacije	
-    addSubfield(f, '9', String.valueOf(p.getStanje()));
+    //addSubfield(f, '9', String.valueOf(p.getStanje()));
 
     return f;
   }
@@ -160,15 +160,15 @@ public class PrimerakSerializer {
     p.setDostupnost(getSubfieldContent(f, 'p'));
     try{
     if (getSubfieldContent(f, '9') != null){
-    	p.setStanje(Integer.parseInt(getSubfieldContent(f, '9')));
+    	//p.setStanje(Integer.parseInt(getSubfieldContent(f, '9')));
     }else{
-    	p.setStanje(0);
+    	//p.setStanje(0);
     }
     }catch(NumberFormatException ex){
      log.warn("Neispravno stanje: " + 
      		getSubfieldContent(f, '9'));
      toLog = true;
-     p.setStanje(0);
+     //p.setStanje(0);
     }
     try {
       String ds = getSubfieldContent(f, 't');

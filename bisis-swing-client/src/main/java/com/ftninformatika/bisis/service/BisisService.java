@@ -190,6 +190,13 @@ public interface BisisService {
 
     @GET("/coders/membership")
     Call<List<Membership>> getMemberships(@Query("libName")String libName);
+    
+    @POST("/memberships")
+    Call<Membership> addMembership(@Body Membership membership);
+
+    @HTTP(method = "DELETE", path = "/memberships", hasBody = true)
+    Call<Boolean> deleteMembership(@Body String membershipId);
+    //vratice true ako je uspesno obrisan, a ako ga nije pronasao vraca false!
 
     @GET("/coders/membership_type")
     Call<List<MembershipType>> getMembershipTypes(@Query("libName")String libName);
@@ -210,21 +217,13 @@ public interface BisisService {
 
     //TODO
 
-    @POST("/addMembership")
-    Call<Membership> addMembership(@Body Membership membership);
-    //враца објекат, неуспесно нулл
-
-
-    @POST("/deleteMembership")
-    Call<Boolean> deleteMembership(@Body Membership membership);
-    //true, false
 
 
     @GET("/corporatemembers/getById")
     Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);
     //samo po userId
 
-    
+
 
     @POST("/members/saveCorporateUser")
     Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
