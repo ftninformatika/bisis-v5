@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
@@ -16,15 +17,12 @@ public class RecordsManager {
 
     private Primerak primerak;
     private Sveska sveska;
-    private List<Object> list;
+    private ItemAvailability itemAvailability;
+    private List<ItemAvailability> list;
 
 
     public RecordsManager(){
-        init();
-    }
-
-    private void init(){
-        list = new ArrayList<Object>();
+        list = new ArrayList<ItemAvailability>();
     }
 
     public Record lendBook(String ctlgno){
@@ -38,7 +36,6 @@ public class RecordsManager {
         }
 
         if (primerak != null){
-            listContainsPrimerak(primerak);
             if (primerak.getStatus() == null){
                 zaduziv = true;
             } else {
@@ -46,9 +43,15 @@ public class RecordsManager {
 
             }
             if (zaduziv){
-                if (primerak.getStanje() == 0){
-                    primerak.setStanje(1);
-                    list.add(primerak);
+                try {
+                    itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                listContainsItem(itemAvailability);
+                if (!itemAvailability.getBorrowed()){
+                    itemAvailability.setBorrowed(true);
+                    list.add(itemAvailability);
                     try {
                         record = BisisApp.bisisService.getRecordForPrimerak(ctlgno).execute().body();
                     } catch (IOException e) {
@@ -63,17 +66,21 @@ public class RecordsManager {
                 e.printStackTrace();
             }
             if (sveska != null){
-                listContainsSveska(sveska);
                 if (sveska.getStatus() == null){
                     zaduziv = true;
                 }else{
                     zaduziv = BisisApp.appConfig.getCodersHelper().getItemStatuses().get( sveska.getStatus()).isLendable();
-
                 }
                 if (zaduziv){
-                    if (sveska.getStanje() != 1){
-                        sveska.setStanje(1);
-                        list.add(sveska);
+                    try {
+                        itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    listContainsItem(itemAvailability);
+                    if (!itemAvailability.getBorrowed()){
+                        itemAvailability.setBorrowed(true);
+                        list.add(itemAvailability);
                         try {
                             record = BisisApp.bisisService.getRecordForSveska(ctlgno).execute().body();
                         } catch (IOException e) {
@@ -86,22 +93,11 @@ public class RecordsManager {
         return record;
     }
 
-    public void listContainsPrimerak(Primerak prim){
-        Iterator<Object> it = list.iterator();
+    public void listContainsItem(ItemAvailability item){
+        Iterator<ItemAvailability> it = list.iterator();
         while (it.hasNext()){
-            Object tmp = it.next();
-            if (tmp instanceof Primerak && ((Primerak)tmp).getPrimerakID() == prim.getPrimerakID()){
-                list.remove(tmp);
-                return;
-            }
-        }
-    }
-
-    public void listContainsSveska(Sveska sv){
-        Iterator<Object> it = list.iterator();
-        while (it.hasNext()){
-            Object tmp = it.next();
-            if (tmp instanceof Sveska && ((Sveska)tmp).getSveskaID() == sv.getSveskaID()){
+            ItemAvailability tmp = it.next();
+            if (tmp.getCtlgNo() == item.getCtlgNo()){
                 list.remove(tmp);
                 return;
             }
@@ -115,10 +111,15 @@ public class RecordsManager {
             e.printStackTrace();
         }
         if (primerak != null){
-            listContainsPrimerak(primerak);
-            if (primerak.getStanje() == 1){
-                primerak.setStanje(0);
-                list.add(primerak);
+            try {
+                itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            listContainsItem(itemAvailability);
+            if (itemAvailability.getBorrowed()){
+                itemAvailability.setBorrowed(false);
+                list.add(itemAvailability);
             }
         } else {
             try {
@@ -127,40 +128,45 @@ public class RecordsManager {
                 e.printStackTrace();
             }
             if (sveska != null){
-                listContainsSveska(sveska);
-                if (sveska.getStanje() == 1){
-                    sveska.setStanje(0);
-                    list.add(sveska);
+                try {
+                    itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                listContainsItem(itemAvailability);
+                if (itemAvailability.getBorrowed()){
+                    itemAvailability.setBorrowed(false);
+                    list.add(itemAvailability);
                 }
             }
         }
     }
 
-    public Object changeStanje(String ctlgno){
-        try {
-            primerak = BisisApp.bisisService.getPrimerakByInvNum(ctlgno).execute().body();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (primerak != null){
-            if (primerak.getStanje() == 1){
-                primerak.setStanje(0);
-            }
-            return primerak;
-        } else {
-            try {
-                sveska = BisisApp.bisisService.getSveskaByInvNum(ctlgno).execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (sveska != null){
-                if (sveska.getStanje() == 1){
-                    sveska.setStanje(0);
-                }
-            }
-            return sveska;
-        }
-    }
+//    public Object changeStanje(String ctlgno){
+//        try {
+//            primerak = BisisApp.bisisService.getPrimerakByInvNum(ctlgno).execute().body();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        if (primerak != null){
+//            if (primerak.getStanje() == 1){
+//                primerak.setStanje(0);
+//            }
+//            return primerak;
+//        } else {
+//            try {
+//                sveska = BisisApp.bisisService.getSveskaByInvNum(ctlgno).execute().body();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            if (sveska != null){
+//                if (sveska.getStanje() == 1){
+//                    sveska.setStanje(0);
+//                }
+//            }
+//            return sveska;
+//        }
+//    }
 
     public String getErrorMessage(){
         String message = "";
@@ -171,7 +177,7 @@ public class RecordsManager {
             if (primerak.getStatus() != null){
                 message = message + primerak.getStatus() + ", ";
             }
-            if (primerak.getStanje() == 1){
+            if (itemAvailability.getBorrowed()){
                 message = message + "Zauzet";
             } else {
                 message = message + "Slobodan";
@@ -182,7 +188,7 @@ public class RecordsManager {
             if (sveska.getStatus() != null){
                 message = message + sveska.getStatus() + ", ";
             }
-            if (sveska.getStanje() == 1){
+            if (itemAvailability.getBorrowed()){
                 message = message + "Zauzet";
             } else {
                 message = message + "Slobodan";
@@ -203,12 +209,12 @@ public class RecordsManager {
     public boolean chargedBook(){
         if (primerak != null ){
             if (primerak.getStatus() == null || BisisApp.appConfig.getCodersHelper().getItemStatuses().get(primerak.getStatus()).isLendable()){
-                return primerak.getStanje() == 1;
+                return itemAvailability.getBorrowed();
             }
             return false;
         }else if (sveska != null){
             if (sveska.getStatus() == null || BisisApp.appConfig.getCodersHelper().getItemStatuses().get(sveska.getStatus()).isLendable()){
-                return sveska.getStanje() == 1;
+                return itemAvailability.getBorrowed();
             }
             return false;
         }else{

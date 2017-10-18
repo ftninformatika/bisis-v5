@@ -66,6 +66,7 @@ public class Member implements java.io.Serializable {
 	private String indexNo;
 	private Integer classNo;
 	private String blockReason;
+	private String pin;
 
 	private List<Signing> signings = new ArrayList<>();
 	//private List<Lending> lendings = new ArrayList<>();

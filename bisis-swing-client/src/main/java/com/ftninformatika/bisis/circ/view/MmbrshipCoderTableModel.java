@@ -76,13 +76,14 @@ public class MmbrshipCoderTableModel extends AbstractTableModel implements Seria
 	    public void removeRows(int[] rows) {
         for (int i = rows.length-1; i >= 0; i--){
           Membership m = data.get(rows[i]);
+          boolean deleted = false;
             try {
-                m = BisisApp.bisisService.deleteMembership(m).execute().body();
+                deleted = BisisApp.bisisService.deleteMembership(m.get_id()).execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-          if (m == null){
+          if (deleted){
             data.remove(rows[i]);
             fireTableRowsDeleted(rows[i], rows[i]);
           }

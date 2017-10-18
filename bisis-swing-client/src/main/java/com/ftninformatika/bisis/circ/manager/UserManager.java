@@ -54,9 +54,9 @@ public class UserManager {
 				member = toObjectModel(user, member);
 			}
 
-			if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("enabled") && (member.getPass() == null || member.getPass().equals(""))){
+			if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("true") && (member.getPin() == null || member.getPin().equals(""))){
 				String pin = Utils.generatePin();
-				member.setPass(pin);
+				member.setPin(pin);
 				user.getUserData().setPinCode(pin);
 			}
 
@@ -67,19 +67,19 @@ public class UserManager {
                 memberData.setLendings(lendings);
                 memberData.setBooks(Cirkulacija.getApp().getRecordsManager().getList());
 			}
-
+            boolean saved = false;
             try {
-                memberData = BisisApp.bisisService.addUpdateMember(memberData).execute().body();
+                saved = BisisApp.bisisService.addUpdateMember(memberData).execute().body();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-			if (memberData == null)
-				return "Gre\u0161ka u konekciji s bazom podataka!";
-			if (memberData.isSaved()){
+			if (saved){
                 try {
-                    member = BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
-                    lendings = BisisApp.bisisService.getLendingsByUserId(member.getUserId()).execute().body();
+                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
+                    member = memberData.getMember();
+                    lendings = memberData.getLendings();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -217,8 +217,9 @@ public class UserManager {
   public int getUser(User user, Group group, String userID){
     int found = 0;
       try {
-          member = BisisApp.bisisService.getMemberById(userID).execute().body();
-          lendings = BisisApp.bisisService.getLendingsByUserId(userID).execute().body();
+          MemberData memberData = BisisApp.bisisService.getMemberById(userID).execute().body();
+          member = memberData.getMember();
+          lendings = memberData.getLendings();
       } catch (Exception e) {
           e.printStackTrace();
       }
@@ -272,7 +273,7 @@ public class UserManager {
         member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
         member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
         member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(),
-        member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), new HashSet(member.getDuplicates()), member.getPass());
+        member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), new HashSet(member.getDuplicates()), member.getPin());
 
     user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), new HashSet(member.getSignings()));
 

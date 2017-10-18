@@ -16,7 +16,7 @@ public class ItemAvailability implements java.io.Serializable{
 
     @Id
     private String _id;
-    private boolean borrowed;
+    private Boolean borrowed;
     private String ctlgNo;
     private String recordID;
 }
