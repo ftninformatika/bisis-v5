@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.models.circ.CircLocation;
 import com.ftninformatika.bisis.models.circ.Member;
 import com.ftninformatika.bisis.models.circ.Membership;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
@@ -24,6 +25,7 @@ public class ExposeEntityIdRestConfiguration extends RepositoryRestConfigurerAda
               .exposeIdsFor(Record.class)
               .exposeIdsFor(Member.class)
               .exposeIdsFor(Membership.class)
+              .exposeIdsFor(CircLocation.class)
               .exposeIdsFor(ProcessTypeDTO.class)
               .exposeIdsFor(ElasticPrefixEntity.class);
     }

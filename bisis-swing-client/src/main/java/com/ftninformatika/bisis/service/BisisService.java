@@ -216,19 +216,15 @@ public interface BisisService {
     @GET("/corporate_members/getById")
     Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);
 
-
-
     //TODO
-
-
 
 
     @POST("/members/saveCorporateUser")
     Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
-    //TODO- fali i informacija kod kog korisnika se cuva????
+    //fali i informacija kod kog korisnika se cuva????
 
 
-    @GET("/lastUserId")
+    @GET("circ_location/lastUserId")
     Call<Integer> getLastUserId(@Query("location") Integer location);
     //za odgovarajucu lokaciju treba da poveca last_user_id i vrati vrednost (pogledati komandu GetLastUserId)
     //vraca null ako nesto ne valja, location_id je location, iz hedera info koja je biblioteka,vazi i za prethodne

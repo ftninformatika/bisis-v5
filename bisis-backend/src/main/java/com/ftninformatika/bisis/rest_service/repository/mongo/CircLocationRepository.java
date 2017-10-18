@@ -13,4 +13,6 @@ public interface CircLocationRepository extends MongoRepository<CircLocation, St
 
     @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
     public List<CircLocation> getCoders(String libName);
+
+    public List<CircLocation> findByLocation_idAndLibrary(String location, String lib);
 }

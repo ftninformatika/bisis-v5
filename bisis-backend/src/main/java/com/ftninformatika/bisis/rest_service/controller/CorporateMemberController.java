@@ -22,8 +22,5 @@ public class CorporateMemberController {
         return corporateMemberRepository.findByUserId(userId);
     }
 
-    @RequestMapping( value = "/getById", method = RequestMethod.GET)
-    public boolean getCorporateMemberById(@RequestParam("userId") String userId){
-        return corporateMemberRepository.findByUserId(userId);
-    }
+
 }
