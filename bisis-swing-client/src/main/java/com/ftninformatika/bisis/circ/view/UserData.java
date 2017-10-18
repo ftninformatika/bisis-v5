@@ -506,7 +506,7 @@ public class UserData {
             pMain1.add(getPDup(), cc.xywh(10, 13, 4, 7));
             pMain1.addSeparator("", cc.xyw(10, 21, 4)); //$NON-NLS-1$
             pMain1.add(getBtnBlock(), cc.xy(10, 23, "fill, center")); //$NON-NLS-1$
-            if (/*BisisApp.getINIFile().getBoolean("pincode", "enabled")*/true) {//TODO-hardcoded
+            if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("yes")) {
                 pMain1.add(getBtnPin(), cc.xy(13, 23, "fill, center")); //$NON-NLS-1$
             }
         }

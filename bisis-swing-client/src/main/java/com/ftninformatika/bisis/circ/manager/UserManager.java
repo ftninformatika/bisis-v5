@@ -1,203 +1,178 @@
 package com.ftninformatika.bisis.circ.manager;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.circ.commands.GetUserCommand;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.circ.Lending;
 import com.ftninformatika.bisis.models.circ.Membership;
 import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
-import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.models.circ.pojo.Signing;
 import com.ftninformatika.bisis.models.circ.pojo.Warning;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
 
 public class UserManager {
 	
-  private Member userModel;
-  private CorporateMember groupModel;
+  private Member member;
+  private CorporateMember corporateMember;
   private String chargedUser;
   private String chargeBook = "";
   private List warnings = null;
   private String env = null;
   private String validator = null;
-  //private Service service;
- // private Service serviceArchive;
-  private List children = null;
-  private List removedchildren = null;
+  private List lendings = null;
 	
 	public UserManager(){		
-		/*service = Cirkulacija.getApp().getService();
-		serviceArchive = Cirkulacija.getApp().getServiceArchive();*/
-		children = new ArrayList();
-		removedchildren = new ArrayList();
+		lendings = new ArrayList();
 	}
 	
-	public String saveUser(Member user){
-		/*if (user.getDirty() || !children.isEmpty() || !removedchildren.isEmpty()){
-			SaveUserCommand saveUser = new SaveUserCommand();
-			saveUser.setUserID(user.getMmbrship().getUserID());
+	public String saveUser(User user){
+		if (user.getDirty() || !lendings.isEmpty()){
+            String memberExists;
 			if (user.getDirty()){
-				GetSysIDCommand sysidcomm = new GetSysIDCommand(user.getMmbrship().getUserID());
-				sysidcomm = (GetSysIDCommand)service.executeCommand(sysidcomm);
-				if (sysidcomm == null)
-					return "Gre\u0161ka u konekciji s bazom podataka!";
-				Integer sysid = sysidcomm.getSysID();
-				if (userModel == null){
-					if (sysid != null)
+
+                try {
+                    memberExists = BisisApp.bisisService.memberExist(user.getMmbrship().getUserID()).execute().body();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "Gre\u0161ka u konekciji s bazom podataka!";
+                }
+
+				if (member == null){
+					if (memberExists != null)
 						return "Broj korisnika vec postoji!";
-					userModel = new Users();		
+					member = new Member();
 				} else {
-				  if (sysid != null && sysid.intValue() != userModel.getSysId())
+				  if (memberExists != null && memberExists.equals(member.get_id()))
 					  return "Broj korisnika vec postoji!";
 				}
-				userModel = toObjectModel(user, userModel);
+				member = toObjectModel(user, member);
 			}
-			if (BisisApp.getINIFile().getBoolean("pincode", "enabled") && (userModel.getPass() == null || userModel.getPass().equals(""))){
-				Integer sysid = new Integer(0);
+
+			if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("enabled") && (member.getPass() == null || member.getPass().equals(""))){
 				String pin = Utils.generatePin();
-//				while (sysid != null){
-//					pin = Utils.generatePin();
-//					GetPinCommand pincomm = new GetPinCommand(pin);
-//					pincomm = (GetPinCommand)service.executeCommand(pincomm);
-//					if (pincomm == null)
-//						return "Gre\u0161ka u konekciji s bazom podataka!";
-//					sysid = pincomm.getSysID();
-//				}
-				userModel.setPass(pin);
+				member.setPass(pin);
 				user.getUserData().setPinCode(pin);
 			}
-			saveUser.setUser(userModel);
-			if (!children.isEmpty()){
-				saveUser.setChildren(children);
-				saveUser.setBooks(Cirkulacija.getApp().getRecordsManager().getList());
+
+            MemberData memberData = new MemberData();
+			memberData.setMember(member);
+
+			if (!lendings.isEmpty()){
+                memberData.setLendings(lendings);
+                memberData.setBooks(Cirkulacija.getApp().getRecordsManager().getList());
 			}
-			if (!removedchildren.isEmpty()){
-				saveUser.setRemovedChildren(removedchildren);
-			}
-			saveUser = (SaveUserCommand)service.executeCommand(saveUser);
-			if (saveUser == null)
+
+            try {
+                memberData = BisisApp.bisisService.addUpdateMember(memberData).execute().body();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+			if (memberData == null)
 				return "Gre\u0161ka u konekciji s bazom podataka!";
-			String message = "";
-			if (saveUser.isSaved()){
-				GetUserCommand getUser = new GetUserCommand(userModel.getUserId());
-				userModel = ((GetUserCommand)service.executeCommand(getUser)).getUser();
-				loadUser(user, userModel);
-				//userModel = saveUser.getUser();
-				//refreshInfo(user, userModel);
-				message = "ok";
+			if (memberData.isSaved()){
+                try {
+                    member = BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
+                    lendings = BisisApp.bisisService.getLendingsByUserId(member.getUserId()).execute().body();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (member != null){
+                    Cirkulacija.getApp().getRecordsManager().getList().clear();
+                    loadUser(user, member, lendings);
+                }
+				return "ok";
 			} else {
-				if (saveUser.getStaleID() != null){
-					GetObjectCommand getObject = new GetObjectCommand(saveUser.getStaleID(), saveUser.getStaleName());
-					Object book = ((GetObjectCommand)service.executeCommand(getObject)).getObject();
-					if (book instanceof Primerci){
-				        message = "Status primerka " + ((Primerci)book).getInvBroj() + ": " 
-				          + ((Primerci)book).getStatusPrimerka().getStatusOpis();
-				      } else {
-				        message = "Status primerka " + ((Sveske)book).getInvBr() + ": " 
-				          + ((Sveske)book).getStatusPrimerka().getStatusOpis();
-				      }
-				} else {
-					message = saveUser.getMessage();
-				}
-				GetUserCommand getUser = new GetUserCommand(userModel.getUserId());
-				userModel = ((GetUserCommand)service.executeCommand(getUser)).getUser();
-				loadUser(user, userModel);
+                return "Gre\u0161ka u konekciji s bazom podataka!";
 			}
-			Cirkulacija.getApp().getRecordsManager().getList().clear();
-			children.clear();
-			removedchildren.clear();
-			return message;
 		} else {
 			return "ok";
-		}*/return null;
+		}
 	}
 	
 	public void releaseUser(){
-		userModel = null;
+        try {
+            Boolean released = BisisApp.bisisService.releaseMemberById(member.getUserId()).execute().body();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		member = null;
+		lendings = null;
 		chargeBook = "";
 		Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
+
 	}
   
   public boolean gotUser(){
-    return userModel != null;
+    return member != null;
   }
   
   public String saveGroup(Group group){
-    /*if (groupModel == null){
-      groupModel = new Groups();  
+    if (corporateMember == null){
+      corporateMember = new CorporateMember();
     }
-    groupModel = toObjectModel(group, groupModel);
-    SaveObjectCommand saveGroup = new SaveObjectCommand(groupModel);
-    saveGroup = (SaveObjectCommand)service.executeCommand(saveGroup);
-    if (saveGroup == null)
-		return "Gre\u0161ka u konekciji s bazom podataka!";
-    
-    if (saveGroup.isSaved()){
+    corporateMember = toObjectModel(group, corporateMember);
+    Boolean saved = false;
+      try {
+          saved = BisisApp.bisisService.saveCorporateMember(corporateMember).execute().body();
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+
+    if (saved){
     	return "ok";
     } else {
-    	return saveGroup.getMessage();
-    }*/
-    return null;
+        return "Gre\u0161ka u konekciji s bazom podataka!";
+    }
   }
   
   public void releaseGroup(){
-    groupModel = null;
+    corporateMember = null;
   }
   
   public void initialiseUser(User user){
-    userModel = new Member();
-    user.getMmbrship().setTableModel(new HashSet(userModel.getSignings()));
-    user.getLending().setTableModel(new HashSet(userModel.getLendings()));
-    user.getUserData().setDupTableModel(new HashSet(userModel.getDuplicates()));
+    member = new Member();
+    lendings = new ArrayList<Lending>();
+    user.getMmbrship().setTableModel(new HashSet(member.getSignings()));
+    user.getLending().setTableModel(new HashSet(lendings));
+    user.getUserData().setDupTableModel(new HashSet(member.getDuplicates()));
   }
   
-  public void showUser(Member user, String userID){
-//  	StopWatch clock = new StopWatch();
-//    clock.start();
-	/*GetUserCommand getUser = new GetUserCommand(userID);
-	getUser = (GetUserCommand)service.executeCommand(getUser);
-	if (getUser != null){
-		userModel = getUser.getUser();
-	    if (userModel != null){
-	    	children.clear();
-	    	removedchildren.clear();
-	    	Cirkulacija.getApp().getRecordsManager().getList().clear();
-	    	loadUser(user, userModel);
-	    }
-	}*/
-//    clock.stop();
-//    System.out.println("clock:"+clock.getTime());
+  public int showUser(User user, String userID){
+//      try {
+//          member = BisisApp.bisisService.getMemberById(userID).execute().body();
+//          lendings = BisisApp.bisisService.getLendingsByUserId(userID).execute().body();
+//      } catch (Exception e) {
+//          e.printStackTrace();
+//      }
+//
+//      if (member != null){
+//          Cirkulacija.getApp().getRecordsManager().getList().clear();
+//          loadUser(user, member, lendings);
+//      }
+      return getUser(user, null, chargedUser);
   }
   
   public int showChargedUser(User user){
-    return /*getUser(user, null, chargedUser);*/ -1;
+    return getUser(user, null, chargedUser);
   }
   
   public void chargeUser(String ctlgno){
-    if (userModel == null){
+    if (member == null){
       chargeBook = ctlgno;
       Cirkulacija.getApp().getMainFrame().setRequestedPanel(3);
       Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true);
     } else {
-      //Cirkulacija.getApp().getMainFrame().getUserPanel().getLending().lendBook(ctlgno);
+      Cirkulacija.getApp().getMainFrame().getUserPanel().getLending().lendBook(ctlgno);
       Cirkulacija.getApp().getMainFrame().previousTwoPanels();
-      //Cirkulacija.getApp().getMainFrame().showPanel("userPanel");
+      Cirkulacija.getApp().getMainFrame().showPanel("userPanel");
     }
   }
   
@@ -223,7 +198,7 @@ public class UserManager {
 				return "Gre\u0161ka u konekciji s bazom podataka!";
 			}
 			if (archiveUser.isSaved()){
-				DeleteObjectCommand deleteUser = new DeleteObjectCommand(userModel);
+				DeleteObjectCommand deleteUser = new DeleteObjectCommand(member);
 				deleteUser = (DeleteObjectCommand)service.executeCommand(deleteUser);
 				if (deleteUser.isSaved()){
 					return "ok";
@@ -241,72 +216,69 @@ public class UserManager {
 	
   public int getUser(User user, Group group, String userID){
     int found = 0;
-      Member getUser = null;
-      List<Lending> lendings = new ArrayList<>();
       try {
-          getUser = BisisApp.bisisService.getMemberById(userID).execute().body();
+          member = BisisApp.bisisService.getMemberById(userID).execute().body();
           lendings = BisisApp.bisisService.getLendingsByUserId(userID).execute().body();
       } catch (Exception e) {
           e.printStackTrace();
       }
 
-    if (getUser != null){
-        getUser.setLendings(lendings);
-		userModel = getUser;
-		if (userModel != null){
-			children.clear();
-			removedchildren.clear();
-			//Cirkulacija.getApp().getRecordsManager().getList().clear();
-			loadUser(user, userModel);
-			found = 1;
-			return found;
-		}
+    if (member != null){
+          if (member.getInUseBy() == null) {
+              Cirkulacija.getApp().getRecordsManager().getList().clear();
+              loadUser(user, member, lendings);
+              found = 1;
+              return found;
+          } else {
+              found = 3;
+              return found;
+          }
     }
 
-    /*
-    getGroup = (GetGroupCommand)service.executeCommand(getGroup);
-    if (getGroup != null){
-    	groupModel = getGroup.getUser();
-    	if (groupModel != null){
-    		group.loadGroup(groupModel.getUserId(), groupModel.getInstName(), groupModel.getSignDate(), groupModel.getAddress(), groupModel.getCity(), Utils.getString(groupModel.getZip()), 
-    		groupModel.getPhone(), groupModel.getEmail(), groupModel.getFax(), groupModel.getSecAddress(), Utils.getString(groupModel.getSecZip()), groupModel.getSecCity(),
-            groupModel.getSecPhone(), groupModel.getContFname(), groupModel.getContLname(), groupModel.getContEmail());
-    		found = 2;
-    		return found;
-    	}
-    }*/
+      try {
+          corporateMember = BisisApp.bisisService.getCorporateMemberById(userID).execute().body();
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+    if (corporateMember != null){
+        group.loadGroup(corporateMember.getUserId(), corporateMember.getInstName(), corporateMember.getSignDate(), corporateMember.getAddress(), corporateMember.getCity(), Utils.getString(corporateMember.getZip()),
+        corporateMember.getPhone(), corporateMember.getEmail(), corporateMember.getFax(), corporateMember.getSecAddress(), Utils.getString(corporateMember.getSecZip()), corporateMember.getSecCity(),
+        corporateMember.getSecPhone(), corporateMember.getContFirstName(), corporateMember.getContLastName(), corporateMember.getContEmail());
+        found = 2;
+        return found;
+    }
     return found;
   }
   
-  private void loadUser(User user, Member userModel){
+  private void loadUser(User user, Member member, List<Lending> lendings){
     boolean blocked = false;
     String blockedInfo = "";
-    if (userModel.getBlockReason()!=null && !"".equals(userModel.getBlockReason())){
-      blockedInfo = "Blokirano: "+userModel.getBlockReason();
+    if (member.getBlockReason()!=null && !"".equals(member.getBlockReason())){
+      blockedInfo = "Blokirano: "+member.getBlockReason();
       blocked = true;  
     }
     
-    Iterator it = userModel.getDuplicates().iterator();
+    Iterator it = member.getDuplicates().iterator();
     String dupno = "";
     while (it.hasNext()){
       Duplicate dup = (Duplicate)it.next();
       dupno = "Duplikat " + dup.getDupNo();
     }
     
-    user.getUserData().loadUser(userModel.getFirstName(), userModel.getLastName(), userModel.getParentName(),
-        userModel.getAddress(), Utils.getString(userModel.getZip()), userModel.getCity(), userModel.getPhone(),
-        userModel.getEmail(), userModel.getGender(), userModel.getAge(), userModel.getSecAddress(),
-        userModel.getSecCity(), Utils.getString(userModel.getSecZip()), userModel.getSecPhone(), userModel.getJmbg(),
-        userModel.getDocId(), userModel.getDocNo(), userModel.getDocCity(), userModel.getCountry(),
-        userModel.getTitle(), userModel.getOccupation(), userModel.getIndexNo(), Utils.getString(userModel.getClassNo()),
-        userModel.getOrganization(), userModel.getEducationLevel(), userModel.getLanguage(), userModel.getNote(),
-        userModel.getInterests(), userModel.getWarningInd(), blocked, userModel.getBlockReason(), new HashSet(userModel.getDuplicates()), userModel.getPass());
+    user.getUserData().loadUser(member.getFirstName(), member.getLastName(), member.getParentName(),
+        member.getAddress(), Utils.getString(member.getZip()), member.getCity(), member.getPhone(),
+        member.getEmail(), member.getGender(), member.getAge(), member.getSecAddress(),
+        member.getSecCity(), Utils.getString(member.getSecZip()), member.getSecPhone(), member.getJmbg(),
+        member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
+        member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
+        member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(),
+        member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), new HashSet(member.getDuplicates()), member.getPass());
 
-    user.getMmbrship().loadUser(userModel.getUserId(), userModel.getMembershipType(), userModel.getUserCategory(), userModel.getCorporateMember(), new HashSet(userModel.getSignings()));
+    user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), new HashSet(member.getSignings()));
 
     Date maxDate = null;
     Date date = null;
-    it = userModel.getSignings().iterator();
+    it = member.getSignings().iterator();
     while (it.hasNext()){
       date = ((Signing)it.next()).getUntilDate();
       if (date != null && (maxDate == null || maxDate.before(date))){
@@ -321,7 +293,6 @@ public class UserManager {
     }
     
     warnings = new ArrayList<Warning>();
-    Set<Lending> lendings = new HashSet<>(userModel.getLendings());
     for (Lending lend : lendings){
       Set<Warning> warns = new HashSet<Warning>(lend.getWarnings());
       for (Warning warn : warns){
@@ -329,7 +300,7 @@ public class UserManager {
       }
     }
     
-    user.getLending().loadUser(userModel.getUserId(), userModel.getFirstName(), userModel.getLastName(), maxDate, userModel.getNote(), dupno, blockedInfo, new HashSet(userModel.getLendings()), !warnings.isEmpty());
+    user.getLending().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo, new HashSet(lendings), !warnings.isEmpty());
     
     user.setDirty(false);
     
@@ -341,15 +312,15 @@ public class UserManager {
 
   }
   
-  public void refreshInfo(User user, Member userModel){
+  public void refreshInfo(User user, Member member){
   	boolean blocked = false;
     String blockedInfo = "";
-    if (userModel.getBlockReason()!=null && !"".equals(userModel.getBlockReason())){
-      blockedInfo = "Blokirano: "+userModel.getBlockReason();
+    if (member.getBlockReason()!=null && !"".equals(member.getBlockReason())){
+      blockedInfo = "Blokirano: "+member.getBlockReason();
       blocked = true;  
     }
     
-    Iterator it = userModel.getDuplicates().iterator();
+    Iterator it = member.getDuplicates().iterator();
     String dupno = "";
     while (it.hasNext()){
       Duplicate dup = (Duplicate)it.next();
@@ -358,7 +329,7 @@ public class UserManager {
     
     Date maxDate = null;
     Date date = null;
-    it = userModel.getSignings().iterator();
+    it = member.getSignings().iterator();
     while (it.hasNext()){
       date = ((Signing)it.next()).getUntilDate();
       if (date != null && (maxDate == null || maxDate.before(date))){
@@ -372,7 +343,7 @@ public class UserManager {
       blockedInfo = blockedInfo + "Istekla \u010dlanarina";
     }
     
-    user.getLending().refreshInfo(userModel.getUserId(), userModel.getFirstName(), userModel.getLastName(), maxDate, userModel.getNote(), dupno, blockedInfo);
+    user.getLending().refreshInfo(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo);
     
   }
 	
@@ -530,139 +501,83 @@ public class UserManager {
     
   }
 	
-	private Member toObjectModel(User user, Member userModel){
+	private Member toObjectModel(User user, Member member){
 		UserData data = user.getUserData();
-		userModel.setAddress(data.getAddress().trim());
-		userModel.setAge(data.getAge());
-		userModel.setCity(data.getCity().trim());
-		userModel.setClassNo(Utils.getInteger(data.getClassNo()));
-		userModel.setCountry(data.getCountry().trim());
-		userModel.setDocCity(data.getDocCity().trim());
-		userModel.setDocId(Integer.valueOf(data.getDocId()));
-		userModel.setDocNo(data.getDocNo().trim());
-		userModel.setEducationLevel(data.getEduLvl());
-		userModel.setEmail(data.getEmail().trim());
-		userModel.setFirstName(data.getFirstName().trim());
-		userModel.setGender(data.getGender());
-		userModel.setIndexNo(data.getIndexNo().trim());
-		userModel.setInterests(data.getInterests().trim());
-		userModel.setJmbg(data.getJmbg().trim());
-		userModel.setLanguage(data.getLanguages());
-		userModel.setLastName(data.getLastName().trim());
-		userModel.setNote(data.getNote().trim());
-		userModel.setOccupation(data.getOccupation().trim());
-		userModel.setOrganization(data.getOrganization());
-		userModel.setParentName(data.getParentName().trim());
-		userModel.setPhone(data.getPhone().trim());
-		userModel.setSecAddress(data.getTmpAddress().trim());
-		userModel.setSecCity(data.getTmpCity().trim());
-		userModel.setSecPhone(data.getTmpPhone().trim());
-		userModel.setSecZip(Utils.getInteger(data.getTmpZip()));
-		userModel.setTitle(data.getTitle().trim());
-		userModel.setWarningInd(Integer.valueOf(data.getWarning()));
-		userModel.setZip(Utils.getInteger(data.getZip()));
+		member.setAddress(data.getAddress().trim());
+		member.setAge(data.getAge());
+		member.setCity(data.getCity().trim());
+		member.setClassNo(Utils.getInteger(data.getClassNo()));
+		member.setCountry(data.getCountry().trim());
+		member.setDocCity(data.getDocCity().trim());
+		member.setDocId(Integer.valueOf(data.getDocId()));
+		member.setDocNo(data.getDocNo().trim());
+		member.setEducationLevel(data.getEduLvl());
+		member.setEmail(data.getEmail().trim());
+		member.setFirstName(data.getFirstName().trim());
+		member.setGender(data.getGender());
+		member.setIndexNo(data.getIndexNo().trim());
+		member.setInterests(data.getInterests().trim());
+		member.setJmbg(data.getJmbg().trim());
+		member.setLanguage(data.getLanguages());
+		member.setLastName(data.getLastName().trim());
+		member.setNote(data.getNote().trim());
+		member.setOccupation(data.getOccupation().trim());
+		member.setOrganization(data.getOrganization());
+		member.setParentName(data.getParentName().trim());
+		member.setPhone(data.getPhone().trim());
+		member.setSecAddress(data.getTmpAddress().trim());
+		member.setSecCity(data.getTmpCity().trim());
+		member.setSecPhone(data.getTmpPhone().trim());
+		member.setSecZip(Utils.getInteger(data.getTmpZip()));
+		member.setTitle(data.getTitle().trim());
+		member.setWarningInd(Integer.valueOf(data.getWarning()));
+		member.setZip(Utils.getInteger(data.getZip()));
     if (data.getBlocked()){
-      userModel.setBlockReason(data.getBlockedReason().trim());
+      member.setBlockReason(data.getBlockedReason().trim());
     } else {
-      userModel.setBlockReason("");
+      member.setBlockReason("");
     }
 		
 		com.ftninformatika.bisis.circ.view.Membership mmbrship = user.getMmbrship();
-		//userModel.setGroups(mmbrship.getGroup());
-		userModel.setUserId(mmbrship.getUserID());
-		userModel.setMembershipType(mmbrship.getMmbrType());
-		userModel.setUserCategory(mmbrship.getUserCateg());
+		member.setCorporateMember(mmbrship.getGroup());
+		member.setUserId(mmbrship.getUserID());
+		member.setMembershipType(mmbrship.getMmbrType());
+		member.setUserCategory(mmbrship.getUserCateg());
 		
-		return userModel;
+		return member;
 	}
   
-  /*private Groups toObjectModel(Group group, Groups groupModel){
-    groupModel.setAddress(group.getAddress().trim());
-    groupModel.setCity(group.getCity().trim());
-    groupModel.setContEmail(group.getContactEmail().trim());
-    groupModel.setContFname(group.getContactFirstName().trim());
-    groupModel.setContLname(group.getContactLastName().trim());
-    groupModel.setEmail(group.getEmail().trim());
-    groupModel.setFax(group.getFax().trim());
-    groupModel.setInstName(group.getOrganization().trim());
-    groupModel.setPhone(group.getPhone().trim());
-    groupModel.setSecAddress(group.getTmpAddress().trim());
-    groupModel.setSecCity(group.getTmpCity().trim());
-    groupModel.setSecPhone(group.getTmpPhone().trim());
-    groupModel.setSecZip(Utils.getInteger(group.getTmpZip()));
-    groupModel.setSignDate(group.getSignDate());
-    groupModel.setUserId(group.getUserID());
-    groupModel.setZip(Utils.getInteger(group.getZip()));
-    return groupModel;
-  }*/
-  
-  public void addSigning(Signing sig){
-    userModel.getSignings().add(sig);
-    if (!children.contains(sig)){
-    	children.add(sig);
-    }
-  }
-  
-  public void removeSigning(Signing sig){
-    userModel.getSignings().remove(sig);
-    if (children.contains(sig)){
-    	children.remove(sig);
-    }
-    removedchildren.add(sig);
-  }
-  
-  public void updateSigning(Signing sig){
-  	if (!children.contains(sig)){
-    	children.add(sig);
-    }
+  private CorporateMember toObjectModel(Group group, CorporateMember corporateMember){
+    corporateMember.setAddress(group.getAddress().trim());
+    corporateMember.setCity(group.getCity().trim());
+    corporateMember.setContEmail(group.getContactEmail().trim());
+    corporateMember.setContFirstName(group.getContactFirstName().trim());
+    corporateMember.setContLastName(group.getContactLastName().trim());
+    corporateMember.setEmail(group.getEmail().trim());
+    corporateMember.setFax(group.getFax().trim());
+    corporateMember.setInstName(group.getOrganization().trim());
+    corporateMember.setPhone(group.getPhone().trim());
+    corporateMember.setSecAddress(group.getTmpAddress().trim());
+    corporateMember.setSecCity(group.getTmpCity().trim());
+    corporateMember.setSecPhone(group.getTmpPhone().trim());
+    corporateMember.setSecZip(Utils.getInteger(group.getTmpZip()));
+    corporateMember.setSignDate(group.getSignDate());
+    corporateMember.setUserId(group.getUserID());
+    corporateMember.setZip(Utils.getInteger(group.getZip()));
+    return corporateMember;
   }
   
   public void addLending(Lending lend){
-    userModel.getLendings().add(lend);
-    if (!children.contains(lend)){
-    	 children.add(lend);
+    if (!lendings.contains(lend)){
+    	 lendings.add(lend);
     }
    
   }
   
   public void updateLending(Lending lend){
-  	if (!children.contains(lend)){
-   	  children.add(lend);
+  	if (!lendings.contains(lend)){
+   	  lendings.add(lend);
   	}
-  }
-  
-  public void addDuplicate(Duplicate dup){
-    userModel.getDuplicates().add(dup);
-    if (!children.contains(dup)){
-    	children.add(dup);
-    }
-  }
-  
-  public void removeDuplicate(Duplicate dup){
-    userModel.getDuplicates().remove(dup);
-    if (children.contains(dup)){
-    	children.remove(dup);
-    }
-    removedchildren.add(dup);
-  }
-  
-  public void updateDuplicate(Duplicate dup){
-  	if (!children.contains(dup)){
-    	 children.add(dup);
-    }
-  }
-  
-  public void addPicturebooks(PictureBook pic){
-    userModel.getPicturebooks().add(pic);
-    if (!children.contains(pic)){
-    	children.add(pic);
-   }
-  }
-  
-  public void updateWarning(Warning warn){
-  	if (!children.contains(warn)){
-    	children.add(warn);
-    }
   }
 	
   public Double getMembership(String membershipType, String userCategory){
@@ -675,36 +590,46 @@ public class UserManager {
   }
   
   public String getUserId(String location){
-   /* String loc = location;
+    String loc = location;
     if (loc.equals(""))
       loc = "0";
-      
-    GetLastUserIDCommand getLastID = new GetLastUserIDCommand(Integer.valueOf(loc));
-    getLastID = (GetLastUserIDCommand)service.executeCommand(getLastID);
-    if (getLastID == null)
+
+      Integer last = null;
+      try {
+          last = BisisApp.bisisService.getLastUserId(Integer.valueOf(loc)).execute().body();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+
+    if (last == null)
     	return null;
-    int last = getLastID.getLastID();
     String userId = Utils.makeUserId(loc, Integer.toString(last));
     while (existsUser(userId)){
-    	getLastID = (GetLastUserIDCommand)service.executeCommand(getLastID);
-    	if (getLastID == null)
-        	return null;
-    	last = getLastID.getLastID();
+        try {
+            last = BisisApp.bisisService.getLastUserId(Integer.valueOf(loc)).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (last == null)
+            return null;
     	userId = Utils.makeUserId(loc, Integer.toString(last));
     }
-    return Integer.toString(last);*/
-   return null;
+    return Integer.toString(last);
 
   }
   
   public boolean existsUser(String userID){
-  	boolean retVal = false;
+  	String retVal = null;
       try {
           retVal = BisisApp.bisisService.memberExist(userID).execute().body();
       } catch (IOException e) {
           e.printStackTrace();
       }
-      return retVal;
+      if (retVal == null){
+          return false;
+      } else {
+          return true;
+      }
   }
   
   public String getChargedUser(String ctlgno){
@@ -781,8 +706,8 @@ public class UserManager {
   }
   
   public Set getPicturebooks(){
-  	if (userModel != null){
-  		return (Set) userModel.getPicturebooks();
+  	if (member != null){
+  		return (Set) member.getPicturebooks();
   	} else {
   		return null;
   	}

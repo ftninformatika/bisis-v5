@@ -48,7 +48,6 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 	    	rowData.setLibrarian(Cirkulacija.getApp().getLibrarian().getUsername());
 	    	rowData.setSignDate(new Date());
         	rowData.setLocation(location);
-        	Cirkulacija.getApp().getUserManager().addSigning(rowData);
         	this.dataView.add(rowData);
 	    	fireTableRowsInserted(row, row);
 	    }
@@ -56,7 +55,6 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 
 	    public void removeRow(int row) {
 	      Signing sig = dataView.remove(row);
-	      Cirkulacija.getApp().getUserManager().removeSigning(sig);
 	      fireTableRowsDeleted(row, row);
 	    }
 
@@ -121,8 +119,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
 	        	case 4: rowData.setReceipt((String)aValue);
 	        }
 	        fireTableCellUpdated(row, column);
-	        Cirkulacija.getApp().getUserManager().updateSigning(rowData);
-	    }
+		}
 
 	    public Class getColumnClass(int col) {
 			switch (col){

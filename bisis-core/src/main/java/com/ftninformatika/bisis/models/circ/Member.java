@@ -30,6 +30,7 @@ public class Member implements java.io.Serializable {
 
 	@Id
     private String _id;
+	private String inUseBy;
 	private Organization organization;
 	private String language;
 	private String educationLevel;
@@ -67,7 +68,7 @@ public class Member implements java.io.Serializable {
 	private String blockReason;
 
 	private List<Signing> signings = new ArrayList<>();
-	private List<Lending> lendings = new ArrayList<>();
+	//private List<Lending> lendings = new ArrayList<>();
 	private List<Duplicate> duplicates = new ArrayList<>();
 	private List<PictureBook> picturebooks = new ArrayList<>();
 

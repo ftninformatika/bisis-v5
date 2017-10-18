@@ -260,8 +260,7 @@ public class Lending {
 		              modelrows[j] = getTblLending().convertRowIndexToModel(rows[j]);
 		            }
 		            for (int i = 0; i < modelrows.length; i++){
-		            	//TODO
-		              //Cirkulacija.getApp().getRecordsManager().returnBook((String)getTableModel().getValueAt(modelrows[i],0));
+		            	Cirkulacija.getApp().getRecordsManager().returnBook((String)getTableModel().getValueAt(modelrows[i],0));
 		            }
 		            getTableModel().removeRows(modelrows);
 		            handleKeyTyped();
@@ -398,7 +397,7 @@ public class Lending {
           }
           getTfCtlgNo().setText(""); //$NON-NLS-1$
         } else {
-          if (Cirkulacija.getApp().getEnvironment().getNonCtlgNo() /*&& !Cirkulacija.getApp().getRecordsManager().existBook()*/){
+          if (Cirkulacija.getApp().getEnvironment().getNonCtlgNo() && !Cirkulacija.getApp().getRecordsManager().existBook()){
           	boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg());
           	pinRequired = true;
           	if (exists){
@@ -406,7 +405,7 @@ public class Lending {
                   new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
           	}
             getTfCtlgNo().setText(""); //$NON-NLS-1$
-          }else if (Cirkulacija.getApp().getEnvironment().getAutoReturn() /*&& Cirkulacija.getApp().getRecordsManager().chargedBook()*/){
+          }else if (Cirkulacija.getApp().getEnvironment().getAutoReturn() && Cirkulacija.getApp().getRecordsManager().chargedBook()){
             String[] options = {Messages.getString("circulation.yes"),Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
             int op = JOptionPane.showOptionDialog(getPanel(), Messages.getString("circulation.chargingwarning"), Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION,  //$NON-NLS-1$ //$NON-NLS-2$
                 JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
@@ -415,7 +414,7 @@ public class Lending {
               btnLend.doClick();
             }
           }else{
-            JOptionPane.showMessageDialog(getPanel(), /*Cirkulacija.getApp().getRecordsManager().getErrorMessage()*/"nesto", Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
+            JOptionPane.showMessageDialog(getPanel(), Cirkulacija.getApp().getRecordsManager().getErrorMessage(), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
                 new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
           }
         }

@@ -47,7 +47,6 @@ public class Primerak implements Serializable {
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date datumStatusa;
   private String inventator;
-  private int stanje;
   private String dostupnost;
   private String napomene;
   private int version = 0;
@@ -64,7 +63,7 @@ public class Primerak implements Serializable {
       String sigPodlokacija, String sigIntOznaka, String sigDublet,
       String sigNumerusCurens, String sigUDK, String povez,
       String nacinNabavke, String odeljenje, String status, Date datumStatusa,
-      String dostupnost, String napomene, int stanje, String inventator) {
+      String dostupnost, String napomene, String inventator) {
     this.primerakID = primerakID;
     this.invBroj = invBroj;
     this.datumRacuna = datumRacuna;
@@ -87,7 +86,6 @@ public class Primerak implements Serializable {
     this.datumStatusa = datumStatusa;
     this.dostupnost = dostupnost;
     this.napomene = napomene;
-    this.stanje = stanje;
     this.inventator = inventator;
     this.version = 0;
   }
@@ -113,7 +111,7 @@ public class Primerak implements Serializable {
         getSigPodlokacija(), getSigIntOznaka(), getSigDublet(),
         getSigNumerusCurens(),getSigUDK(), getPovez(),
         getNacinNabavke(),getOdeljenje(), getStatus(), this.datumStatusa,
-        getDostupnost(), getNapomene(), getStanje(),getInventator());
+        getDostupnost(), getNapomene(), getInventator());
   }
 
 

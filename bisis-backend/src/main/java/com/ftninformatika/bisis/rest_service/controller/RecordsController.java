@@ -5,7 +5,6 @@ import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordResponseWrapper;
-import com.ftninformatika.bisis.records.StanjePrimerka;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
@@ -126,7 +125,7 @@ public class RecordsController {
             ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
             retVal.setFullRecord(rec);
             retVal.setPrefixEntity(e);
-            retVal.setListOfItems(getStanjaDummy(rec));
+            retVal.setListOfItems(null); //TODO za svaki zapis na osnovu recordID uzeti listu objekata iz itemAvailability
             if (rec == null)
                 throw new RecordNotFoundException(recordId);
             return retVal;
@@ -158,23 +157,10 @@ public class RecordsController {
                     RecordResponseWrapper rw = new RecordResponseWrapper();
                     rw.setPrefixEntity(e);
                     rw.setFullRecord(recordsRepository.findOne(e.getId()));
-                    rw.setListOfItems(getStanjaDummy(rw.getFullRecord())); //TODO ovo je dummy, za potrebe testrianja frontenda
+                    rw.setListOfItems(null); //TODO za svaki zapis na osnovu recordID uzeti listu objekata iz itemAvailability
                     retVal.add(rw);
                 }
         );
-
-        return retVal;
-    }
-
-    private List<StanjePrimerka> getStanjaDummy(Record rec){
-        List<StanjePrimerka> retVal = new ArrayList<>();
-
-        for (Primerak p: rec.getPrimerci()){
-            if (p.getDostupnost() == null)
-                retVal.add(new StanjePrimerka(p.getInvBroj(), true));
-            else
-                retVal.add(new StanjePrimerka(p.getInvBroj(), true));
-        }
 
         return retVal;
     }

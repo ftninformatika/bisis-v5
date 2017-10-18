@@ -9,12 +9,14 @@ import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.models.circ.*;
+import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.google.gson.JsonObject;
+import okhttp3.RequestBody;
 import retrofit2.http.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,11 +56,11 @@ public interface BisisService {
 
 //members---------------------------------------------------------------
 
-    @GET("/members/getById")
-    Call<Member> getMemberById(@Query("userId") String userId);
+//    @GET("/members/getById")
+//    Call<Member> getMemberById(@Query("userId") String userId);
 
     @GET("/members/memberExist")
-    Call<Boolean> memberExist(@Query("userId") String userId);
+    Call<String> memberExist(@Query("userId") String userId);
 
     @POST("/members/addUpdate")
     Call<Member> addUpdateMember(@Body Member member);
@@ -218,4 +220,33 @@ public interface BisisService {
     //sta vraca? kako da proverim da je obrisan? ako je null obrisan je ako je objekat nije?
 
 
+    @GET("/corporatemembers/getById")
+    Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);
+
+
+
+    @POST("/members/addUpdate")
+    Call<MemberData> addUpdateMember(@Body MemberData memberData);
+
+    @POST("/members/saveCorporateUser")
+    Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
+
+
+    @GET("/lastUserId")
+    Call<Integer> getLastUserId(@Query("location") Integer location);
+    //za odgovarajucu lokaciju treba da poveca last_user_id i vrati vrednost (pogledati komandu GetLastUserId)
+    //vraca null ako nesto ne valja
+
+
+    @GET("/records/getRecord")
+    Call<Record> getRecord(@Query("ctlgno") String ctlgno);
+
+
+    @GET("/members/getById")
+    Call<Member> getMemberById(@Query("userId") String userId);
+    // treba da update-uje inUseBy
+
+    @GET("/members/releaseById")
+    Call<Boolean> releaseMemberById(@Query("userId") String userId);
+    // treba da update-uje inUseBy na null
 }

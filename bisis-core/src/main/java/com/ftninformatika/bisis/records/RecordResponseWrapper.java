@@ -17,6 +17,6 @@ public class RecordResponseWrapper {
 
     private ElasticPrefixEntity prefixEntity;
     private Record fullRecord;
-    private List<StanjePrimerka> listOfItems;
+    private List<ItemAvailability> listOfItems;
 
 }

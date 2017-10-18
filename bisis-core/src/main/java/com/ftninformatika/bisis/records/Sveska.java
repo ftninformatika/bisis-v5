@@ -15,7 +15,6 @@ public class Sveska implements Serializable{
   private String invBroj;
   private String status;
   private Date datumStatusa;
-  private int stanje;
   private String signatura;
   private BigDecimal cena;
   private String brojSveske;
@@ -95,13 +94,7 @@ public class Sveska implements Serializable{
   public void setVersion(int version) {
     this.version = version;
   }
-  public int getStanje() {
-    return stanje;
-  }
-  public void setStanje(int stanje) {
-    this.stanje = stanje;
-  }
-  
+
   public String getKnjiga() {
 		return knjiga;
 	}
@@ -126,7 +119,6 @@ public class Sveska implements Serializable{
   	svRet.setInvBroj(getInvBroj());
   	svRet.setParent(getParent());
   	svRet.setSignatura(getSignatura());
-  	svRet.setStanje(getStanje());
   	svRet.setStatus(getStatus());
   	svRet.setSveskaID(getSveskaID());
   	svRet.setVersion(getVersion());

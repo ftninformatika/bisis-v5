@@ -57,7 +57,7 @@ public class User extends JPanel {
 		this.setSize(700, 400);
 		this.add(getPSouth(), BorderLayout.SOUTH);
 		this.add(getTpMain(), BorderLayout.CENTER);
-		//Validate.fixUserLabels(getUser());
+		Validate.fixUserLabels(getUser());
 		fixTables();
 	}
 	
@@ -69,12 +69,12 @@ public class User extends JPanel {
 			pSouth.add(Box.createHorizontalStrut(170), null);
 			pSouth.add(getBtnSave(), null);
 			pSouth.add(getBtnCancel(), null);
-			/*if (BisisApp.getINIFile().getBoolean("database-archive", "enabled")){
-				pSouth.add(Box.createHorizontalStrut(100), null);
-				pSouth.add(getBtnArchive(), null);
-			}else{
-				pSouth.add(Box.createHorizontalStrut(170), null);
-			}*/
+//			if (BisisApp.appConfig.getClientConfig().getBoolean("database-archive", "enabled")){
+//				pSouth.add(Box.createHorizontalStrut(100), null);
+//				pSouth.add(getBtnArchive(), null);
+//			}else{
+//				pSouth.add(Box.createHorizontalStrut(170), null);
+//			}
 			
 		}
 		return pSouth;

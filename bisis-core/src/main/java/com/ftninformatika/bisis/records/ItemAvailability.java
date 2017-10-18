@@ -1,0 +1,22 @@
+package com.ftninformatika.bisis.records;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_itemAvailability")
+public class ItemAvailability implements java.io.Serializable{
+
+    @Id
+    private String _id;
+    private boolean borrowed;
+    private String ctlgNo;
+    private String recordID;
+}

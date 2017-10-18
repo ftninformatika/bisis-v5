@@ -53,8 +53,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
       while (it.hasNext()){
         tmp = (Lending)it.next();
         dataView.add(tmp);
-        Record record = //Cirkulacija.getApp().getRecordsManager().getRecord(tmp.getCtlgNo());
-						null;
+        Record record = Cirkulacija.getApp().getRecordsManager().getRecord(tmp.getCtlgNo());
         RecordBean bean = null;
         if (record != null){
           bean = new RecordBean(record);
