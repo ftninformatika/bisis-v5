@@ -3,11 +3,15 @@
  <div *ngIf="lib">
    pretrazuje kao biblioteka: {{lib}}
  </div>
- <div *ngIf="lib == undefined || lib == ''" style="margin-top: 10px;">
-     <font size="4"> Одаберите библиотеку по којој желите да вршите претрагу: </font>
-  <span style="margin-left: 20px;">
+  <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="lib == undefined || lib == ''" style="font-size:14px;text-align:center;padding:20px; border:1px solid #D5D5D5;">
+      <div class="ui-grid-row" >
+      <div class="ui-grid-col-6"  align="left">
+        Одаберите библиотеку по којој желите да вршите претрагу:
+      </div>
+      <div class="ui-grid-col-6"  align="left">
     <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event)"></p-dropdown>
-  </span>
+      </div>
+      </div>
   </div>
 </div>
 <app-search-form #bisisSearchForm (serviceCallResult)='setRecords($event)'

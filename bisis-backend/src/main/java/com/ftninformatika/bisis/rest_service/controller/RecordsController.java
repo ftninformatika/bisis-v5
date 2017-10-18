@@ -11,14 +11,12 @@ import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRe
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
-import com.sun.org.apache.regexp.internal.RE;
 import org.apache.commons.collections.IteratorUtils;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
-import org.springframework.data.elasticsearch.repository.query.ElasticsearchStringQuery;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -208,6 +206,10 @@ public class RecordsController {
     @RequestMapping( method = RequestMethod.GET)
     public ResponseEntity<List<Record>> getRecords() {
         try {
+
+            long ukupno = recordsRepository.count();
+            PageRequest p = new PageRequest(1,5);
+            Page<Record> recordPage = recordsRepository.findAll(p);
 
             List<Record> recs = recordsRepository.findAll();
             if (recs == null)

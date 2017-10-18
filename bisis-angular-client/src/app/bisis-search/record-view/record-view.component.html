@@ -3,7 +3,7 @@
 <div class="ui-grid ui-grid-responsive ui-grid-pad">
     <p-selectButton [options]="viewTypes" [(ngModel)]="selectedViewType" (click)="makeUnimarc(selectedRec.fullRecord)"></p-selectButton><br><br>
 </div>
-<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && (isPage != true)"><a href="#/record-view/{{selectedRec.prefixEntity.id}}">Линк ка примерку</a></div>
+<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && (isPage != true)"><a href="#/record-view/{{selectedRec.prefixEntity.id}}">Линк ка запису</a></div>
 
 <!--Default prikaz-->
 <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'general'" style="font-size:16px;text-align:center;padding:20px; border:1px solid #D5D5D5;">
@@ -70,9 +70,9 @@
         <div class="ui-grid-col-3"  align="left"><b>Наслов: </b></div>
         <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.TI}}</div>
     </div>
-    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['TI']" style="border-bottom:1px solid #D5D5D5">
+    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['200e']" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>Додаци наслову: </b></div>
-        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes['TI']}}</div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes['200e']}}</div>
     </div>
     <div class="ui-grid-row" *ngIf="selectedRec.prefixEntity.prefixes.AU" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>Аутор: </b></div>
@@ -109,6 +109,22 @@
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['225a']" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>Жанр: </b></div>
         <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes['225a']}}</div>
+    </div>
+    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['992b']" style="border-bottom:1px solid #D5D5D5">
+        <div class="ui-grid-col-3"  align="left"><b>Број библиографије: </b></div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes['992b']}}</div>
+    </div>
+    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['210a']" style="border-bottom:1px solid #D5D5D5">
+        <div class="ui-grid-col-3"  align="left"><b>Место издавања: </b></div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes['210a']}}</div>
+    </div>
+    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['996r']" style="border-bottom:1px solid #D5D5D5">
+        <div class="ui-grid-col-3"  align="left"><b>Инвертарске напомене: </b></div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes['996r']}}</div>
+    </div>
+    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['992c']" style="border-bottom:1px solid #D5D5D5">
+        <div class="ui-grid-col-3"  align="left"><b>Укупно издато: </b></div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes['992c']}}</div>
     </div>
     <div class="ui-grid-row" style="margin-top: 20px;">
         <div class="ui-grid-col-12" align="left">

@@ -26,10 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+
+
         http.authorizeRequests()
                 .antMatchers("/auth").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/memauth").permitAll()
+                .antMatchers("/records").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new AuthenticationTokenFilter(tokenAuthenticationService),
