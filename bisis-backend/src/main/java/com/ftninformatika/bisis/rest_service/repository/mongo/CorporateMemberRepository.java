@@ -14,4 +14,6 @@ public interface CorporateMemberRepository extends MongoRepository<CorporateMemb
     @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
     public List<CorporateMember> getCoders(String libName);
 
+    public CorporateMember findByUserId(String userId);
+
 }

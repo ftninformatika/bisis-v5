@@ -190,7 +190,7 @@ public interface BisisService {
 
     @GET("/coders/membership")
     Call<List<Membership>> getMemberships(@Query("libName")String libName);
-    
+
     @POST("/memberships")
     Call<Membership> addMembership(@Body Membership membership);
 
@@ -213,21 +213,19 @@ public interface BisisService {
     @GET("/circ_configs/search/findByLibrary")
     Call<CircConfig> getCircConfigs(@Query("libname") String libName);
 
+    @GET("/corporate_members/getById")
+    Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);
+
 
 
     //TODO
 
 
 
-    @GET("/corporatemembers/getById")
-    Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);
-    //samo po userId
-
-
 
     @POST("/members/saveCorporateUser")
     Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
-    //
+    //TODO- fali i informacija kod kog korisnika se cuva????
 
 
     @GET("/lastUserId")
