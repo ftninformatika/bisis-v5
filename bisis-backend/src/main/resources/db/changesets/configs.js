@@ -4,6 +4,7 @@
 //changeset petar:ChangeSet-configs
 db.configs.insert({
     "libraryName" : "gbns",
+    "libCollectionSufix":"gbns_com",
 
     "networkServerList": "http://bisis.uns.ac.rs/servers/bisisXMLM/servers.xml",
 
@@ -46,6 +47,13 @@ db.configs.insert({
     "barcodeUsersWidebar": "2",
     "barcodeUsersPageCode": "1251",
     "barcodeUsersLinelength": "19",
+    "reports":[{
+        "reportName":"InventarnaKnjigaMonografske",
+        "invnumpattern":"^0100.*",
+        "menuitem" :"Inventarna Knjiga|Monografske|Opste",
+        "className":"com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografske",
+        "type":"year"
+    }]
 
 });
 
