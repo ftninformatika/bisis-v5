@@ -212,41 +212,53 @@ public interface BisisService {
 
     @POST("/addMembership")
     Call<Membership> addMembership(@Body Membership membership);
-    //sta vraca? kako da proverim da li je snimljeno? ako ima id onda je snimljeno?
+    //враца објекат, неуспесно нулл
 
 
     @POST("/deleteMembership")
-    Call<Membership> deleteMembership(@Body Membership membership);
-    //sta vraca? kako da proverim da je obrisan? ako je null obrisan je ako je objekat nije?
+    Call<Boolean> deleteMembership(@Body Membership membership);
+    //true, false
 
 
     @GET("/corporatemembers/getById")
     Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);
+    //samo po userId
 
-
-
-    @POST("/members/addUpdate")
-    Call<MemberData> addUpdateMember(@Body MemberData memberData);
+    
 
     @POST("/members/saveCorporateUser")
     Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
+    //
 
 
     @GET("/lastUserId")
     Call<Integer> getLastUserId(@Query("location") Integer location);
     //za odgovarajucu lokaciju treba da poveca last_user_id i vrati vrednost (pogledati komandu GetLastUserId)
-    //vraca null ako nesto ne valja
+    //vraca null ako nesto ne valja, location_id je location, iz hedera info koja je biblioteka,vazi i za prethodne
 
 
     @GET("/records/getRecord")
     Call<Record> getRecord(@Query("ctlgno") String ctlgno);
+    // wrappovani, klasican, jedan ep za sveske i primerke
+
+//------------za posle
+
+    @GET("/members/getAndLockById")
+    Call<MemberData> getAndLockMemberById(@Query("userId") String userId, @Query("librarianId") String librarianId);
+    //librarianId vuces iz appConfig.getLibrarian().getId treba da update-uje inUseBy,
+    //vraca objekat sa samo inUseBy ako je zakljucan, vraca sve ako je tek zakljucao i inUseBy null(a u bazi cuva inUseBy bibliotekara)
+    //vraca null ako ne postoji
 
 
     @GET("/members/getById")
-    Call<Member> getMemberById(@Query("userId") String userId);
-    // treba da update-uje inUseBy
+    Call<MemberData> getMemberById(@Query("userId") String userId);
+    //  getandlock, unlock i get klasican, samo promeniti sta vraca
 
     @GET("/members/releaseById")
     Call<Boolean> releaseMemberById(@Query("userId") String userId);
-    // treba da update-uje inUseBy na null
+    // treba da update-uje inUseBy na null, unlock
+
+    @POST("/members/addUpdate")
+    Call<Boolean> addUpdateMember(@Body MemberData memberData);
+    // potrpati sve u svoje kolekcije, vrati true, false
 }

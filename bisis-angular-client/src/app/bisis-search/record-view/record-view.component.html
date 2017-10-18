@@ -52,7 +52,7 @@
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC" style="margin-top: 10px;">
         <div class="ui-grid-col-12" align="left">
             <p-fieldset [toggleable]="true" [collapsed]="true">
-                <p-header>Слободни примерци</p-header>
+                <p-header>Примерци</p-header>
                     <div class="ui-grid-row" align="left" *ngFor="let p of selectedRec.listOfItems">
                         <!--div class="ui-grid-col-2"-->
                         {{p.invBroj}} - <span *ngIf="p.slobodan"><font color="green"><b>слободан</b></font></span>
@@ -135,7 +135,7 @@
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC" style="margin-top: 10px;">
         <div class="ui-grid-col-12" align="left">
             <p-fieldset [toggleable]="true" [collapsed]="true">
-                <p-header>Слободни примерци</p-header>
+                <p-header>Примерци</p-header>
                 <div class="ui-grid-row" align="left" *ngFor="let p of selectedRec.listOfItems">
                     <!--div class="ui-grid-col-2"-->
                     {{p.invBroj}} - <span *ngIf="p.slobodan"><font color="green"><b>слободан</b></font></span>

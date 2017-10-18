@@ -24,7 +24,7 @@ public class LibraryMemberContrroller {
         if (lm == null) return false;
         lm.setPasswordResetString(randomStringGenerator());
         libraryMemberRepository.save(lm);
-        return true; //zahtev za promenu lozinke poslat
+        return true; //zahtev za promenu lozinke poslat, treba da posalje mejl
     }
 
     @RequestMapping( value = "/{passwordResetString}", method = RequestMethod.GET)
@@ -49,7 +49,7 @@ public class LibraryMemberContrroller {
         char[] chars = "ABCDEFGIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789+-*=".toCharArray();
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 100; i++) {
             char c = chars[random.nextInt(chars.length)];
             sb.append(c);
         }

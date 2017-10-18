@@ -44,12 +44,6 @@ public abstract class AppConfig {
       return chain.proceed(newRequest.build());
     });
 
-    /*Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
-                    .create();*/
-
-
 
     ObjectMapper jacksonMapper = new ObjectMapper();
     jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -81,11 +75,6 @@ public abstract class AppConfig {
     });
 
 
-    /*Gson gson = new GsonBuilder()
-            .setLenient()
-            .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
-            .create();*/
-
     ObjectMapper jacksonMapper = new ObjectMapper();
     jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -93,11 +82,8 @@ public abstract class AppConfig {
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
-        //.addConverterFactory(GsonConverterFactory.create(gson))
         .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
         .build();
-
-
 
   }
 
