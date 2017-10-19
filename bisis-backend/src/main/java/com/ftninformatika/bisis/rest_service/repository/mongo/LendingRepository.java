@@ -14,4 +14,6 @@ import java.util.List;
 public interface LendingRepository extends MongoRepository<Lending, String> {
 
     public List<Lending> findByUserId(@Param("userId") String userId);
+
+    public List<Lending> findByUserIdAndReturnDateIsNull(@Param("userId") String userId);
 }

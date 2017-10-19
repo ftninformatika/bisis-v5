@@ -1,12 +1,20 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.models.circ.Lending;
 import com.ftninformatika.bisis.models.circ.Member;
 import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import org.elasticsearch.monitor.os.OsStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by dboberic on 28/07/2017.
@@ -14,8 +22,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/members")
 public class MemberController {
-    @Autowired
-    MemberRepository memberRep;
+
+    @Autowired MemberRepository memberRep;
+    @Autowired LibrarianRepository librarianRepository;
+    @Autowired LendingRepository lendingRepository;
+    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
 
     @RequestMapping( path = "/memberExist", method = RequestMethod.GET)
     public String userExist(@RequestParam (value = "userId") String userId){
@@ -46,23 +57,76 @@ public class MemberController {
         return m != null;
     }
 
-    @RequestMapping( path = "/getAndLockById")
+    @RequestMapping( path = "/addUpdateMemberData", method = RequestMethod.POST)
+    public boolean addUpdateMemberData(@RequestBody MemberData memberData){
+       if ( memberRep.save(memberData.getMember()) == null )
+           return false;
+       lendingRepository.save(memberData.getLendings());
+       itemAvailabilityRepository.save(memberData.getBooks());
+
+       return true;
+    }
+
+    @RequestMapping( path = "/getMemberDataById")
+    public MemberData getMemberDataById(@RequestParam("userId") String userId){
+        MemberData retVal = new MemberData();
+        Member m = memberRep.getMemberByUserId(userId);
+        if ( m == null )
+            return null;
+        retVal.setMember(m);
+        retVal.setLendings(lendingRepository.findByUserIdAndReturnDateIsNull(userId));
+
+        return retVal;
+    }
+
+
+    /**
+     *
+     * @param userId - ID korisnika (nije mongoId!!!)
+     * @param librarianId - mongodId bibliotekara
+     * @return null - ako ne pronadje bibliotekara ili korisnika
+     *         MemberData objekat, bez inUseBy propertija (inUseBy azuriran i sacuvan kod Member- a) - ako je uspoesno zakljucao
+     *         MemberData objekat, koji sadrzi samo inUseBy (ostalo null) - ako je vec zakljucan
+     */
+    @RequestMapping( path = "/getAndLock")
     public MemberData getAndLockMemberById(@RequestParam("userId") String userId, @RequestParam("librarianId") String librarianId){
         MemberData retVal = new MemberData();
         Member m = memberRep.getMemberByUserId(userId);
+        LibrarianDTO l = librarianRepository.findOne(librarianId);
 
-        if ( m == null )
+        if ( m == null || l == null) //nema tog clana (ili nekim cudom bibliotekara)
             return null;
 
         if (m.getInUseBy() != null){            // ako je zakljucan
             retVal.setInUseBy(m.getInUseBy());
             return retVal;
         }
-        
-        m.setInUseBy();
-
+        m.setInUseBy(librarianId);
+        memberRep.save(m);
+        List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(userId);
+        retVal.setMember(m);
+        retVal.setLendings(lendings);
 
         return retVal;
+    }
+
+    /**
+     *
+     * @param userId
+     * @return false - ako ne postoji korisnik za taj userId
+     *         true - ako postoji i promeni inUseBy na null
+     */
+    @RequestMapping( path = "/releaseById" )
+    public boolean unlockMemberById(@RequestParam("userId") String userId){
+        Member m = memberRep.getMemberByUserId(userId);
+
+        if ( m == null )
+            return false;
+
+        m.setInUseBy(null);
+        memberRep.save(m);
+        return true;
+
     }
 
 }

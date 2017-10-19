@@ -3,7 +3,8 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.data.repository.query.Param;
+
 
 import java.util.List;
 
