@@ -40,24 +40,6 @@ public class RecordsManager {
                 zaduziv = true;
             } else {
                 zaduziv = BisisApp.appConfig.getCodersHelper().getItemStatuses().get(primerak.getStatus()).isLendable();
-
-            }
-            if (zaduziv){
-                try {
-                    itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                listContainsItem(itemAvailability);
-                if (!itemAvailability.getBorrowed()){
-                    itemAvailability.setBorrowed(true);
-                    list.add(itemAvailability);
-                    try {
-                        record = BisisApp.bisisService.getRecordForPrimerak(ctlgno).execute().body();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         } else {
             try {
@@ -71,23 +53,19 @@ public class RecordsManager {
                 }else{
                     zaduziv = BisisApp.appConfig.getCodersHelper().getItemStatuses().get( sveska.getStatus()).isLendable();
                 }
-                if (zaduziv){
-                    try {
-                        itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    listContainsItem(itemAvailability);
-                    if (!itemAvailability.getBorrowed()){
-                        itemAvailability.setBorrowed(true);
-                        list.add(itemAvailability);
-                        try {
-                            record = BisisApp.bisisService.getRecordForSveska(ctlgno).execute().body();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+            }
+        }
+        if (zaduziv){
+            try {
+                itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            listContainsItem(itemAvailability);
+            if (!itemAvailability.getBorrowed()){
+                itemAvailability.setBorrowed(true);
+                list.add(itemAvailability);
+                record = getRecord(ctlgno);
             }
         }
         return record;
@@ -233,7 +211,7 @@ public class RecordsManager {
     public Record getRecord(String ctlgno){
         Record record = null;
         try {
-            record = BisisApp.bisisService.getRecord(ctlgno).execute().body();
+            record = BisisApp.bisisService.getRecordByCtlgNo(ctlgno).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }

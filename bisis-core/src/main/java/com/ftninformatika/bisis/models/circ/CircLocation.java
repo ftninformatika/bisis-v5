@@ -18,7 +18,7 @@ public class CircLocation {
     @Id
     private String _id;
     private String library;
-    private String location;
+    private String locationCode;
     private String description;
     private int lastUserId;
 }

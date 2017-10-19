@@ -87,11 +87,6 @@ public interface BisisService {
     Call<Void> deleteLibraian(@Body LibrarianDTO librarian);
 
 //records---------------------------------------------------------------
-    @GET("/records/getRecordForPrimerak")
-    Call<Record> getRecordForPrimerak(@Query("ctlgno") String ctlgno);
-
-    @GET("/records/getRecordForSveska")
-    Call<Record> getRecordForSveska(@Query("ctlgno") String ctlgno);
 
     @GET("/mongo_repository_records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
