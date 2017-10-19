@@ -55,8 +55,8 @@
                 <p-header>Примерци</p-header>
                     <div class="ui-grid-row" align="left" *ngFor="let p of selectedRec.listOfItems">
                         <!--div class="ui-grid-col-2"-->
-                        {{p.invBroj}} - <span *ngIf="p.slobodan"><font color="green"><b>слободан</b></font></span>
-                        <span *ngIf="p.slobodan == false"><font color="red"><b>заузет</b></font></span>
+                        {{p.ctlgNo}} - <span *ngIf="p.borrowed == false "><font color="green"><b>слободан</b></font></span>
+                        <span *ngIf="p.borrowed == true"><font color="red"><b>заузет</b></font></span>
                         <!--/div-->
                     </div>
                 </p-fieldset>
@@ -138,8 +138,8 @@
                 <p-header>Примерци</p-header>
                 <div class="ui-grid-row" align="left" *ngFor="let p of selectedRec.listOfItems">
                     <!--div class="ui-grid-col-2"-->
-                    {{p.invBroj}} - <span *ngIf="p.slobodan"><font color="green"><b>слободан</b></font></span>
-                    <span *ngIf="p.slobodan == false"><font color="red"><b>заузет</b></font></span>
+                    {{p.ctlgNo}} - <span *ngIf="p.borrowed == false "><font color="green"><b>слободан</b></font></span>
+                    <span *ngIf="p.borrowed == true"><font color="red"><b>заузет</b></font></span>
                     <!--/div-->
                 </div>
             </p-fieldset>

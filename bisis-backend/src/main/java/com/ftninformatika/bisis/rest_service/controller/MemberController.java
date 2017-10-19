@@ -2,7 +2,9 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 
 import com.ftninformatika.bisis.models.circ.Member;
+import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import org.elasticsearch.monitor.os.OsStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +30,9 @@ public class MemberController {
         return memberRep.getMemberByEmail(email);
     }
 
-    @RequestMapping( path = "/addUpdate", method = RequestMethod.POST) //TODO-multipart member, lendings
+    @RequestMapping( path = "/addUpdate", method = RequestMethod.POST)
     public Member addUpdateMember(@RequestBody Member member){
-        Member retVal  = memberRep.save(member);
-        return retVal;
+        return memberRep.save(member);
     }
 
     @RequestMapping(path = "/getById", method = RequestMethod.GET)
@@ -43,6 +44,25 @@ public class MemberController {
     public boolean existUser(@RequestParam (value = "userId") String userId){
         Member m = memberRep.getMemberByUserId(userId);
         return m != null;
+    }
+
+    @RequestMapping( path = "/getAndLockById")
+    public MemberData getAndLockMemberById(@RequestParam("userId") String userId, @RequestParam("librarianId") String librarianId){
+        MemberData retVal = new MemberData();
+        Member m = memberRep.getMemberByUserId(userId);
+
+        if ( m == null )
+            return null;
+
+        if (m.getInUseBy() != null){            // ako je zakljucan
+            retVal.setInUseBy(m.getInUseBy());
+            return retVal;
+        }
+        
+        m.setInUseBy();
+
+
+        return retVal;
     }
 
 }

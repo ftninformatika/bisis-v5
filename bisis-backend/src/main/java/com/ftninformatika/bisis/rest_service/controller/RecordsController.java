@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordResponseWrapper;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
@@ -30,11 +31,11 @@ import java.util.stream.StreamSupport;
 @RequestMapping("/records")
 public class RecordsController {
 
-  @Autowired
-  RecordsRepository recordsRepository;
+  @Autowired RecordsRepository recordsRepository;
 
-  @Autowired
-  ElasticRecordsRepository elasticRecordsRepository;
+  @Autowired ElasticRecordsRepository elasticRecordsRepository;
+
+  @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
 
   @RequestMapping(method = RequestMethod.DELETE)
   public boolean deleteRecord(@RequestBody String recId){
@@ -67,7 +68,8 @@ public class RecordsController {
         if ( r != null ) {
             retVal.setFullRecord(r);
             retVal.setPrefixEntity(elasticRecordsRepository.findOne(r.get_id()));
-            retVal.setListOfItems(null); //TODO-ovo treba imeplementirati
+            String recId = Integer.toString(r.getRecordID());
+            retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(recId));
         }
 
         return retVal;
@@ -145,7 +147,7 @@ public class RecordsController {
             ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
             retVal.setFullRecord(rec);
             retVal.setPrefixEntity(e);
-            retVal.setListOfItems(null); //TODO za svaki zapis na osnovu recordID uzeti listu objekata iz itemAvailability
+            retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID())));
             if (rec == null)
                 throw new RecordNotFoundException(recordId);
             return retVal;
@@ -177,7 +179,7 @@ public class RecordsController {
                     RecordResponseWrapper rw = new RecordResponseWrapper();
                     rw.setPrefixEntity(e);
                     rw.setFullRecord(recordsRepository.findOne(e.getId()));
-                    rw.setListOfItems(null); //TODO za svaki zapis na osnovu recordID uzeti listu objekata iz itemAvailability
+                    rw.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rw.getFullRecord().getRecordID())));
                     retVal.add(rw);
                 }
         );

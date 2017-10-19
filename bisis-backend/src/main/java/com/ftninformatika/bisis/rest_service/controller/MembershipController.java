@@ -19,7 +19,7 @@ public class MembershipController {
 
     @RequestMapping( method = RequestMethod.POST)
     public Membership addMembership(@RequestBody Membership membership){
-       return membershipRepository.insert(membership);
+       return membershipRepository.save(membership);
     }
 
     @RequestMapping( method = RequestMethod.DELETE)

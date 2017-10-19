@@ -225,17 +225,10 @@ public interface BisisService {
     //za odgovarajucu lokaciju treba da poveca last_user_id i vrati vrednost (pogledati komandu GetLastUserId)
     //vraca null ako nesto ne valja, location_id je location, iz hedera info koja je biblioteka,vazi i za prethodne
 
-    //TODO
-
-
-    @POST("/members/saveCorporateUser")
+    @POST("/corporate_members")
     Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
-    //fali i informacija kod kog korisnika se cuva????
 
-
-
-
-
+    //TODO
 
 
 //------------za posle
