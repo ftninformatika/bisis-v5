@@ -9509,14 +9509,14 @@ db.coders.language.insert(
 
 db.coders.circ_location.insert([
     {
-        'library': "gbns",
-        'location_id': "01",
+        'library': "gbns_com",
+        'location': "01",
         'description': "Some description",
         'lastUserId': 1
     },
     {
-        'library': "gbns",
-        'location_id': "02",
+        'library': "gbns_com",
+        'location': "02",
         'description': "Some description2",
         'lastUserId': 2
     }

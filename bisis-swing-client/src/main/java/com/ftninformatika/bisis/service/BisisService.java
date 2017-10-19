@@ -140,6 +140,14 @@ public interface BisisService {
     @HTTP(method = "DELETE", path = "/records", hasBody = true)
     Call<Boolean> deleteRecord(String recID);
 
+    @GET("/records/getRecord")
+    Call<Record> getRecordByCtlgNo(@Query("ctlgno") String ctlgno);
+    // full record
+
+    @GET("/records/getWrapperRecord")
+    Call<Record> getWrapperRecordByCtlgNo(@Query("ctlgno") String ctlgno);
+    // wrappovani
+
     //coders----------------------------------------------
     @GET("/coders/accession_register")
     Call<List<AccessionRegister>> getAccessionRegs(@Query("libName")String libName);
@@ -216,6 +224,11 @@ public interface BisisService {
     @GET("/corporate_members/getById")
     Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);
 
+    @GET("circ_location/lastUserId")
+    Call<Integer> getLastUserId(@Query("location") Integer location);
+    //za odgovarajucu lokaciju treba da poveca last_user_id i vrati vrednost (pogledati komandu GetLastUserId)
+    //vraca null ako nesto ne valja, location_id je location, iz hedera info koja je biblioteka,vazi i za prethodne
+
     //TODO
 
 
@@ -224,15 +237,10 @@ public interface BisisService {
     //fali i informacija kod kog korisnika se cuva????
 
 
-    @GET("circ_location/lastUserId")
-    Call<Integer> getLastUserId(@Query("location") Integer location);
-    //za odgovarajucu lokaciju treba da poveca last_user_id i vrati vrednost (pogledati komandu GetLastUserId)
-    //vraca null ako nesto ne valja, location_id je location, iz hedera info koja je biblioteka,vazi i za prethodne
 
 
-    @GET("/records/getRecord")
-    Call<Record> getRecord(@Query("ctlgno") String ctlgno);
-    // wrappovani, klasican, jedan ep za sveske i primerke
+
+
 
 //------------za posle
 

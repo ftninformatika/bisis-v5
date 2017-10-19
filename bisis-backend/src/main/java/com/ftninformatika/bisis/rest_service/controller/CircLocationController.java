@@ -27,7 +27,7 @@ public class CircLocationController {
             l = "0" + location;
         else
             l = Integer.toString(location);
-        List<CircLocation> circLocation = circLocationRepository.findByLocation_idAndLibrary(l, library);
+        List<CircLocation> circLocation = circLocationRepository.findByLocationAndLibrary(l, library);
 
         if (circLocation == null || circLocation.size() > 1 || circLocation.size() == 0)
             return null;

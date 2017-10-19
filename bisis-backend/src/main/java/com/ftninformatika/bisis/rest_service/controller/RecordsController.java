@@ -45,14 +45,34 @@ public class RecordsController {
 
   }
 
-    @RequestMapping(value = "/getRecordForSveska")
-    public Record getRecordForSveska(@RequestParam (value = "ctlgno")String ctlgno){
-        Record retVal = null;
+    @RequestMapping(value = "/getRecord")
+    public Record getRecordForCtlgNum(@RequestParam (value = "ctlgno")String ctlgno){
+        Record retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
+        if ( retVal == null )
+            retVal = recordsRepository.getRecordBySveskaInvNum(ctlgno);
+        return retVal;
+    }
 
-        retVal = recordsRepository.getRecordBySveskaInvNum(ctlgno);
+    @RequestMapping(value = "/getWrapperRecord")
+    public RecordResponseWrapper getWrapperRecordForCtlgNum(@RequestParam (value = "ctlgno")String ctlgno){
+        RecordResponseWrapper retVal = new RecordResponseWrapper();
+
+        Record r = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
+
+        if ( r == null ){
+            r = recordsRepository.getRecordBySveskaInvNum(ctlgno);
+            retVal.setFullRecord(r);
+        }
+
+        if ( r != null ) {
+            retVal.setFullRecord(r);
+            retVal.setPrefixEntity(elasticRecordsRepository.findOne(r.get_id()));
+            retVal.setListOfItems(null); //TODO-ovo treba imeplementirati
+        }
 
         return retVal;
     }
+
 
   @RequestMapping(value = "/getRecordForPrimerak")
   public Record getRecordForPrimerak(@RequestParam (value = "ctlgno")String ctlgno){
