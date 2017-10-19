@@ -11,6 +11,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.models.coders.*;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
@@ -262,4 +263,8 @@ public interface BisisService {
     @POST("/members/addUpdate")
     Call<Boolean> addUpdateMember(@Body MemberData memberData);
     // potrpati sve u svoje kolekcije, vrati true, false
+
+
+    @GET("items/{ctlgno}")
+    Call<ItemAvailability> getItemAvailability(@Path("ctlgno") String ctlgno);
 }
