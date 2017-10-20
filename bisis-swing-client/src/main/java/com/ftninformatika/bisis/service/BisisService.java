@@ -11,10 +11,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.models.coders.*;
-import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.records.Primerak;
-import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.Sveska;
+import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.google.gson.JsonObject;
 import okhttp3.RequestBody;
@@ -137,6 +134,9 @@ public interface BisisService {
 
     @POST("/records/query")
     Call<List<Record>> queryRecords(@Body SearchModel sm);
+
+    @POST("/records/querywrapper")
+    Call<List<RecordResponseWrapper>> queryRecordsWrapper(@Body SearchModel sm);
 
     @GET("/records/clear_elastic")
     Call<Boolean> clearElasticStorage();

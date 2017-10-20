@@ -27,12 +27,13 @@ public class DuplicateTableModel extends AbstractTableModel implements Serializa
     	data = new ArrayList<Duplicate>();
     }
     
-    public void setData(Set data){
-      this.data.clear();
-      Iterator it = data.iterator();
-      while (it.hasNext()){
-        this.data.add((Duplicate)it.next());
-      }
+    public void setData(List data){
+//      this.data.clear();
+//      Iterator it = data.iterator();
+//      while (it.hasNext()){
+//        this.data.add((Duplicate)it.next());
+//      }
+		this.data = data;
     	fireTableDataChanged();
     }
     
@@ -50,7 +51,7 @@ public class DuplicateTableModel extends AbstractTableModel implements Serializa
 	    	rowData.setDupDate(new Date());
         rowData.setDupNo(dupno);
         data.add(rowData);
-        Cirkulacija.getApp().getUserManager().addDuplicate(rowData);
+        //Cirkulacija.getApp().getUserManager().addDuplicate(rowData);
 	    	fireTableRowsInserted(row, row);
 	    }
 
@@ -58,7 +59,7 @@ public class DuplicateTableModel extends AbstractTableModel implements Serializa
 	    public void removeRow(int row) {
         
 	      Duplicate dup = data.remove(row);
-        Cirkulacija.getApp().getUserManager().removeDuplicate(dup);
+        //Cirkulacija.getApp().getUserManager().removeDuplicate(dup);
 	      fireTableRowsDeleted(row, row);
 	    }
 
@@ -114,7 +115,7 @@ public class DuplicateTableModel extends AbstractTableModel implements Serializa
 	        	case 1: rowData.setDupNo(((Integer)aValue).intValue());
 	        }
 	        fireTableCellUpdated(row, column);
-	        Cirkulacija.getApp().getUserManager().updateDuplicate(rowData);
+	        //Cirkulacija.getApp().getUserManager().updateDuplicate(rowData);
 	    }
 
 	    public Class getColumnClass(int col) {

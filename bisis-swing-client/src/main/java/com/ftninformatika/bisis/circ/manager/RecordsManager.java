@@ -18,11 +18,11 @@ public class RecordsManager {
     private Primerak primerak;
     private Sveska sveska;
     private ItemAvailability itemAvailability;
-    private List<ItemAvailability> list;
+    private List<ItemAvailability> listOfItems;
 
 
     public RecordsManager(){
-        list = new ArrayList<ItemAvailability>();
+        listOfItems = new ArrayList<ItemAvailability>();
     }
 
     public Record lendBook(String ctlgno){
@@ -64,7 +64,7 @@ public class RecordsManager {
             listContainsItem(itemAvailability);
             if (!itemAvailability.getBorrowed()){
                 itemAvailability.setBorrowed(true);
-                list.add(itemAvailability);
+                listOfItems.add(itemAvailability);
                 record = getRecord(ctlgno);
             }
         }
@@ -72,11 +72,11 @@ public class RecordsManager {
     }
 
     public void listContainsItem(ItemAvailability item){
-        Iterator<ItemAvailability> it = list.iterator();
+        Iterator<ItemAvailability> it = listOfItems.iterator();
         while (it.hasNext()){
             ItemAvailability tmp = it.next();
             if (tmp.getCtlgNo() == item.getCtlgNo()){
-                list.remove(tmp);
+                listOfItems.remove(tmp);
                 return;
             }
         }
@@ -97,7 +97,7 @@ public class RecordsManager {
             listContainsItem(itemAvailability);
             if (itemAvailability.getBorrowed()){
                 itemAvailability.setBorrowed(false);
-                list.add(itemAvailability);
+                listOfItems.add(itemAvailability);
             }
         } else {
             try {
@@ -114,7 +114,7 @@ public class RecordsManager {
                 listContainsItem(itemAvailability);
                 if (itemAvailability.getBorrowed()){
                     itemAvailability.setBorrowed(false);
-                    list.add(itemAvailability);
+                    listOfItems.add(itemAvailability);
                 }
             }
         }
@@ -200,12 +200,12 @@ public class RecordsManager {
         }
     }
 
-    public List getList(){
-        return list;
+    public List getListOfItems(){
+        return listOfItems;
     }
 
-    public void releaseList(){
-        list.clear();
+    public void releaseListOfItems(){
+        listOfItems.clear();
     }
 
     public Record getRecord(String ctlgno){

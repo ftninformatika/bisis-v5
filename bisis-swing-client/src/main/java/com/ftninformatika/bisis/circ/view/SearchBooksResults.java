@@ -184,7 +184,7 @@ public class SearchBooksResults extends JPanel{
 	            }
 	          }else if (node instanceof Primerak){
 	            Primerak primerak = (Primerak)node;
-	            if (1 == primerak.getStanje()){
+	            if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())){
 	              getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(primerak.getInvBroj()) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
 	              if (!Cirkulacija.getApp().getUserManager().gotUser())
 	                getBtnUser().setEnabled(true);
@@ -201,7 +201,7 @@ public class SearchBooksResults extends JPanel{
 	            }
 	          }else if (node instanceof Sveska){
 	            Sveska sveska = (Sveska)node;
-	            if (1 == sveska.getStanje()){
+	            if (getBooksTreeModel().isBorrowed(sveska.getInvBroj())){
 	              getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(sveska.getInvBroj()) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
 	              if (!Cirkulacija.getApp().getUserManager().gotUser())
 	                getBtnUser().setEnabled(true);
@@ -266,9 +266,11 @@ public class SearchBooksResults extends JPanel{
 	            }
 	            if (success){
 	              if (getTree().getLastSelectedPathComponent() instanceof Primerak){
-	                ((Primerak)getTree().getLastSelectedPathComponent()).setStanje(0);
+	              	getBooksTreeModel().setBorrowed(((Primerak)getTree().getLastSelectedPathComponent()).getInvBroj(), false);
+	                //((Primerak)getTree().getLastSelectedPathComponent()).setStanje(0);
 	              }else if (getTree().getLastSelectedPathComponent() instanceof Sveska){
-	                ((Sveska)getTree().getLastSelectedPathComponent()).setStanje(0);
+					  getBooksTreeModel().setBorrowed(((Sveska)getTree().getLastSelectedPathComponent()).getInvBroj(), false);
+	                //((Sveska)getTree().getLastSelectedPathComponent()).setStanje(0);
 	              }
 	              btnReturn.setEnabled(false);
 	              getBtnLend().setEnabled(true);
@@ -482,7 +484,7 @@ public class SearchBooksResults extends JPanel{
             	int zaduzivost = HoldingsDataCoders.getZaduzivostStatusa(primerak.getStatus());
                 String stanje = null;
                 if (zaduzivost == 1) {
-                	if (primerak.getStanje() == 1){
+                	if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())){
                   	stanje = Messages.getString("circulation.charged"); //$NON-NLS-1$
                   	setForeground(new Color(217, 19, 19));
                   } else {
@@ -490,7 +492,7 @@ public class SearchBooksResults extends JPanel{
                   	setForeground(new Color(77, 138, 74));
                   }
                 } else {
-                	if (primerak.getStanje() == 1){
+                	if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())){
                   	stanje = Messages.getString("circulation.charged"); //$NON-NLS-1$
                   } else {
                   	stanje = Messages.getString("circulation.free"); //$NON-NLS-1$
@@ -500,7 +502,7 @@ public class SearchBooksResults extends JPanel{
                 setText(primerak.getInvBroj() + ", " + statusOpis + ", " + stanje + ", " + Signature.format(primerak)); //$NON-NLS-1$ //$NON-NLS-2$
               } else {
               	String stanje = null;
-              	if (primerak.getStanje() == 1){
+              	if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())){
                 	stanje = Messages.getString("circulation.charged"); //$NON-NLS-1$
                 	setForeground(new Color(217, 19, 19));
                 } else {
@@ -516,7 +518,7 @@ public class SearchBooksResults extends JPanel{
             	int zaduzivost = HoldingsDataCoders.getZaduzivostStatusa(sveska.getStatus());
                 String stanje = null;
                 if (zaduzivost == 1) {
-                	if (sveska.getStanje() == 1){
+                	if (getBooksTreeModel().isBorrowed(sveska.getInvBroj())){
                   	stanje = Messages.getString("circulation.charged"); //$NON-NLS-1$
                   	setForeground(new Color(217, 19, 19));
                   } else {
@@ -524,7 +526,7 @@ public class SearchBooksResults extends JPanel{
                   	setForeground(new Color(77, 138, 74));
                   }
                 } else {
-                	if (sveska.getStanje() == 1){
+                	if (getBooksTreeModel().isBorrowed(sveska.getInvBroj())){
                   	stanje = Messages.getString("circulation.charged"); //$NON-NLS-1$
                   } else {
                   	stanje = Messages.getString("circulation.free"); //$NON-NLS-1$
@@ -534,7 +536,7 @@ public class SearchBooksResults extends JPanel{
                 setText(sveska.getInvBroj() +Messages.getString("circulation.partnumber")+ sveska.getBrojSveske()+ ", " + statusOpis + ", " + stanje); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
               } else {
               	String stanje = null;
-              	if (sveska.getStanje() == 1){
+              	if (getBooksTreeModel().isBorrowed(sveska.getInvBroj())){
                 	stanje = Messages.getString("circulation.charged"); //$NON-NLS-1$
                 	setForeground(new Color(217, 19, 19));
                 } else {

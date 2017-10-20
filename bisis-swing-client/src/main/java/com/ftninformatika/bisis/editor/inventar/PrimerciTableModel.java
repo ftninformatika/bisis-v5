@@ -129,7 +129,7 @@ public class PrimerciTableModel extends AbstractTableModel {
 		        throw new InventarniBrojException(InventarValidation.validateInvBrojUnique(p.getInvBroj()));
 			}
 			p.setPrimerakID(CurrRecord.record.getPrimerci().get(index).getPrimerakID());
-			p.setStanje(CurrRecord.record.getPrimerci().get(index).getStanje());
+			//p.setStanje(CurrRecord.record.getPrimerci().get(index).getStanje());
 			CurrRecord.record.getPrimerci().set(index,p);				
 		}	
 		else{
@@ -137,7 +137,7 @@ public class PrimerciTableModel extends AbstractTableModel {
 			if(!InventarValidation.validateInvBrojUnique(p.getInvBroj()).equals("")){
 		        throw new InventarniBrojException(InventarValidation.validateInvBrojUnique(p.getInvBroj()));
 			}
-			p.setStanje(0);
+			//p.setStanje(0);
 			CurrRecord.addPrimerak(p);
 
 

@@ -97,7 +97,7 @@ public class SveskeTableModel extends AbstractTableModel {
       }
       if(found){
       	s.setSveskaID(sveske.get(index).getSveskaID());
-      	s.setStanje(sveske.get(index).getStanje());
+      	//s.setStanje(sveske.get(index).getStanje());
        sveske.set(index,s);
       }else{
         //provera jedinstvenosti inventarnog broja
@@ -107,7 +107,7 @@ public class SveskeTableModel extends AbstractTableModel {
       			throw new InventarniBrojException("Dupli inventarni broj (tekuci zapis)!");      	
         if(!InventarValidation.validateInvBrojUnique(s.getInvBroj()).equals(""))
           throw new InventarniBrojException(InventarValidation.validateInvBrojUnique(s.getInvBroj()));
-        s.setStanje(0);
+        //s.setStanje(0);
         sveske.add(s);        
       } 
    

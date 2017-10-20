@@ -478,7 +478,7 @@ public class Lending {
     }
   }
   
-  public void loadUser(String userID, String firstName, String lastName, Date untilDate, String note, String dupno, String blocked, Set lendings, boolean warnings){
+  public void loadUser(String userID, String firstName, String lastName, Date untilDate, String note, String dupno, String blocked, List lendings, boolean warnings){
     getLUser().setText(userID + ", " + firstName + " " + lastName); //$NON-NLS-1$ //$NON-NLS-2$
     if (untilDate != null)
       getLUntilDate().setText(DateFormat.getDateInstance().format(untilDate));
@@ -505,7 +505,7 @@ public class Lending {
     getLBlockCard().setText(blocked);
   }
    
-  public void setTableModel(Set lendings){
+  public void setTableModel(List<com.ftninformatika.bisis.models.circ.Lending> lendings){
     getTableModel().setData(lendings);
   }
   

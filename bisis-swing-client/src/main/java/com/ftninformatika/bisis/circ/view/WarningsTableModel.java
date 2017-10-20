@@ -64,7 +64,7 @@ public class WarningsTableModel extends AbstractTableModel {
       Warning warning = (Warning)data.get(row);
       warning.setNote((String)aValue);
       fireTableCellUpdated(row, col);
-      Cirkulacija.getApp().getUserManager().updateWarning(warning);
+      //Cirkulacija.getApp().getUserManager().updateWarning(warning);
     }
 	}
 	

@@ -48,8 +48,8 @@ public class BisisApp {
 
 
     try {
-      UIManager.installLookAndFeel("seaglass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
-      UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+      //UIManager.installLookAndFeel("seaglass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
+      //UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
       //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
@@ -105,15 +105,15 @@ public class BisisApp {
 
           recMgr = new RecordManagerImpl();
           //testing purposes only!
-          try {
-            bisisService.clearElasticStorage().execute();
-            System.out.println("Elastic storage cleared!");
-            bisisService.fillElasticStorage().execute();
-            System.out.println("Elastic storage filled!");
-          } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Greska pri reinicijalizaciji podataka u elastic-u!");
-          }
+//          try {
+//            bisisService.clearElasticStorage().execute();
+//            System.out.println("Elastic storage cleared!");
+//            bisisService.fillElasticStorage().execute();
+//            System.out.println("Elastic storage filled!");
+//          } catch (IOException e) {
+//            e.printStackTrace();
+//            System.out.println("Greska pri reinicijalizaciji podataka u elastic-u!");
+//          }
           //----------------------
           mf = new MainFrame();
           mf.setResizable(true);

@@ -28,12 +28,13 @@ public class PicturebooksTableModel extends AbstractTableModel implements Serial
         data = new ArrayList<PictureBook>();
     }
 
-    public void setData(Set data) {
-        this.data.clear();
-        Iterator it = data.iterator();
-        while (it.hasNext()) {
-            this.data.add((PictureBook) it.next());
-        }
+    public void setData(List data) {
+//        this.data.clear();
+//        Iterator it = data.iterator();
+//        while (it.hasNext()) {
+//            this.data.add((PictureBook) it.next());
+//        }
+        this.data = data;
         fireTableDataChanged();
     }
 
@@ -46,7 +47,7 @@ public class PicturebooksTableModel extends AbstractTableModel implements Serial
         rowData.setLendNo(lendNo);
         rowData.setReturnNo(returnNo);
         rowData.setStatus(state);
-        Cirkulacija.getApp().getUserManager().addPicturebooks(rowData);
+        //Cirkulacija.getApp().getUserManager().addPicturebooks(rowData);
         data.add(rowData);
         fireTableRowsInserted(row, row);
     }
