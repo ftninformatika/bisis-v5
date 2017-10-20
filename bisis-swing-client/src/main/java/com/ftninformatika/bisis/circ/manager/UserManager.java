@@ -65,29 +65,29 @@ public class UserManager {
 
 			if (!lendings.isEmpty()){
                 memberData.setLendings(lendings);
-                memberData.setBooks(Cirkulacija.getApp().getRecordsManager().getList());
+                memberData.setBooks(Cirkulacija.getApp().getRecordsManager().getListOfItems());
 			}
             boolean saved = false;
             try {
-                saved = BisisApp.bisisService.addUpdateMember(memberData).execute().body();
+                saved = BisisApp.bisisService.addUpdateMemberData(memberData).execute().body();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
 			if (saved){
-                try {
-                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
-                    member = memberData.getMember();
-                    lendings = memberData.getLendings();
+//                try {
+//                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
+//                    member = memberData.getMember();
+//                    lendings = memberData.getLendings();
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                if (member != null){
-                    Cirkulacija.getApp().getRecordsManager().getList().clear();
-                    loadUser(user, member, lendings);
-                }
+                //if (member != null){
+                    Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
+                    //loadUser(user, member, lendings);
+                //}
 				return "ok";
 			} else {
                 return "Gre\u0161ka u konekciji s bazom podataka!";
@@ -98,10 +98,12 @@ public class UserManager {
 	}
 	
 	public void releaseUser(){
-        try {
-            Boolean released = BisisApp.bisisService.releaseMemberById(member.getUserId()).execute().body();
-        } catch (Exception e) {
-            e.printStackTrace();
+	    if (member != null) {
+            try {
+                Boolean released = BisisApp.bisisService.releaseMemberById(member.getUserId()).execute().body();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 		member = null;
 		lendings = null;
@@ -140,9 +142,9 @@ public class UserManager {
   public void initialiseUser(User user){
     member = new Member();
     lendings = new ArrayList<Lending>();
-    user.getMmbrship().setTableModel(new HashSet(member.getSignings()));
-    user.getLending().setTableModel(new HashSet(lendings));
-    user.getUserData().setDupTableModel(new HashSet(member.getDuplicates()));
+    user.getMmbrship().setTableModel(member.getSignings());
+    user.getLending().setTableModel(lendings);
+    user.getUserData().setDupTableModel(member.getDuplicates());
   }
   
   public int showUser(User user, String userID){
@@ -217,7 +219,7 @@ public class UserManager {
   public int getUser(User user, Group group, String userID){
     int found = 0;
       try {
-          MemberData memberData = BisisApp.bisisService.getMemberById(userID).execute().body();
+          MemberData memberData = BisisApp.bisisService.getAndLockMemberById(userID, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
           member = memberData.getMember();
           lendings = memberData.getLendings();
       } catch (Exception e) {
@@ -226,7 +228,7 @@ public class UserManager {
 
     if (member != null){
           if (member.getInUseBy() == null) {
-              Cirkulacija.getApp().getRecordsManager().getList().clear();
+              Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
               loadUser(user, member, lendings);
               found = 1;
               return found;
@@ -273,9 +275,9 @@ public class UserManager {
         member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
         member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
         member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(),
-        member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), new HashSet(member.getDuplicates()), member.getPin());
+        member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin());
 
-    user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), new HashSet(member.getSignings()));
+    user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), member.getSignings());
 
     Date maxDate = null;
     Date date = null;
@@ -301,7 +303,7 @@ public class UserManager {
       }
     }
     
-    user.getLending().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo, new HashSet(lendings), !warnings.isEmpty());
+    user.getLending().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo, lendings, !warnings.isEmpty());
     
     user.setDirty(false);
     
@@ -406,7 +408,7 @@ public class UserManager {
             .map(i -> {
                 com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
-                l.setLocation_id(i.getLocation_id());
+                l.setLocation_id(i.getLocationCode());
                 return l;
 
             })
@@ -417,7 +419,7 @@ public class UserManager {
             .map(i -> {
                 com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
-                l.setLocation_id(i.getLocation_id());
+                l.setLocation_id(i.getLocationCode());
                 return l;
 
             })
@@ -450,7 +452,7 @@ public class UserManager {
             .map(i -> {
                 com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
-                l.setLocation_id(i.getLocation_id());
+                l.setLocation_id(i.getLocationCode());
                 return l;
 
             })
@@ -465,7 +467,7 @@ public class UserManager {
               .map(i -> {
                   com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
                   l.setDescription(i.getDescription());
-                  l.setLocation_id(i.getLocation_id());
+                  l.setLocation_id(i.getLocationCode());
                   return l;
 
               })
@@ -706,9 +708,9 @@ public class UserManager {
     return warnings;
   }
   
-  public Set getPicturebooks(){
+  public List getPicturebooks(){
   	if (member != null){
-  		return (Set) member.getPicturebooks();
+  		return member.getPicturebooks();
   	} else {
   		return null;
   	}

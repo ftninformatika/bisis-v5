@@ -34,7 +34,7 @@ public class Manager {
   			if (config.getName().equals("circ-options")){
   				EnvironmentOptions.setDoc(config.getText());
   			}
-  			if (config.getName().equals("circ-validator")){
+  			if (config.getName().equals("circ_validator")){
   				ValidatorOptions.setDoc(config.getText());
   			}
   		}
@@ -52,7 +52,7 @@ public class Manager {
 	
 	public static boolean saveValidator(String xml){
 		Configs config = new Configs();
-		config.setName("circ-validator");
+		config.setName("circ_validator");
 		config.setText(xml);
 		SaveObjectCommand save = new SaveObjectCommand(config);
 		save = (SaveObjectCommand)service.executeCommand(save);

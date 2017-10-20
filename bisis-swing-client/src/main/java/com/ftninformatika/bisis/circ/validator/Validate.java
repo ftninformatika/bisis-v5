@@ -16,8 +16,7 @@ import org.apache.commons.validator.*;
 
 public class Validate {
 
-	private static ResourceBundle res =
-        ResourceBundle.getBundle("com.gint.app.bisis4.client.circ.validator.validatorResources");
+	private static ResourceBundle res = ResourceBundle.getBundle("circ_validator.validatorResources");
   private static Log log = LogFactory.getLog(Validate.class.getName());
 	
 	
@@ -75,7 +74,7 @@ public class Validate {
 			if (xml != null){
 				xmlStream = new ByteArrayInputStream(xml.getBytes());
 			} else {
-				xmlStream = bean.getClass().getResourceAsStream("/user-bean-validator.xml");
+				xmlStream = bean.getClass().getResourceAsStream("/circ_validator/user-bean-validator.xml");
 			}
 			ValidatorResources resources = new ValidatorResources(xmlStream);
 			String temp1 = validate(bean.getUserData(), resources, "userData");
@@ -98,7 +97,7 @@ public class Validate {
 	
 	public static String validateOptions(OptionsFrame bean){
 		try{
-			InputStream xmlStream = bean.getClass().getResourceAsStream("/circ/validator/options-validator.xml");
+			InputStream xmlStream = bean.getClass().getResourceAsStream("/circ_validator/options-validator.xml");
 	        ValidatorResources resources = new ValidatorResources(xmlStream);	        
 			return validate(bean, resources, "options");			
 		}catch(Exception e){
@@ -125,7 +124,7 @@ public class Validate {
 			if (xml != null){
 				xmlStream = new ByteArrayInputStream(xml.getBytes());
 			} else {
-				xmlStream = bean.getClass().getResourceAsStream("/user-bean-validator.xml");
+				xmlStream = bean.getClass().getResourceAsStream("/circ_validator/user-bean-validator.xml");
 			}
       ValidatorResources resources = new ValidatorResources(xmlStream);
       fixLabels(bean.getUserData(), resources, "userData");

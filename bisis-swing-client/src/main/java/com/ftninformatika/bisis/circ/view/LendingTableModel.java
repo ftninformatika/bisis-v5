@@ -18,7 +18,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class LendingTableModel extends AbstractTableModel implements Serializable {
 
-    protected ArrayList<Lending> dataView;
+    protected List<Lending> dataView;
     protected List<String> columnIdentifiers;
     protected List<String> authors;
     protected List<String> titles;
@@ -42,8 +42,9 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
       signatures = new ArrayList<String>();
     }
 
-    public void setData(Set data){
-      dataView = new ArrayList<Lending>();
+    public void setData(List<Lending> data){
+    	dataView = data;
+      //dataView = new ArrayList<Lending>();
       authors = new ArrayList<String>();
       titles = new ArrayList<String>();
       signatures = new ArrayList<String>();
@@ -52,7 +53,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
       
       while (it.hasNext()){
         tmp = (Lending)it.next();
-        dataView.add(tmp);
+        //dataView.add(tmp);
         Record record = Cirkulacija.getApp().getRecordsManager().getRecord(tmp.getCtlgNo());
         RecordBean bean = null;
         if (record != null){

@@ -344,7 +344,7 @@ public class Membership {
 		return mmbrshipTableModel;
 	}
   
-  public void setTableModel(Set signings){
+  public void setTableModel(List signings){
     getTableModel().setData(signings);
   }
   
@@ -535,7 +535,7 @@ public class Membership {
     Utils.loadCombo(getCmbBranchID(), data);
   }
 
-	public void loadUser(String userID, MembershipType mt, UserCategory uc, CorporateMember group, Set signings){
+	public void loadUser(String userID, MembershipType mt, UserCategory uc, CorporateMember group, List signings){
 	    if (userID.length() == Cirkulacija.getApp().getEnvironment().getUseridLength() && Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
 	  		getTfBranch().setText(userID.substring(0,Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
 	  		int loc = Integer.parseInt(getTfBranch().getText());

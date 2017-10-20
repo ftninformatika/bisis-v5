@@ -31,12 +31,13 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
     	dataView = new ArrayList<Signing>();
     }
     
-    public void setData(Set data){
-      this.dataView.clear();
-      Iterator it = data.iterator();
-      while (it.hasNext()){
-        this.dataView.add((Signing)it.next());
-      }
+    public void setData(List data){
+//      this.dataView.clear();
+//      Iterator it = data.iterator();
+//      while (it.hasNext()){
+//        this.dataView.add((Signing)it.next());
+//      }
+		this.dataView = data;
     	fireTableDataChanged();
     }
     

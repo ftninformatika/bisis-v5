@@ -1008,7 +1008,7 @@ public class UserData {
 		return duplicateTableModel;
 	}
 
-    public void setDupTableModel(Set duplicates) {
+    public void setDupTableModel(List duplicates) {
         getDuplicateTableModel().setData(duplicates);
     }
 
@@ -1330,7 +1330,7 @@ public class UserData {
                          String gender, String age, String tmpAddress, String tmpCity, String tmpZip,
                          String tmpPhone, String jmbg, int docId, String docNo, String docCity, String country,
                          String title, String occupation, String indexNo, String classNo, Organization org,
-                         String eduLvl, String languages, String note, String interests, int warn, boolean blocked, String blockedReason, Set duplicates, String pincode) {
+                         String eduLvl, String languages, String note, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode) {
         getTfFirstName().setText(firstName);
         getTfLastName().setText(lastName);
         getTfParentName().setText(parentName);

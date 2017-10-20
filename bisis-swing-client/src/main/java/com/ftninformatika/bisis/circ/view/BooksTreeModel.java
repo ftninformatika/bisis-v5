@@ -1,13 +1,11 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.records.Godina;
-import com.ftninformatika.bisis.records.Primerak;
-import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.Sveska;
+import com.ftninformatika.bisis.records.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.event.EventListenerList;
@@ -21,6 +19,7 @@ import javax.swing.tree.TreePath;
 public class BooksTreeModel implements Serializable, TreeModel{
   
   private List<Record> records;
+  private HashMap<String, ItemAvailability> itemAvailabilityMap;
   protected EventListenerList listenerList = new EventListenerList();
   
   public BooksTreeModel() {
@@ -111,16 +110,30 @@ public class BooksTreeModel implements Serializable, TreeModel{
   public void setHits(ArrayList<String> recIDs) {
     try {
       records = new ArrayList<Record>();
-      Record[] tmp = BisisApp.recMgr.getRecords(recIDs);
-      for (int i = 0; i<tmp.length; i++){
-        if (tmp[i] != null)
-          records.add(tmp[i]);
+      itemAvailabilityMap = new HashMap<String, ItemAvailability>();
+      List<RecordResponseWrapper> list = BisisApp.bisisService.queryRecordsWrapper(null).execute().body(); //TODO records for recIDs
+      for (RecordResponseWrapper wrapper : list){
+          if (wrapper.getFullRecord() != null){
+              records.add(wrapper.getFullRecord());
+              List<ItemAvailability> items = wrapper.getListOfItems();
+              for (ItemAvailability item : items){
+                  itemAvailabilityMap.put(item.getCtlgNo(), item);
+              }
+          }
       }
       fireTreeStructureChanged(records);
     } catch (Exception ex) {
       ex.printStackTrace();
       //TODO log
     }
+  }
+
+  public Boolean isBorrowed(String ctlgno){
+      return itemAvailabilityMap.get(ctlgno).getBorrowed();
+  }
+
+  public void setBorrowed(String ctlgno, boolean borrowed){
+      itemAvailabilityMap.get(ctlgno).setBorrowed(borrowed);
   }
   
   public void clear(){

@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.circ.view;
 
 import java.awt.Color;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -189,7 +190,7 @@ public class Picturebooks {
         return tableModel;
     }
 
-    public void setData(Set data) {
+    public void setData(List data) {
         getTableModel().setData(data);
         getTfDate().setDate(new Date());
         if (getTable().getRowCount() > 0) {
