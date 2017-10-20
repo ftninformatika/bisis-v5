@@ -1,4 +1,5 @@
 import {Component, AfterViewInit, ElementRef, Renderer, ViewChild, OnDestroy} from '@angular/core';
+import {AuthHelper} from "./auth/utilities/authhelper";
 
 enum MenuOrientation {
     STATIC,
@@ -56,7 +57,18 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ElementRef;
 
-    constructor(public renderer: Renderer) {}
+    constructor(public renderer: Renderer, public ah: AuthHelper) {}
+
+    ngOnInit(){
+        if (this.ah.authenticated == undefined){
+            this.staticMenuDesktopInactive = true;
+            this.staticMenuMobileActive = true;
+        }
+        else{
+            this.staticMenuDesktopInactive = false;
+            this.staticMenuMobileActive = false;
+        }
+    }
 
     ngAfterViewInit() {
         this.layoutContainer = <HTMLDivElement> this.layourContainerViewChild.nativeElement;
