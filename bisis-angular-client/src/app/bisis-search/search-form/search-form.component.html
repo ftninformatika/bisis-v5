@@ -16,6 +16,7 @@
             </p-tabPanel>          
             <p-tabPanel header="Напредна претрага">
                 <div class="ui-g form-group ui-fluid">
+
                     <div class="ui-g-12 ui-md-6 ui-lg-4" align="right">
                         <label><b>Префикс</b></label>
                     </div>
@@ -30,65 +31,54 @@
                         <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix1"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <input type="text" pInputText >
+                        <input type="text" [(ngModel)]="text1" pInputText >
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
                         <p-dropdown [options]="bondings" [style]="{'width':'30%'}" [(ngModel)]="bonding1"></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-6 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="selected"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix2"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <input type="text" pInputText >
+                        <input type="text" [(ngModel)]="text2" pInputText >
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
                         <p-dropdown [options]="bondings" [style]="{'width':'30%'}" [(ngModel)]="bonding2"></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-6 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="selected"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix3"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <input type="text" pInputText >
+                        <input type="text" [(ngModel)]="text3" pInputText >
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
                         <p-dropdown [options]="bondings"  [style]="{'width':'30%'}" [(ngModel)]="bonding3"></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-6 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="selected"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix4"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <input type="text" pInputText >
+                        <input type="text" [(ngModel)]="text4" pInputText >
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
                         <p-dropdown [options]="bondings"  [style]="{'width':'30%'}" [(ngModel)]="bonding4"></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-6 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="selected"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix5"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <input type="text" pInputText >
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <p-dropdown [options]="bondings"  [style]="{'width':'30%'}" [(ngModel)]="bonding5"></p-dropdown>
-                    </div>
-
-                    <div class="ui-g-12 ui-md-6 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="selected"></p-dropdown>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <input type="text" pInputText >
+                        <input type="text" [(ngModel)]="text5" pInputText >
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
                     </div>
-
                     <div class="ui-g-12 ui-md-6 ui-lg-4" align="right">
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Претражи" (click)="searchBy(searchText1)"></button>
+                        <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="Претражи" (click)="searchAdvanced(text1,text2,text3,text4,text5,prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4)"></button>
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
                     </div>

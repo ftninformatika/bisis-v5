@@ -35,10 +35,7 @@ export class LoginComponent implements OnInit {
       );
   }
 
-  signup(event) {
-    event.preventDefault();
-    this.router.navigate(['signup']);
-  }
+
 
   logout() {
       localStorage.removeItem('token');

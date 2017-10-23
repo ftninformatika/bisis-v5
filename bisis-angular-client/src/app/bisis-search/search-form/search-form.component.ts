@@ -22,13 +22,17 @@ export class SearchFormComponent implements OnInit {
   bonding2: string;
   bonding3: string;
   bonding4: string;
-  bonding5: string;
   prefix1: string;
   prefix2: string;
   prefix3: string;
   prefix4: string;
   prefix5: string;
-  prefix6: string;
+  text1: string;
+  text2: string;
+  text3: string;
+  text4: string;
+  text5: string;
+
 
 
 
@@ -70,16 +74,44 @@ export class SearchFormComponent implements OnInit {
   ngOnInit() {
   }
 
+  searchAdvanced(text1,text2,text3,text4,text5,prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4) {
+    var searchModel = {
+      pref1: prefix1,
+      pref2: prefix2,
+      pref3: prefix3,
+      pref4: prefix4,
+      pref5: prefix5,
+      text1: text1,
+      text2: text2,
+      text3: text3,
+      text4: text4,
+      text5: text5,
+      oper1: bonding1,
+      oper2: bonding2,
+      oper3: bonding3,
+      oper4: bonding4
+    };
+    console.log(searchModel);
+  }
+
   constructor( public bisisService: BisisSearchService) {
     this.prefix1 = "au";
+    this.prefix2 = "au";
+    this.prefix3 = "au";
+    this.prefix4 = "au";
+    this.prefix5 = "au";
+    this.bonding1 = "and";
+    this.bonding2 = "and";
+    this.bonding3 = "and";
+    this.bonding4 = "and";
     this.allPrefixes = [];
     this.bondings = [];
     this.allPrefixes.push({label: 'Аутор', value: 'AU'});
+    this.allPrefixes.push({label: 'Наслов', value: 'TI'});
     this.bondings.push({label: 'AND', value: 'and'});
     this.bondings.push({label: 'OR', value: 'or'});
     this.bondings.push({label: 'NOT', value: 'not'});
 
-    this.searchText1 = '';
   }
 
 }
