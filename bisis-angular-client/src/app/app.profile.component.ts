@@ -12,6 +12,12 @@ import {AuthHelper} from "./auth/utilities/authhelper";
                     <span>Профил</span>
                 </a>
             </li>
+             <li role="menuitem">
+                <a href="#/my-bookshelf" class="ripplelink" >
+                    <i class="material-icons">book</i>
+                    <span>Моја полица</span>
+                </a>
+            </li>
             <li role="menuitem">
                 <a href="#" class="ripplelink" >
                     <i class="material-icons">security</i>
@@ -39,6 +45,12 @@ import {AuthHelper} from "./auth/utilities/authhelper";
                 <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">person</i>
                     <span>Профил</span>
+                </a>
+            </li>
+             <li role="menuitem">
+                <a href="#" class="ripplelink" >
+                    <i class="material-icons">book</i>
+                    <span>Моја полица</span>
                 </a>
             </li>
             <li role="menuitem">
