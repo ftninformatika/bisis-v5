@@ -18,6 +18,7 @@ spring:
       database: bisisdev
 
 
+
 logging:
   level:
     com.ftninformatika: DEBUG

@@ -9,7 +9,6 @@ export class BisisSearchService {
 
     private url = '/records';
     private url_ep_format = '/records/ep'; // sa ovog end-pointa vraca ElasticPrefixEntity
-    // tslint:disable-next-line:max-line-length
     private token = 'eyJhbGciOiJIUzUxMiJ9.eyJjbGllbnRUeXBlIjoibGlicmFyaWFuIiwidG9rZW5fZXhwaXJhdGlvbl9kYXRlIjoxNTA2OTQzNDcxNDM4LCJ1c2VySUQiOiI1OWE3ZDVjODBhYTVjZGE4ZGNiYmI3OTMiLCJ1c2VybmFtZSI6ImFkbWluLmFkbWluQGdibnMuY29tIiwidG9rZW5fY3JlYXRlX2RhdGUiOnsiaG91ciI6MTIsIm1pbnV0ZSI6NTQsIm5hbm8iOjQzNzAwMDAwMCwic2Vjb25kIjozMSwiZGF5T2ZNb250aCI6MiwiZGF5T2ZXZWVrIjoiTU9OREFZIiwiZGF5T2ZZZWFyIjoyNzUsIm1vbnRoIjoiT0NUT0JFUiIsIm1vbnRoVmFsdWUiOjEwLCJ5ZWFyIjoyMDE3LCJjaHJvbm9sb2d5Ijp7ImlkIjoiSVNPIiwiY2FsZW5kYXJUeXBlIjoiaXNvODYwMSJ9fX0._Mn9gCziBYRX-O-rWuZ7KXS2fLSDD2lTe8d030F849uS3XF9daTkQ-hDfOce0vqxb3gS9QZ9w-vPGeo29gQcMA';
 
     constructor(public http: Http) {

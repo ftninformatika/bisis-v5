@@ -2,6 +2,9 @@ import {Component,  OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SelectItem} from "primeng/primeng";
 import * as bisisGlobals from "../globals";
+import {LibraryService} from "../service/library.service";
+import {forEach} from "@angular/router/src/utils/collection";
+import {ourLibs} from "../globals";
 
 @Component({
   selector: 'app-bisis-search',
@@ -18,7 +21,7 @@ export class BisisSearchComponent implements OnInit {
   libList: SelectItem[];
   selectedLibrary: string;
 
-  constructor(private route:ActivatedRoute, public router: Router) {
+  constructor(private route:ActivatedRoute, public router: Router, public libService: LibraryService) {
     this.searchResults = [];
     this.selectedLibrary = '';
     this.libList = [];
@@ -30,20 +33,28 @@ export class BisisSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(
-      params => {
-        if (params['lib']) {
-          if (bisisGlobals.ourLibs.includes(params['lib'])/*params['lib']=="gbns"*/){
-            this.lib = params['lib'];
-            console.log("pretraga kao bilbioteka :" + this.lib);
-          }
-          else{
-            console.log("nepostojeca putanja, biblioteka, redirekcija na univerazalnu!!!");
-            this.router.navigate(['/bisis-search']);
-          }
+
+    this.libService.getLibs().subscribe(
+        response => {
+          //console.log(response);
+          this.route.params.subscribe(
+              params => {
+                if (params['lib']) {
+                  if (response.includes(params['lib'])/*params['lib']=="gbns"*/){
+                    this.lib = params['lib'];
+                    console.log("pretraga kao bilbioteka :" + this.lib);
+                  }
+                  else{
+                    console.log("nepostojeca putanja, biblioteka, redirekcija na univerazalnu!!!");
+                    this.router.navigate(['/bisis-search']);
+                  }
+                }
+              }
+          );
         }
-    }
     );
+
+
 
   }
 

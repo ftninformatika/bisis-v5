@@ -7,6 +7,9 @@ export class AuthHelper {
         return localStorage.getItem('authenticated');
     }
 
+    public get token(){
+        return localStorage.getItem('token');
+    }
 
     public logout() {
         localStorage.clear();
