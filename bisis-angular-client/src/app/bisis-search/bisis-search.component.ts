@@ -1,10 +1,7 @@
 import {Component,  OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SelectItem} from "primeng/primeng";
-import * as bisisGlobals from "../globals";
 import {LibraryService} from "../service/library.service";
-import {forEach} from "@angular/router/src/utils/collection";
-import {ourLibs} from "../globals";
 
 @Component({
   selector: 'app-bisis-search',
