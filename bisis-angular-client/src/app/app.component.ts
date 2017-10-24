@@ -1,5 +1,6 @@
 import {Component, AfterViewInit, ElementRef, Renderer, ViewChild, OnDestroy} from '@angular/core';
 import {AuthHelper} from "./auth/utilities/authhelper";
+import { TranslateService } from '@ngx-translate/core';
 
 enum MenuOrientation {
     STATIC,
@@ -57,7 +58,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ElementRef;
 
-    constructor(public renderer: Renderer, public ah: AuthHelper) {}
+    constructor(public renderer: Renderer, public ah: AuthHelper, private translate: TranslateService) {
+        translate.setDefaultLang('srb-cyr');
+    }
+
+    switchLanguage(language: string) {
+        this.translate.use(language);
+    }
 
     ngOnInit(){
         if (this.ah.authenticated == undefined){

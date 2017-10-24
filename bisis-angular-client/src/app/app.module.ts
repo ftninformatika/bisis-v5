@@ -94,6 +94,10 @@ import {FileDemoComponent} from './demo/view/filedemo.component';
 import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
 import {DocumentationComponent} from './demo/view/documentation.component';
 
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import {CarService} from './demo/service/carservice';
 import {CountryService} from './demo/service/countryservice';
 import {EventService} from './demo/service/eventservice';
@@ -119,6 +123,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { AuthHelper } from './auth/utilities/authhelper';
 import { LibraryService } from './service/library.service';
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
 
 @NgModule({
     imports: [
@@ -192,7 +200,15 @@ import { LibraryService } from './service/library.service';
         ToolbarModule,
         TooltipModule,
         TreeModule,
-        TreeTableModule
+        TreeTableModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     declarations: [
         AppComponent,

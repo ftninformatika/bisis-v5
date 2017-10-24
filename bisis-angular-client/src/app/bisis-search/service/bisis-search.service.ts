@@ -21,7 +21,7 @@ export class BisisSearchService {
         headers.append('Authorization', this.token);
         headers.append('Library', 'gbns_com');
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(this.url + '/full/' + recId, options)
+        return this.http.get(this.url + '/wrapperrec/' + recId, options)
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -44,22 +44,12 @@ export class BisisSearchService {
         headers.append('Library', 'gbns_com');
         console.log('Searching ' + choice + ':' + text);
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(this.url_ep_format + '/' + choice + '/' + text, options)
+        return this.http.get(/*this.url_ep_format*/ '/records/wrapperrec/universal/' + text, options)
             .map(response =>response.json())
             .catch(this.handleError);
     }
 
-    getRecordEP(recId: String): Observable<any> {
-        const headers = new Headers();
-        console.log('From service, record id is:' + recId);
-        // TODO-hardcoded
-        headers.append('Authorization', this.token);
-        headers.append('Library', 'gbns_com');
-        const options = new RequestOptions({ headers: headers });
-            return this.http.get(this.url_ep_format + '/' + recId, options)
-              .map(response => response.json())
-              .catch(this.handleError);
-    }
+
 
     getRecordsEP(): Observable<any[]> {
         const headers = new Headers();
