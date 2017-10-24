@@ -1,4 +1,4 @@
-<h1>БИСИС претраживање</h1>
+<h1>{{ 'searchHeader' | translate }}</h1>
 <div class="card card-w-title">
  <div *ngIf="lib">
    pretrazuje kao biblioteka: {{lib}}
@@ -6,7 +6,7 @@
   <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="lib == undefined || lib == ''" style="font-size:14px;text-align:center;padding:20px; border:1px solid #D5D5D5;">
       <div class="ui-grid-row" >
       <div class="ui-grid-col-6"  align="left">
-        Одаберите библиотеку по којој желите да вршите претрагу:
+        {{ 'searchChoseLibText' | translate }}
       </div>
       <div class="ui-grid-col-6"  align="left">
     <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event)"></p-dropdown>

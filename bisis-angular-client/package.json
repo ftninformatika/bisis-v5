@@ -36,7 +36,6 @@
     "rxjs": "5.4.3",
     "web-animations-js": "2.3.1",
     "zone.js": "0.8.18"
-    //@ngx-translate/http-loader
   },
   "devDependencies": {
     "@angular/cli": "1.4.3",

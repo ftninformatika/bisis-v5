@@ -9,25 +9,25 @@ import {AuthHelper} from "./auth/utilities/authhelper";
             <li  role="menuitem">
                 <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">person</i>
-                    <span>Профил</span>
+                    <span>{{ 'sideMenuProfile' | translate }}</span>
                 </a>
             </li>
              <li role="menuitem">
                 <a href="#/my-bookshelf" class="ripplelink" >
                     <i class="material-icons">book</i>
-                    <span>Моја полица</span>
+                    <span>{{ 'sideMenuShelf' | translate }}</span>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#" class="ripplelink" >
                     <i class="material-icons">security</i>
-                    <span>Приватност</span>
+                    <span>{{ 'sideMenuPrivacy' | translate }}</span>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#" class="ripplelink" >
                     <i class="material-icons">settings_application</i>
-                    <span>Подешавања</span>
+                    <span>{{ 'sideMenuSettings' | translate }}</span>
                 </a>
             </li>
             <!--li role="menuitem">
@@ -40,29 +40,29 @@ import {AuthHelper} from "./auth/utilities/authhelper";
         
         <!-- Disabled buttons, kada korisnik nije ulogovan -->
          <ul class="ultima-menu profile-menu fc-state-disabled" *ngIf="!(this.ah.authenticated)" 
-            pTooltip="Молимо вас пријавите се, како би могли да приступите свом профилу!" >
+            pTooltip="{{ 'loginTooltip' | translate }}" >
             <li  role="menuitem">
                 <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">person</i>
-                    <span>Профил</span>
+                    <span>{{ 'sideMenuProfile' | translate }}</span>
                 </a>
             </li>
              <li role="menuitem">
                 <a href="#" class="ripplelink" >
                     <i class="material-icons">book</i>
-                    <span>Моја полица</span>
+                    <span>{{ 'sideMenuShelf' | translate }}</span>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">security</i>
-                    <span>Приватност</span>
+                    <span>{{ 'sideMenuPrivacy' | translate }}</span>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#/profile" class="ripplelink" >
                     <i class="material-icons">settings_application</i>
-                    <span>Подешавања</span>
+                    <span>{{ 'sideMenuSettings' | translate }}</span>
                 </a>
             </li>
         </ul>

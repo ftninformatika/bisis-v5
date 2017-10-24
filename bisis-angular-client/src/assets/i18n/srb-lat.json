@@ -1,3 +1,58 @@
 {
-  "smt": "Nešto"
+  "sideMenuProfile": "Profil",
+  "sideMenuShelf": "Moja polica",
+  "sideMenuPrivacy": "Privatnost",
+  "sideMenuSettings": "Podešavanja",
+  "sideMenuHome": "Početna stranica",
+  "sideMenuSearch": "BISIS pretraga",
+  "sideMenuAbout": "O nama",
+  "loginTooltip": "Molimo vas prijavite se, kako bi mogli da pristupite svom profilu!",
+
+  "loginUseranamePlaceholder": "Korisničko ime",
+  "loginPasswordPlaceholder": "Lozinka",
+  "loginBtn": "Prijavi se",
+  "logoutBtn": "Odjavi se",
+  "forgotPassBtn": "Zaboravio si lozinku",
+
+  "searchHeader": "BISIS pretraživanje",
+  "searchChoseLibText": "Odaberite biblioteku po kojoj želite da vršite pretragu:",
+  "searchFormUniversalTab": "Univerzalna pretraga",
+  "searchFormAdvancedTab": "Napredna pretraga",
+  "searchFormHeader": "Unesite tekst pretrage:",
+  "searchFormUniversalInputPlaceholder": "tekst",
+  "searchFormSearchBtn": "Pretraži",
+  "searchAdvancedPrefix": "Prefiks",
+  "searchAdvancedText": "Tekst",
+  "searchAdvancedBinding": "Veznik",
+
+  "resultViewChoiceText": "Način prikaza rezultata:",
+  "searchResultsText": "Rezultati pretrage",
+  "searchResultsDetailsHeader": "Detalji zapisa",
+
+  "titleTranslate": "Naslov",
+  "authorTranslate": "Autor",
+  "publisherTranslate": "Izdavač",
+  "publishYearTranslate": "Godina izdavanja",
+  "keywordsTranslate": "Ključne reči",
+  "signatureTranslate": "Signatura",
+  "udkTranslate": "UDK",
+  "pagesTranslate": "Stranica",
+  "dimensionsTranslate": "Dimenzije",
+  "genreTranslate": "Žanr",
+  "bibliographyNumTranslate": "Broj bibliografije",
+  "additionsToTitle": "Dodaci naslovu",
+  "publishingPlaceTranslate": "Mesto izdavanja",
+  "publishedCountTranslate": "Ukupno izdato",
+  "inventoryAddtionsTranslate": "Inventarske napomene",
+
+  "reserveTranslate": "Rezerviši",
+  "addToBookshelfTranslate": "Dodaj na policu",
+  "itemsTranslate": "Primerci",
+  "freeTranslate": "slobodan",
+  "takenTranslate": "zauzet"
+
+
+
+
+
 }

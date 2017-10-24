@@ -15,6 +15,10 @@
             <div #layoutMenuScroller class="nano">
                 <div class="nano-content menu-scroll-content">
                     <app-inline-profile *ngIf="profileMode=='inline'&&!isHorizontal()"></app-inline-profile>
+
+                    <button (click)="switchLanguage('srb-cyr')">Cirilica</button>
+                    <button (click)="switchLanguage('srb-lat')">Latinica</button>
+                    <button (click)="switchLanguage('en')">Engleski</button>
                     <app-menu [reset]="resetMenu"></app-menu>
                 </div>
             </div>
@@ -25,6 +29,7 @@
             
             <app-footer></app-footer>
         </div>
+
         <!--app-rightpanel></app-rightpanel-->
         
         <div class="layout-mask"></div>

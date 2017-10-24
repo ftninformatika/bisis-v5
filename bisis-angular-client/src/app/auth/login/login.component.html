@@ -8,25 +8,25 @@
         <span class="md-inputfield">
           <input type="text" autocomplete="off" #username id="username"
                  class="ui-inputtext ui-corner-all ui-state-default ui-widget">
-          <label>Корисничко име</label>
+          <label>{{ 'loginUseranamePlaceholder' | translate }}</label>
         </span>
       </div>
       <div class="ui-g-12">
         <span class="md-inputfield">
           <input type="password" autocomplete="off" #password id="password"
                  class="ui-inputtext ui-corner-all ui-state-default ui-widget">
-          <label>Лозинка</label>
+          <label>{{ 'loginPasswordPlaceholder' | translate }}</label>
         </span>
       </div>
       <div class="ui-g-12">
         <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left">
           <span class="ui-button-icon-left ui-c fa fa-fw ui-icon-person"></span>
-          <span class="ui-button-text ui-c">Пријави се</span>
+          <span class="ui-button-text ui-c">{{ 'loginBtn' | translate }}</span>
         </button>
         <button type="button" (click)="signup($event)"
                 class="secondary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left">
           <span class="ui-button-icon-left ui-c fa fa-fw ui-icon-help"></span>
-          <span class="ui-button-text ui-c">Заборавио си лозинку?</span>
+          <span class="ui-button-text ui-c">{{ 'forgotPassBtn' | translate }}?</span>
         </button>
       </div>
     </form>
