@@ -21,12 +21,12 @@ import {AuthHelper} from "./auth/utilities/authhelper";
                    
                     <li #login *ngIf="!(this.ah.authenticated)" [ngClass]="{'active-top-menu':app.activeTopbarItem === login}">
                          <a href="#/login" >
-                            <button pButton label="Пријавите се" icon="ui-icon-person" class="blue-grey-btn"></button>
+                            <button pButton label="{{ 'loginBtn' | translate }}" icon="ui-icon-person" class="blue-grey-btn"></button>
                         </a>
                     </li>
                      <li #login *ngIf="this.ah.authenticated" [ngClass]="{'active-top-menu':app.activeTopbarItem === logout}">
                          <a (click)="logout()" >
-                            <button pButton label="Одјавите се" icon="ui-icon-power-settings-new" class="blue-grey-btn"></button>
+                            <button pButton label="{{ 'logoutBtn' | translate }}" icon="ui-icon-power-settings-new" class="blue-grey-btn"></button>
                         </a>
                     </li>
                    
@@ -40,14 +40,8 @@ export class AppTopbarComponent {
     constructor(public app: AppComponent, public ah: AuthHelper) {}
 
 
-    isAuthenticated(): boolean {
-        if (localStorage.getItem('authenticated') != undefined)
-            return true;
-        return false;
-    }
 
     logout(){
-        console.log("logging out");
         localStorage.clear();
     }
 }

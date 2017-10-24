@@ -1,6 +1,6 @@
 <p-dataList [value]="resultRecords" [paginator]="true" [rows]="5">
   <p-header>
-      <b>Резултати претраге</b> ({{resultRecords.length}})
+      <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})
   </p-header>
   <ng-template let-rec pTemplate="item">
       <div class="ui-g ui-fluid car-item">
@@ -12,26 +12,24 @@
           <div class="ui-g-12 ui-md-9 car-details" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
                 
                <div class="ui-g">
-                  <div class="ui-g-2 ui-sm-6">Наслов: </div>
+                  <div class="ui-g-2 ui-sm-6">{{ 'titleTranslate' | translate }}: </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixEntity.prefixes.TI}}</div>
                   
-                  <div class="ui-g-2 ui-sm-6">Аутор: </div>
+                  <div class="ui-g-2 ui-sm-6">{{ 'authorTranslate' | translate }}: </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixEntity.prefixes.AU}}</div>
                   
-                  <div class="ui-g-2 ui-sm-6">Издавач: </div>
+                  <div class="ui-g-2 ui-sm-6">{{ 'publisherTranslate' | translate }}: </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixEntity.prefixes.PU}}</div>
                   
-                  <div class="ui-g-2 ui-sm-6">Година издавања: </div>
+                  <div class="ui-g-2 ui-sm-6">{{ 'publishYearTranslate' | translate }}: </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixEntity.prefixes.PY}}</div>
               </div>
-              <div class="ui-g-2 ui-sm-6">Додај у омиљено: </div>
-              <button type="button" pButton  icon="ui-icon-add" (click)="search()"></button>
           </div>
           
       </div>
   </ng-template>
 </p-dataList>
 
-<p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
+<p-dialog header="{{ 'searchResultsDetailsHeader' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
 <app-record-view  [selectedRec]='selectedRec'></app-record-view>
 </p-dialog>

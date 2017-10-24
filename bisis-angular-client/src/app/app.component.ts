@@ -150,7 +150,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
 
     onTopbarItemClick(event, item) {
-        console.log("asd",event,item);
         this.topbarItemClick = true;
 
         if (this.activeTopbarItem === item) {

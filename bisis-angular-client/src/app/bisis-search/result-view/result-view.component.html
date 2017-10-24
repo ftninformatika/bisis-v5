@@ -1,7 +1,7 @@
 <div class="card card-w-title">
   <!-- Select preview type -->
   <div>
-    <h3>Начин приказа резултата:
+    <h3> {{ 'resultViewChoiceText' | translate }}
       <p-dropdown [options]="resultViewTypes" [(ngModel)]="selectedResultViewType" [style]="{'width':'300px'}"></p-dropdown> </h3>
   </div>
   <app-table-view *ngIf="selectedResultViewType == 'table'" [resultRecords]='data'></app-table-view>

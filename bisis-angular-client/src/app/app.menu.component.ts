@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from './app.component';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-menu',
@@ -13,15 +14,39 @@ export class AppMenuComponent implements OnInit {
 
     @Input() reset: boolean;
 
+    labelHome: string;
+    labelSearch: string;
+    labelAbout: string;
+
     model: any[];
 
-    constructor(public app: AppComponent) {}
+    constructor(public app: AppComponent, private translate: TranslateService) {
+        if (this.translate.getDefaultLang() == "srb-cyr"){
+            this.labelHome = "Почетна страница";
+            this.labelSearch = 'БИСИС претрага';
+            this.labelAbout = 'О нама';
+
+        }
+        if (this.translate.getDefaultLang() == "srb-lat"){
+            this.labelHome = "Početna stranica";
+            this.labelSearch = 'BISIS pretraga';
+            this.labelAbout = 'O nama';
+
+        }
+        if (this.translate.getDefaultLang() == "en"){
+            this.labelHome = "Homepage";
+            this.labelSearch = 'BISIS search';
+            this.labelAbout = 'About';
+
+        }
+
+    }
 
     ngOnInit() {
         this.model = [
-            {label: 'Почетна страница', icon: 'home', routerLink: ['/']},
-            {label: 'Бисис претрага', icon: 'search', routerLink: ['/bisis-search']},
-            {label: 'О нама', icon: 'info', routerLink: ['/about-view']}
+            {label: this.labelHome, icon: 'home', routerLink: ['/']},
+            {label: this.labelSearch, icon: 'search', routerLink: ['/bisis-search']},
+            {label: this.labelAbout, icon: 'info', routerLink: ['/about-view']}
 
         ];
     }

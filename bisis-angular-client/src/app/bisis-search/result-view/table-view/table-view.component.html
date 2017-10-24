@@ -2,12 +2,12 @@
 <p-dataTable #tableView [value]="resultRecords" [rows]="10" [paginator]="true" [pageLinks]="3"
 resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode="none"
 [rowsPerPageOptions]="[5,10,20]" reorderableColumns="true" (onRowClick)="tableView.toggleRow($event.data)">
-    <p-header><b>Резултати претраге</b> ({{resultRecords.length}})</p-header>
-    <p-column expander="true" styleClass="col-icon arrow-drop-down-circle" [style]="{'width':'43px'}" >asd</p-column>
-    <p-column field="prefixEntity.prefixes.AU" header="Аутор" [sortable]="true"></p-column>
-    <p-column field="prefixEntity.prefixes.TI" header="Наслов" [sortable]="true"></p-column>
-    <p-column field="prefixEntity.prefixes.PU" header="Издавач" [sortable]="true"></p-column>
-    <p-column field="prefixEntity.prefixes.PY" header="Година издавања" [sortable]="true"></p-column>
+    <p-header><b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})</p-header>
+    <p-column expander="true" styleClass="col-icon arrow-drop-down-circle" [style]="{'width':'43px'}" ></p-column>
+    <p-column field="prefixEntity.prefixes.AU" header="{{ 'authorTranslate' | translate }}" [sortable]="true"></p-column>
+    <p-column field="prefixEntity.prefixes.TI" header="{{ 'titleTranslate' | translate }}" [sortable]="true"></p-column>
+    <p-column field="prefixEntity.prefixes.PU" header="{{ 'publisherTranslate' | translate }}" [sortable]="true"></p-column>
+    <p-column field="prefixEntity.prefixes.PY" header="{{ 'publishYearTranslate' | translate }}" [sortable]="true"></p-column>
     <ng-template let-rec pTemplate="rowexpansion">
         <app-record-view  [selectedRec]='rec'></app-record-view>
     </ng-template>
@@ -15,6 +15,6 @@ resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode=
 
 
 
-<p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
+<p-dialog header="{{ 'searchResultsDetailsHeader' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
     <app-record-view  [selectedRec]='selectedRec'></app-record-view>
 </p-dialog>
