@@ -27,14 +27,14 @@ public class LibraryConfiguration {
     private String networkServerList;
     private String libCollectionSufix;
 
-    private String catalougingPrimerciModel;
-    private String catalougingGodineModel;
-    private String catalougingInvbrSubStr;
-    private String catalougingDefaultPrimerakInvKnj;
-    private String catalougingDefaultSveskaInvKnj;
-    private String catalougingDefaultGodinaInvKnj;
-    private String catalougingValidator;
-    private String catalougingReportset;
+    private String cataloguingPrimerciModel;
+    private String cataloguingGodineModel;
+    private String cataloguingInvbrSubStr;
+    private String cataloguingDefaultPrimerakInvKnj;
+    private String cataloguingDefaultSveskaInvKnj;
+    private String cataloguingDefaultGodinaInvKnj;
+    private String cataloguingValidator;
+    private String cataloguingReportset;
 
     private String bookcardsNextPage;
     private String bookcardsCurrentType;
