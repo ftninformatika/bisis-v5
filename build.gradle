@@ -11,14 +11,14 @@ subprojects {
     }
 
     dependencies {
+
+
+
         // compile 'org.apache.commons:commons-lang3:3.3.2'
         // compile 'commons-beanutils:commons-beanutils:1.9.2'
         // compile 'commons-io:commons-io:2.4'
         // compile 'commons-codec:commons-codec:1.10'
-        // compile 'com.fasterxml.jackson.core:jackson-core:2.4.4'
-        // compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.4'
-        // compile 'com.fasterxml.jackson.core:jackson-databind:2.4.4'
-        // compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.4.4'
+
         // testCompile 'org.testng:testng:6.8.13'
     }
 }
