@@ -21,6 +21,7 @@ public class ReportRunner {
 	    int page=0;
 		Pageable p = new PageRequest(page, 1000);
 		Page<Record> records=recrep.findAll(p);
+
 		int count = 0;
         for (Report r : reportCollection.getReports()) {
             try {
