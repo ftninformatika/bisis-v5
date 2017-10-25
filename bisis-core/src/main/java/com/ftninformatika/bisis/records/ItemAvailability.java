@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_itemAvailability")
+@Document(collection = "@{libraryPrefixProvider.getLibPrefix()}_itemAvailability")
 public class ItemAvailability implements java.io.Serializable{
 
     @Id
