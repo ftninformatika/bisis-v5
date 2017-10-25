@@ -1,6 +1,11 @@
+
 logging:
   level:
     root: INFO
+spring:
+  profiles:
+    active: development
+
 
 security:
   token:
@@ -21,12 +26,25 @@ spring:
 
 logging:
   level:
-    com.ftninformatika: DEBUG
+    com.ftninformatika: INFO
 
 mongeez:
   location: db/mongeez.xml
   database: bisisdev
 
+---
+spring:
+  profiles: reporting
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: bisisdev
+  main:
+    web-environment: false
 
 
+logging:
+  level:
+    com.ftninformatika: INFO
 ---
