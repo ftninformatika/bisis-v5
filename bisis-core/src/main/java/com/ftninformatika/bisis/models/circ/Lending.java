@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_lending")
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_lendings")
 public class Lending implements java.io.Serializable {
 
 	@Id

@@ -64,6 +64,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     switchLanguage(language: string) {
         this.translate.use(language);
+
     }
 
     ngOnInit(){

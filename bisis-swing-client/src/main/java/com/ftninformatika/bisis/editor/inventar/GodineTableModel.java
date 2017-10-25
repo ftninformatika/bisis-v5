@@ -39,7 +39,7 @@ public class GodineTableModel extends AbstractTableModel {
     godineAll[14] = "Broj";
     godineAll[15] = "Dostupnost";
     godineAll[16] = "Inventator";    
-    String columnSetStr = BisisApp.appConfig.getClientConfig().getCatalougingGodineModel();
+    String columnSetStr = BisisApp.appConfig.getClientConfig().getCataloguingGodineModel();
     columnSet = columnSetStr.split(" ");
     columns = new String[columnSet.length];
     for(int i=0;i<columnSet.length;i++){

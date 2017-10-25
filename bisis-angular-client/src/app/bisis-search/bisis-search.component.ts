@@ -20,19 +20,19 @@ export class BisisSearchComponent implements OnInit {
   libList: SelectItem[];
   selectedLibrary: string;
 
+
   constructor(private route:ActivatedRoute, public router: Router, public libService: LibraryService,  private translate: TranslateService) {
     this.searchResults = [];
-    this.selectedLibrary = '';
+    this.selectedLibrary = 'gbns_com';
     this.libList = [];
 
 
-
-    if (this.translate.getDefaultLang() == "srb-cyr")
+    /*if (this.translate.getDefaultLang() == "srb-cyr")
       this.libList.push({label:'Одабери библиотеку', value:null});
     if (this.translate.getDefaultLang() == "srb-lat")
       this.libList.push({label:'Odaberi biblioteku', value:null});
     if (this.translate.getDefaultLang() == "en")
-      this.libList.push({label:'Chose library', value:null});
+      this.libList.push({label:'Chose library', value:null});*/
 
     this.libList.push({label:'Градска библиотека Нови Сад', value:'gbns_com'});
     this.libList.push({label:'Градска библиотека Шабац', value:'gbsa_com'});
@@ -45,11 +45,10 @@ export class BisisSearchComponent implements OnInit {
 
     this.libService.getLibs().subscribe(
         response => {
-          //console.log(response);
           this.route.params.subscribe(
               params => {
                 if (params['lib']) {
-                  if (response.includes(params['lib'])/*params['lib']=="gbns"*/){
+                  if (response.includes(params['lib'])){
                     this.lib = params['lib'];
                     console.log("pretraga kao bilbioteka :" + this.lib);
                   }

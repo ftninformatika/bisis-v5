@@ -95,7 +95,10 @@ import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
 import {DocumentationComponent} from './demo/view/documentation.component';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import {
+    TranslateModule, TranslateLoader, MissingTranslationHandler, TranslateParser,
+    TranslateCompiler
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import {CarService} from './demo/service/carservice';
@@ -210,6 +213,7 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         })
     ],
+    exports: [BrowserModule, HttpModule, TranslateModule],
     declarations: [
         AppComponent,
         AppMenuComponent,

@@ -16,12 +16,12 @@ export class ResultViewComponent implements OnInit {
 
     this.resultViewTypes = [];
 
-    if (this.translate.getDefaultLang() == "srb-cyr") {
+   // if (this.translate.getDefaultLang() == "srb-cyr") {
       this.resultViewTypes.push({label: 'Табеларно', value: 'table'});
       this.resultViewTypes.push({label: 'Грид', value: 'data-grid'});
       this.resultViewTypes.push({label: 'Скролер', value: 'scroller'});
       this.resultViewTypes.push({label: 'Листа', value: 'list'});
-    }
+  //  }
 
     if (this.translate.getDefaultLang() == "srb-lat") {
       this.resultViewTypes.push({label: 'Tabelarno', value: 'table'});

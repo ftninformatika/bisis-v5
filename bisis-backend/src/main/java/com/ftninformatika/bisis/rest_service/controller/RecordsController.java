@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
-import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordResponseWrapper;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
@@ -139,7 +139,7 @@ public class RecordsController {
     }
   }
 
-    @RequestMapping(value = "/full/{recordId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/wrapperrec/{recordId}", method = RequestMethod.GET)
     public RecordResponseWrapper getFullWrapperRecord(@PathVariable String recordId) {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
         try {
@@ -168,8 +168,8 @@ public class RecordsController {
         }
     }
 
-    @RequestMapping(value = "/ep/universal/{text}", method = RequestMethod.GET)
-    public List<RecordResponseWrapper> getRecordsUniversalEP(@PathVariable String text){
+    @RequestMapping(value = "/wrapperrec/universal/{text}", method = RequestMethod.GET)
+    public List<RecordResponseWrapper> getRecordsUniversalWrapper(@PathVariable String text){
         List<RecordResponseWrapper> retVal = new ArrayList<>();
         SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
         Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query);
@@ -187,29 +187,6 @@ public class RecordsController {
         return retVal;
     }
 
-    @RequestMapping(value = "/ep/author/{author}", method = RequestMethod.GET)
-    public List<ElasticPrefixEntity> getRecordsByAuthorEP(@PathVariable String author){
-      List<ElasticPrefixEntity> retVal = new ArrayList<>();
-      Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(ElasticUtility.searchByAuthorQuery(author));
-      iRecs.iterator().forEachRemaining(retVal::add);
-      return retVal;
-    }
-
-    @RequestMapping(value = "/ep/title/{title}", method = RequestMethod.GET)
-    public List<ElasticPrefixEntity> getRecordsByTitleEP(@PathVariable String title){
-        List<ElasticPrefixEntity> retVal = new ArrayList<>();
-        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(ElasticUtility.searchByTitleQuery(title));
-        iRecs.iterator().forEachRemaining(retVal::add);
-        return retVal;
-    }
-
-    @RequestMapping(value = "/keyword/ep/{kw}", method = RequestMethod.GET)
-    public List<ElasticPrefixEntity> getRecordsByKeywordEP(@PathVariable String kw){
-        List<ElasticPrefixEntity> retVal = new ArrayList<>();
-        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(ElasticUtility.searchByKeywordQuery(kw));
-        iRecs.iterator().forEachRemaining(retVal::add);
-        return retVal;
-    }
 
     @RequestMapping( method = RequestMethod.GET)
     public ResponseEntity<List<Record>> getRecords() {
@@ -278,6 +255,22 @@ public class RecordsController {
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
   }
 
+    @RequestMapping(value = "/query/full", method = RequestMethod.POST )
+    public List<RecordResponseWrapper> searchFull(@RequestBody SearchModel search){
+        ArrayList<RecordResponseWrapper> retVal = new ArrayList<>();
+
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
+        ii.forEach(
+                rec -> {
+                    Record r = recordsRepository.findOne(rec.getId());
+                    List<ItemAvailability> ia = itemAvailabilityRepository.findByRecordID(r.getRecordID()+"");
+                    if (r != null)
+                        retVal.add( new RecordResponseWrapper(rec, r , ia));
+                }
+        );
+        return retVal;
+    }
+
   @RequestMapping( value = "/search_ids", method = RequestMethod.POST )
   public ResponseEntity<List<String>> searchIds(@RequestBody SearchModel search){
       List<String> retVal = null;
@@ -323,12 +316,19 @@ public class RecordsController {
     @RequestMapping(value = "/fill_elastic", method = RequestMethod.GET)
     public ResponseEntity<Boolean> fillElastic(){
         try{
+
+            long num = recordsRepository.count();
+            int i = 0;
             List<Record> lr = recordsRepository.findAll();
+
             for(Record record: lr) {
+                if (i % 1000 == 0)
+                    System.out.println("Processed: " + i + " of " + num + " receords.");
                 Map<String, String> prefixes = PrefixConverter.toMap(record, null);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(record.get_id().toString(), prefixes);
                     elasticRecordsRepository.save(ee);
                     elasticRecordsRepository.index(ee);
+                    i++;
                 }
             return new ResponseEntity<>(true, HttpStatus.OK);
             }

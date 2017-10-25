@@ -63,3 +63,4 @@ bisis-angular-client/static
 data/elasticsearch/*
 classes/production/bisis-backend/db/changesets/records.js
 bisis-backend/data
+data.rar
