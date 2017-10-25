@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.2.RELEASE'
+		springBootVersion = '1.5.7.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -26,34 +26,17 @@ repositories {
 
 dependencies {
 	compile project(":bisis-core")
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	//compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '1.5.7.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.7.RELEASE'
+	compile group: 'io.github.hzpz.spring.boot', name: 'mongeez-spring-boot-starter', version: '1.3.0'
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
+	compile group: 'ma.glasnost.orika', name: 'orika-core', version: '1.4.6'
+	compile group: 'net.java.dev.jna', name: 'jna', version: '4.5.0'
 	compile group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '2.1.0.RELEASE'
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-elasticsearch', version: '1.5.8.RELEASE'
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
-	compile('org.liquibase:liquibase-core')
-	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('org.springframework.boot:spring-boot-starter-web') {
-		exclude module: 'spring-boot-starter-tomcat'
-	}
-    compile("org.springframework.boot:spring-boot-starter-mobile")
-	compile('com.zaxxer:HikariCP')
-	compile('org.springframework.boot:spring-boot-starter-websocket')
-	//runtime('org.springframework.boot:spring-boot-devtools')
-	//compile('org.hibernate:hibernate-java8')
-	//runtime('com.h2database:h2')
-	runtime('org.postgresql:postgresql')
-	compileOnly('org.projectlombok:lombok')
-	compile('ma.glasnost.orika:orika-core:1.4.6')
-	compile('io.jsonwebtoken:jjwt:0.7.0')
-	compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.5.1")
-
-	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 	compile 'io.github.hzpz.spring.boot:mongeez-spring-boot-starter:1.3.0'
+     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.8.RELEASE'
 
-	//compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
-	compile group: 'net.java.dev.jna', name: 'jna-platform', version: '4.1.0'
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+
 }
+
