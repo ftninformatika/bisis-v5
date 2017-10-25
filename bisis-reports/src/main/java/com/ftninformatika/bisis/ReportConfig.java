@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.convert.DbRefResolver;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
@@ -21,8 +22,6 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 @Profile("reporting")
 @Configuration
 @EnableMongoRepositories("com.ftninformatika")
-
-
 
 public class ReportConfig extends AbstractMongoConfiguration {
 
@@ -35,14 +34,10 @@ public class ReportConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        if(mongoClient ==null)
-           mongoClient = new MongoClient();
+
+          MongoClient mongoClient = new MongoClient();
         return mongoClient;
     }
 
-    @Bean ("libraryPrefixProvider")
-    public static LibraryPrefixProvider libraryPrefixProvider() {
-        return new LibraryPrefixProvider();
-    }
-    MongoClient mongoClient;
+
 }
