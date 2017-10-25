@@ -48,7 +48,7 @@ public class PrimerciTableModel extends AbstractTableModel {
     primerakAll[14] = "Inventator";
     primerakAll[15] = "Datum statusa";
     primerakAll[16] = "Usmeravanje";
-    String columnSetStr = BisisApp.appConfig.getClientConfig().getCatalougingPrimerciModel();
+    String columnSetStr = BisisApp.appConfig.getClientConfig().getCataloguingPrimerciModel();
     columnSet = columnSetStr.split(" ");
     columns = new String[columnSet.length];
     for(int i=0;i<columnSet.length;i++){

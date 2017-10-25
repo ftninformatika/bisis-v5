@@ -37,11 +37,8 @@ export class SearchFormComponent implements OnInit {
 
 
   search() {
-    this.bisisService.getRecordsEP()
-    .subscribe(
-      response => this.serviceCallResult.emit(response),
-      error => console.log(error)
-    );
+    this.bisisService.getRecordsEP();
+
   }
 
   searchBy( text) {
@@ -91,11 +88,16 @@ export class SearchFormComponent implements OnInit {
       oper3: bonding3,
       oper4: bonding4
     };
+    this.bisisService.searchRecordAdvanced(searchModel)
+        .subscribe(
+            response => this.serviceCallResult.emit(response),
+            error => console.log(error)
+        );
     console.log(searchModel);
   }
 
   constructor( public bisisService: BisisSearchService) {
-    this.prefix1 = "au";
+    this.prefix1 = "AU";
     this.prefix2 = "au";
     this.prefix3 = "au";
     this.prefix4 = "au";

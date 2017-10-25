@@ -99,7 +99,7 @@ public class InventarTabTableModel extends AbstractTableModel {
     godineAll[16] = "Inventator";
     
     //kolone za primerke
-    String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getCatalougingPrimerciModel();
+    String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getCataloguingInvbrSubStr();
     columnSetPrimerci = columnSetStrPrimerci.split(" ");
     if(columnSetPrimerci.length<MAX_COLUMN_COUNT)
     	primerciColumnCount = columnSetPrimerci.length;
@@ -112,7 +112,7 @@ public class InventarTabTableModel extends AbstractTableModel {
     }		
         
     //kolone za godine
-    String columnSetStrGodine = BisisApp.appConfig.getClientConfig().getCatalougingGodineModel();
+    String columnSetStrGodine = BisisApp.appConfig.getClientConfig().getCataloguingGodineModel();
     columnSetGodine = columnSetStrGodine.split(" ");
     if(columnSetGodine.length<MAX_COLUMN_COUNT)
     	godineColumnCount=columnSetGodine.length;

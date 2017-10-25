@@ -8,47 +8,60 @@ import {TranslateService} from "@ngx-translate/core";
     selector: 'app-menu',
     template: `
         <ul app-submenu [item]="model" root="true" class="ultima-menu ultima-main-menu clearfix" [reset]="reset" visible="true"></ul>
-    `
+         <!--<button (click)="switchLanguage('srb-cyr')">Cirilica</button>
+                    <button (click)="switchLanguage('srb-lat')">Latinica</button>
+                    <button (click)="switchLanguage('en')">Engleski</button>-->
+   `
 })
 export class AppMenuComponent implements OnInit {
 
     @Input() reset: boolean;
-
-    labelHome: string;
-    labelSearch: string;
-    labelAbout: string;
+    homeText: string;
+    searchText: string;
+    aboutText: string;
 
     model: any[];
 
     constructor(public app: AppComponent, private translate: TranslateService) {
-        if (this.translate.getDefaultLang() == "srb-cyr"){
-            this.labelHome = "Почетна страница";
-            this.labelSearch = 'БИСИС претрага';
-            this.labelAbout = 'О нама';
-
-        }
-        if (this.translate.getDefaultLang() == "srb-lat"){
-            this.labelHome = "Početna stranica";
-            this.labelSearch = 'BISIS pretraga';
-            this.labelAbout = 'O nama';
-
-        }
-        if (this.translate.getDefaultLang() == "en"){
-            this.labelHome = "Homepage";
-            this.labelSearch = 'BISIS search';
-            this.labelAbout = 'About';
-
-        }
 
     }
 
-    ngOnInit() {
-        this.model = [
-            {label: this.labelHome, icon: 'home', routerLink: ['/']},
-            {label: this.labelSearch, icon: 'search', routerLink: ['/bisis-search']},
-            {label: this.labelAbout, icon: 'info', routerLink: ['/about-view']}
+    switchLanguage(language: string) {
+        this.translate.use(language);
+        this.setTexts();
 
-        ];
+    }
+
+    setTexts(){
+        this.translate.get('sideMenuHome').subscribe(
+            res => {
+                this.homeText = res;
+                this.translate.get('sideMenuSearch').subscribe(
+                    res2 => {
+                        this.searchText = res2;
+                        this.translate.get('sideMenuAbout').subscribe(
+                            res3 => {
+                                this.aboutText = res3;
+                                this.model = [
+                                    {label: this.homeText, icon: 'home', routerLink: ['/']},
+                                    {label: this.searchText, icon: 'search', routerLink: ['/bisis-search']},
+                                    {label: this.aboutText, icon: 'info', routerLink: ['/about-view']}
+
+                                ];
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    }
+
+
+
+
+    ngOnInit() {
+
+        this.setTexts();
     }
 
     changeTheme(theme) {
