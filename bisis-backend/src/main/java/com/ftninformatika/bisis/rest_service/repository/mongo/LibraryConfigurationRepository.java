@@ -14,4 +14,8 @@ public interface LibraryConfigurationRepository extends MongoRepository<LibraryC
 
     @Query("{ 'libraryName': ?0 }")
     public LibraryConfiguration getByLibraryName(@Param("libName") String libName);
+
+
+    @Query("{ 'libraryName': ?0 }")
+    public LibraryConfiguration getByLibCollectionSufix(@Param("libName") String libName);
 }

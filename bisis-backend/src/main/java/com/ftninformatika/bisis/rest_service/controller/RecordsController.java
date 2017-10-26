@@ -140,8 +140,8 @@ public class RecordsController {
     }
   }
 
-    @RequestMapping(value = "/wrapperrec/{recordId}", method = RequestMethod.GET)
-    public RecordResponseWrapper getFullWrapperRecord(@PathVariable String recordId) {
+    @RequestMapping(value = "/wrapperrec/{libCode}/{recordId}", method = RequestMethod.GET)
+    public RecordResponseWrapper getFullWrapperRecord(@PathVariable String recordId, @PathVariable String libCode) {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
         try {
             Record rec = recordsRepository.findOne(recordId);
@@ -321,8 +321,7 @@ public class RecordsController {
     //za testiranje
     @RequestMapping(value = "/refill_elastic", method = RequestMethod.GET)
     public ResponseEntity<Boolean> fillElastic(){
-        //elasticRecordsRepository.deleteAll();
-        System.out.println("Elasticsearch cleared!");
+
         try{
             long num = recordsRepository.count();
             int count = 0;

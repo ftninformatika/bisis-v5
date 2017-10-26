@@ -24,7 +24,7 @@ export class LibraryService {
         const options = new RequestOptions({ headers: headers });
         return this.http.get( '/coders/lib_configurations', options)
             .map(response => response.json().map(
-                item => item.libraryName
+                item => item.libCollectionSuffix
             ) )
             .catch(this.handleError);
 

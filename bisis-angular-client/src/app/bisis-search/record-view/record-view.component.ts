@@ -24,13 +24,17 @@ export class RecordViewComponent  {
     this.selectedViewType = 'general';
   }
 
+  public getLibCode(): string{
+    return localStorage.getItem('libCode');
+  }
+
   ngOnInit() {
     if (this.selectedRec == undefined) {
         this.route.params.subscribe(
               params => {
                 if(params['recId'] != undefined)
                 {
-                  this.bisisService.getRecord(params['recId']).subscribe(
+                  this.bisisService.getRecord(params['recId'], params['libCode']).subscribe(
                     response => {
                       if ( response != null && response != undefined)
                         this.selectedRec = response;

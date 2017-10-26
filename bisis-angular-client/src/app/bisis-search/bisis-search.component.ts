@@ -24,6 +24,7 @@ export class BisisSearchComponent implements OnInit {
   constructor(private route:ActivatedRoute, public router: Router, public libService: LibraryService,  private translate: TranslateService) {
     this.searchResults = [];
     this.selectedLibrary = 'gbns_com';
+    localStorage.setItem("libCode", "gbns_com");
     this.libList = [];
 
     this.libList.push({label:'Градска библиотека Нови Сад', value:'gbns_com'});

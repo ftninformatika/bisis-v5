@@ -15,11 +15,11 @@ export class BisisSearchService {
 
     }
 
-    getRecord(recId) {
+    getRecord(recId, libCode) {
         const headers = new Headers();
         // TODO-hardcoded
         headers.append('Authorization', this.token);
-        headers.append('Library', localStorage.getItem('libCode'));
+        headers.append('Library', libCode);
         const options = new RequestOptions({ headers: headers });
         return this.http.get(this.url + '/wrapperrec/' + recId, options)
             .map(response => response.json())
