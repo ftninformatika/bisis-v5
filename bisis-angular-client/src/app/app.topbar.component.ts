@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AuthHelper} from "./auth/utilities/authhelper";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-topbar',
@@ -42,6 +43,8 @@ export class AppTopbarComponent {
 
 
     logout(){
+        var libCode = localStorage.getItem('libCode');
         localStorage.clear();
+        localStorage.setItem('libCode', libCode);
     }
 }

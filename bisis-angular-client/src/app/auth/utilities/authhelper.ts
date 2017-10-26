@@ -13,6 +13,7 @@ export class AuthHelper {
 
     public logout() {
         localStorage.clear();
+
     }
 
 
