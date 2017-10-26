@@ -51,16 +51,19 @@ export class BisisSearchService {
 
 
 
-    getRecordsEP(): Observable<any[]> {
+    searchRecordsAdvanced(searchModel): Observable<any[]> {
         const headers = new Headers();
         // TODO-hardcoded
         headers.append('Authorization', this.token);
         headers.append('Library', 'gbns_com');
         const options = new RequestOptions({ headers: headers });
-            return this.http.get(this.url_ep_format, options)
-              .map(response => response.json())
+            return this.http.post('/records/query/full',searchModel, options)
+              .map(response =>  response.json())
               .catch(this.handleError);
     }
+
+    getRecordsEP(){}
+
 
     private handleError (error: Response | any) {
         // In a real world app, you might use a remote logging infrastructure

@@ -17,6 +17,7 @@ import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -172,7 +173,9 @@ public class RecordsController {
     public List<RecordResponseWrapper> getRecordsUniversalWrapper(@PathVariable String text){
         List<RecordResponseWrapper> retVal = new ArrayList<>();
         SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
-        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query);
+        int page=0;
+        Pageable p = new PageRequest(page, 1000);
+        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,p);
 
         iRecs.forEach(
                 e -> {
@@ -245,6 +248,7 @@ public class RecordsController {
   public ResponseEntity<List<Record>> search(@RequestBody SearchModel search){
       ArrayList<Record> retVal = new ArrayList<>();
 
+
       Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
 
       System.out.println(ElasticUtility.makeQuery(search).toString());
@@ -259,7 +263,9 @@ public class RecordsController {
     public List<RecordResponseWrapper> searchFull(@RequestBody SearchModel search){
         ArrayList<RecordResponseWrapper> retVal = new ArrayList<>();
 
-        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
+        int page=0;
+        Pageable p = new PageRequest(page, 1000);
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search), p);
         ii.forEach(
                 rec -> {
                     Record r = recordsRepository.findOne(rec.getId());

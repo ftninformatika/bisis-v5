@@ -88,7 +88,7 @@ export class SearchFormComponent implements OnInit {
       oper3: bonding3,
       oper4: bonding4
     };
-    this.bisisService.searchRecordAdvanced(searchModel)
+    this.bisisService.searchRecordsAdvanced(searchModel)
         .subscribe(
             response => this.serviceCallResult.emit(response),
             error => console.log(error)
@@ -97,23 +97,35 @@ export class SearchFormComponent implements OnInit {
   }
 
   constructor( public bisisService: BisisSearchService) {
+      this.populateAdvancedFormCombos();
+
+  }
+
+  private populateAdvancedFormCombos(){
     this.prefix1 = "AU";
-    this.prefix2 = "au";
-    this.prefix3 = "au";
-    this.prefix4 = "au";
-    this.prefix5 = "au";
-    this.bonding1 = "and";
-    this.bonding2 = "and";
-    this.bonding3 = "and";
-    this.bonding4 = "and";
+    this.prefix2 = "TI";
+    this.prefix3 = "KW";
+    this.prefix4 = "PU";
+    this.prefix5 = "PY";
+    this.bonding1 = "AND";
+    this.bonding2 = "AND";
+    this.bonding3 = "AND";
+    this.bonding4 = "AND";
     this.allPrefixes = [];
     this.bondings = [];
     this.allPrefixes.push({label: 'Аутор', value: 'AU'});
     this.allPrefixes.push({label: 'Наслов', value: 'TI'});
-    this.bondings.push({label: 'AND', value: 'and'});
-    this.bondings.push({label: 'OR', value: 'or'});
-    this.bondings.push({label: 'NOT', value: 'not'});
-
+    this.allPrefixes.push({label: 'Кључне речи', value: 'KW'});
+    this.allPrefixes.push({label: 'Издавач', value: 'PU'});
+    this.allPrefixes.push({label: 'Година издавања', value: 'PY'});
+    this.allPrefixes.push({label: 'Инвентарни број', value: 'IN'});
+    this.allPrefixes.push({label: 'Место издавања', value: 'PP'});
+    this.allPrefixes.push({label: 'Број записа', value: 'RN'});
+    this.allPrefixes.push({label: 'Језик', value: 'LA'}); //jezik
+    this.allPrefixes.push({label: 'Наслов', value: 'SG'}); //signatura
+    this.bondings.push({label: 'AND', value: 'AND'});
+    this.bondings.push({label: 'OR', value: 'OR'});
+    this.bondings.push({label: 'NOT', value: 'NOT'});
   }
 
 }

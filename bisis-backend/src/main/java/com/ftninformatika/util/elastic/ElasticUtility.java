@@ -50,7 +50,6 @@ public class ElasticUtility {
     public static BoolQueryBuilder makeQuery(SearchModel sm){
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
 
-        retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref1(), sm.getText1()));
 
         try {
             if (sm.getText1() != null && !"".equals(sm.getText1()))

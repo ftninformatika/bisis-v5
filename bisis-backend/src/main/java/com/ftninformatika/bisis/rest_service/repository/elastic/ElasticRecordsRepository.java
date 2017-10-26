@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.repository.elastic;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 
