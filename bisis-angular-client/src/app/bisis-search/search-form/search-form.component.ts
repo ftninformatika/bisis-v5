@@ -55,6 +55,7 @@ export class SearchFormComponent implements OnInit {
 
   setLib(lib) {
     this.selectedLibrary = lib.value;
+    localStorage.setItem('libCode', lib.value);
     console.log(this.lib, this.selectedLibrary);
   }
 

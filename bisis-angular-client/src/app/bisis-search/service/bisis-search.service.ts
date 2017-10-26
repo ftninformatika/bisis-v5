@@ -19,7 +19,7 @@ export class BisisSearchService {
         const headers = new Headers();
         // TODO-hardcoded
         headers.append('Authorization', this.token);
-        headers.append('Library', 'gbns_com');
+        headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
         return this.http.get(this.url + '/wrapperrec/' + recId, options)
             .map(response => response.json())
@@ -30,7 +30,7 @@ export class BisisSearchService {
         const headers = new Headers();
         // TODO-hardcoded
         headers.append('Authorization', this.token);
-        headers.append('Library', 'gbns_com');
+        headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
         return this.http.get(this.url + '/unimarc/' + recId, options)
             .map(response => response)
@@ -41,7 +41,7 @@ export class BisisSearchService {
         const headers = new Headers();
         // TODO-hardcoded
         headers.append('Authorization', this.token);
-        headers.append('Library', 'gbns_com');
+        headers.append('Library', localStorage.getItem('libCode'));
         console.log('Searching ' + choice + ':' + text);
         const options = new RequestOptions({ headers: headers });
         return this.http.get(/*this.url_ep_format*/ '/records/wrapperrec/universal/' + text, options)
@@ -55,7 +55,7 @@ export class BisisSearchService {
         const headers = new Headers();
         // TODO-hardcoded
         headers.append('Authorization', this.token);
-        headers.append('Library', 'gbns_com');
+        headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
             return this.http.post('/records/query/full',searchModel, options)
               .map(response =>  response.json())

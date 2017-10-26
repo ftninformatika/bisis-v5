@@ -26,14 +26,6 @@ export class BisisSearchComponent implements OnInit {
     this.selectedLibrary = 'gbns_com';
     this.libList = [];
 
-
-    /*if (this.translate.getDefaultLang() == "srb-cyr")
-      this.libList.push({label:'Одабери библиотеку', value:null});
-    if (this.translate.getDefaultLang() == "srb-lat")
-      this.libList.push({label:'Odaberi biblioteku', value:null});
-    if (this.translate.getDefaultLang() == "en")
-      this.libList.push({label:'Chose library', value:null});*/
-
     this.libList.push({label:'Градска библиотека Нови Сад', value:'gbns_com'});
     this.libList.push({label:'Градска библиотека Шабац', value:'gbsa_com'});
     this.libList.push({label:'Библиотека Техничког факултета у Зрењанину', value:'tfzr_uns'});
@@ -41,7 +33,6 @@ export class BisisSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-
 
     this.libService.getLibs().subscribe(
         response => {
@@ -51,6 +42,7 @@ export class BisisSearchComponent implements OnInit {
                   if (response.includes(params['lib'])){
                     this.lib = params['lib'];
                     console.log("pretraga kao bilbioteka :" + this.lib);
+                    localStorage.setItem('libCode', params['lib']);
                   }
                   else{
                     console.log("nepostojeca putanja, biblioteka, redirekcija na univerazalnu!!!");
