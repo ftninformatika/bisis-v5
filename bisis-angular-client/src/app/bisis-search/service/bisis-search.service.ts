@@ -56,6 +56,7 @@ export class BisisSearchService {
         // TODO-hardcoded
         headers.append('Authorization', this.token);
         headers.append('Library', localStorage.getItem('libCode'));
+        console.log(localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
             return this.http.post('/records/query/full',searchModel, options)
               .map(response =>  response.json())

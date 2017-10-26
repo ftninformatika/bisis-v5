@@ -319,23 +319,28 @@ public class RecordsController {
   }
 
     //za testiranje
-    @RequestMapping(value = "/fill_elastic", method = RequestMethod.GET)
+    @RequestMapping(value = "/refill_elastic", method = RequestMethod.GET)
     public ResponseEntity<Boolean> fillElastic(){
+        //elasticRecordsRepository.deleteAll();
+        System.out.println("Elasticsearch cleared!");
         try{
-
             long num = recordsRepository.count();
-            int i = 0;
-            List<Record> lr = recordsRepository.findAll();
+            int count = 0;
+            Pageable p = new PageRequest(0, 1000);
+            Page<Record> lr = recordsRepository.findAll(p);
 
-            for(Record record: lr) {
-                if (i % 1000 == 0)
-                    System.out.println("Processed: " + i + " of " + num + " receords.");
-                Map<String, String> prefixes = PrefixConverter.toMap(record, null);
-                ElasticPrefixEntity ee = new ElasticPrefixEntity(record.get_id().toString(), prefixes);
-                    elasticRecordsRepository.save(ee);
-                    elasticRecordsRepository.index(ee);
-                    i++;
-                }
+            while (lr.hasNext()){
+                List<ElasticPrefixEntity> ep = new ArrayList<>();
+                for (Record rec: lr){
+                    Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
+                    ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
+                    ep.add(ee);
+               }
+                elasticRecordsRepository.save(ep);
+                count += 1000;
+                System.out.println("Processed " + count + " of " + num + " records!");
+                lr = recordsRepository.findAll(lr.nextPageable());
+            }
             return new ResponseEntity<>(true, HttpStatus.OK);
             }
             catch (Exception e){
