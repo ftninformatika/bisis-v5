@@ -7,6 +7,8 @@ import com.ftninformatika.bisis.circ.options.OptionsMainFrame;
 import com.ftninformatika.bisis.circ.view.MmbrshipCoder;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.library_configuration.Report;
+import com.ftninformatika.bisis.report.ReportMenuBuilder;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.style.ChoseTheme;
 import com.ftninformatika.bisis.style.ChoseThemeFrame;
@@ -14,8 +16,7 @@ import com.ftninformatika.bisis.style.ChoseThemeFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -125,7 +126,7 @@ public class MenuBuilder extends JMenuBar {
     }
     if (lib.isObrada() && lib.isCirkulacija()){
       this.add(getMCirculation());
-      //this.add(getMAllReport());
+      this.add(getMAllReport());
       
     } else if (lib.isObrada()){
     	this.add(getMAllObradaReport());
@@ -220,7 +221,7 @@ public class MenuBuilder extends JMenuBar {
 			mUser.add(getMData());
 			mUser.add(getMMembership());
 			mUser.add(getMLending());
-			//mUser.add(getMPicturebooks());
+			mUser.add(getMPicturebooks());
 			
 		}
 		return mUser;
@@ -249,7 +250,7 @@ public class MenuBuilder extends JMenuBar {
 	
 	private JMenuItem getMPicturebooks() {
 		if (mPicturebooks == null) {
-		//	mPicturebooks = new JMenuItem(new CircPicturebooksAction());
+			//mPicturebooks = new JMenuItem(new CircPicturebooksAction());
 		}
 		return mPicturebooks;
 	}
@@ -284,22 +285,18 @@ public class MenuBuilder extends JMenuBar {
 			mReport = new JMenu();
 			mReport.setText("Izve\u0161taji");
 			mReport.setMnemonic(KeyEvent.VK_I);
-			//mReport.add(getMCircReportItem());
+			mReport.add(getMCircReportItem());
 		}
 		return mReport;
 	}
   
   private JMenu getMObradaReport() {
-  // if (mIzvestaji == null) {
+   if (mIzvestaji == null) {
       mIzvestaji = new JMenu("Izve\u0161taji");
-   /*   mIzvestaji.setMnemonic(KeyEvent.VK_I);
-     String path ="/com/gint/app/bisis4/reports/"+BisisApp.getINIFile().getString("library", "name")+"/reports.ini";
-	  if (MenuBuilder.class.getResource(path)==null) {
-	      path="/com/gint/app/bisis4/reports/general/reports.ini";
-	   } 
-	//   ReportCollection repCol = new ReportCollection(path);
-	//   ReportMenuBuilder.addReports(mIzvestaji, repCol.getReports());
-    }*/
+      mIzvestaji.setMnemonic(KeyEvent.VK_I);
+	   List<Report> reports=BisisApp.appConfig.getClientConfig().getReports();
+	   ReportMenuBuilder.addReports(mIzvestaji, reports);
+    }
     return mIzvestaji;
   }
   
@@ -308,7 +305,7 @@ public class MenuBuilder extends JMenuBar {
       mAdminReport = new JMenu();
       mAdminReport.setText("Izve\u0161taji");
       mAdminReport.setMnemonic(KeyEvent.VK_I);
-      mAdminReport.add(getMCircReportItem());
+     // mAdminReport.add(getMCircReportItem());
       getMObradaReport().setText("Obrada");
       mAdminReport.add(getMObradaReport());
   //    mAdminReport.add(getOnlineReports());
@@ -533,7 +530,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMCircReportItem() {
     if (mCircReports == null) {
-      //mCircReports = new JMenuItem(new CircReportAction());
+      mCircReports = new JMenuItem(new CircReportAction());
       mCircReports.setText("Cirkulacija");
     }
     return mCircReports;

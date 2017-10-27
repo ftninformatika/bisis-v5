@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.report.ReportChooserDlg;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import sun.java2d.SunGraphicsEnvironment;
@@ -153,13 +154,13 @@ public class MainFrame extends JFrame {
         if (backupDlg == null)
             backupDlg = new BackupDlg();
         return backupDlg;
-    }
+    }*/
 
     public ReportChooserDlg getReportChooserDlg(){
         if (reportChooserDlg == null)
             reportChooserDlg = new ReportChooserDlg();
         return reportChooserDlg;
-    }*/
+    }
 
     public CoderFrame getOdeljenjeFrame(){
         if (odeljenjeFrame == null){
@@ -252,9 +253,9 @@ public class MainFrame extends JFrame {
     private SearchFrame searchFrame = new SearchFrame();
     private HitListFrame hlf = null;
   /*  private GrupniPrikazFrame brf=null;
-    private BackupDlg backupDlg = null;
+    private BackupDlg backupDlg = null;*/
     private ReportChooserDlg reportChooserDlg = null;
-*/
+
     private CoderFrame intOznFrame = null;
     private CoderFrame nacinFrame = null;
     private CoderFrame odeljenjeFrame = null;
