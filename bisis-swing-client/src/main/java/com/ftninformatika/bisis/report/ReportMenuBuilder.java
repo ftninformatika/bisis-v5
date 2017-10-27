@@ -2,13 +2,9 @@ package com.ftninformatika.bisis.report;
 
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.bisis.reports.GeneratedReport;
-
-import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -28,13 +24,11 @@ public class ReportMenuBuilder {
     JMenuItem menuItem = new JMenuItem(path[path.length - 1]);
     current.add(menuItem);
     final Report r = report;
-    menuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
-    	  GeneratedReport currentReport = ReportUtils.loadReport(r);
-          if ((currentReport != null))
-             ReportUtils.showReport(currentReport, r);
-          }
-      });
+    menuItem.addActionListener(ev -> {
+        GeneratedReport currentReport = ReportUtils.loadReport(r);
+        if ((currentReport != null))
+           ReportUtils.showReport(currentReport, r);
+        });
   }
 
   public static void addReports(JMenu root, List<Report> reports) {

@@ -24,9 +24,6 @@ import java.util.List;
 @ComponentScan("com.ftninformatika")
 public class ReportApplication  {
 
-    @Value("@{libraryPrefixProvider.getLibPrefix()}_records")
-    private static String temp;
-
     public static void main(String[] args){
 
         AnnotationConfigApplicationContext  ctx = new AnnotationConfigApplicationContext();
@@ -44,7 +41,7 @@ public class ReportApplication  {
         for (LibraryConfiguration lc:libconfigs){
             libProvider.setPrefix(lc.getLibCollectionSufix());
             ReportCollection collection = new ReportCollection(lc,reportRep,ctx.getBean(BindingRepository.class));
-            reportRep.deleteAll(); //obrise postojece izvestaje od prethodnog dana
+            reportRep.deleteAll();
             ReportRunner runner = new ReportRunner(collection,recRep);
             runner.run();
         }

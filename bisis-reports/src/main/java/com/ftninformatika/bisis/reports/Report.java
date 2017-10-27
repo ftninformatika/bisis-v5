@@ -47,8 +47,7 @@ public abstract class Report {
     }
   
   public ReportType getType() {
-      ReportParam p = new ReportParam("type",settings.getType());
-      return p.getTypeValue();
+      return ReportType.getReportType(settings.getType());
   }
   
   public String getFilenameSuffix(Date date) {

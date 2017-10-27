@@ -30,7 +30,6 @@ public class InvKnjigaMonografske extends Report {
 	    public String cena;
 	    public String sig;
 	    public String napomena;
-	    public String ogr;
 	    
 	    public int compareTo(Object o) {
 	      if (o instanceof Item) {
@@ -88,6 +87,7 @@ public class InvKnjigaMonografske extends Report {
 	    	   out.append(i.toString());
 	      }
 	       out.append("</report>");
+
            GeneratedReport gr=new GeneratedReport();
            gr.setReportName(key.substring(0,key.indexOf("-")));
            gr.setFullReportName(key);

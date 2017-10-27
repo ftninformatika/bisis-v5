@@ -53,9 +53,4 @@ spring:
       database: bisisdev
   main:
     web-environment: false
-
-
-logging:
-  level:
-    com.ftninformatika: INFO
 ---
