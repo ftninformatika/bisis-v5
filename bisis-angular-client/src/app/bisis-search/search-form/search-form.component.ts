@@ -64,6 +64,9 @@ export class SearchFormComponent implements OnInit {
 
   searchBy( text) {
     var choice = 'universal';
+    if (localStorage.getItem('libCode') == undefined)
+      return;
+
     if (!this.validateQuery(choice, text)) {
       return;
     }
