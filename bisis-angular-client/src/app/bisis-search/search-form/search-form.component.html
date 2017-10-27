@@ -28,57 +28,62 @@
                     </div>
 
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix1"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes"  [style]="{'width':'100%'}" [(ngModel)]="prefix1" (onChange)="changed(prefix1,0)" ></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <input type="text" [(ngModel)]="text1" pInputText >
+                        <input *ngIf="coder[0] == false" type="text" [(ngModel)]="text[0]" pInputText >
+                        <p-dropdown *ngIf="coder[0] == true" [options]="coderValues[0]" [style]="{'width':'100%'}" [(ngModel)]="text[0]"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
                         <p-dropdown [options]="bondings" [style]="{'width':'30%'}" [(ngModel)]="bonding1"></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix2"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix2" (onChange)="changed(prefix2,1)"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <input type="text" [(ngModel)]="text2" pInputText >
+                        <input type="text"  *ngIf="coder[1] == false"  [(ngModel)]="text[1]" pInputText >
+                        <p-dropdown *ngIf="coder[1] == true" [options]="coderValues[1]" [style]="{'width':'100%'}" [(ngModel)]="text[1]"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
                         <p-dropdown [options]="bondings" [style]="{'width':'30%'}" [(ngModel)]="bonding2"></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix3"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix3" (onChange)="changed(prefix3,2)"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <input type="text" [(ngModel)]="text3" pInputText >
+                        <input type="text"  *ngIf="coder[2] == false"  [(ngModel)]="text[2]" pInputText >
+                        <p-dropdown *ngIf="coder[2] == true" [options]="coderValues[2]" [style]="{'width':'100%'}" [(ngModel)]="text[2]"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
                         <p-dropdown [options]="bondings"  [style]="{'width':'30%'}" [(ngModel)]="bonding3"></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix4"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix4" (onChange)="changed(prefix4,3)"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <input type="text" [(ngModel)]="text4" pInputText >
+                        <input type="text"  *ngIf="coder[3] == false"  [(ngModel)]="text[3]" pInputText >
+                        <p-dropdown *ngIf="coder[3] == true" [options]="coderValues[3]" [style]="{'width':'100%'}" [(ngModel)]="text[3]"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
                         <p-dropdown [options]="bondings"  [style]="{'width':'30%'}" [(ngModel)]="bonding4"></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
-                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix5"></p-dropdown>
+                        <p-dropdown [options]="allPrefixes" [style]="{'width':'100%'}" [(ngModel)]="prefix5" (onChange)="changed(prefix5,4)"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <input type="text" [(ngModel)]="text5" pInputText >
+                        <input type="text"  *ngIf="coder[4] == false"  [(ngModel)]="text[4]" pInputText >
+                        <p-dropdown *ngIf="coder[4] == true" [options]="coderValues[4]" [style]="{'width':'100%'}" [(ngModel)]="text[4]"></p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="{{ 'searchFormSearchBtn' | translate }}" (click)="searchAdvanced(text1,text2,text3,text4,text5,prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4)"></button>
+                        <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="{{ 'searchFormSearchBtn' | translate }}" (click)="searchAdvanced(text[0],text[1],text[2],text[3],text[4],prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4)"></button>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
                     </div>

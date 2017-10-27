@@ -15,20 +15,29 @@ export class LibraryService {
 
     }
 
+    getLanguageCoders(){
+        const headers = new Headers();
+        headers.append('Authorization', this.token);
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get( '/coders/language?libName=gbns', options) //TODO- hardcoded (svuda staviti na gbns_com umesto gbns)
+            .map(response => response.json() )
+            .catch(this.handleError);
+    }
+
 
     getLibs(){
         const headers = new Headers();
         // TODO-hardcoded
         headers.append('Authorization', this.token);
-        //headers.append('Library', 'gbns_com');
         const options = new RequestOptions({ headers: headers });
         return this.http.get( '/coders/lib_configurations', options)
             .map(response => response.json().map(
                 item => item.libCollectionSuffix
             ) )
             .catch(this.handleError);
-
     }
+
+
 
     private handleError (error: Response | any) {
         let errMsg: string;

@@ -1,6 +1,9 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import { BisisSearchService } from '../service/bisis-search.service';
 import {SelectItem} from 'primeng/primeng';
+import {LibraryService} from "../../service/library.service";
+import {forEach} from "@angular/router/src/utils/collection";
+import {arrayify} from "tslint/lib/utils";
 
 
 @Component({
@@ -27,13 +30,31 @@ export class SearchFormComponent implements OnInit {
   prefix3: string;
   prefix4: string;
   prefix5: string;
-  text1: string;
-  text2: string;
-  text3: string;
-  text4: string;
-  text5: string;
+  text: string[];
+  coder: boolean[];
+  coderValues: SelectItem[][];
 
 
+  changed(pref, fieldNum){
+    this.text[fieldNum] = "";
+    if (pref == "LA") { // If prefix is coder
+      this.coder[fieldNum] = true; // Hide text, show dropdown
+      this.libraryService.getLanguageCoders().subscribe(
+          response => {
+            console.log(response);
+            arrayify(response).forEach(
+              d => {
+                this.coderValues[fieldNum].push({"label": d.description, "value": d.description});
+            }
+            );
+          }
+      );
+    }
+    else {
+      this.coder[fieldNum] = false;
+
+    }
+  }
 
 
   search() {
@@ -52,6 +73,8 @@ export class SearchFormComponent implements OnInit {
       error => console.log(error)
     );
   }
+
+
 
   setLib(lib) {
     this.selectedLibrary = lib.value;
@@ -97,12 +120,13 @@ export class SearchFormComponent implements OnInit {
     console.log(searchModel);
   }
 
-  constructor( public bisisService: BisisSearchService) {
+  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService) {
       this.populateAdvancedFormCombos();
 
   }
 
   private populateAdvancedFormCombos(){
+    this.text = [];
     this.prefix1 = "AU";
     this.prefix2 = "TI";
     this.prefix3 = "KW";
@@ -127,6 +151,20 @@ export class SearchFormComponent implements OnInit {
     this.bondings.push({label: 'AND', value: 'AND'});
     this.bondings.push({label: 'OR', value: 'OR'});
     this.bondings.push({label: 'NOT', value: 'NOT'});
+    this.coder = [];
+    this.coder[0]=false;
+    this.coder[1]=false;
+    this.coder[2]=false;
+    this.coder[3]=false;
+    this.coder[4]=false;
+
+    this.coderValues = [];
+
+    for(var i: number = 0; i < 5; i++) {
+      this.coderValues[i] = [];
+
+    }
+
   }
 
 }
