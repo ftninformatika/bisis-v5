@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.models.coders.*;
 import com.ftninformatika.bisis.records.*;
+import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.google.gson.JsonObject;
 import okhttp3.RequestBody;
@@ -260,4 +261,9 @@ public interface BisisService {
 
     @GET("itemAvailabilities/getByCtlgNo")
     Call<ItemAvailability> getItemAvailability(@Query("ctlgno") String ctlgno);
+
+   //reports
+
+    @GET ("reports/all")
+    Call<List<GeneratedReport>> getReports(@Query("reportType") String reportType, @Query("reportName") String reportName);
 }
