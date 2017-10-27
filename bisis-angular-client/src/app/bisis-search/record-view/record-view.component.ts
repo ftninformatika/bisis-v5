@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { BisisSearchService } from '../service/bisis-search.service';
 import {SelectItem} from 'primeng/primeng';
 import {ActivatedRoute, Router} from "@angular/router";
+import {AuthHelper} from "../../auth/utilities/authhelper";
 @Component({
   selector: 'app-record-view',
   templateUrl: './record-view.component.html',
@@ -16,7 +17,7 @@ export class RecordViewComponent  {
   isPage: boolean;
 
 
-  constructor( private route:ActivatedRoute, public router: Router, public bisisService: BisisSearchService ) {
+  constructor( private route:ActivatedRoute, public router: Router, public bisisService: BisisSearchService, public ah: AuthHelper ) {
     this.viewTypes = [];
     this.viewTypes.push({label: 'Основно', value:'general'});
     this.viewTypes.push({label: 'Детаљно', value:'detail'});

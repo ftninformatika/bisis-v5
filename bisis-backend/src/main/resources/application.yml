@@ -21,6 +21,17 @@ spring:
       host: localhost
       port: 27017
       database: bisis_gbns
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ftninformatika@gmail.com
+    password: bisis123
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
 

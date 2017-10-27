@@ -45,8 +45,9 @@
     </div>
     <div class="ui-grid-row" style="margin-top: 20px;">
         <div class="ui-grid-col-12" align="left">
-            <button icon="ui-icon-check" class="blue-grey-btn" pButton type="button" label="{{ 'reserveTranslate' | translate }}" disabled="true"></button>
-            <button icon="ui-icon-book" class="primary-btn" pButton type="button" label="{{ 'addToBookshelfTranslate' | translate }}" ></button>
+            <button pTooltip="Израда у току." icon="ui-icon-check" class="blue-grey-btn" pButton type="button" label="{{ 'reserveTranslate' | translate }}" disabled="true"></button>
+            <button *ngIf="this.ah.authenticated"  icon="ui-icon-book" class="primary-btn" pButton type="button" label="{{ 'addToBookshelfTranslate' | translate }}" ></button>
+            <button pTooltip="Молимо вас пријавите се како би додали књигу на полицу." *ngIf="this.ah.authenticated == undefined"  icon="ui-icon-book" class="primary-btn" pButton type="button" label="{{ 'addToBookshelfTranslate' | translate }}" disabled="true"></button>
         </div>
     </div>
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC" style="margin-top: 10px;">

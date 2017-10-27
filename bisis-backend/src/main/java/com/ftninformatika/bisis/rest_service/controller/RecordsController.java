@@ -140,8 +140,8 @@ public class RecordsController {
     }
   }
 
-    @RequestMapping(value = "/wrapperrec/{libCode}/{recordId}", method = RequestMethod.GET)
-    public RecordResponseWrapper getFullWrapperRecord(@PathVariable String recordId, @PathVariable String libCode) {
+    @RequestMapping(value = "/wrapperrec/{recordId}", method = RequestMethod.GET)
+    public RecordResponseWrapper getFullWrapperRecord(@PathVariable String recordId) {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
         try {
             Record rec = recordsRepository.findOne(recordId);
@@ -328,7 +328,7 @@ public class RecordsController {
             Pageable p = new PageRequest(0, 1000);
             Page<Record> lr = recordsRepository.findAll(p);
 
-            while (lr.hasNext()){
+            while (lr.hasNext() ){
                 List<ElasticPrefixEntity> ep = new ArrayList<>();
                 for (Record rec: lr){
                     Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
@@ -340,6 +340,18 @@ public class RecordsController {
                 System.out.println("Processed " + count + " of " + num + " records!");
                 lr = recordsRepository.findAll(lr.nextPageable());
             }
+
+            // resto
+            List<ElasticPrefixEntity> ep = new ArrayList<>();
+            for (Record rec: lr){
+                Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
+                ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
+                ep.add(ee);
+            }
+            elasticRecordsRepository.save(ep);
+            System.out.println("Processed " + num + " of " + num + " records!");
+
+
             return new ResponseEntity<>(true, HttpStatus.OK);
             }
             catch (Exception e){
