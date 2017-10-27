@@ -20,7 +20,6 @@ public class ReportCollection {
 
       List<com.ftninformatika.bisis.library_configuration.Report> reportsConf = lc.getReports();
       reports = new ArrayList<Report>(reportsConf.size());
-      //destination="reports_"+lc.getLibCollectionSufix();
       for (com.ftninformatika.bisis.library_configuration.Report r : reportsConf) {
           String className = r.getClassName();
               try {
@@ -38,7 +37,8 @@ public class ReportCollection {
 
 
   public List<Report> getReports() {
-    return reports;
+
+      return reports;
   }
   
   public String toString() {
@@ -51,8 +51,5 @@ public class ReportCollection {
 
 
   private List<Report> reports;
- // private String destination;
-
-
   private Log log = LogFactory.getLog(ReportCollection.class);
 }

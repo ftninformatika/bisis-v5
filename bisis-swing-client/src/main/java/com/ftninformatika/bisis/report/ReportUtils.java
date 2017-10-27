@@ -3,9 +3,14 @@ package com.ftninformatika.bisis.report;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.bisis.reports.GeneratedReport;
+import com.ftninformatika.utils.xml.XMLUtils;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRXmlDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -15,63 +20,40 @@ public class ReportUtils {
    * Prikazuje dijalog za izbor izvestaja, vraca niz stringova. Na prvom mestu je ucitani XML
    * izvestaj a na drugom je naziv XML fajla. Vraca null ako je korisnik odustao
    */
-  public static String [] loadReport(Report report) {
-	String []current=new String[2];
-    List<ListItem> list = getReportList(report);
-    BisisApp.getMainFrame().getReportChooserDlg().setList(list);
-    BisisApp.getMainFrame().getReportChooserDlg().setVisible(true);
-    if (BisisApp.getMainFrame().getReportChooserDlg().isConfirmed()) {
-      ListItem selected = BisisApp.getMainFrame().getReportChooserDlg().getSelectedItem();
-      current[0] = selected.getReport().getContent();
-      current[1]=selected.getFileName();
-      return current;
+  public static GeneratedReport loadReport(Report report) {
+    try {
+        List<ListItem> list = getReportList(report);
+        BisisApp.getMainFrame().getReportChooserDlg().setList(list);
+        BisisApp.getMainFrame().getReportChooserDlg().setVisible(true);
+        if (BisisApp.getMainFrame().getReportChooserDlg().isConfirmed()) {
+            ListItem selected = BisisApp.getMainFrame().getReportChooserDlg().getSelectedItem();
+            return BisisApp.bisisService.getReport(selected.getReport()).execute().body();
+        }else{
+            return null;
+        }
+    }catch (Exception e) {
+        e.printStackTrace();
+        return null;
     }
-    return null;
   }
 
-  /**
-   * Ucitava izvestaj iz fajla.
-   */
-/*  public static String [] loadReport(Report report, String dir) {
-	String []currentReport=new String [2];
-    List<ListItem> list = getReportList(report, dir);
-    BisisApp.getMainFrame().getReportChooserDlg().setList(list);
-    BisisApp.getMainFrame().getReportChooserDlg().setVisible(true);
-    if (BisisApp.getMainFrame().getReportChooserDlg().isConfirmed()) {
-      ListItem selected = BisisApp.getMainFrame().getReportChooserDlg()
-          .getSelectedItem();
-      currentReport[0] = getXmlReport(selected.getFileName(), dir);
-      currentReport[1] =selected.getFileName();
-      return currentReport;
-    }
-    return null;
-  }
+
 
   /**
    *  Prikazuje ucitani izvestaj.
    */
-  /*public static void showReport(String xml,String fileName, Report report) {
+  public static void showReport(GeneratedReport report, Report reportSpec) {
     HashMap<String, Object> params = new HashMap<String, Object>();
     try {
-    for (ReportParam p : report.getReportSettings().getParams()){
-      if(p.getName().compareToIgnoreCase("subjasper")==0){
+      if(reportSpec.getSubjasper()!=null){
     		JasperReport subreport = (JasperReport) JRLoader.loadObject(ReportUtils.class
-					.getResource(p.getValue()).openStream());
+					.getResource(reportSpec.getSubjasper()));
     		params.put("subjasper", subreport);
-    	}else{
-         params.put(p.getName(), p.getValue());
     	}
-    }
-
-    DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance(); //dodato zbog jaxena
-    JRPropertiesUtil.getInstance(context).setProperty("net.sf.jasperreports.xpath.executer.factory", "net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory");   
-      
-    params.put("period", getPeriod(fileName));
-      JRXmlDataSource dataSource = new JRXmlDataSource(XMLUtils
-          .getDocumentFromString(xml), "/report/item");
-      JasperPrint jp = JasperFillManager.fillReport(Report.class.getResource(
-          report.getJasper()).openStream(), params, dataSource);
-      BisisApp.getMainFrame().addReportFrame(report.getName(), jp);
+        params.put("period", report.getPeriod());
+        JRXmlDataSource dataSource = new JRXmlDataSource(XMLUtils.getDocumentFromString(report.getContent()), "/report/item");
+        JasperPrint jp = JasperFillManager.fillReport(Report.class.getResource(reportSpec.getJasper()).openStream(), params, dataSource);
+        BisisApp.getMainFrame().addReportFrame(report.getReportName(), jp);
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -84,9 +66,9 @@ public class ReportUtils {
 
     List<ListItem> items = new ArrayList<ListItem>();
     try {
-        List<GeneratedReport> generatedReports = BisisApp.bisisService.getReports(report.getType(), report.getReportName()).execute().body();
-        for(GeneratedReport r:generatedReports) {
-            ListItem item = new ListItem(report.getReportName(), r);
+        List<String> generatedReports = BisisApp.bisisService.getReports(report.getType(), report.getReportName()).execute().body();
+        for(String r:generatedReports) {
+            ListItem item = new ListItem(r);
             items.add(item);
         }
     }catch(Exception e) {
@@ -96,40 +78,7 @@ public class ReportUtils {
     return items;
   }
 
-  /**
-   * Formira listu postojecih varijanti za dati izvestaj. Cita iz fajl sistema.
-   */
- /* public static List<ListItem> getReportList(Report report, String dir) {
-    List<ListItem> items = new ArrayList<ListItem>();
-    
-    try {
-      File d = new File(dir);
-      if (!d.isDirectory())
-        return null;
-      String[] files = d.list();
-      for (String f : files) {
-        if (!f.startsWith(report.getReportSettings().getParam("file")))
-          continue;
-        String suffix = "";
-        String ogranak = "";
-        int dashpos = f.indexOf('-');
-        if (dashpos != -1)
-          suffix = f.substring(dashpos + 1);
-        int lbracketpos = f.indexOf('(');
-        int rbracketpos = f.indexOf(')');
-        if ((lbracketpos != -1)&&(rbracketpos != -1))
-         ogranak = f.substring(lbracketpos, rbracketpos+1);
-       
-        String desc = report.getSuffixDescription(suffix);
-        ListItem item = new ListItem(f, report.getName() + ogranak+" "+desc, report);
-        items.add(item);
-      }
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-    Collections.sort(items,new ListItemComparator(SortOrder.DESCENDING));
-    return items;
-  }
+
 
   /**
    * Ucitava dati izvestaj preko servleta.

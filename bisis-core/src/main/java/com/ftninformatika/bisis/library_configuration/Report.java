@@ -22,6 +22,6 @@ public class Report {
     private String menuitem;
     private String type;
     private String jasper;
-    private String sort;
+    private String subjasper;
 
 }

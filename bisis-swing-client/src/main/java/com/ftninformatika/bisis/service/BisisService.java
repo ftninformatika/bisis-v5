@@ -265,5 +265,10 @@ public interface BisisService {
    //reports
 
     @GET ("reports/all")
-    Call<List<GeneratedReport>> getReports(@Query("reportType") String reportType, @Query("reportName") String reportName);
+    Call<List<String>> getReports(@Query("reportType") String reportType, @Query("reportName") String reportName);
+
+    @GET ("reports/byFullName")
+    Call<GeneratedReport> getReport(@Query("reportFullName") String reportFullName);
+
+
 }

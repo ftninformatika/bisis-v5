@@ -89,9 +89,11 @@ public class InvKnjigaMonografske extends Report {
 	      }
 	       out.append("</report>");
            GeneratedReport gr=new GeneratedReport();
-           gr.setReportName(key);
+           gr.setReportName(key.substring(0,key.indexOf("-")));
+           gr.setFullReportName(key);
+           gr.setPeriod(key.substring(key.indexOf("-")+1));
            gr.setContent(out.toString());
-           gr.setReportType(getType().name());
+           gr.setReportType(getType().name().toLowerCase());
            getReportRepository().save(gr);
 
 	    }
@@ -159,8 +161,8 @@ public class InvKnjigaMonografske extends Report {
       if(p.getInvBroj()==null)
     	  continue;
       Matcher matcher = pattern.matcher(p.getInvBroj());
-    /*  if (!matcher.matches())
-            continue;*/
+      if (!matcher.matches())
+            continue;
 
       sig = Signature.format(p.getSigDublet(), p.getSigPodlokacija(),
           p.getSigIntOznaka(), p.getSigFormat(), p.getSigNumerusCurens(), 
@@ -172,8 +174,8 @@ public class InvKnjigaMonografske extends Report {
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
 
-     // if (getBinRep().getCoder(getLibrary(),nvl(p.getPovez()))!=null)
-    // i.povez = getBinRep().getCoder("gbns",nvl(p.getPovez())).getDescription();
+      if (getBinRep().getCoder(getLibrary(),nvl(p.getPovez()))!=null)
+       i.povez = getBinRep().getCoder(getLibrary(),nvl(p.getPovez())).getDescription();
 
         i.dim = dim;
       String dobavljac=nvl(p.getDobavljac());
@@ -217,7 +219,6 @@ public class InvKnjigaMonografske extends Report {
 	    if (list == null) {
 	      list = new ArrayList<Item>();
 	      itemMap.put(key, list);
-	      System.out.println(key);
 	    }
 	    return list;
   }

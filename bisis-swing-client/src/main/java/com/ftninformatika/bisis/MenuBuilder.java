@@ -221,7 +221,7 @@ public class MenuBuilder extends JMenuBar {
 			mUser.add(getMData());
 			mUser.add(getMMembership());
 			mUser.add(getMLending());
-			mUser.add(getMPicturebooks());
+		//	mUser.add(getMPicturebooks());
 			
 		}
 		return mUser;

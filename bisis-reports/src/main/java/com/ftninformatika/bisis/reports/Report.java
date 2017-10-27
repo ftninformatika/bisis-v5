@@ -218,8 +218,11 @@ public abstract class Report {
   }
   
   protected com.ftninformatika.bisis.library_configuration.Report settings;
-  protected String library;
-  protected ReportsRepository repository;
+
+
+
+    protected String library;
+    protected ReportsRepository repository;
     private BindingRepository binRep;
-  protected Map<String, StringBuilder > fileMap = new HashMap<String, StringBuilder >();
+    protected Map<String, StringBuilder > fileMap = new HashMap<String, StringBuilder >();
 }

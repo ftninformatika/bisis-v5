@@ -73,11 +73,11 @@ public class ReportChooserDlg extends JDialog {
       }
     });
     btnOK.setFocusable(false);
-    btnOK.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/ok.gif")));
+     btnOK.setIcon(new ImageIcon(getClass().getResource(
+        "/icons/ok.gif")));
     btnCancel.setFocusable(false);
     btnCancel.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/remove.gif")));
+        "/icons/remove.gif")));
     pack();
     WindowUtils.centerOnScreen(this);
   }
@@ -123,8 +123,7 @@ public class ReportChooserDlg extends JDialog {
     }
 
     public Object getElementAt(int index) {
-    	
-      return items.get(index);
+      return items.get(index).getReport();
     }
 
     public ListItem getItem(int index) {

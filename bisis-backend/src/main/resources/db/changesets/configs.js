@@ -50,9 +50,10 @@ db.configs.insert({
     "reports":[{
         "reportName":"InventarnaKnjigaMonografske",
         "invnumpattern":"^0100.*",
-        "menuitem" :"Inventarna Knjiga|Monografske|Opste",
+        "menuitem" :"Inventarna Knjiga|Monografske|Opšte",
         "className":"com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografske",
-        "type":"year"
+        "type":"year",
+        "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
     }]
 
 });

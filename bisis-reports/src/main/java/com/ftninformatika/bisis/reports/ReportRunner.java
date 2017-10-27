@@ -30,7 +30,7 @@ public class ReportRunner {
                 log.warn("greska pri inicijalizacije izvestaja");
             }
         }
-            while (records.hasNext()) {
+            do  {
                 for (Record rec : records) {
                     count++;
                     for (Report r : reportCollection.getReports()) {
@@ -48,7 +48,7 @@ public class ReportRunner {
                     }
                 }
                 records = recrep.findAll(records.nextPageable());
-            }
+            }while (records.hasNext());
 
 			log.info("Finishing reports");
 			for (Report r : reportCollection.getReports()) {

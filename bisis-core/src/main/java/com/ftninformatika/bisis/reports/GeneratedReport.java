@@ -17,7 +17,10 @@ import java.io.Serializable;
 @Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_reports")
 public class GeneratedReport implements Serializable{
     String reportName;
-    String content;
+    String fullReportName;
     String reportType;
+    String period;
+    String content;
+
 
 }

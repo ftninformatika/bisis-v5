@@ -8,17 +8,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ListItem implements Comparable{
+
+    private String report;
   
-  public ListItem(String fileName, GeneratedReport report) {
-    this.fileName = fileName;
+  public ListItem(String report) {
     this.report = report;
   }
   public ListItem() {
   }
-  private String fileName;
-  private GeneratedReport report;
 
 public int compareTo(Object o) {
-	return this.fileName.compareTo(((ListItem)o).fileName);
+	return this.report.compareTo(((ListItem)o).getReport());
 }
+
 }

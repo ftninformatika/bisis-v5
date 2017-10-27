@@ -7,8 +7,10 @@ import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.report.ReportChooserDlg;
+import com.ftninformatika.bisis.report.ReportFrame;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
+import net.sf.jasperreports.engine.JasperPrint;
 import sun.java2d.SunGraphicsEnvironment;
 
 import java.awt.*;
@@ -120,13 +122,13 @@ public class MainFrame extends JFrame {
             hlf.setVisible(true);
             return hlf;
         }
-
+*/
         public void addReportFrame(String title, JasperPrint jp) {
             ReportFrame rf = new ReportFrame(title, jp);
             desktop.add(rf);
             rf.setVisible(true);
         }
-    */
+
     private void shutdown() {
         if(Obrada.isEditorClosable()){
             searchFrame.closeSearchFrame();
