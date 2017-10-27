@@ -20,7 +20,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: bisis_gbns
+      database: bisisdev
   mail:
     host: smtp.gmail.com
     port: 587
