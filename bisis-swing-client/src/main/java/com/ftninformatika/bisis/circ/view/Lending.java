@@ -472,7 +472,7 @@ public class Lending {
     Utils.loadCombo(getCmbLocation(), data);
     int loc = Cirkulacija.getApp().getEnvironment().getLocation();
     for (int i = 1; i < getCmbLocation().getModel().getSize(); i++) {
-      if (Integer.parseInt(((CircLocation)getCmbLocation().getModel().getElementAt(i)).getLocation_id()) == loc) {
+      if (Integer.parseInt(((CircLocation)getCmbLocation().getModel().getElementAt(i)).getLocationCode()) == loc) {
         defaultLocation = ((CircLocation) getCmbLocation().getModel().getElementAt(i)).getDescription();
       }
     }

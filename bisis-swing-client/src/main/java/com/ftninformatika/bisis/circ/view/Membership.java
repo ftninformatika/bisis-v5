@@ -214,7 +214,7 @@ public class Membership {
 				public void actionPerformed(ActionEvent e){
 					if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
 						if (Utils.getCmbValue(cmbBranchID) != null){
-							getTfBranch().setText(StringUtils.padZeros(Integer.parseInt(((CircLocation)cmbBranchID.getSelectedItem()).getLocation_id()),Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
+							getTfBranch().setText(StringUtils.padZeros(Integer.parseInt(((CircLocation)cmbBranchID.getSelectedItem()).getLocationCode()),Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
 							getTfUserID().setText(""); //$NON-NLS-1$
 						}
 					}
@@ -502,7 +502,7 @@ public class Membership {
 	    if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
 	      int loc =  Cirkulacija.getApp().getEnvironment().getUseridDefaultPrefix();
 	      for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
-	        if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocation_id()) == loc) {
+	        if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocationCode()) == loc) {
 	          getCmbBranchID().setSelectedIndex(i);
 	        }
 	      }
@@ -525,7 +525,7 @@ public class Membership {
 		Utils.loadCombo(getCmbBranch(), data);
 		int loc =  Cirkulacija.getApp().getEnvironment().getLocation();
 	    for (int i = 1; i < getCmbBranch().getModel().getSize(); i++) {
-	      if (Integer.parseInt(((CircLocation)getCmbBranch().getModel().getElementAt(i)).getLocation_id()) == loc) {
+	      if (Integer.parseInt(((CircLocation)getCmbBranch().getModel().getElementAt(i)).getLocationCode()) == loc) {
 	        defaultLocation = ((CircLocation) getCmbBranch().getModel().getElementAt(i)).getDescription();
 	      }
 	    }
@@ -540,7 +540,7 @@ public class Membership {
 	  		getTfBranch().setText(userID.substring(0,Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
 	  		int loc = Integer.parseInt(getTfBranch().getText());
 	  		for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
-	  			if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocation_id()) == loc) {
+	  			if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocationCode()) == loc) {
 	  				getCmbBranchID().setSelectedIndex(i);
 	  			}
 	  		}
@@ -551,6 +551,11 @@ public class Membership {
 		Utils.setComboItem(getCmbMmbrType(), mt);
 		Utils.setComboItem(getCmbCateg(), uc);
 		Utils.setComboItem(getCmbGroups(), group);
+		if (group != null){
+            getRbGroupY().doClick();
+        } else {
+            getRbGroupN().doClick();
+        }
 		getTableModel().setData(signings);
 	}
   

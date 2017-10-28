@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Environment;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.manager.RecordsManager;
+import com.ftninformatika.bisis.circ.manager.SearchUsersManager;
 import com.ftninformatika.bisis.circ.manager.UserManager;
 import com.ftninformatika.bisis.circ.view.MainFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -29,9 +30,7 @@ public class Cirkulacija {
     private Environment env;
     private RecordsManager recmng;
     private UserManager usermng;
-    /*private SearchUsersManager susermng;
-    private Service service;
-    private Service serviceArchive;*/
+    private SearchUsersManager susermng;
 
     private Cirkulacija() {
     }
@@ -78,8 +77,8 @@ public class Cirkulacija {
         splash.getMessage().setText("initializing environment");
 
         usermng = new UserManager();
-        //recmng = new RecordsManager();
-        //susermng = new SearchUsersManager();
+        recmng = new RecordsManager();
+        susermng = new SearchUsersManager();
 
         if (usermng.getEnvFile() == null){
             JOptionPane.showMessageDialog(null, "Gre\u0161ka pri ucitavanju parametara!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
@@ -128,11 +127,11 @@ public class Cirkulacija {
         try{
             getUserManager().loadCombos(mf.getUserPanel());
             getUserManager().loadCombos(mf.getGroupPanel());
-            //getUserManager().loadCombos(mf.getSearchUsers());
-            //getUserManager().loadCombos(mf.getSearchBooks());
-            //getUserManager().loadCombos(mf.getReport());
+            getUserManager().loadCombos(mf.getSearchUsers());
+            getUserManager().loadCombos(mf.getSearchBooks());
+            getUserManager().loadCombos(mf.getReport());
         }catch (Exception e){
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Gre\u0161ka pri ucitavanju podataka!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }
@@ -160,9 +159,9 @@ public class Cirkulacija {
         return usermng;
     }
 
-//    public SearchUsersManager getSearchUsersManager() {
-//        return susermng;
-//    }
+    public SearchUsersManager getSearchUsersManager() {
+        return susermng;
+    }
 
 
     public void close(){

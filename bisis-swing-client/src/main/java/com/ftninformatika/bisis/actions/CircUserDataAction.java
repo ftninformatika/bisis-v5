@@ -16,7 +16,7 @@ public class CircUserDataAction extends AbstractAction {
     putValue(SHORT_DESCRIPTION, "Postoje\u0107i korisnik");
     putValue(NAME, "Podaci");
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(
-        "/new-circ-images/user-32.png")));
+        "/circ-images/user24.png")));
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
   }
   

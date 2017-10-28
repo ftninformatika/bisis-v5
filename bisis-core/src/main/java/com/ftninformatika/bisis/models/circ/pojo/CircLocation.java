@@ -11,6 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class CircLocation {
-    private String location_id;
+    private String locationCode;
     private String description;
 }

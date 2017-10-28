@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="warning" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="495" leftMargin="50" rightMargin="50" topMargin="50" bottomMargin="50">
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
+	<property name="com.jasperassistant.designer.DataSource" value="empty"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
+	<property name="com.jasperassistant.designer.Grid" value="false"/>
+	<reportFont name="font" isDefault="false" fontName="Serif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<parameter name="sub" class="net.sf.jasperreports.engine.JasperReport">
+	</parameter>
+	<field name="zgnaziv" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/naziv]]></fieldDescription>
+	</field>
+	<field name="zgbiblioteka" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/biblioteka]]></fieldDescription>
+	</field>
+	<field name="zgogranak" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/ogranak]]></fieldDescription>
+	</field>
+	<field name="zgsifra" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/sifra]]></fieldDescription>
+	</field>
+	<field name="zgadresa" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/adresa]]></fieldDescription>
+	</field>
+	<field name="zgmesto" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/mesto]]></fieldDescription>
+	</field>
+	<field name="zgbropomenetext" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/bropomenetext]]></fieldDescription>
+	</field>
+	<field name="zgbropomene" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/bropomene]]></fieldDescription>
+	</field>
+	<field name="zgnaslov" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/naslov]]></fieldDescription>
+	</field>
+	<field name="zgroktext" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/roktext]]></fieldDescription>
+	</field>
+	<field name="zgrok" class="java.lang.String">
+		<fieldDescription><![CDATA[zaglavlje/rok]]></fieldDescription>
+	</field>
+	<field name="textiznad" class="java.lang.String">
+		<fieldDescription><![CDATA[body/textiznad]]></fieldDescription>
+	</field>
+	<field name="tzgrbr" class="java.lang.String">
+		<fieldDescription><![CDATA[body/tabelazg/rbr]]></fieldDescription>
+	</field>
+	<field name="tzgsignatura" class="java.lang.String">
+		<fieldDescription><![CDATA[body/tabelazg/signatura]]></fieldDescription>
+	</field>
+	<field name="tzgnaslov" class="java.lang.String">
+		<fieldDescription><![CDATA[body/tabelazg/naslov]]></fieldDescription>
+	</field>
+	<field name="tzgautor" class="java.lang.String">
+		<fieldDescription><![CDATA[body/tabelazg/autor]]></fieldDescription>
+	</field>
+	<field name="tzginvbroj" class="java.lang.String">
+		<fieldDescription><![CDATA[body/tabelazg/invbroj]]></fieldDescription>
+	</field>
+	<field name="tzgbrdana" class="java.lang.String">
+		<fieldDescription><![CDATA[body/tabelazg/brdana]]></fieldDescription>
+	</field>
+	<field name="textispod" class="java.lang.String">
+		<fieldDescription><![CDATA[body/textispod]]></fieldDescription>
+	</field>
+	<field name="nadoknada1" class="java.lang.String">
+		<fieldDescription><![CDATA[body/nadoknada1]]></fieldDescription>
+	</field>
+	<field name="nadoknada2" class="java.lang.String">
+		<fieldDescription><![CDATA[body/nadoknada2]]></fieldDescription>
+	</field>
+	<field name="cena1" class="java.lang.Double">
+		<fieldDescription><![CDATA[body/cena1]]></fieldDescription>
+	</field>
+	<field name="cena2" class="java.lang.Double">
+		<fieldDescription><![CDATA[body/cena2]]></fieldDescription>
+	</field>
+	<field name="din" class="java.lang.String">
+		<fieldDescription><![CDATA[body/din]]></fieldDescription>
+	</field>
+	<field name="dodatuma" class="java.lang.String">
+		<fieldDescription><![CDATA[body/dodatuma]]></fieldDescription>
+	</field>
+	<field name="prezime" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/prezime]]></fieldDescription>
+	</field>
+	<field name="ime" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/ime]]></fieldDescription>
+	</field>
+	<field name="imeroditelja" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/imeroditelja]]></fieldDescription>
+	</field>
+	<field name="adresa" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/adresa]]></fieldDescription>
+	</field>
+	<field name="mesto" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/mesto]]></fieldDescription>
+	</field>
+	<field name="zip" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/zip]]></fieldDescription>
+	</field>
+	<field name="userid" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/userid]]></fieldDescription>
+	</field>
+	<field name="useridtext" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/useridtext]]></fieldDescription>
+	</field>
+	<field name="docno" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/docno]]></fieldDescription>
+	</field>
+	<field name="docmesto" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/docmesto]]></fieldDescription>
+	</field>
+	<field name="jmbg" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/jmbg]]></fieldDescription>
+	</field>
+	<field name="pojedinacno" class="java.lang.String">
+		<fieldDescription><![CDATA[footer/pojedinacno]]></fieldDescription>
+	</field>
+	<field name="trostruko" class="java.lang.Double">
+		<fieldDescription><![CDATA[footer/trostruko]]></fieldDescription>
+	</field>
+	<field name="biblioteka" class="java.lang.String">
+		<fieldDescription><![CDATA[footer/biblioteka]]></fieldDescription>
+	</field>
+	<field name="direktor" class="java.lang.String">
+		<fieldDescription><![CDATA[footer/direktor]]></fieldDescription>
+	</field>
+	<field name="fime" class="java.lang.String">
+		<fieldDescription><![CDATA[footer/ime]]></fieldDescription>
+	</field>
+	<field name="tbrdana" class="java.lang.Integer">
+		<fieldDescription><![CDATA[body/tabela/brdana]]></fieldDescription>
+	</field>
+	<field name="roditelj" class="java.lang.String">
+		<fieldDescription><![CDATA[podaci/roditelj]]></fieldDescription>
+	</field>
+	<field name="trostrukotext" class="java.lang.String">
+		<fieldDescription><![CDATA[footer/trostrukotext]]></fieldDescription>
+	</field>
+	<field name="napomena" class="java.lang.String">
+		<fieldDescription><![CDATA[body/napomena]]></fieldDescription>
+	</field>
+	<title>
+		<band height="160">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="2" width="247" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgbiblioteka}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="25" width="247" height="20" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgnaziv}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="42" width="247" height="20"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgogranak}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="59" width="247" height="20"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgsifra}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="76" width="247" height="20"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgadresa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="93" width="247" height="20"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgmesto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="140" width="251" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgbropomenetext} != null ? $F{zgbropomenetext} + " " + $F{zgbropomene} : " "]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="263" y="2" width="231" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgnaslov}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="421" y="25" width="72" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgrok}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="332" y="25" width="89" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgroktext}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="79">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="2" y="14" width="491" height="46"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["          "+$F{textiznad}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="78" width="495" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="35" y="54" width="1" height="20"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="160" y="54" width="1" height="20"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="285" y="54" width="1" height="20"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="360" y="54" width="1" height="20"/>
+				<graphicElement/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="1" y="58" width="36" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tzgrbr}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="37" y="58" width="123" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tzgnaslov}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="161" y="58" width="124" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tzgautor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="284" y="58" width="75" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tzginvbroj}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="428" y="43" width="67" height="36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tzgbrdana}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="75" width="495" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="430" y="54" width="1" height="20"/>
+				<graphicElement/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="362" y="58" width="68" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tzgsignatura}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="250">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="0" width="495" height="250"/>
+				<subreportParameter name="nadoknada1">
+					<subreportParameterExpression><![CDATA[$F{nadoknada1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="din">
+					<subreportParameterExpression><![CDATA[$F{din}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cena2">
+					<subreportParameterExpression><![CDATA[$F{cena2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="napomena">
+					<subreportParameterExpression><![CDATA[$F{napomena}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="textispod">
+					<subreportParameterExpression><![CDATA[$F{textispod}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cena1">
+					<subreportParameterExpression><![CDATA[$F{cena1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nadoknada2">
+					<subreportParameterExpression><![CDATA[$F{nadoknada2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dodatuma">
+					<subreportParameterExpression><![CDATA[$F{dodatuma}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).subDataSource("/opomena/body/tabela")]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{sub}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="233">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="17" y="1" width="374" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{roditelj} != null ? $F{prezime} + " " + $F{ime} + ", " + $F{roditelj} + " " + $F{imeroditelja} : $F{prezime} + " " + $F{ime}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="17" y="18" width="374" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{adresa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="17" y="35" width="374" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zip} + " " + $F{mesto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="17" y="52" width="284" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{useridtext} + " " + $F{userid}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="17" y="86" width="144" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{docno}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="161" y="86" width="139" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{docmesto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="17" y="103" width="284" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jmbg}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="18" y="135" width="461" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pojedinacno}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="18" y="152" width="137" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{trostrukotext}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="272" y="179" width="223" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{biblioteka}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="272" y="195" width="223" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{direktor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="272" y="211" width="223" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fime}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00#" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="156" y="152" width="67" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{trostruko}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="226" y="152" width="38" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{trostruko} != null ? $F{din} : ""]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

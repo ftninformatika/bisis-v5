@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="details" language="java" pageWidth="495" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="495" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
+	<property name="com.jasperassistant.designer.Grid" value="false"/>
+	<parameter name="textispod" class="java.lang.String">
+	</parameter>
+	<parameter name="nadoknada1" class="java.lang.String">
+	</parameter>
+	<parameter name="nadoknada2" class="java.lang.String">
+	</parameter>
+	<parameter name="cena1" class="java.lang.Double">
+	</parameter>
+	<parameter name="cena2" class="java.lang.Double">
+	</parameter>
+	<parameter name="din" class="java.lang.String">
+	</parameter>
+	<parameter name="dodatuma" class="java.lang.String">
+	</parameter>
+	<parameter name="napomena" class="java.lang.String">
+	</parameter>
+	<field name="tnaslov" class="java.lang.String">
+		<fieldDescription><![CDATA[naslov]]></fieldDescription>
+	</field>
+	<field name="tautor" class="java.lang.String">
+		<fieldDescription><![CDATA[autor]]></fieldDescription>
+	</field>
+	<field name="tinvbroj" class="java.lang.String">
+		<fieldDescription><![CDATA[invbroj]]></fieldDescription>
+	</field>
+	<field name="tbrdana" class="java.lang.Integer">
+		<fieldDescription><![CDATA[brdana]]></fieldDescription>
+	</field>
+	<field name="tsignatura" class="java.lang.String">
+		<fieldDescription><![CDATA[signatura]]></fieldDescription>
+	</field>
+	<variable name="dani" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tbrdana}]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<detail>
+		<band height="17">
+			<line>
+				<reportElement positionType="Float" x="0" y="16" width="495" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="35" y="2" width="1" height="12"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="160" y="2" width="1" height="12"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="285" y="2" width="1" height="12"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="360" y="2" width="1" height="12"/>
+				<graphicElement/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="37" y="2" width="122" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tnaslov}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="162" y="2" width="124" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tautor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="284" y="2" width="77" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tinvbroj}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="431" y="2" width="63" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{tbrdana}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="2" y="2" width="32" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="430" y="2" width="1" height="12"/>
+				<graphicElement/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="361" y="2" width="71" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tsignatura}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="161">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="1" y="18" width="493" height="54"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["          "+$P{textispod}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="22" y="72" width="319" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["- "+$P{nadoknada1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="22" y="90" width="319" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["- "+$P{nadoknada2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="22" y="108" width="319" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dodatuma}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00#" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="356" y="72" width="84" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{cena1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00#" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="356" y="90" width="84" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{cena2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00#" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="356" y="108" width="84" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($V{dani}.intValue()*$P{cena1}.doubleValue()+$P{cena2}.doubleValue())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="443" y="72" width="47" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{din}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="443" y="90" width="46" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{din}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="443" y="108" width="46" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{din}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="140" width="474" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{napomena}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="70" width="495" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="87" width="495" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="104" width="495" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="124" width="495" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="340" y="73" width="1" height="12"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="340" y="90" width="1" height="12"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="340" y="107" width="1" height="15"/>
+				<graphicElement/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

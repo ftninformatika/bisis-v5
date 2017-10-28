@@ -69,6 +69,9 @@ public class CodersController {
     WarningTypeRepository warnrep;
 
     @Autowired
+    WarningCounterRepository warncountrep;
+
+    @Autowired
     OrganizationRepository orgrep;
 
     @Autowired
@@ -179,6 +182,9 @@ public class CodersController {
 
     @RequestMapping(path = "warning_type")
     public List<WarningType> getWarningTypes(String libName){return warnrep.getCoders(libName);}
+
+    @RequestMapping(path = "warning_counter")
+    public List<WarningCounter> getWarningCounters(String libName){return warncountrep.getCoders(libName);}
 
     @RequestMapping(path = "organization")
     public List<Organization> getOrganizations(String libName){return orgrep.getCoders(libName);}

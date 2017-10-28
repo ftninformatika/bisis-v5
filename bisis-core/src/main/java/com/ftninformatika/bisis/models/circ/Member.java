@@ -43,7 +43,7 @@ public class Member implements java.io.Serializable {
 	private String parentName;
 	private String address;
 	private String city;
-	private Integer zip;
+	private String zip;
 	private String phone;
 	private String email; // ovo je username za prijavljivanje
 	private String password;
@@ -55,7 +55,7 @@ public class Member implements java.io.Serializable {
 	private String gender;
 	private String age;
 	private String secAddress;
-	private Integer secZip;
+	private String secZip;
 	private String secCity;
 	private String secPhone;
 	private String note;

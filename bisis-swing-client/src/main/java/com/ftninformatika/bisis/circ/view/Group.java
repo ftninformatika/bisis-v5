@@ -192,7 +192,7 @@ public class Group extends JPanel {
 	        public void actionPerformed(ActionEvent e){
 	          if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
 	            if (Utils.getCmbValue(cmbBranchID) != null){
-	              getTfBranch().setText(StringUtils.padZeros(Integer.parseInt(((CircLocation)cmbBranchID.getSelectedItem()).getLocation_id()),Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
+	              getTfBranch().setText(StringUtils.padZeros(Integer.parseInt(((CircLocation)cmbBranchID.getSelectedItem()).getLocationCode()),Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
 	              getTfUserID().setText(""); //$NON-NLS-1$
 	            }
 	          }
@@ -426,7 +426,7 @@ public class Group extends JPanel {
 		if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
 	      int loc =  Cirkulacija.getApp().getEnvironment().getUseridDefaultPrefix();
 	      for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
-	        if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocation_id()) == loc) {
+	        if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocationCode()) == loc) {
 	          getCmbBranchID().setSelectedIndex(i);
 	        }
 	      } 
@@ -441,7 +441,7 @@ public class Group extends JPanel {
   		getTfBranch().setText(userID.substring(0,Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
   		int loc = Integer.parseInt(getTfBranch().getText());
   		for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
-  			if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocation_id()) == loc) {
+  			if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocationCode()) == loc) {
   				getCmbBranchID().setSelectedIndex(i);
   			}
   		} 

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="options" xmlns="options">
+	<xsd:element name="options">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="client" maxOccurs="unbounded"
+					minOccurs="1">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="general">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="nonCtlgNo"
+											type="xsd:boolean">
+										</xsd:element>
+										<xsd:element name="blockedCard"
+											type="xsd:boolean">
+										</xsd:element>
+										<xsd:element name="autoReturn"
+											type="xsd:boolean">
+										</xsd:element>
+										<xsd:element
+											name="defaultZipCity" type="xsd:boolean">
+										</xsd:element>
+										<xsd:element name="defaultCity"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="defaultZip"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="fontSize"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="maximize"
+											type="xsd:boolean">
+										</xsd:element>
+										<xsd:element name="lookAndFeel"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="theme"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="location"
+											type="xsd:string">
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="userid">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="length"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="prefix"
+											type="xsd:boolean">
+										</xsd:element>
+										<xsd:element name="prefixLength"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element
+											name="defaultPrefix" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="separator"
+											type="xsd:boolean">
+										</xsd:element>
+										<xsd:element
+											name="separatorSign" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="inputUserid"
+											type="xsd:string">
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="ctlgno">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="lengthCtlgno"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element
+											name="locationCtlgno" type="xsd:boolean">
+										</xsd:element>
+										<xsd:element
+											name="locationLength" type="xsd:string">
+										</xsd:element>
+										<xsd:element
+											name="defaultLocation" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="book"
+											type="xsd:boolean">
+										</xsd:element>
+										<xsd:element name="bookLength"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="defaultBook"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="separators"
+											type="xsd:boolean">
+										</xsd:element>
+										<xsd:element name="separator1"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="separator2"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="inputCtlgno"
+											type="xsd:string">
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="revers">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="libraryName"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element
+											name="libraryAddress" type="xsd:string">
+										</xsd:element>
+                                        <xsd:element name="selected" type="xsd:boolean">
+										</xsd:element>
+                                        <xsd:element name="height"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="width"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="rowCount"
+											type="xsd:string">
+										</xsd:element>
+										<xsd:element name="count"
+											type="xsd:string">
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="mac" type="xsd:string">
+						</xsd:attribute>
+						<xsd:attribute name="note"
+							type="xsd:string">
+						</xsd:attribute>
+					</xsd:complexType>
+				</xsd:element>
+
+			</xsd:sequence>
+
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

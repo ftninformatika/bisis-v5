@@ -111,7 +111,7 @@ public class BooksTreeModel implements Serializable, TreeModel{
     try {
       records = new ArrayList<Record>();
       itemAvailabilityMap = new HashMap<String, ItemAvailability>();
-      List<RecordResponseWrapper> list = BisisApp.bisisService.queryRecordsWrapper(null).execute().body(); //TODO records for recIDs
+      List<RecordResponseWrapper> list = BisisApp.recMgr.getRecordsAllData(recIDs);
       for (RecordResponseWrapper wrapper : list){
           if (wrapper.getFullRecord() != null){
               records.add(wrapper.getFullRecord());

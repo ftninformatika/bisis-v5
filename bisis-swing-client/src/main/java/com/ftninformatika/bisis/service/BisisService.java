@@ -20,6 +20,7 @@ import retrofit2.http.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BisisService {
@@ -130,6 +131,8 @@ public interface BisisService {
     @POST("/records/multiple_ids")
     Call<List<Record>>  getRecordsByIds(@Body List<String> idList);
 
+
+
     @GET("/expand_prefix_controller")
     Call<List<String>> getExpand(@Query("prefix") String prefix, @Query("text") String text);
 
@@ -238,6 +241,9 @@ public interface BisisService {
     @GET("/coders/warning_type")
     Call<List<WarningType>> getWarningTypes(@Query("libName")String libName);
 
+    @GET("/coders/warning_counter")
+    Call<List<WarningCounter>> getWarningCounters(@Query("libName")String libName);
+
     @GET("/coders/organization")
     Call<List<Organization>> getOrganizations(@Query("libName")String libName);
 
@@ -269,6 +275,20 @@ public interface BisisService {
 
     @GET ("reports/byFullName")
     Call<GeneratedReport> getReport(@Query("reportFullName") String reportFullName);
+
+
+    //TODO
+
+    @GET ("member/get_lended_returned_ctlg_nos")
+    Call<List<String>> getLendedReturnedCtlgNos(@Query("startDateLend") Date startDateLend, @Query("endDateLend") Date endDateLend,
+                                                   @Query("startDateRet") Date startDateRet, @Query("endDateRet") Date endDateRet,
+                                                   @Query("location") String location);
+
+    //vraca inventarne brojeve iz lending kolekcije kojima je lendDate u zadatom periodu i returnData u zadatom periodu i zaduzeni su na zadatoj lokaciji
+
+
+    @POST("/records/multiple_ids_wrapper")
+    Call<List<RecordResponseWrapper>> getRecordsAllDataByIds(@Body List<String> idList);
 
 
 }

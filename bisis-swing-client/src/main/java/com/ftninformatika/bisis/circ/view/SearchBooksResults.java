@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
@@ -71,7 +72,7 @@ public class SearchBooksResults extends JPanel{
 	private JButton btnUser = null;
 	private JButton btnCancel = null;
 	private BooksTreeModel booksTreeModel= null;
-	private String[] hits;
+	private List<String> hits;
 	private int page = 0;
 	private static final int PAGE_SIZE = 10;
 	private Configuration cfg = null;
@@ -82,7 +83,7 @@ public class SearchBooksResults extends JPanel{
 		initialize();
 	}
   
-  public void setHits(String[] hits){
+  public void setHits(List<String> hits){
     this.hits = hits;
     this.page = 0;
     updateAvailability();
@@ -594,24 +595,24 @@ public class SearchBooksResults extends JPanel{
   }
   
   private void displayPage() {
-    if (hits == null || hits.length == 0)
+    if (hits == null || hits.size() == 0)
       return;
     int count = PAGE_SIZE;
     if (page == pageCount() - 1){
-      if (hits.length % PAGE_SIZE==0){
+      if (hits.size() % PAGE_SIZE==0){
         count=PAGE_SIZE;
       }else{
-         count = hits.length % PAGE_SIZE;
+         count = hits.size() % PAGE_SIZE;
       }
     }
       
     //int[] recIDs = new int[count];
 	  ArrayList<String> recIDs = new ArrayList<>();
     for (int i = 0; i < count; i++)
-      recIDs.add(hits[page*PAGE_SIZE + i]);
+      recIDs.add(hits.get(page*PAGE_SIZE + i));
     getBooksTreeModel().setHits(recIDs);
     getLDocidNum().setText("<html>"+Messages.getString("circulation.records")+" <b>" + (page*PAGE_SIZE+1) + "-" +  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        (page*PAGE_SIZE+count) + "/" + hits.length + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
+        (page*PAGE_SIZE+count) + "/" + hits.size() + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
     getTree().setSelectionRow(0);
 //    getTree().requestFocusInWindow();
 //    System.out.println(getTree().isFocusOwner());
@@ -619,9 +620,9 @@ public class SearchBooksResults extends JPanel{
   }
 
   private int pageCount() {
-    if (hits == null || hits.length == 0)
+    if (hits == null || hits.size() == 0)
       return 0;
-    return hits.length / PAGE_SIZE + (hits.length % PAGE_SIZE > 0 ? 1 : 0);
+    return hits.size() / PAGE_SIZE + (hits.size() % PAGE_SIZE > 0 ? 1 : 0);
   }
   
   private void makeInfo(Record rec){

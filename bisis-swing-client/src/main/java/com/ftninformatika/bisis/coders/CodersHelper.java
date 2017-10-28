@@ -235,6 +235,7 @@ public class CodersHelper {
             List<MembershipType> membershipTypeList = BisisApp.bisisService.getMembershipTypes(BisisApp.appConfig.getLibrary()).execute().body();
             List<UserCategory> userCategoryList = BisisApp.bisisService.getUserCategories(BisisApp.appConfig.getLibrary()).execute().body();
             List<WarningType> warningTypesList = BisisApp.bisisService.getWarningTypes(BisisApp.appConfig.getLibrary()).execute().body();
+            List<WarningCounter> warningCounterList = BisisApp.bisisService.getWarningCounters(BisisApp.appConfig.getLibrary()).execute().body();
             List<Organization> organizationList = BisisApp.bisisService.getOrganizations(BisisApp.appConfig.getLibrary()).execute().body();
 
             circLocations = circLocationList.stream().collect(Collectors.toMap(CircLocation::get_id, i-> i));
@@ -246,6 +247,7 @@ public class CodersHelper {
             membershipTypes = membershipTypeList.stream().collect(Collectors.toMap(MembershipType::get_id, i-> i));
             userCategories = userCategoryList.stream().collect(Collectors.toMap(UserCategory::get_id, i-> i));
             warningTypes = warningTypesList.stream().collect(Collectors.toMap(WarningType::get_id, i-> i));
+            warningCounters = warningCounterList.stream().collect(Collectors.toMap(WarningCounter::get_id, i-> i));
             organizations = organizationList.stream().collect(Collectors.toMap(Organization::get_id, i-> i));
 
 
@@ -298,6 +300,7 @@ public class CodersHelper {
     private Map<String, Place> places = new HashMap<>();
     private Map<String, UserCategory> userCategories = new HashMap<>();
     private Map<String, WarningType> warningTypes = new HashMap<>();
+    private Map<String, WarningCounter> warningCounters = new HashMap<>();
 
     public static final int ODELJENJE_CODER = 				0;
     public static final int FORMAT_CODER =    				1;

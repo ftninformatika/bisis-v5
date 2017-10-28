@@ -218,25 +218,28 @@ public class UserManager {
 	
   public int getUser(User user, Group group, String userID){
     int found = 0;
+
       try {
           MemberData memberData = BisisApp.bisisService.getAndLockMemberById(userID, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
-          member = memberData.getMember();
-          lendings = memberData.getLendings();
+          if (memberData != null) {
+              if (memberData.getInUseBy() == null) {
+                  member = memberData.getMember();
+                  lendings = memberData.getLendings();
+                  if (member != null) {
+                      loadUser(user, member, lendings);
+                      Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
+                      found = 1;
+                      return found;
+                  }
+              } else {
+                  found = 3;
+                  return found;
+              }
+          }
+
       } catch (Exception e) {
           e.printStackTrace();
       }
-
-    if (member != null){
-          if (member.getInUseBy() == null) {
-              Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
-              loadUser(user, member, lendings);
-              found = 1;
-              return found;
-          } else {
-              found = 3;
-              return found;
-          }
-    }
 
       try {
           corporateMember = BisisApp.bisisService.getCorporateMemberById(userID).execute().body();
@@ -269,9 +272,9 @@ public class UserManager {
     }
     
     user.getUserData().loadUser(member.getFirstName(), member.getLastName(), member.getParentName(),
-        member.getAddress(), Utils.getString(member.getZip()), member.getCity(), member.getPhone(),
+        member.getAddress(), member.getZip(), member.getCity(), member.getPhone(),
         member.getEmail(), member.getGender(), member.getAge(), member.getSecAddress(),
-        member.getSecCity(), Utils.getString(member.getSecZip()), member.getSecPhone(), member.getJmbg(),
+        member.getSecCity(), member.getSecZip(), member.getSecPhone(), member.getJmbg(),
         member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
         member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
         member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(),
@@ -408,7 +411,7 @@ public class UserManager {
             .map(i -> {
                 com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
-                l.setLocation_id(i.getLocationCode());
+                l.setLocationCode(i.getLocationCode());
                 return l;
 
             })
@@ -419,7 +422,7 @@ public class UserManager {
             .map(i -> {
                 com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
-                l.setLocation_id(i.getLocationCode());
+                l.setLocationCode(i.getLocationCode());
                 return l;
 
             })
@@ -452,7 +455,7 @@ public class UserManager {
             .map(i -> {
                 com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
-                l.setLocation_id(i.getLocationCode());
+                l.setLocationCode(i.getLocationCode());
                 return l;
 
             })
@@ -467,7 +470,7 @@ public class UserManager {
               .map(i -> {
                   com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
                   l.setDescription(i.getDescription());
-                  l.setLocation_id(i.getLocationCode());
+                  l.setLocationCode(i.getLocationCode());
                   return l;
 
               })
@@ -475,32 +478,62 @@ public class UserManager {
   }
   
   public void loadCombos(SearchUsers searchusers) throws Exception {
-  	/*GetAllCommand getAll = new GetAllCommand();
-	getAll.setArg(Location.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-    searchusers.loadCmbLoc1(getAll.getList());
-    searchusers.loadCmbLoc2(getAll.getList());*/
+    searchusers.loadCmbLoc1((BisisApp.appConfig.getCodersHelper()
+            .getCircLocations().values().stream()
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                l.setDescription(i.getDescription());
+                l.setLocationCode(i.getLocationCode());
+                return l;
+
+            })
+            .collect(Collectors.toList())));
+    searchusers.loadCmbLoc2((BisisApp.appConfig.getCodersHelper()
+            .getCircLocations().values().stream()
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                l.setDescription(i.getDescription());
+                l.setLocationCode(i.getLocationCode());
+                return l;
+
+            })
+            .collect(Collectors.toList())));
   }
   
-  public void loadCombos(SearchBooks searchusers) throws Exception {
-  	/*GetAllCommand getAll = new GetAllCommand();
-	getAll.setArg(Location.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-    searchusers.loadCmbLocL(getAll.getList());
-    searchusers.loadCmbLocR(getAll.getList());*/
+  public void loadCombos(SearchBooks searchbooks) throws Exception {
+    searchbooks.loadCmbLocL((BisisApp.appConfig.getCodersHelper()
+            .getCircLocations().values().stream()
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                l.setDescription(i.getDescription());
+                l.setLocationCode(i.getLocationCode());
+                return l;
+
+            })
+            .collect(Collectors.toList())));
+    searchbooks.loadCmbLocR((BisisApp.appConfig.getCodersHelper()
+            .getCircLocations().values().stream()
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                l.setDescription(i.getDescription());
+                l.setLocationCode(i.getLocationCode());
+                return l;
+
+            })
+            .collect(Collectors.toList())));
   }
   
-  public void loadCombos(/*Report report*/) throws Exception {
-  	/*GetAllCommand getAll = new GetAllCommand();
-	getAll.setArg(Location.class);
-	getAll = (GetAllCommand)service.executeCommand(getAll);
-	if (getAll == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
-    report.loadCmbLocation(getAll.getList());*/
+  public void loadCombos(Report report) throws Exception {
+    report.loadCmbLocation((BisisApp.appConfig.getCodersHelper()
+            .getCircLocations().values().stream()
+            .map(i -> {
+                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                l.setDescription(i.getDescription());
+                l.setLocationCode(i.getLocationCode());
+                return l;
+
+            })
+            .collect(Collectors.toList())));
     
   }
 	
@@ -531,10 +564,10 @@ public class UserManager {
 		member.setSecAddress(data.getTmpAddress().trim());
 		member.setSecCity(data.getTmpCity().trim());
 		member.setSecPhone(data.getTmpPhone().trim());
-		member.setSecZip(Utils.getInteger(data.getTmpZip()));
+		member.setSecZip(data.getTmpZip());
 		member.setTitle(data.getTitle().trim());
 		member.setWarningInd(Integer.valueOf(data.getWarning()));
-		member.setZip(Utils.getInteger(data.getZip()));
+		member.setZip(data.getZip());
     if (data.getBlocked()){
       member.setBlockReason(data.getBlockedReason().trim());
     } else {
@@ -663,11 +696,12 @@ public class UserManager {
     Object primerak = Cirkulacija.getApp().getRecordsManager().changeStanje(ctlgno);
     DischargeBookCommand discharge = new DischargeBookCommand(lending, primerak);
     discharge = (DischargeBookCommand)service.executeCommand(discharge);
-    return discharge.isSaved();
+    return discharge.isSaved();*/
+  	return false;
   }
   
-  public List getCtlgNos(Date startDateL, Date endDateL, Location locationL, 
-                                  Date startDateR, Date endDateR, Location locationR){
+  public List getCtlgNos(Date startDateL, Date endDateL, com.ftninformatika.bisis.models.circ.pojo.CircLocation locationL,
+                                  Date startDateR, Date endDateR, com.ftninformatika.bisis.models.circ.pojo.CircLocation locationR){
     Date startL = null;
     Date endL = null;
     if (startDateL != null){
@@ -678,8 +712,8 @@ public class UserManager {
         endL = Utils.setMaxDate(startDateL);
       }
     }
-    
-    Location location;
+
+    com.ftninformatika.bisis.models.circ.pojo.CircLocation location;
     if (locationL != null){
       location = locationL;
     }else{
@@ -695,13 +729,13 @@ public class UserManager {
         endR = Utils.setMaxDate(startDateR);
       }
     }
-    
-    GetCtlgNosCommand getCtlgNos = new GetCtlgNosCommand(startL, endL, location, startR, endR);
-    getCtlgNos = (GetCtlgNosCommand)service.executeCommand(getCtlgNos);
-    if (getCtlgNos == null)
-    	return null;
-    return getCtlgNos.getList();*/
-  	return false;
+
+    List<String> ctlgNos = null;
+    try {
+        ctlgNos = BisisApp.bisisService.getLendedReturnedCtlgNos(startL, endL, startR, endR, location.getDescription()).execute().body();
+    }catch (Exception e){
+    }
+    return ctlgNos;
   }
   
   public List getWarnings(){

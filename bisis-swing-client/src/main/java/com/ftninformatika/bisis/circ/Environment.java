@@ -47,18 +47,18 @@ public class Environment extends DefaultHandler{
 	private String ctlgnoInput = "";
 	private String reversLibraryName = "";
 	private String reversLibraryAddress = "";
-  private String reversSelected = "";
+  	private String reversSelected = "";
 	private String reversHeight = "";
 	private String reversWidth = "";
 	private String reversRowCount = "";
 	private String reversCount = "";
-  private boolean found = false;
-  private boolean notfound = false;
-  private int current = 0;
-  private InputSource xmlsource;
-  private String mac;
-  private String xml;
-  private static Log log = LogFactory.getLog(Environment.class.getName());
+  	private boolean found = false;
+  	private boolean notfound = false;
+  	private int current = 0;
+  	private InputSource xmlsource;
+  	private String mac;
+  	private String xml;
+  	private static Log log = LogFactory.getLog(Environment.class.getName());
 	
 	
 	public Environment(String xml){

@@ -18,7 +18,7 @@ public class CircSearchUsersAction extends AbstractAction {
     putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/circ-images/find_user16.png")));
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(
-        "/new-circ-images/Search-male-user-32.png")));
+        "/circ-images/find_user24.png")));
   }
   
   public void actionPerformed(ActionEvent ev) {

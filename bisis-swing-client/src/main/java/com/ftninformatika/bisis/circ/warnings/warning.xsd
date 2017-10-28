@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="warning" xmlns="warning">
+	<xsd:element name="root">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="opomena" minOccurs="1" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+				<xsd:element name="zaglavlje">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="naziv"
+								type="xsd:string">
+							</xsd:element>
+							<xsd:element name="biblioteka" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+							<xsd:element name="ogranak" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+							<xsd:element name="sifra" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+							<xsd:element name="adresa" type="xsd:string"></xsd:element>
+							<xsd:element name="mesto" type="xsd:string"></xsd:element>
+							<xsd:element name="bropomenetext" type="xsd:string">
+							</xsd:element>
+							<xsd:element name="bropomene" type="xsd:string" minOccurs="0">
+							</xsd:element>
+										<xsd:element name="naslov" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="rok"
+											type="xsd:string" minOccurs="0">
+										</xsd:element>
+										<xsd:element name="roktext"
+											type="xsd:string">
+										</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="body">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="textiznad" type="xsd:string"></xsd:element>
+							<xsd:element name="tabelazg">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="rbr" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="naslov" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="autor" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="invbroj" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="signatura" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="brdana" type="xsd:string">
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="tabela" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="naslov" type="xsd:string" minOccurs="0" maxOccurs="1">
+										</xsd:element>
+										<xsd:element name="autor" type="xsd:string" minOccurs="0" maxOccurs="1">
+										</xsd:element>
+										<xsd:element name="invbroj" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="signatura" type="xsd:string" minOccurs="0" maxOccurs="1">
+										</xsd:element>
+										<xsd:element name="brdana"
+											type="xsd:int">
+										</xsd:element>
+										<xsd:element name="vrednost"
+											type="xsd:double">
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="textispod" type="xsd:string"></xsd:element>
+							<xsd:element name="nadoknada1" type="xsd:string"></xsd:element>
+							<xsd:element name="nadoknada2" type="xsd:string"></xsd:element>
+							<xsd:element name="cena1" type="xsd:double"></xsd:element>
+							<xsd:element name="cena2" type="xsd:double"></xsd:element>
+							<xsd:element name="din" type="xsd:string"></xsd:element>
+							<xsd:element name="dodatuma" type="xsd:string"></xsd:element>
+							<xsd:element name="napomena"
+								type="xsd:string" minOccurs="0" maxOccurs="1">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="podaci">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="prezime"
+								type="xsd:string" minOccurs="0">
+							</xsd:element>
+							<xsd:element name="ime" type="xsd:string"
+								minOccurs="0">
+							</xsd:element>
+							<xsd:element name="roditelj"
+								type="xsd:string" minOccurs="0" maxOccurs="1">
+							</xsd:element>
+							<xsd:element name="imeroditelja"
+								type="xsd:string" minOccurs="0">
+							</xsd:element>
+							<xsd:element name="adresa" type="xsd:string"
+								minOccurs="0">
+							</xsd:element>
+							<xsd:element name="mesto" type="xsd:string"
+								minOccurs="0">
+							</xsd:element>
+							<xsd:element name="zip" type="xsd:string"
+								minOccurs="0">
+							</xsd:element>
+							<xsd:element name="useridtext"
+								type="xsd:string">
+							</xsd:element>
+							<xsd:element name="userid" type="xsd:string"
+								minOccurs="1">
+							</xsd:element>
+							<xsd:element name="docno" type="xsd:string"
+								minOccurs="0">
+							</xsd:element>
+							<xsd:element name="docmesto"
+								type="xsd:string" minOccurs="0">
+							</xsd:element>
+							<xsd:element name="jmbg" type="xsd:string"
+								minOccurs="0">
+							</xsd:element>
+							<xsd:element name="sysid"
+								type="xsd:int">
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="footer">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="pojedinacno"
+								type="xsd:string" minOccurs="0">
+							</xsd:element>
+							<xsd:element name="trostrukotext" type="xsd:string" minOccurs="0">
+							</xsd:element>
+							<xsd:element name="trostruko"
+								type="xsd:double" minOccurs="0">
+							</xsd:element>
+							<xsd:element name="biblioteka"
+								type="xsd:string">
+							</xsd:element>
+							<xsd:element name="direktor"
+								type="xsd:string">
+							</xsd:element>
+							<xsd:element name="ime" type="xsd:string"></xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="cirilica" type="xsd:int"></xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

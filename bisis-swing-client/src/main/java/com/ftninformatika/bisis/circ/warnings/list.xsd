@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="list" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="list">
+	<xsd:element name="root">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="opomena" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="bropomene" type="xsd:string"></xsd:element>
+							<xsd:element name="userid" type="xsd:string"></xsd:element>
+							<xsd:element name="ime" type="xsd:string"></xsd:element>
+						
+							<xsd:element name="knjiga" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="ctlgno" type="xsd:string">
+										</xsd:element>
+										<xsd:element name="datum" type="xsd:string" minOccurs="0" maxOccurs="1">
+										</xsd:element>
+										<xsd:element name="napomena" type="xsd:string" minOccurs="0" maxOccurs="1">
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element></xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

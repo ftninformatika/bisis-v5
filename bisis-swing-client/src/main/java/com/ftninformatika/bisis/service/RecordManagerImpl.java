@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.service;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.RecordResponseWrapper;
 import com.ftninformatika.bisis.search.SearchModel;
 
 import java.io.IOException;
@@ -29,6 +30,12 @@ public class RecordManagerImpl implements RecordManager {
         Record[] retVal = new Record[recIDs.size()];
         return  BisisApp.bisisService.getRecordsByIds(recIDs).execute().body().toArray(retVal);
     }
+
+    @Override
+    public List<RecordResponseWrapper> getRecordsAllData(List<String> recIDs) throws IOException {
+        return  BisisApp.bisisService.getRecordsAllDataByIds(recIDs).execute().body();
+    }
+
 
     @Override
     public Record getAndLock(String recID, String userId) throws IOException {

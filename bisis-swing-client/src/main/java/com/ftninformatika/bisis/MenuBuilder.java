@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.circ.options.OptionsMainFrame;
 import com.ftninformatika.bisis.circ.view.MmbrshipCoder;
+import com.ftninformatika.bisis.circ.warnings.WarningsFrame;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.library_configuration.Report;
@@ -65,9 +66,9 @@ public class MenuBuilder extends JMenuBar {
   private JMenu mObrada = null;
   private SearchAction searchAction = null;
   private NewRecordAction newRecordAction = null;
- /* private GroupInventarAction groupInventarAction = null;
+  private GroupInventarAction groupInventarAction = null;
   private InvHolesAction invHolesAction = null;
-  private MergeRecordsAction mergeRecAction = null;*/
+  private MergeRecordsAction mergeRecAction = null;
   private JMenu mIzvestaji = null;
   private JMenu mAdminReport = null;
   private JMenu mReport = null;
@@ -112,7 +113,7 @@ public class MenuBuilder extends JMenuBar {
   private CoderFrame placesFrame = null;
   private CoderFrame warnCountersFrame = null;
   private MmbrshipCoder mmbrshipFrame = null;
-  //private WarningsFrame warningsFrame = null;
+  private WarningsFrame warningsFrame = null;
   private OptionsMainFrame optionsFrame = null;
   private SearchAdvancedFrame searchAdvancedFrame=null;
   private ChoseThemeFrame choseTheme = null;
@@ -157,13 +158,13 @@ public class MenuBuilder extends JMenuBar {
   private JMenu getMObrada(){
     newRecordAction = new NewRecordAction();
     getMObradaDefault().add(new JMenuItem(newRecordAction));
-    /*groupInventarAction = new GroupInventarAction();
+    groupInventarAction = new GroupInventarAction();
     getMObradaDefault().add(getSearchAdvanced());
     getMObradaDefault().add(new JMenuItem(groupInventarAction));
     invHolesAction = new InvHolesAction();
     getMObradaDefault().add(new JMenuItem(invHolesAction));
     mergeRecAction = new MergeRecordsAction();
-    getMObradaDefault().add(new JMenuItem(mergeRecAction));*/
+    getMObradaDefault().add(new JMenuItem(mergeRecAction));
     return getMObradaDefault();
   }
 
@@ -182,7 +183,7 @@ public class MenuBuilder extends JMenuBar {
 		if (mNewUser == null) {
 			mUsers = new JMenu();
 			mUsers.setText("Korisnici");
-      mUsers.setMnemonic(KeyEvent.VK_K);
+      		mUsers.setMnemonic(KeyEvent.VK_K);
 			mUsers.add(getMNewUser());
 			mUsers.add(getMUser());
 		}
@@ -250,14 +251,14 @@ public class MenuBuilder extends JMenuBar {
 	
 	private JMenuItem getMPicturebooks() {
 		if (mPicturebooks == null) {
-			//mPicturebooks = new JMenuItem(new CircPicturebooksAction());
+			mPicturebooks = new JMenuItem(new CircPicturebooksAction());
 		}
 		return mPicturebooks;
 	}
 
 	private JMenuItem getMSearchUser() {
 		if (mSearchUser == null) {
-		//	mSearchUser = new JMenuItem(new CircSearchUsersAction());
+			mSearchUser = new JMenuItem(new CircSearchUsersAction());
 		}
 		return mSearchUser;
 	}
@@ -267,7 +268,7 @@ public class MenuBuilder extends JMenuBar {
 			mSearch = new JMenu();
 			mSearch.setText("Pretra\u017eivanje");
 			mSearch.setMnemonic(KeyEvent.VK_P);
-			//mSearch.add(getMSearchUser());
+			mSearch.add(getMSearchUser());
 			mSearch.add(getMSearchBooks());
 		}
 		return mSearch;
@@ -305,10 +306,10 @@ public class MenuBuilder extends JMenuBar {
       mAdminReport = new JMenu();
       mAdminReport.setText("Izve\u0161taji");
       mAdminReport.setMnemonic(KeyEvent.VK_I);
-     // mAdminReport.add(getMCircReportItem());
+      mAdminReport.add(getMCircReportItem());
       getMObradaReport().setText("Obrada");
       mAdminReport.add(getMObradaReport());
-  //    mAdminReport.add(getOnlineReports());
+      //mAdminReport.add(getOnlineReports());
     }
     return mAdminReport;
   }
@@ -319,7 +320,7 @@ public class MenuBuilder extends JMenuBar {
 	    	mObradaReport.setMnemonic(KeyEvent.VK_I);
 		  getMObradaReport().setText("Obrada");
 		  mObradaReport.add(getMObradaReport());
-	   //   mObradaReport.add(getOnlineReports());
+	      //mObradaReport.add(getOnlineReports());
 	    }
 	    return mObradaReport;
 	  }
@@ -329,7 +330,7 @@ public class MenuBuilder extends JMenuBar {
       mAdministration = new JMenu();
       mAdministration.setText("Administracija");
       mAdministration.setMnemonic(KeyEvent.VK_A);
-  //    mAdministration.add(getMBackup());
+      //mAdministration.add(getMBackup());
       mAdministration.addSeparator();
       mAdministration.add(getMiBibliotekari());
       mAdministration.add(getMiTipoviObrade());
@@ -889,7 +890,7 @@ public class MenuBuilder extends JMenuBar {
       miMmbrship = new JMenuItem("\u010clanarina");
       miMmbrship.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          //getMmbrshipFrame().setVisible(true);
+          getMmbrshipFrame().setVisible(true);
         }
       });
     }
@@ -901,7 +902,7 @@ public class MenuBuilder extends JMenuBar {
       miWarnings = new JMenuItem("Opomene");
       miWarnings.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          //getWarningsFrame().setVisible(true);
+          getWarningsFrame().setVisible(true);
         }
       });
     }
@@ -971,7 +972,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return warnCountersFrame;
   }
-  /*
+
   public MmbrshipCoder getMmbrshipFrame(){
     if (mmbrshipFrame == null){
       mmbrshipFrame = new MmbrshipCoder();
@@ -979,7 +980,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return mmbrshipFrame;
   }
-  
+
   public WarningsFrame getWarningsFrame(){
     if (warningsFrame == null){
       warningsFrame = new WarningsFrame();
@@ -987,7 +988,7 @@ public class MenuBuilder extends JMenuBar {
     }
     return warningsFrame;
   }
-*/
+
   public OptionsMainFrame getOptionsFrame(){
     if (optionsFrame == null){
       optionsFrame = new OptionsMainFrame();

@@ -16,7 +16,7 @@ public class CircReportAction extends AbstractAction {
     putValue(SHORT_DESCRIPTION, "Izve\u0161taji");
     putValue(NAME, "Izve\u0161taji");
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(
-        "/new-circ-images/Report-32.png")));
+        "/circ-images/files_text24.png")));
   }
   
   public void actionPerformed(ActionEvent ev) {

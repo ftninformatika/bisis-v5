@@ -21,11 +21,14 @@ import javax.swing.JOptionPane;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.circ.validator.Validator;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.models.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.search.CodedPrefPanel;
 import com.ftninformatika.bisis.search.CodedPrefUtils;
 import com.ftninformatika.bisis.search.PrefixListDlg;
+import com.ftninformatika.bisis.search.SearchModel;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.lucene.search.Query;
 
@@ -677,7 +680,7 @@ public class SearchBooks {
   	else
   		text5 = getCodedPref5().getText(); 
   	
-    /*if (getLPref1().getText().equals("IN") && !getTfPref1().getText().trim().equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
+    if (getLPref1().getText().equals("IN") && !getTfPref1().getText().trim().equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
       ctlgno = Validator.convertCtlgNo2DB(getTfPref1().getText());
     }else if (getLPref2().getText().equals("IN") && !getTfPref2().getText().trim().equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
       ctlgno = Validator.convertCtlgNo2DB(getTfPref2().getText());
@@ -687,31 +690,38 @@ public class SearchBooks {
       ctlgno = Validator.convertCtlgNo2DB(getTfPref4().getText());
     }else if (getLPref5().getText().equals("IN") && !getTfPref5().getText().trim().equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
       ctlgno = Validator.convertCtlgNo2DB(getTfPref5().getText());
-    }*/
+    }
     
 	  if (!ctlgno.equals("")){ //$NON-NLS-1$
-      /*Query q = QueryUtils.makeLuceneAPIQuery(
-  		        getLPref1().getText(), getCmbOper1().getSelectedItem().toString().toUpperCase(), (getLPref1().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text1),  //$NON-NLS-1$ //$NON-NLS-2$
-  		        getLPref2().getText(), getCmbOper2().getSelectedItem().toString().toUpperCase(), (getLPref2().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text2),  //$NON-NLS-1$ //$NON-NLS-2$
-  		        getLPref3().getText(), getCmbOper3().getSelectedItem().toString().toUpperCase(), (getLPref3().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text3),  //$NON-NLS-1$ //$NON-NLS-2$
-  		        getLPref4().getText(), getCmbOper4().getSelectedItem().toString().toUpperCase(), (getLPref4().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text4),  //$NON-NLS-1$ //$NON-NLS-2$
-  		        getLPref5().getText(), (getLPref5().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text5)); //$NON-NLS-1$ //$NON-NLS-2$
-  		*/
-		  Object q = null; //TODO-hardcoded
-      List list = null;
-      if (tfStartDateL.getDate() != null || tfStartDateR.getDate() != null){
-        	 //list = Cirkulacija.getApp().getUserManager().getCtlgNos(tfStartDateL.getDate(), tfEndDateL.getDate(), (Location) Utils.getCmbValue(cmbLocL),
-             // tfStartDateR.getDate(), tfEndDateR.getDate(), (Location)Utils.getCmbValue(cmbLocR));
-           if (list == null)
-             list = new ArrayList();
-      }
+		  String pref1 = getLPref1().getText();
+		  String pref2 = getLPref2().getText();
+		  String pref3 = getLPref3().getText();
+		  String pref4 = getLPref4().getText();
+		  String pref5 = getLPref5().getText();
+		  text1 = (getLPref1().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text1);
+		  text2 = (getLPref2().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text2);
+		  text3 = (getLPref3().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text3);
+		  text4 = (getLPref4().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text4);
+		  text5 = (getLPref5().getText().equals("IN") && !ctlgno.equals("ctlgno") ? ctlgno : text5);
+		  String oper1 = getCmbOper1().getSelectedItem().toString().toUpperCase();
+		  String oper2 = getCmbOper2().getSelectedItem().toString().toUpperCase();
+		  String oper3 = getCmbOper3().getSelectedItem().toString().toUpperCase();
+		  String oper4 = getCmbOper4().getSelectedItem().toString().toUpperCase();
+		  SearchModel searchModel= new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,"TI_sort");
+
+		  List list = null;
+		  if (tfStartDateL.getDate() != null || tfStartDateR.getDate() != null){
+				 list = Cirkulacija.getApp().getUserManager().getCtlgNos(tfStartDateL.getDate(), tfEndDateL.getDate(), (CircLocation) Utils.getCmbValue(cmbLocL),
+				  tfStartDateR.getDate(), tfEndDateR.getDate(), (CircLocation)Utils.getCmbValue(cmbLocR));
+			   if (list == null)
+				 list = new ArrayList();
+		  }
     //System.out.println(q.toString());
   //    StopWatch clock = new StopWatch();
   //    clock.start();
       int res = 0; //TODO-hardcoded
-      if (q != null || list != null){
-        //res = Cirkulacija.getApp().getRecordsManager().getRecords(q,list);
-		  System.out.println("asd");
+      if (searchModel != null || list != null){
+        res = Cirkulacija.getApp().getRecordsManager().getRecords(searchModel,list);
       }else{
         return;
       }

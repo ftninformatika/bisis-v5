@@ -17,7 +17,7 @@ public class CircSearchBooksAction extends AbstractAction {
     putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/circ-images/find_book16.png")));
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(
-        "/new-circ-images/Book-Search-32.png")));
+        "/circ-images/find_book24.png")));
   }
   
   public void actionPerformed(ActionEvent ev) {

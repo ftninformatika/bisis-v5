@@ -1,10 +1,12 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
+import com.ftninformatika.bisis.search.SearchModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -227,11 +229,9 @@ public class RecordsManager {
         }
     }
 
-//    public int getRecords(Query q, List list){
-//        Result res = null;
-//        List resultList = null;
-//
-//        if (q != null){
+    public int getRecords(SearchModel searchModel, List list){
+        List<String> recordQueryResultIds = null;
+        if (searchModel != null){
 //            if (list != null){
 //                CachingWrapperFilter filter = new CachingWrapperFilter(new BisisFilter(list));
 //                res = BisisApp.getRecordManager().selectAll3x(SerializationUtils.serialize(q),SerializationUtils.serialize(filter), "TI_sort");
@@ -240,23 +240,33 @@ public class RecordsManager {
 //                res = BisisApp.getRecordManager().selectAll2x(SerializationUtils.serialize(q), "TI_sort");
 //                resultList = res.getInvs();
 //            }
-//        } else {
+            //TODO list != null
+            try {
+                recordQueryResultIds = BisisApp.recMgr.select1(searchModel);
+            } catch (Exception e){
+
+            }
+
+        } else {
 //            CachingWrapperFilter filter = new CachingWrapperFilter(new BisisFilter(list));
 //            res = BisisApp.getRecordManager().selectAll3x(SerializationUtils.serialize(new MatchAllDocsQuery()),SerializationUtils.serialize(filter), "TI_sort");
 //            resultList = list;
-//        }
-//        if (res == null){
-//            return 0;
-//        }else if(res.getRecords().length == 0){
-//            return 1;
-//        }else{
-//            Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setHits(res.getRecords());
+            //TODO list != null and searchModel = null
+        }
+        if (recordQueryResultIds == null){
+            return 0;
+        }else if(recordQueryResultIds.size() == 0){
+            return 1;
+        }else{
+            Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setHits(recordQueryResultIds);
 //            if (resultList != null)
 //                Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setCtlgnoNum(resultList.size());
-//            Cirkulacija.getApp().getMainFrame().showPanel("searchBooksResultsPanel");
-//            return 2;
-//        }
-//    }
+            //TODO broj zaduzenih knjiga po tom upitu
+            Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setCtlgnoNum(0);
+            Cirkulacija.getApp().getMainFrame().showPanel("searchBooksResultsPanel");
+            return 2;
+        }
+    }
 
 
 
