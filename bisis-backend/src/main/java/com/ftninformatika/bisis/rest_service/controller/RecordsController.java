@@ -204,21 +204,17 @@ public class RecordsController {
     }
 
     @RequestMapping( method = RequestMethod.GET)
-    public ResponseEntity<List<Record>> getRecords() {
-        try {
+    public Page<Record> getRecords() {
+
 
             long ukupno = recordsRepository.count();
             PageRequest p = new PageRequest(1,5);
             Page<Record> recordPage = recordsRepository.findAll(p);
 
-            List<Record> recs = recordsRepository.findAll();
-            if (recs == null)
+            if (recordPage == null)
                 throw new NullPointerException("Nema zapisa!");
-            return new ResponseEntity<List<Record>>(recs, HttpStatus.OK);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+            return recordPage;
+
     }
 
     @RequestMapping( value = "/ep", method = RequestMethod.GET)

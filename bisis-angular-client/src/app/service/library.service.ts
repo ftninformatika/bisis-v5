@@ -23,7 +23,7 @@ export class LibraryService {
     getLibs(){
         return this.http.get( '/coders/lib_configurations')
             .map(response => response.json().map(
-                item => item.libCollectionSuffix
+                item => item.libCollectionSufix
             ) )
             .catch(this.handleError);
     }
