@@ -1,4 +1,4 @@
-<p-dataList [value]="resultRecords" [paginator]="true" [rows]="5">
+<p-dataList *ngIf="resultRecords.length > 0" [value]="resultRecords" [paginator]="true" [rows]="5">
   <p-header>
       <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})
   </p-header>
@@ -29,6 +29,9 @@
       </div>
   </ng-template>
 </p-dataList>
+
+
+<label *ngIf="resultRecords==undefined || resultRecords.length <=0 "><h2><br>Нема резултата претраге!</h2></label>
 
 <p-dialog header="{{ 'searchResultsDetailsHeader' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
 <app-record-view  [selectedRec]='selectedRec'></app-record-view>

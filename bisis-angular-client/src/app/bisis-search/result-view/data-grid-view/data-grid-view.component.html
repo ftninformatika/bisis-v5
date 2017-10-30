@@ -1,4 +1,4 @@
-<p-dataGrid [value]="resultRecords" [paginator]="true" [rows]="20">
+<p-dataGrid *ngIf="resultRecords.length > 0" [value]="resultRecords" [paginator]="true" [rows]="20">
   <p-header>
       <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})
   </p-header>
@@ -13,6 +13,9 @@
       </div>
   </ng-template>
 </p-dataGrid>
+
+
+<label *ngIf="resultRecords==undefined || resultRecords.length <=0 "><h2><br>Нема резултата претраге!</h2></label>
 
 <p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
     <app-record-view  [selectedRec]='selectedRec'></app-record-view>

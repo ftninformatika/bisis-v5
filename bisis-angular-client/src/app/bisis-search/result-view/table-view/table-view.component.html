@@ -1,5 +1,5 @@
 
-<p-dataTable #tableView [value]="resultRecords" [rows]="10" [paginator]="true" [pageLinks]="3"
+<p-dataTable #tableView  *ngIf="resultRecords.length > 0" [value]="resultRecords"  [rows]="10" [paginator]="true" [pageLinks]="3"
 resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode="none"
 [rowsPerPageOptions]="[5,10,20]" reorderableColumns="true" (onRowClick)="tableView.toggleRow($event.data)">
     <p-header><b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})</p-header>
@@ -12,7 +12,7 @@ resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode=
         <app-record-view  [selectedRec]='rec'></app-record-view>
     </ng-template>
 </p-dataTable>
-
+<label *ngIf="resultRecords==undefined || resultRecords.length <=0 "><h2><br>Нема резултата претраге!</h2></label>
 
 
 <p-dialog header="{{ 'searchResultsDetailsHeader' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">

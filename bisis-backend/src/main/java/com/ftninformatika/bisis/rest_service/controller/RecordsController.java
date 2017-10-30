@@ -191,6 +191,18 @@ public class RecordsController {
     }
 
 
+    @RequestMapping(value = "/wrapperrec/universal/page/{text}", method = RequestMethod.GET)
+    public Page<ElasticPrefixEntity> getRecordsUniversalPages(@PathVariable String text){
+        List<RecordResponseWrapper> retVal = new ArrayList<>();
+        SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
+        int page=0;
+        Pageable p = new PageRequest(page, 100);
+        Page<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,p);
+
+
+        return iRecs;
+    }
+
     @RequestMapping( method = RequestMethod.GET)
     public ResponseEntity<List<Record>> getRecords() {
         try {
