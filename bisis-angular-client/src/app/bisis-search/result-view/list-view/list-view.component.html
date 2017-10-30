@@ -4,24 +4,23 @@
   </p-header>
   <ng-template let-rec pTemplate="item">
       <div class="ui-g ui-fluid car-item">
-          <div class="ui-g-12 ui-md-3" style="text-align:center">
+          <div class="ui-g-12 ui-md-1" style="text-align:center">
                 <i class="fa fa-search" (click)="selectRecord(rec)" style="cursor:hand;float:right;margin-top:40px">
                 </i>
-              <img src="http://www.freeiconspng.com/uploads/book-icon--mixed-iconset--simiographics-0.png" width="120">
           </div>
-          <div class="ui-g-12 ui-md-9 car-details" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
+          <div class="ui-g-12 ui-md-11 car-details" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
                 
                <div class="ui-g">
-                  <div class="ui-g-2 ui-sm-6">{{ 'titleTranslate' | translate }}: </div>
+                   <div class="ui-g-2 ui-sm-6"><b>{{ 'titleTranslate' | translate }}:</b> </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixEntity.prefixes.TI}}</div>
                   
-                  <div class="ui-g-2 ui-sm-6">{{ 'authorTranslate' | translate }}: </div>
+                  <div class="ui-g-2 ui-sm-6"><b>{{ 'authorTranslate' | translate }}:</b> </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixEntity.prefixes.AU}}</div>
                   
-                  <div class="ui-g-2 ui-sm-6">{{ 'publisherTranslate' | translate }}: </div>
+                  <div class="ui-g-2 ui-sm-6"><b>{{ 'publisherTranslate' | translate }}:</b> </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixEntity.prefixes.PU}}</div>
                   
-                  <div class="ui-g-2 ui-sm-6">{{ 'publishYearTranslate' | translate }}: </div>
+                  <div class="ui-g-2 ui-sm-6"><b>{{ 'publishYearTranslate' | translate }}:</b> </div>
                   <div class="ui-g-10 ui-sm-6">{{rec.prefixEntity.prefixes.PY}}</div>
               </div>
           </div>
