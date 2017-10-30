@@ -111,7 +111,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
 
         Date expirationDate = new Date((Long) tokenData.getBody().get("token_expiration_date"));
 
-        return !now.before(expirationDate);
+        return expirationDate.before(now);
 
     }
 }
