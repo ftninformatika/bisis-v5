@@ -8,6 +8,7 @@ import com.ftninformatika.bisis.auth.security.constants.SecurityConstants;
 import com.ftninformatika.bisis.models.circ.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import io.jsonwebtoken.*;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Service
@@ -46,6 +49,11 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
             }
             if ("member".equals(tokenData.getBody().get("clientType").toString())) { //autentifikacija korisnika (membera)
                 LibraryMember member = getMememberFromToken(tokenData);
+                if (tokenExpired(tokenData)){  //pitamo da li je istekao token?
+                    System.out.println("Your token has expired!");
+                    return null;
+                }
+
                 if (member != null )
                     return new MemberAuthentication(member);
             }
@@ -95,5 +103,15 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
             throw new UserNotFoundException("User "
                     + tokenData.getBody().get("username").toString() + " not found");
         }
+    }
+
+    private boolean tokenExpired(final Jws<Claims> tokenData){
+        Date creationDate = new Date((Long)tokenData.getBody().get("token_create_date"));
+        Date now = new Date();
+
+        Date expirationDate = new Date((Long) tokenData.getBody().get("token_expiration_date"));
+
+        return !now.before(expirationDate);
+
     }
 }

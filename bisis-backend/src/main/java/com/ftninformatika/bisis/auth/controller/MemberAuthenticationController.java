@@ -42,6 +42,7 @@ public class MemberAuthenticationController {
             retVal.put("token", response);
             LibraryMember m = libraryMemberRepository.findByUsername(dto.getUsername());
             m.setPassword(null);
+            m.setPasswordResetString(null);
             retVal.put("member_info", m);
 
             return retVal;

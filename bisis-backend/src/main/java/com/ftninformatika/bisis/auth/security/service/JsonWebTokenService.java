@@ -57,7 +57,7 @@ public class JsonWebTokenService implements TokenService {
             return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
 
         } else {
-            throw new ServiceException("Authentication error", this.getClass().getName());
+            throw new ServiceException("Librarian Authentication error", this.getClass().getName());
         }
     }
 
@@ -71,17 +71,18 @@ public class JsonWebTokenService implements TokenService {
             tokenData.put("clientType", "member");
             tokenData.put("userID", user.get_id());
             tokenData.put("username", user.getUsername());
-            tokenData.put("token_create_date", LocalDateTime.now());
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MINUTE, tokenExpirationTime);
-            tokenData.put("token_expiration_date", calendar.getTime());
+            tokenData.put("token_create_date", calendar);
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.add(Calendar.MINUTE, tokenExpirationTime);
+            tokenData.put("token_expiration_date", calendar2.getTime());
             JwtBuilder jwtBuilder = Jwts.builder();
             jwtBuilder.setExpiration(calendar.getTime());
             jwtBuilder.setClaims(tokenData);
             return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
 
         } else {
-            throw new ServiceException("Authentication error", this.getClass().getName());
+            throw new ServiceException("Library Member Authentication error", this.getClass().getName());
         }
     }
 
