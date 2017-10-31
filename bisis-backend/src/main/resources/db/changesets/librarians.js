@@ -2,7 +2,7 @@
 
 
 //changeset petar:ChangeSet-librarians
-db.user.insert({
+db.librarians.insert({
     "username": "admin.admin@gbns.com",
     "password": "admin1",
     "biblioteka": "gbns",

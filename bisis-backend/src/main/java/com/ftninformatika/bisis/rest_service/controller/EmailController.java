@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.models.circ.LibraryMember;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import com.google.common.collect.Lists;
 import it.ozimov.springboot.mail.model.Email;
 import it.ozimov.springboot.mail.model.defaultimpl.DefaultEmail;
@@ -21,16 +24,27 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/email")
 public class EmailController {
 
-    @Autowired
-    EmailService emailService;
+    @Autowired EmailService emailService;
+
+    @Autowired MemberRepository memberRepository;
+
+    @Autowired LibraryMemberRepository libraryMemberRepository;
 
     @RequestMapping( value = "/sendTest")
-    public void sendEmailWithoutTemplating() throws UnsupportedEncodingException {
+    public void sendEmailWithoutTemplating() {
+
+
+
+    }
+
+
+
+    private void sendSimpleEmail(String fromName, String toAddress, String subject, String body) throws UnsupportedEncodingException {
         final Email email = DefaultEmail.builder()
-                .from(new InternetAddress("cicero@mala-tempora.currunt", "Marco Tullio Cicerone "))
-                .to(Lists.newArrayList(new InternetAddress("jiricekova31@gmail.com", "Pomponius Attĭcus")))
-                .subject("Laelius de amicitia")
-                .body("Firmamentum autem stabilitatis constantiaeque eius, quam in amicitia quaerimus, fides est.")
+                .from(new InternetAddress(fromName, " "))
+                .to(Lists.newArrayList(new InternetAddress(toAddress, "")))
+                .subject(subject)
+                .body(body)
                 .encoding("UTF-8").build();
 
         emailService.send(email);

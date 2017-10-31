@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "user")
+@Document(collection = "librarians")
 public class LibrarianDTO {
 
     @Id private String _id;

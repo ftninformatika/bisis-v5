@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.auth.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -7,7 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class User extends BaseEntity implements UserDetails {
+@Document(collection = "librarians")
+public class LibrarianUser extends BaseEntity implements UserDetails {
 
     private static final long serialVersionUID = 7954325925563724664L;
 

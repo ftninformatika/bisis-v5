@@ -14,8 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@Document(collection = "user")
-//@JsonIgnoreProperties( ignoreUnknown = true )
 public class Librarian {
 
   @Id private String _id;
