@@ -33,5 +33,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-mail:1.5.8.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.8.RELEASE'
 
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.7.RELEASE'
+
 
 }
