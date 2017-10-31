@@ -16,11 +16,20 @@ export class PasswordResetComponent implements OnInit {
 
   ngOnInit() {
     this.msgs = [];
-    //this.msgs.push({severity:'info', summary:'Info Message', detail:'PrimeNG rocks'});
   }
 
   requestPasswordReset(email){
-    console.log(email);
+
+      if (/[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}/.test(email) == false){
+          this.msgs = [];
+          this.msgs.push({
+              severity: 'error',
+              summary: 'Упозорење',
+              detail: 'Унесите исправну email адресу.'
+          });
+      }
+
+
     this.http.get("/library_members/generate_reset?email="+email).subscribe(
         response => {
             if (response.json() == true) {
