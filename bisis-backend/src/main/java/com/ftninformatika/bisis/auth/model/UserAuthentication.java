@@ -10,11 +10,11 @@ public class UserAuthentication implements Authentication {
 
     private static final long serialVersionUID = -7170337143687707450L;
 
-    private final User user;
+    private final LibrarianUser user;
     private boolean authenticated = true;
 
-    public UserAuthentication(final User user) {
-        this.user = user;
+    public UserAuthentication(final LibrarianUser librarianUser) {
+        this.user = librarianUser;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserAuthentication implements Authentication {
         return user.getUsername();
     }
 
-    public User getUser() {
+    public LibrarianUser getUser() {
         return user;
     }
 }

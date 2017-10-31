@@ -1,21 +1,21 @@
 package com.ftninformatika.bisis.auth.service;
 
-import com.ftninformatika.bisis.auth.model.User;
+import com.ftninformatika.bisis.auth.model.LibrarianUser;
 
 import java.util.List;
 
 
 public interface UserService {
 
-    User create(User object);
+    LibrarianUser create(LibrarianUser object);
 
-    User find(String id);
+    LibrarianUser find(String id);
 
-    User findByUsername(String userName);
+    LibrarianUser findByUsername(String userName);
 
-    List<User> findAll();
+    List<LibrarianUser> findAll();
 
-    User update(String id, User object);
+    LibrarianUser update(String id, LibrarianUser object);
 
     String delete(String id);
 }

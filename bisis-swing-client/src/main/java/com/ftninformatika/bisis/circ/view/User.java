@@ -300,7 +300,7 @@ public class User extends JPanel {
 //	    params.put("broj", mmbrship.getUserID()); //$NON-NLS-1$
 //	    try{
 //		    JasperPrint jp = JasperFillManager.fillReport(
-//		              User.class.getResource(
+//		              LibrarianUser.class.getResource(
 //		                "/com/gint/app/bisis4/client/circ/jaspers/membercard.jasper").openStream(),  //$NON-NLS-1$
 //		                params, new JREmptyDataSource());
 //		    JRViewer jr = new JRViewer(jp);

@@ -1,12 +1,12 @@
 package com.ftninformatika.bisis.auth.repository;
 
-import com.ftninformatika.bisis.auth.model.User;
+import com.ftninformatika.bisis.auth.model.LibrarianUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
+public interface UserRepository extends MongoRepository<LibrarianUser, String> {
 
-    User findByUsername(final String userName);
+    LibrarianUser findByUsername(final String userName);
 }

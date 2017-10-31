@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.auth.service;
 
-import com.ftninformatika.bisis.auth.model.User;
+import com.ftninformatika.bisis.auth.model.LibrarianUser;
 import com.ftninformatika.bisis.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,40 +20,40 @@ public class BasicUserService implements UserService {
     }
 
     @Override
-    public User create(final User user) {
-        user.setCreatedAt(String.valueOf(LocalDateTime.now()));
-        return repository.save(user);
+    public LibrarianUser create(final LibrarianUser librarianUser) {
+        librarianUser.setCreatedAt(String.valueOf(LocalDateTime.now()));
+        return repository.save(librarianUser);
     }
 
     @Override
-    public User find(final String id) {
+    public LibrarianUser find(final String id) {
         return repository.findOne(id);
     }
 
     @Override
-    public User findByUsername(final String userName) {
+    public LibrarianUser findByUsername(final String userName) {
         return repository.findByUsername(userName);
     }
 
     @Override
-    public List<User> findAll() {
+    public List<LibrarianUser> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public User update(final String id, final User user) {
-        user.setId(id);
+    public LibrarianUser update(final String id, final LibrarianUser librarianUser) {
+        librarianUser.setId(id);
 
-        final User saved = repository.findOne(id);
+        final LibrarianUser saved = repository.findOne(id);
 
         if (saved != null) {
-            user.setCreatedAt(saved.getCreatedAt());
-            user.setUpdatedAt(String.valueOf(LocalDateTime.now()));
+            librarianUser.setCreatedAt(saved.getCreatedAt());
+            librarianUser.setUpdatedAt(String.valueOf(LocalDateTime.now()));
         } else {
-            user.setCreatedAt(String.valueOf(LocalDateTime.now()));
+            librarianUser.setCreatedAt(String.valueOf(LocalDateTime.now()));
         }
-        repository.save(user);
-        return user;
+        repository.save(librarianUser);
+        return librarianUser;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.auth.converter.factory;
 
 import com.ftninformatika.bisis.auth.converter.dto.UserDTOConverter;
 import com.ftninformatika.bisis.auth.dto.UserDTO;
-import com.ftninformatika.bisis.auth.model.User;
+import com.ftninformatika.bisis.auth.model.LibrarianUser;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 @Component
 public class ConverterFactory {
 
-    private Map<Object, Converter<UserDTO, User>> converters;
+    private Map<Object, Converter<UserDTO, LibrarianUser>> converters;
 
     public ConverterFactory() {
 
@@ -26,7 +26,7 @@ public class ConverterFactory {
         converters.put(UserDTO.class, new UserDTOConverter());
     }
 
-    public Converter<UserDTO, User> getConverter(final Object type) {
+    public Converter<UserDTO, LibrarianUser> getConverter(final Object type) {
         return converters.get(type);
     }
 }

@@ -1,14 +1,13 @@
 package com.ftninformatika.bisis.auth.security.service;
 
 import com.ftninformatika.bisis.auth.exception.model.UserNotFoundException;
+import com.ftninformatika.bisis.auth.model.LibrarianUser;
 import com.ftninformatika.bisis.auth.model.MemberAuthentication;
-import com.ftninformatika.bisis.auth.model.User;
 import com.ftninformatika.bisis.auth.model.UserAuthentication;
 import com.ftninformatika.bisis.auth.security.constants.SecurityConstants;
 import com.ftninformatika.bisis.models.circ.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import io.jsonwebtoken.*;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -17,7 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -42,7 +40,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
         if (tokenData != null) {
 
             if ("librarian".equals(tokenData.getBody().get("clientType").toString())) { //autentifikacija bibliotekara
-                User user = getUserFromToken(tokenData);
+                LibrarianUser user = getUserFromToken(tokenData);
                 if (user != null) {
                     return new UserAuthentication(user);
                 }
@@ -84,12 +82,12 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
         }
     }
 
-    private User getUserFromToken(final Jws<Claims> tokenData) {
+    private LibrarianUser getUserFromToken(final Jws<Claims> tokenData) {
         try {
-            return (User) userDetailsService
+            return (LibrarianUser) userDetailsService
                     .loadUserByUsername(tokenData.getBody().get("username").toString());
         } catch (UsernameNotFoundException e) {
-            throw new UserNotFoundException("User "
+            throw new UserNotFoundException("LibrarianUser "
                     + tokenData.getBody().get("username").toString() + " not found");
         }
     }

@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.auth.security.service;
 
 import com.ftninformatika.bisis.auth.exception.model.ServiceException;
-import com.ftninformatika.bisis.auth.model.User;
+import com.ftninformatika.bisis.auth.model.LibrarianUser;
 import com.ftninformatika.bisis.models.circ.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import io.jsonwebtoken.JwtBuilder;
@@ -41,7 +41,7 @@ public class JsonWebTokenService implements TokenService {
         if (username == null || password == null) {
             return null;
         }
-        final User user = (User) userDetailsService.loadUserByUsername(username);
+        final LibrarianUser user = (LibrarianUser) userDetailsService.loadUserByUsername(username);
         Map<String, Object> tokenData = new HashMap<>();
         if (password.equals(user.getPassword())) {
             tokenData.put("clientType", "librarian");

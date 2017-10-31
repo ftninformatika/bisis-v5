@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.auth.security.service;
 
-import com.ftninformatika.bisis.auth.model.User;
+import com.ftninformatika.bisis.auth.model.LibrarianUser;
 import com.ftninformatika.bisis.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,11 +21,11 @@ public class BasicUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final User user = userService.findByUsername(username);
+        final LibrarianUser user = userService.findByUsername(username);
         if (user != null) {
             return user;
         } else {
-            throw new UsernameNotFoundException("User with username:" + username + " not found");
+            throw new UsernameNotFoundException("LibrarianUser with username:" + username + " not found");
         }
     }
 }
