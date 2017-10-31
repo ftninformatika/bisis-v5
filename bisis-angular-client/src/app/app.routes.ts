@@ -21,12 +21,13 @@ import {MyBookshelfComponent} from './my-bookshelf/my-bookshelf.component';
 import {LoginComponent} from "./auth/login/login.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {HomeComponent} from "./home/home.component";
+import {PasswordResetComponent} from "./auth/password-reset/password-reset.component";
 import {AuthGuard} from "./auth/authguard";
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
     {path: '#/:email', component: HomeComponent},
-    {path: 'sample', component: SampleDemoComponent},
+    /*{path: 'sample', component: SampleDemoComponent}, //<---- demo komponente iz teme
     {path: 'forms', component: FormsDemoComponent},
     {path: 'data', component: DataDemoComponent},
     {path: 'panels', component: PanelsDemoComponent},
@@ -38,14 +39,15 @@ export const routes: Routes = [
     {path: 'charts', component: ChartsDemoComponent},
     {path: 'file', component: FileDemoComponent},
     {path: 'utils', component: UtilsDemoComponent},
-    {path: 'documentation', component: DocumentationComponent},
+    {path: 'documentation', component: DocumentationComponent},*/
     {path: 'bisis-search', component: BisisSearchComponent},
     {path: 'bisis-search/:lib', component: BisisSearchComponent},
     {path: 'record-view/:libCode/:recId', component: RecordViewComponent},
     {path: 'about-view', component: AboutViewComponent},
     {path: 'my-bookshelf', component: MyBookshelfComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'profile', canActivate: [ AuthGuard ], component: ProfileComponent}
+    {path: 'profile', canActivate: [ AuthGuard ], component: ProfileComponent},
+    {path: 'forgot-pass', component: PasswordResetComponent}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

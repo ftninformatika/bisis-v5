@@ -42,6 +42,10 @@ export class LoginComponent implements OnInit {
       localStorage.removeItem('shortInfo');
   }
 
+  forgotPass(){
+      this.router.navigate(['/forgot-pass'])
+  }
+
   ngOnInit() {
   }
 
