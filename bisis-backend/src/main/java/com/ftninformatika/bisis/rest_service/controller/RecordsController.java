@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.auth.model.MemberAuthentication;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.ItemAvailability;
@@ -20,6 +21,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -226,6 +229,12 @@ public class RecordsController {
   //dodavanje novog ili izmena postojeceg zapisa
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<Record> addOrUpdate(@RequestBody Record record) {
+
+
+      /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      if (authentication instanceof MemberAuthentication){
+          return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+      }*/
 
         try {
 

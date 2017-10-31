@@ -62,17 +62,6 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
     }
 
 
-    public Authentication authenticateMember(final HttpServletRequest request) {
-        final String token = request.getHeader(SecurityConstants.AUTH_HEADER_NAME);
-        final Jws<Claims> tokenData = parseToken(token);
-        if (tokenData != null) {
-            LibraryMember user = getMememberFromToken(tokenData);
-            if (user != null) {
-                return new MemberAuthentication(user);
-            }
-        }
-        return null;
-    }
 
     private Jws<Claims> parseToken(final String token) {
         if (token != null) {
@@ -106,7 +95,6 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
     }
 
     private boolean tokenExpired(final Jws<Claims> tokenData){
-        Date creationDate = new Date((Long)tokenData.getBody().get("token_create_date"));
         Date now = new Date();
 
         Date expirationDate = new Date((Long) tokenData.getBody().get("token_expiration_date"));
