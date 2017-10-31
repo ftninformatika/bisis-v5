@@ -6,6 +6,9 @@ db.user.insert({
     "username": "admin.admin@gbns.com",
     "password": "admin1",
     "biblioteka": "gbns",
+    "authorities" : [
+        "ROLE_ADMIN"
+    ],
     "ime": "Bojana",
     "prezime": "Dimić",
     "email": "bdimic@uns.ac.rs",
