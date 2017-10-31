@@ -23,11 +23,22 @@ export class PasswordResetComponent implements OnInit {
     console.log(email);
     this.http.get("/library_members/generate_reset?email="+email).subscribe(
         response => {
-          if (response.json() == true){
-            this.msgs.push({severity:'info', summary:'Обавештење', detail:'Линк за рестарт лозинке је успешно послат на вашу адресу!'});
-          }
-          else
-            this.msgs.push({severity:'error', summary:'Упозорење', detail:'Унета адреса не постоји као регистрована у нашем систему. Молимо вас покушајте поново.'});
+            if (response.json() == true) {
+                this.msgs = [];
+                this.msgs.push({
+                    severity: 'info',
+                    summary: 'Обавештење',
+                    detail: 'Линк за рестарт лозинке је успешно послат на вашу адресу!'
+                });
+            }
+            else {
+                this.msgs = [];
+                this.msgs.push({
+                    severity: 'error',
+                    summary: 'Упозорење',
+                    detail: 'Унета адреса не постоји као регистрована у нашем систему. Молимо вас покушајте поново.'
+                });
+            }
         }
     );
   }

@@ -28,13 +28,15 @@ public class LibraryMemberContrroller {
         lm.setPasswordResetString(randomStringGenerator());
         libraryMemberRepository.save(lm);
         String emailBody = "Молимо вас продужите на наведени линк како би рестартовали вашу лозинку http://localhost:4200/reset_password/" + lm.getPasswordResetString() +"\n";
-        try {
-            emailController.sendSimpleEmail("bisis_support", lm.getUsername(), "Рестарт лозинке", emailBody);
-            return true;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return false;
-        }
+        new Thread(() -> {
+                try {
+                    emailController.sendSimpleEmail("bisis_support", lm.getUsername(), "Рестарт лозинке", emailBody);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        return true;
+
 
     }
 
