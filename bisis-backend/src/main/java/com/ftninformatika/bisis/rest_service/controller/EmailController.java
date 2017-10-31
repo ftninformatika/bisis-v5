@@ -39,7 +39,7 @@ public class EmailController {
 
 
 
-    private void sendSimpleEmail(String fromName, String toAddress, String subject, String body) throws UnsupportedEncodingException {
+    public void sendSimpleEmail(String fromName, String toAddress, String subject, String body) throws UnsupportedEncodingException {
         final Email email = DefaultEmail.builder()
                 .from(new InternetAddress(fromName, " "))
                 .to(Lists.newArrayList(new InternetAddress(toAddress, "")))
@@ -48,6 +48,7 @@ public class EmailController {
                 .encoding("UTF-8").build();
 
         emailService.send(email);
+
     }
 
 }

@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(event, username, password) {
-    username = 'member@member.com';
+    username = 'jiricekova31@gmail.com';
     password = 'member1';
     event.preventDefault();
     let body = JSON.stringify({ username, password });

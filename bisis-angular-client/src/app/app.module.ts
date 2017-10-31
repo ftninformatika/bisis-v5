@@ -117,7 +117,7 @@ import { ListViewComponent } from './bisis-search/result-view/list-view/list-vie
 import { RecordViewComponent } from './bisis-search/record-view/record-view.component';
 import { AboutViewComponent } from './about-view/about-view.component';
 import { MyBookshelfComponent } from './my-bookshelf/my-bookshelf.component';
-
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 
 import { AuthGuard } from './auth/authguard';
 import { AuthModule } from './auth/auth.module';
@@ -126,6 +126,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { AuthHelper } from './auth/utilities/authhelper';
 import { LibraryService } from './service/library.service';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -247,6 +248,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MyBookshelfComponent,
         LoginComponent,
         ProfileComponent,
+        PasswordResetComponent,
         HomeComponent
     ],
     providers: [

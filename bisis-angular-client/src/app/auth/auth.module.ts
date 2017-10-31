@@ -15,6 +15,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
       deps: [Http, RequestOptions]
     }
   ],
-  declarations: [PasswordResetComponent]
+  declarations: []
 })
 export class AuthModule {}

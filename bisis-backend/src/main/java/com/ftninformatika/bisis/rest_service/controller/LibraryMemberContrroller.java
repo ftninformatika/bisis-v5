@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepos
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 /**
@@ -18,13 +19,23 @@ public class LibraryMemberContrroller {
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
 
-    @RequestMapping( value = "/generate_reset/{userId}", method = RequestMethod.GET)
-    public boolean generateReset(@PathVariable String userId) {
-        LibraryMember lm = libraryMemberRepository.findOne(userId);
+    @Autowired EmailController emailController;
+
+    @RequestMapping( value = "/generate_reset", method = RequestMethod.GET)
+    public boolean generateReset(@RequestParam("email") String email) {
+        LibraryMember lm = libraryMemberRepository.findByUsername(email); //by email zapravo
         if (lm == null) return false;
         lm.setPasswordResetString(randomStringGenerator());
         libraryMemberRepository.save(lm);
-        return true; //zahtev za promenu lozinke poslat, treba da posalje mejl
+        String emailBody = "Молимо вас продужите на наведени линк како би рестартовали вашу лозинку http://localhost:4200/reset_password/" + lm.getPasswordResetString() +"\n";
+        try {
+            emailController.sendSimpleEmail("bisis_support", lm.getUsername(), "Рестарт лозинке", emailBody);
+            return true;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     @RequestMapping( value = "/{passwordResetString}", method = RequestMethod.GET)
@@ -53,7 +64,7 @@ public class LibraryMemberContrroller {
             char c = chars[random.nextInt(chars.length)];
             sb.append(c);
         }
-        System.out.println(sb.toString());
+        //System.out.println(sb.toString());
         return sb.toString();
     }
 }
