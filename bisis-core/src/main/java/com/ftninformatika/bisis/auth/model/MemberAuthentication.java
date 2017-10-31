@@ -17,35 +17,51 @@ public class MemberAuthentication implements Authentication{
 
     private static final long serialVersionUID = -7170337143687707450L;
 
-    private final LibraryMember libraryMember;
+    private final LibraryMember user;
     private boolean authenticated = true;
 
     public MemberAuthentication(LibraryMember m){
-        this.libraryMember = m;
+        this.user = m;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return user.getAuthorities();
     }
 
     @Override
     public Object getCredentials() {
-        return libraryMember.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public Object getDetails() {
-        return null;
+        return user;
     }
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return user.getUsername();
+    }
+
+
+    @Override
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+
+    @Override
+    public void setAuthenticated(final boolean authenticated) throws IllegalArgumentException {
+        this.authenticated = authenticated;
     }
 
     @Override
     public String getName() {
-        return libraryMember.getUsername();
+        return user.getUsername();
     }
+
+    public LibraryMember getUser() {
+        return user;
+    }
+
 }

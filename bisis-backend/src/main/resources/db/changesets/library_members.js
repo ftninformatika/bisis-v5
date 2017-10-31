@@ -10,6 +10,6 @@ db.library_members.insert([
         "index": "59a3d674650e0b923884e5a5",
         "authorities" : [
             "ROLE_USER"
-        ],
+        ]
     }
     ])

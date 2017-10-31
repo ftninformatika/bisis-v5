@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.model.MemberAuthentication;
+import com.ftninformatika.bisis.auth.model.UserAuthentication;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.ItemAvailability;
@@ -229,12 +230,6 @@ public class RecordsController {
   //dodavanje novog ili izmena postojeceg zapisa
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<Record> addOrUpdate(@RequestBody Record record) {
-
-
-      /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      if (authentication instanceof MemberAuthentication){
-          return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-      }*/
 
         try {
 

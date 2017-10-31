@@ -1,10 +1,12 @@
 package com.ftninformatika.bisis.models.circ;
 
 import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.auth.model.BaseEntity;
 import lombok.*;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 import java.util.List;
@@ -26,7 +28,7 @@ public class LibraryMember {
     private String libraryPrefix;
     private String index;
     private List<Authority> authorities;
-    private String passwordResetString;
 
+    private String passwordResetString;
 
 }

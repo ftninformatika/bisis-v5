@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.rest_service;
 
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**

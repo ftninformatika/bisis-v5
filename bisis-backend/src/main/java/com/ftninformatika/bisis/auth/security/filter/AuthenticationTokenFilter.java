@@ -44,7 +44,6 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
             prefixProvider.setPrefix("exile");
         }
 
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
         SecurityContextHolder.getContext().setAuthentication(null);
