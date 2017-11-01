@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../headers';
+import {MessageService} from "primeng/components/common/messageservice";
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { contentHeaders } from '../headers';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public router: Router, public http: Http) {
+  constructor(public router: Router, public http: Http, private messageService: MessageService) {
   }
 
   login(event, username, password) {
@@ -26,10 +27,19 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('authenticated', response.json().member_info.username);
           localStorage.setItem('shortInfo', JSON.stringify(response.json().member_info));
           //console.log(response.json());
+            this.messageService.add({
+                severity: 'info',
+                summary: 'Обавештење',
+                detail: 'Успешно сте се пријавили на БИСИС!'
+            });
           this.router.navigate(['/']);
         },
         error => {
-          alert(error.text());
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Грешка',
+                detail: 'Неуспело пријављивање!'
+            });
           //console.log(error.text());
         }
       );
