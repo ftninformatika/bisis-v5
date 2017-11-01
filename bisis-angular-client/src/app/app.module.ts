@@ -94,6 +94,8 @@ import {FileDemoComponent} from './demo/view/filedemo.component';
 import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
 import {DocumentationComponent} from './demo/view/documentation.component';
 
+import {MessageService} from "primeng/components/common/messageservice";
+
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
     TranslateModule, TranslateLoader, MissingTranslationHandler, TranslateParser,
@@ -254,7 +256,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CarService, CountryService, EventService, NodeService, BisisSearchService,
-        AuthGuard, AuthHelper, LibraryService
+        AuthGuard, AuthHelper, LibraryService, MessageService
     ],
     bootstrap: [AppComponent]
 })

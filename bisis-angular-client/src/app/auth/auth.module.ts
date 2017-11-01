@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { PasswordResetConfirmationComponent } from './password-reset-confirmation/password-reset-confirmation.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -15,6 +15,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
       deps: [Http, RequestOptions]
     }
   ],
-  declarations: []
+  declarations: [PasswordResetConfirmationComponent]
 })
 export class AuthModule {}

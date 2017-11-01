@@ -29,8 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.authorizeRequests()
-                .antMatchers("/auth", "/memauth", "/coders/language", "/coders/lib_configurations", "/records/wrapperrec/**",
-                        "/records/wrapperrec/universal", "/records/unimarc", "/records/query/**", "/library_members/generate_reset/**").permitAll()
+                .antMatchers(
+                        "/auth", "/memauth", "/coders/language", "/coders/lib_configurations", "/records/wrapperrec/**",
+                        "/records/wrapperrec/universal", "/records/unimarc", "/records/query/**",
+                        "/library_members/**").permitAll()
 
                 //.antMatchers("/records").hasAuthority("ROLE_ADMIN")
                 .anyRequest().hasAuthority("ROLE_ADMIN")

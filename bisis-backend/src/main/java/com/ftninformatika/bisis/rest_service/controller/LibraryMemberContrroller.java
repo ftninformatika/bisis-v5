@@ -27,7 +27,8 @@ public class LibraryMemberContrroller {
         if (lm == null) return false;
         lm.setPasswordResetString(randomStringGenerator());
         libraryMemberRepository.save(lm);
-        String emailBody = "Молимо вас продужите на наведени линк како би рестартовали вашу лозинку http://localhost:4200/reset_password/" + lm.getPasswordResetString() +"\n";
+        String emailBody = "Молимо вас продужите на наведени линк како би рестартовали вашу лозинку http://localhost:4200/#/password-reset-confirmation/" +
+                lm.get_id()+ "/" + lm.getPasswordResetString() +"\n";
         new Thread(() -> {
                 try {
                     emailController.sendSimpleEmail("bisis_support", lm.getUsername(), "Рестарт лозинке", emailBody);
@@ -48,8 +49,19 @@ public class LibraryMemberContrroller {
 
     @RequestMapping( value = "/reset_password", method = RequestMethod.POST)
     public boolean resetPassword(@RequestBody PasswordResetDTO newPassword) {
+
+        if (!newPassword.getNewPassword().equals(newPassword.getNewPasswordAgain())) //ako se ne poklapaju
+            return false;
+
         LibraryMember lm = libraryMemberRepository.findByPasswordResetString(newPassword.getPasswordResetString());
-        if (lm != null && newPassword.getNewPassword() != null && (!"".equals(newPassword.getNewPassword())) &&
+
+        if (lm == null)
+            return false;
+
+        if (!lm.get_id().equals(newPassword.getUserId()))
+            return false;
+
+        if ( newPassword.getNewPassword() != null && (!"".equals(newPassword.getNewPassword())) &&
                 newPassword.getNewPassword().length() > 5 ){ // pass mora biti duze od 6 char
             lm.setPassword(newPassword.getNewPassword());
             libraryMemberRepository.save(lm);
@@ -59,7 +71,7 @@ public class LibraryMemberContrroller {
     }
 
     private String randomStringGenerator(){
-        char[] chars = "ABCDEFGIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789+-*=".toCharArray();
+        char[] chars = "ABCDEFGIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789".toCharArray();
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < 100; i++) {

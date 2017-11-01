@@ -22,6 +22,7 @@ import {LoginComponent} from "./auth/login/login.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {HomeComponent} from "./home/home.component";
 import {PasswordResetComponent} from "./auth/password-reset/password-reset.component";
+import {PasswordResetConfirmationComponent} from "./auth/password-reset-confirmation/password-reset-confirmation.component";
 import {AuthGuard} from "./auth/authguard";
 
 export const routes: Routes = [
@@ -47,7 +48,8 @@ export const routes: Routes = [
     {path: 'my-bookshelf', component: MyBookshelfComponent},
     {path: 'login', component: LoginComponent},
     {path: 'profile', canActivate: [ AuthGuard ], component: ProfileComponent},
-    {path: 'forgot-pass', component: PasswordResetComponent}
+    {path: 'forgot-pass', component: PasswordResetComponent},
+    {path: 'password-reset-confirmation/:userId/:pRS', component:PasswordResetConfirmationComponent}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);
