@@ -14,7 +14,5 @@ export class RecordsPageModel{
     totalElements: number;
     totalPages: number;
 
-    public static smth(): string{
-        return "asdsad";
-    }
+
 }

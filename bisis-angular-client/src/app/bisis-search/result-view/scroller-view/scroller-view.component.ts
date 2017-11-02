@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {BisisSearchService} from "../../service/bisis-search.service";
 
 import { RecordsPageModel } from '../../model/RecordsPageModel';
+import {MessageService} from "primeng/components/common/messageservice";
 
 @Component({
   selector: 'app-scroller-view',
@@ -14,7 +15,7 @@ export class ScrollerViewComponent implements OnInit {
   selectedRec: any;
   displayDialog: boolean;
 
-  constructor( public bisisService: BisisSearchService) { }
+  constructor( public bisisService: BisisSearchService, public messageService: MessageService) { }
 
   selectRec(rec) {
     this.selectedRec = rec;
@@ -27,16 +28,18 @@ export class ScrollerViewComponent implements OnInit {
   lazyLoadRecords(event){
     console.log(event);
 
-    var page = event['first'] / event['rows'] ;
+    //var page = event['first'] / event['rows'] ;
+    var page = this.resultRecords.content.length / 20;
     var size = 20;
 
     if (this.resultRecords['query'] != undefined) { //univerzalna pretraga
         this.bisisService.searchRecordsByEP('universal', this.resultRecords['query'],  page, size).subscribe(
             response => {
-              //console.log(response);
-              //this.resultRecords['content'] = [];
                 var responseObject = this.createInstanceFromJson(RecordsPageModel, response);
-              this.resultRecords.content = this.resultRecords.content.concat(responseObject.content);
+                if (this.resultRecords.content.length < 200){
+                    this.resultRecords.content = this.resultRecords.content.concat(responseObject.content);
+                }
+
             }
         );
     }
