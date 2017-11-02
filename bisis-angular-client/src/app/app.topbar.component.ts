@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AuthHelper} from "./auth/utilities/authhelper";
 import {Router} from "@angular/router";
+import {MessageService} from "primeng/components/common/messageservice";
 
 @Component({
     selector: 'app-topbar',
@@ -38,7 +39,7 @@ import {Router} from "@angular/router";
 })
 export class AppTopbarComponent {
 
-    constructor(public app: AppComponent, public ah: AuthHelper) {}
+    constructor(public app: AppComponent, public ah: AuthHelper, private messageService: MessageService) {}
 
 
 
@@ -46,5 +47,11 @@ export class AppTopbarComponent {
         var libCode = localStorage.getItem('libCode');
         localStorage.clear();
         localStorage.setItem('libCode', libCode);
+        this.messageService.clear();
+        this.messageService.add({
+            severity: 'info',
+            summary: 'Обавештење',
+            detail: 'Успешно сте се одјавили са БИСИС - а!'
+        });
     }
 }

@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
     password = 'member1';
     event.preventDefault();
     let body = JSON.stringify({ username, password });
+    this.messageService.clear();
     this.http.post('/memauth', body, { headers: contentHeaders })
       .subscribe(
         response => {
@@ -26,7 +27,6 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', response.json().token);
           localStorage.setItem('authenticated', response.json().member_info.username);
           localStorage.setItem('shortInfo', JSON.stringify(response.json().member_info));
-          //console.log(response.json());
             this.messageService.add({
                 severity: 'info',
                 summary: 'Обавештење',
@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
                 summary: 'Грешка',
                 detail: 'Неуспело пријављивање!'
             });
-          //console.log(error.text());
         }
       );
   }

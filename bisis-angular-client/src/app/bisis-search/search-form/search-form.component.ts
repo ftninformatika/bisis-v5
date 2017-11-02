@@ -71,8 +71,8 @@ export class SearchFormComponent implements OnInit {
       return;
     }
     this.bisisService.searchRecordsByEP(choice, text)
-    .subscribe(
-      response => this.serviceCallResult.emit(response),
+    .subscribe(    // ovo postoji zbog paginga i sortiga u drugim komponentama
+      response => {response['query'] = text ;this.serviceCallResult.emit(response)},
       error => console.log(error)
     );
   }
@@ -117,7 +117,7 @@ export class SearchFormComponent implements OnInit {
     };
     this.bisisService.searchRecordsAdvanced(searchModel)
         .subscribe(
-            response => this.serviceCallResult.emit(response),
+            response => { response['searchModel'] = searchModel; this.serviceCallResult.emit(response)},
             error => console.log(error)
         );
     console.log(searchModel);

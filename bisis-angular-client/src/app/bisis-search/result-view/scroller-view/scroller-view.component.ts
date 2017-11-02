@@ -11,7 +11,7 @@ export class ScrollerViewComponent implements OnInit {
   selectedRec: any;
   displayDialog: boolean;
 
-  constructor() { }
+  constructor( ) { }
 
   selectRec(rec) {
     this.selectedRec = rec;
@@ -19,6 +19,10 @@ export class ScrollerViewComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  lazyLoadRecords(event){
+    console.log(event);
   }
 
 }

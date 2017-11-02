@@ -1,7 +1,5 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.auth.model.MemberAuthentication;
-import com.ftninformatika.bisis.auth.model.UserAuthentication;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.ItemAvailability;
@@ -18,12 +16,11 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -174,11 +171,19 @@ public class RecordsController {
     }
 
     @RequestMapping(value = "/wrapperrec/universal/{text}", method = RequestMethod.GET)
-    public List<RecordResponseWrapper> getRecordsUniversalWrapper(@PathVariable String text){
+    public Page<RecordResponseWrapper> getRecordsUniversalWrapper(@PathVariable String text,  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
+            ,@RequestParam(value = "pageSize", required = false) final Integer pageSize){
         List<RecordResponseWrapper> retVal = new ArrayList<>();
         SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
         int page=0;
-        Pageable p = new PageRequest(page, 1000);
+        int pSize =20;
+
+        if (pageNumber != null)
+            page = pageNumber;
+        if (pageSize != null)
+            pSize = pSize;
+
+        Pageable p = new PageRequest(page, pSize);
         Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,p);
 
         iRecs.forEach(
@@ -191,7 +196,7 @@ public class RecordsController {
                 }
         );
 
-        return retVal;
+        return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>)iRecs).getTotalElements());
     }
 
 
@@ -256,8 +261,9 @@ public class RecordsController {
         }
   }
 
-  @RequestMapping(value = "/query", method = RequestMethod.POST )
-  public ResponseEntity<List<Record>> search(@RequestBody SearchModel search){
+  /*@RequestMapping(value = "/query", method = RequestMethod.POST )
+  public ResponseEntity<List<Record>> search(@RequestBody SearchModel search ,  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
+          ,@RequestParam(value = "pageSize", required = false) final Integer pageSize){
       ArrayList<Record> retVal = new ArrayList<>();
 
 
@@ -269,14 +275,22 @@ public class RecordsController {
       retVal = (ArrayList<Record>) recordsRepository.findAll(ids);
 
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
-  }
+  }*/
 
     @RequestMapping(value = "/query/full", method = RequestMethod.POST )
-    public List<RecordResponseWrapper> searchFull(@RequestBody SearchModel search){
+    public Page<RecordResponseWrapper> searchFull(@RequestBody SearchModel search,  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
+            ,@RequestParam(value = "pageSize", required = false) final Integer pageSize){
         ArrayList<RecordResponseWrapper> retVal = new ArrayList<>();
 
         int page=0;
-        Pageable p = new PageRequest(page, 1000);
+        int pSize=20;
+
+        if(pageNumber != null)
+            page = pageNumber;
+        if(pageSize != null)
+            pSize = pageSize;
+
+        Pageable p = new PageRequest(page, pSize);
         Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search), p);
         ii.forEach(
                 rec -> {
@@ -286,7 +300,7 @@ public class RecordsController {
                         retVal.add( new RecordResponseWrapper(rec, r , ia));
                 }
         );
-        return retVal;
+        return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>)ii).getTotalElements());
     }
 
   @RequestMapping( value = "/search_ids", method = RequestMethod.POST )

@@ -1,6 +1,6 @@
-<p-dataScroller *ngIf="resultRecords.length > 0" [value]="resultRecords" [rows]="10" [inline]="true" scrollHeight="500px">
+<p-dataScroller  [value]="resultRecords.content" [rows]="20" [inline]="true" scrollHeight="500px" [lazy]="true"  (onLazyLoad)="lazyLoadRecords($event)">
   <p-header>
-     <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})
+     <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.totalElements}})
   </p-header>
   <ng-template let-rec pTemplate="item">
       <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
@@ -30,11 +30,12 @@
           </div>
       </div>
   </ng-template>
+    <!--<ng-template pTemplate="emptymessage">-->
+        <!--Нема реултата претраге.-->
+    <!--</ng-template>-->
 </p-dataScroller>
 
 
-<label *ngIf="resultRecords==undefined || resultRecords.length <=0 "><h2><br>Нема резултата претраге!</h2></label>
-  
 <p-dialog header="Record Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
     <app-record-view  [selectedRec]='selectedRec'></app-record-view>
 </p-dialog>
