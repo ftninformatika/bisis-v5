@@ -26,9 +26,7 @@ export class ScrollerViewComponent implements OnInit {
   }
 
   lazyLoadRecords(event){
-    console.log(event);
 
-    //var page = event['first'] / event['rows'] ;
     var page = this.resultRecords.content.length / 20;
     var size = 20;
 

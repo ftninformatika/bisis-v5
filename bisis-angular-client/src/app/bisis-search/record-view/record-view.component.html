@@ -50,15 +50,18 @@
             <button pTooltip="Молимо вас пријавите се како би додали књигу на полицу." *ngIf="this.ah.authenticated == undefined"  icon="ui-icon-book" class="primary-btn" pButton type="button" label="{{ 'addToBookshelfTranslate' | translate }}" disabled="true"></button>
         </div>
     </div>
-    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC" style="margin-top: 10px;">
+    <div class="ui-grid-row"  *ngIf="selectedRec.listOfItems != undefined && selectedRec.listOfItems.length > 0" style="margin-top: 10px;">
         <div class="ui-grid-col-12" align="left">
             <p-fieldset [toggleable]="true" [collapsed]="true">
                 <p-header>{{ 'itemsTranslate' | translate }}</p-header>
                     <div class="ui-grid-row" align="left" *ngFor="let p of selectedRec.listOfItems">
-                        <!--div class="ui-grid-col-2"-->
-                        {{p.ctlgNo}} - <span *ngIf="p.borrowed == false "><font color="green"><b>{{ 'freeTranslate' | translate }}</b></font></span>
-                        <span *ngIf="p.borrowed == true"><font color="red"><b>{{ 'takenTranslate' | translate }}</b></font></span>
-                        <!--/div-->
+                        {{p.ctlgNo}} -
+                        <span *ngIf="p.borrowed == false "><font color="green"><b> {{ 'freeTranslate' | translate }}</b></font></span>
+                        <span *ngIf="p.borrowed == true"><font color="red"><b> {{ 'takenTranslate' | translate }}</b></font></span>
+                       <div style="margin-left: 20px;"> Одељење:
+                        <span *ngIf="p.libDepartment != null"><b>{{ p.libDepartment }}</b></span>
+                        <span *ngIf="p.libDepartment == null"><b>Непознато</b></span>
+                       </div>
                     </div>
                 </p-fieldset>
         </div>
@@ -133,7 +136,7 @@
             <button icon="ui-icon-book" class="primary-btn" pButton type="button" label="{{ 'addToBookshelfTranslate' | translate }}" ></button>
         </div>
     </div>
-    <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.DC" style="margin-top: 10px;">
+    <div class="ui-grid-row"  *ngIf="selectedRec.listOfItems != undefined && selectedRec.listOfItems.length > 0" style="margin-top: 10px;">
         <div class="ui-grid-col-12" align="left">
             <p-fieldset [toggleable]="true" [collapsed]="true">
                 <p-header>{{ 'itemsTranslate' | translate }}</p-header>
@@ -141,6 +144,8 @@
                     <!--div class="ui-grid-col-2"-->
                     {{p.ctlgNo}} - <span *ngIf="p.borrowed == false "><font color="green"><b>{{ 'freeTranslate' | translate }}</b></font></span>
                     <span *ngIf="p.borrowed == true"><font color="red"><b>{{ 'takenTranslate' | translate }}</b></font></span>
+                    Одељење:  <span *ngIf="p.libDepartmetnt != null"><b>{{p.libDepartment}}</b></span>
+                    <span *ngIf="p.libDepartmetnt == null"><b>Непознато</b></span>
                     <!--/div-->
                 </div>
             </p-fieldset>

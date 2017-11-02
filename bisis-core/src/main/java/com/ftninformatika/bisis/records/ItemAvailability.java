@@ -19,4 +19,5 @@ public class ItemAvailability implements java.io.Serializable{
     private Boolean borrowed;
     private String ctlgNo;
     private String recordID;
+    private String libDepartment;
 }
