@@ -15,10 +15,7 @@ import org.apache.commons.collections.IteratorUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -181,10 +178,10 @@ public class RecordsController {
         if (pageNumber != null)
             page = pageNumber;
         if (pageSize != null)
-            pSize = pSize;
+            pSize = pageSize;
 
         Pageable p = new PageRequest(page, pSize);
-        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,p);
+        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,new PageRequest(page, pSize, new Sort(Sort.Direction.ASC, "prefixes.AU")));
 
         iRecs.forEach(
                 e -> {

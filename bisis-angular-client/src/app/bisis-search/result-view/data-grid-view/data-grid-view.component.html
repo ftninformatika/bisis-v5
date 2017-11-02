@@ -1,6 +1,6 @@
-<p-dataGrid *ngIf="resultRecords.length > 0" [value]="resultRecords" [paginator]="true" [rows]="20">
+<p-dataGrid *ngIf="resultRecords.content != null && resultRecords.content.length > 0" [value]="resultRecords.content" [paginator]="true" [rows]="20">
   <p-header>
-      <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})
+      <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.totalRecords}})
   </p-header>
   <ng-template let-rec pTemplate="item">
       <div style="padding:3px" class="ui-g-12 ui-md-3">

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {SelectItem} from 'primeng/primeng';
 import {TranslateService} from "@ngx-translate/core";
+import { RecordsPageModel } from '../model/RecordsPageModel';
 @Component({
   selector: 'app-result-view',
   templateUrl: './result-view.component.html',
@@ -8,7 +9,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class ResultViewComponent implements OnInit {
 
-  @Input() data: any[];
+  @Input() data: RecordsPageModel;
   resultViewTypes: SelectItem[];
   selectedResultViewType: any;
 

@@ -1,6 +1,7 @@
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { RecordsPageModel } from '../model/RecordsPageModel';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -31,14 +32,16 @@ export class BisisSearchService {
             .catch(this.handleError);
     }
 
-    searchRecordsByEP(choice, text) {
+    searchRecordsByEP(choice: string, text: string, page = 0, size = 20) {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
-        console.log('Searching ' + choice + ':' + text);
-        return this.http.get('/records/wrapperrec/universal/' + text, options)
-            .map(response => response.json())
+        console.log('Searching ' + choice + ':' + text + '\nPage: ' + page + '\nPageSize: ' + size);
+
+        return this.http.get('/records/wrapperrec/universal/' + text + '?pageNumber=' + page + '&pageSize=' + size, options)
+            .map(response => response.json() as RecordsPageModel)
             .catch(this.handleError);
+
     }
 
 

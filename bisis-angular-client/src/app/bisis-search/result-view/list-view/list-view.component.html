@@ -1,4 +1,4 @@
-<p-dataList *ngIf="resultRecords.length > 0" [value]="resultRecords" [paginator]="true" [rows]="5">
+<p-dataList *ngIf="resultRecords.content != null && resultRecords.content.length > 0" [value]="resultRecords.content" [paginator]="true" [rows]="5">
   <p-header>
       <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})
   </p-header>

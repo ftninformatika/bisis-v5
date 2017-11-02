@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SelectItem} from "primeng/primeng";
 import {LibraryService} from "../service/library.service";
 import {TranslateService} from "@ngx-translate/core";
+import { RecordsPageModel } from './model/RecordsPageModel';
 
 @Component({
   selector: 'app-bisis-search',
@@ -12,7 +13,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class BisisSearchComponent implements OnInit {
 
 
-  searchResults: any[];
+  searchResults: RecordsPageModel;
   // Kada nam je prosledjena biblioteka kao parametar (na pr. /gbns_com)
   lib: string;
 
@@ -22,7 +23,7 @@ export class BisisSearchComponent implements OnInit {
 
 
   constructor(private route:ActivatedRoute, public router: Router, public libService: LibraryService,  private translate: TranslateService) {
-    this.searchResults = [];
+    this.searchResults = new RecordsPageModel();
     this.selectedLibrary = 'gbns_com';
     localStorage.setItem("libCode", "gbns_com");
     this.libList = [];
