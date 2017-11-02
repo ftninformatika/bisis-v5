@@ -4,13 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { RecordsPageModel } from '../model/RecordsPageModel';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import {MessageService} from "primeng/components/common/messageservice";
 
 @Injectable()
 export class BisisSearchService {
 
 
 
-    constructor(public http: Http) {
+    constructor(public http: Http, public messageService: MessageService) {
 
     }
 
@@ -33,6 +34,19 @@ export class BisisSearchService {
     }
 
     searchRecordsByEP(choice: string, text: string, page = 0, size = 20) {
+
+        console.log("odabrana bilioteka " + localStorage.getItem('libCode'));
+        if (localStorage.getItem('libCode') == undefined || localStorage.getItem('libCode') == null || localStorage.getItem('libCode') == ''){
+            this.messageService.clear();
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Грешка',
+                detail: 'Одаберите библиотеку!'
+            });
+            return;
+        }
+
+
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });

@@ -33,10 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/auth", "/memauth", "/coders/language", "/coders/lib_configurations", "/records/wrapperrec/**",
                         "/records/wrapperrec/universal", "/records/unimarc", "/records/query/**",
                         "/library_members/**").permitAll()
-
-                //.antMatchers("/records").hasAuthority("ROLE_ADMIN")
-                .anyRequest().hasAuthority("ROLE_ADMIN")
+                //.anyRequest().hasAuthority("ROLE_ADMIN")
                 //.anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new AuthenticationTokenFilter(tokenAuthenticationService),
                         UsernamePasswordAuthenticationFilter.class)

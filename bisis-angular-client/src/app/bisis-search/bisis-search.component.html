@@ -9,7 +9,9 @@
         {{ 'searchChoseLibText' | translate }}
       </div>
       <div class="ui-grid-col-6"  align="left">
-        <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event)"></p-dropdown>
+        <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event); selectionChanged()"></p-dropdown>
+          <p-multiSelect [options]="departmentList" [(ngModel)]="selectedDepartments"></p-multiSelect>
+
       </div>
       </div>
   </div>
