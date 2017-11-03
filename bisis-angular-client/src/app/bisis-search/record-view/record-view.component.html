@@ -141,12 +141,13 @@
             <p-fieldset [toggleable]="true" [collapsed]="true">
                 <p-header>{{ 'itemsTranslate' | translate }}</p-header>
                 <div class="ui-grid-row" align="left" *ngFor="let p of selectedRec.listOfItems">
-                    <!--div class="ui-grid-col-2"-->
-                    {{p.ctlgNo}} - <span *ngIf="p.borrowed == false "><font color="green"><b>{{ 'freeTranslate' | translate }}</b></font></span>
-                    <span *ngIf="p.borrowed == true"><font color="red"><b>{{ 'takenTranslate' | translate }}</b></font></span>
-                    Одељење:  <span *ngIf="p.libDepartmetnt != null"><b>{{p.libDepartment}}</b></span>
-                    <span *ngIf="p.libDepartmetnt == null"><b>Непознато</b></span>
-                    <!--/div-->
+                    {{p.ctlgNo}} -
+                    <span *ngIf="p.borrowed == false "><font color="green"><b> {{ 'freeTranslate' | translate }}</b></font></span>
+                    <span *ngIf="p.borrowed == true" style="margin-right: 27px;"><font color="red"><b> {{ 'takenTranslate' | translate }}</b></font></span>
+                    <div style="margin-left: 20px;"> Одељење:
+                        <span *ngIf="p.libDepartment != null"><b>{{ p.libDepartment }}</b></span>
+                        <span *ngIf="p.libDepartment == null" ><b>Непознато</b></span>
+                    </div>
                 </div>
             </p-fieldset>
         </div>
@@ -155,5 +156,9 @@
 
 <!-- Unimark prikaz-->
 <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'unimarc'" style="font-size:16px;text-align:left;padding:20px; border:1px solid #D5D5D5;">
-    <div class="ui-grid-col-12" *ngFor="let row of unimarcRows;">{{row}}</div>
+    <div class="ui-grid-col-12" *ngFor="let row of unimarcRows;"><b>{{row.name}}</b>&nbsp;<b>{{row.ind1}}{{row.ind2}}&nbsp;</b>
+        <ng-template ngFor let-xb [ngForOf]="row.subfields">
+            <b>{{xb.name}}</b>{{xb.content}}&nbsp;
+        </ng-template>
+    </div>
 </div>

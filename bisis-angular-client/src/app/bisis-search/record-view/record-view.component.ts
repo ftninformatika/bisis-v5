@@ -13,7 +13,7 @@ export class RecordViewComponent  {
   @Input() selectedRec: any;
   viewTypes: SelectItem[];
   selectedViewType: string;
-  unimarcRows: string[];
+  unimarcRows: any[];
   isPage: boolean;
 
 
@@ -63,26 +63,29 @@ export class RecordViewComponent  {
     var retVal = new Array();
 
     record.fields.forEach(element => {
-      var el = '';
-      el += element.name + ' ';
+      var el = {} ;
+      el['name'] =  element.name ;
+
       if (element.ind1 == undefined || element.ind1 == null || element.ind1 == ' ' || element.ind1 == '' ) {
-        el += '#';
+        el['ind1'] = '#';
       } else {
-        el += element.ind1;
+        el['ind1'] = element.ind1;
       }
       if (element.ind2 == undefined || element.ind2 == null || element.ind2 == ' ' || element.ind2 == '' ) {
-        el += '# ';
+        el['ind2'] = '#';
       } else {
-        el += element.ind2;
+        el['ind2'] = element.ind2;
       }
-
+      el['subfields'] = []
       element.subfields.forEach(e => {
-        el += '[' + e.name + ']' + e.content;
+        el['subfields'].push( {"name": ' [' + e.name + ']', "content": e.content});
+        //el['subfields']['content'] = e.content;
       });
        retVal.push(el);
 
     });
     this.unimarcRows = retVal;
+    console.log(this.unimarcRows);
   }
 
 }
