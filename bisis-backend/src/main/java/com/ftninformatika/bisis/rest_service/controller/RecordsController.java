@@ -356,6 +356,7 @@ public class RecordsController {
                 for (Record rec: lr){
                     Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
                     ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
+                    ee.getPrefixes().put("OD", rec.getDepartmentsString());
                     ep.add(ee);
                }
                 elasticRecordsRepository.save(ep);
@@ -369,6 +370,7 @@ public class RecordsController {
             for (Record rec: lr){
                 Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
+                ee.getPrefixes().put("OD", rec.getDepartmentsString());
                 ep.add(ee);
             }
             elasticRecordsRepository.save(ep);

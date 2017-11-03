@@ -1,7 +1,7 @@
 
 <p-dataTable #tableView   [value]="resultRecords.content"  [rows]="20" [paginator]="true" [pageLinks]="3"
 resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode="none"  (onLazyLoad)="loadRecordsLazy($event)"
-[rowsPerPageOptions]="[10,20,30]" reorderableColumns="true" (onRowClick)="tableView.toggleRow($event.data)">
+reorderableColumns="true" (onRowClick)="tableView.toggleRow($event.data)">
     <p-header><b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.totalElements}})</p-header>
     <p-column expander="true" styleClass="col-icon arrow-drop-down-circle" [style]="{'width':'43px'}" ></p-column>
     <p-column field="prefixEntity.prefixes.AU" header="{{ 'authorTranslate' | translate }}" [sortable]="true" ></p-column>

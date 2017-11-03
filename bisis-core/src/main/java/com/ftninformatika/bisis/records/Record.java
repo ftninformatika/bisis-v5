@@ -392,6 +392,34 @@ public class Record implements Serializable {
   		rec.getGodine().add(g.copy());
   	return rec;
   }
+
+  public List<String> getDepartments(){
+      List<String> retVal = new ArrayList<>();
+
+      if (this.getPrimerci() != null && this.getPrimerci().size() > 0){
+          for (Primerak p : this.getPrimerci()){
+              retVal.add(p.getOdeljenje());
+          }
+      }
+
+      if (this.getAllSveske() != null && this.getAllSveske().size() > 0){
+          for (Sveska s: this.getAllSveske()){
+              retVal.add(s.getParent().getOdeljenje());
+          }
+      }
+
+
+      return retVal;
+  }
+
+  public String getDepartmentsString(){
+      StringBuffer retVal = new StringBuffer();
+      Set<String> deps = new HashSet<>(this.getDepartments());
+      for (String d: deps){
+          retVal.append(d + " ");
+      }
+      return retVal.toString();
+  }
   
   /*
    * kopija zapisa bez polja
