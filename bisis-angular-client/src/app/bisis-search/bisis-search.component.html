@@ -17,5 +17,5 @@
   </div>
 </div>
 <app-search-form #bisisSearchForm (serviceCallResult)='setRecords($event)'
-                 [lib]=lib [selectedLibrary]=selectedLibrary></app-search-form>
+                 [lib]=lib [selectedLibrary]=selectedLibrary [selectedDeps]=selectedDepartments ></app-search-form>
 <app-result-view [data]=searchResults ></app-result-view>

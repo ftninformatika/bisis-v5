@@ -2,6 +2,7 @@ package com.ftninformatika.util.elastic;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.bisis.search.UniversalSearchModel;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -41,10 +42,22 @@ public class ElasticUtility {
         return retVal;
     }
 
-    /*public static BoolQueryBuilder searchUniversalQuery(String text) {
+    public static BoolQueryBuilder searchUniversalQuery(UniversalSearchModel universalSearchModel) {
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
-        retVal.must()
-    }*/
+
+        if (universalSearchModel.getSearchText() != null && ! "".equals(universalSearchModel.getSearchText())){
+            retVal.must(QueryBuilders.simpleQueryStringQuery(universalSearchModel.getSearchText()));
+
+        }
+
+        if (universalSearchModel.getDepartments() != null && universalSearchModel.getDepartments().size() > 0){
+            for (String dep :universalSearchModel.getDepartments()){
+                retVal.must(QueryBuilders.matchQuery("prefixes.OD", dep));
+            }
+        }
+
+        return retVal;
+    }
 
     //formiranje Query-ja za glavnu pretragu zapisa
     public static BoolQueryBuilder makeQuery(SearchModel sm){

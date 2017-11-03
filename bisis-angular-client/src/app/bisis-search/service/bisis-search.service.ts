@@ -33,7 +33,7 @@ export class BisisSearchService {
             .catch(this.handleError);
     }
 
-    searchRecordsByEP(choice: string, text: string, page = 0, size = 20) {
+    searchRecordsByEP(choice: string, text: string, departments: string[], page = 0, size = 20) {
 
         console.log("odabrana bilioteka " + localStorage.getItem('libCode'));
         if (localStorage.getItem('libCode') == undefined || localStorage.getItem('libCode') == null || localStorage.getItem('libCode') == ''){
@@ -52,7 +52,14 @@ export class BisisSearchService {
         const options = new RequestOptions({ headers: headers });
         console.log('Searching ' + choice + ':' + text + '\nPage: ' + page + '\nPageSize: ' + size);
 
-        return this.http.get('/records/wrapperrec/universal/' + text + '?pageNumber=' + page + '&pageSize=' + size, options)
+        var universalSearchModel = {
+            "searchText": text,
+            "departments": departments
+
+        };
+
+
+        return this.http.post('/records/wrapperrec/universal?pageNumber=' + page + '&pageSize=' + size, universalSearchModel , options)
             .map(response => response.json() as RecordsPageModel)
             .catch(this.handleError);
 

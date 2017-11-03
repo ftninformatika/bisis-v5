@@ -392,8 +392,8 @@ public class Record implements Serializable {
   		rec.getGodine().add(g.copy());
   	return rec;
   }
-
-  public List<String> getDepartments(){
+@JsonIgnore
+  public Set<String> getDepartments(){
       List<String> retVal = new ArrayList<>();
 
       if (this.getPrimerci() != null && this.getPrimerci().size() > 0){
@@ -407,15 +407,13 @@ public class Record implements Serializable {
               retVal.add(s.getParent().getOdeljenje());
           }
       }
-
-
-      return retVal;
+      return new HashSet<>(this.getDepartments());
   }
 
+  @JsonIgnore
   public String getDepartmentsString(){
       StringBuffer retVal = new StringBuffer();
-      Set<String> deps = new HashSet<>(this.getDepartments());
-      for (String d: deps){
+      for (String d: this.getDepartments()){
           retVal.append(d + " ");
       }
       return retVal.toString();

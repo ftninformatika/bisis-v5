@@ -10,8 +10,10 @@ import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRe
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import org.apache.commons.collections.IteratorUtils;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -167,11 +169,14 @@ public class RecordsController {
         }
     }
 
-    @RequestMapping(value = "/wrapperrec/universal/{text}", method = RequestMethod.GET)
-    public Page<RecordResponseWrapper> getRecordsUniversalWrapper(@PathVariable String text,  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
-            ,@RequestParam(value = "pageSize", required = false) final Integer pageSize){
+    @RequestMapping(value = "/wrapperrec/universal", method = RequestMethod.POST)
+    public Page<RecordResponseWrapper> getRecordsUniversalWrapper(@RequestBody UniversalSearchModel universalSearchModel, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
+            , @RequestParam(value = "pageSize", required = false) final Integer pageSize){
+
+
+
         List<RecordResponseWrapper> retVal = new ArrayList<>();
-        SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
+        BoolQueryBuilder query = ElasticUtility.searchUniversalQuery(universalSearchModel);
         int page=0;
         int pSize =20;
 
@@ -193,7 +198,8 @@ public class RecordsController {
                 }
         );
 
-        return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>)iRecs).getTotalElements());
+        Page<RecordResponseWrapper> rr = new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>)iRecs).getTotalElements());
+        return rr;
     }
 
 

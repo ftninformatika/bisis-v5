@@ -8,6 +8,9 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Petar on 7/13/2017.
  */
@@ -36,6 +39,8 @@ public class SearchModel {
     private String oper4;
     //sortiranje
     private String sort;
+
+    private List<String> departments = new ArrayList<>();
 
     @Override
     public String toString(){

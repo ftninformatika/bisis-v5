@@ -16,7 +16,8 @@ export class SearchFormComponent implements OnInit {
 
   @Input() lib: string;
   @Input() selectedLibrary: string;
-  @Output() serviceCallResult: EventEmitter<any> = new EventEmitter();
+  @Input() selectedDeps: string[];
+  @Output() serviceCallResult: EventEmitter<RecordsPageModel> = new EventEmitter();
   // 1st Form
   searchText1: string;
   // 2nd Form
@@ -71,7 +72,7 @@ export class SearchFormComponent implements OnInit {
     if (!this.validateQuery(choice, text)) {
       return;
     }
-    this.bisisService.searchRecordsByEP(choice, text)
+    this.bisisService.searchRecordsByEP(choice, text, this.selectedDeps)
     .subscribe(    // ovo postoji zbog paginga i sortiga u drugim komponentama
       response => {response['query'] = text ;this.serviceCallResult.emit(response)},
       error => console.log(error)
