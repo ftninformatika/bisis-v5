@@ -18,13 +18,13 @@
             <p-tabPanel header="{{ 'searchFormAdvancedTab' | translate }}">
                 <div class="ui-g form-group ui-fluid">
 
-                    <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
+                    <div class="ui-g-12 ui-md-4 ui-lg-4"  align="center" style="border-right: solid 1px #989898;">
                         <label><b>{{ 'searchAdvancedPrefix' | translate }}</b></label>
                     </div>
-                    <div class="ui-g-12 ui-md-4 ui-lg-4" align="center">
+                    <div class="ui-g-12 ui-md-4 ui-lg-4"  align="center" style="border-right: solid 1px #989898;">
                         <label><b>{{ 'searchAdvancedText' | translate }}</b></label>
                     </div>
-                    <div class="ui-g-12 ui-md-4 ui-lg-4">
+                    <div class="ui-g-12 ui-md-4 ui-lg-4"  align="center" >
                         <label><b>{{ 'searchAdvancedBinding' | translate }}</b></label>
                     </div>
 
@@ -35,8 +35,8 @@
                         <input *ngIf="coder[0] == false" type="text" [(ngModel)]="text[0]" pInputText >
                         <p-dropdown *ngIf="coder[0] == true" [options]="coderValues[0]" [style]="{'width':'100%'}" [(ngModel)]="text[0]"></p-dropdown>
                     </div>
-                    <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <p-dropdown [options]="bondings" [style]="{'width':'30%'}" [(ngModel)]="bonding1"></p-dropdown>
+                    <div class="ui-g-12 ui-md-4 ui-lg-4" >
+                        <p-dropdown [options]="bondings" [style]="{'width':'30%'}" [(ngModel)]="bonding1" ></p-dropdown>
                     </div>
 
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
@@ -84,7 +84,7 @@
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <button icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="{{ 'searchFormSearchBtn' | translate }}" (click)="searchAdvanced(text[0],text[1],text[2],text[3],text[4],prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4)"></button>
+                        <button [disabled]="lib == undefined && (selectedLibrary == null || selectedLibrary == undefined || selectedLibrary == '')" icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="{{ 'searchFormSearchBtn' | translate }}" (click)="searchAdvanced(text[0],text[1],text[2],text[3],text[4],prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4)"></button>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
                     </div>

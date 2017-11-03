@@ -105,30 +105,45 @@ export class SearchFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  searchAdvanced(text1,text2,text3,text4,text5,prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4, selectedDeps) {
-    var searchModel = {
-      pref1: prefix1,
-      pref2: prefix2,
-      pref3: prefix3,
-      pref4: prefix4,
-      pref5: prefix5,
-      text1: text1,
-      text2: text2,
-      text3: text3,
-      text4: text4,
-      text5: text5,
-      oper1: bonding1,
-      oper2: bonding2,
-      oper3: bonding3,
-      oper4: bonding4,
-      departments: this.selectedDeps
-    };
-    this.bisisService.searchRecordsAdvanced(searchModel)
-        .subscribe(
-            response => { response['searchModel'] = searchModel; this.serviceCallResult.emit(response)},
-            error => console.log(error)
-        );
-    console.log(searchModel);
+  searchAdvanced(text1,text2,text3,text4,text5,prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4, selectedDeps = null) {
+    console.log("biliooo" + localStorage.getItem('libCode'));
+    if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary == '') {
+      this.messageService.clear();
+      this.messageService.add({
+        severity: 'warning',
+        summary: 'Упозорење',
+        detail: 'Одаберите библиотеку!'
+      });
+      return;
+    }
+    else {
+      var searchModel = {
+        pref1: prefix1,
+        pref2: prefix2,
+        pref3: prefix3,
+        pref4: prefix4,
+        pref5: prefix5,
+        text1: text1,
+        text2: text2,
+        text3: text3,
+        text4: text4,
+        text5: text5,
+        oper1: bonding1,
+        oper2: bonding2,
+        oper3: bonding3,
+        oper4: bonding4,
+        departments: this.selectedDeps
+      };
+      this.bisisService.searchRecordsAdvanced(searchModel)
+          .subscribe(
+              response => {
+                response['searchModel'] = searchModel;
+                this.serviceCallResult.emit(response)
+              },
+              error => console.log(error)
+          );
+      console.log(searchModel);
+    }
   }
 
   constructor( public bisisService: BisisSearchService, public libraryService: LibraryService, public messageService: MessageService) {
