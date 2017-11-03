@@ -19,8 +19,8 @@ public class CorporateMemberController {
         return corporateMemberRepository.findByUserId(userId);
     }
 
-    @RequestMapping( method = RequestMethod.POST)
-    public boolean getCorporateMemberById(@RequestBody CorporateMember corporateMember){
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public boolean saveCorporateMemberById(@RequestBody CorporateMember corporateMember){
         return corporateMemberRepository.save(corporateMember) != null;
     }
 
