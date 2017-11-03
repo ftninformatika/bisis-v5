@@ -16,6 +16,6 @@
 
 <label *ngIf="resultRecords==undefined || resultRecords.length <=0 "><h2><br>Нема резултата претраге!</h2></label>
 
-<p-dialog header="{{ 'searchResultsDetailsHeader' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="800" (onAfterHide)="onDialogHide()">
+<p-dialog header="{{ 'searchResultsDetailsHeader' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="860" (onAfterHide)="onDialogHide()">
     <app-record-view  [selectedRec]='selectedRec'></app-record-view>
 </p-dialog>

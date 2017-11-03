@@ -105,6 +105,12 @@ public class ElasticUtility {
                 if ( "NOT".equals(sm.getOper4()))
                     retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref5(), sm.getText5()));
             }
+
+            if (sm.getDepartments() != null && sm.getDepartments().size() > 0){
+                for (String dep :sm.getDepartments()){
+                    retVal.must(QueryBuilders.matchQuery("prefixes.OD", dep));
+                }
+            }
         }
         catch (NullPointerException e){
             e.printStackTrace();

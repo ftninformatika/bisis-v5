@@ -31,7 +31,7 @@ export class ScrollerViewComponent implements OnInit {
     var size = 20;
 
     if (this.resultRecords['query'] != undefined) { //univerzalna pretraga
-        this.bisisService.searchRecordsByEP('universal', this.resultRecords['query'],  page, size).subscribe(
+        this.bisisService.searchRecordsByEP('universal', this.resultRecords['query'], this['deps'],  page, size).subscribe(
             response => {
                 var responseObject = this.createInstanceFromJson(RecordsPageModel, response);
                 if (this.resultRecords.content.length < 200){

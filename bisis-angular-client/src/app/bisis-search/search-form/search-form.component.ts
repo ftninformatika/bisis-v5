@@ -74,7 +74,7 @@ export class SearchFormComponent implements OnInit {
     }
     this.bisisService.searchRecordsByEP(choice, text, this.selectedDeps)
     .subscribe(    // ovo postoji zbog paginga i sortiga u drugim komponentama
-      response => {response['query'] = text ;this.serviceCallResult.emit(response)},
+      response => {response['query'] = text; response['deps'] = this.selectedDeps;this.serviceCallResult.emit(response)},
       error => console.log(error)
     );
   }
@@ -100,7 +100,7 @@ export class SearchFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  searchAdvanced(text1,text2,text3,text4,text5,prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4) {
+  searchAdvanced(text1,text2,text3,text4,text5,prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4, selectedDeps) {
     var searchModel = {
       pref1: prefix1,
       pref2: prefix2,
@@ -115,7 +115,8 @@ export class SearchFormComponent implements OnInit {
       oper1: bonding1,
       oper2: bonding2,
       oper3: bonding3,
-      oper4: bonding4
+      oper4: bonding4,
+      departments: this.selectedDeps
     };
     this.bisisService.searchRecordsAdvanced(searchModel)
         .subscribe(
