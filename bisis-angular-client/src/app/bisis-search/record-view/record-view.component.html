@@ -59,8 +59,8 @@
                         <span *ngIf="p.borrowed == false "><font color="green"><b> {{ 'freeTranslate' | translate }}</b></font></span>
                         <span *ngIf="p.borrowed == true" style="margin-right: 27px;"><font color="red"><b> {{ 'takenTranslate' | translate }}</b></font></span>
                        <div style="margin-left: 20px;"> Одељење:
-                        <span *ngIf="p.libDepartment != null"><b>{{ p.libDepartment }}</b></span>
-                        <span *ngIf="p.libDepartment == null"><b>Непознато</b></span>
+                            <span *ngIf="p.libDepartment != null"><b>{{ p.libDepartment }}</b></span>
+                            <span *ngIf="p.libDepartment == null" ><b>Непознато</b></span>
                        </div>
                     </div>
                 </p-fieldset>

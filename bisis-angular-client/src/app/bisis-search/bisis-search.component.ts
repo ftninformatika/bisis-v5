@@ -30,6 +30,7 @@ export class BisisSearchComponent implements OnInit {
     this.searchResults = new RecordsPageModel();
     //this.selectedLibrary = 'gbns_com';
     localStorage.setItem("libCode", null);
+    this.departmentList = [];
     this.libList = [];
     this.libList.push({label:'Одаберите библиотеку', value: null});
     this.libList.push({label:'Градска библиотека Нови Сад', value:'gbns_com'});
