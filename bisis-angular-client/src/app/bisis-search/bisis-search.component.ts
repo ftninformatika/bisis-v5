@@ -26,8 +26,10 @@ export class BisisSearchComponent implements OnInit {
   selectedLibrary: string;
 
 
+
   constructor(private route:ActivatedRoute, public router: Router, public libService: LibraryService,  private translate: TranslateService) {
     this.searchResults = new RecordsPageModel();
+    //this.choose = {label:'Одаберите библиотеку', value: null};
     //this.selectedLibrary = 'gbns_com';
     localStorage.setItem("libCode", null);
     this.departmentList = [];
@@ -66,6 +68,8 @@ export class BisisSearchComponent implements OnInit {
 
 
   selectionChanged(){
+      this.departmentList = [];
+      this.selectedDepartments = [];
     if (this.selectedLibrary == undefined || this.selectedLibrary == null)
       return
 
@@ -73,7 +77,7 @@ export class BisisSearchComponent implements OnInit {
 
     this.libService.getDepartmentsForLib(this.selectedLibrary).subscribe(
         response => {
-          this.departmentList = [];
+
           console.log(response);
           arrayify(response).forEach(
               d => {

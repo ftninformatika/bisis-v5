@@ -5,6 +5,7 @@ import {LibraryService} from "../../service/library.service";
 import {forEach} from "@angular/router/src/utils/collection";
 import {arrayify} from "tslint/lib/utils";
 import {RecordsPageModel} from "../model/RecordsPageModel";
+import {MessageService} from "primeng/components/common/messageservice";
 
 
 @Component({
@@ -90,8 +91,12 @@ export class SearchFormComponent implements OnInit {
   private validateQuery(choice, text): boolean {
     if (text === '' || text === undefined || text === null || (choice != 'universal'
         && choice != 'author' && choice != 'title' && choice != 'keyword' )) {
-      console.log('Query error');
-      console.log('SearchBy ' + choice + ':' + text);
+      this.messageService.clear();
+      this.messageService.add({
+        severity: 'warning',
+        summary: 'Упозорење',
+        detail: 'Унесите текст претраге!'
+      });
       return false;
     }
     return true;
@@ -126,7 +131,7 @@ export class SearchFormComponent implements OnInit {
     console.log(searchModel);
   }
 
-  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService) {
+  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService, public messageService: MessageService) {
       this.populateAdvancedFormCombos();
 
   }
