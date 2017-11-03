@@ -29,7 +29,7 @@ export class LibraryService {
     }
 
     getDepartmentsForLib(libName){
-        libName = "gbns"; //TODO - hardkodirano zbog losih podataka u bazi trenutno
+
         return this.http.get('coders/location?libName=' + libName)
             .map( response => response.json())
             .catch(this.handleError);

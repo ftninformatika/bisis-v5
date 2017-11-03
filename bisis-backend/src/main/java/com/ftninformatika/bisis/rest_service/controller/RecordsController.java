@@ -258,7 +258,7 @@ public class RecordsController {
         }
   }
 
-  /*@RequestMapping(value = "/query", method = RequestMethod.POST )
+  @RequestMapping(value = "/query", method = RequestMethod.POST )
   public ResponseEntity<List<Record>> search(@RequestBody SearchModel search ,  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
           ,@RequestParam(value = "pageSize", required = false) final Integer pageSize){
       ArrayList<Record> retVal = new ArrayList<>();
@@ -272,7 +272,7 @@ public class RecordsController {
       retVal = (ArrayList<Record>) recordsRepository.findAll(ids);
 
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
-  }*/
+  }
 
     @RequestMapping(value = "/query/full", method = RequestMethod.POST )
     public Page<RecordResponseWrapper> searchFull(@RequestBody SearchModel search,  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber

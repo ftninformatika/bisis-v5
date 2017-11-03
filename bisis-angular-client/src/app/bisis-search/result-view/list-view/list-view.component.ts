@@ -16,7 +16,7 @@ export class ListViewComponent implements OnInit {
   ngOnInit() {
   }
 
-  selectRecord(event) {
+  selectRec(event) {
     this.selectedRec = event;
     this.displayDialog = true;
   }

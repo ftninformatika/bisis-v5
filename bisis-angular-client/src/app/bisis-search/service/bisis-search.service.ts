@@ -60,13 +60,13 @@ export class BisisSearchService {
 
 
 
-    searchRecordsAdvanced(searchModel): Observable<any[]> {
+    searchRecordsAdvanced(searchModel, page = 0, size = 20): Observable<RecordsPageModel> {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         console.log(localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
-            return this.http.post('/records/query/full',searchModel, options)
-              .map(response =>  response.json())
+            return this.http.post('/records/query/full?pageNumber=' + page + '&pageSize=' + size,searchModel, options)
+              .map(response =>  response.json() as RecordsPageModel)
               .catch(this.handleError);
     }
 

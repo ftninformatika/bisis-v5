@@ -2,13 +2,13 @@
   <p-header>
       <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.length}})
   </p-header>
-  <ng-template let-rec pTemplate="item">
-      <div class="ui-g ui-fluid car-item">
-          <div class="ui-g-12 ui-md-1" style="text-align:center">
-                <i class="fa fa-search" (click)="selectRecord(rec)" style="cursor:hand;float:right;margin-top:40px">
-                </i>
-          </div>
-          <div class="ui-g-12 ui-md-11 car-details" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
+  <ng-template let-rec pTemplate="item" >
+      <div class="ui-g ui-fluid car-item" (click)="selectRec(rec)" style="cursor: pointer;">
+          <!--<div class="ui-g-12 ui-md-1" style="text-align:center">-->
+                <!--<i class="fa fa-search"  style="cursor:hand;float:right;margin-top:40px">-->
+                <!--</i>-->
+          <!--</div>-->
+          <div class="ui-g-12 ui-md-11 car-details" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5"   >
                 
                <div class="ui-g">
                    <div class="ui-g-2 ui-sm-6"><b>{{ 'titleTranslate' | translate }}:</b> </div>

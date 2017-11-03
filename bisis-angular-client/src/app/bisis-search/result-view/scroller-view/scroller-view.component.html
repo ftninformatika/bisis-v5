@@ -3,9 +3,9 @@
      <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.totalElements}})
   </p-header>
   <ng-template let-rec pTemplate="item">
-      <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5">
+      <div class="ui-grid ui-grid-responsive ui-fluid" (click)="selectRec(rec)" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5; cursor: pointer;">
           <div class="ui-grid-row">
-              <div class="ui-grid-col-1"><i class="fa fa-search" (click)="selectRec(rec)" style="cursor:pointer;float:left;margin-top:40px"></i></div>
+              <div class="ui-grid-col-1"><i class="fa fa-search"  style="cursor:pointer;float:left;margin-top:40px"></i></div>
               <div class="ui-grid-col-11">
 
                   <div class="ui-grid ui-grid-responsive ui-fluid">

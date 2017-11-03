@@ -4,6 +4,7 @@ import {SelectItem} from 'primeng/primeng';
 import {LibraryService} from "../../service/library.service";
 import {forEach} from "@angular/router/src/utils/collection";
 import {arrayify} from "tslint/lib/utils";
+import {RecordsPageModel} from "../model/RecordsPageModel";
 
 
 @Component({
