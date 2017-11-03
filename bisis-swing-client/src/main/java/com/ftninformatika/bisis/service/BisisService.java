@@ -3,11 +3,10 @@ package com.ftninformatika.bisis.service;
 /**
  * Created by Petar on 6/20/2017.
  */
-import com.ftninformatika.bisis.librarian.ProcessType;
+
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.models.circ.*;
 import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.models.coders.*;
@@ -15,10 +14,9 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.google.gson.JsonObject;
-import okhttp3.RequestBody;
-import retrofit2.http.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.*;
 
 import java.util.Date;
 import java.util.List;
@@ -262,7 +260,7 @@ public interface BisisService {
     @GET("circ_location/lastUserId")
     Call<Integer> getLastUserId(@Query("location") Integer location);
 
-    @POST("/corporate_members")
+    @POST("/corporate_members/save")
     Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
 
     @GET("itemAvailabilities/getByCtlgNo")
