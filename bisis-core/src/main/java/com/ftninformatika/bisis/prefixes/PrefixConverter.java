@@ -17,6 +17,21 @@ public class PrefixConverter {
     return retVal;
   }
 
+  /*public static Map<String, List<String>> toMap(Record rec, String stRashod) { ??
+    HashMap<String, List<String>> retVal = new HashMap<>();
+    List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
+    for (PrefixValue pv: prefixes) {
+      if(retVal.containsKey(pv.prefName))
+        retVal.get(pv.prefName).add(pv.value);
+      else{
+        retVal.put(pv.prefName, new ArrayList<>());
+        retVal.get(pv.prefName).add(pv.value);
+      }
+      //retVal.put(pv.prefName, pv.value);
+    }
+    return retVal;
+  }*/
+
   public static List<PrefixValue> toPrefixes(Record rec, String stRashod) {
     List<PrefixValue> retVal = new ArrayList<>();
     int brRashod = 0;
