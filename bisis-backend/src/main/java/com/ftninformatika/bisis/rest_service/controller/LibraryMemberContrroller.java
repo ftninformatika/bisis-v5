@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.models.circ.LibraryMember;
-import com.ftninformatika.bisis.models.circ.PasswordResetDTO;
+import com.ftninformatika.bisis.models.circ.pojo.PasswordResetDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

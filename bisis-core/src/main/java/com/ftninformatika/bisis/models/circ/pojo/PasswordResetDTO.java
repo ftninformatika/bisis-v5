@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.models.circ;
+package com.ftninformatika.bisis.models.circ.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

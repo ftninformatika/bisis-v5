@@ -407,11 +407,13 @@ public class Record implements Serializable {
               retVal.add(s.getParent().getOdeljenje());
           }
       }
-      return new HashSet<>(this.getDepartments());
+      return new HashSet<>(retVal);
   }
 
   @JsonIgnore
   public String getDepartmentsString(){
+
+
       StringBuffer retVal = new StringBuffer();
       for (String d: this.getDepartments()){
           retVal.append(d + " ");
