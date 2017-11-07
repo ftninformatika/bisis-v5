@@ -28,7 +28,7 @@ export class TableViewComponent implements OnInit {
 
   loadRecordsLazy(event: LazyLoadEvent){
     console.log(event);
-/*
+
     if (this.resultRecords.content == undefined)
       return;
 
@@ -40,12 +40,14 @@ export class TableViewComponent implements OnInit {
           response => {
             //var responseObject = this.createInstanceFromJson(RecordsPageModel, response);
             if (this.resultRecords.content.length < 200){
-              this.resultRecords.content = this.resultRecords.content.concat(response['content']);
+              //this.resultRecords.content = this.resultRecords.content.concat(response['content']);
+              this.resultRecords.content = [];
+              this.resultRecords.content = response['content'];
             }
 
           }
       );
-    }*/
+    }
   }
 
   createInstanceFromJson<T>(objType: { new(): T; }, json: any) {

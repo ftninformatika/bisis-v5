@@ -1,5 +1,5 @@
 
-<p-dataTable #tableView   [value]="resultRecords.content"  [rows]="20" [paginator]="true" [pageLinks]="3" (onLazyLoad)="loadRecordsLazy($event)"
+<p-dataTable #tableView   [value]="resultRecords.content"  [rows]="20" [paginator]="true" [pageLinks]="3" [lazy]="true" (onLazyLoad)="loadRecordsLazy($event)"
 resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode="none"  [totalRecords]="resultRecords.totalElements"
 reorderableColumns="true" (onRowClick)="tableView.toggleRow($event.data)">
     <p-header><b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.totalElements}})</p-header>

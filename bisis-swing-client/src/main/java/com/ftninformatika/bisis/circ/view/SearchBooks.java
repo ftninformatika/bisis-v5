@@ -707,7 +707,7 @@ public class SearchBooks {
 		  String oper2 = getCmbOper2().getSelectedItem().toString().toUpperCase();
 		  String oper3 = getCmbOper3().getSelectedItem().toString().toUpperCase();
 		  String oper4 = getCmbOper4().getSelectedItem().toString().toUpperCase();
-		  SearchModel searchModel= new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,"TI_sort");
+		  SearchModel searchModel= new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,"TI_sort", null);
 
 		  List list = null;
 		  if (tfStartDateL.getDate() != null || tfStartDateR.getDate() != null){
