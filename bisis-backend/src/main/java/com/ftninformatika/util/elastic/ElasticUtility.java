@@ -9,7 +9,9 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Petar on 7/17/2017.
@@ -63,7 +65,6 @@ public class ElasticUtility {
     public static BoolQueryBuilder makeQuery(SearchModel sm){
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
 
-
         try {
             if (sm.getText1() != null && !"".equals(sm.getText1()))
                 retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref1(), sm.getText1()));
@@ -115,6 +116,8 @@ public class ElasticUtility {
         catch (NullPointerException e){
             e.printStackTrace();
         }
+//        List list = Arrays.asList("01000091953", "01000098221");
+//        retVal.filter(QueryBuilders.termsQuery("prefixes.IN", list));
 
         return retVal;
     }

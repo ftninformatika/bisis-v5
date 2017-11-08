@@ -251,7 +251,7 @@ public class RecordsController {
             //insert record in mongodb via MongoRepository
             Record savedRecord = recordsRepository.save(record);
             //convert record to suitable prefix-json for elasticsearch
-            Map<String, String> prefixes = PrefixConverter.toMap(record, null);
+            Map<String, List<String>> prefixes = PrefixConverter.toMap(record, null);
             ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id().toString(), prefixes);
             //save and index posted element via ElasticsearchRepository
             elasticRecordsRepository.save(ee);
@@ -360,9 +360,10 @@ public class RecordsController {
             while (lr.hasNext() ){
                 List<ElasticPrefixEntity> ep = new ArrayList<>();
                 for (Record rec: lr){
-                    Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
+                    Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
                     ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
-                    ee.getPrefixes().put("OD", rec.getDepartmentsString());
+                    //ee.getPrefixes().put("OD", rec.getDepartmentsString()); glupo
+                    //TODO ubacili listu odeljenja umesto stringa sa spejsovima
                     ep.add(ee);
                }
                 elasticRecordsRepository.save(ep);
@@ -374,9 +375,10 @@ public class RecordsController {
             // resto
             List<ElasticPrefixEntity> ep = new ArrayList<>();
             for (Record rec: lr){
-                Map<String, String> prefixes = PrefixConverter.toMap(rec, null);
+                Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
-                ee.getPrefixes().put("OD", rec.getDepartmentsString());
+                //ee.getPrefixes().put("OD", rec.getDepartmentsString());
+                //TODO isto kao gore
                 ep.add(ee);
             }
             elasticRecordsRepository.save(ep);

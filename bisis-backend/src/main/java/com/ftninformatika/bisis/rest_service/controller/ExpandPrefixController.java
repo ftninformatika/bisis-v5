@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
+import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -30,7 +31,7 @@ public class ExpandPrefixController {
     RecordsRepository recordsRepository;
 
     @Autowired
-    ElasticsearchRepository elasticsearchRepository;
+    ElasticRecordsRepository elasticsearchRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getExpandPrefix(@Param("prefix") String prefix, @Param("text") String text) {
@@ -40,8 +41,9 @@ public class ExpandPrefixController {
         Iterable<ElasticPrefixEntity> ii = elasticsearchRepository.search(ElasticUtility.makeExpandQuery(prefix,text));
 
         for (ElasticPrefixEntity ep: ii) {
-            if (!retVal.contains(ep.getPrefixes().get(prefix)))
-                retVal.add(ep.getPrefixes().get(prefix));
+            //if (!retVal.contains(ep.getPrefixes().get(prefix)))
+                //retVal.add(ep.getPrefixes().get(prefix));
+                //TODO
         }
         return new ResponseEntity<List<String>>(retVal, HttpStatus.OK);
     }

@@ -8,29 +8,32 @@ import java.util.*;
 
 public class PrefixConverter {
 
-  public static Map<String, String> toMap(Record rec, String stRashod) {
-    HashMap<String, String> retVal = new HashMap<>();
-    List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
-    for (PrefixValue pv: prefixes) {
-      retVal.put(pv.prefName, pv.value);
-    }
-    return retVal;
-  }
+//  public static Map<String, String> toMap(Record rec, String stRashod) {
+//    HashMap<String, String> retVal = new HashMap<>();
+//    List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
+//    for (PrefixValue pv: prefixes) {
+//      retVal.put(pv.prefName, pv.value);
+//    }
+//    return retVal;
+//  }
 
-  /*public static Map<String, List<String>> toMap(Record rec, String stRashod) { ??
+  public static Map<String, List<String>> toMap(Record rec, String stRashod) {
     HashMap<String, List<String>> retVal = new HashMap<>();
     List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
     for (PrefixValue pv: prefixes) {
-      if(retVal.containsKey(pv.prefName))
-        retVal.get(pv.prefName).add(pv.value);
-      else{
-        retVal.put(pv.prefName, new ArrayList<>());
-        retVal.get(pv.prefName).add(pv.value);
+      if (retVal.containsKey(pv.prefName)){
+        List list = retVal.get(pv.prefName);
+        if (!list.contains(pv.value)) {
+          retVal.get(pv.prefName).add(pv.value);
+        }
+      } else {
+        List list = new ArrayList<>();
+        list.add(pv.value);
+        retVal.put(pv.prefName, list);
       }
-      //retVal.put(pv.prefName, pv.value);
     }
     return retVal;
-  }*/
+  }
 
   public static List<PrefixValue> toPrefixes(Record rec, String stRashod) {
     List<PrefixValue> retVal = new ArrayList<>();
