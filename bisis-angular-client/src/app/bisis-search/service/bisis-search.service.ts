@@ -33,7 +33,7 @@ export class BisisSearchService {
             .catch(this.handleError);
     }
 
-    searchRecordsByEP(choice: string, text: string, departments: string[], page = 0, size = 20) {
+    searchRecordsByEP(choice: string, text: string, departments: string[], page = 0, size = 1000) {
 
         console.log("odabrana bilioteka " + localStorage.getItem('libCode'));
         if (localStorage.getItem('libCode') == undefined || localStorage.getItem('libCode') == null || localStorage.getItem('libCode') == ''){

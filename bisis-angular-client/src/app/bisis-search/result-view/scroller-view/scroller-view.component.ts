@@ -25,7 +25,7 @@ export class ScrollerViewComponent implements OnInit {
   ngOnInit() {
   }
 
-  lazyLoadRecords(event){
+  /*lazyLoadRecords(event){
 
     var page = this.resultRecords.content.length / 20;
     var size = 20;
@@ -42,7 +42,7 @@ export class ScrollerViewComponent implements OnInit {
         );
     }
 
-  }
+  }*/
 
     createInstanceFromJson<T>(objType: { new(): T; }, json: any) {
         const newObj = new objType();

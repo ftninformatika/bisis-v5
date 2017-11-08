@@ -26,7 +26,7 @@ export class TableViewComponent implements OnInit {
     console.log(this.selectedRec);
   }
 
-  loadRecordsLazy(event: LazyLoadEvent){
+  /*loadRecordsLazy(event: LazyLoadEvent){
     console.log(event);
 
     if (this.resultRecords.content == undefined)
@@ -48,7 +48,7 @@ export class TableViewComponent implements OnInit {
           }
       );
     }
-  }
+  }*/
 
   createInstanceFromJson<T>(objType: { new(): T; }, json: any) {
     const newObj = new objType();

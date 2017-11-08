@@ -21,7 +21,7 @@ public class CircConfigController {
     CircConfigRepository circLocationRepository;
 
     @RequestMapping( value = "/save", method = RequestMethod.POST )
-    public CircConfig save(CircConfig circConfig){
+    public CircConfig save(@RequestBody CircConfig circConfig){
         return  circLocationRepository.save(circConfig);
     }
 }

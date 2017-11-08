@@ -6,6 +6,7 @@ import {TranslateService} from "@ngx-translate/core";
 import { RecordsPageModel } from './model/RecordsPageModel';
 import {MultiSelectModule} from 'primeng/primeng';
 import {arrayify} from "tslint/lib/utils";
+import {MessageService} from "primeng/components/common/messageservice";
 
 @Component({
   selector: 'app-bisis-search',
@@ -27,7 +28,8 @@ export class BisisSearchComponent implements OnInit {
 
 
 
-  constructor(private route:ActivatedRoute, public router: Router, public libService: LibraryService,  private translate: TranslateService) {
+  constructor(private route:ActivatedRoute, public router: Router, public libService: LibraryService,  private translate: TranslateService,
+  private messageService: MessageService) {
     this.searchResults = new RecordsPageModel();
     //this.choose = {label:'Одаберите библиотеку', value: null};
     //this.selectedLibrary = 'gbns_com';
@@ -90,6 +92,14 @@ export class BisisSearchComponent implements OnInit {
 
   setRecords(event) {
     this.searchResults = event;
+      if (this.searchResults.totalElements > 1000) {
+          this.messageService.clear();
+          this.messageService.add({
+              severity: 'warning',
+              summary: 'Упозорење',
+              detail: 'Превелик скуп погодака, враћено 1000 од' + this.searchResults.totalElements + '! Формулишите бољи упит. '
+          });
+      }
     console.log(this.searchResults);
   }
 

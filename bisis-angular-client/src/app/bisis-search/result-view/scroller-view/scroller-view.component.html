@@ -1,4 +1,4 @@
-<p-dataScroller  [value]="resultRecords.content" [rows]="20" [inline]="true" scrollHeight="500px" [lazy]="true"  (onLazyLoad)="lazyLoadRecords($event)">
+<p-dataScroller  [value]="resultRecords.content" [rows]="20" [inline]="true" scrollHeight="500px" >
   <p-header>
      <b>{{ 'searchResultsText' | translate }}</b> ({{resultRecords.totalElements}})
   </p-header>
