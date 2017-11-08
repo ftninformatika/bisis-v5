@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@EnableWebMvc
+@EnableWebMvc //ovo treba obrisati
 @RequestMapping("/records")
 public class RecordsController {
 
@@ -362,8 +362,8 @@ public class RecordsController {
                 for (Record rec: lr){
                     Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
                     ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
-                    //ee.getPrefixes().put("OD", rec.getDepartmentsString()); glupo
-                    //TODO ubacili listu odeljenja umesto stringa sa spejsovima
+                   // ee.getPrefixes().put("OD", rec.getDepartmentsString());
+                    //ovo je reseno u PrefixConverteru
                     ep.add(ee);
                }
                 elasticRecordsRepository.save(ep);
@@ -378,7 +378,7 @@ public class RecordsController {
                 Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
                 //ee.getPrefixes().put("OD", rec.getDepartmentsString());
-                //TODO isto kao gore
+                //ovo je reseno u PrefixConverteru
                 ep.add(ee);
             }
             elasticRecordsRepository.save(ep);
