@@ -2,6 +2,8 @@ package com.ftninformatika.bisis.prefixes;
 
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
+import com.ftninformatika.utils.string.LatCyrUtils;
+import com.ftninformatika.utils.string.Signature;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,10 +27,14 @@ public class PrefixConverter {
         List list = retVal.get(pv.prefName);
         if (!list.contains(pv.value)) {
           retVal.get(pv.prefName).add(pv.value);
+          //TODO ovo umesto gore navedenog
+         // retVal.get(pv.prefName).add(LatCyrUtils.toLatinUnaccented(pv.value));
         }
       } else {
         List list = new ArrayList<>();
         list.add(pv.value);
+        //TODO
+        //  list.add(LatCyrUtils.toLatinUnaccented(pv.value));
         retVal.put(pv.prefName, list);
       }
     }
@@ -48,8 +54,8 @@ public class PrefixConverter {
     if (primerci != null && primerci.size() > 0) {
       for (int i = 0; i < primerci.size(); i++) {
         Primerak p = primerci.get(i);
-        Field f = PrimerakSerializer.getField(p);
-        fieldToPrefixes(retVal, f);
+       // Field f = PrimerakSerializer.getField(p);
+       // fieldToPrefixes(retVal, f);
         indeksirajPrimerak(retVal, p);
         if (stRashod != null && p.getStatus() != null && p.getStatus().equalsIgnoreCase(stRashod)) {
           brRashod++;
@@ -62,8 +68,8 @@ public class PrefixConverter {
     if (godine != null && godine.size() > 0) {
       for (int i = 0; i < godine.size(); i++) {
         Godina g = godine.get(i);
-        Field f = PrimerakSerializer.getField(g);
-        fieldToPrefixes(retVal, f);
+      //  Field f = PrimerakSerializer.getField(g);
+     //   fieldToPrefixes(retVal, f);
         indeksirajGodinu(retVal, g);
         List<Sveska> sveske = g.getSveske();
         if (sveske != null && sveske.size() > 0) {
@@ -92,16 +98,65 @@ public class PrefixConverter {
   private static void indeksirajGodinu(List dest, Godina g) {
     if (g.getInventator() != null)
       dest.add(new PrefixValue("BI", g.getInventator()));
+    if (g.getCena() != null)
+        dest.add(new PrefixValue("PR", String.valueOf(g.getCena())));
+    if (g.getInvBroj() != null)
+          dest.add(new PrefixValue("IN", g.getInvBroj()));
+      if (g.getNacinNabavke() != null)
+          dest.add(new PrefixValue("AM", g.getNacinNabavke()));
+      if (g.getDatumInventarisanja() != null)
+          dest.add(new PrefixValue("DA", dateFormat.format(g.getDatumInventarisanja())));
+      if (g.getFinansijer() != null)
+          dest.add(new PrefixValue("FI", g.getFinansijer()));
+      if (g.getDostupnost() != null)
+          dest.add(new PrefixValue("LI", g.getDostupnost()));
+      if (g.getDobavljac() != null)
+          dest.add(new PrefixValue("SR",g.getDobavljac()));
+      if (g.getNapomene() != null)
+          dest.add(new PrefixValue("IR", g.getNapomene()));
+      if (g.getOdeljenje() != null)
+          dest.add(new PrefixValue("OD",g.getOdeljenje()));
+      ///TODO proveriti kako da se indeksira signatura!!! Trenutno je onako kako se vidi u editoru
 
+      String sig=Signature.format(g);
+      if(!sig.equals(""))
+          dest.add(new PrefixValue("SG",sig));
   }
 
   private static void indeksirajPrimerak(List dest, Primerak p) {
+
     if (p.getInventator() != null)
       dest.add(new PrefixValue("BI", p.getInventator()));
     if (p.getDatumRacuna() != null)
       dest.add(new PrefixValue("DB", dateFormat.format(p.getDatumRacuna())));
     if (p.getDatumStatusa() != null)
       dest.add(new PrefixValue("DS", dateFormat.format(p.getDatumStatusa())));
+    if (p.getCena() != null)
+      dest.add(new PrefixValue("PR", String.valueOf(p.getCena())));
+      if (p.getStatus() != null)
+          dest.add(new PrefixValue("ST", p.getStatus()));
+      if (p.getInvBroj() != null)
+          dest.add(new PrefixValue("IN", p.getInvBroj()));
+      if (p.getNacinNabavke() != null)
+          dest.add(new PrefixValue("AM", p.getNacinNabavke()));
+      if (p.getDatumInventarisanja() != null)
+          dest.add(new PrefixValue("DA", dateFormat.format(p.getDatumInventarisanja())));
+      if (p.getFinansijer() != null)
+          dest.add(new PrefixValue("FI", p.getFinansijer()));
+      if (p.getDostupnost() != null)
+          dest.add(new PrefixValue("LI", p.getDostupnost()));
+      if (p.getDobavljac() != null)
+          dest.add(new PrefixValue("SR", p.getDobavljac()));
+      if (p.getNapomene() != null)
+          dest.add(new PrefixValue("IR", p.getNapomene()));
+      if (p.getOdeljenje() != null)
+          dest.add(new PrefixValue("OD",p.getOdeljenje()));
+
+      ///TODO proveriti kako da se indeksira signatura!!! Trenutno je onako kako se vidi u editoru
+         String sig=Signature.format(p);
+      if(!sig.equals(""))
+          dest.add(new PrefixValue("SG",sig));
+
   }
 
   private static void indeksirajSvesku(List dest, Sveska s) {
@@ -110,6 +165,8 @@ public class PrefixConverter {
       dest.add(new PrefixValue("BI", s.getInventator()));
     if (s.getStatus() != null) {
       dest.add(new PrefixValue("ST", s.getStatus()));
+      if (s.getDatumStatusa() != null)
+            dest.add(new PrefixValue("DS", dateFormat.format(s.getDatumStatusa())));
     }
 
 

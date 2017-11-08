@@ -47,6 +47,16 @@ public class DefaultPrefixMap implements PrefixMap {
   public DefaultPrefixMap() {
     prefixMap = new HashMap<>();
     subfieldMap = new HashMap<>();
+    addToMap("CR", "000c");
+    addToMap("BN", "010a");
+    addToMap("BN", "010z");
+    addToMap("CD", "040a");
+    addToMap("CO", "102a");
+    addToMap("CC", "105b");
+    addToMap("CL", "225a");
+    addToMap("CL", "225e");
+    addToMap("CL", "225i");
+    addToMap("CL", "225h");
     addToMap("AT", "531a");
     addToMap("AT", "531b");
     addToMap("AU", "700a");
@@ -55,6 +65,15 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("AU", "701b");
     addToMap("AU", "702a");
     addToMap("AU", "702b");
+    addToMap("CS", "710a");
+    addToMap("CS", "710b");
+    addToMap("CP", "710e");
+    addToMap("CP", "711e");
+    addToMap("CS", "711a");
+    addToMap("CS", "711b");
+    addToMap("CS", "712a");
+    addToMap("CS", "712b");
+    addToMap("CP", "712e");
     addToMap("AU", "900a");
     addToMap("AU", "900b");
     addToMap("AU", "901a");
@@ -62,40 +81,32 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("AU", "902a");
     addToMap("AU", "902b");
     addToMap("BI", "992b");
-    addToMap("BN", "010a");
-    addToMap("BN", "010z");
-    addToMap("CC", "105b");
-    addToMap("CD", "040a");
-    addToMap("CL", "225a");
-    addToMap("CL", "225e");
-    addToMap("CL", "225i");
-    addToMap("CL", "225h");
-    addToMap("CO", "102a");
-    addToMap("CP", "710e");
-    addToMap("CP", "711e");
-    addToMap("CP", "712e");
-    addToMap("CP", "910e");
-    addToMap("CP", "911e");
-    addToMap("CP", "912e");
-    addToMap("CR", "000c");
+
+
+
+
+
+
+
+
+
     addToMap("CS", "503a");
     addToMap("CS", "503b");
-    addToMap("CS", "710a");
-    addToMap("CS", "710b");
-    addToMap("CS", "711a");
-    addToMap("CS", "711b");
-    addToMap("CS", "712a");
-    addToMap("CS", "712b");
+
     addToMap("CS", "910a");
     addToMap("CS", "910b");
+    addToMap("CP", "910e");
     addToMap("CS", "911a");
+    addToMap("CP", "911e");
     addToMap("CS", "911b");
     addToMap("CS", "912a");
     addToMap("CS", "912b");
+    addToMap("CP", "912e");
+
     addToMap("DC", "675a");
     addToMap("DC", "675u");
     addToMap("DR", "328f");
-    addToMap("DS", "996t");
+
     addToMap("DT", "001c");
     addToMap("FC", "7008");
     addToMap("FC", "7018");
@@ -252,40 +263,7 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("US", "675s");
     addToMap("Y1", "328d");
     addToMap("Y2", "328e");
-    addToMap("AM", "996v");
-    addToMap("AM", "997v");
-    addToMap("AP", "996w");
-    addToMap("AP", "997w");
-    addToMap("DA", "996o");
-    addToMap("DA", "997o");
-    addToMap("DE", "9968");
-    addToMap("FI", "9964");
-    addToMap("FI", "9974");
-    addToMap("IN", "996f");
-    addToMap("IN", "997f");
-    addToMap("LI", "996p");
-    addToMap("LI", "997p");
-    addToMap("ND", "996x");
-    addToMap("ND", "996y");
-    addToMap("ND", "996z");
-    addToMap("ND", "9961");
-    addToMap("ND", "9967");
-    addToMap("ND", "997x");
-    addToMap("ND", "997y");
-    addToMap("ND", "997z");
-    addToMap("ND", "9971");
-    addToMap("ND", "9977");
-    addToMap("SG", "996d");
-    addToMap("SG", "996e");
-    addToMap("SG", "997d");
-    addToMap("SG", "997e");
     addToMap("SI", "998b");
-    addToMap("SR", "9962");
-    addToMap("SR", "9972");
-    addToMap("IR", "996r");
-    addToMap("IR", "997r");
-    addToMap("ST", "996q");
-    addToMap("ST", "997q");
     addToMap("ES", "205a");
     addToMap("ES", "205d");
     addToMap("ES", "205f");
@@ -298,8 +276,6 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("NT", "200v");
     addToMap("PA", "210b");
     addToMap("PM", "210e");
-    addToMap("PR", "9963");
-    addToMap("PR", "9973");
     addToMap("AB", "330a");
     addToMap("CB", "601a");
     addToMap("CB", "601b");
