@@ -69,7 +69,7 @@ public class RecordsController {
 
         if ( r != null ) {
             retVal.setFullRecord(r);
-            retVal.setPrefixEntity(elasticRecordsRepository.findOne(r.get_id()));
+            //retVal.setPrefixEntity(elasticRecordsRepository.findOne(r.get_id()));
             String recId = Integer.toString(r.getRecordID());
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(recId));
         }
@@ -150,7 +150,7 @@ public class RecordsController {
             pr.init(rec);
             ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
             retVal.setFullRecord(rec);
-            retVal.setPrefixEntity(e);
+            //retVal.setPrefixEntity(e);
             retVal.setRecordPreview(pr);
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID())));
             if (rec == null)
@@ -195,7 +195,7 @@ public class RecordsController {
         iRecs.forEach(
                 e -> {
                     RecordResponseWrapper rw = new RecordResponseWrapper();
-                    rw.setPrefixEntity(e);
+                    //rw.setPrefixEntity(e);
                     Record r = recordsRepository.findOne(e.getId());
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
@@ -310,7 +310,7 @@ public class RecordsController {
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
                     if (r != null)
-                        retVal.add( new RecordResponseWrapper(rec, r ,pr, ia));
+                        retVal.add( new RecordResponseWrapper(/*rec,*/ r ,pr, ia));
                 }
         );
         return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>)ii).getTotalElements());
