@@ -21,17 +21,40 @@ public class RecordPreview {
     private HashMap etal;
 
     private String author;
+    private String titleAdditions;
     private String title;
     private String publisher;
     private String publishingYear;
+    private String keywords;
+    private String signature;
+    private String pages;
+    private String dimensions;
+    private String genre;
+    private String bibliographyNumber;
+    private String publishingPlace;
+    private String invertoryAdditions;
+    private String publishedCount;
+    private String udk;
 
     public void init(Record r){
         this.author = getAuthor(r, "sr").toString();
         this.title = getTitle(r);
         this.publisher = getPublisher(r);
         this.publishingYear = getYear(r);
+        this.titleAdditions = r.getSubfieldContent("200e");
+        this.signature = null;
+        this.pages = r.getSubfieldContent("215a");
+        this.dimensions = r.getSubfieldContent("215d");
+        this.genre = r.getSubfieldContent("225a");
+        this.publishingPlace = r.getSubfieldContent("210a");
+        this.invertoryAdditions = r.getSubfieldContent("996r");
+        this.publishedCount = r.getSubfieldContent("992c");
+        this.bibliographyNumber = null;
+        this.udk = null;
 
     }
+
+
 
     private StringBuffer getAuthor(Record rec, String locale) {
         StringBuffer retVal = new StringBuffer();
