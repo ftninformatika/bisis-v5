@@ -146,9 +146,12 @@ public class RecordsController {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
         try {
             Record rec = recordsRepository.findOne(recordId);
+            RecordPreview pr = new RecordPreview();
+            pr.init(rec);
             ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
             retVal.setFullRecord(rec);
             retVal.setPrefixEntity(e);
+            retVal.setRecordPreview(pr);
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID())));
             if (rec == null)
                 throw new RecordNotFoundException(recordId);

@@ -9,19 +9,19 @@
 <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'general'" style="font-size:16px;text-align:center;padding:20px; border:1px solid #D5D5D5;">
   <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.TI" style="border-bottom:1px solid #D5D5D5">
       <div class="ui-grid-col-3"  align="left"><b>{{ 'titleTranslate' | translate }}: </b></div>
-      <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.TI}}</div>
+      <div class="ui-grid-col-9" align="left">{{selectedRec.recordPreview.title}}</div>
   </div>
   <div class="ui-grid-row" *ngIf="selectedRec.prefixEntity.prefixes.AU" style="border-bottom:1px solid #D5D5D5">
       <div class="ui-grid-col-3"  align="left"><b>{{ 'authorTranslate' | translate }}: </b></div>
-      <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.AU}}</div>
+      <div class="ui-grid-col-9" align="left">{{selectedRec.recordPreview.author}}</div>
   </div>
   <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.PY" style="border-bottom:1px solid #D5D5D5">
       <div class="ui-grid-col-3"  align="left"><b>{{ 'publishYearTranslate' | translate }}: </b></div>
-      <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.PY}}</div>
+      <div class="ui-grid-col-9" align="left">{{selectedRec.recordPreview.publishingYear}}</div>
   </div>
   <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.PU" style="border-bottom:1px solid #D5D5D5">
       <div class="ui-grid-col-3"  align="left"><b>{{ 'publisherTranslate' | translate }}: </b></div>
-      <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.PU}}</div>
+      <div class="ui-grid-col-9" align="left">{{selectedRec.recordPreview.publisher}}</div>
   </div>
   <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.KW" style="border-bottom:1px solid #D5D5D5">
       <div class="ui-grid-col-3"  align="left"><b>{{ 'keywordsTranslate' | translate }}: </b></div>
@@ -72,7 +72,7 @@
 <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedRec && selectedViewType == 'detail'" style="font-size:16px;text-align:center;padding:20px; border:1px solid #D5D5D5;">
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.TI" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>{{ 'titleTranslate' | translate }}: </b></div>
-        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.TI}}</div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.recordPreview.title}}</div>
     </div>
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes['200e']" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>{{ 'additionsToTitle' | translate }}: </b></div>
@@ -80,15 +80,15 @@
     </div>
     <div class="ui-grid-row" *ngIf="selectedRec.prefixEntity.prefixes.AU" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>{{ 'authorTranslate' | translate }}: </b></div>
-        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.AU}}</div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.recordPreview.author}}</div>
     </div>
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.PY" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>{{ 'publishYearTranslate' | translate }}: </b></div>
-        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.PY}}</div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.recordPreview.publishingYear}}</div>
     </div>
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.PU" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>{{ 'publisherTranslate' | translate }}: </b></div>
-        <div class="ui-grid-col-9" align="left">{{selectedRec.prefixEntity.prefixes.PU}}</div>
+        <div class="ui-grid-col-9" align="left">{{selectedRec.recordPreview.publisher}}</div>
     </div>
     <div class="ui-grid-row"  *ngIf="selectedRec.prefixEntity.prefixes.KW" style="border-bottom:1px solid #D5D5D5">
         <div class="ui-grid-col-3"  align="left"><b>{{ 'keywordsTranslate' | translate }}: </b></div>
