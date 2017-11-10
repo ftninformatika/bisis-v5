@@ -18,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 public class RecordPreview {
 
-    private HashMap etal;
 
     private String author;
     private String titleAdditions;
@@ -35,6 +34,7 @@ public class RecordPreview {
     private String invertoryAdditions;
     private String publishedCount;
     private String udk;
+    private String issn;
 
     public void init(Record r){
         this.author = getAuthor(r, "sr").toString();
@@ -42,19 +42,46 @@ public class RecordPreview {
         this.publisher = getPublisher(r);
         this.publishingYear = getYear(r);
         this.titleAdditions = r.getSubfieldContent("200e");
-        this.signature = null;
+        this.signature = getSignature(r);
         this.pages = r.getSubfieldContent("215a");
         this.dimensions = r.getSubfieldContent("215d");
         this.genre = r.getSubfieldContent("225a");
         this.publishingPlace = r.getSubfieldContent("210a");
         this.invertoryAdditions = r.getSubfieldContent("996r");
         this.publishedCount = r.getSubfieldContent("992c");
-        this.bibliographyNumber = null;
-        this.udk = null;
+        this.bibliographyNumber = getBibliographyNumber(r);
+        this.udk = getUDK(r);
+        this.issn = getISSN(r);
 
     }
 
+    private String getUDK(Record r){
+        if (r.getSubfieldContent("675a") != null)
+            return r.getSubfieldContent("675a");
+        if (r.getSubfieldContent("675u") != null)
+            return r.getSubfieldContent("675u");
+        return null;
+    }
 
+    private String getBibliographyNumber(Record r){
+        if (r.getSubfieldContent("010z") != null)
+            return r.getSubfieldContent("010z");
+        if (r.getSubfieldContent("010a") != null)
+            return r.getSubfieldContent("010a");
+        return null;
+    }
+
+    private String getSignature(Record r){
+        if (r.getSubfieldContent("996d") != null)
+            return r.getSubfieldContent("996d");
+        if (r.getSubfieldContent("996e") != null)
+            return r.getSubfieldContent("996e");
+        if (r.getSubfieldContent("997d") != null)
+            return r.getSubfieldContent("997d");
+        if (r.getSubfieldContent("997e") != null)
+            return r.getSubfieldContent("997e");
+        return null;
+    }
 
     private StringBuffer getAuthor(Record rec, String locale) {
         StringBuffer retVal = new StringBuffer();
@@ -261,6 +288,14 @@ public class RecordPreview {
                 retVal.append(", "+sf.getContent());
         }
         return retVal.toString();
+    }
+
+    public String getISSN(Record r){
+        if(r.getSubfieldContent("011a")!= null &&  !r.getSubfieldContent("011a").equals(""))
+            return r.getSubfieldContent("011a");
+        if(r.getSubfieldContent("011e")!= null && !r.getSubfieldContent("011e").equals(""))
+            return r.getSubfieldContent("011e");
+        return "";
     }
 
     /*private void appendEtAl(StringBuffer sb, String locale) {
