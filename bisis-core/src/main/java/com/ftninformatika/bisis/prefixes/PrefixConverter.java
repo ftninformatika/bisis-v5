@@ -26,15 +26,12 @@ public class PrefixConverter {
       if (retVal.containsKey(pv.prefName)){
         List list = retVal.get(pv.prefName);
         if (!list.contains(pv.value)) {
-          retVal.get(pv.prefName).add(pv.value);
-          //TODO ovo umesto gore navedenog
-         // retVal.get(pv.prefName).add(LatCyrUtils.toLatinUnaccented(pv.value));
+         retVal.get(pv.prefName).add(LatCyrUtils.toLatinUnaccented(pv.value));
         }
       } else {
         List list = new ArrayList<>();
         list.add(pv.value);
-        //TODO
-        //  list.add(LatCyrUtils.toLatinUnaccented(pv.value));
+        list.add(LatCyrUtils.toLatinUnaccented(pv.value));
         retVal.put(pv.prefName, list);
       }
     }
@@ -54,8 +51,6 @@ public class PrefixConverter {
     if (primerci != null && primerci.size() > 0) {
       for (int i = 0; i < primerci.size(); i++) {
         Primerak p = primerci.get(i);
-       // Field f = PrimerakSerializer.getField(p);
-       // fieldToPrefixes(retVal, f);
         indeksirajPrimerak(retVal, p);
         if (stRashod != null && p.getStatus() != null && p.getStatus().equalsIgnoreCase(stRashod)) {
           brRashod++;
@@ -68,8 +63,6 @@ public class PrefixConverter {
     if (godine != null && godine.size() > 0) {
       for (int i = 0; i < godine.size(); i++) {
         Godina g = godine.get(i);
-      //  Field f = PrimerakSerializer.getField(g);
-     //   fieldToPrefixes(retVal, f);
         indeksirajGodinu(retVal, g);
         List<Sveska> sveske = g.getSveske();
         if (sveske != null && sveske.size() > 0) {
