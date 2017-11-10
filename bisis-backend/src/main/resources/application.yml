@@ -18,9 +18,13 @@ spring:
   profiles: development
   data:
     mongodb:
-      host: localhost
-      port: 27017
+      #host: localhost
+      #port: 27017
+#      username: bisis
       database: bisisdev
+      uri: mongodb://bisis:bisis@94.130.24.103:27017/bisisdev
+#      password: bisis
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -39,9 +43,9 @@ logging:
   level:
     com.ftninformatika: INFO
 
-mongeez:
-  location: db/mongeez.xml
-  database: bisisdev
+#mongeez:
+#  location: db/mongeez.xml
+#  database: bisisdev1
 
 ---
 spring:
