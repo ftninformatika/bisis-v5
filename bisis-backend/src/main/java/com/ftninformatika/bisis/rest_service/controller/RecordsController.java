@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.records.RecordResponseWrapper;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
@@ -68,7 +69,7 @@ public class RecordsController {
 
         if ( r != null ) {
             retVal.setFullRecord(r);
-            retVal.setPrefixEntity(elasticRecordsRepository.findOne(r.get_id()));
+            //retVal.setPrefixEntity(elasticRecordsRepository.findOne(r.get_id()));
             String recId = Integer.toString(r.getRecordID());
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(recId));
         }
@@ -145,9 +146,12 @@ public class RecordsController {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
         try {
             Record rec = recordsRepository.findOne(recordId);
+            RecordPreview pr = new RecordPreview();
+            pr.init(rec);
             ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
             retVal.setFullRecord(rec);
-            retVal.setPrefixEntity(e);
+            //retVal.setPrefixEntity(e);
+            retVal.setRecordPreview(pr);
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID())));
             if (rec == null)
                 throw new RecordNotFoundException(recordId);
@@ -191,9 +195,13 @@ public class RecordsController {
         iRecs.forEach(
                 e -> {
                     RecordResponseWrapper rw = new RecordResponseWrapper();
-                    rw.setPrefixEntity(e);
-                    rw.setFullRecord(recordsRepository.findOne(e.getId()));
+                    //rw.setPrefixEntity(e);
+                    Record r = recordsRepository.findOne(e.getId());
+                    RecordPreview pr = new RecordPreview();
+                    pr.init(r);
+                    rw.setFullRecord(r);
                     rw.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rw.getFullRecord().getRecordID())));
+                    rw.setRecordPreview(pr);
                     retVal.add(rw);
                 }
         );
@@ -299,8 +307,10 @@ public class RecordsController {
                 rec -> {
                     Record r = recordsRepository.findOne(rec.getId());
                     List<ItemAvailability> ia = itemAvailabilityRepository.findByRecordID(r.getRecordID()+"");
+                    RecordPreview pr = new RecordPreview();
+                    pr.init(r);
                     if (r != null)
-                        retVal.add( new RecordResponseWrapper(rec, r , ia));
+                        retVal.add( new RecordResponseWrapper(/*rec,*/ r ,pr, ia));
                 }
         );
         return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>)ii).getTotalElements());

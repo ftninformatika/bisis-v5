@@ -15,8 +15,9 @@ import java.util.List;
 @ToString
 public class RecordResponseWrapper {
 
-    private ElasticPrefixEntity prefixEntity;
+    //private ElasticPrefixEntity prefixEntity;
     private Record fullRecord;
+    private RecordPreview recordPreview;
     private List<ItemAvailability> listOfItems;
 
 }

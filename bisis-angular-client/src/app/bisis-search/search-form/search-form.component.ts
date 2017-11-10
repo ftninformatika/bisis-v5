@@ -6,6 +6,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 import {arrayify} from "tslint/lib/utils";
 import {RecordsPageModel} from "../model/RecordsPageModel";
 import {MessageService} from "primeng/components/common/messageservice";
+import * as globals from "../../globals"
 
 
 @Component({
@@ -40,7 +41,7 @@ export class SearchFormComponent implements OnInit {
 
   changed(pref, fieldNum){
     this.text[fieldNum] = "";
-    if (pref == "LA") { // If prefix is coder
+    if (pref /*in globals.coderPrefixes*/ ["LA"]) { // If prefix is coder
       this.coder[fieldNum] = true; // Hide text, show dropdown
       this.libraryService.getLanguageCoders().subscribe(
           response => {
@@ -52,6 +53,12 @@ export class SearchFormComponent implements OnInit {
             );
           }
       );
+      /*this.coder[fieldNum] = true;
+      globals.coderPrefixValues[pref].forEach(
+          v => {
+            this.coderValues[fieldNum].push({"label": v.name, "value": v.value});
+          }
+      );*/
     }
     else {
       this.coder[fieldNum] = false;
