@@ -34,8 +34,8 @@ dependencies {
 	compile group: 'net.java.dev.jna', name: 'jna', version: '4.5.0'
 	compile group: 'it.ozimov', name: 'spring-boot-email-core', version: '0.6.3'
 
-	//testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.7.RELEASE'
-	testCompile group: 'org.springframework', name: 'spring-test', version: '4.0.5.RELEASE'
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.7.RELEASE'
+	
 
 }
 
