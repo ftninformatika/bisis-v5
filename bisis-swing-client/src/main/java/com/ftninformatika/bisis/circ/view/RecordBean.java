@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.models.coders.ItemStatus;
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.utils.string.Signature;
 
@@ -10,7 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 
 public class RecordBean {

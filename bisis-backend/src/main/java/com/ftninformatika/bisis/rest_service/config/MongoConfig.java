@@ -10,13 +10,14 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.ContextConfiguration;
 
+
 /**
  * Created by Petar on 11/10/2017.
  */
-@Configuration
-@EnableMongoRepositories(basePackages = "com.ftninformatika")
+//@Configuration
+//@EnableMongoRepositories(basePackages = "com.ftninformatika")
 //@PropertySource("classpath:mongo.properties")
-@ContextConfiguration(initializers = YamlFileApplicationContextInitializer.class)
+//@ContextConfiguration(initializers = YamlFileApplicationContextInitializer.class)
 public class MongoConfig extends AbstractMongoConfiguration {
 
     @Autowired

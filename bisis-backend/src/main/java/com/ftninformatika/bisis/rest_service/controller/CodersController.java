@@ -2,8 +2,8 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.models.circ.*;
-import com.ftninformatika.bisis.models.coders.*;
+import com.ftninformatika.bisis.circ.*;
+import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

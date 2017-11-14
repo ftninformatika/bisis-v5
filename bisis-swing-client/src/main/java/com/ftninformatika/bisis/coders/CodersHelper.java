@@ -2,8 +2,7 @@ package com.ftninformatika.bisis.coders;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.UItem;
-import com.ftninformatika.bisis.models.circ.*;
-import com.ftninformatika.bisis.models.coders.*;
+import com.ftninformatika.bisis.circ.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.io.IOException;

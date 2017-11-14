@@ -382,7 +382,7 @@ public class Report {
 			btnSearch = new JButton();
 			btnSearch.setText("Pretra\u017ei");
 			btnSearch.setIcon(new ImageIcon(getClass().getResource(
-					"/com/gint/app/bisis4/client/circ/images/find16.png")));
+					"/circ-images/find16.png")));
 //			btnSearch.addActionListener(new java.awt.event.ActionListener() {
 //				public void actionPerformed(java.awt.event.ActionEvent e) {
 //				  try{
@@ -527,7 +527,7 @@ public class Report {
 			btnCancel = new JButton();
 			btnCancel.setText("Odustani");
 			btnCancel.setIcon(new ImageIcon(getClass().getResource(
-					"/com/gint/app/bisis4/client/circ/images/Delete16.png")));
+					"/circ-images/Delete16.png")));
 			btnCancel.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					Cirkulacija.getApp().getMainFrame().previousPanel();

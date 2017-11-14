@@ -2,16 +2,13 @@ package com.ftninformatika.bisis.circ.warnings;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
 
-import com.ftninformatika.bisis.models.circ.Lending;
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.models.circ.Member;
-import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.wrappers.MemberData;
 
 public class WarningFrameTableModel extends AbstractTableModel {
 	

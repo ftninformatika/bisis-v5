@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.pojo.Warning;
+import com.ftninformatika.bisis.circ.pojo.Warning;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

@@ -8,13 +8,13 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.view.*;
-import com.ftninformatika.bisis.models.circ.*;
-import com.ftninformatika.bisis.models.circ.Lending;
-import com.ftninformatika.bisis.models.circ.Membership;
-import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
-import com.ftninformatika.bisis.models.circ.pojo.Signing;
-import com.ftninformatika.bisis.models.circ.pojo.Warning;
-import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.*;
+import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.Membership;
+import com.ftninformatika.bisis.circ.pojo.Duplicate;
+import com.ftninformatika.bisis.circ.pojo.Signing;
+import com.ftninformatika.bisis.circ.pojo.Warning;
+import com.ftninformatika.bisis.circ.wrappers.MemberData;
 
 public class UserManager {
 	
@@ -32,7 +32,7 @@ public class UserManager {
 	}
 	
 	public String saveUser(User user){
-		if (user.getDirty() || !lendings.isEmpty()){
+		if (user.getDirty() /*|| !lendings.isEmpty()*/){
             String memberExists;
 			if (user.getDirty()){
 
@@ -48,8 +48,9 @@ public class UserManager {
 						return "Broj korisnika vec postoji!";
 					member = new Member();
 				} else {
-				  if (memberExists != null && memberExists.equals(member.get_id()))
-					  return "Broj korisnika vec postoji!";
+				  if (memberExists != null && !memberExists.equals(member.get_id())) {
+                      return "Broj korisnika vec postoji!";
+                  }
 				}
 				member = toObjectModel(user, member);
 			}
@@ -178,7 +179,7 @@ public class UserManager {
     }
   }
   
-  public String archiveUser(Member user){
+  public String archiveUser(User user){
 	  /*GetAllUserDataCommand getUserData = new GetAllUserDataCommand(user.getMmbrship().getUserID());
 	  getUserData = (GetAllUserDataCommand)service.executeCommand(getUserData);
 		if (getUserData != null){
@@ -372,7 +373,7 @@ public class UserManager {
 	user.getUserData().loadOrganization(BisisApp.appConfig.getCodersHelper()
             .getOrganizations().values().stream()
             .map( i -> {
-                com.ftninformatika.bisis.models.circ.pojo.Organization o = new com.ftninformatika.bisis.models.circ.pojo.Organization();
+                com.ftninformatika.bisis.circ.pojo.Organization o = new com.ftninformatika.bisis.circ.pojo.Organization();
                 o.setAddress(i.getAddress());
                 o.setCity(i.getCity());
                 o.setId(i.get_id());
@@ -385,7 +386,7 @@ public class UserManager {
 	user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
             .getCorporateMembers().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CorporateMember c = new com.ftninformatika.bisis.models.circ.pojo.CorporateMember();
+                com.ftninformatika.bisis.circ.pojo.CorporateMember c = new com.ftninformatika.bisis.circ.pojo.CorporateMember();
                 c.setAddress(i.getAddress());
                 c.setCity(i.getCity());
                 c.setContEmail(i.getContEmail());
@@ -408,19 +409,13 @@ public class UserManager {
 
 	user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
-                l.setDescription(i.getDescription());
-                l.setLocationCode(i.getLocationCode());
-                return l;
-
-            })
+            .map(i -> i.getDescription())
             .collect(Collectors.toList()));
 
 	user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
                 l.setLocationCode(i.getLocationCode());
                 return l;
@@ -431,7 +426,7 @@ public class UserManager {
 	user.getMmbrship().loadMmbrType(BisisApp.appConfig.getCodersHelper()
             .getMembershipTypes().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.MembershipType m = new com.ftninformatika.bisis.models.circ.pojo.MembershipType();
+                com.ftninformatika.bisis.circ.pojo.MembershipType m = new com.ftninformatika.bisis.circ.pojo.MembershipType();
                 m.setDescription(i.getDescription());
                 m.setPeriod(i.getPeriod());
                 return m;
@@ -441,7 +436,7 @@ public class UserManager {
 	user.getMmbrship().loadUserCateg(BisisApp.appConfig.getCodersHelper()
             .getUserCategories().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.UserCategory u = new com.ftninformatika.bisis.models.circ.pojo.UserCategory();
+                com.ftninformatika.bisis.circ.pojo.UserCategory u = new com.ftninformatika.bisis.circ.pojo.UserCategory();
                 u.setDescription(i.getDescription());
                 u.setMaxPeriod(i.getMaxPeriod());
                 u.setPeriod(i.getPeriod());
@@ -453,7 +448,7 @@ public class UserManager {
 	user.getLending().loadLocation(BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
                 l.setLocationCode(i.getLocationCode());
                 return l;
@@ -468,7 +463,7 @@ public class UserManager {
       group.loadBranchID((BisisApp.appConfig.getCodersHelper()
               .getCircLocations().values().stream()
               .map(i -> {
-                  com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                  com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                   l.setDescription(i.getDescription());
                   l.setLocationCode(i.getLocationCode());
                   return l;
@@ -481,7 +476,7 @@ public class UserManager {
     searchusers.loadCmbLoc1((BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
                 l.setLocationCode(i.getLocationCode());
                 return l;
@@ -491,7 +486,7 @@ public class UserManager {
     searchusers.loadCmbLoc2((BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
                 l.setLocationCode(i.getLocationCode());
                 return l;
@@ -504,7 +499,7 @@ public class UserManager {
     searchbooks.loadCmbLocL((BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
                 l.setLocationCode(i.getLocationCode());
                 return l;
@@ -514,7 +509,7 @@ public class UserManager {
     searchbooks.loadCmbLocR((BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
                 l.setLocationCode(i.getLocationCode());
                 return l;
@@ -527,7 +522,7 @@ public class UserManager {
     report.loadCmbLocation((BisisApp.appConfig.getCodersHelper()
             .getCircLocations().values().stream()
             .map(i -> {
-                com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                 l.setDescription(i.getDescription());
                 l.setLocationCode(i.getLocationCode());
                 return l;
@@ -700,8 +695,8 @@ public class UserManager {
   	return false;
   }
   
-  public List getCtlgNos(Date startDateL, Date endDateL, com.ftninformatika.bisis.models.circ.pojo.CircLocation locationL,
-                                  Date startDateR, Date endDateR, com.ftninformatika.bisis.models.circ.pojo.CircLocation locationR){
+  public List getCtlgNos(Date startDateL, Date endDateL, com.ftninformatika.bisis.circ.pojo.CircLocation locationL,
+                                  Date startDateR, Date endDateR, com.ftninformatika.bisis.circ.pojo.CircLocation locationR){
     Date startL = null;
     Date endL = null;
     if (startDateL != null){
@@ -713,7 +708,7 @@ public class UserManager {
       }
     }
 
-    com.ftninformatika.bisis.models.circ.pojo.CircLocation location;
+    com.ftninformatika.bisis.circ.pojo.CircLocation location;
     if (locationL != null){
       location = locationL;
     }else{

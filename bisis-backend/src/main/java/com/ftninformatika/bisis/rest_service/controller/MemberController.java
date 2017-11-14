@@ -1,16 +1,14 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 
-import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
-import com.ftninformatika.bisis.models.circ.Lending;
-import com.ftninformatika.bisis.models.circ.Member;
-import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
-import org.elasticsearch.monitor.os.OsStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,8 +59,10 @@ public class MemberController {
     public boolean addUpdateMemberData(@RequestBody MemberData memberData){
        if ( memberRep.save(memberData.getMember()) == null )
            return false;
-       lendingRepository.save(memberData.getLendings());
-       itemAvailabilityRepository.save(memberData.getBooks());
+       if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
+           lendingRepository.save(memberData.getLendings());
+           itemAvailabilityRepository.save(memberData.getBooks());
+       }
 
        return true;
     }

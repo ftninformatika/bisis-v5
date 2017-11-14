@@ -31,7 +31,7 @@ public class OptionsMainFrame extends JInternalFrame {
 
   public OptionsMainFrame() {
     super("Ra\u010dunari", true, true, true, true);
-    //Manager.loadDocs();
+    Manager.loadDocs();
     initialize();
   }
 

@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.auth.model;
 
-import com.ftninformatika.bisis.models.circ.LibraryMember;
+import com.ftninformatika.bisis.circ.LibraryMember;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;

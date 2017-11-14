@@ -48,7 +48,7 @@ public class EnvironmentOptions {
   }
   
   public static void loadOptions(OptionsFrame frame, int row){
-		/*frame.setMacAddress(doc.getOptions().getClientArray(row).getMac());
+		frame.setMacAddress(doc.getOptions().getClientArray(row).getMac());
 		frame.setNote(doc.getOptions().getClientArray(row).getNote());
 		frame.setChkdNonCtlgNo(doc.getOptions().getClientArray(row).getGeneral().getNonCtlgNo());
 		frame.setChkdBlockedCard(doc.getOptions().getClientArray(row).getGeneral().getBlockedCard());
@@ -85,11 +85,11 @@ public class EnvironmentOptions {
 		frame.setReversHeight(doc.getOptions().getClientArray(row).getRevers().getHeight());
 		frame.setReversWidth(doc.getOptions().getClientArray(row).getRevers().getWidth());
 		frame.setReversRowCount(doc.getOptions().getClientArray(row).getRevers().getRowCount());
-		frame.setReversCount(doc.getOptions().getClientArray(row).getRevers().getCount());*/
+		frame.setReversCount(doc.getOptions().getClientArray(row).getRevers().getCount());
 	}
   
   public static void loadDefaults(OptionsFrame frame){
-    /*String mac = doc.getOptions().getClientArray(0).getMac();
+    String mac = doc.getOptions().getClientArray(0).getMac();
     int i = 0;
     while(!mac.equals("default") && i < doc.getOptions().sizeOfClientArray()){
       mac = doc.getOptions().getClientArray(i).getMac();
@@ -97,11 +97,11 @@ public class EnvironmentOptions {
     }
     loadOptions(frame, i--);
     frame.setMacAddress("");
-    frame.setNote("");*/
+    frame.setNote("");
   }
 	
 	public static void saveOptions(OptionsFrame frame, int rrow){
-		/*int row = rrow;
+		int row = rrow;
 		if (row == -1){
 		  doc.getOptions().addNewClient();
 		  row = doc.getOptions().sizeOfClientArray()-1;
@@ -147,20 +147,20 @@ public class EnvironmentOptions {
 		doc.getOptions().getClientArray(row).getRevers().setHeight(frame.getReversHeight());
 		doc.getOptions().getClientArray(row).getRevers().setWidth(frame.getReversWidth());
 		doc.getOptions().getClientArray(row).getRevers().setRowCount(frame.getReversRowCount());
-		doc.getOptions().getClientArray(row).getRevers().setCount(frame.getReversCount());*/
+		doc.getOptions().getClientArray(row).getRevers().setCount(frame.getReversCount());
 	}
   
-  public static boolean save(){
-    /*XmlOptions opts = new XmlOptions();
+  public static String save(){
+    XmlOptions opts = new XmlOptions();
     opts.setSavePrettyPrint();
     try {
     	ByteArrayOutputStream doctext = new ByteArrayOutputStream();
 			doc.save(doctext,opts);
-			boolean ok = true; //TODO-hardcoded Manager.saveEnv(doctext.toString("UTF-8"));
-			return ok;
+			//boolean ok = Manager.saveEnv(doctext.toString("UTF-8"));
+			return doctext.toString("UTF-8");
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
-		}*/return false;
+			return "";
+		}
   }
 }

@@ -19,8 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
-import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;

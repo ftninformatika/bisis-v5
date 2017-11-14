@@ -7,12 +7,13 @@ package com.ftninformatika.bisis.service;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.models.circ.*;
-import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
-import com.ftninformatika.bisis.models.coders.*;
+import com.ftninformatika.bisis.circ.*;
+import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.google.gson.JsonObject;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -126,8 +127,11 @@ public interface BisisService {
     @POST("/records/search_ids") //vraca kolekciju id-jeva
     Call<List<String>> searchRecordsIds(@Body SearchModel searchModel);
 
+    @POST("/records/search_ids_circ") //vraca kolekciju id-jeva
+    Call<List<String>> searchRecordsIdsCirc(@Body SearchModelCirc searchModel);
+
     @POST("/records/multiple_ids")
-    Call<List<Record>>  getRecordsByIds(@Body List<String> idList);
+    Call<List<Record>> getRecordsByIds(@Body List<String> idList);
 
 
 
@@ -247,6 +251,9 @@ public interface BisisService {
 
     @GET("/circ_configs/search/findByLibrary")
     Call<CircConfig> getCircConfigs(@Query("libname") String libName);
+
+    @POST("/circ_configuration/save")
+    Call<CircConfig> saveCircConfigs(@Body CircConfig circConfig);
 
     @GET("/corporate_members/getById")
     Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);

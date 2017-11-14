@@ -10,7 +10,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -25,14 +24,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.models.circ.pojo.CircLocation;
-import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
-import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
-import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.circ.pojo.*;
 import com.ftninformatika.utils.string.StringUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -335,11 +333,11 @@ public class Membership {
 	private MembershipTableModel getTableModel() {
 		if (mmbrshipTableModel == null) {
 			mmbrshipTableModel = new MembershipTableModel();
-//      mmbrshipTableModel.addTableModelListener(new TableModelListener() {
-//        public void tableChanged(TableModelEvent e){
-//          handleKeyTyped();
-//        }
-//      });
+              mmbrshipTableModel.addTableModelListener(new TableModelListener() {
+                public void tableChanged(TableModelEvent e){
+                  handleKeyTyped();
+                }
+              });
 		}
 		return mmbrshipTableModel;
 	}
@@ -523,19 +521,19 @@ public class Membership {
   
 	public void loadLocation(List data){
 		Utils.loadCombo(getCmbBranch(), data);
-		int loc =  Cirkulacija.getApp().getEnvironment().getLocation();
-	    for (int i = 1; i < getCmbBranch().getModel().getSize(); i++) {
-	      if (Integer.parseInt(((CircLocation)getCmbBranch().getModel().getElementAt(i)).getLocationCode()) == loc) {
-	        defaultLocation = ((CircLocation) getCmbBranch().getModel().getElementAt(i)).getDescription();
-	      }
-	    }
 	}
 
   public void loadBranchID(List data){
     Utils.loadCombo(getCmbBranchID(), data);
+	  int loc =  Cirkulacija.getApp().getEnvironment().getLocation();
+	  for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
+		  if (Integer.parseInt(((CircLocation)getCmbBranchID().getModel().getElementAt(i)).getLocationCode()) == loc) {
+			  defaultLocation = ((CircLocation) getCmbBranchID().getModel().getElementAt(i)).getDescription();
+		  }
+	  }
   }
 
-	public void loadUser(String userID, MembershipType mt, UserCategory uc, CorporateMember group, List signings){
+	public void loadUser(String userID, MembershipType mt, UserCategory uc, CorporateMember group, List<Signing> signings){
 	    if (userID.length() == Cirkulacija.getApp().getEnvironment().getUseridLength() && Cirkulacija.getApp().getEnvironment().getUseridPrefix()){
 	  		getTfBranch().setText(userID.substring(0,Cirkulacija.getApp().getEnvironment().getUseridPrefixLength()));
 	  		int loc = Integer.parseInt(getTfBranch().getText());

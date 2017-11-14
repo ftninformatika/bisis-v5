@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
-import com.ftninformatika.bisis.models.circ.Organization;
+import com.ftninformatika.bisis.circ.Organization;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

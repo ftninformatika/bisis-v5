@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.models.circ.Place;
+import com.ftninformatika.bisis.circ.Place;
 
 import java.io.Serializable;
 import java.util.ArrayList;

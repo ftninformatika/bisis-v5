@@ -1,10 +1,9 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
-import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
-import com.ftninformatika.bisis.models.circ.Membership;
+import com.ftninformatika.bisis.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.circ.Membership;
 
 import java.io.IOException;
 import java.io.Serializable;

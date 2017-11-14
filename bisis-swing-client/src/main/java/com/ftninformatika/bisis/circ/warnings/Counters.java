@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.circ.warnings;
 
-import com.ftninformatika.bisis.models.circ.WarningCounter;
-import com.ftninformatika.bisis.models.circ.WarningType;
+import com.ftninformatika.bisis.circ.WarningCounter;
+import com.ftninformatika.bisis.circ.WarningType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

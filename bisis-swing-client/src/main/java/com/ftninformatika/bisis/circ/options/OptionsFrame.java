@@ -1715,13 +1715,16 @@ public class OptionsFrame extends JInternalFrame {
 			JOptionPane.showMessageDialog(null, result, "Greska", JOptionPane.ERROR_MESSAGE,
 					new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 		} else {
-			//ValidatorOptions.saveOptions(this);
+			ValidatorOptions.saveOptions(this);
+			String validator = ValidatorOptions.save();
 			EnvironmentOptions.saveOptions(this, row);
-			if (/*ValidatorOptions.save() &&*/ EnvironmentOptions.save()){
+			String environment = EnvironmentOptions.save();
+			boolean saved = Manager.save(environment, validator);
+			if (saved){
 				JOptionPane.showMessageDialog(null, "OK", "Info", JOptionPane.INFORMATION_MESSAGE,
 						new ImageIcon(getClass().getResource("/circ-images/hand32.png")));
 				parent.save();
-	      Exit();
+	            Exit();
 			} else {
 				JOptionPane.showMessageDialog(null, "Greska pri snimanju!", "Greska", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon(getClass().getResource("/circ-images/x32.png")));
@@ -1738,7 +1741,7 @@ public class OptionsFrame extends JInternalFrame {
 			btnCancel.setIcon(new ImageIcon(getClass().getResource("/circ-images/Delete16.png")));
 			btnCancel.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-          Exit();
+                    Exit();
 					//TODO log...
 				}
 			});

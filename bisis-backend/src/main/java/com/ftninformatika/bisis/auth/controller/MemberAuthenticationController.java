@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.auth.controller;
 import com.ftninformatika.bisis.auth.dto.LoginDTO;
 import com.ftninformatika.bisis.auth.dto.TokenDTO;
 import com.ftninformatika.bisis.auth.security.service.TokenService;
-import com.ftninformatika.bisis.models.circ.LibraryMember;
+import com.ftninformatika.bisis.circ.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

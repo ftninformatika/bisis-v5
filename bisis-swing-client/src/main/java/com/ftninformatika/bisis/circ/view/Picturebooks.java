@@ -136,7 +136,7 @@ public class Picturebooks {
         if (btnLend == null) {
             btnLend = new JButton();
             btnLend.setToolTipText("Zadu\u017ei");
-            btnLend.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/plus16.png")));
+            btnLend.setIcon(new ImageIcon(getClass().getResource("/circ-images/plus16.png")));
             btnLend.setFocusable(false);
             btnLend.setPreferredSize(new java.awt.Dimension(28, 28));
             btnLend.addActionListener(new java.awt.event.ActionListener() {
@@ -152,14 +152,14 @@ public class Picturebooks {
                         }
                         int tmps = Integer.parseInt(getTfState().getText()) + tmpl - tmpr;
                         getTableModel().addRow(getTfDate().getDate(), tmpl, tmpr, tmps);
-                        //setDirty();
+                        setDirty();
                         getTfState().setText(String.valueOf(tmps));
                         getTfLend().setText("");
                         getTfReturn().setText("");
                         pinRequired = true;
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(getPanel(), "Gre\u0161ka pri unosu broja!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE,
-                                new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png")));
+                                new ImageIcon(getClass().getResource("/circ-images/images/x32.png")));
                     }
                 }
             });

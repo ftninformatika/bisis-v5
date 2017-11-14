@@ -20,7 +20,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 
 import com.ftninformatika.bisis.circ.manager.WarningsManager;
-import com.ftninformatika.bisis.models.circ.WarningType;
+import com.ftninformatika.bisis.circ.WarningType;
 import warning.RootDocument;
 
 

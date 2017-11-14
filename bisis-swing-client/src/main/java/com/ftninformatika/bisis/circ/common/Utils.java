@@ -2,11 +2,11 @@ package com.ftninformatika.bisis.circ.common;
 
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.WarningType;
-import com.ftninformatika.bisis.models.circ.pojo.CorporateMember;
-import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
-import com.ftninformatika.bisis.models.circ.pojo.Organization;
-import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.circ.WarningType;
+import com.ftninformatika.bisis.circ.pojo.CorporateMember;
+import com.ftninformatika.bisis.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.circ.pojo.Organization;
+import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.utils.string.StringUtils;
 import com.toedter.calendar.JDateChooser;
 

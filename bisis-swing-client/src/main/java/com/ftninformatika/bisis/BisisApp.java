@@ -1,28 +1,20 @@
 package com.ftninformatika.bisis;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ftninformatika.bisis.libenv.LibEnvProxy;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
-import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.login.*;
 import com.ftninformatika.bisis.login.SplashScreen;
-import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.bisis.config.AppConfig;
 import com.ftninformatika.bisis.config.ConfigType;
 import com.ftninformatika.bisis.config.ConfigFactory;
-import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.service.RecordManager;
-import com.ftninformatika.bisis.service.RecordManagerImpl;
 import com.ftninformatika.utils.RetrofitUtils;
-import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import retrofit2.Call;
 
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -103,7 +95,7 @@ public class BisisApp {
           appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
           appConfig.initCoders();
 
-          recMgr = new RecordManagerImpl();
+          recMgr = new RecordManager();
           //testing purposes only!
 //          try {
 //            bisisService.clearElasticStorage().execute();

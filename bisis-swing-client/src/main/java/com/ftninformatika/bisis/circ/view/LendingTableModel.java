@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.Lending;
-import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.records.Record;
 
 import java.io.Serializable;
@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 

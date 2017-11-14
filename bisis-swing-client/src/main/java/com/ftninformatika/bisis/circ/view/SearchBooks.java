@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -24,19 +25,13 @@ import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.validator.Validator;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.models.circ.pojo.CircLocation;
-import com.ftninformatika.bisis.search.CodedPrefPanel;
-import com.ftninformatika.bisis.search.CodedPrefUtils;
-import com.ftninformatika.bisis.search.PrefixListDlg;
-import com.ftninformatika.bisis.search.SearchModel;
-import org.apache.commons.lang.time.StopWatch;
-import org.apache.lucene.search.Query;
+import com.ftninformatika.bisis.circ.pojo.CircLocation;
+import com.ftninformatika.bisis.search.*;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.toedter.calendar.JDateChooser;
-import org.bson.types.ObjectId;
 
 public class SearchBooks {
 
@@ -707,21 +702,69 @@ public class SearchBooks {
 		  String oper2 = getCmbOper2().getSelectedItem().toString().toUpperCase();
 		  String oper3 = getCmbOper3().getSelectedItem().toString().toUpperCase();
 		  String oper4 = getCmbOper4().getSelectedItem().toString().toUpperCase();
-		  SearchModel searchModel= new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,"TI_sort", null);
 
-		  List list = null;
-		  if (tfStartDateL.getDate() != null || tfStartDateR.getDate() != null){
-				 list = Cirkulacija.getApp().getUserManager().getCtlgNos(tfStartDateL.getDate(), tfEndDateL.getDate(), (CircLocation) Utils.getCmbValue(cmbLocL),
-				  tfStartDateR.getDate(), tfEndDateR.getDate(), (CircLocation)Utils.getCmbValue(cmbLocR));
-			   if (list == null)
-				 list = new ArrayList();
+		  Date startL = null;
+		  Date endL = null;
+		  if (tfStartDateL.getDate() != null){
+			  startL = Utils.setMinDate(tfStartDateL.getDate());
+			  if (tfEndDateL.getDate() != null){
+				  endL = Utils.setMaxDate(tfEndDateL.getDate());
+			  }else{
+				  endL = Utils.setMaxDate(tfStartDateL.getDate());
+			  }
 		  }
+
+		  String location = null;
+		  if (Utils.getCmbValue(cmbLocL) != null){
+			  location = ((CircLocation) Utils.getCmbValue(cmbLocL)).getDescription();
+		  }else if (Utils.getCmbValue(cmbLocR) != null){
+			  location = ((CircLocation) Utils.getCmbValue(cmbLocR)).getDescription();
+		  }
+		  Date startR = null;
+		  Date endR = null;
+		  if (tfStartDateR.getDate() != null){
+			  startR = Utils.setMinDate(tfStartDateR.getDate());
+			  if (tfEndDateR.getDate() != null){
+				  endR = Utils.setMaxDate(tfEndDateR.getDate());
+			  }else{
+				  endR = Utils.setMaxDate(tfStartDateR.getDate());
+			  }
+		  }
+
+		  SearchModelCirc searchModel= new SearchModelCirc();
+		  searchModel.setPref1(pref1);
+		  searchModel.setPref2(pref2);
+		  searchModel.setPref3(pref3);
+		  searchModel.setPref4(pref4);
+		  searchModel.setPref5(pref5);
+		  searchModel.setText1(text1);
+		  searchModel.setText2(text2);
+		  searchModel.setText3(text3);
+		  searchModel.setText4(text4);
+		  searchModel.setText5(text5);
+		  searchModel.setOper1(oper1);
+		  searchModel.setOper2(oper2);
+		  searchModel.setOper3(oper3);
+		  searchModel.setOper4(oper4);
+		  searchModel.setStartDateLend(startL);
+		  searchModel.setEndDateLend(endL);
+		  searchModel.setStartDateRet(startR);
+		  searchModel.setEndDateRet(endR);
+		  searchModel.setLocation(location);
+
+//		  List list = null;
+//		  if (tfStartDateL.getDate() != null || tfStartDateR.getDate() != null){
+//				 list = Cirkulacija.getApp().getUserManager().getCtlgNos(tfStartDateL.getDate(), tfEndDateL.getDate(), (CircLocation) Utils.getCmbValue(cmbLocL),
+//				  tfStartDateR.getDate(), tfEndDateR.getDate(), (CircLocation)Utils.getCmbValue(cmbLocR));
+//			   if (list == null)
+//				 list = new ArrayList();
+//		  }
     //System.out.println(q.toString());
   //    StopWatch clock = new StopWatch();
   //    clock.start();
       int res = 0; //TODO-hardcoded
-      if (searchModel != null || list != null){
-        res = Cirkulacija.getApp().getRecordsManager().getRecords(searchModel,list);
+      if (searchModel != null){
+        res = Cirkulacija.getApp().getRecordsManager().getRecords(searchModel);
       }else{
         return;
       }

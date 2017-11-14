@@ -1,9 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.models.coders.ItemStatus;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
-import org.elasticsearch.action.get.MultiGetRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

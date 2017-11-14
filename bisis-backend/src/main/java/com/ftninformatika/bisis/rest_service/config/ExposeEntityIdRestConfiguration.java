@@ -1,10 +1,8 @@
 package com.ftninformatika.bisis.rest_service.config;
 
-import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
-import com.ftninformatika.bisis.models.circ.*;
+import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;

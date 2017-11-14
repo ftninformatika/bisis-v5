@@ -3,14 +3,11 @@ package com.ftninformatika.bisis.circ.view;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
-import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.pojo.Duplicate;
+import com.ftninformatika.bisis.circ.pojo.Duplicate;
 
 
 
@@ -51,7 +48,6 @@ public class DuplicateTableModel extends AbstractTableModel implements Serializa
 	    	rowData.setDupDate(new Date());
         rowData.setDupNo(dupno);
         data.add(rowData);
-        //Cirkulacija.getApp().getUserManager().addDuplicate(rowData);
 	    	fireTableRowsInserted(row, row);
 	    }
 
@@ -59,7 +55,6 @@ public class DuplicateTableModel extends AbstractTableModel implements Serializa
 	    public void removeRow(int row) {
         
 	      Duplicate dup = data.remove(row);
-        //Cirkulacija.getApp().getUserManager().removeDuplicate(dup);
 	      fireTableRowsDeleted(row, row);
 	    }
 
@@ -115,7 +110,6 @@ public class DuplicateTableModel extends AbstractTableModel implements Serializa
 	        	case 1: rowData.setDupNo(((Integer)aValue).intValue());
 	        }
 	        fireTableCellUpdated(row, column);
-	        //Cirkulacija.getApp().getUserManager().updateDuplicate(rowData);
 	    }
 
 	    public Class getColumnClass(int col) {

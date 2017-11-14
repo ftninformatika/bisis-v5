@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.models.circ.Membership;
+import com.ftninformatika.bisis.circ.Membership;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MembershipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

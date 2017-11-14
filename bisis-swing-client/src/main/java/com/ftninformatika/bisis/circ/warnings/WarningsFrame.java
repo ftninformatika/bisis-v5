@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.JComboBox;
 
@@ -35,12 +34,12 @@ import com.ftninformatika.bisis.circ.manager.WarningsManager;
 import com.ftninformatika.bisis.circ.view.CmbKeySelectionManager;
 import com.ftninformatika.bisis.circ.view.ComboBoxRenderer;
 import com.ftninformatika.bisis.circ.view.RecordBean;
-import com.ftninformatika.bisis.models.circ.Lending;
-import com.ftninformatika.bisis.models.circ.Member;
-import com.ftninformatika.bisis.models.circ.WarningType;
-import com.ftninformatika.bisis.models.circ.pojo.CircLocation;
-import com.ftninformatika.bisis.models.circ.pojo.Warning;
-import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.WarningType;
+import com.ftninformatika.bisis.circ.pojo.CircLocation;
+import com.ftninformatika.bisis.circ.pojo.Warning;
+import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.string.StringUtils;

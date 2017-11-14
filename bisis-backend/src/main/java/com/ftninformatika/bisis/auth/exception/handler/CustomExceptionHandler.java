@@ -19,7 +19,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(MongoException.class)
     public ResponseEntity handleMongoException(final MongoException exception) {
-        log.warn("Processing mongo exception: {}", exception.getMessage());
+        log.error("Processing mongo exception: {}", exception.getMessage());
 
         return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }
@@ -33,14 +33,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity handleUserNotFoundException(final UserNotFoundException exception) {
-        log.warn("Processing librarian not found exception: {}", exception.getMessage());
+        log.error("Processing librarian not found exception: {}", exception.getMessage());
 
         return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity handleAbstractException(final Exception exception) {
-        log.warn("Processing abstract exception: {}", exception.getMessage());
+        log.error("Processing abstract exception: {}", exception.getMessage());
+        exception.printStackTrace();
 
         return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }

@@ -31,9 +31,12 @@ public class SveskeController {
 
     @RequestMapping( value = "/{invNum}", method = RequestMethod.GET )
     public Sveska getSveskaForInvBr(@PathVariable("invNum") String invNum){
-        for (Godina g: recordsRepository.getRecordBySveskaInvNum(invNum).getGodine())
-            if(g.getSveska(invNum) != null)
-                return g.getSveska(invNum);
+        Record r = recordsRepository.getRecordBySveskaInvNum(invNum);
+        if (r != null) {
+            for (Godina g : r.getGodine())
+                if (g.getSveska(invNum) != null)
+                    return g.getSveska(invNum);
+        }
         return null;
     }
 

@@ -5,13 +5,13 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import noNamespace.FormValidationDocument;
 import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.impl.xb.xsdschema.FieldDocument;
 
 
 public class ValidatorOptions {
 
- /* private static FormValidationDocument doc = null;
+  private static FormValidationDocument doc = null;
   
   
   public static void setDoc(String xml){
@@ -210,17 +210,17 @@ public class ValidatorOptions {
 		}
 	}
 	
-	public static boolean save(){
+	public static String save(){
     XmlOptions opts = new XmlOptions();
     opts.setSavePrettyPrint();
     try {
     	StringWriter doctext = new StringWriter();
 			doc.save(doctext,opts);
-			boolean ok = true;// TODO-hardcoded Manager.saveValidator(doctext.toString());
-			return ok;
+			//boolean ok = Manager.saveValidator(doctext.toString());
+			return doctext.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			return "";
 		}
   }
 	
@@ -254,5 +254,5 @@ public class ValidatorOptions {
 				return depends;
 			}
 		}
-	}*/
+	}
 }

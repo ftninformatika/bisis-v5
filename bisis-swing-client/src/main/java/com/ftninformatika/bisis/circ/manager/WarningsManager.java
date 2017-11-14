@@ -9,14 +9,11 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.warnings.Counters;
 import com.ftninformatika.bisis.circ.warnings.WarningsFrame;
-import com.ftninformatika.bisis.models.circ.Member;
-import com.ftninformatika.bisis.models.circ.WarningType;
-import com.ftninformatika.bisis.models.circ.pojo.CircLocation;
-import com.ftninformatika.bisis.models.circ.pojo.Warning;
-import com.ftninformatika.bisis.models.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.WarningType;
+import com.ftninformatika.bisis.circ.pojo.CircLocation;
+import com.ftninformatika.bisis.circ.pojo.Warning;
+import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.Record;
-import org.apache.commons.lang.SerializationUtils;
-import org.springframework.data.mongodb.repository.query.QueryUtils;
 
 
 public class WarningsManager {
@@ -29,7 +26,7 @@ public class WarningsManager {
       List data = (BisisApp.appConfig.getCodersHelper()
               .getCircLocations().values().stream()
               .map(i -> {
-                  com.ftninformatika.bisis.models.circ.pojo.CircLocation l = new com.ftninformatika.bisis.models.circ.pojo.CircLocation();
+                  com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                   l.setDescription(i.getDescription());
                   l.setLocationCode(i.getLocationCode());
                   return l;

@@ -22,7 +22,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.UsersPrefix;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.models.coders.Location;
+import com.ftninformatika.bisis.coders.Location;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;

@@ -1,8 +1,10 @@
 package com.ftninformatika.bisis.service;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordResponseWrapper;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.bisis.search.SearchModelCirc;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,33 +12,61 @@ import java.util.List;
 /**
  * Created by Petar on 8/9/2017.
  */
-public interface RecordManager {
-    // finding records
-    public List<String> select1(SearchModel searchModel) throws IOException;
-    /*public int[] select2(Query query, String sortPrefix);
-    public int[] select2x(byte[] serializedQuery, String sortPrefix);
-    public int[] select3(Query query, Filter filter, String sortPrefix);
-    public Result selectAll1(String query, String sortPrefix) throws ParseException;
-    public Result selectAll2(Query query, String sortPrefix);
-    public Result selectAll2x(byte[] serializedQuery, String sortPrefix);
-    public Result selectAll3(Query query, Filter filter, String sortPrefix);
-    public Result selectAll3x(byte[] serializedQuery, byte[] serializedFilter, String sortPrefix);*/
-    public List<String> selectExp(/*String query,*/ String prefix,String text) throws IOException;
+public class RecordManager {
 
-    // retrieving records
-    public Record getRecord(String recID) throws IOException;
-    //public List<DocFile> getDocFiles(int rn);
-    public Record[] getRecords(List<String> recIDs) throws IOException;
-    public List<RecordResponseWrapper> getRecordsAllData(List<String> recIDs) throws IOException;
-    public Record getAndLock(String recID, String userId) throws IOException;
-    public String lock(String recID, String userId) throws IOException;
-    public String unlock(String recID) throws IOException;
 
-    // storing records
-    //public int getNewID(String counterName);
-    public boolean add(Record rec) throws IOException;
-    public Record update(Record rec);
-    public boolean delete(String recID) throws IOException;
-    public boolean reindex(String recID);
+    public List<String> searchRecords(SearchModel searchModel) throws IOException {
+        return BisisApp.bisisService.searchRecordsIds(searchModel).execute().body();
+    }
+
+    public List<String> searchRecordsCirc(SearchModelCirc searchModel) throws IOException {
+        return BisisApp.bisisService.searchRecordsIds(searchModel).execute().body();
+    }
+
+
+    public Record getRecord(String recID) throws IOException {
+        return BisisApp.bisisService.getOneRecord(recID).execute().body();
+    }
+
+    public Record[] getRecords(List<String> recIDs) throws IOException {
+        Record[] retVal = new Record[recIDs.size()];
+        return  BisisApp.bisisService.getRecordsByIds(recIDs).execute().body().toArray(retVal);
+    }
+
+    public List<RecordResponseWrapper> getRecordsAllData(List<String> recIDs) throws IOException {
+        return  BisisApp.bisisService.getRecordsAllDataByIds(recIDs).execute().body();
+    }
+
+    public Record getAndLock(String recID, String userId) throws IOException {
+        return BisisApp.bisisService.getAndLockRecord(recID, userId).execute().body();
+    }
+
+    public String lock(String recID, String userId) throws IOException {
+        return BisisApp.bisisService.lockRecord(recID, userId).execute().body();
+    }
+
+    public String unlock(String recID) throws IOException {
+        return BisisApp.bisisService.unlockRecord(recID).execute().body();
+    }
+
+    public boolean add(Record rec) throws IOException {
+        return BisisApp.bisisService.createRecord(rec).execute().body() != null;
+    }
+
+    public Record update(Record rec) {
+        return null;
+    }
+
+    public boolean delete(String recID) throws IOException {
+        return BisisApp.bisisService.deleteRecord(recID).execute().body();
+    }
+
+    public boolean reindex(String recID) {
+        return false;
+    }
+
+    public List<String> selectExp(/*String query,*/ String prefix, String text) throws IOException {
+        return BisisApp.bisisService.getExpand(prefix, text).execute().body();
+    }
 
 }

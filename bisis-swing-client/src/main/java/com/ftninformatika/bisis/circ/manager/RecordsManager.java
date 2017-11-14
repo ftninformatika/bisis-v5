@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.bisis.search.SearchModelCirc;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -229,7 +230,7 @@ public class RecordsManager {
         }
     }
 
-    public int getRecords(SearchModel searchModel, List list){
+    public int getRecords(SearchModelCirc searchModel){
         List<String> recordQueryResultIds = null;
         if (searchModel != null){
 //            if (list != null){
@@ -242,7 +243,7 @@ public class RecordsManager {
 //            }
             //TODO list != null
             try {
-                recordQueryResultIds = BisisApp.recMgr.select1(searchModel);
+                recordQueryResultIds = BisisApp.recMgr.searchRecordsCirc(searchModel);
             } catch (Exception e){
 
             }

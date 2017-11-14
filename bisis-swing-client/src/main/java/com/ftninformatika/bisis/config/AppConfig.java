@@ -51,6 +51,7 @@ public abstract class AppConfig {
     retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
+        .addConverterFactory(new NullOnEmptyConverterFactory())
         .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
         .build();
 
@@ -82,6 +83,7 @@ public abstract class AppConfig {
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
+        .addConverterFactory(new NullOnEmptyConverterFactory())
         .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
         .build();
 

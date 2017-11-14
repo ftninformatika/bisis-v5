@@ -4,7 +4,7 @@ package com.ftninformatika.bisis.circ.view;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.models.circ.pojo.Organization;
+import com.ftninformatika.bisis.circ.pojo.Organization;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -22,7 +22,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -38,6 +37,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 
 public class UserData {
@@ -996,17 +997,17 @@ public class UserData {
         return tblDuplicate;
     }
 
-	private DuplicateTableModel getDuplicateTableModel() {
+    private DuplicateTableModel getDuplicateTableModel() {
         if (duplicateTableModel == null) {
-      duplicateTableModel = new DuplicateTableModel();
-//      duplicateTableModel.addTableModelListener(new TableModelListener() {
-//        public void tableChanged(TableModelEvent e){
-//          handleKeyTyped();
-//        }
-//      });
-		}
-		return duplicateTableModel;
-	}
+            duplicateTableModel = new DuplicateTableModel();
+            duplicateTableModel.addTableModelListener(new TableModelListener() {
+                public void tableChanged(TableModelEvent e) {
+                    handleKeyTyped();
+                }
+            });
+        }
+        return duplicateTableModel;
+    }
 
     public void setDupTableModel(List duplicates) {
         getDuplicateTableModel().setData(duplicates);
@@ -1023,12 +1024,12 @@ public class UserData {
             btnAdd.setToolTipText(Messages.getString("circulation.add")); //$NON-NLS-1$
             btnAdd.setFocusable(false);
             //btnAdd.setPreferredSize(new java.awt.Dimension(28,28));
-			btnAdd.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					getDuplicateTableModel().addRow();
-				}
-			});
-		}
+            btnAdd.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    getDuplicateTableModel().addRow();
+                }
+            });
+        }
         return btnAdd;
     }
 
@@ -1082,7 +1083,7 @@ public class UserData {
                         btnBlock.setText(Messages.getString("circulation.block")); //$NON-NLS-1$
                         blocked = false;
                     } else {
-                        note = new Note(null,true);
+                        note = new Note(null, true);
                         note.setLocationRelativeTo(null);
                         note.setVisible(true);
                         if (!note.getValue().equals("")) { //$NON-NLS-1$
@@ -1129,14 +1130,14 @@ public class UserData {
         }
         return btnPin;
     }
-  
-  private ZipPlaceDlg getZipPlace() {
-    if (zipplace == null) {
-      zipplace = new ZipPlaceDlg(BisisApp.getMainFrame());
-      zipplace.setLocationRelativeTo(null);
+
+    private ZipPlaceDlg getZipPlace() {
+        if (zipplace == null) {
+            zipplace = new ZipPlaceDlg(BisisApp.getMainFrame());
+            zipplace.setLocationRelativeTo(null);
+        }
+        return zipplace;
     }
-    return zipplace;
-  }
 
     public String getFirstName() {
         return getTfFirstName().getText();
@@ -1272,7 +1273,7 @@ public class UserData {
     }
 
     public String getEduLvl() {
-        return (String)Utils.getCmbValue(getCmbEduLevel());
+        return (String) Utils.getCmbValue(getCmbEduLevel());
     }
 
     public String getLanguages() {

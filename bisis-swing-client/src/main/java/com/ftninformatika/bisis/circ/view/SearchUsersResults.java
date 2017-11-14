@@ -94,7 +94,7 @@ public class SearchUsersResults {
   	if (btnShow == null) {
   		btnShow = new JButton();
   		btnShow.setText(Messages.getString("circulation.show")); //$NON-NLS-1$
-  		btnShow.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/user16.png"))); //$NON-NLS-1$
+  		btnShow.setIcon(new ImageIcon(getClass().getResource("/circ-images/user16.png"))); //$NON-NLS-1$
   		btnShow.addActionListener(new java.awt.event.ActionListener() {
   			public void actionPerformed(java.awt.event.ActionEvent e) {
   				if(getTblResults().getSelectedRow()!=-1){
@@ -117,7 +117,7 @@ public class SearchUsersResults {
 		if (btnCancel == null) {
 			btnCancel = new JButton();
 			btnCancel.setText(Messages.getString("circulation.cancel")); //$NON-NLS-1$
-			btnCancel.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/Delete16.png"))); //$NON-NLS-1$
+			btnCancel.setIcon(new ImageIcon(getClass().getResource("/circ-images/Delete16.png"))); //$NON-NLS-1$
 			btnCancel.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					getSearchUsersTableModel().removeAll();
@@ -133,7 +133,7 @@ public class SearchUsersResults {
 			btnPrint = new JButton();
 			btnPrint.setText(Messages.getString("circulation.print")); //$NON-NLS-1$
 			btnPrint.setFocusable(false);
-			btnPrint.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/print16.png"))); //$NON-NLS-1$
+			btnPrint.setIcon(new ImageIcon(getClass().getResource("/circ-images/print16.png"))); //$NON-NLS-1$
 			btnPrint.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 //					Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(SearchReport.setPrint(getSearchUsersTableModel(),getQuery()));

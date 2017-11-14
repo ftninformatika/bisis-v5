@@ -1,14 +1,11 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.pojo.PictureBook;
+import com.ftninformatika.bisis.circ.pojo.PictureBook;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 

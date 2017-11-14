@@ -114,8 +114,7 @@ public class User extends JPanel {
 								return;
 							}
 						}
-						String message = //Cirkulacija.getApp().getUserManager().saveUser(getUser());
-										"ok";
+						String message = Cirkulacija.getApp().getUserManager().saveUser(getUser());
 						if (message.equals("ok")){ //$NON-NLS-1$
 							JOptionPane.showMessageDialog(null, Messages.getString("circulation.saved"), Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
 								new ImageIcon(getClass().getResource("/circ-images/hand32.png"))); //$NON-NLS-1$
@@ -193,8 +192,7 @@ public class User extends JPanel {
 							JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.archiveerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
 									new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 						} else {
-							String message = //Cirkulacija.getApp().getUserManager().archiveUser(getUser());
-											"nesto";
+							String message = Cirkulacija.getApp().getUserManager().archiveUser(getUser());
 							if (message.equals("ok")){ //$NON-NLS-1$
 								JOptionPane.showMessageDialog(null, Messages.getString("circulation.archived"), Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
 									new ImageIcon(getClass().getResource("/circ-images/hand32.png"))); //$NON-NLS-1$

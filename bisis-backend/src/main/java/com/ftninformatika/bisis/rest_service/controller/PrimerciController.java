@@ -1,14 +1,11 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.models.circ.Lending;
-import com.ftninformatika.bisis.models.circ.Member;
+import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -57,7 +54,11 @@ public class PrimerciController {
     @RequestMapping( value = "/{invNum}", method = RequestMethod.GET)
     public Primerak getPrimerak(@PathVariable String invNum){
         Record r = recordsRepository.getRecordByPrimerakInvNum(invNum);
-        return r.getPrimerak(invNum);
+        if (r != null) {
+            return r.getPrimerak(invNum);
+        } else {
+            return null;
+        }
     }
 
     @RequestMapping( method = RequestMethod.DELETE )

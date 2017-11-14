@@ -1,62 +1,41 @@
 package com.ftninformatika.bisis.circ.options;
 
-import java.util.Iterator;
-import java.util.List;
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.CircConfig;
 
 
 public class Manager {
-	
-/*	private static Service service;
-	
-	static{
-		ServiceFactory factory = BisisApp.getFactory(CommandType.HIBERNATE);
-		String mac = NetUtils.getMACAddress();
-	    String category = "commandsrv";
-	    if (BisisApp.getINIFile().getCategories().contains(mac)){
-	    	category = mac;
-	    }
-	    if (BisisApp.getINIFile().getBoolean(category, "remote")){
-	    	service = factory.createService(ServiceType.REMOTE, BisisApp.getINIFile().getString(category, "service"));
-	    } else {
-	    	service = factory.createService(ServiceType.LOCAL, null);
-	    }
-	}
+
+    private static CircConfig circConfig;
 		
 	public static void loadDocs(){
-		GetAllCommand getAll = new GetAllCommand();
-		getAll.setArg(Configs.class);
-		getAll = (GetAllCommand)service.executeCommand(getAll);
-		List list = getAll.getList();
-		if (list != null){
-  		Iterator it = list.iterator();
-  		while (it.hasNext()){
-  			Configs config = (Configs)it.next();
-  			if (config.getName().equals("circ-options")){
-  				EnvironmentOptions.setDoc(config.getText());
-  			}
-  			if (config.getName().equals("circ_validator")){
-  				ValidatorOptions.setDoc(config.getText());
-  			}
-  		}
-		}
+        try {
+            circConfig = BisisApp.bisisService.getCircConfigs(BisisApp.appConfig.getLibrary()).execute().body();
+            EnvironmentOptions.setDoc(circConfig.getCircOptionsXML());
+            ValidatorOptions.setDoc(circConfig.getValidatorOptionsXML());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
+
+    public static boolean save(String envXml, String validatorXml){
+        try {
+            circConfig.setCircOptionsXML(envXml);
+            circConfig.setValidatorOptionsXML(validatorXml);
+            CircConfig config = BisisApp.bisisService.saveCircConfigs(circConfig).execute().body();
+            if (config != null){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 	
-	public static boolean saveEnv(String xml){
-		Configs config = new Configs();
-		config.setName("circ-options");
-		config.setText(xml);
-		SaveObjectCommand save = new SaveObjectCommand(config);
-		save = (SaveObjectCommand)service.executeCommand(save);
-		return save.isSaved();
-	}
-	
-	public static boolean saveValidator(String xml){
-		Configs config = new Configs();
-		config.setName("circ_validator");
-		config.setText(xml);
-		SaveObjectCommand save = new SaveObjectCommand(config);
-		save = (SaveObjectCommand)service.executeCommand(save);
-		return save.isSaved();
-	}
-*/
+
+
 }

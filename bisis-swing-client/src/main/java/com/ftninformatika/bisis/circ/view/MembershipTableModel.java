@@ -1,17 +1,15 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.models.circ.pojo.MembershipType;
-import com.ftninformatika.bisis.models.circ.pojo.UserCategory;
-import com.ftninformatika.bisis.models.circ.pojo.Signing;
+import com.ftninformatika.bisis.circ.pojo.MembershipType;
+import com.ftninformatika.bisis.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.circ.pojo.Signing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -31,7 +29,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
     	dataView = new ArrayList<Signing>();
     }
     
-    public void setData(List data){
+    public void setData(List<Signing> data){
 //      this.dataView.clear();
 //      Iterator it = data.iterator();
 //      while (it.hasNext()){
