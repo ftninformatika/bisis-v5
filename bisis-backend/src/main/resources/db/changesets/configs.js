@@ -54,6 +54,14 @@ db.configs.insert({
         "className":"com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografske",
         "type":"year",
         "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
+    },
+       {
+        "reportName" : "InvKnjigaZaFilmoveIVideosnimke",
+        "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaFilmoveIVideosnimke",
+        "menuitem" : "Inventarna Knjiga|Filmovi i videosnimci",
+        "invnumpattern" : "^0100.*",
+        "type" : "month",
+        "jasper" : "/jaspers/gbns/InvKnjigaZaFilmoveIVideosnimke.jasper"
     }]
 
 });

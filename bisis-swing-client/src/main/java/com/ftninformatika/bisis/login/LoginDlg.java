@@ -45,7 +45,7 @@ public class LoginDlg extends JDialog {
     pack();
     WindowUtils.centerOnScreen(this);
     if (BisisApp.appConfig instanceof DevelopmentConfig) {
-      tfUsername.setText("admin.admin@gbns.com");
+      tfUsername.setText("admin.admin@gbns");
       pfPassword.setText("admin1");
     }
   }

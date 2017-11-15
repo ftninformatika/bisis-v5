@@ -68,7 +68,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 
 	  if (this.searchModel != null){
           try {
-              this.recordQueryResultIds = BisisApp.recMgr.select1(searchModel);
+              this.recordQueryResultIds = BisisApp.recMgr.searchRecords(searchModel);
               return this.recordQueryResultIds.size();
           } catch (IOException e) {
               e.printStackTrace();
