@@ -25,8 +25,8 @@ public class ChoseThemeFrame extends JInternalFrame {
         choseTheme = new JComboBox();
         choseTheme.addItem("SeaGlass");
         choseTheme.addItem("Legacy");
-        save = new JButton("Sačuvaj");
-        cancel = new JButton("Poništi");
+        save = new JButton("Sa\u010duvaj");
+        cancel = new JButton("Ponisti");
 
         FlowLayout layout = new FlowLayout();
 

@@ -10,7 +10,9 @@ targetCompatibility = 1.8
 
 repositories {
     maven { url "https://clojars.org/repo" }
+    maven { url "https://maven.repository.redhat.com/ga/" }
     mavenCentral()
+
 
 }
 
@@ -42,7 +44,12 @@ dependencies {
     compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
     compile group: 'stax', name: 'stax-api', version: '1.0.1'
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.4.3'
-    compile fileTree(dir: 'old-libs', include: '*.jar')
+    compile fileTree(dir: '../old-libs', include: '*.jar')
+    //compile files('old-libs/')
+    compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
+    compile group: 'org.olap4j', name: 'olap4j', version: '1.1.0'
+
+
 
 }
 
@@ -57,3 +64,18 @@ processResources {
         ]
     }
 }
+
+
+task compileJasperJava(dependsOn: 'compileJava') << {
+    def jasperSourceDir = file('src/main/resources/jaspers')
+    def jasperTargetDir = file('build/resources/main/jaspers')
+    ant {
+        taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: sourceSets.main.compileClasspath.asPath )
+        jasperTargetDir.mkdirs()
+        jrc(srcdir: jasperSourceDir, destdir: jasperTargetDir) {
+            classpath(path: sourceSets.main.output.classesDir)
+            include(name: '**/*.jrxml')
+        }
+    }
+}
+classes.dependsOn compileJasperJava

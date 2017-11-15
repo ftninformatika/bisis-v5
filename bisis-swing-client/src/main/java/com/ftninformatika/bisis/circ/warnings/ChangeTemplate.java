@@ -678,7 +678,7 @@ public class ChangeTemplate extends JPanel {
 	private JTextField getTfNadoknada1() {
 		if (tfNadoknada1 == null) {
 			tfNadoknada1 = new JTextField();
-			tfNadoknada1.setToolTipText("nadoknada za prekoračenje roka dnevno po svakoj knjizi");
+			tfNadoknada1.setToolTipText("nadoknada za prekora\u010denje roka dnevno po svakoj knjizi");
 			tfNadoknada1.addKeyListener(new java.awt.event.KeyAdapter() {
 				public void keyTyped(java.awt.event.KeyEvent e) {
 					handleKeyTyped();

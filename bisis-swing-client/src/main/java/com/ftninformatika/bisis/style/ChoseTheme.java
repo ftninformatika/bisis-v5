@@ -8,8 +8,8 @@ import java.awt.*;
  */
 public class ChoseTheme extends JInternalFrame {
     private JPanel panel1;
-    private JButton poništiButton;
-    private JButton sačuvajButton;
+    private JButton ponistiButton;
+    private JButton sacuvajButton;
     private JComboBox comboBox1;
 
     public ChoseTheme(){
