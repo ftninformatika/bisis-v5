@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.reports;
 
+import com.ftninformatika.bisis.LibraryCoders;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BindingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
@@ -16,7 +17,7 @@ import java.util.List;
 public class ReportCollection {
 
  
-  public ReportCollection(LibraryConfiguration lc, ReportsRepository reportsRep, BindingRepository binRep) {
+  public ReportCollection(LibraryConfiguration lc, ReportsRepository reportsRep,BindingRepository binRep, LibraryCoders coders) {
 
       List<com.ftninformatika.bisis.library_configuration.Report> reportsConf = lc.getReports();
       reports = new ArrayList<Report>(reportsConf.size());
@@ -24,6 +25,7 @@ public class ReportCollection {
           String className = r.getClassName();
               try {
                   Report report = (Report) Class.forName(className).newInstance();
+                  report.setCoders(coders);
                   report.setReportSettings(r);
                   report.setRepository(reportsRep);
                   report.setLibrary(lc.getLibraryName());

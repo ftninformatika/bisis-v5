@@ -73,8 +73,8 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/InvKnjigaZaFilmoveIVideosnimke.jasper"
         },
         {
-            "reportName" : "InvKnjigaZavicajna",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZavicajna",
+            "reportName" : "InvKnjigaMonografskeZavicajna",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografskeZavicajna",
             "menuitem" : "Inventarna Knjiga|Monografske|Zavičajna",
             "invnumpattern" : "^0100.*",
             "type" : "month",
