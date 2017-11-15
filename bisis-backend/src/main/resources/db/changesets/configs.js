@@ -47,22 +47,40 @@ db.configs.insert({
     "barcodeUsersWidebar": "2",
     "barcodeUsersPageCode": "1251",
     "barcodeUsersLinelength": "19",
-    "reports":[{
-        "reportName":"InventarnaKnjigaMonografske",
-        "invnumpattern":"^0100.*",
-        "menuitem" :"Inventarna Knjiga|Monografske|Opšte",
-        "className":"com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografske",
-        "type":"year",
-        "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
-    },
-       {
-        "reportName" : "InvKnjigaZaFilmoveIVideosnimke",
-        "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaFilmoveIVideosnimke",
-        "menuitem" : "Inventarna Knjiga|Filmovi i videosnimci",
-        "invnumpattern" : "^0100.*",
-        "type" : "month",
-        "jasper" : "/jaspers/gbns/InvKnjigaZaFilmoveIVideosnimke.jasper"
-    }]
+    "reports" : [
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Ceo fond",
+            "invnumpattern" : "^0100.*",
+            "type" : "whole",
+            "reportName" : "JeziciPoOgrancimaSve",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
+            "reportName" : "InventarnaKnjigaMonografske",
+            "invnumpattern" : "^0100.*",
+            "menuitem" : "Inventarna Knjiga|Monografske|Opšte",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografske",
+            "type" : "year",
+            "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaZaFilmoveIVideosnimke",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaFilmoveIVideosnimke",
+            "menuitem" : "Inventarna Knjiga|Filmovi i videosnimci",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaZaFilmoveIVideosnimke.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaZavicajna",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZavicajna",
+            "menuitem" : "Inventarna Knjiga|Monografske|Zavičajna",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
+        }
+    ]
 
 });
 
