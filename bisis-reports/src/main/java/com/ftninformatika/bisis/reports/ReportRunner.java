@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.reports;
 
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.rest_service.controller.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.domain.Page;
@@ -17,9 +17,11 @@ public class ReportRunner {
 		this.recrep=recrep;
 	}
 
+
+
 	public void run() {
 	    int page=0;
-		Pageable p = new PageRequest(page, 1000);
+		Pageable p = new PageRequest(page, 3000);
 		Page<Record> records=recrep.findAll(p);
 
 		int count = 0;
@@ -47,7 +49,8 @@ public class ReportRunner {
                         }
                     }
                 }
-                records = recrep.findAll(records.nextPageable());
+                break;
+                //records = recrep.findAll(records.nextPageable());
             }while (records.hasNext());
 
 			log.info("Finishing reports");

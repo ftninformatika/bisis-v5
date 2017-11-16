@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.reportsImpl;
 
-
+import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
-import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Period;
@@ -22,23 +22,32 @@ import com.ftninformatika.utils.string.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class InvKnjigaMonografskeZavicajna extends Report {
+
+public class KnjigaInventaraSerijske extends Report {
 	public class Item implements Comparable {
 	    public String invbr;
-	    public Date datum;
+	    public Date datum;	    
 	    public String opis;
-	    public String povez;
+	    public String god;
+	    public String brSv;
 	    public String dim;
-	    public String nabavka;
+	    public String povez;	   
+	    public String nepovez;
+	    public String nabavkaO;
+	    public String nabavkaK;
+	    public String nabavkaR;
+	    public String nabavkaP;
 	    public String cena;
-	    public String sig;
+	    public String signatura;
 	    public String napomena;
-	    public String ogr;
+	    
 	    
 	    public int compareTo(Object o) {
 	      if (o instanceof Item) {
 	        Item b = (Item)o;
-	        return invbr.substring(4).compareTo(b.invbr.substring(4));
+	        if(b.god!=null && god!=null)
+	          return god.compareTo(b.god);
+	        
 	      }
 	      return 0;
 	    }
@@ -51,50 +60,58 @@ public class InvKnjigaMonografskeZavicajna extends Report {
 	      buf.append(datum == null ? "" : sdf.format(datum));
 	      buf.append("</datum>\n    <opis>");
 	      buf.append(opis==null ? "": StringUtils.adjustForHTML(opis));
-	      buf.append("</opis>\n    <povez>");
+	      buf.append("</opis>\n   <god>");
+	      buf.append(god == null ? "" : StringUtils.adjustForHTML(god));
+	      buf.append("</god>\n    <brSv>");
+	      buf.append(brSv == null ? "" : StringUtils.adjustForHTML(brSv));
+	      buf.append("</brSv>\n    <dim>");
+	      buf.append(dim == null ? "" : StringUtils.adjustForHTML(dim));
+	      buf.append("</dim>\n    <povez>");
 	      buf.append(povez);
-	      buf.append("</povez>\n    <dim>");
-	      buf.append(StringUtils.adjustForHTML(dim));
-	      buf.append("</dim>\n    <nabavka>");
-	      buf.append(nabavka==null ? "" :StringUtils.adjustForHTML(nabavka));
-	      buf.append("</nabavka>\n    <cena>");
-	      buf.append(cena==null ? "" : StringUtils.adjustForHTML(cena));
+	      buf.append("</povez>\n    <nabavkaO>");
+	      buf.append(nabavkaO == null ? "" : StringUtils.adjustForHTML(nabavkaO));
+	      buf.append("</nabavkaO>\n    <nabavkaK>");
+	      buf.append(nabavkaK == null ? "" : StringUtils.adjustForHTML(nabavkaK));
+	      buf.append("</nabavkaK>\n    <nabavkaR>");
+	      buf.append(nabavkaR == null ? "" : StringUtils.adjustForHTML(nabavkaR));
+	      buf.append("</nabavkaR>\n    <nabavkaP>");
+	      buf.append(nabavkaP == null ? "" : StringUtils.adjustForHTML(nabavkaP));  
+	      buf.append("</nabavkaP>\n    <cena>");
+	      buf.append(cena == null ? "" : StringUtils.adjustForHTML(cena));  
 	      buf.append("</cena>\n    <signatura>");
-	      buf.append(sig==null ? "" : StringUtils.adjustForHTML(sig));
+	      buf.append(signatura == null ? "" : StringUtils.adjustForHTML(signatura));  
 	      buf.append("</signatura>\n    <napomena>");
-	      buf.append(napomena==null ? "" :StringUtils.adjustForHTML(napomena));
-	      buf.append("</napomena>\n");
-	      buf.append ("<sortinv>");
-	      buf.append(invbr.substring(4));
-	      buf.append("</sortinv>\n    </item>");
+	      buf.append(napomena == null ? "" : StringUtils.adjustForHTML(napomena));  
+	      buf.append("</napomena>\n  </item>");
 	      return buf.toString();
 	    }
 	  }
-	  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
-		  log.info("Finishing report...");
-		    for (List<Item> list : itemMap.values())
-		      Collections.sort(list);
-		    
-		    for (String key : itemMap.keySet()) {
-		      List<Item> list = itemMap.get(key);
-		      StringBuilder out = getWriter(key);
-		      for (Item i : list){
-		    	   out.append(i.toString());
-		    	   
-		      }
-		      //out.flush();
-		      itemMap.get(key).clear();
-		    }
-		   
-		    log.info("Report finished.");
-	  }
+
   @Override
   public void init() {
 	  itemMap.clear();
-	    pattern = Pattern.compile(getReportSettings().getInvnumpattern());
-	    log.info("Report initialized.");
+	  pattern = Pattern.compile(getReportSettings().getInvnumpattern());
+	  log.info("Report initialized.");
   }
 
+  //@Override
+  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
+	  log.info("Finishing report...");
+	    for (List<Item> list : itemMap.values())
+	      Collections.sort(list);
+	    
+	    for (String key : itemMap.keySet()) {
+	      List<Item> list = itemMap.get(key);
+	      StringBuilder out = getWriter(key);
+	      for (Item i : list){
+	    	   out.append(i.toString());
+	    	   
+	      }
+	      itemMap.get(key).clear();
+	    }
+	    
+	    log.info("Report finished1.");
+  }
   @Override
   public void finish() {
 	  log.info("Finishing report...");
@@ -108,6 +125,7 @@ public class InvKnjigaMonografskeZavicajna extends Report {
 	    	   out.append(i.toString());
 	    	   
 	      }
+	      
 	      out.append("</report>");
             GeneratedReport gr=new GeneratedReport();
             gr.setReportName(key.substring(0,key.indexOf("-")));
@@ -116,81 +134,76 @@ public class InvKnjigaMonografskeZavicajna extends Report {
             gr.setContent(out.toString());
             gr.setReportType(getType().name().toLowerCase());
             getReportRepository().save(gr);
-	      //out.close();
+
 	    }
-	   
+	    
+	    //closeFiles();
 	    itemMap.clear();
-	    log.info("Report finished.");
+	    log.info("Report finished2.");
   }
 
   @Override
   public void handleRecord(Record rec) {
     if (rec == null)
       return;
+  
        String naslov = rec.getSubfieldContent("200a");
     if (naslov == null)
       naslov = "";
-    String autor = getAutor(rec); 
-    if (autor == null)
-      autor = "";
-    autor.trim();
-    String izdavac = rec.getSubfieldContent("210c");
-    if (izdavac == null)
-      izdavac = "";
+    
+    String podnaslov = rec.getSubfieldContent("200e");
+    if (podnaslov == null)
+    	podnaslov = "";
     String mesto = rec.getSubfieldContent("210a");
     if (mesto == null)
       mesto = "";
-    String god = rec.getSubfieldContent("210d");
-    if (god == null)
-      god = "";
-    String brsveske = rec.getSubfieldContent("200h");
-    if (brsveske == null)
-      brsveske = "";
-    String RN = rec.getSubfieldContent("001e");
-    if (RN == null)
-      RN = "";
+    
+    String drzava = rec.getSubfieldContent("102a");
+    if (drzava == null)
+      drzava = "";
+    
     
     StringBuffer opis = new StringBuffer();
-    opis.append(autor);
-    opis.append("\n");
+    
+    
+      
     opis.append(naslov);
-    if (naslov.length() > 0)
+    
+    if (podnaslov.length() > 0)
       opis.append(", ");
-    opis.append(brsveske);
-    if (brsveske.length() > 0)
-      opis.append(", ");
-    opis.append(mesto);
+    opis.append(podnaslov);
+    
     if (mesto.length() > 0)
       opis.append(", ");
-    opis.append(izdavac);
-    if (izdavac.length() > 0)
+    opis.append(mesto);
+    
+    if (drzava.length() > 0)
       opis.append(", ");
-    opis.append(god);
-    if (god.length() > 0)
-      opis.append(".");
-    if (RN.length() > 0)
-      opis.append("   RN: " + RN);
+    opis.append(drzava);
+   
+    String god = rec.getSubfieldContent("207a");
+    if (god == null)
+    	god = " ";
     
     String dim = rec.getSubfieldContent("215d");
     if (dim == null)
       dim = " ";
     
-    String sig = " ";
+     String sig = " ";
 
-    for (Primerak p : rec.getPrimerci()) {
-   
+    for (Godina p : rec.getGodine()) {
+
       if(p.getInvBroj()==null)
     	  continue;
-      String zavicajnaM=p.getInvBroj().substring(0, 4);
-      if ((zavicajnaM.compareToIgnoreCase("3131")!=0)&&  //ako ne pocinju ovako onda nisu iz zavicajne monografske
-         (zavicajnaM.compareToIgnoreCase("3132")!=0)&&
-         (zavicajnaM.compareToIgnoreCase("3133")!=0))
-    	  		continue;
-      
-       if (p.getInvBroj().substring(4,6).compareToIgnoreCase("00")!=0){
-    	  	 continue;
+      if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
+    		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("01")!=0)
+    			  continue;
+      }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("01")!=0){
+    	  continue;
       }
-
+      String brSv = Integer.toString(p.getSveskeCount());
+      if (brSv == null)
+      	brSv = " ";
       sig = Signature.format(p.getSigDublet(), p.getSigPodlokacija(),
           p.getSigIntOznaka(), p.getSigFormat(), p.getSigNumerusCurens(), 
           p.getSigUDK());
@@ -200,30 +213,57 @@ public class InvKnjigaMonografskeZavicajna extends Report {
       i.invbr =  nvl(p.getInvBroj());
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
-      if(p.getPovez() != null)
-        i.povez = getCoders().getBinCoders().get(p.getPovez()).getDescription();
-      else
-        i.povez = "";
-      //i.povez =HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.POVEZ_CODER, nvl(p.getPovez()));
+      i.povez = ""; // nisu napisali koja je oznaka za povezano koja
+      i.nepovez = "";//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.POVEZ_CODER, nvl(p.getPovez()));
+      if(getCoders().getBinCoders().get(p.getPovez()) != null){
+          i.povez = getCoders().getBinCoders().get(p.getPovez()).getDescription();
+          i.nepovez =  getCoders().getBinCoders().get(p.getPovez()).getDescription();
+      }
       i.dim = dim;
-      /*String dobavljac=nvl(p.getDobavljac());*/
-      /*String vrnab = nvl(p.getNacinNabavke());*/
-        String nabavka="";
-      if(p.getNacinNabavke() != null)
-      nabavka= getCoders().getAcqCoders().get(p.getDobavljac()).getDescription();
-
-      i.nabavka = nabavka;
+      String dobavljac=nvl(p.getDobavljac());
+      String vrnab = nvl(p.getNacinNabavke());
+      //******************    NABAVKA NIJE ZAVRSENA   *************************//TODO ispitati sta su nabavakaO,p,r?
+      String nabavkaO=" ";
+      String nabavkaK=" ";
+      String nabavkaR=" ";
+      String nabavkaP=" ";
+      if (vrnab.equals("c") || vrnab.equals("p")) {
+    	  nabavkaP = "poklon";
+          if (dobavljac!="" && dobavljac!=" ")
+            nabavkaP += ", " + dobavljac;
+        } else if (vrnab.equals("a") || vrnab.equals("k")) {
+          nabavkaK = "kupovina";
+          if (dobavljac!="" && dobavljac!=" ")
+            nabavkaK += ", " + dobavljac;
+          String brRac=nvl(p.getBrojRacuna());
+          if (brRac!="" && brRac!=" ")
+              nabavkaK += ", " + brRac;
+            
+        } else if (vrnab.equals("b")) {
+          nabavkaR = "razmena";
+        } else if (vrnab.equals("d")) {
+          nabavkaO = "obavezni primerak";
+        } else if (vrnab.equals("e")) {
+          //nabavka = "zate\u010deni fond";
+        } else if (vrnab.equals("f") || vrnab.equals("s")) {
+          //nabavka = "sopstvena izdanja";
+        } else if (vrnab.equals("o")) {
+          //nabavka = "otkup";
+        }
         DecimalFormat df2 = new DecimalFormat(".##");
       i.cena = p.getCena() == null ? " " : 
         df2.format(p.getCena()).toString();
-      i.sig = sig;
+      i.signatura = sig;
+      i.nabavkaO=nabavkaO;
+      i.nabavkaR=nabavkaR;
+      i.nabavkaK=nabavkaK;
+      i.nabavkaP=nabavkaP;
       i.napomena = nvl(p.getNapomene());
       String key = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());
       getList(key).add(i);
       
-      }
+    }
   }
-
   public List<Item> getList(String key) {
 	    List<Item> list = itemMap.get(key);
 	    if (list == null) {
@@ -231,8 +271,7 @@ public class InvKnjigaMonografskeZavicajna extends Report {
 	      itemMap.put(key, list);
 	    }
 	    return list;
-  }
-  
+}
   public String getAutor(Record rec) {
     if (rec.getField("700") != null) {
       String sfa = rec.getSubfieldContent("700a");
@@ -314,7 +353,6 @@ public class InvKnjigaMonografskeZavicajna extends Report {
   private List<Item> items = new ArrayList<Item>();
   private String name;
   private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-  private static Log log = LogFactory.getLog(InvKnjigaMonografskeZavicajna.class);
+  private static Log log = LogFactory.getLog(KnjigaInventaraSerijske.class);
 
-  
 }

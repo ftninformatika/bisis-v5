@@ -29,7 +29,7 @@ public class ReportConfig extends AbstractMongoConfiguration {
 
    @Override
     protected String getDatabaseName() {
-        return "bisisdev";
+        return "10_11_bisis";
     }
 
     @Override

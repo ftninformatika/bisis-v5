@@ -79,6 +79,86 @@ db.configs.insert({
             "invnumpattern" : "^0100.*",
             "type" : "month",
             "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
+        },
+        {
+            "reportName" : "KnjigaInventaraSerijske",
+            "className" : "com.ftninformatika.bisis.reportsImpl.KnjigaInventaraSerijske",
+            "menuitem" : "Inventarna Knjiga|Serijske",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/KnjigaInventaraSerijske.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaStaraIRetkaKnjiga",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaStaraIRetkaKnjiga",
+            "menuitem" : "Inventarna Knjiga|Stara i retka knjiga",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaStaraIRetkaKnjiga.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaMonografskeRaritet",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografskeRaritet",
+            "menuitem" : "Inventarna Knjiga|Monografske|Rariteti",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaKartografskaGradja",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaKartografskaGradja",
+            "menuitem" : "Inventarna Knjiga|Kartografska građa",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaKartografskaGradja.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaZaMikrooblik",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaMikrooblik",
+            "menuitem" : "Inventarna Knjiga|Mikrooblik ",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaZaMikrooblik.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaMonografskeRaritet",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografskeRaritet",
+            "menuitem" : "Inventarna Knjiga|Monografske|Rariteti",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaZaMuzikalije",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaMuzikalije",
+            "menuitem" : "Inventarna Knjiga|Muzikalije",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaZaMuzikalije.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaZaRukopisnuGradju",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaRukopisnuGradju",
+            "menuitem" : "Inventarna Knjiga|Rukopisna gradja",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaZaRukopisnuGradju.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaZaVizuelnuGradjuSlika",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaVizuelnuGradjuSlika",
+            "menuitem" : "Inventarna Knjiga|Vizuelna gradja",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaZaVizuelnuGradjuSlika.jasper"
+        },
+        {
+            "reportName" : "InvKnjigaZaVizuelnuProjekciju",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaVizuelnuProjekciju",
+            "menuitem" : "Inventarna Knjiga|Vizuelne projekcije",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "jasper" : "/jaspers/gbns/InvKnjigaZaVizuelnuProjekciju.jasper"
         }
     ]
 

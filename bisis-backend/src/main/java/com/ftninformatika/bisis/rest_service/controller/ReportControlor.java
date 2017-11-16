@@ -13,9 +13,9 @@ import java.util.List;
 
 /**
  * Created by dboberic on 27/10/2017.
- */
+ *//*
 @RestController
-@RequestMapping("/reports")
+@RequestMapping("/reports")*/
 public class ReportControlor {
     @Autowired
     ReportsRepository reportRep;
