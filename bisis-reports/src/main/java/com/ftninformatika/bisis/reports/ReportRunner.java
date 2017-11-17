@@ -21,7 +21,7 @@ public class ReportRunner {
 
 	public void run() {
 	    int page=0;
-		Pageable p = new PageRequest(page, 3000);
+		Pageable p = new PageRequest(page, 1000);
 		Page<Record> records=recrep.findAll(p);
 
 		int count = 0;
@@ -49,8 +49,8 @@ public class ReportRunner {
                         }
                     }
                 }
-                break;
-                //records = recrep.findAll(records.nextPageable());
+                //break;
+                records = recrep.findAll(records.nextPageable());
             }while (records.hasNext());
 
 			log.info("Finishing reports");

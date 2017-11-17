@@ -113,6 +113,7 @@ public class InvKnjigaZaVizuelnuProjekciju extends Report {
 	      for (Item i : list){
 	    	   out.append(i.toString());
 	      }
+			out.append("</report>");
 			GeneratedReport gr=new GeneratedReport();
 			gr.setReportName(key.substring(0,key.indexOf("-")));
 			gr.setFullReportName(key);

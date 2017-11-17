@@ -105,8 +105,14 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
 	    	  System.out.println("ovde");
 	    	   out.append(i.toString());
 	    	   //out.flush();
-	      }
-	 
+	      } out.append("</report>");
+			GeneratedReport gr=new GeneratedReport();
+			gr.setReportName(key.substring(0,key.indexOf("-")));
+			gr.setFullReportName(key);
+			gr.setPeriod(key.substring(key.indexOf("-")+1));
+			gr.setContent(out.toString());
+			gr.setReportType(getType().name().toLowerCase());
+			getReportRepository().save(gr);
 	    }
 	    itemMap.clear();
 	    log.info("Report finished.");

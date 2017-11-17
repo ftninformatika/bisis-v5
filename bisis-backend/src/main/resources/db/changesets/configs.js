@@ -49,6 +49,54 @@ db.configs.insert({
     "barcodeUsersLinelength": "19",
     "reports" : [
         {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "menuitem" : "Nabavka|Po Nacinu|Po racunu|Godisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "NabavkaPoOgrancimaRacunGodine",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "menuitem" : "Nabavka|Po Nacinu|Po racunu|Polugodisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "half",
+            "reportName" : "NabavkaPoOgrancimaRacunPola",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "menuitem" : "Nabavka|Po Nacinu|Po racunu|Kvartalni",
+            "invnumpattern" : "^0100.*",
+            "type" : "quarter",
+            "reportName" : "NabavkaPoOgrancimaRacunKvartal",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "menuitem" : "Nabavka|Po Nacinu|Po racunu|Mesecni",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "reportName" : "NabavkaPoOgrancimaRacunMesec",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "menuitem" : "Nabavka|Po Nacinu|Po racunu|Ceo fond",
+            "invnumpattern" : "^0100.*",
+            "type" : "whole",
+            "reportName" : "NabavkaPoOgrancimaRacunSve",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Godisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "JeziciPoOgrancimaRacunGodine",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
             "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Godisnji",
             "invnumpattern" : "^0100.*",
