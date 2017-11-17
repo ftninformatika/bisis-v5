@@ -12,17 +12,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by Petar on 7/17/2017.
  */
 public class ElasticUtility {
 
-    public static ArrayList<String> getIdsFromElasticIterable(Iterable<ElasticPrefixEntity> elasticResponse){
-        ArrayList<String> retVal = new ArrayList<>();
-        for (ElasticPrefixEntity ee: elasticResponse ){
-            retVal.add(ee.getId());
-        }
+    public static List<String> getIdsFromElasticIterable(Iterable<ElasticPrefixEntity> elasticResponse){
+        List<String> retVal = StreamSupport.stream(elasticResponse.spliterator(), false)
+                .map(i -> i.getId())
+                .collect(Collectors.toList());
         return retVal;
     }
 
