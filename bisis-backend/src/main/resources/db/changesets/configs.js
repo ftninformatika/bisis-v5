@@ -49,6 +49,38 @@ db.configs.insert({
     "barcodeUsersLinelength": "19",
     "reports" : [
         {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Godisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "JeziciPoOgrancimaRacunGodine",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Polugodisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "half",
+            "reportName" : "JeziciPoOgrancimaRacunPola",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Kvartalni",
+            "invnumpattern" : "^0100.*",
+            "type" : "quarter",
+            "reportName" : "JeziciPoOgrancimaRacunKvartal",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Mesecni",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "reportName" : "JeziciPoOgrancimaMesec",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
             "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
             "menuitem" : "Stanje Fonda|Po Jeziku|Ceo fond",
             "invnumpattern" : "^0100.*",
@@ -111,14 +143,6 @@ db.configs.insert({
             "invnumpattern" : "^0100.*",
             "type" : "month",
             "jasper" : "/jaspers/gbns/InvKnjigaKartografskaGradja.jasper"
-        },
-        {
-            "reportName" : "InvKnjigaZaMikrooblik",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaMikrooblik",
-            "menuitem" : "Inventarna Knjiga|Mikrooblik ",
-            "invnumpattern" : "^0100.*",
-            "type" : "month",
-            "jasper" : "/jaspers/gbns/InvKnjigaZaMikrooblik.jasper"
         },
         {
             "reportName" : "InvKnjigaMonografskeRaritet",

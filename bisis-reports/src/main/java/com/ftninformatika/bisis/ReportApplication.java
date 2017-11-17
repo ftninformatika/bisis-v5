@@ -40,7 +40,7 @@ public class ReportApplication  {
 
         ReportsRepository reportRep=ctx.getBean(ReportsRepository.class);
         RecordsRepository recRep=ctx.getBean(RecordsRepository.class);
-        reportRep.deleteAll();
+
         for (LibraryConfiguration lc:libconfigs){
 
             LibraryCoders libCoders = new LibraryCoders();
