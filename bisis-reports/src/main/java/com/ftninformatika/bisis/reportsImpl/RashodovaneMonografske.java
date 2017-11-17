@@ -155,7 +155,9 @@ public class RashodovaneMonografske extends Report {
 		      buf.append(sigla);
 		      buf.append("</sigla>\n");
 		      buf.append("<ogranak>");
-				String sig = "nepoznatno"; //TODO - 03 u 3 itd...
+				if(sigla.startsWith("0") && sigla.length() == 2)
+					sigla = sigla.substring(1);
+				String sig = "nepoznatno";
 				if(getCoders().getLocCoders().get(sigla) != null)
 					sig = getCoders().getLocCoders().get(sigla).getDescription();
 		      buf.append(LatCyrUtils.toCyrillic(sig));

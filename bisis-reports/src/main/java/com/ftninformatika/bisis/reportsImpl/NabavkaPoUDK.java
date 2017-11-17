@@ -376,6 +376,8 @@ public class NabavkaPoUDK extends Report {
 	    }
 	    public String toString() {
 	    	StringBuffer buf = new StringBuffer();
+	    	if(sigla.startsWith("0") && sigla.length() == 2)
+	    		sigla = sigla.substring(1);
 	    	String sig = "nepoznatno";
 	    	if(getCoders().getLocCoders().get(sigla) != null)
 	    		sig = getCoders().getLocCoders().get(sigla).getDescription();

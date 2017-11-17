@@ -146,6 +146,8 @@ public class StanjeFondaSerijske extends Report {
 		      buf.append(sigla);
 		      buf.append("</sigla>\n");
 		      buf.append("<ogranak>");
+				if(sigla.startsWith("0") && sigla.length() == 2)
+					sigla = sigla.substring(1);
 				String sig = "nepoznatno";
 				if(getCoders().getLocCoders().get(sigla) != null)
 					sig = getCoders().getLocCoders().get(sigla).getDescription();
