@@ -3,51 +3,274 @@
 
 //changeset petar:ChangeSet-configs
 db.configs.insert({
+    "_id" : ObjectId("5a058b92e164924ad6627c70"),
     "libraryName" : "gbns",
-    "libCollectionSufix":"gbns_com",
-
-    "networkServerList": "http://bisis.uns.ac.rs/servers/bisisXMLM/servers.xml",
-
-    "catalougingPrimerciModel" : "0 1 2 3 13 10 11",
-    "catalougingGodineModel" : "0 1 2 3 12 13 15",
-    "catalougingInvbrSubStr" : "1 4",
-    "catalougingDefaultPrimerakInvKnj" : "00",
-    "catalougingDefaultSveskaInvKnj" : "00",
-    "catalougingDefaultGodinaInvKnj" : "00",
-    "catalougingValidator" : "com.gint.app.bisis4.client.editor.validation.GBValidator",
-    "catalougingReportset" : "gbbg",
-
-    "bookcardsLocale": "gbns",
-    "bookcardsNextPage" : "Još...",
-    "bookcardsCurrentType" : "glavni",
+    "databaseDriver" : "com.mysql.jdbc.Driver",
+    "databaseUrl" : "jdbc:mysql://localhost/bisisgbns",
+    "databaseUsername" : "bisis",
+    "databasePassword" : "bisis",
+    "databaseArchiveEnabled" : "no",
+    "databaseArchiveDriver" : "com.mysql.jdbc.Driver",
+    "databaseArchiveUrl" : "jdbc:mysql://localhost/archive",
+    "databaseArchiveUsername" : "bisis",
+    "databaseArchivePassword" : "bisis",
+    "textsrvStandalone" : "yes",
+    "textsrvRecmgr" : "http://localhost/bisis/RecMgr",
+    "filestorageEnabled" : "no",
+    "filestorageFilemgr" : "http://localhost/bisis/FileMgr",
+    "reportsReportServletURL" : "http://localhost/bisis-reports/ReportServlet",
+    "networkServerList" : "http://bisis.uns.ac.rs/servers/bisisXMLM/servers.xml",
+    "cataloguingPrimerciModel" : "0 1 2 3 13 10 11",
+    "cataloguingGodineModel" : "0 1 2 3 12 13 15",
+    "cataloguingInvbrSubStr" : "1 4",
+    "cataloguingDefaultPrimerakInvKnj" : "00",
+    "cataloguingDefaultSveskaInvKnj" : "99",
+    "cataloguingDefaultGodinaInvKnj" : "00",
+    "cataloguingValidator" : "com.gint.app.bisis4.client.editor.validation.GBValidator",
+    "cataloguingReportset" : "gbbg",
+    "bookcardsLocale" : "gbns",
+    "bookcardsNextPage" : "JoÅ¡...",
+    "bookcardsCurrentType" : "monografski",
     "bookcardsTranslateX" : "15",
     "bookcardsTranslateY" : "5",
     "bookcardsFontSize" : "-1",
     "bookcardsBrRedova" : "13",
-
-    "barcodePort": "lpt",
-    "barcodeOptionName": "library1",
-    "barcodeLibrary1": "БИБЛИОТЕКА ШАБАЧКА",
-    "barcodeLabelWidth": "456",
-    "barcodeLabelHeight": "0",
-    "barcodeLabelResolution": "203",
-    "barcodeBarwidth": "140",
-    "barcodeNarrowbar": "2",
-    "barcodeWidebar": "3",
-    "barcodeSigfont": "4",
-    "barcodeLabelfont": "3",
-    "barcodePageCode": "1251",
-    "barcodeWrap": "26",
-
-    "barcodeUsersLabelWidth": "300",
-    "barcodeUsersLabelHeight": "0",
-    "barcodeUsersLabelResolution": "203",
-    "barcodeUsersBarwidth": "50",
-    "barcodeUsersNarrowbar": "2",
-    "barcodeUsersWidebar": "2",
-    "barcodeUsersPageCode": "1251",
-    "barcodeUsersLinelength": "19",
+    "commandsrvRemote" : "no",
+    "commandsrvService" : "http://147.91.218.23/commandsrv/Service",
+    "00:1D:60:39:53:62Remote" : "no",
+    "00:1D:60:39:53:62Service" : "http://147.91.218.22/commandsrv/Service",
+    "barcodePort" : "lpt",
+    "barcodeOptionName" : "library1",
+    "barcodeLibrary1" : "Biblioteka",
+    "barcodeLabelWidth" : "456",
+    "barcodeLabelHeight" : "0",
+    "barcodeLabelResolution" : "203",
+    "barcodeBarwidth" : "140",
+    "barcodeNarrowbar" : "2",
+    "barcodeWidebar" : "3",
+    "barcodeSigfont" : "3",
+    "barcodeLabelfont" : "3",
+    "barcodePageCode" : "1250",
+    "barcodeWrap" : "23",
+    "barcodeUsersLabelWidth" : "300",
+    "barcodeUsersLabelHeight" : "0",
+    "barcodeUsersLabelResolution" : "203",
+    "barcodeUsersBarwidth" : "50",
+    "barcodeUsersNarrowbar" : "2",
+    "barcodeUsersWidebar" : "2",
+    "barcodeUsersPageCode" : "1250",
+    "barcodeUsersLinelength" : "19",
+    "pincodeEnabled" : "no",
+    "pincodeLibrary" : "Ð‘Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÐ° ÑˆÐ°Ð±Ð°Ñ‡ÐºÐ°",
     "reports" : [
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.StatistikaObradjivaca",
+            "menuitem" : "Statistika|Obradjivaca|Monografske|Po mesecu",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "reportName" : "StatistikaObradjivacaMesec",
+            "jasper" : "/jaspers/gbns/StatistikaObradjivaca.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.StatistikaObradjivaca",
+            "menuitem" : "Statistika|Obradjivaca|Monografske|Po kvartalu",
+            "invnumpattern" : "^0100.*",
+            "type" : "quarter",
+            "reportName" : "StatistikaObradjivacaKvartal",
+            "jasper" : "/jaspers/gbns/StatistikaObradjivaca.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.StatistikaObradjivaca",
+            "menuitem" : "Statistika|Obradjivaca|Monografske|Po godini",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "StatistikaObradjivacaGodina",
+            "jasper" : "/jaspers/gbns/StatistikaObradjivaca.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.StanjeFondaSerijske",
+            "menuitem" : "Stanje Fonda|Serijske|Ceo fond",
+            "invnumpattern" : "^0100.*",
+            "type" : "whole",
+            "reportName" : "StanjeFondaSerijskeSve",
+            "jasper" : "/jaspers/gbns/StanjeFonda.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.StanjeFondaSerijske",
+            "menuitem" : "Stanje Fonda|Serijske|Po godinama",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "StanjeFondaSerijskeGodine",
+            "jasper" : "/jaspers/gbns/StanjeFonda.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Godisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "NabavkaPoUDKGodine",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Polugodisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "half",
+            "reportName" : "NabavkaPoUDKPola",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Kvartalni",
+            "invnumpattern" : "^0100.*",
+            "type" : "quarter",
+            "reportName" : "NabavkaPoUDKKvartal",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Mesecni",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "reportName" : "NabavkaPoUDKMesec",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Ceo fond",
+            "invnumpattern" : "^0100.*",
+            "type" : "whole",
+            "reportName" : "NabavkaPoUDKSve",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "menuitem" : "Nabavka|Po UDK|Po racunu|Godisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "NabavkaPoUDKPoRacunuGodine",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "menuitem" : "Nabavka|Po UDK|Po racunu|Polugodnisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "half",
+            "reportName" : "NabavkaPoUDKRacunPola",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "menuitem" : "Nabavka|Po UDK|Po racunu|Kvartalni",
+            "invnumpattern" : "^0100.*",
+            "type" : "quarter",
+            "reportName" : "NabavkaPoUDKRacunKvartal",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "menuitem" : "Nabavka|Po UDK|Po racunu|Mesecni",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "reportName" : "NabavkaPoUDKRacunMesec",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "menuitem" : "Nabavka|Po UDK|Po racunu|Ceo fond",
+            "invnumpattern" : "^0100.*",
+            "type" : "whole",
+            "reportName" : "NabavkaPoUDKRacunSve",
+            "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.RashodovaneMonografske",
+            "menuitem" : "Rashodovane",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "RashodovaneMonografske",
+            "jasper" : "/jaspers/gbns/RashodovaneMonografske.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Godisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "NabavkaPoOgrancimaGodine",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Polugodisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "half",
+            "reportName" : "NabavkaPoOgrancimaPola",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Kvartalni",
+            "invnumpattern" : "^0100.*",
+            "type" : "quarter",
+            "reportName" : "NabavkaPoOgrancimaKvartal",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Mesecni",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "reportName" : "NabavkaPoOgrancimaMesec",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Ceo fond",
+            "invnumpattern" : "^0100.*",
+            "type" : "whole",
+            "reportName" : "NabavkaPoOgrancimaSve",
+            "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po datumu inventarisanja|Godisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "JeziciPoOgrancimaGodine",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po datumu inventarisanja|Kvartalni",
+            "invnumpattern" : "^0100.*",
+            "type" : "quarter",
+            "reportName" : "JeziciPoOgrancimaKvartal",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po datumu inventarisanja|Polugodisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "half",
+            "reportName" : "JeziciPoOgrancimaPola",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po datumu inventarisanja|Mesecni",
+            "invnumpattern" : "^0100.*",
+            "type" : "month",
+            "reportName" : "JeziciPoOgrancimaMesec",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
+        {
+            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Godisnji",
+            "invnumpattern" : "^0100.*",
+            "type" : "year",
+            "reportName" : "JeziciPoOgrancimaRacunGodine",
+            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
+        },
         {
             "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
             "menuitem" : "Nabavka|Po Nacinu|Po racunu|Godisnji",
@@ -87,22 +310,6 @@ db.configs.insert({
             "type" : "whole",
             "reportName" : "NabavkaPoOgrancimaRacunSve",
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
-        },
-        {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
-            "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Godisnji",
-            "invnumpattern" : "^0100.*",
-            "type" : "year",
-            "reportName" : "JeziciPoOgrancimaRacunGodine",
-            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
-        },
-        {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
-            "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Godisnji",
-            "invnumpattern" : "^0100.*",
-            "type" : "year",
-            "reportName" : "JeziciPoOgrancimaRacunGodine",
-            "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
             "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
@@ -193,12 +400,12 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/InvKnjigaKartografskaGradja.jasper"
         },
         {
-            "reportName" : "InvKnjigaMonografskeRaritet",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografskeRaritet",
-            "menuitem" : "Inventarna Knjiga|Monografske|Rariteti",
+            "reportName" : "InvKnjigaZaMikrooblik",
+            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaMikrooblik",
+            "menuitem" : "Inventarna Knjiga|Mikrooblik ",
             "invnumpattern" : "^0100.*",
             "type" : "month",
-            "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
+            "jasper" : "/jaspers/gbns/InvKnjigaZaMikrooblik.jasper"
         },
         {
             "reportName" : "InvKnjigaZaMuzikalije",
@@ -233,7 +440,6 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/InvKnjigaZaVizuelnuProjekciju.jasper"
         }
     ]
-
 });
 
 db.coders.circ_config.insert({
