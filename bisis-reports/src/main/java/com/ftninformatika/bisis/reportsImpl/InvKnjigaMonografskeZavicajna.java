@@ -209,8 +209,8 @@ public class InvKnjigaMonografskeZavicajna extends Report {
       /*String dobavljac=nvl(p.getDobavljac());*/
       /*String vrnab = nvl(p.getNacinNabavke());*/
         String nabavka="";
-      if(p.getNacinNabavke() != null)
-      nabavka= getCoders().getAcqCoders().get(p.getDobavljac()).getDescription();
+      if(getCoders().getAcqCoders().get(p.getDobavljac()) != null)
+        nabavka= getCoders().getAcqCoders().get(p.getDobavljac()).getDescription();
 
       i.nabavka = nabavka;
         DecimalFormat df2 = new DecimalFormat(".##");
