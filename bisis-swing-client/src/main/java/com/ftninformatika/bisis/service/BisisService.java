@@ -284,12 +284,8 @@ public interface BisisService {
 
     //TODO
 
-    @GET ("member/get_lended_returned_ctlg_nos")
-    Call<List<String>> getLendedReturnedCtlgNos(@Query("startDateLend") Date startDateLend, @Query("endDateLend") Date endDateLend,
-                                                   @Query("startDateRet") Date startDateRet, @Query("endDateRet") Date endDateRet,
-                                                   @Query("location") String location);
-
-    //vraca inventarne brojeve iz lending kolekcije kojima je lendDate u zadatom periodu i returnData u zadatom periodu i zaduzeni su na zadatoj lokaciji
+    @POST ("search/circ/recordIds")
+    Call<List<String>> searchBooks(@Body SearchModelCirc searchModel);
 
 
     @POST("/records/multiple_ids_wrapper")
