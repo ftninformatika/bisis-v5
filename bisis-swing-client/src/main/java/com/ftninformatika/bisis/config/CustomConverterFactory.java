@@ -8,11 +8,12 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-public class NullOnEmptyConverterFactory extends Converter.Factory {
+public class CustomConverterFactory extends Converter.Factory {
 
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
 
+        //string starts with number converter
         if (String.class.equals(type)) {
             return new Converter<ResponseBody, String>() {
                 @Override
@@ -23,6 +24,7 @@ public class NullOnEmptyConverterFactory extends Converter.Factory {
             };
         }
 
+        //null or empty converter
         final Converter<ResponseBody, ?> delegate = retrofit.nextResponseBodyConverter(this, type, annotations);
         return new Converter<ResponseBody, Object>() {
             @Override
