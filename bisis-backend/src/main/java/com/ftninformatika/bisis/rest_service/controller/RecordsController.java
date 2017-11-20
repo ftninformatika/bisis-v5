@@ -280,7 +280,7 @@ public class RecordsController {
 
       Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
 
-      System.out.println(ElasticUtility.makeQuery(search).toString());
+
       Iterable<String> ids = ElasticUtility.getIdsFromElasticIterable(ii);
 
       retVal = (ArrayList<Record>) recordsRepository.findAll(ids);

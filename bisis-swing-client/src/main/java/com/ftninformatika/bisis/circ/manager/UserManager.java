@@ -35,7 +35,6 @@ public class UserManager {
 		if (user.getDirty() /*|| !lendings.isEmpty()*/){
             String memberExists;
 			if (user.getDirty()){
-
                 try {
                     memberExists = BisisApp.bisisService.memberExist(user.getMmbrship().getUserID()).execute().body();
                 } catch (Exception e) {
@@ -115,6 +114,10 @@ public class UserManager {
   
   public boolean gotUser(){
     return member != null;
+  }
+
+  public String getCurrentUserId(){
+      return member.getUserId();
   }
   
   public String saveGroup(Group group){
@@ -602,9 +605,9 @@ public class UserManager {
     if (!lendings.contains(lend)){
     	 lendings.add(lend);
     }
-   
+
   }
-  
+
   public void updateLending(Lending lend){
   	if (!lendings.contains(lend)){
    	  lendings.add(lend);
@@ -695,43 +698,43 @@ public class UserManager {
   	return false;
   }
   
-  public List getCtlgNos(Date startDateL, Date endDateL, com.ftninformatika.bisis.circ.pojo.CircLocation locationL,
-                                  Date startDateR, Date endDateR, com.ftninformatika.bisis.circ.pojo.CircLocation locationR){
-    Date startL = null;
-    Date endL = null;
-    if (startDateL != null){
-      startL = Utils.setMinDate(startDateL);
-      if (endDateL != null){
-        endL = Utils.setMaxDate(endDateL);
-      }else{
-        endL = Utils.setMaxDate(startDateL);
-      }
-    }
-
-    com.ftninformatika.bisis.circ.pojo.CircLocation location;
-    if (locationL != null){
-      location = locationL;
-    }else{
-      location = locationR;
-    }
-    Date startR = null;
-    Date endR = null;
-    if (startDateR != null){
-      startR = Utils.setMinDate(startDateR);
-      if (endDateR != null){
-        endR = Utils.setMaxDate(endDateR);
-      }else{
-        endR = Utils.setMaxDate(startDateR);
-      }
-    }
-
-    List<String> ctlgNos = null;
-    try {
-        ctlgNos = BisisApp.bisisService.getLendedReturnedCtlgNos(startL, endL, startR, endR, location.getDescription()).execute().body();
-    }catch (Exception e){
-    }
-    return ctlgNos;
-  }
+//  public List getCtlgNos(Date startDateL, Date endDateL, com.ftninformatika.bisis.circ.pojo.CircLocation locationL,
+//                                  Date startDateR, Date endDateR, com.ftninformatika.bisis.circ.pojo.CircLocation locationR){
+//    Date startL = null;
+//    Date endL = null;
+//    if (startDateL != null){
+//      startL = Utils.setMinDate(startDateL);
+//      if (endDateL != null){
+//        endL = Utils.setMaxDate(endDateL);
+//      }else{
+//        endL = Utils.setMaxDate(startDateL);
+//      }
+//    }
+//
+//    com.ftninformatika.bisis.circ.pojo.CircLocation location;
+//    if (locationL != null){
+//      location = locationL;
+//    }else{
+//      location = locationR;
+//    }
+//    Date startR = null;
+//    Date endR = null;
+//    if (startDateR != null){
+//      startR = Utils.setMinDate(startDateR);
+//      if (endDateR != null){
+//        endR = Utils.setMaxDate(endDateR);
+//      }else{
+//        endR = Utils.setMaxDate(startDateR);
+//      }
+//    }
+//
+//    List<String> ctlgNos = null;
+//    try {
+//        ctlgNos = BisisApp.bisisService.getLendedReturnedCtlgNos(startL, endL, startR, endR, location.getDescription()).execute().body();
+//    }catch (Exception e){
+//    }
+//    return ctlgNos;
+//  }
   
   public List getWarnings(){
     return warnings;

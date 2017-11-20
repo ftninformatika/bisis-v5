@@ -42,8 +42,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
     }
 
     public void setData(List<Lending> data){
-    	dataView = data;
-      //dataView = new ArrayList<Lending>();
+        dataView = new ArrayList<Lending>();
       authors = new ArrayList<String>();
       titles = new ArrayList<String>();
       signatures = new ArrayList<String>();
@@ -52,7 +51,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
       
       while (it.hasNext()){
         tmp = (Lending)it.next();
-        //dataView.add(tmp);
+        dataView.add(tmp);
         Record record = Cirkulacija.getApp().getRecordsManager().getRecord(tmp.getCtlgNo());
         RecordBean bean = null;
         if (record != null){
@@ -71,7 +70,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
     
 //		 Manipulating rows
     
-	    public boolean addRow(String ctlgno, Record record, String location, UserCategory usrctg) {
+	    public boolean addRow(String ctlgno, Record record, String location, UserCategory usrctg, String userId) {
 	    	Iterator<Lending> it = dataView.iterator();
 	    	while (it.hasNext()){
 	    		Lending row = it.next();
@@ -81,6 +80,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	    	}
 	    	int row = getRowCount();
 	    	Lending rowData = new Lending();
+	    	rowData.setUserId(userId);
 	    	rowData.setCtlgNo(ctlgno);
 	    	rowData.setLibrarianLend(Cirkulacija.getApp().getLibrarian().getUsername());
 	    	rowData.setLendDate(new Date());
@@ -112,7 +112,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	        for (int i = l.size()-1; i >= 0; i--){
 	          dataView.get(l.get(i).intValue()).setReturnDate(new Date());
 	          dataView.get(l.get(i).intValue()).setLibrarianReturn(Cirkulacija.getApp().getLibrarian().getUsername());
-	          Cirkulacija.getApp().getUserManager().updateLending(dataView.get(l.get(i).intValue()));
+	          //Cirkulacija.getApp().getUserManager().updateLending(dataView.get(l.get(i).intValue()));
 	          dataView.remove(l.get(i).intValue());
 	          authors.remove(l.get(i).intValue());
 	          titles.remove(l.get(i).intValue());
@@ -131,7 +131,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	          dataView.get(l.get(i).intValue()).setResumeDate(new Date());
 	          dataView.get(l.get(i).intValue()).setLibrarianResume(Cirkulacija.getApp().getLibrarian().getUsername());
 	          computeDeadline(new Date(), dataView.get(l.get(i).intValue()), usrctg);
-	          Cirkulacija.getApp().getUserManager().updateLending(dataView.get(l.get(i).intValue()));
+	          //Cirkulacija.getApp().getUserManager().updateLending(dataView.get(l.get(i).intValue()));
 	          fireTableRowsUpdated(l.get(i).intValue(), l.get(i).intValue());
 	        }
       }

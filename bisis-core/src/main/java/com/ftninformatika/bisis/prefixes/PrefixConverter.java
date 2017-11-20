@@ -23,15 +23,15 @@ public class PrefixConverter {
     HashMap<String, List<String>> retVal = new HashMap<>();
     List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
     for (PrefixValue pv: prefixes) {
+      String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value);
       if (retVal.containsKey(pv.prefName)){
         List list = retVal.get(pv.prefName);
-        if (!list.contains(pv.value)) {
-         retVal.get(pv.prefName).add(LatCyrUtils.toLatinUnaccented(pv.value));
+        if (!list.contains(valueUnaccented)) {
+         retVal.get(pv.prefName).add(valueUnaccented);
         }
       } else {
         List list = new ArrayList<>();
-        list.add(pv.value);
-        list.add(LatCyrUtils.toLatinUnaccented(pv.value));
+        list.add(valueUnaccented);
         retVal.put(pv.prefName, list);
       }
     }

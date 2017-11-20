@@ -388,7 +388,7 @@ public class Lending {
                 Record record = Cirkulacija.getApp().getRecordsManager().lendBook(ctlgno);
                 handleKeyTyped();
                 if (record != null) {
-                    boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg());
+                    boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg(), parent.getMmbrship().getUserID());
                     pinRequired = true;
                     if (exists) {
                         JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyinlist"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
@@ -397,7 +397,7 @@ public class Lending {
                     getTfCtlgNo().setText(""); //$NON-NLS-1$
                 } else {
                     if (Cirkulacija.getApp().getEnvironment().getNonCtlgNo() && !Cirkulacija.getApp().getRecordsManager().existBook()) {
-                        boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg());
+                        boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg(), parent.getMmbrship().getUserID());
                         pinRequired = true;
                         if (exists) {
                             JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyinlist"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$

@@ -30,10 +30,11 @@ public class SearchController {
     public List<String> searchCircRecordIds(@RequestBody SearchModelCirc search){
         BoolQueryBuilder query= ElasticUtility.makeQuery(search);
         if (search.getStartDateLend()!=null || search.getStartDateRet()!=null){
+
             List<String> ctlgNos=lendingRepository.getLendingsCtlgNo(search.getStartDateLend(),search.getEndDateLend(),search.getStartDateRet(),search.getEndDateRet(),search.getLocation());
             query =query.filter(QueryBuilders.termsQuery("prefixes.IN", ctlgNos));
         }
-        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(query);
         return ElasticUtility.getIdsFromElasticIterable(ii);
         
     }
