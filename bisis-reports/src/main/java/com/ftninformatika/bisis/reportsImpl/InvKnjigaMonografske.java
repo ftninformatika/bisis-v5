@@ -174,6 +174,9 @@ public class InvKnjigaMonografske extends Report {
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
 
+      if(i.opis.indexOf("&") >= 0)
+          i.opis = i.opis.replace("&", "&amp;");
+
       if (getBinRep().getCoder(getLibrary(),nvl(p.getPovez()))!=null)
        i.povez = getBinRep().getCoder(getLibrary(),nvl(p.getPovez())).getDescription();
 
@@ -181,7 +184,9 @@ public class InvKnjigaMonografske extends Report {
       String dobavljac=nvl(p.getDobavljac());
       String vrnab = nvl(p.getNacinNabavke());
       String nabavka=" ";
-      if (vrnab.equals("c") || vrnab.equals("p")) {
+      if (getCoders().getAcqCoders().get(vrnab) != null)
+          nabavka = getCoders().getAcqCoders().get(vrnab).getDescription();
+      /*if (vrnab.equals("c") || vrnab.equals("p")) {
           nabavka = "poklon";
           if (dobavljac!="" && dobavljac!=" ")
             nabavka += ", " + dobavljac;
@@ -203,7 +208,7 @@ public class InvKnjigaMonografske extends Report {
           nabavka = "sopstvena izdanja";
         } else if (vrnab.equals("o")) {
           nabavka = "otkup";
-        }
+        }*/
       i.nabavka = nabavka;
       i.cena = p.getCena() == null ? " " : p.getCena().setScale(0, RoundingMode.HALF_UP).toString();
       i.sig = sig;
