@@ -51,9 +51,17 @@ public class NabavkaPoUDK extends Report {
 			}
 			out.append("</report>");
 			GeneratedReport gr=new GeneratedReport();
-			gr.setReportName(key.substring(0,key.indexOf("-")));
-			gr.setFullReportName(key);
-			gr.setPeriod(key.substring(key.indexOf("-")+1));
+			if (key.indexOf("-") >= 0){
+				gr.setReportName(key.substring(0,key.indexOf("-")));
+				gr.setFullReportName(key);
+				gr.setPeriod(key.substring(key.indexOf("-")+1));
+			}
+			else{
+				gr.setReportName(key);
+				gr.setFullReportName(key);
+				gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+			}
 			gr.setContent(out.toString());
 			gr.setReportType(getType().name().toLowerCase());
 			getReportRepository().save(gr);

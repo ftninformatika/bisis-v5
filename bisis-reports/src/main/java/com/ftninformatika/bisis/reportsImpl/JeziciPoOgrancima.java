@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -43,11 +44,18 @@ public class JeziciPoOgrancima extends Report {
 
 			}
 			out.append("</report>");
-			//out.close();
 			GeneratedReport gr=new GeneratedReport();
-			gr.setReportName(key);
-			gr.setFullReportName(key);
-			gr.setPeriod("sve");
+			if (key.indexOf("-") >= 0){
+				gr.setReportName(key.substring(0,key.indexOf("-")));
+				gr.setFullReportName(key);
+				gr.setPeriod(key.substring(key.indexOf("-")+1));
+			}
+			else{
+				gr.setReportName(key);
+				gr.setFullReportName(key);
+				gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+			}
 			gr.setContent(out.toString());
 			gr.setReportType(getType().name().toLowerCase());
 			getReportRepository().save(gr);

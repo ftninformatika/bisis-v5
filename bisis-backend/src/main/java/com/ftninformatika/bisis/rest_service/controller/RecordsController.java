@@ -150,7 +150,6 @@ public class RecordsController {
             pr.init(rec);
             ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
             retVal.setFullRecord(rec);
-            //retVal.setPrefixEntity(e);
             retVal.setRecordPreview(pr);
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID())));
             if (rec == null)
@@ -195,7 +194,6 @@ public class RecordsController {
         iRecs.forEach(
                 e -> {
                     RecordResponseWrapper rw = new RecordResponseWrapper();
-                    //rw.setPrefixEntity(e);
                     Record r = recordsRepository.findOne(e.getId());
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
