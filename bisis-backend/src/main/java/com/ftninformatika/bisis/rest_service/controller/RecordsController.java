@@ -13,6 +13,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.collections.IteratorUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -179,6 +180,7 @@ public class RecordsController {
 
 
         List<RecordResponseWrapper> retVal = new ArrayList<>();
+
         BoolQueryBuilder query = ElasticUtility.searchUniversalQuery(universalSearchModel);
         int page=0;
         int pSize =20;
@@ -187,6 +189,7 @@ public class RecordsController {
             page = pageNumber;
         if (pageSize != null)
             pSize = pageSize;
+
 
         Pageable p = new PageRequest(page, pSize);
         Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,new PageRequest(page, pSize, new Sort(Sort.Direction.ASC, "prefixes.AU")));
@@ -340,6 +343,21 @@ public class RecordsController {
       else
         return new ResponseEntity<>( retVal, HttpStatus.NO_CONTENT);
   }
+
+    @RequestMapping( value = "/multiple_ids_wrapper", method = RequestMethod.POST )
+    public List<RecordResponseWrapper> getRecordsAllDataByIds(@RequestBody List<String> idList){
+        List<RecordResponseWrapper> retVal = new ArrayList<>();
+        Iterable<Record> recs =  recordsRepository.findAll(idList);
+        recs.forEach(
+                record -> {
+                    RecordResponseWrapper wrapper = new RecordResponseWrapper();
+                    wrapper.setFullRecord(record);
+                    List<ItemAvailability> items = itemAvailabilityRepository.findByRecordID(""+record.getRecordID());
+                    retVal.add(wrapper);
+                }
+        );
+        return retVal;
+    }
 
   //za testiranje!!!!
   @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)

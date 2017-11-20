@@ -56,6 +56,7 @@ public class ElasticUtility {
         if (universalSearchModel.getDepartments() != null && universalSearchModel.getDepartments().size() > 0){
             for (String dep :universalSearchModel.getDepartments()){
                 retVal.must(QueryBuilders.matchQuery("prefixes.OD", dep));
+
             }
         }
 

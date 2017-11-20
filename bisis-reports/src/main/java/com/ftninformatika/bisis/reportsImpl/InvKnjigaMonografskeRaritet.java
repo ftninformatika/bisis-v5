@@ -209,7 +209,9 @@ public class InvKnjigaMonografskeRaritet extends Report {
       String dobavljac=nvl(p.getDobavljac());
       String vrnab = nvl(p.getNacinNabavke());
       String nabavka=" ";
-      if (vrnab.equals("c") || vrnab.equals("p")) {
+      if(getCoders().getAcqCoders().get(vrnab) != null)
+          nabavka = getCoders().getAcqCoders().get(vrnab).getDescription();
+      /*if (vrnab.equals("c") || vrnab.equals("p")) {
           nabavka = "poklon";
           if (dobavljac!="" && dobavljac!=" ")
             nabavka += ", " + dobavljac;
@@ -231,7 +233,7 @@ public class InvKnjigaMonografskeRaritet extends Report {
           nabavka = "sopstvena izdanja";
         } else if (vrnab.equals("o")) {
           nabavka = "otkup";
-        }
+        }*/
       i.nabavka = nabavka;
         DecimalFormat df2 = new DecimalFormat(".##");
       i.cena = p.getCena() == null ? " " : 
