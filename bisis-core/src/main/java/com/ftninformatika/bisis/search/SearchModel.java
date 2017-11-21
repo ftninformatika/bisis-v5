@@ -68,4 +68,11 @@ public class SearchModel {
         return retVal.toString();
     }
 
+    public void fixDepartments(){
+        for (int i = 0; i < this.departments.size(); i++){
+            if(departments.get(i).length() == 1)
+                departments.set(i, "0" + departments.get(i));
+        }
+    }
+
 }

@@ -27,26 +27,11 @@ public class ElasticUtility {
         return retVal;
     }
 
-    public static BoolQueryBuilder searchByAuthorQuery(String author){
-        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
-        retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes.AU", author));
-        return retVal;
-    }
 
-    public static BoolQueryBuilder searchByTitleQuery(String title){
-        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
-        retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes.TI", title));
-        return retVal;
-    }
-
-    public static BoolQueryBuilder searchByKeywordQuery(String kw){
-        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
-        retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes.KW", kw));
-        return retVal;
-    }
 
     public static BoolQueryBuilder searchUniversalQuery(UniversalSearchModel universalSearchModel) {
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+        universalSearchModel.fixDepartments();
 
         if (universalSearchModel.getSearchText() != null && ! "".equals(universalSearchModel.getSearchText())){
             retVal.must(QueryBuilders.simpleQueryStringQuery(universalSearchModel.getSearchText()));
@@ -56,6 +41,9 @@ public class ElasticUtility {
         if (universalSearchModel.getDepartments() != null && universalSearchModel.getDepartments().size() > 0){
             for (String dep :universalSearchModel.getDepartments()){
                 retVal.must(QueryBuilders.matchQuery("prefixes.OD", dep));
+                //BoolQueryBuilder queryDeps = QueryBuilders.boolQuery();
+                //queryDeps.should(QueryBuilders.matchQuery("prefixes.OD", dep));
+                //queryDeps.minimumNumberShouldMatch(dep.)
 
             }
         }
@@ -66,6 +54,7 @@ public class ElasticUtility {
     //formiranje Query-ja za glavnu pretragu zapisa
     public static BoolQueryBuilder makeQuery(SearchModel sm){
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+        sm.fixDepartments();
 
         try {
             if (sm.getText1() != null && !"".equals(sm.getText1()))
