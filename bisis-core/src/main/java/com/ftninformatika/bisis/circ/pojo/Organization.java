@@ -16,4 +16,5 @@ public class Organization {
     private String address;
     private String city;
     private String zip;
+
 }

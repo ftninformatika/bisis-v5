@@ -1,15 +1,15 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 
+import com.ftninformatika.bisis.circ.Organization;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +25,7 @@ public class MemberController {
     @Autowired LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired OrganizationRepository organizationRepository;
 
     @RequestMapping( path = "/memberExist", method = RequestMethod.GET)
     public String userExist(@RequestParam (value = "userId") String userId){
@@ -127,6 +128,67 @@ public class MemberController {
         memberRep.save(m);
         return true;
 
+    }
+
+    @RequestMapping( path = "/fixMemberOrganizationIds")
+    public String fixOrganizationIds(){
+        String retVal = "";
+
+        List<Organization> orgs = organizationRepository.findAll();
+        int overall = memberRep.findAll().size();
+        int count = 0;
+        PageRequest p = new PageRequest(0, 1000);
+        Page<Member> mems = memberRep.findAll(p);
+
+        while (mems.hasNext()){
+            for (Member m : mems){
+                for (Organization o: orgs){
+                    if(sameOrgs(o,m.getOrganization())) {
+                        m.getOrganization().setId(o.get_id().toString());
+                        break;
+                    }
+                }
+            }
+            memberRep.save(mems.getContent());
+            count += 1000;
+            System.out.println("Processed " + count + " of " + overall + " members!");
+            mems = memberRep.findAll(mems.nextPageable());
+        }
+
+        for (Member m : mems){
+            for (Organization o: orgs){
+                if(sameOrgs(o,m.getOrganization())) {
+                    m.getOrganization().setId(o.get_id());
+                    break;
+                }
+            }
+        }
+
+        memberRep.save(mems.getContent());
+        System.out.println("Processed all members!");
+        return retVal;
+    }
+
+    public boolean sameOrgs(Organization org, com.ftninformatika.bisis.circ.pojo.Organization memOrg){
+        if (memOrg == null) return false;
+
+        if(org.getName() == null && memOrg.getName() != null) return false;
+        if(org.getName() != null && memOrg.getName() == null) return false;
+        if(org.getName() != null && memOrg.getName() != null && (!org.getName().equals(memOrg.getName()))) return false;
+
+        if(org.getZip() == null && memOrg.getZip() != null) return false;
+        if(org.getZip() != null && memOrg.getZip() == null) return false;
+        if(org.getZip() != null && memOrg.getZip() != null && (!org.getZip().equals(memOrg.getZip()))) return false;
+
+        if(org.getCity() == null && memOrg.getCity() != null) return false;
+        if(org.getCity() != null && memOrg.getCity() == null) return false;
+        if(org.getCity() != null && memOrg.getCity() != null && (!org.getCity().equals(memOrg.getCity()))) return false;
+
+        if(org.getAddress() == null && memOrg.getAddress() != null) return false;
+        if(org.getAddress() != null && memOrg.getAddress() == null) return false;
+        if(org.getAddress() != null && memOrg.getAddress() != null && (!org.getAddress().equals(memOrg.getAddress()))) return false;
+
+        return true;
     }
 
 }
