@@ -3,10 +3,8 @@ package com.ftninformatika.bisis.circ.common;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.WarningType;
-import com.ftninformatika.bisis.circ.pojo.CorporateMember;
-import com.ftninformatika.bisis.circ.pojo.MembershipType;
-import com.ftninformatika.bisis.circ.pojo.Organization;
-import com.ftninformatika.bisis.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.circ.pojo.*;
+import com.ftninformatika.bisis.circ.view.User;
 import com.ftninformatika.utils.string.StringUtils;
 import com.toedter.calendar.JDateChooser;
 
@@ -71,6 +69,26 @@ public class Utils {
 			return item;
 		}
 	}
+
+    public static String getCmbValue(Object cmbItem){
+        if (cmbItem instanceof CorporateMember) {
+            return ((CorporateMember)cmbItem).getInstName();
+        } else if (cmbItem instanceof MembershipType){
+            return ((MembershipType)cmbItem).getDescription();
+        } else if (cmbItem instanceof Organization){
+            return ((Organization)cmbItem).getName();
+        } else if (cmbItem instanceof UserCategory){
+            return ((UserCategory)cmbItem).getDescription();
+        } else if (cmbItem instanceof WarningType){
+            return ((WarningType)cmbItem).getDescription();
+        } else if (cmbItem instanceof CircLocation){
+            return ((CircLocation)cmbItem).getDescription();
+        } else if (cmbItem instanceof String){
+            return (String)cmbItem;
+        } else {
+            return null;
+        }
+    }
 	
 	public static void loadCombo(JComboBox cmb, List data){
 		cmb.addItem(" ");

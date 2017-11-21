@@ -551,7 +551,7 @@ public class SearchBooksResults extends JPanel{
 	        }else {
             if (value instanceof Record){
               Record rec = (Record)value;
-  	          setIcon(new ImageIcon(getClass().getResource("/circ-imagesimages/book16.png"))); //$NON-NLS-1$
+  	          setIcon(new ImageIcon(getClass().getResource("/circ-images/book16.png"))); //$NON-NLS-1$
               String text = "<html>"; //$NON-NLS-1$
               RecordBean bean = new RecordBean(rec);
               if (!bean.getAutor().equals("")) //$NON-NLS-1$
@@ -641,7 +641,7 @@ public class SearchBooksResults extends JPanel{
   private Configuration getConfiguration(){
     if (cfg == null){
       cfg = new Configuration();
-      cfg.setClassForTemplateLoading(Cirkulacija.class,"docs/"); //$NON-NLS-1$
+      cfg.setClassForTemplateLoading(Cirkulacija.class,"/cirkulacija/docs/"); //$NON-NLS-1$
     }
     return cfg;
   }
