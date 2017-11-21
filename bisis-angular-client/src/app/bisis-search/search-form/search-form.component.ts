@@ -73,6 +73,16 @@ export class SearchFormComponent implements OnInit {
   }
 
   searchBy( text) {
+    if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary == '') {
+      this.messageService.clear();
+      this.messageService.add({
+        severity: 'warning',
+        summary: 'Упозорење',
+        detail: 'Одаберите библиотеку!'
+      });
+      return;
+    }
+
     var choice = 'universal';
     if (localStorage.getItem('libCode') == undefined)
       return;
