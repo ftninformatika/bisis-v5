@@ -353,6 +353,7 @@ public class RecordsController {
                     RecordResponseWrapper wrapper = new RecordResponseWrapper();
                     wrapper.setFullRecord(record);
                     List<ItemAvailability> items = itemAvailabilityRepository.findByRecordID(""+record.getRecordID());
+                    wrapper.setListOfItems(items);
                     retVal.add(wrapper);
                 }
         );
