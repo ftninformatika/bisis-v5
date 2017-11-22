@@ -20,7 +20,7 @@ import java.util.List;
 public class PrimerciController {
 
     @Autowired private RecordsRepository recordsRepository;
-    @Autowired private MemberController memberController;
+    @Autowired private MembersController memberController;
 
     @RequestMapping( value = "/lendPrimerak", method = RequestMethod.GET)
     public Record lendPrimerak(@RequestParam (value = "ctlgNo") String ctlgNo, @RequestParam (value = "memberId") String memberId){
