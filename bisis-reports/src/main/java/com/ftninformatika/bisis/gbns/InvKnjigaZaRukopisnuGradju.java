@@ -1,5 +1,4 @@
-package com.ftninformatika.bisis.reportsImpl;
-
+package com.ftninformatika.bisis.gbns;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -22,14 +21,19 @@ import com.ftninformatika.utils.string.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class InvKnjigaMonografskeZavicajna extends Report {
+
+public class InvKnjigaZaRukopisnuGradju extends Report {
 	public class Item implements Comparable {
 	    public String invbr;
 	    public Date datum;
 	    public String opis;
-	    public String povez;
+	    public String vrGradje;
 	    public String dim;
-	    public String nabavka;
+	    public String publikovano;
+	    public String nabavkaO;
+	    public String nabavkaK;
+	    public String nabavkaR;
+	    public String nabavkaP;
 	    public String cena;
 	    public String sig;
 	    public String napomena;
@@ -38,7 +42,7 @@ public class InvKnjigaMonografskeZavicajna extends Report {
 	    public int compareTo(Object o) {
 	      if (o instanceof Item) {
 	        Item b = (Item)o;
-	        return invbr.substring(4).compareTo(b.invbr.substring(4));
+	        return invbr.compareTo(b.invbr);
 	      }
 	      return 0;
 	    }
@@ -48,27 +52,39 @@ public class InvKnjigaMonografskeZavicajna extends Report {
 	      buf.append("\n  <item>\n    <rbr>");
 	      buf.append(invbr);
 	      buf.append("</rbr>\n    <datum>");
-	      buf.append(datum == null ? "" : sdf.format(datum));
+	      buf.append(sdf.format(datum));
 	      buf.append("</datum>\n    <opis>");
-	      buf.append(opis==null ? "": StringUtils.adjustForHTML(opis));
-	      buf.append("</opis>\n    <povez>");
-	      buf.append(povez);
-	      buf.append("</povez>\n    <dim>");
+	      buf.append(StringUtils.adjustForHTML(opis));
+	      buf.append("</opis>\n    <vrGradje>");
+	      buf.append(vrGradje);
+	      buf.append("</vrGradje>\n    <dim>");
 	      buf.append(StringUtils.adjustForHTML(dim));
-	      buf.append("</dim>\n    <nabavka>");
-	      buf.append(nabavka==null ? "" :StringUtils.adjustForHTML(nabavka));
-	      buf.append("</nabavka>\n    <cena>");
-	      buf.append(cena==null ? "" : StringUtils.adjustForHTML(cena));
+	      buf.append("</dim>\n    <publikovano>");
+	      buf.append(StringUtils.adjustForHTML(publikovano));
+	      buf.append("</publikovano>\n     <nabavkaO>");
+		  buf.append(StringUtils.adjustForHTML(nabavkaO));
+		  buf.append("</nabavkaO>\n   <nabavkaK>");
+		  buf.append(StringUtils.adjustForHTML(nabavkaK));
+		  buf.append("</nabavkaK>\n   <nabavkaR>");
+		  buf.append(StringUtils.adjustForHTML(nabavkaR));
+		  buf.append("</nabavkaR>\n   <nabavkaP>");
+		  buf.append(StringUtils.adjustForHTML(nabavkaP));
+		  buf.append("</nabavkaP>\n   <cena>");
+	      buf.append(StringUtils.adjustForHTML(cena));
 	      buf.append("</cena>\n    <signatura>");
-	      buf.append(sig==null ? "" : StringUtils.adjustForHTML(sig));
+	      buf.append(StringUtils.adjustForHTML(sig));
 	      buf.append("</signatura>\n    <napomena>");
-	      buf.append(napomena==null ? "" :StringUtils.adjustForHTML(napomena));
-	      buf.append("</napomena>\n");
-	      buf.append ("<sortinv>");
-	      buf.append(invbr.substring(4));
-	      buf.append("</sortinv>\n    </item>");
+	      buf.append(StringUtils.adjustForHTML(napomena));
+	      buf.append("</napomena>\n  </item>");
 	      return buf.toString();
 	    }
+	  }
+
+	 @Override
+	  public void init() {
+		  itemMap.clear();
+		    pattern = Pattern.compile(getReportSettings().getInvnumpattern());
+		    log.info("Report initialized.");
 	  }
 	  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
 		  log.info("Finishing report...");
@@ -79,118 +95,103 @@ public class InvKnjigaMonografskeZavicajna extends Report {
 		      List<Item> list = itemMap.get(key);
 		      StringBuilder out = getWriter(key);
 		      for (Item i : list){
+		    	  System.out.println("ovde");
 		    	   out.append(i.toString());
-		    	   
+		    	   //out.flush();
 		      }
-		      //out.flush();
-		      itemMap.get(key).clear();
+		 
 		    }
-		   
+		    itemMap.clear();
 		    log.info("Report finished.");
 	  }
-  @Override
-  public void init() {
-	  itemMap.clear();
-	    pattern = Pattern.compile(getReportSettings().getInvnumpattern());
-	    log.info("Report initialized.");
-  }
-
-  @Override
-  public void finish() {
-	  log.info("Finishing report...");
-	    for (List<Item> list : itemMap.values())
-	      Collections.sort(list);
-	    
-	    for (String key : itemMap.keySet()) {
-	      List<Item> list = itemMap.get(key);
-	      StringBuilder out = getWriter(key);
-	      for (Item i : list){
-	    	   out.append(i.toString());
-	    	   
-	      }
-	      out.append("</report>");
-            GeneratedReport gr=new GeneratedReport();
-            gr.setReportName(key.substring(0,key.indexOf("-")));
-            gr.setFullReportName(key);
-            gr.setPeriod(key.substring(key.indexOf("-")+1));
-            gr.setContent(out.toString());
-            gr.setReportType(getType().name().toLowerCase());
-            getReportRepository().save(gr);
-	      //out.close();
-	    }
-	   
-	    itemMap.clear();
-	    log.info("Report finished.");
-  }
+	  @Override
+	  public void finish() {
+		  log.info("Finishing report...");
+		    for (List<Item> list : itemMap.values())
+		      Collections.sort(list);
+		    
+		    for (String key : itemMap.keySet()) {
+		      List<Item> list = itemMap.get(key);
+		      StringBuilder out = getWriter(key);
+		      for (Item i : list){
+		    	   out.append(i.toString());
+		      }
+                out.append("</report>");
+                GeneratedReport gr=new GeneratedReport();
+                gr.setReportName(key.substring(0,key.indexOf("-")));
+                gr.setFullReportName(key);
+                gr.setPeriod(key.substring(key.indexOf("-")+1));
+                gr.setContent(out.toString());
+                gr.setReportType(getType().name().toLowerCase());
+                getReportRepository().save(gr);
+		     
+		    }
+		  //  closeFiles();
+		    itemMap.clear();
+		    log.info("Report finished.");
+	  }
 
   @Override
   public void handleRecord(Record rec) {
     if (rec == null)
       return;
-       String naslov = rec.getSubfieldContent("200a");
+ 
+    String naslov = rec.getSubfieldContent("200a");
     if (naslov == null)
       naslov = "";
     String autor = getAutor(rec); 
     if (autor == null)
       autor = "";
     autor.trim();
-    String izdavac = rec.getSubfieldContent("210c");
-    if (izdavac == null)
-      izdavac = "";
     String mesto = rec.getSubfieldContent("210a");
     if (mesto == null)
-      mesto = "";
+    	mesto = "";
+    String opisDela = rec.getSubfieldContent("200b");
+    if (opisDela == null)
+    	opisDela = "";
     String god = rec.getSubfieldContent("210d");
     if (god == null)
       god = "";
-    String brsveske = rec.getSubfieldContent("200h");
-    if (brsveske == null)
-      brsveske = "";
-    String RN = rec.getSubfieldContent("001e");
-    if (RN == null)
-      RN = "";
+    
     
     StringBuffer opis = new StringBuffer();
     opis.append(autor);
-    opis.append("\n");
+    if (opis.length() > 0)
+      opis.append(". ");
     opis.append(naslov);
-    if (naslov.length() > 0)
-      opis.append(", ");
-    opis.append(brsveske);
-    if (brsveske.length() > 0)
-      opis.append(", ");
-    opis.append(mesto);
+    opis.append(": ");
+    opis.append(opisDela);
+    opis.append(", ");
+    
     if (mesto.length() > 0)
-      opis.append(", ");
-    opis.append(izdavac);
-    if (izdavac.length() > 0)
-      opis.append(", ");
-    opis.append(god);
-    if (god.length() > 0)
-      opis.append(".");
-    if (RN.length() > 0)
-      opis.append("   RN: " + RN);
+      opis.append(". - ");
+    opis.append(mesto);
     
     String dim = rec.getSubfieldContent("215d");
     if (dim == null)
       dim = " ";
+    String vrGradje = rec.getSubfieldContent("001b");  
+    if (vrGradje == null){
+    	vrGradje=opisDela;	
+    }else{
+     vrGradje=vrGradje+", "+opisDela;
+    }
+    String publikovano = " "; // NISU STAVILI IZ KOG POLJA SE VADI PODATAK
+    if (publikovano == null)
+    	publikovano = " ";
     
     String sig = " ";
 
     for (Primerak p : rec.getPrimerci()) {
-   
+    	
       if(p.getInvBroj()==null)
     	  continue;
-      String zavicajnaM=p.getInvBroj().substring(0, 4);
-      if ((zavicajnaM.compareToIgnoreCase("3131")!=0)&&  //ako ne pocinju ovako onda nisu iz zavicajne monografske
-         (zavicajnaM.compareToIgnoreCase("3132")!=0)&&
-         (zavicajnaM.compareToIgnoreCase("3133")!=0))
-    	  		continue;
-      
-       if (p.getInvBroj().substring(4,6).compareToIgnoreCase("00")!=0){
-    	  	 continue;
+      if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
+		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("10")!=0)
+			  continue;
+      }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("10")!=0){
+	      continue;
       }
-
       sig = Signature.format(p.getSigDublet(), p.getSigPodlokacija(),
           p.getSigIntOznaka(), p.getSigFormat(), p.getSigNumerusCurens(), 
           p.getSigUDK());
@@ -200,19 +201,39 @@ public class InvKnjigaMonografskeZavicajna extends Report {
       i.invbr =  nvl(p.getInvBroj());
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
-      if(p.getPovez() != null)
-        i.povez = getCoders().getBinCoders().get(p.getPovez()).getDescription();
-      else
-        i.povez = "";
-      //i.povez =HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.POVEZ_CODER, nvl(p.getPovez()));
+      i.vrGradje = vrGradje;
+      i.publikovano = publikovano;
       i.dim = dim;
-      /*String dobavljac=nvl(p.getDobavljac());*/
-      /*String vrnab = nvl(p.getNacinNabavke());*/
-        String nabavka="";
-      if(getCoders().getAcqCoders().get(p.getDobavljac()) != null)
-        nabavka= getCoders().getAcqCoders().get(p.getDobavljac()).getDescription();
-
-      i.nabavka = nabavka;
+      String dobavljac=nvl(p.getDobavljac());
+      String vrnab = nvl(p.getNacinNabavke());
+//    ******************    NABAVKA NIJE ZAVRSENA   *************************
+      String nabavkaO=" ";
+      String nabavkaK=" ";
+      String nabavkaR=" ";
+      String nabavkaP=" ";
+      if (vrnab.equals("c") || vrnab.equals("p")) {
+    	  nabavkaP = "poklon";
+          if (dobavljac!="" && dobavljac!=" ")
+            nabavkaP += ", " + dobavljac;
+        } else if (vrnab.equals("a") || vrnab.equals("k")) {
+          nabavkaK = "kupovina";
+          if (dobavljac!="" && dobavljac!=" ")
+            nabavkaK += ", " + dobavljac;
+          String brRac=nvl(p.getBrojRacuna());
+          if (brRac!="" && brRac!=" ")
+              nabavkaK += ", " + brRac;
+            
+        } else if (vrnab.equals("b")) {
+          nabavkaR = "razmena";
+        } else if (vrnab.equals("d")) {
+          nabavkaO = "obavezni primerak";
+        } else if (vrnab.equals("e")) {
+          //nabavka = "zate\u010deni fond";
+        } else if (vrnab.equals("f") || vrnab.equals("s")) {
+          //nabavka = "sopstvena izdanja";
+        } else if (vrnab.equals("o")) {
+          //nabavka = "otkup";
+        }
         DecimalFormat df2 = new DecimalFormat(".##");
       i.cena = p.getCena() == null ? " " : 
         df2.format(p.getCena()).toString();
@@ -221,9 +242,8 @@ public class InvKnjigaMonografskeZavicajna extends Report {
       String key = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());
       getList(key).add(i);
       
-      }
+    }
   }
-
   public List<Item> getList(String key) {
 	    List<Item> list = itemMap.get(key);
 	    if (list == null) {
@@ -232,6 +252,7 @@ public class InvKnjigaMonografskeZavicajna extends Report {
 	    }
 	    return list;
   }
+  
   
   public String getAutor(Record rec) {
     if (rec.getField("700") != null) {
@@ -311,10 +332,8 @@ public class InvKnjigaMonografskeZavicajna extends Report {
   SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
   private Period period;
   private Pattern pattern;
-  private List<Item> items = new ArrayList<Item>();
-  private String name;
   private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-  private static Log log = LogFactory.getLog(InvKnjigaMonografskeZavicajna.class);
+  private String name;
+  private static Log log = LogFactory.getLog(InvKnjigaZaRukopisnuGradju.class);
 
-  
 }

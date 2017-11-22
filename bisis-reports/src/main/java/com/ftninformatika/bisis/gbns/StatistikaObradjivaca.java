@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;

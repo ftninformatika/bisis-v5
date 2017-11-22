@@ -14,7 +14,7 @@ export class LibraryService {
     }
 
     getLanguageCoders(){
-        return this.http.get( '/coders/language?libName=gbns') //TODO- hardcoded (svuda staviti na gbns_com umesto gbns)
+        return this.http.get( '/coders/language?libName=gbns')
             .map(response => response.json() )
             .catch(this.handleError);
     }

@@ -39,7 +39,7 @@ export class BisisSearchComponent implements OnInit {
     this.libList.push({label:'Одаберите библиотеку', value: null});
     this.libList.push({label:'Градска библиотека Нови Сад', value:'gbns'});
     this.libList.push({label:'Градска библиотека Шабац', value:'gbsa_com'});
-    this.libList.push({label:'Библиотека Техничког факултета у Зрењанину', value:'tfzr_uns'});
+    this.libList.push({label:'Библиотека Техничког факултета у Зрењанину', value:'tfzr'});
     this.libList.push({label:'Библиотека ПМФ Нови Сад', value:'pmf_uns_ac_rs'});
   }
 

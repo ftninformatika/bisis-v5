@@ -64,7 +64,7 @@ db.configs.insert({
     "pincodeLibrary" : "Ð‘Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÐ° ÑˆÐ°Ð±Ð°Ñ‡ÐºÐ°",
     "reports" : [
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.StatistikaObradjivaca",
+            "className" : "com.ftninformatika.bisis.gbns.StatistikaObradjivaca",
             "menuitem" : "Statistika|Obradjivaca|Monografske|Po mesecu",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -72,7 +72,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/StatistikaObradjivaca.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.StatistikaObradjivaca",
+            "className" : "com.ftninformatika.bisis.gbns.StatistikaObradjivaca",
             "menuitem" : "Statistika|Obradjivaca|Monografske|Po kvartalu",
             "invnumpattern" : "^0100.*",
             "type" : "quarter",
@@ -80,7 +80,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/StatistikaObradjivaca.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.StatistikaObradjivaca",
+            "className" : "com.ftninformatika.bisis.gbns.StatistikaObradjivaca",
             "menuitem" : "Statistika|Obradjivaca|Monografske|Po godini",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -88,7 +88,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/StatistikaObradjivaca.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.StanjeFondaSerijske",
+            "className" : "com.ftninformatika.bisis.gbns.StanjeFondaSerijske",
             "menuitem" : "Stanje Fonda|Serijske|Ceo fond",
             "invnumpattern" : "^0100.*",
             "type" : "whole",
@@ -96,7 +96,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/StanjeFonda.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.StanjeFondaSerijske",
+            "className" : "com.ftninformatika.bisis.gbns.StanjeFondaSerijske",
             "menuitem" : "Stanje Fonda|Serijske|Po godinama",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -104,7 +104,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/StanjeFonda.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDK",
             "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Godisnji",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -112,7 +112,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDK",
             "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Polugodisnji",
             "invnumpattern" : "^0100.*",
             "type" : "half",
@@ -120,7 +120,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDK",
             "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Kvartalni",
             "invnumpattern" : "^0100.*",
             "type" : "quarter",
@@ -128,7 +128,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDK",
             "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Mesecni",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -136,7 +136,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDK",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDK",
             "menuitem" : "Nabavka|Po UDK|Po datumu inventarisanja|Ceo fond",
             "invnumpattern" : "^0100.*",
             "type" : "whole",
@@ -144,7 +144,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDKPoRacunu",
             "menuitem" : "Nabavka|Po UDK|Po racunu|Godisnji",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -152,7 +152,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDKPoRacunu",
             "menuitem" : "Nabavka|Po UDK|Po racunu|Polugodnisnji",
             "invnumpattern" : "^0100.*",
             "type" : "half",
@@ -160,7 +160,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDKPoRacunu",
             "menuitem" : "Nabavka|Po UDK|Po racunu|Kvartalni",
             "invnumpattern" : "^0100.*",
             "type" : "quarter",
@@ -168,7 +168,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDKPoRacunu",
             "menuitem" : "Nabavka|Po UDK|Po racunu|Mesecni",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -176,7 +176,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoUDKPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoUDKPoRacunu",
             "menuitem" : "Nabavka|Po UDK|Po racunu|Ceo fond",
             "invnumpattern" : "^0100.*",
             "type" : "whole",
@@ -184,7 +184,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoUDK.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.RashodovaneMonografske",
+            "className" : "com.ftninformatika.bisis.gbns.RashodovaneMonografske",
             "menuitem" : "Rashodovane",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -192,7 +192,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/RashodovaneMonografske.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoOgrancima",
             "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Godisnji",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -200,7 +200,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoOgrancima",
             "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Polugodisnji",
             "invnumpattern" : "^0100.*",
             "type" : "half",
@@ -208,7 +208,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoOgrancima",
             "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Kvartalni",
             "invnumpattern" : "^0100.*",
             "type" : "quarter",
@@ -216,7 +216,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoOgrancima",
             "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Mesecni",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -224,7 +224,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoOgrancima",
             "menuitem" : "Nabavka|Po Nacinu|Po datumu inventarisanja|Ceo fond",
             "invnumpattern" : "^0100.*",
             "type" : "whole",
@@ -232,7 +232,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.JeziciPoOgrancima",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po datumu inventarisanja|Godisnji",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -240,7 +240,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.JeziciPoOgrancima",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po datumu inventarisanja|Kvartalni",
             "invnumpattern" : "^0100.*",
             "type" : "quarter",
@@ -248,7 +248,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.JeziciPoOgrancima",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po datumu inventarisanja|Polugodisnji",
             "invnumpattern" : "^0100.*",
             "type" : "half",
@@ -256,7 +256,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.JeziciPoOgrancima",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po datumu inventarisanja|Mesecni",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -264,7 +264,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoJezicimaPoRacunu",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Godisnji",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -272,7 +272,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoNacinuPoRacunu",
             "menuitem" : "Nabavka|Po Nacinu|Po racunu|Godisnji",
             "invnumpattern" : "^0100.*",
             "type" : "year",
@@ -280,7 +280,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoNacinuPoRacunu",
             "menuitem" : "Nabavka|Po Nacinu|Po racunu|Polugodisnji",
             "invnumpattern" : "^0100.*",
             "type" : "half",
@@ -288,7 +288,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoNacinuPoRacunu",
             "menuitem" : "Nabavka|Po Nacinu|Po racunu|Kvartalni",
             "invnumpattern" : "^0100.*",
             "type" : "quarter",
@@ -296,7 +296,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoNacinuPoRacunu",
             "menuitem" : "Nabavka|Po Nacinu|Po racunu|Mesecni",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -304,7 +304,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoNacinuPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoNacinuPoRacunu",
             "menuitem" : "Nabavka|Po Nacinu|Po racunu|Ceo fond",
             "invnumpattern" : "^0100.*",
             "type" : "whole",
@@ -312,7 +312,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/NabavkaPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoJezicimaPoRacunu",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Polugodisnji",
             "invnumpattern" : "^0100.*",
             "type" : "half",
@@ -320,7 +320,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoJezicimaPoRacunu",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Kvartalni",
             "invnumpattern" : "^0100.*",
             "type" : "quarter",
@@ -328,7 +328,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.NabavkaPoJezicimaPoRacunu",
+            "className" : "com.ftninformatika.bisis.gbns.NabavkaPoJezicimaPoRacunu",
             "menuitem" : "Stanje Fonda|Po Jeziku|Po racunu|Mesecni",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -336,7 +336,7 @@ db.configs.insert({
             "jasper" : "/jaspers/gbns/JeziciPoOgrancima.jasper"
         },
         {
-            "className" : "com.ftninformatika.bisis.reportsImpl.JeziciPoOgrancima",
+            "className" : "com.ftninformatika.bisis.gbns.JeziciPoOgrancima",
             "menuitem" : "Stanje Fonda|Po Jeziku|Ceo fond",
             "invnumpattern" : "^0100.*",
             "type" : "whole",
@@ -347,13 +347,13 @@ db.configs.insert({
             "reportName" : "InventarnaKnjigaMonografske",
             "invnumpattern" : "^0100.*",
             "menuitem" : "Inventarna Knjiga|Monografske|Opšte",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografske",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaMonografske",
             "type" : "year",
             "jasper" : "/jaspers/gbns/InvKnjigaMonografske.jasper"
         },
         {
             "reportName" : "InvKnjigaZaFilmoveIVideosnimke",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaFilmoveIVideosnimke",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaZaFilmoveIVideosnimke",
             "menuitem" : "Inventarna Knjiga|Filmovi i videosnimci",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -361,7 +361,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaMonografskeZavicajna",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografskeZavicajna",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaMonografskeZavicajna",
             "menuitem" : "Inventarna Knjiga|Monografske|Zavičajna",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -369,7 +369,7 @@ db.configs.insert({
         },
         {
             "reportName" : "KnjigaInventaraSerijske",
-            "className" : "com.ftninformatika.bisis.reportsImpl.KnjigaInventaraSerijske",
+            "className" : "com.ftninformatika.bisis.gbns.KnjigaInventaraSerijske",
             "menuitem" : "Inventarna Knjiga|Serijske",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -377,7 +377,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaStaraIRetkaKnjiga",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaStaraIRetkaKnjiga",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaStaraIRetkaKnjiga",
             "menuitem" : "Inventarna Knjiga|Stara i retka knjiga",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -385,7 +385,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaMonografskeRaritet",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaMonografskeRaritet",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaMonografskeRaritet",
             "menuitem" : "Inventarna Knjiga|Monografske|Rariteti",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -393,7 +393,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaKartografskaGradja",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaKartografskaGradja",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaKartografskaGradja",
             "menuitem" : "Inventarna Knjiga|Kartografska građa",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -401,7 +401,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaZaMikrooblik",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaMikrooblik",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaZaMikrooblik",
             "menuitem" : "Inventarna Knjiga|Mikrooblik ",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -409,7 +409,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaZaMuzikalije",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaMuzikalije",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaZaMuzikalije",
             "menuitem" : "Inventarna Knjiga|Muzikalije",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -417,7 +417,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaZaRukopisnuGradju",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaRukopisnuGradju",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaZaRukopisnuGradju",
             "menuitem" : "Inventarna Knjiga|Rukopisna gradja",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -425,7 +425,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaZaVizuelnuGradjuSlika",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaVizuelnuGradjuSlika",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaZaVizuelnuGradjuSlika",
             "menuitem" : "Inventarna Knjiga|Vizuelna gradja",
             "invnumpattern" : "^0100.*",
             "type" : "month",
@@ -433,7 +433,7 @@ db.configs.insert({
         },
         {
             "reportName" : "InvKnjigaZaVizuelnuProjekciju",
-            "className" : "com.ftninformatika.bisis.reportsImpl.InvKnjigaZaVizuelnuProjekciju",
+            "className" : "com.ftninformatika.bisis.gbns.InvKnjigaZaVizuelnuProjekciju",
             "menuitem" : "Inventarna Knjiga|Vizuelne projekcije",
             "invnumpattern" : "^0100.*",
             "type" : "month",

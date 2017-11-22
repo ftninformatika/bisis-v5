@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,8 +20,7 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
-public class NabavkaPoUDKPoRacunu extends Report {
+public class NabavkaPoUDK extends Report {
 
   @Override
   public void init() {
@@ -52,9 +50,17 @@ public class NabavkaPoUDKPoRacunu extends Report {
 			}
 			out.append("</report>");
 			GeneratedReport gr=new GeneratedReport();
-			gr.setReportName(key.substring(0,key.indexOf("-")));
-			gr.setFullReportName(key);
-			gr.setPeriod(key.substring(key.indexOf("-")+1));
+			if (key.indexOf("-") >= 0){
+				gr.setReportName(key.substring(0,key.indexOf("-")));
+				gr.setFullReportName(key);
+				gr.setPeriod(key.substring(key.indexOf("-")+1));
+			}
+			else{
+				gr.setReportName(key);
+				gr.setFullReportName(key);
+				gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+			}
 			gr.setContent(out.toString());
 			gr.setReportType(getType().name().toLowerCase());
 			getReportRepository().save(gr);
@@ -119,25 +125,27 @@ public class NabavkaPoUDKPoRacunu extends Report {
 	    	else if(!invbr.substring(2, 4).startsWith("00")){
 	    		continue;
 	    	}*/
-        /* String sigla = p.getOdeljenje();
+       /*  String sigla = p.getOdeljenje();
 	      
 	      if (sigla == null || sigla.equals(" ")) {*/
-		  String  sigla=invbr.substring(0,2);
+	    	  String sigla;
 	    //  }
 	      if (p.getStatus()!=null) {
 	        	if(p.getStatus().equals("9")) //ne broji rashodovane
 	        		continue; 
 	      } 
 			Date  invDate;
-	       /* if (p.getStatus()!=null) {
-	        	if(p.getStatus().equals("5"))  {//za presiglirane gleda datum statusa a ne datum inventarisanja
-	        		invDate = p.getDatumStatusa();
-	             }else{   //za sve ostale slucajeve uzimam datum inventarisanja
-	            	 invDate=p.getDatumInventarisanja();
-	           }
-	        }else{//ukoliko nema statusa opet uzimam datum inventarisanja */
-	        	invDate=p.getDatumRacuna();
-	       // }
+			String status=p.getStatus();
+	        if (status==null) 
+	        	status="A";
+	         if(status.compareToIgnoreCase("5")==0){
+	        	 invDate = p.getDatumStatusa(); 
+	        	 sigla=p.getOdeljenje();
+	         }else{
+	        	 invDate=p.getDatumInventarisanja();
+	        	 sigla=invbr.substring(0,2);
+	          } 	
+	        	
 	      String key = settings.getReportName() + getFilenameSuffix(invDate);
 	      Item item=getItem(getList(key),sigla);
 	      if (item == null ){
@@ -274,7 +282,7 @@ public class NabavkaPoUDKPoRacunu extends Report {
   }
 
   private void addTotal(List<Item> itemList) {
-	    Item t = new Item("UKUPNO");
+	    Item t = new Item(LatCyrUtils.toCyrillic("UKUPNO"));
 	    	    
 	    for (Item i : itemList) {
 	    	t.addItem(i);
@@ -375,11 +383,11 @@ public class NabavkaPoUDKPoRacunu extends Report {
 	    }
 	    public String toString() {
 	    	StringBuffer buf = new StringBuffer();
-			if(sigla.startsWith("0") && sigla.length() == 2)
-				sigla = sigla.substring(1);
-			String sig = "nepoznatno";
-			if(getCoders().getLocCoders().get(sigla) != null)
-				sig = getCoders().getLocCoders().get(sigla).getDescription();
+	    	if(sigla.startsWith("0") && sigla.length() == 2)
+	    		sigla = sigla.substring(1);
+	    	String sig = "nepoznatno";
+	    	if(getCoders().getLocCoders().get(sigla) != null)
+	    		sig = getCoders().getLocCoders().get(sigla).getDescription();
 	        buf.append("\n  <item id=\"");
 	        buf.append(sigla+" - "+ LatCyrUtils.toCyrillic(sig));
 	        buf.append("\">\n    <adult0>");

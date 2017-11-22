@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
@@ -20,8 +19,7 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
-public class RashodovaneMonografske extends Report {
+public class StanjeFondaSerijske extends Report {
   
  
 	 @Override
@@ -51,15 +49,22 @@ public class RashodovaneMonografske extends Report {
 				}
 				out.append("</report>");
 				GeneratedReport gr=new GeneratedReport();
-				gr.setReportName(key.substring(0,key.indexOf("-")));
-				gr.setFullReportName(key);
-				gr.setPeriod(key.substring(key.indexOf("-")+1));
+				if (key.indexOf("-") >= 0){
+					gr.setReportName(key.substring(0,key.indexOf("-")));
+					gr.setFullReportName(key);
+					gr.setPeriod(key.substring(key.indexOf("-")+1));
+				}
+				else{
+					gr.setReportName(key);
+					gr.setFullReportName(key);
+					gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+				}
 				gr.setContent(out.toString());
 				gr.setReportType(getType().name().toLowerCase());
 				getReportRepository().save(gr);
 			}
 			//closeFiles();
-
 			itemMap.clear();
 			log.info("Report finished.");
 	  }
@@ -76,35 +81,32 @@ public class RashodovaneMonografske extends Report {
 		  if (rec == null)
 		      return;
 			    
-		    for (Primerak p : rec.getPrimerci()) {
-		    	String invBr=p.getInvBroj();
-		    	if (invBr == null)
-		    		continue;
+		    for (Godina p : rec.getGodine()) {
+		        if(p.getInvBroj()==null)
+		      	  continue;
+		        if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
+		      		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("01")!=0)
+		      			  continue;
+		        }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("01")!=0){
+		      	  continue;
+		        }
+		        String invBr=p.getInvBroj();
 		    	String ogr=p.getOdeljenje();
 		    	if(ogr==null)
-		    	ogr = invBr.substring(0, 2);    	
+		    	ogr = invBr.substring(0, 2);   				 
 		    	try {
-		      	  String napomene =p.getNapomene();
-		      	  if(p.getStatus().equals("9")){
-		      		Date  otpisDate = p.getDatumStatusa(); 
-		      	    if(otpisDate==null){
-		              if ((napomene != null)&&(napomene.toUpperCase().startsWith("R"))) {
-		               String datum = napomene.substring(1,5);
-		               otpisDate = intern.parse(datum);
-		            
-		            }
-		      	  }
-		    	String key = settings.getReportName()+ getFilenameSuffix(otpisDate);
+		      	Date  invDate = p.getDatumInventarisanja();
+		    	String key = settings.getReportName()+ getFilenameSuffix(invDate);
 				Item item = getItem(getList(key), ogr);
 			      if (item == null ){
 			         	item=new Item(ogr);
-			         	item.rashodovano++;
+			         	item.primerci++;
 			         	getList(key).add(item);	
 			      }else{
-			    	  item.rashodovano++;
+			    	  item.primerci++;
 			      }
 		      }
-		    }catch(Exception e){
+		    catch(Exception e){
 		    	
 		    }
 		  }
@@ -130,15 +132,11 @@ public class RashodovaneMonografske extends Report {
 
 	  public class Item implements Comparable  {
 		  String sigla;
-		  int rashodovano;
-
-		 
-		    
-
+		  int primerci;	    
 		    public Item(String sigla) {
 				super();
 				this.sigla = sigla;
-				this.rashodovano = 0;
+				this.primerci = 0;
 			}
 		    
 		    public int compareTo(Object o) {
@@ -161,9 +159,9 @@ public class RashodovaneMonografske extends Report {
 				if(getCoders().getLocCoders().get(sigla) != null)
 					sig = getCoders().getLocCoders().get(sigla).getDescription();
 		      buf.append(LatCyrUtils.toCyrillic(sig));
-		      buf.append("</ogranak>\n    <rashodovano>");
-		      buf.append(rashodovano);
-		      buf.append("</rashodovano>\n  </item>");
+		      buf.append("</ogranak>\n    <primerci>");
+		      buf.append(primerci);
+		      buf.append("</primerci>\n  </item>");
 		      return buf.toString();
 		    }
 		    		   
@@ -178,3 +176,4 @@ public class RashodovaneMonografske extends Report {
 	  NumberFormat nf;
 
 	}
+

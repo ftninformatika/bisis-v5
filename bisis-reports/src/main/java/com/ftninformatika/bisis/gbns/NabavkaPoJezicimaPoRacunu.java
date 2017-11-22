@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,11 +13,10 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
-import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class JeziciPoOgrancima extends Report {
+public class NabavkaPoJezicimaPoRacunu extends Report {
 
 	@Override
 	public void init() {
@@ -26,7 +24,7 @@ public class JeziciPoOgrancima extends Report {
 		log.info("Report initialized.");
 	}
 
-	//@Override
+
 	public void finishInv() { // zbog inventerni one se snimaju u fajl po
 		// segmentima a ne sve od jednom
 
@@ -44,18 +42,11 @@ public class JeziciPoOgrancima extends Report {
 
 			}
 			out.append("</report>");
+			//out.close();
 			GeneratedReport gr=new GeneratedReport();
-			if (key.indexOf("-") >= 0){
-				gr.setReportName(key.substring(0,key.indexOf("-")));
-				gr.setFullReportName(key);
-				gr.setPeriod(key.substring(key.indexOf("-")+1));
-			}
-			else{
-				gr.setReportName(key);
-				gr.setFullReportName(key);
-				gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
-
-			}
+			gr.setReportName(key.substring(0,key.indexOf("-")));
+			gr.setFullReportName(key);
+			gr.setPeriod(key.substring(key.indexOf("-")+1));
 			gr.setContent(out.toString());
 			gr.setReportType(getType().name().toLowerCase());
 			getReportRepository().save(gr);
@@ -64,8 +55,6 @@ public class JeziciPoOgrancima extends Report {
 		itemMap.clear();
 		log.info("Report finished.");
 	}
-
-
 
 	@Override
 	public void handleRecord(Record rec) {
@@ -94,21 +83,25 @@ public class JeziciPoOgrancima extends Report {
 		}
 		for (Primerak p : rec.getPrimerci()) {
 			Date  invDate;
-			String invbr = p.getInvBroj();
-			String status=p.getStatus();
-	        if (status==null) 
-	        	status="A";
-	         if(status.compareToIgnoreCase("5")==0){
-	        	 invDate = p.getDatumStatusa(); 
-	        	 sigla=p.getOdeljenje();
-	         }else{
-	        	 invDate=p.getDatumInventarisanja();
-	        	 sigla=invbr.substring(0,2);
-	         } 
+	      /*  if (p.getStatus()!=null) {
+	        	if(p.getStatus().equals("5"))  {//za presiglirane gleda datum statusa a ne datum inventarisanja
+	        		invDate = p.getDatumStatusa();
+	             }else{   //za sve ostale slucajeve uzimam datum inventarisanja
+	            	 invDate=p.getDatumInventarisanja();
+	           }
+	        }else{//ukoliko nema statusa opet uzimam datum inventarisanja */
+	        	invDate=p.getDatumStatusa();
+	       // }
 			
 			String key = settings.getReportName() + getFilenameSuffix(invDate);
-			
-
+			String invBr = p.getInvBroj();
+			sigla=p.getOdeljenje();
+			if (sigla == null || sigla.equals("")) {
+			  if (invBr == null || invBr.equals("")) {
+				continue;
+			  }
+			 sigla = invBr.substring(0, 2);
+			}
 	        if (p.getStatus()!=null) {
 	        	if(p.getStatus().equals("9")) //ne broji rashodovane
 	        		continue; 
@@ -214,6 +207,7 @@ public class JeziciPoOgrancima extends Report {
 		public int odeljenje31;
 		public int odeljenje40;
 		public int odeljenje43;
+
 		public int odeljenje44;
 		public int odeljenjeX;
 
@@ -470,11 +464,10 @@ public class JeziciPoOgrancima extends Report {
 
 	}
 
-	private static Log log = LogFactory.getLog(JeziciPoOgrancima.class);
+	private static Log log = LogFactory.getLog(NabavkaPoJezicimaPoRacunu.class);
 
 	private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
 
 	NumberFormat nf;
-
 
 }

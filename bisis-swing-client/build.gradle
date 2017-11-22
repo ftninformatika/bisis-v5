@@ -49,8 +49,6 @@ dependencies {
     compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
     compile group: 'org.olap4j', name: 'olap4j', version: '1.1.0'
 
-
-
 }
 
 jar {

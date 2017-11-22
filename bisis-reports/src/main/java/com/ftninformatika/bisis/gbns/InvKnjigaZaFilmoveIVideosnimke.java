@@ -1,6 +1,6 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-import java.io.PrintWriter;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
+
 
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
@@ -23,15 +24,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
+
+public class InvKnjigaZaFilmoveIVideosnimke extends Report {
 	public class Item implements Comparable {
 		public String invbr;
 	    public Date datum;
-	    public String opis;	    
+	    public String opis;
 	    public String vrDok;
 	    public String brDok;
+	    public String propratnaGr;
 	    public String boja;
 	    public String zvuk;
+	    public String sirina;
 	    public String dim;
 	    public String nabavkaO;
 	    public String nabavkaK;
@@ -40,7 +44,7 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
 	    public String cena;
 	    public String sig;
 	    public String napomena;
-	    public String ogr;
+	    
 	    
 	    public int compareTo(Object o) {
 	      if (o instanceof Item) {
@@ -51,40 +55,44 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
 	    }
 
 	    public String toString() {
-	      StringBuffer buf = new StringBuffer();
-	      buf.append("\n  <item>\n    <rbr>");
-	      buf.append(invbr);
-	      buf.append("</rbr>\n    <datum>");
-	      buf.append(sdf.format(datum));
-	      buf.append("</datum>\n    <opis>");
-	      buf.append(StringUtils.adjustForHTML(opis));
-	      buf.append("</opis>\n    <vrDok>");
-	      buf.append(vrDok);
-	      buf.append("</vrDok>\n    <brDok>");
-	      buf.append(brDok);
-	      buf.append("</brDok>\n    <boja>");
-	      buf.append(boja);
-	      buf.append("</boja>\n    <zvuk>");
-	      buf.append(zvuk);
-	      buf.append("</zvuk>\n    <dim>");
-	      buf.append(StringUtils.adjustForHTML(dim));
-	      buf.append("</dim>\n    <nabavkaO>");
-		  buf.append(StringUtils.adjustForHTML(nabavkaO));
-		  buf.append("</nabavkaO>\n   <nabavkaK>");
-		  buf.append(StringUtils.adjustForHTML(nabavkaK));
-		  buf.append("</nabavkaK>\n   <nabavkaR>");
-		  buf.append(StringUtils.adjustForHTML(nabavkaR));
-		  buf.append("</nabavkaR>\n   <nabavkaP>");
-		  buf.append(StringUtils.adjustForHTML(nabavkaP));
-		  buf.append("</nabavkaP>\n   <cena>");
-	      buf.append(StringUtils.adjustForHTML(cena));
-	      buf.append("</cena>\n    <signatura>");
-	      buf.append(StringUtils.adjustForHTML(sig));
-	      buf.append("</signatura>\n    <napomena>");
-	      buf.append(StringUtils.adjustForHTML(napomena));
-	      buf.append("</napomena>\n  </item>");
-	      return buf.toString();
-	    }
+		      StringBuffer buf = new StringBuffer();
+		      buf.append("\n  <item>\n    <rbr>");
+		      buf.append(invbr);
+		      buf.append("</rbr>\n    <datum>");
+		      buf.append(sdf.format(datum));
+		      buf.append("</datum>\n    <opis>");
+		      buf.append(StringUtils.adjustForHTML(opis));
+		      buf.append("</opis>\n    <vrDok>");
+		      buf.append(vrDok);
+		      buf.append("</vrDok>\n    <brDok>");
+		      buf.append(brDok);
+		      buf.append("</brDok>\n    <propratnaGr>");
+		      buf.append(StringUtils.adjustForHTML(propratnaGr));
+		      buf.append("</propratnaGr>\n    <boja>");
+		      buf.append(StringUtils.adjustForHTML(boja));
+		      buf.append("</boja>\n    <zvuk>");
+		      buf.append(StringUtils.adjustForHTML(zvuk));
+		      buf.append("</zvuk>\n    <sirina>");
+		      buf.append(StringUtils.adjustForHTML(sirina));
+		      buf.append("</sirina>\n    <dim>");
+		      buf.append(StringUtils.adjustForHTML(dim));
+		      buf.append("</dim>\n     <nabavkaO>");
+		      buf.append(StringUtils.adjustForHTML(nabavkaO));
+		      buf.append("</nabavkaO>\n   <nabavkaK>");
+		      buf.append(StringUtils.adjustForHTML(nabavkaK));
+		      buf.append("</nabavkaK>\n   <nabavkaR>");
+		      buf.append(StringUtils.adjustForHTML(nabavkaR));
+		      buf.append("</nabavkaR>\n   <nabavkaP>");
+		      buf.append(StringUtils.adjustForHTML(nabavkaP));
+		      buf.append("</nabavkaP>\n   <cena>");
+		      buf.append(StringUtils.adjustForHTML(cena));
+		      buf.append("</cena>\n    <signatura>");
+		      buf.append(StringUtils.adjustForHTML(sig));
+		      buf.append("</signatura>\n    <napomena>");
+		      buf.append(StringUtils.adjustForHTML(napomena));
+		      buf.append("</napomena>\n  </item>");
+		      return buf.toString();
+		    }
 	  }
 
   @Override
@@ -104,15 +112,9 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
 	      for (Item i : list){
 	    	  System.out.println("ovde");
 	    	   out.append(i.toString());
-	    	   //out.flush();
-	      } out.append("</report>");
-			GeneratedReport gr=new GeneratedReport();
-			gr.setReportName(key.substring(0,key.indexOf("-")));
-			gr.setFullReportName(key);
-			gr.setPeriod(key.substring(key.indexOf("-")+1));
-			gr.setContent(out.toString());
-			gr.setReportType(getType().name().toLowerCase());
-			getReportRepository().save(gr);
+	    	  // out.flush();
+	      }
+	 
 	    }
 	    itemMap.clear();
 	    log.info("Report finished.");
@@ -129,13 +131,15 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
 	      for (Item i : list){
 	    	   out.append(i.toString());
 	      }
-			GeneratedReport gr=new GeneratedReport();
-			gr.setReportName(key.substring(0,key.indexOf("-")));
-			gr.setFullReportName(key);
-			gr.setPeriod(key.substring(key.indexOf("-")+1));
-			gr.setContent(out.toString());
-			gr.setReportType(getType().name().toLowerCase());
-			getReportRepository().save(gr);
+            out.append("</report>");
+
+            GeneratedReport gr=new GeneratedReport();
+            gr.setReportName(key.substring(0,key.indexOf("-")));
+            gr.setFullReportName(key);
+            gr.setPeriod(key.substring(key.indexOf("-")+1));
+            gr.setContent(out.toString());
+            gr.setReportType(getType().name().toLowerCase());
+            getReportRepository().save(gr);
 	 
 	    }
 	    //closeFiles();
@@ -147,8 +151,7 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
   public void handleRecord(Record rec) {
     if (rec == null)
       return;
-  
-    String isbn=rec.getSubfieldContent("010a");
+
     String naslov = rec.getSubfieldContent("200a");
     if (naslov == null)
       naslov = "";
@@ -165,8 +168,7 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
     String god = rec.getSubfieldContent("210d");
     if (god == null)
       god = "";
-    if(isbn==null)
-	      isbn="";
+    
     
     StringBuffer opis = new StringBuffer();
     opis.append(autor);
@@ -183,23 +185,16 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
       opis.append(". - ");
     opis.append(god);
     opis.append(".");
-    opis.append(isbn);
-    
-
-    String vrDok = rec.getSubfieldContent("001b")+", ";
-    vrDok += rec.getSubfieldContent("200b"); 
-    if (vrDok == null)
-    	vrDok = " ";
+   
+    int vrPublikacije = rec.getPubType() ;
+    String vrDok = rec.getSubfieldContent("115a");
     String brDok = rec.getSubfieldContent("215a");    
     if (brDok == null)
     	brDok = " ";
-    String boja = rec.getSubfieldContent("116d");    
-    if (boja == null)
-    	boja = " ";
-    String zvuk = " "; // NISU NAVELI IZ KOG POLJA SE VADI PODATAK    
-    if (zvuk == null)
-    	zvuk = " ";
-    
+    String propratnaGr = rec.getSubfieldContent("215e");
+    String boja = rec.getSubfieldContent("115c");
+    String zvuk = rec.getSubfieldContent("115d");
+    String sirina = rec.getSubfieldContent("115f");
     String dim = rec.getSubfieldContent("215d");
     if (dim == null)
       dim = " ";
@@ -208,33 +203,34 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
 
     for (Primerak p : rec.getPrimerci()) {
     	
-	       if(p.getInvBroj()==null)
-		    	  continue;
-		       if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
-		    		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("08")!=0)
-		    			  continue;
-		      }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("08")!=0){
-		    	  continue;
-		      };
-     
+      if(p.getInvBroj()==null)
+    	  continue;
+      if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
+		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("06")!=0)
+			  continue;
+  }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("06")!=0){
+	  continue;
+  }
+      String vrPov = p.getPovez();
       sig = Signature.format(p.getSigDublet(), p.getSigPodlokacija(),
           p.getSigIntOznaka(), p.getSigFormat(), p.getSigNumerusCurens(), 
           p.getSigUDK());
       if (sig.equals(""))
     	  sig=" ";
-      String invbr = p.getInvBroj().substring(4);
       Item i = new Item();
       i.invbr =  nvl(p.getInvBroj());
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
+      i.vrDok = vrPov;
       i.brDok = brDok;
-      i.vrDok = vrDok;
+      i.propratnaGr = propratnaGr;
       i.boja = boja;
       i.zvuk = zvuk;
+      i.sirina = sirina;
       i.dim = dim;
       String dobavljac=nvl(p.getDobavljac());
       String vrnab = nvl(p.getNacinNabavke());
-//    ******************    NABAVKA NIJE ZAVRSENA   *************************
+      //    ******************    NABAVKA NIJE ZAVRSENA   *************************
       String nabavkaO=" ";
       String nabavkaK=" ";
       String nabavkaR=" ";
@@ -262,12 +258,12 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
         } else if (vrnab.equals("o")) {
           //nabavka = "otkup";
         }
-		DecimalFormat df2 = new DecimalFormat(".##");
-      i.cena = p.getCena() == null ? " " :
-			  df2.format(p.getCena()).toString();
+        DecimalFormat df2 = new DecimalFormat(".##");
+      i.cena = p.getCena() == null ? " " : 
+        df2.format(p.getCena()).toString();
       i.sig = sig;
       i.napomena = nvl(p.getNapomene());
-      String key = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());
+      String key = settings.getReportName() + super.getFilenameSuffix(p.getDatumInventarisanja());
       getList(key).add(i);
       
     }
@@ -279,9 +275,7 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
 	      itemMap.put(key, list);
 	    }
 	    return list;
-  }
-  
-  
+}
   public String getAutor(Record rec) {
 	    if (rec.getField("700") != null) {
 	      String sfa = rec.getSubfieldContent("700a");
@@ -344,7 +338,8 @@ public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
   private Period period;
   private Pattern pattern;
   private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
+
   private String name;
-  private static Log log = LogFactory.getLog(InvKnjigaZaVizuelnuGradjuSlika.class);
+  private static Log log = LogFactory.getLog(InvKnjigaZaFilmoveIVideosnimke.class);
 
 }

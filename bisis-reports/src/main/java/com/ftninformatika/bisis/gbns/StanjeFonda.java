@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.ftninformatika.bisis.records.Godina;
+import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
@@ -20,7 +19,8 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class StanjeFondaSerijske extends Report {
+
+public class StanjeFonda extends Report {
   
  
 	 @Override
@@ -50,17 +50,9 @@ public class StanjeFondaSerijske extends Report {
 				}
 				out.append("</report>");
 				GeneratedReport gr=new GeneratedReport();
-				if (key.indexOf("-") >= 0){
-					gr.setReportName(key.substring(0,key.indexOf("-")));
-					gr.setFullReportName(key);
-					gr.setPeriod(key.substring(key.indexOf("-")+1));
-				}
-				else{
-					gr.setReportName(key);
-					gr.setFullReportName(key);
-					gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
-
-				}
+				gr.setReportName(key.substring(0,key.indexOf("-")));
+				gr.setFullReportName(key);
+				gr.setPeriod(key.substring(key.indexOf("-")+1));
 				gr.setContent(out.toString());
 				gr.setReportType(getType().name().toLowerCase());
 				getReportRepository().save(gr);
@@ -82,21 +74,29 @@ public class StanjeFondaSerijske extends Report {
 		  if (rec == null)
 		      return;
 			    
-		    for (Godina p : rec.getGodine()) {
-		        if(p.getInvBroj()==null)
-		      	  continue;
-		        if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
-		      		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("01")!=0)
-		      			  continue;
-		        }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("01")!=0){
-		      	  continue;
-		        }
-		        String invBr=p.getInvBroj();
+		    for (Primerak p : rec.getPrimerci()) {
+		    	String invBr=p.getInvBroj();
+		    	if (invBr == null)
+		    		continue;
 		    	String ogr=p.getOdeljenje();
 		    	if(ogr==null)
-		    	ogr = invBr.substring(0, 2);   				 
+		    	ogr = invBr.substring(0, 2);   
+		        if (p.getStatus()!=null) {
+		        	if(p.getStatus().equals("9")) //ne broji rashodovane
+		        		continue; 
+		        }
+					 
 		    	try {
-		      	Date  invDate = p.getDatumInventarisanja();
+		    		Date  invDate;
+		        if (p.getStatus()!=null) {
+		        	if(p.getStatus().equals("5"))  {//za presiglirane gleda datum statusa a ne datum inventarisanja
+		        		invDate = p.getDatumStatusa();
+		             }else{   //za sve ostale slucajeve uzimam datum inventarisanja
+		            	 invDate=p.getDatumInventarisanja();
+		           }
+		        }else{//ukoliko nema statusa opet uzimam datum inventarisanja 
+		        	invDate=p.getDatumInventarisanja();
+		        }
 		    	String key = settings.getReportName()+ getFilenameSuffix(invDate);
 				Item item = getItem(getList(key), ogr);
 			      if (item == null ){
@@ -173,8 +173,7 @@ public class StanjeFondaSerijske extends Report {
 
 	  private Pattern pattern;
 	  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-	  private static Log log = LogFactory.getLog(RashodovaneMonografske.class);
+	  private static Log log = LogFactory.getLog(StanjeFonda.class);
 	  NumberFormat nf;
 
 	}
-

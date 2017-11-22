@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-public class StanjeFonda extends Report {
+public class RashodovaneMonografske extends Report {
   
  
 	 @Override
@@ -59,6 +58,7 @@ public class StanjeFonda extends Report {
 				getReportRepository().save(gr);
 			}
 			//closeFiles();
+
 			itemMap.clear();
 			log.info("Report finished.");
 	  }
@@ -81,34 +81,29 @@ public class StanjeFonda extends Report {
 		    		continue;
 		    	String ogr=p.getOdeljenje();
 		    	if(ogr==null)
-		    	ogr = invBr.substring(0, 2);   
-		        if (p.getStatus()!=null) {
-		        	if(p.getStatus().equals("9")) //ne broji rashodovane
-		        		continue; 
-		        }
-					 
+		    	ogr = invBr.substring(0, 2);    	
 		    	try {
-		    		Date  invDate;
-		        if (p.getStatus()!=null) {
-		        	if(p.getStatus().equals("5"))  {//za presiglirane gleda datum statusa a ne datum inventarisanja
-		        		invDate = p.getDatumStatusa();
-		             }else{   //za sve ostale slucajeve uzimam datum inventarisanja
-		            	 invDate=p.getDatumInventarisanja();
-		           }
-		        }else{//ukoliko nema statusa opet uzimam datum inventarisanja 
-		        	invDate=p.getDatumInventarisanja();
-		        }
-		    	String key = settings.getReportName()+ getFilenameSuffix(invDate);
+		      	  String napomene =p.getNapomene();
+		      	  if(p.getStatus().equals("9")){
+		      		Date  otpisDate = p.getDatumStatusa(); 
+		      	    if(otpisDate==null){
+		              if ((napomene != null)&&(napomene.toUpperCase().startsWith("R"))) {
+		               String datum = napomene.substring(1,5);
+		               otpisDate = intern.parse(datum);
+		            
+		            }
+		      	  }
+		    	String key = settings.getReportName()+ getFilenameSuffix(otpisDate);
 				Item item = getItem(getList(key), ogr);
 			      if (item == null ){
 			         	item=new Item(ogr);
-			         	item.primerci++;
+			         	item.rashodovano++;
 			         	getList(key).add(item);	
 			      }else{
-			    	  item.primerci++;
+			    	  item.rashodovano++;
 			      }
 		      }
-		    catch(Exception e){
+		    }catch(Exception e){
 		    	
 		    }
 		  }
@@ -134,11 +129,15 @@ public class StanjeFonda extends Report {
 
 	  public class Item implements Comparable  {
 		  String sigla;
-		  int primerci;	    
+		  int rashodovano;
+
+		 
+		    
+
 		    public Item(String sigla) {
 				super();
 				this.sigla = sigla;
-				this.primerci = 0;
+				this.rashodovano = 0;
 			}
 		    
 		    public int compareTo(Object o) {
@@ -161,9 +160,9 @@ public class StanjeFonda extends Report {
 				if(getCoders().getLocCoders().get(sigla) != null)
 					sig = getCoders().getLocCoders().get(sigla).getDescription();
 		      buf.append(LatCyrUtils.toCyrillic(sig));
-		      buf.append("</ogranak>\n    <primerci>");
-		      buf.append(primerci);
-		      buf.append("</primerci>\n  </item>");
+		      buf.append("</ogranak>\n    <rashodovano>");
+		      buf.append(rashodovano);
+		      buf.append("</rashodovano>\n  </item>");
 		      return buf.toString();
 		    }
 		    		   
@@ -174,7 +173,7 @@ public class StanjeFonda extends Report {
 
 	  private Pattern pattern;
 	  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-	  private static Log log = LogFactory.getLog(StanjeFonda.class);
+	  private static Log log = LogFactory.getLog(RashodovaneMonografske.class);
 	  NumberFormat nf;
 
 	}

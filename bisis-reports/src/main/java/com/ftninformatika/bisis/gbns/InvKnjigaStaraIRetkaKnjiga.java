@@ -1,7 +1,5 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
+import java.util.regex.Pattern;
 
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
@@ -25,25 +23,20 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-
-public class InvKnjigaZaFilmoveIVideosnimke extends Report {
+public class InvKnjigaStaraIRetkaKnjiga extends Report {
 	public class Item implements Comparable {
 		public String invbr;
 	    public Date datum;
 	    public String opis;
-	    public String vrDok;
-	    public String brDok;
-	    public String propratnaGr;
-	    public String boja;
-	    public String zvuk;
-	    public String sirina;
+	    public int vrPublikacije;
+	    public String vrPov;
 	    public String dim;
 	    public String nabavkaO;
 	    public String nabavkaK;
 	    public String nabavkaR;
 	    public String nabavkaP;
 	    public String cena;
-	    public String sig;
+	    public String signatura;
 	    public String napomena;
 	    
 	    
@@ -63,21 +56,13 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
 		      buf.append(sdf.format(datum));
 		      buf.append("</datum>\n    <opis>");
 		      buf.append(StringUtils.adjustForHTML(opis));
-		      buf.append("</opis>\n    <vrDok>");
-		      buf.append(vrDok);
-		      buf.append("</vrDok>\n    <brDok>");
-		      buf.append(brDok);
-		      buf.append("</brDok>\n    <propratnaGr>");
-		      buf.append(StringUtils.adjustForHTML(propratnaGr));
-		      buf.append("</propratnaGr>\n    <boja>");
-		      buf.append(StringUtils.adjustForHTML(boja));
-		      buf.append("</boja>\n    <zvuk>");
-		      buf.append(StringUtils.adjustForHTML(zvuk));
-		      buf.append("</zvuk>\n    <sirina>");
-		      buf.append(StringUtils.adjustForHTML(sirina));
-		      buf.append("</sirina>\n    <dim>");
+		      buf.append("</opis>\n    <vrPublikacije>");
+		      buf.append(vrPublikacije);
+		      buf.append("</vrPublikacije>\n    <vrPov>");
+		      buf.append(vrPov);
+		      buf.append("</vrPov>\n    <dim>");
 		      buf.append(StringUtils.adjustForHTML(dim));
-		      buf.append("</dim>\n     <nabavkaO>");
+		      buf.append("</dim>\n    <nabavkaO>");
 		      buf.append(StringUtils.adjustForHTML(nabavkaO));
 		      buf.append("</nabavkaO>\n   <nabavkaK>");
 		      buf.append(StringUtils.adjustForHTML(nabavkaK));
@@ -88,38 +73,39 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
 		      buf.append("</nabavkaP>\n   <cena>");
 		      buf.append(StringUtils.adjustForHTML(cena));
 		      buf.append("</cena>\n    <signatura>");
-		      buf.append(StringUtils.adjustForHTML(sig));
+		      buf.append(StringUtils.adjustForHTML(signatura));
 		      buf.append("</signatura>\n    <napomena>");
 		      buf.append(StringUtils.adjustForHTML(napomena));
 		      buf.append("</napomena>\n  </item>");
 		      return buf.toString();
 		    }
 	  }
-
+	  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
+		  log.info("Finishing report...");
+		    for (List<Item> list : itemMap.values())
+		      Collections.sort(list);
+		    
+		    for (String key : itemMap.keySet()) {
+		      List<Item> list = itemMap.get(key);
+		      StringBuilder out = getWriter(key);
+		      for (Item i : list){
+		    	
+		    	   out.append(i.toString());
+		    	 
+		      }
+		      //out.flush();
+		      itemMap.keySet().clear();
+		    }
+		   // itemMap.clear();
+		    log.info("Report finished.");
+	  }
   @Override
   public void init() {
 	  itemMap.clear();
 	    pattern = Pattern.compile(getReportSettings().getInvnumpattern());
 	    log.info("Report initialized.");
-  }
-  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
-	  log.info("Finishing report...");
-	    for (List<Item> list : itemMap.values())
-	      Collections.sort(list);
-	    
-	    for (String key : itemMap.keySet()) {
-	      List<Item> list = itemMap.get(key);
-	      StringBuilder out = getWriter(key);
-	      for (Item i : list){
-	    	  System.out.println("ovde");
-	    	   out.append(i.toString());
-	    	  // out.flush();
-	      }
-	 
-	    }
-	    itemMap.clear();
-	    log.info("Report finished.");
-  }
+ }
+
   @Override
   public void finish() {
 	  log.info("Finishing report...");
@@ -132,8 +118,8 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
 	      for (Item i : list){
 	    	   out.append(i.toString());
 	      }
-            out.append("</report>");
-
+	      out.append("</report>");
+	      //out.close();
             GeneratedReport gr=new GeneratedReport();
             gr.setReportName(key.substring(0,key.indexOf("-")));
             gr.setFullReportName(key);
@@ -141,9 +127,8 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
             gr.setContent(out.toString());
             gr.setReportType(getType().name().toLowerCase());
             getReportRepository().save(gr);
-	 
 	    }
-	    //closeFiles();
+	   // closeFiles();
 	    itemMap.clear();
 	    log.info("Report finished.");
   }
@@ -152,7 +137,8 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
   public void handleRecord(Record rec) {
     if (rec == null)
       return;
-
+    if (rec.getPubType() != 1)
+      return;
     String naslov = rec.getSubfieldContent("200a");
     if (naslov == null)
       naslov = "";
@@ -169,6 +155,12 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
     String god = rec.getSubfieldContent("210d");
     if (god == null)
       god = "";
+    String stamparija1=rec.getSubfieldContent("210e");
+    String stamparija2=rec.getSubfieldContent("210g");
+    if(stamparija1==null)
+    	stamparija1="";
+    if(stamparija2==null)
+    	stamparija2="";
     
     
     StringBuffer opis = new StringBuffer();
@@ -184,18 +176,14 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
     opis.append(izdavac);
     if (izdavac.length() > 0)
       opis.append(". - ");
+    opis.append(stamparija1);
+    opis.append(" ");
+    opis.append(stamparija2);
     opis.append(god);
     opis.append(".");
    
-    int vrPublikacije = rec.getPubType() ;
-    String vrDok = rec.getSubfieldContent("115a");
-    String brDok = rec.getSubfieldContent("215a");    
-    if (brDok == null)
-    	brDok = " ";
-    String propratnaGr = rec.getSubfieldContent("215e");
-    String boja = rec.getSubfieldContent("115c");
-    String zvuk = rec.getSubfieldContent("115d");
-    String sirina = rec.getSubfieldContent("115f");
+    int vrPublikacije = rec.getPubType() ; // pretpostavljam da se ovako formira posto u zahyevu nisu naveli odakle se preuzima
+    
     String dim = rec.getSubfieldContent("215d");
     if (dim == null)
       dim = " ";
@@ -206,32 +194,32 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
     	
       if(p.getInvBroj()==null)
     	  continue;
+      
       if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
-		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("06")!=0)
+		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("03")!=0)
 			  continue;
-  }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("06")!=0){
-	  continue;
-  }
-      String vrPov = p.getPovez();
+      }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("03")!=0){
+    	  	 continue;
+      }
+      String vrPov = "";// HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.POVEZ_CODER, p.getPovez());
+      if(p.getPovez() != null)
+          vrPov = getCoders().getBinCoders().get(p.getPovez()).getDescription();
       sig = Signature.format(p.getSigDublet(), p.getSigPodlokacija(),
           p.getSigIntOznaka(), p.getSigFormat(), p.getSigNumerusCurens(), 
           p.getSigUDK());
       if (sig.equals(""))
     	  sig=" ";
+      String invbr = p.getInvBroj().substring(4);
       Item i = new Item();
       i.invbr =  nvl(p.getInvBroj());
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
-      i.vrDok = vrPov;
-      i.brDok = brDok;
-      i.propratnaGr = propratnaGr;
-      i.boja = boja;
-      i.zvuk = zvuk;
-      i.sirina = sirina;
+      i.vrPov = vrPov;
+      i.vrPublikacije = vrPublikacije;  // NISU NAPISALI PA SAM JA PRETPOSTAVILA STA BI TREBALO DA BUDE PROVERITI JOS SA BILIOTEKARIMA
       i.dim = dim;
       String dobavljac=nvl(p.getDobavljac());
       String vrnab = nvl(p.getNacinNabavke());
-      //    ******************    NABAVKA NIJE ZAVRSENA   *************************
+//    ******************    NABAVKA NIJE ZAVRSENA   *************************
       String nabavkaO=" ";
       String nabavkaK=" ";
       String nabavkaR=" ";
@@ -262,9 +250,13 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
         DecimalFormat df2 = new DecimalFormat(".##");
       i.cena = p.getCena() == null ? " " : 
         df2.format(p.getCena()).toString();
-      i.sig = sig;
+      i.signatura = sig;
       i.napomena = nvl(p.getNapomene());
-      String key = settings.getReportName() + super.getFilenameSuffix(p.getDatumInventarisanja());
+      i.nabavkaO=nabavkaO;
+      i.nabavkaR=nabavkaR;
+      i.nabavkaK=nabavkaK;
+      i.nabavkaP=nabavkaP;
+      String key = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());
       getList(key).add(i);
       
     }
@@ -339,8 +331,7 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
   private Period period;
   private Pattern pattern;
   private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-
   private String name;
-  private static Log log = LogFactory.getLog(InvKnjigaZaFilmoveIVideosnimke.class);
+  private static Log log = LogFactory.getLog(InvKnjigaStaraIRetkaKnjiga.class);
 
 }

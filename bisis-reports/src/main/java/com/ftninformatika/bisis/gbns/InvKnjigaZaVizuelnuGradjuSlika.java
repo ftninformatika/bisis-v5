@@ -1,7 +1,5 @@
-package com.ftninformatika.bisis.reportsImpl;
+package com.ftninformatika.bisis.gbns;
 
-
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,25 +22,24 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-
-public class InvKnjigaZaZvucnuGradju extends Report {
+public class InvKnjigaZaVizuelnuGradjuSlika extends Report {
 	public class Item implements Comparable {
-	    public String invbr;
+		public String invbr;
 	    public Date datum;
-	    public String opis;
+	    public String opis;	    
 	    public String vrDok;
 	    public String brDok;
-	    public String propGr;
-	    public String tehO;
+	    public String boja;
+	    public String zvuk;
 	    public String dim;
 	    public String nabavkaO;
-	    public String nabavkaR;
 	    public String nabavkaK;
+	    public String nabavkaR;
 	    public String nabavkaP;
 	    public String cena;
 	    public String sig;
 	    public String napomena;
-	    
+	    public String ogr;
 	    
 	    public int compareTo(Object o) {
 	      if (o instanceof Item) {
@@ -63,22 +60,22 @@ public class InvKnjigaZaZvucnuGradju extends Report {
 	      buf.append("</opis>\n    <vrDok>");
 	      buf.append(vrDok);
 	      buf.append("</vrDok>\n    <brDok>");
-	      buf.append(StringUtils.adjustForHTML(brDok));
-	      buf.append("</brDok>\n    <propGr>");
-	      buf.append(StringUtils.adjustForHTML(propGr));
-	      buf.append("</propGr>\n     <tehO>");
-	      buf.append(StringUtils.adjustForHTML(tehO));
-	      buf.append("</tehO>\n     <dim>");
+	      buf.append(brDok);
+	      buf.append("</brDok>\n    <boja>");
+	      buf.append(boja);
+	      buf.append("</boja>\n    <zvuk>");
+	      buf.append(zvuk);
+	      buf.append("</zvuk>\n    <dim>");
 	      buf.append(StringUtils.adjustForHTML(dim));
-	      buf.append("</dim>\n     <nabavkaO>");
-	      buf.append(StringUtils.adjustForHTML(nabavkaO));
-	      buf.append("</nabavkaO>\n    <nabavkaR>");
-	      buf.append(StringUtils.adjustForHTML(nabavkaR));
-	      buf.append("</nabavkaR>\n    <nabavkaK>");
-	      buf.append(StringUtils.adjustForHTML(nabavkaK));
-	      buf.append("</nabavkaK>\n   <nabavkaP>");
-	      buf.append(StringUtils.adjustForHTML(nabavkaP));
-	      buf.append("</nabavkaP>\n   <cena>");
+	      buf.append("</dim>\n    <nabavkaO>");
+		  buf.append(StringUtils.adjustForHTML(nabavkaO));
+		  buf.append("</nabavkaO>\n   <nabavkaK>");
+		  buf.append(StringUtils.adjustForHTML(nabavkaK));
+		  buf.append("</nabavkaK>\n   <nabavkaR>");
+		  buf.append(StringUtils.adjustForHTML(nabavkaR));
+		  buf.append("</nabavkaR>\n   <nabavkaP>");
+		  buf.append(StringUtils.adjustForHTML(nabavkaP));
+		  buf.append("</nabavkaP>\n   <cena>");
 	      buf.append(StringUtils.adjustForHTML(cena));
 	      buf.append("</cena>\n    <signatura>");
 	      buf.append(StringUtils.adjustForHTML(sig));
@@ -89,62 +86,67 @@ public class InvKnjigaZaZvucnuGradju extends Report {
 	    }
 	  }
 
-	@Override
-	  public void init() {
-		  itemMap.clear();
-		    pattern = Pattern.compile(getReportSettings().getInvnumpattern());
-		    log.info("Report initialized.");
-	  }
-	  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
-		  log.info("Finishing report...");
-		    for (List<Item> list : itemMap.values())
-		      Collections.sort(list);
-		    
-		    for (String key : itemMap.keySet()) {
-		      List<Item> list = itemMap.get(key);
-		      StringBuilder out = getWriter(key);
-		      for (Item i : list){
-		    	  System.out.println("ovde");
-		    	   out.append(i.toString());
-		    	   //out.flush();
-		      }
-		 
-		    }
-		    itemMap.clear();
-		    log.info("Report finished.");
-	  }
-	  @Override
-	  public void finish() {
-		  log.info("Finishing report...");
-		    for (List<Item> list : itemMap.values())
-		      Collections.sort(list);
-		    
-		    for (String key : itemMap.keySet()) {
-		      List<Item> list = itemMap.get(key);
-		      StringBuilder out = getWriter(key);
-		      for (Item i : list){
-		    	   out.append(i.toString());
-		      }
-				out.append("</report>");
-				GeneratedReport gr=new GeneratedReport();
-				gr.setReportName(key.substring(0,key.indexOf("-")));
-				gr.setFullReportName(key);
-				gr.setPeriod(key.substring(key.indexOf("-")+1));
-				gr.setContent(out.toString());
-				gr.setReportType(getType().name().toLowerCase());
-				getReportRepository().save(gr);
-		 
-		    }
-		    //closeFiles();
-		    itemMap.clear();
-		    log.info("Report finished.");
-	  }
+  @Override
+  public void init() {
+	  itemMap.clear();
+	    pattern = Pattern.compile(getReportSettings().getInvnumpattern());
+	    log.info("Report initialized.");
+  }
+  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
+	  log.info("Finishing report...");
+	    for (List<Item> list : itemMap.values())
+	      Collections.sort(list);
+	    
+	    for (String key : itemMap.keySet()) {
+	      List<Item> list = itemMap.get(key);
+	      StringBuilder out = getWriter(key);
+	      for (Item i : list){
+	    	  System.out.println("ovde");
+	    	   out.append(i.toString());
+	    	   //out.flush();
+	      } out.append("</report>");
+			GeneratedReport gr=new GeneratedReport();
+			gr.setReportName(key.substring(0,key.indexOf("-")));
+			gr.setFullReportName(key);
+			gr.setPeriod(key.substring(key.indexOf("-")+1));
+			gr.setContent(out.toString());
+			gr.setReportType(getType().name().toLowerCase());
+			getReportRepository().save(gr);
+	    }
+	    itemMap.clear();
+	    log.info("Report finished.");
+  }
+  @Override
+  public void finish() {
+	  log.info("Finishing report...");
+	    for (List<Item> list : itemMap.values())
+	      Collections.sort(list);
+	    
+	    for (String key : itemMap.keySet()) {
+	      List<Item> list = itemMap.get(key);
+	      StringBuilder out = getWriter(key);
+	      for (Item i : list){
+	    	   out.append(i.toString());
+	      }
+			GeneratedReport gr=new GeneratedReport();
+			gr.setReportName(key.substring(0,key.indexOf("-")));
+			gr.setFullReportName(key);
+			gr.setPeriod(key.substring(key.indexOf("-")+1));
+			gr.setContent(out.toString());
+			gr.setReportType(getType().name().toLowerCase());
+			getReportRepository().save(gr);
+	 
+	    }
+	    //closeFiles();
+	    itemMap.clear();
+	    log.info("Report finished.");
+  }
 
   @Override
   public void handleRecord(Record rec) {
     if (rec == null)
       return;
-    
+  
     String isbn=rec.getSubfieldContent("010a");
     String naslov = rec.getSubfieldContent("200a");
     if (naslov == null)
@@ -182,57 +184,53 @@ public class InvKnjigaZaZvucnuGradju extends Report {
     opis.append(".");
     opis.append(isbn);
     
-    String vrDok = rec.getSubfieldContent("126a"); 
+
+    String vrDok = rec.getSubfieldContent("001b")+", ";
+    vrDok += rec.getSubfieldContent("200b"); 
     if (vrDok == null)
     	vrDok = " ";
-    
-    String brDok = rec.getSubfieldContent("215a");
+    String brDok = rec.getSubfieldContent("215a");    
     if (brDok == null)
     	brDok = " ";
+    String boja = rec.getSubfieldContent("116d");    
+    if (boja == null)
+    	boja = " ";
+    String zvuk = " "; // NISU NAVELI IZ KOG POLJA SE VADI PODATAK    
+    if (zvuk == null)
+    	zvuk = " ";
     
-    String propGr = rec.getSubfieldContent("126h");
-    if (propGr == null)
-    	propGr = " ";
+    String dim = rec.getSubfieldContent("215d");
+    if (dim == null)
+      dim = " ";
     
-    String tehO = rec.getSubfieldContent("126i");
-    if (tehO == null)
-    	tehO = " ";
-    String dim1=rec.getSubfieldContent("126e");
-    String dim2=rec.getSubfieldContent("215d");
-    if(dim1==null){
-    	dim1="";
-    }
-    if(dim2==null){
-    	dim2="";
-    }
-   String dim=dim1+dim2;
     String sig = " ";
 
     for (Primerak p : rec.getPrimerci()) {
-   
-      if(p.getInvBroj()==null)
-    	  continue;
-       if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
-    		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("07")!=0)
-    			  continue;
-      }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("07")!=0){
-    	  continue;
-      }
+    	
+	       if(p.getInvBroj()==null)
+		    	  continue;
+		       if (p.getInvBroj().substring(0, 2).compareToIgnoreCase("31")==0){
+		    		  if(p.getInvBroj().substring(5, 7).compareToIgnoreCase("08")!=0)
+		    			  continue;
+		      }else if (p.getInvBroj().substring(2, 4).compareToIgnoreCase("08")!=0){
+		    	  continue;
+		      };
+     
       sig = Signature.format(p.getSigDublet(), p.getSigPodlokacija(),
           p.getSigIntOznaka(), p.getSigFormat(), p.getSigNumerusCurens(), 
           p.getSigUDK());
       if (sig.equals(""))
     	  sig=" ";
+      String invbr = p.getInvBroj().substring(4);
       Item i = new Item();
       i.invbr =  nvl(p.getInvBroj());
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
       i.brDok = brDok;
       i.vrDok = vrDok;
-      i.propGr = propGr;
-      i.tehO = tehO;
-      i.dim=dim;
-      
+      i.boja = boja;
+      i.zvuk = zvuk;
+      i.dim = dim;
       String dobavljac=nvl(p.getDobavljac());
       String vrnab = nvl(p.getNacinNabavke());
 //    ******************    NABAVKA NIJE ZAVRSENA   *************************
@@ -264,8 +262,8 @@ public class InvKnjigaZaZvucnuGradju extends Report {
           //nabavka = "otkup";
         }
 		DecimalFormat df2 = new DecimalFormat(".##");
-      i.cena = p.getCena() == null ? " " : 
-        df2.format(p.getCena()).toString();
+      i.cena = p.getCena() == null ? " " :
+			  df2.format(p.getCena()).toString();
       i.sig = sig;
       i.napomena = nvl(p.getNapomene());
       String key = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());
@@ -280,7 +278,9 @@ public class InvKnjigaZaZvucnuGradju extends Report {
 	      itemMap.put(key, list);
 	    }
 	    return list;
-}
+  }
+  
+  
   public String getAutor(Record rec) {
 	    if (rec.getField("700") != null) {
 	      String sfa = rec.getSubfieldContent("700a");
@@ -344,6 +344,6 @@ public class InvKnjigaZaZvucnuGradju extends Report {
   private Pattern pattern;
   private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
   private String name;
-  private static Log log = LogFactory.getLog(InvKnjigaZaZvucnuGradju.class);
+  private static Log log = LogFactory.getLog(InvKnjigaZaVizuelnuGradjuSlika.class);
 
 }
