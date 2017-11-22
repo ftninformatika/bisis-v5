@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Petar on 6/8/2017.
  */
 @Repository
-public interface MemberRepository extends MongoRepository<Member,String> {
+public interface MemberRepository extends MongoRepository<Member,String>, MemberRepositoryCustom {
 
 
      Member getMemberByUserId(String userId);
