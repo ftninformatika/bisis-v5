@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.ItemAvailability;
@@ -9,8 +10,10 @@ import com.ftninformatika.bisis.records.RecordResponseWrapper;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.string.LatCyrUtils;
@@ -25,16 +28,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@EnableWebMvc //ovo treba obrisati
 @RequestMapping("/records")
 public class RecordsController {
 
   @Autowired RecordsRepository recordsRepository;
+
+
 
   @Autowired ElasticRecordsRepository elasticRecordsRepository;
 
@@ -329,6 +335,19 @@ public class RecordsController {
       return  new ResponseEntity<>(retVal, HttpStatus.OK);
 
   }
+
+    @RequestMapping( value = "/search_ids_circ", method = RequestMethod.POST )
+    public ResponseEntity<List<String>> searchIdsCirc(@RequestBody SearchModelCirc search){
+        List<String> retVal = null;
+
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
+        retVal = StreamSupport.stream(ii.spliterator(), false)
+                .map(i -> i.getId())
+                .collect(Collectors.toList());
+
+        return  new ResponseEntity<>(retVal, HttpStatus.OK);
+
+    }
 
   @RequestMapping( value = "/search_records_ep_format", method = RequestMethod.POST)
   public ResponseEntity<List<ElasticPrefixEntity>> searchRecordsElasticPrefixFormat(@RequestBody SearchModel search){
