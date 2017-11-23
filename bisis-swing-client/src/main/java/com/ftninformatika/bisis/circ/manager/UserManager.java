@@ -15,6 +15,8 @@ import com.ftninformatika.bisis.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.search.SearchModelMember;
+import org.elasticsearch.monitor.os.OsStats;
 
 public class UserManager {
 	
@@ -667,18 +669,27 @@ public class UserManager {
   }
   
   public String getChargedUser(String ctlgno){
-  	/*GetChargedUserCommand getUser = new GetChargedUserCommand(ctlgno);
-  	getUser = (GetChargedUserCommand)service.executeCommand(getUser);
-  	if (getUser == null)
-  		return "";
-    Object[] user = getUser.getUser();
-    String result = "";
-    if (user != null){
-      chargedUser = (String)user[0];
-      result = (user[0] != null ? (String)user[0]+", ": "")+(user[1] != null ? (String)user[1]+" ": "")+(user[2] != null ? (String)user[2]: "") ;
-    }
-    return result;*/
-  	return null;
+      SearchModelMember searchModel = new SearchModelMember();
+      searchModel.setPref1("ctlgNo");
+      searchModel.setText1(ctlgno);
+
+      List<Member> l = null;
+      try {
+          l = BisisApp.bisisService.searchMembers(searchModel).execute().body();
+      } catch (Exception e) {
+          e.printStackTrace();
+      }//TODO getChargedUser
+
+      String result = "";
+        if (l!=null) {
+            Member m = l.get(0);
+            if (m != null){
+                chargedUser = m.getUserId();
+                result = (m.getUserId() != null ? m.getUserId()+", ": "")+(m.getFirstName() != null ? m.getFirstName()+" ": "")+(m.getLastName() != null ? m.getLastName(): "") ;
+            }
+        }
+
+      return result;
   }
   
   public boolean dischargeUser(String ctlgno){
@@ -697,44 +708,6 @@ public class UserManager {
     return discharge.isSaved();*/
   	return false;
   }
-  
-//  public List getCtlgNos(Date startDateL, Date endDateL, com.ftninformatika.bisis.circ.pojo.CircLocation locationL,
-//                                  Date startDateR, Date endDateR, com.ftninformatika.bisis.circ.pojo.CircLocation locationR){
-//    Date startL = null;
-//    Date endL = null;
-//    if (startDateL != null){
-//      startL = Utils.setMinDate(startDateL);
-//      if (endDateL != null){
-//        endL = Utils.setMaxDate(endDateL);
-//      }else{
-//        endL = Utils.setMaxDate(startDateL);
-//      }
-//    }
-//
-//    com.ftninformatika.bisis.circ.pojo.CircLocation location;
-//    if (locationL != null){
-//      location = locationL;
-//    }else{
-//      location = locationR;
-//    }
-//    Date startR = null;
-//    Date endR = null;
-//    if (startDateR != null){
-//      startR = Utils.setMinDate(startDateR);
-//      if (endDateR != null){
-//        endR = Utils.setMaxDate(endDateR);
-//      }else{
-//        endR = Utils.setMaxDate(startDateR);
-//      }
-//    }
-//
-//    List<String> ctlgNos = null;
-//    try {
-//        ctlgNos = BisisApp.bisisService.getLendedReturnedCtlgNos(startL, endL, startR, endR, location.getDescription()).execute().body();
-//    }catch (Exception e){
-//    }
-//    return ctlgNos;
-//  }
   
   public List getWarnings(){
     return warnings;

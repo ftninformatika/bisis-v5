@@ -67,7 +67,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 //TODO ne obradjujem slučaj kada unese zvedzdicu u smislu wildcard-a
     private Criteria createCriteria(String prefix,String text, String op, Criteria currentCriteria){
-        if(!text.equals("")&& !fromLendings.contains(prefix)){
+        if(text != null && !text.equals("") && !fromLendings.contains(prefix)){
             Criteria c=Criteria.where(prefix).is(text);
             if(currentCriteria==null){
                 currentCriteria=c;

@@ -491,7 +491,7 @@ public class SearchUsers {
 					"/circ-images/find16.png"))); //$NON-NLS-1$
 			btnSearch.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					//Cirkulacija.getApp().getSearchUsersManager().executeSearch(getSearchUsers());
+					Cirkulacija.getApp().getSearchUsersManager().executeSearch(getSearchUsers());
 				}
 			});
 		}
@@ -711,35 +711,35 @@ public class SearchUsers {
 
 	private void changePrefix(UsersPrefix up, JLabel lPref, JTextField tfPref, JComboBox cmbPref) {
 		ComboBoxModel comboModel = null;
-		/*if (up.getDbname().equals("userCategs")) { //$NON-NLS-1$
+		if (up.getDbname().equals("userCategory.description")) { //$NON-NLS-1$
 			comboModel = Cirkulacija.getApp().getMainFrame().getUserPanel().getMmbrship().getUserCategsModel();
 			cmbPref.setModel(comboModel);
 			cmbPref.setVisible(true);
 			tfPref.setVisible(false);
 			lPref.setText(up.getName());
 			cmbPref.requestFocus();
-		} else if (up.getDbname().equals("mmbrTypes")) { //$NON-NLS-1$
+		} else if (up.getDbname().equals("membershipType.description")) { //$NON-NLS-1$
 			comboModel = Cirkulacija.getApp().getMainFrame().getUserPanel().getMmbrship().getMmbrTypesModel();
 			cmbPref.setModel(comboModel);
 			cmbPref.setVisible(true);
 			tfPref.setVisible(false);
 			lPref.setText(up.getName());
 			cmbPref.requestFocus();
-		} else if (up.getDbname().equals("groups")) { //$NON-NLS-1$
+		} else if (up.getDbname().equals("corporateMember.instName")) { //$NON-NLS-1$
 			comboModel = Cirkulacija.getApp().getMainFrame().getUserPanel().getMmbrship().getGroupsModel();
 			cmbPref.setModel(comboModel);
 			cmbPref.setVisible(true);
 			tfPref.setVisible(false);
 			lPref.setText(up.getName());
 			cmbPref.requestFocus();
-		} else */if (up.getDbname().equals("organization")) { //$NON-NLS-1$
+		} else if (up.getDbname().equals("organization.name")) { //$NON-NLS-1$
 			comboModel = Cirkulacija.getApp().getMainFrame().getUserPanel().getUserData().getOrgModel();
 			cmbPref.setModel(comboModel);
 			cmbPref.setVisible(true);
 			tfPref.setVisible(false);
 			lPref.setText(up.getName());
 			cmbPref.requestFocus();
-		} else if (up.getDbname().equals("eduLvl")) { //$NON-NLS-1$
+		} else if (up.getDbname().equals("educationLevel")) { //$NON-NLS-1$
 			comboModel = Cirkulacija.getApp().getMainFrame().getUserPanel().getUserData().getEduLvlModel();
 			cmbPref.setModel(comboModel);
 			cmbPref.setVisible(true);
@@ -748,13 +748,6 @@ public class SearchUsers {
 			cmbPref.requestFocus();
 		} else if (up.getDbname().equals("language")) { //$NON-NLS-1$
 			comboModel = Cirkulacija.getApp().getMainFrame().getUserPanel().getUserData().getLanguageModel();
-			cmbPref.setModel(comboModel);
-			cmbPref.setVisible(true);
-			tfPref.setVisible(false);
-			lPref.setText(up.getName());
-			cmbPref.requestFocus();
-		} else if (up.getDbname().equals("classNo")) { //$NON-NLS-1$
-			comboModel = Cirkulacija.getApp().getMainFrame().getUserPanel().getUserData().getClassNoModel();
 			cmbPref.setModel(comboModel);
 			cmbPref.setVisible(true);
 			tfPref.setVisible(false);

@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
+import com.ftninformatika.bisis.search.SearchModelMember;
 import com.google.gson.JsonObject;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -282,14 +283,17 @@ public interface BisisService {
     Call<GeneratedReport> getReport(@Query("reportFullName") String reportFullName);
 
 
-    //TODO
-
     @POST ("search/circ/recordIds")
     Call<List<String>> searchBooks(@Body SearchModelCirc searchModel);
 
 
     @POST("/records/multiple_ids_wrapper")
     Call<List<RecordResponseWrapper>> getRecordsAllDataByIds(@Body List<String> idList);
+
+
+    @POST ("search/circ/members")
+    Call<List<Member>> searchMembers(@Body SearchModelMember searchModel);
+
 
 
 }

@@ -25,8 +25,8 @@ public class SearchModelMember extends SearchModel{
     String location2;
 
     public boolean isEmpty(){
-        return getText1().equals("") && getText2().equals("") && getText3().equals("")
-                && getText4().equals("") && getText5().equals("") && getStartDate1() == null && getStartDate2() == null;
+        return getText1() == null && getText2() == null && getText3() == null
+                && getText4() == null && getText5() == null && getStartDate1() == null && getStartDate2() == null;
     }
     public Object getValueForPrefix(String pref){
         if (pref.equals(getPref1())){

@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.circ.Member;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class SearchUsersTableModel extends AbstractTableModel implements Serializable {
 
-    protected List<Object[]> data;
+    protected List<Member> data;
     protected  List<String> columnIdentifiers;
       
     public SearchUsersTableModel() {
@@ -21,7 +23,7 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
       columnIdentifiers.add(Messages.getString("circulation.umcn")); //$NON-NLS-1$
       columnIdentifiers.add(Messages.getString("circulation.place")); //$NON-NLS-1$
       columnIdentifiers.add(Messages.getString("circulation.address")); //$NON-NLS-1$
-      data=new ArrayList<Object[]>();
+      data=new ArrayList<Member>();
     }
    
     public String getColumnName(int column) {
@@ -57,24 +59,32 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
     public boolean isCellEditable(int row, int column) {
       return false;
     }
-    
-		public Object getValueAt(int rowIndex, int columnIndex) {
-//      Users rowData = (Users)data.get(rowIndex);
-//      switch (columnIndex){
-//      	case 0: return rowData.getUserId();
-//      	case 1: return rowData.getFirstName();
-//      	case 2: return rowData.getLastName();
-//      	case 3: return rowData.getParentName();
-//      	case 4: return rowData.getJmbg();
-//      	case 5: return rowData.getCity();
-//      	case 6: return rowData.getAddress();
-//      	default: return null;
-//						}
-			return data.get(rowIndex)[columnIndex];
-		}
+
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Member rowData = (Member) data.get(rowIndex);
+        switch (columnIndex) {
+            case 0:
+                return rowData.getUserId();
+            case 1:
+                return rowData.getFirstName();
+            case 2:
+                return rowData.getLastName();
+            case 3:
+                return rowData.getParentName();
+            case 4:
+                return rowData.getJmbg();
+            case 5:
+                return rowData.getCity();
+            case 6:
+                return rowData.getAddress();
+            default:
+                return null;
+        }
+        //			return data.get(rowIndex)[columnIndex];
+    }
     
     public String getUser(int rowIndex) {
-      return (String)data.get(rowIndex)[0];
+      return data.get(rowIndex).getUserId();
     }
   }
 	 

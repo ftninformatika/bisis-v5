@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.circ.manager;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.common.SearchOperandModel;
 import com.ftninformatika.bisis.circ.common.UsersPrefix;
 import com.ftninformatika.bisis.circ.common.Utils;
@@ -32,10 +34,7 @@ public class SearchUsersManager {
 	}
   
 	public void executeSearch(SearchUsers search) {
-		//List<SearchOperandModel> operandList = new ArrayList<SearchOperandModel>();
-		//List<String> operatorList = new ArrayList<String>();
 		Object temp = null;
-		//SearchOperandModel operand;
 		UsersPrefix up;
 		SearchModelMember searchModel = new SearchModelMember();
 		
@@ -174,13 +173,13 @@ public class SearchUsersManager {
 			}
 		}
 
-		List l = null;
+		List<Member> l = null;
 		if (!searchModel.isEmpty()) {
-//			ExecuteSearchCommand searchcommand = new ExecuteSearchCommand(operandList,operatorList);
-//			searchcommand = (ExecuteSearchCommand)Cirkulacija.getApp().getService().executeCommand(searchcommand);
-//			if (searchcommand != null)
-//				l = searchcommand.getList();
-            //TODO poziv servisa
+			try {
+				l = BisisApp.bisisService.searchMembers(searchModel).execute().body();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
         }
         Cirkulacija.getApp().getMainFrame().getSearchUsersResults().setResult(l, search.getSearchQuery());
         Cirkulacija.getApp().getMainFrame().showPanel("searchUsersResultsPanel");

@@ -49,6 +49,9 @@ public class SearchController {
 
     @RequestMapping(value = "/circ/members", method = RequestMethod.POST )
     public List<Member> searchCircMembers(@RequestBody SearchModelMember search){
+
+        //TODO napraviti da nije case sensitive
+        //TODO ne radi pretrazivanje po inventarnom broju
         String location;
         Date lendDateStart =null,lendDateEnd =null,returnDateStart =null,returnDateEnd =null,deadlineStart =null,deadlineEnd =null;
 

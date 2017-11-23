@@ -71,20 +71,24 @@ public class Utils {
 	}
 
     public static String getCmbValue(Object cmbItem){
+	    String text = null;
         if (cmbItem instanceof CorporateMember) {
-            return ((CorporateMember)cmbItem).getInstName();
+            text = ((CorporateMember)cmbItem).getInstName();
         } else if (cmbItem instanceof MembershipType){
-            return ((MembershipType)cmbItem).getDescription();
+            text = ((MembershipType)cmbItem).getDescription();
         } else if (cmbItem instanceof Organization){
-            return ((Organization)cmbItem).getName();
+            text = ((Organization)cmbItem).getName();
         } else if (cmbItem instanceof UserCategory){
-            return ((UserCategory)cmbItem).getDescription();
+            text = ((UserCategory)cmbItem).getDescription();
         } else if (cmbItem instanceof WarningType){
-            return ((WarningType)cmbItem).getDescription();
+            text = ((WarningType)cmbItem).getDescription();
         } else if (cmbItem instanceof CircLocation){
-            return ((CircLocation)cmbItem).getDescription();
+            text = ((CircLocation)cmbItem).getDescription();
         } else if (cmbItem instanceof String){
-            return (String)cmbItem;
+            text = (String)cmbItem;
+        }
+        if (text != null && !text.trim().equals("")){
+            return text;
         } else {
             return null;
         }
