@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="KnjigeZaOtpis" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="8c6b0716-6a64-4305-87c5-549382d3f33d">
+	<property name="com.jasperassistant.designer.Rulers" value="true"/>
+	<property name="com.jasperassistant.designer.GridWidth" value="3"/>
+	<property name="com.jasperassistant.designer.GridHeight" value="3"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="true"/>
+	<property name="com.jasperassistant.designer.Margins" value="true"/>
+	<property name="com.jasperassistant.designer.Grid" value="true"/>
+	<property name="com.jasperassistant.designer.SnapToGuides" value="true"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="082bcf86-9c6b-4d38-af17-decfb361e6d7"/>
+	<subDataset name="Table Dataset 2" uuid="dbad63a3-60c0-4002-9b3d-5ab97b428353">
+		<queryString language="xPath">
+			<![CDATA[/report/item/]]>
+		</queryString>
+		<field name="rbr" class="java.lang.String">
+			<fieldDescription><![CDATA[rbr]]></fieldDescription>
+		</field>
+		<field name="naslov" class="java.lang.String">
+			<fieldDescription><![CDATA[naslov]]></fieldDescription>
+		</field>
+		<field name="autor" class="java.lang.String">
+			<fieldDescription><![CDATA[autor]]></fieldDescription>
+		</field>
+		<field name="signatura" class="java.lang.String">
+			<fieldDescription><![CDATA[signatura]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="period" class="java.lang.String"/>
+	<parameter name="today" class="java.lang.String"/>
+	<parameter name="title" class="java.lang.String" isForPrompting="false"/>
+	<field name="ogr" class="java.lang.String">
+		<fieldDescription><![CDATA[ogr]]></fieldDescription>
+	</field>
+	<field name="branches" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="80" y="21" width="381" height="25" uuid="b351244e-39ac-4b32-9542-66672f5326bb"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-2" positionType="Float" x="0" y="0" width="273" height="20" uuid="f9d1ffce-e0f2-416e-959e-bad0e0e4c82e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Serif"/>
+				</textElement>
+				<text><![CDATA[Библиотека шабачка]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="555" height="30" uuid="b8806d7c-09a7-457d-8578-65004c076ef3"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1" uuid="82f0ee84-cd0f-45be-868d-062a644f93de">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource(1)]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="110" uuid="2b53a021-4a67-43d8-b697-8158f3ecda17">
+						<jr:columnHeader style="table_CH" height="34" rowSpan="1">
+							<staticText>
+								<reportElement key="staticText" positionType="Float" x="0" y="0" width="110" height="30" uuid="dfaec02b-6805-46ea-953c-98e3ed31e4b2"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif"/>
+								</textElement>
+								<text><![CDATA[Инвентарни број]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="0"/>
+					</jr:column>
+					<jr:column width="199" uuid="4296f2c7-f928-4c94-82be-7e74d2614dc4">
+						<jr:columnHeader style="table_CH" height="34" rowSpan="1">
+							<staticText>
+								<reportElement key="staticText" positionType="Float" x="0" y="4" width="199" height="30" uuid="dc10fdeb-7318-4134-a8cf-101620e577c3"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif"/>
+								</textElement>
+								<text><![CDATA[Наслов]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="0"/>
+					</jr:column>
+					<jr:column width="130" uuid="cbb637b2-44b2-4791-bf3e-fc37e77fa955">
+						<jr:columnHeader style="table_CH" height="34" rowSpan="1">
+							<staticText>
+								<reportElement key="staticText" positionType="Float" x="0" y="0" width="130" height="34" uuid="b475ddb5-b5d0-47f6-946a-4a1d633bb755"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif"/>
+								</textElement>
+								<text><![CDATA[Аутор]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="0"/>
+					</jr:column>
+					<jr:column width="110" uuid="71a4da84-3bef-48d0-97dd-80132f34723d">
+						<jr:columnHeader style="table_CH" height="34" rowSpan="1">
+							<staticText>
+								<reportElement key="staticText" positionType="Float" x="0" y="0" width="110" height="34" uuid="25c4409b-06b9-4db7-b19d-60d1830265ac"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif"/>
+								</textElement>
+								<text><![CDATA[Сигнатура]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="0"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="47" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="-1" width="555" height="48" uuid="7c2c2276-b80d-4b75-b283-3ee1a4dbec2d"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 2" uuid="3dd548fa-1e3c-4d23-bb56-086621916257">
+						<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="110" uuid="8ef6a4a2-dc5b-4bbd-beca-d14e2ffa01fc">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="5" y="0" width="105" height="20" uuid="718d5eaa-d331-4595-b6b3-6938270524ce"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{rbr}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="199" uuid="64b78a5a-53f6-4bf4-9d86-109eff61ae2d">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="5" y="0" width="194" height="20" uuid="8a9c74ca-d917-4f03-8e47-0d681fdeb7eb"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{naslov}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="e424bb62-4710-46cf-b8b2-b49064156183">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="5" y="0" width="125" height="20" uuid="da030492-2f88-4107-a336-fdeafaad49a6"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{autor}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110" uuid="fe17bf3d-4fd2-46d8-8a81-132817f9d577">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="5" y="0" width="105" height="20" uuid="4c7c4579-5b19-471b-a830-85be362d7d12"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Serif"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{signatura}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

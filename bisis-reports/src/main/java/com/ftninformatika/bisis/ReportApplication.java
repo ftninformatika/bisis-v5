@@ -45,7 +45,7 @@ public class ReportApplication  {
 
         for (LibraryConfiguration lc:libconfigs){
 
-            if(lc.getLibraryName().equals("gbns"))
+            if(!lc.getLibraryName().equals("gbsa"))
                 continue;
             LibraryCoders libCoders = new LibraryCoders();
             libCoders.setAccRegCoders(ctx.getBean(AccessionRegisterRepository.class).getCoders(lc.getLibraryName())
