@@ -1,5 +1,6 @@
-package com.ftninformatika.bisis.gbns;
+package com.ftninformatika.bisis.gbsa;
 
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,31 +21,37 @@ public class StatistikaObradjivaca extends Report {
   @Override
   public void init() {
     itemMap.clear();
-    log.info("Report initialized");
+  //  log.info("Report initialized");
     pattern = Pattern.compile(getReportSettings().getInvnumpattern());
   }
 
   @Override
   public void finish() {
-    log.info("Finishing report...");
+ //   log.info("Finishing report...");
     for (String key : itemMap.keySet()) {
       Map<String, Item> map = itemMap.get(key);
       StringBuilder out = getWriter(key);
       for (Item i : map.values()){
         out.append(i.toString());
-    }
-    out.append("</report>");
+    }out.append("</report>");
       GeneratedReport gr=new GeneratedReport();
-      gr.setReportName(key.substring(0,key.indexOf("-")));
-      gr.setFullReportName(key);
-      gr.setPeriod(key.substring(key.indexOf("-")+1));
+      if (key.indexOf("-") >= 0){
+        gr.setReportName(key.substring(0,key.indexOf("-")));
+        gr.setFullReportName(key);
+        gr.setPeriod(key.substring(key.indexOf("-")+1));
+      }
+      else{
+        gr.setReportName(key);
+        gr.setFullReportName(key);
+        gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+      }
       gr.setContent(out.toString());
       gr.setReportType(getType().name().toLowerCase());
       getReportRepository().save(gr);
-    //out.close();
   }
     itemMap.clear();
-    log.info("Report finished.");
+  //  log.info("Report finished.");
   }
 
   @Override
@@ -72,7 +79,7 @@ public class StatistikaObradjivaca extends Report {
 		if (f.getSubfield('c')!=null){
 		    sdate = f.getSubfield('c').getContent();
 		}
-      if (sf6 != null && sf6.getContent() != null && sf6.getContent().trim().compareToIgnoreCase("")!=0 ) {
+      if (sf6 != null && sf6.getContent() != null && sf6.getContent().trim().compareToIgnoreCase("")!=0 && type.compareToIgnoreCase("cr")!=0) {
   
         try {
           brPrimeraka = Integer.parseInt(sf6.getContent().trim());
@@ -88,19 +95,17 @@ public class StatistikaObradjivaca extends Report {
         String key = settings.getReportName() + getFilenameSuffix(date);
         Item item = getItem(key, obr);
         if ("cr".equals(type))
-          item.add(brPrimeraka, 0, 0, 0,0,0);
+          item.add(1, 0, 0, 0,0);
         else if ("dp".equals(type)){
-          item.add(0, brPrimeraka, 0, 0,0,0);
-        }else if ("rd".equals(type)){
-          item.add(0, 0, brPrimeraka, 0,0,0);
-        }else if ("sg".equals(type))
-          item.add(0, 0, 0, brPrimeraka,0,0);
-        else if ("can".equals(type))
-            item.add(0, 0, 0, 0, brPrimeraka,0);
-        else if ("dan".equals(type))
-            item.add(0, 0, 0, 0, 0,brPrimeraka);
+          item.add(0, 1, 0, 0,0);
+        }else if ("co".equals(type)){
+          item.add(0, 0, 1, 0,0);
+        }else if ("re".equals(type))
+          item.add(0, 0, 0, brPrimeraka,0);
+        else if ("nv".equals(type))
+            item.add(0, 0, 0, 0, brPrimeraka);
       } catch (Exception ex) {
-          log.warn("problem sa datumom "+sdate +": "+rec.getRecordID());
+         // log.warn("problem sa datumom "+sdate +": "+rec.getRecordID());
       }
     
       }
@@ -110,10 +115,9 @@ public class StatistikaObradjivaca extends Report {
     public String obr;
     public int cr;
     public int dp;
-    public int rd;
-    public int sg;
-    public int can;
-    public int dan;
+    public int co;
+    public int re;
+    public int nv;
     public int compareTo(Item o) {
       if (o instanceof Item) {
         Item b = (Item) o;
@@ -125,13 +129,12 @@ public class StatistikaObradjivaca extends Report {
     public Item(String obr) {
       cr = 0;
       dp = 0;
-      rd = 0;
-      sg = 0;
-      can=0;
-      dan=0;
-      //this.obr = "";//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.LIBRARIAN_CODER, obr); TODO-???
+      co = 0;
+      re = 0;
+      nv=0;
+      //this.obr = HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.LIBRARIAN_CODER, obr);
       if(this.obr!=null){
-    	  this.obr= LatCyrUtils.toCyrillic(this.obr);
+    	  this.obr=LatCyrUtils.toCyrillic(this.obr);
      }else{
     	 this.obr=obr;
      }
@@ -139,7 +142,7 @@ public class StatistikaObradjivaca extends Report {
     }
 
     public String toString() {
-        return "<item><obr>"+obr+"</obr><cr>"+cr+"</cr><dp>"+dp+"</dp><rd>"+rd+"</rd><sg>"+sg+"</sg><can>"+can+"</can><dan>"+dan+"</dan></item>\n";
+        return "<item><obr>"+obr+"</obr><cr>"+cr+"</cr><dp>"+dp+"</dp><co>"+co+"</co><re>"+re+"</re><nov>"+nv+"</nov></item>\n";
       }
 
     public int hashCode() {
@@ -151,18 +154,37 @@ public class StatistikaObradjivaca extends Report {
       return obr.equals(i.obr);
     }
 
-    public void add(int cr, int dp, int rd, int sg,int can, int dan) {
+    public void add(int cr, int dp, int co, int re,int nv) {
       this.cr += cr;
       this.dp += dp;
-      this.rd += rd;
-      this.sg += sg;
-      this.can+=can;
-      this.dan+=dan;
+      this.co += co;
+      this.re += re;
+      this.nv+=nv;
     }
 
     public void setObr(String obr) {
       this.obr = obr;
     }
+ 
+    /*public String getNameObr(String obr) {
+        if ("dl".equalsIgnoreCase(obr))
+          return "\u041b\u043e\u043d\u0447\u0430\u0440"; // Loncar
+        if ("nr".equalsIgnoreCase(obr))
+          return "\u041d\u0430\u0434\u0430"; // Nada
+        if ("dv".equalsIgnoreCase(obr))
+          return "\u0414\u0443\u0448\u043a\u0430"; // Duska
+        if ("nc".equalsIgnoreCase(obr))
+          return "\u041d\u0435\u0431\u043e\u0458\u0448\u0430"; // Nebojsa
+        if ("jp".equalsIgnoreCase(obr))
+          return "\u0408\u0435\u043b\u0435\u043d\u0430"; // Jelena
+        if ("sm".equalsIgnoreCase(obr))
+          return "\u0421\u0430\u045a\u0430"; // Sanja
+        if ("va".equalsIgnoreCase(obr))
+          return "\u0412\u0435\u0441\u043d\u0430"; // Vesna
+        if ("ka".equalsIgnoreCase(obr))
+            return "\u041A\u0440\u0438\u0441\u0442\u0438\u043D\u0430"; // Kristina
+        return obr;
+      }*/
   }
 
   public Item getItem(String key, String obr) {
