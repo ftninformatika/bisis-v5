@@ -35,22 +35,22 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         List untilDates = (List)searchModel.getValueForPrefix("signings.untilDate");
         if (signDates !=null){
             if(currentCriteria!=null){
-                currentCriteria = currentCriteria.andOperator(Criteria.where("signings.signDate").gte(signDates.get(0)).lte(signDates.get(1)));
+                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates.get(0)).lte(signDates.get(1))));
             }else{
-                currentCriteria = Criteria.where("signings.signDate").gte(signDates.get(0)).lte(signDates.get(1));
+                currentCriteria = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates.get(0)).lte(signDates.get(1)));
             }
 
         }
         if (untilDates !=null){
             if(currentCriteria!=null) {
-                currentCriteria.andOperator(Criteria.where("signings.untilDate").gte(untilDates.get(0)).lte(untilDates.get(1)));
+                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("signings.untilDate").gte(untilDates.get(0)).lte(untilDates.get(1)));
             }else{
                 currentCriteria = Criteria.where("signings.untilDate").gte(untilDates.get(0)).lte(untilDates.get(1));
             }
         }
         if (userIds !=null) {
             if (currentCriteria != null) {
-                currentCriteria = currentCriteria.andOperator(Criteria.where("userId").in(userIds));
+                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("userId").in(userIds));
             } else {
                 currentCriteria = Criteria.where("userId").in(userIds);
             }
@@ -78,7 +78,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 } else if (currentOperator.equalsIgnoreCase("or")){
                     currentCriteria =newCriteria.orOperator(currentCriteria,c);
                 }else{
-                    currentCriteria =newCriteria.andOperator(currentCriteria,c.not());
+                    c=Criteria.where(prefix).ne(text);
+                    currentCriteria =newCriteria.andOperator(currentCriteria,c);
                 }
             }
             currentOperator=op;
