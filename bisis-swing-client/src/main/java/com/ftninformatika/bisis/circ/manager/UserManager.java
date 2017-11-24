@@ -165,7 +165,7 @@ public class UserManager {
 //          Cirkulacija.getApp().getRecordsManager().getList().clear();
 //          loadUser(user, member, lendings);
 //      }
-      return getUser(user, null, chargedUser);
+      return getUser(user, null, userID);
   }
   
   public int showChargedUser(User user){
@@ -669,24 +669,17 @@ public class UserManager {
   }
   
   public String getChargedUser(String ctlgno){
-      SearchModelMember searchModel = new SearchModelMember();
-      searchModel.setPref1("ctlgNo");
-      searchModel.setText1(ctlgno);
-
-      List<Member> l = null;
+      Member m = null;
       try {
-          l = BisisApp.bisisService.searchMembers(searchModel).execute().body();
+          m = BisisApp.bisisService.getChargedUser(ctlgno).execute().body();
       } catch (Exception e) {
           e.printStackTrace();
-      }//TODO getChargedUser
+      }
 
       String result = "";
-        if (l!=null) {
-            Member m = l.get(0);
-            if (m != null){
-                chargedUser = m.getUserId();
-                result = (m.getUserId() != null ? m.getUserId()+", ": "")+(m.getFirstName() != null ? m.getFirstName()+" ": "")+(m.getLastName() != null ? m.getLastName(): "") ;
-            }
+        if (m != null) {
+            chargedUser = m.getUserId();
+            result = (m.getUserId() != null ? m.getUserId()+", ": "")+(m.getFirstName() != null ? m.getFirstName()+" ": "")+(m.getLastName() != null ? m.getLastName(): "") ;
         }
 
       return result;

@@ -130,6 +130,13 @@ public class MemberController {
 
     }
 
+    @RequestMapping( path = "/getCharged" )
+    public Member getChargedMember(@RequestParam("ctlgNo") String ctlgNo){
+        Lending lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);
+        Member member = memberRep.getMemberByUserId(lending.getUserId());
+        return member;
+    }
+
     @RequestMapping( path = "/fixMemberOrganizationIds")
     public String fixOrganizationIds(){
         String retVal = "";

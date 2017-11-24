@@ -81,7 +81,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         if (ctlgNo != null) {
             ctlgNoC = Criteria.where("ctlgNo").is(ctlgNo);
             if (criteria!=null)
-              criteria =criteria.andOperator(ctlgNoC);
+              criteria = new Criteria().andOperator(criteria, ctlgNoC);
             else{
                 criteria = ctlgNoC;
             }
@@ -89,7 +89,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         if (librarianLend != null) {
             librarianLendC = Criteria.where("librarianLend").is(librarianLend);
             if (criteria!=null)
-                criteria =criteria.andOperator(librarianLendC);
+                criteria = new Criteria().andOperator(criteria, librarianLendC);
             else{
                 criteria = librarianLendC;
             }
@@ -97,7 +97,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         if (librarianReturn != null) {
             librarianReturnC = Criteria.where("librarianReturn").is(librarianReturn);
             if (criteria!=null)
-                criteria =criteria.andOperator(librarianReturnC);
+                criteria = new Criteria().andOperator(criteria, librarianReturnC);
             else{
                 criteria = librarianReturnC;
             }
@@ -105,7 +105,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         if (deadlineStart != null) {
             deadlineC = Criteria.where("deadline").gte(deadlineStart).lte(deadlineEnd);
             if (criteria!=null)
-                criteria =criteria.andOperator(deadlineC);
+                criteria = new Criteria().andOperator(criteria, deadlineC);
             else{
                 criteria = deadlineC;
             }

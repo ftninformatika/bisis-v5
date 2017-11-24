@@ -294,6 +294,8 @@ public interface BisisService {
     @POST ("search/circ/members")
     Call<List<Member>> searchMembers(@Body SearchModelMember searchModel);
 
+    @GET ("/members/getCharged")
+    Call<Member> getChargedUser(@Query("ctlgNo") String ctlgNo);
 
 
 }
