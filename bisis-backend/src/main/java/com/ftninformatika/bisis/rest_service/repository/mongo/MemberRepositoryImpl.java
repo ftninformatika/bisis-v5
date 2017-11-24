@@ -72,12 +72,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             if(currentCriteria==null){
                 currentCriteria=c;
             }else {
+                Criteria newCriteria=new Criteria();
                 if (currentOperator.equalsIgnoreCase("and")) {
-                    currentCriteria = currentCriteria.andOperator(c);
+                    currentCriteria =newCriteria.andOperator(currentCriteria,c);
                 } else if (currentOperator.equalsIgnoreCase("or")){
-                    currentCriteria = currentCriteria.orOperator(c);
+                    currentCriteria =newCriteria.orOperator(currentCriteria,c);
                 }else{
-                    currentCriteria=currentCriteria.andOperator(c.not());
+                    currentCriteria =newCriteria.andOperator(currentCriteria,c.not());
                 }
             }
             currentOperator=op;
