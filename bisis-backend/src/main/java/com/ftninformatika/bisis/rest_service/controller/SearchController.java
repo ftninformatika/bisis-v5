@@ -50,38 +50,50 @@ public class SearchController {
     @RequestMapping(value = "/circ/members", method = RequestMethod.POST )
     public List<Member> searchCircMembers(@RequestBody SearchModelMember search){
 
-        String location;
+        String location=null;
         Date lendDateStart =null,lendDateEnd =null,returnDateStart =null,returnDateEnd =null,deadlineStart =null,deadlineEnd =null;
 
-        if(search.getLocation1()!=null)
-            location=search.getLocation1();
-        else{
-            location=search.getLocation2();
-        }
-        List lenddates=(List)search.getValueForPrefix("lendDate");
-        List returndates=(List)search.getValueForPrefix("returnDate");
-        List deadLinedates=(List)search.getValueForPrefix("deadline");
+        Object [] lenddates=(Object [])search.getValueForPrefix("lendDate");
+        Object [] returndates=(Object [])search.getValueForPrefix("returnDate");
+        Object [] deadLinedates=(Object [])search.getValueForPrefix("deadline");
 
         if(lenddates!=null){
-            lendDateStart=(Date)(lenddates).get(0);
-            lendDateEnd=(Date)(lenddates).get(1);
+            lendDateStart=(Date)(lenddates)[0];
+            lendDateEnd=(Date)(lenddates)[1];
+            location=(String)(lenddates)[2];
         }
 
         if(returndates!=null){
-            returnDateStart=(Date)(returndates).get(0);
-            returnDateEnd=(Date)(returndates).get(1);
+            returnDateStart=(Date)(returndates)[0];
+            returnDateEnd=(Date)(returndates)[1];
+            location=(String)(returndates)[2];
         }
         if(deadLinedates!=null){
-            deadlineStart=(Date)(deadLinedates).get(0);
-            deadlineEnd=(Date)(deadLinedates).get(1);
+            deadlineStart=(Date)(deadLinedates)[0];
+            deadlineEnd=(Date)(deadLinedates)[1];
+            location=(String)(deadLinedates)[2];
         }
 
-        List userIds=lendingRepository.getLendingsUserId((String)search.getValueForPrefix("ctlgNo"),
-                (String)search.getValueForPrefix("librarianLend"),(String)search.getValueForPrefix("librarianReturn"),location,
+        List userIds=lendingRepository.getLendingsUserId(wildcardHandle((String)search.getValueForPrefix("ctlgNo")),
+                wildcardHandle((String)search.getValueForPrefix("librarianLend")),wildcardHandle((String)search.getValueForPrefix("librarianReturn")),location,
                 lendDateStart,lendDateEnd,returnDateStart,returnDateEnd,deadlineStart,deadlineEnd);
 
         return  memberRepository.getMembersFilteredByLending(search,userIds);
 
+    }
+
+    private String wildcardHandle(String text){
+        if (text == null){
+            return text;
+        }
+        if(!text.startsWith("*")){
+            text="^"+text;
+        }
+        if (!text.endsWith("*")){
+            text=text+"$";
+        }
+        text =text.replace("*","");
+        return text;
     }
 
 }

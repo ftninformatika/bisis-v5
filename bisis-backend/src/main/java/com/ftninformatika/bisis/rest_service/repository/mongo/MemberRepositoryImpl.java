@@ -31,21 +31,32 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         currentCriteria = createCriteria(searchModel.getPref4(),searchModel.getText4(),searchModel.getOper4(),currentCriteria);
         currentCriteria = createCriteria(searchModel.getPref5(),searchModel.getText4(),"and",currentCriteria);
 
-        List signDates = (List)searchModel.getValueForPrefix("signings.signDate");
-        List untilDates = (List)searchModel.getValueForPrefix("signings.untilDate");
+        Object[] signDates = (Object[])searchModel.getValueForPrefix("signings.signDate");
+        Object[] untilDates = (Object[])searchModel.getValueForPrefix("signings.untilDate");
         if (signDates !=null){
             if(currentCriteria!=null){
-                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates.get(0)).lte(signDates.get(1))));
+                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates[0]).lte(signDates[1])));
             }else{
-                currentCriteria = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates.get(0)).lte(signDates.get(1)));
+                currentCriteria = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates[0]).lte(signDates[1]));
+            }
+
+            //cita lokaciju
+            if (signDates[2]!=null  && signDates[2].equals("")) {
+                Criteria and = new Criteria();
+                currentCriteria = and.andOperator(currentCriteria, Criteria.where("location").is(signDates[2]));
             }
 
         }
         if (untilDates !=null){
             if(currentCriteria!=null) {
-                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("signings.untilDate").gte(untilDates.get(0)).lte(untilDates.get(1)));
+                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("signings").elemMatch(Criteria.where("untilDate").gte(untilDates[0]).lte(untilDates[1])));
             }else{
-                currentCriteria = Criteria.where("signings.untilDate").gte(untilDates.get(0)).lte(untilDates.get(1));
+                currentCriteria = Criteria.where("signings").elemMatch(Criteria.where("untilDate").gte(untilDates[0]).lte(untilDates[1]));
+            }
+            //cita lokaciju
+            if (untilDates[2]!=null && untilDates[2].equals("") ) {
+                Criteria and = new Criteria();
+                currentCriteria = and.andOperator(currentCriteria, Criteria.where("location").is(untilDates[2]));
             }
         }
         if (userIds !=null) {
@@ -64,11 +75,18 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
     }
 
-
-//TODO ne obradjujem slučaj kada unese zvedzdicu u smislu wildcard-a
     private Criteria createCriteria(String prefix,String text, String op, Criteria currentCriteria){
+
         if(text != null && !text.equals("") && !fromLendings.contains(prefix)){
-            Criteria c=Criteria.where(prefix).is(text);
+            if(!text.startsWith("*")){
+                text="^"+text;
+            }
+            if (!text.endsWith("*")){
+                text=text+"$";
+            }
+            text =text.replace("*","");
+
+            Criteria c=Criteria.where(prefix).regex(text, "i");
             if(currentCriteria==null){
                 currentCriteria=c;
             }else {
