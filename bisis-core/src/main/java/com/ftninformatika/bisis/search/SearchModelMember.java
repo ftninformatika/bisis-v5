@@ -45,10 +45,17 @@ public class SearchModelMember extends SearchModel{
             return getText5();
         }
         if (pref.equals(prefDate1)){
-            return Arrays.asList(startDate1, endDate1);
+            Object[] arr = new Object[3];
+            arr[0]=startDate1;
+            arr[1]=endDate1;
+            arr[2]=location1;
+            return arr;
         }
         if (pref.equals(prefDate2)){
-            return Arrays.asList(startDate2, endDate2);
+            Object[] arr = new Object[3];
+            arr[0]=startDate2;
+            arr[1]=endDate2;
+            arr[2]=location2;
         }
         return null;
     }

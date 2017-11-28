@@ -79,7 +79,8 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         Criteria ctlgNoC, librarianLendC, librarianReturnC, deadlineC;
         Query q=new Query();
         if (ctlgNo != null) {
-            ctlgNoC = Criteria.where("ctlgNo").is(ctlgNo);
+
+            ctlgNoC = Criteria.where("ctlgNo").regex(ctlgNo, "i");
             if (criteria!=null)
               criteria = new Criteria().andOperator(criteria, ctlgNoC);
             else{
@@ -87,7 +88,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
             }
         }
         if (librarianLend != null) {
-            librarianLendC = Criteria.where("librarianLend").is(librarianLend);
+            librarianLendC = Criteria.where("librarianLend").regex(librarianLend,"i");
             if (criteria!=null)
                 criteria = new Criteria().andOperator(criteria, librarianLendC);
             else{
@@ -95,7 +96,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
             }
         }
         if (librarianReturn != null) {
-            librarianReturnC = Criteria.where("librarianReturn").is(librarianReturn);
+            librarianReturnC = Criteria.where("librarianReturn").regex(librarianReturn,"i");
             if (criteria!=null)
                 criteria = new Criteria().andOperator(criteria, librarianReturnC);
             else{
