@@ -128,32 +128,6 @@ public class RecordsManager {
         }
     }
 
-//    public Object changeStanje(String ctlgno){
-//        try {
-//            primerak = BisisApp.bisisService.getPrimerakByInvNum(ctlgno).execute().body();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        if (primerak != null){
-//            if (primerak.getStanje() == 1){
-//                primerak.setStanje(0);
-//            }
-//            return primerak;
-//        } else {
-//            try {
-//                sveska = BisisApp.bisisService.getSveskaByInvNum(ctlgno).execute().body();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            if (sveska != null){
-//                if (sveska.getStanje() == 1){
-//                    sveska.setStanje(0);
-//                }
-//            }
-//            return sveska;
-//        }
-//    }
-
     public String getErrorMessage(){
         String message = "";
         if (primerak == null && sveska == null){

@@ -54,7 +54,7 @@ public class ElasticUtility {
     //formiranje Query-ja za glavnu pretragu zapisa
     public static BoolQueryBuilder makeQuery(SearchModel sm){
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
-        sm.fixDepartments();
+//        sm.fixDepartments();
 
         try {
             if (sm.getText1() != null && !"".equals(sm.getText1()))

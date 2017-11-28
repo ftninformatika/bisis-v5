@@ -19,24 +19,24 @@ import com.ftninformatika.bisis.search.SearchModelMember;
 import org.elasticsearch.monitor.os.OsStats;
 
 public class UserManager {
-	
-  private Member member;
-  private CorporateMember corporateMember;
-  private String chargedUser;
-  private String chargeBook = "";
-  private List warnings = null;
-  private String env = null;
-  private String validator = null;
-  private List lendings = null;
-	
-	public UserManager(){		
-		lendings = new ArrayList();
-	}
-	
-	public String saveUser(User user){
-		if (user.getDirty() /*|| !lendings.isEmpty()*/){
+
+    private Member member;
+    private CorporateMember corporateMember;
+    private String chargedUser;
+    private String chargeBook = "";
+    private List warnings = null;
+    private String env = null;
+    private String validator = null;
+    private List lendings = null;
+
+    public UserManager() {
+        lendings = new ArrayList();
+    }
+
+    public String saveUser(User user) {
+        if (user.getDirty()) {
             String memberExists;
-			if (user.getDirty()){
+            if (user.getDirty()) {
                 try {
                     memberExists = BisisApp.bisisService.memberExist(user.getMmbrship().getUserID()).execute().body();
                 } catch (Exception e) {
@@ -44,31 +44,31 @@ public class UserManager {
                     return "Gre\u0161ka u konekciji s bazom podataka!";
                 }
 
-				if (member == null){
-					if (memberExists != null)
-						return "Broj korisnika vec postoji!";
-					member = new Member();
-				} else {
-				  if (memberExists != null && !memberExists.equals(member.get_id())) {
-                      return "Broj korisnika vec postoji!";
-                  }
-				}
-				member = toObjectModel(user, member);
-			}
+                if (member == null) {
+                    if (memberExists != null && !memberExists.equals(""))
+                        return "Broj korisnika vec postoji!";
+                    member = new Member();
+                } else {
+                    if (memberExists != null && !memberExists.equals("") && !memberExists.equals(member.get_id())) {
+                        return "Broj korisnika vec postoji!";
+                    }
+                }
+                member = toObjectModel(user, member);
+            }
 
-			if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("true") && (member.getPin() == null || member.getPin().equals(""))){
-				String pin = Utils.generatePin();
-				member.setPin(pin);
-				user.getUserData().setPinCode(pin);
-			}
+            if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("true") && (member.getPin() == null || member.getPin().equals(""))) {
+                String pin = Utils.generatePin();
+                member.setPin(pin);
+                user.getUserData().setPinCode(pin);
+            }
 
             MemberData memberData = new MemberData();
-			memberData.setMember(member);
+            memberData.setMember(member);
 
-			if (!lendings.isEmpty()){
+            if (!lendings.isEmpty()) {
                 memberData.setLendings(lendings);
                 memberData.setBooks(Cirkulacija.getApp().getRecordsManager().getListOfItems());
-			}
+            }
             boolean saved = false;
             try {
                 saved = BisisApp.bisisService.addUpdateMemberData(memberData).execute().body();
@@ -76,7 +76,7 @@ public class UserManager {
                 e.printStackTrace();
             }
 
-			if (saved){
+            if (saved) {
 //                try {
 //                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
 //                    member = memberData.getMember();
@@ -87,73 +87,73 @@ public class UserManager {
 //                }
 
                 //if (member != null){
-                    Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
-                    //loadUser(user, member, lendings);
+                Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
+                //loadUser(user, member, lendings);
                 //}
-				return "ok";
-			} else {
+                return "ok";
+            } else {
                 return "Gre\u0161ka u konekciji s bazom podataka!";
-			}
-		} else {
-			return "ok";
-		}
-	}
-	
-	public void releaseUser(){
-	    if (member != null) {
+            }
+        } else {
+            return "ok";
+        }
+    }
+
+    public void releaseUser() {
+        if (member != null) {
             try {
                 Boolean released = BisisApp.bisisService.releaseMemberById(member.getUserId()).execute().body();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-		member = null;
-		lendings = null;
-		chargeBook = "";
-		Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
+        member = null;
+        lendings = null;
+        chargeBook = "";
+        Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
 
-	}
-  
-  public boolean gotUser(){
-    return member != null;
-  }
-
-  public String getCurrentUserId(){
-      return member.getUserId();
-  }
-  
-  public String saveGroup(Group group){
-    if (corporateMember == null){
-      corporateMember = new CorporateMember();
     }
-    corporateMember = toObjectModel(group, corporateMember);
-    Boolean saved = false;
-      try {
-          saved = BisisApp.bisisService.saveCorporateMember(corporateMember).execute().body();
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
 
-    if (saved){
-    	return "ok";
-    } else {
-        return "Gre\u0161ka u konekciji s bazom podataka!";
+    public boolean gotUser() {
+        return member != null;
     }
-  }
-  
-  public void releaseGroup(){
-    corporateMember = null;
-  }
-  
-  public void initialiseUser(User user){
-    member = new Member();
-    lendings = new ArrayList<Lending>();
-    user.getMmbrship().setTableModel(member.getSignings());
-    user.getLending().setTableModel(lendings);
-    user.getUserData().setDupTableModel(member.getDuplicates());
-  }
-  
-  public int showUser(User user, String userID){
+
+    public String getCurrentUserId() {
+        return member.getUserId();
+    }
+
+    public String saveGroup(Group group) {
+        if (corporateMember == null) {
+            corporateMember = new CorporateMember();
+        }
+        corporateMember = toObjectModel(group, corporateMember);
+        Boolean saved = false;
+        try {
+            saved = BisisApp.bisisService.saveCorporateMember(corporateMember).execute().body();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (saved) {
+            return "ok";
+        } else {
+            return "Gre\u0161ka u konekciji s bazom podataka!";
+        }
+    }
+
+    public void releaseGroup() {
+        corporateMember = null;
+    }
+
+    public void initialiseUser(User user) {
+        member = new Member();
+        lendings = new ArrayList<Lending>();
+        user.getMmbrship().setTableModel(member.getSignings());
+        user.getLending().setTableModel(lendings);
+        user.getUserData().setDupTableModel(member.getDuplicates());
+    }
+
+    public int showUser(User user, String userID) {
 //      try {
 //          member = BisisApp.bisisService.getMemberById(userID).execute().body();
 //          lendings = BisisApp.bisisService.getLendingsByUserId(userID).execute().body();
@@ -165,27 +165,27 @@ public class UserManager {
 //          Cirkulacija.getApp().getRecordsManager().getList().clear();
 //          loadUser(user, member, lendings);
 //      }
-      return getUser(user, null, userID);
-  }
-  
-  public int showChargedUser(User user){
-    return getUser(user, null, chargedUser);
-  }
-  
-  public void chargeUser(String ctlgno){
-    if (member == null){
-      chargeBook = ctlgno;
-      Cirkulacija.getApp().getMainFrame().setRequestedPanel(3);
-      Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true);
-    } else {
-      Cirkulacija.getApp().getMainFrame().getUserPanel().getLending().lendBook(ctlgno);
-      Cirkulacija.getApp().getMainFrame().previousTwoPanels();
-      Cirkulacija.getApp().getMainFrame().showPanel("userPanel");
+        return getUser(user, null, userID);
     }
-  }
-  
-  public String archiveUser(User user){
-	  /*GetAllUserDataCommand getUserData = new GetAllUserDataCommand(user.getMmbrship().getUserID());
+
+    public int showChargedUser(User user) {
+        return getUser(user, null, chargedUser);
+    }
+
+    public void chargeUser(String ctlgno) {
+        if (member == null) {
+            chargeBook = ctlgno;
+            Cirkulacija.getApp().getMainFrame().setRequestedPanel(3);
+            Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true);
+        } else {
+            Cirkulacija.getApp().getMainFrame().getUserPanel().getLending().lendBook(ctlgno);
+            Cirkulacija.getApp().getMainFrame().previousTwoPanels();
+            Cirkulacija.getApp().getMainFrame().showPanel("userPanel");
+        }
+    }
+
+    public String archiveUser(User user) {
+      /*GetAllUserDataCommand getUserData = new GetAllUserDataCommand(user.getMmbrship().getUserID());
 	  getUserData = (GetAllUserDataCommand)service.executeCommand(getUserData);
 		if (getUserData != null){
 			Users userdata = getUserData.getUser();
@@ -219,530 +219,533 @@ public class UserManager {
 			}
 		} else {
 			return "Gre\u0161ka u konekciji s bazom podataka!";
-		}*/ return null;
-  }
-	
-  public int getUser(User user, Group group, String userID){
-    int found = 0;
+		}*/
+        return null;
+    }
 
-      try {
-          MemberData memberData = BisisApp.bisisService.getAndLockMemberById(userID, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
-          if (memberData != null) {
-              if (memberData.getInUseBy() == null) {
-                  member = memberData.getMember();
-                  lendings = memberData.getLendings();
-                  if (member != null) {
-                      loadUser(user, member, lendings);
-                      Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
-                      found = 1;
-                      return found;
-                  }
-              } else {
-                  found = 3;
-                  return found;
-              }
-          }
+    public int getUser(User user, Group group, String userID) {
+        int found = 0;
 
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
+        try {
+            MemberData memberData = BisisApp.bisisService.getAndLockMemberById(userID, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
+            if (memberData != null) {
+                if (memberData.getInUseBy() == null) {
+                    member = memberData.getMember();
+                    lendings = memberData.getLendings();
+                    if (member != null) {
+                        Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
+                        loadUser(user, member, lendings);
+                        found = 1;
+                        return found;
+                    }
+                } else {
+                    found = 3;
+                    return found;
+                }
+            }
 
-      try {
-          corporateMember = BisisApp.bisisService.getCorporateMemberById(userID).execute().body();
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-    if (corporateMember != null){
-        group.loadGroup(corporateMember.getUserId(), corporateMember.getInstName(), corporateMember.getSignDate(), corporateMember.getAddress(), corporateMember.getCity(), Utils.getString(corporateMember.getZip()),
-        corporateMember.getPhone(), corporateMember.getEmail(), corporateMember.getFax(), corporateMember.getSecAddress(), Utils.getString(corporateMember.getSecZip()), corporateMember.getSecCity(),
-        corporateMember.getSecPhone(), corporateMember.getContFirstName(), corporateMember.getContLastName(), corporateMember.getContEmail());
-        found = 2;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            corporateMember = BisisApp.bisisService.getCorporateMemberById(userID).execute().body();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (corporateMember != null) {
+            group.loadGroup(corporateMember.getUserId(), corporateMember.getInstName(), corporateMember.getSignDate(), corporateMember.getAddress(), corporateMember.getCity(), Utils.getString(corporateMember.getZip()),
+                    corporateMember.getPhone(), corporateMember.getEmail(), corporateMember.getFax(), corporateMember.getSecAddress(), Utils.getString(corporateMember.getSecZip()), corporateMember.getSecCity(),
+                    corporateMember.getSecPhone(), corporateMember.getContFirstName(), corporateMember.getContLastName(), corporateMember.getContEmail());
+            found = 2;
+            return found;
+        }
         return found;
     }
-    return found;
-  }
-  
-  private void loadUser(User user, Member member, List<Lending> lendings){
-    boolean blocked = false;
-    String blockedInfo = "";
-    if (member.getBlockReason()!=null && !"".equals(member.getBlockReason())){
-      blockedInfo = "Blokirano: "+member.getBlockReason();
-      blocked = true;  
-    }
-    
-    Iterator it = member.getDuplicates().iterator();
-    String dupno = "";
-    while (it.hasNext()){
-      Duplicate dup = (Duplicate)it.next();
-      dupno = "Duplikat " + dup.getDupNo();
-    }
-    
-    user.getUserData().loadUser(member.getFirstName(), member.getLastName(), member.getParentName(),
-        member.getAddress(), member.getZip(), member.getCity(), member.getPhone(),
-        member.getEmail(), member.getGender(), member.getAge(), member.getSecAddress(),
-        member.getSecCity(), member.getSecZip(), member.getSecPhone(), member.getJmbg(),
-        member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
-        member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
-        member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(),
-        member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin());
 
-    user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), member.getSignings());
+    private void loadUser(User user, Member member, List<Lending> lendings) {
+        boolean blocked = false;
+        String blockedInfo = "";
+        if (member.getBlockReason() != null && !"".equals(member.getBlockReason())) {
+            blockedInfo = "Blokirano: " + member.getBlockReason();
+            blocked = true;
+        }
 
-    Date maxDate = null;
-    Date date = null;
-    it = member.getSignings().iterator();
-    while (it.hasNext()){
-      date = ((Signing)it.next()).getUntilDate();
-      if (date != null && (maxDate == null || maxDate.before(date))){
-        maxDate = date;
-      }
-    }
+        Iterator it = member.getDuplicates().iterator();
+        String dupno = "";
+        while (it.hasNext()) {
+            Duplicate dup = (Duplicate) it.next();
+            dupno = "Duplikat " + dup.getDupNo();
+        }
 
-    if (maxDate != null && maxDate.before(new Date())){
-      if (!blockedInfo.equals(""))
-        blockedInfo = blockedInfo + ", ";
-      blockedInfo = blockedInfo + "Istekla \u010dlanarina";
-    }
-    
-    warnings = new ArrayList<Warning>();
-    for (Lending lend : lendings){
-      Set<Warning> warns = new HashSet<Warning>(lend.getWarnings());
-      for (Warning warn : warns){
-        warnings.add(warn);
-      }
-    }
-    
-    user.getLending().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo, lendings, !warnings.isEmpty());
-    
-    user.setDirty(false);
-    
-    if (!chargeBook.equals("")){
-      user.getLending().lendBook(chargeBook);
-      chargeBook = "";
-      user.setDirty(true);
-    }
+        user.getUserData().loadUser(member.getFirstName(), member.getLastName(), member.getParentName(),
+                member.getAddress(), member.getZip(), member.getCity(), member.getPhone(),
+                member.getEmail(), member.getGender(), member.getAge(), member.getSecAddress(),
+                member.getSecCity(), member.getSecZip(), member.getSecPhone(), member.getJmbg(),
+                member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
+                member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
+                member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(),
+                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin());
 
-  }
-  
-  public void refreshInfo(User user, Member member){
-  	boolean blocked = false;
-    String blockedInfo = "";
-    if (member.getBlockReason()!=null && !"".equals(member.getBlockReason())){
-      blockedInfo = "Blokirano: "+member.getBlockReason();
-      blocked = true;  
-    }
-    
-    Iterator it = member.getDuplicates().iterator();
-    String dupno = "";
-    while (it.hasNext()){
-      Duplicate dup = (Duplicate)it.next();
-      dupno = "Duplikat " + dup.getDupNo();
-    }
-    
-    Date maxDate = null;
-    Date date = null;
-    it = member.getSignings().iterator();
-    while (it.hasNext()){
-      date = ((Signing)it.next()).getUntilDate();
-      if (date != null && (maxDate == null || maxDate.before(date))){
-        maxDate = date;
-      }
-    }
-    
-    if (maxDate != null && maxDate.before(new Date())){
-      if (!blockedInfo.equals(""))
-        blockedInfo = blockedInfo + ", ";
-      blockedInfo = blockedInfo + "Istekla \u010dlanarina";
-    }
-    
-    user.getLending().refreshInfo(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo);
-    
-  }
-	
-	
-  public void loadCombos(User user) throws Exception {
+        user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), member.getSignings());
 
-	if (BisisApp.appConfig.getCodersHelper() == null)
-		throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
+        Date maxDate = null;
+        Date date = null;
+        it = member.getSignings().iterator();
+        while (it.hasNext()) {
+            date = ((Signing) it.next()).getUntilDate();
+            if (date != null && (maxDate == null || maxDate.before(date))) {
+                maxDate = date;
+            }
+        }
 
-	user.getUserData().loadEduLvl(BisisApp.appConfig.getCodersHelper()
-            .getEducationLevels().values().stream()
-            .map(i -> i.getDescription())
-            .collect(Collectors.toList()));
+        if (maxDate != null && maxDate.before(new Date())) {
+            if (!blockedInfo.equals(""))
+                blockedInfo = blockedInfo + ", ";
+            blockedInfo = blockedInfo + "Istekla \u010dlanarina";
+        }
 
-	user.getUserData().loadLanguage(BisisApp.appConfig.getCodersHelper()
-            .getLanguages().values().stream()
-            .map(i -> i.getDescription())
-            .collect(Collectors.toList()));
+        warnings = new ArrayList<Warning>();
+        for (Lending lend : lendings) {
+            Set<Warning> warns = new HashSet<Warning>(lend.getWarnings());
+            for (Warning warn : warns) {
+                warnings.add(warn);
+            }
+        }
 
-	user.getUserData().loadOrganization(BisisApp.appConfig.getCodersHelper()
-            .getOrganizations().values().stream()
-            .map( i -> {
-                com.ftninformatika.bisis.circ.pojo.Organization o = new com.ftninformatika.bisis.circ.pojo.Organization();
-                o.setAddress(i.getAddress());
-                o.setCity(i.getCity());
-                o.setId(i.get_id());
-                o.setName(i.getName());
-                o.setZip(i.getZip());
-                return o;
-            })
-            .collect(Collectors.toList()));
+        user.getLending().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo, lendings, !warnings.isEmpty());
 
-	user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
-            .getCorporateMembers().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.CorporateMember c = new com.ftninformatika.bisis.circ.pojo.CorporateMember();
-                c.setAddress(i.getAddress());
-                c.setCity(i.getCity());
-                c.setContEmail(i.getContEmail());
-                c.setContFirstName(i.getContFirstName());
-                c.setContLastName(i.getContLastName());
-                c.setEmail(i.getEmail());
-                c.setFax(i.getFax());
-                c.setInstName(i.getInstName());
-                c.setUserId(i.getUserId());
-                c.setPhone(i.getPhone());
-                c.setSecAddress(i.getSecAddress());
-                c.setSecCity(i.getSecCity());
-                c.setSecPhone(i.getSecPhone());
-                c.setSecZip(i.getSecZip());
-                c.setSignDate(i.getSignDate());
-                c.setZip(i.getZip());
-                return c;
-            })
-            .collect(Collectors.toList()));
+        user.setDirty(false);
 
-	user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream()
-            .map(i -> i.getDescription())
-            .collect(Collectors.toList()));
+        if (!chargeBook.equals("")) {
+            user.getLending().lendBook(chargeBook);
+            chargeBook = "";
+            user.setDirty(true);
+        }
 
-	user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
-                l.setDescription(i.getDescription());
-                l.setLocationCode(i.getLocationCode());
-                return l;
-
-            })
-            .collect(Collectors.toList()));
-
-	user.getMmbrship().loadMmbrType(BisisApp.appConfig.getCodersHelper()
-            .getMembershipTypes().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.MembershipType m = new com.ftninformatika.bisis.circ.pojo.MembershipType();
-                m.setDescription(i.getDescription());
-                m.setPeriod(i.getPeriod());
-                return m;
-            })
-            .collect(Collectors.toList()));
-
-	user.getMmbrship().loadUserCateg(BisisApp.appConfig.getCodersHelper()
-            .getUserCategories().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.UserCategory u = new com.ftninformatika.bisis.circ.pojo.UserCategory();
-                u.setDescription(i.getDescription());
-                u.setMaxPeriod(i.getMaxPeriod());
-                u.setPeriod(i.getPeriod());
-                u.setTitlesNo(i.getTitlesNo());
-                return u;
-            })
-            .collect(Collectors.toList()));
-
-	user.getLending().loadLocation(BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
-                l.setDescription(i.getDescription());
-                l.setLocationCode(i.getLocationCode());
-                return l;
-
-            })
-            .collect(Collectors.toList()));
-
-
-  }
-  
-  public void loadCombos(Group group) throws Exception {
-      group.loadBranchID((BisisApp.appConfig.getCodersHelper()
-              .getCircLocations().values().stream()
-              .map(i -> {
-                  com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
-                  l.setDescription(i.getDescription());
-                  l.setLocationCode(i.getLocationCode());
-                  return l;
-
-              })
-              .collect(Collectors.toList())));
-  }
-  
-  public void loadCombos(SearchUsers searchusers) throws Exception {
-    searchusers.loadCmbLoc1((BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
-                l.setDescription(i.getDescription());
-                l.setLocationCode(i.getLocationCode());
-                return l;
-
-            })
-            .collect(Collectors.toList())));
-    searchusers.loadCmbLoc2((BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
-                l.setDescription(i.getDescription());
-                l.setLocationCode(i.getLocationCode());
-                return l;
-
-            })
-            .collect(Collectors.toList())));
-  }
-  
-  public void loadCombos(SearchBooks searchbooks) throws Exception {
-    searchbooks.loadCmbLocL((BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
-                l.setDescription(i.getDescription());
-                l.setLocationCode(i.getLocationCode());
-                return l;
-
-            })
-            .collect(Collectors.toList())));
-    searchbooks.loadCmbLocR((BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
-                l.setDescription(i.getDescription());
-                l.setLocationCode(i.getLocationCode());
-                return l;
-
-            })
-            .collect(Collectors.toList())));
-  }
-  
-  public void loadCombos(Report report) throws Exception {
-    report.loadCmbLocation((BisisApp.appConfig.getCodersHelper()
-            .getCircLocations().values().stream()
-            .map(i -> {
-                com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
-                l.setDescription(i.getDescription());
-                l.setLocationCode(i.getLocationCode());
-                return l;
-
-            })
-            .collect(Collectors.toList())));
-    
-  }
-	
-	private Member toObjectModel(User user, Member member){
-		UserData data = user.getUserData();
-		member.setAddress(data.getAddress().trim());
-		member.setAge(data.getAge());
-		member.setCity(data.getCity().trim());
-		member.setClassNo(Utils.getInteger(data.getClassNo()));
-		member.setCountry(data.getCountry().trim());
-		member.setDocCity(data.getDocCity().trim());
-		member.setDocId(Integer.valueOf(data.getDocId()));
-		member.setDocNo(data.getDocNo().trim());
-		member.setEducationLevel(data.getEduLvl());
-		member.setEmail(data.getEmail().trim());
-		member.setFirstName(data.getFirstName().trim());
-		member.setGender(data.getGender());
-		member.setIndexNo(data.getIndexNo().trim());
-		member.setInterests(data.getInterests().trim());
-		member.setJmbg(data.getJmbg().trim());
-		member.setLanguage(data.getLanguages());
-		member.setLastName(data.getLastName().trim());
-		member.setNote(data.getNote().trim());
-		member.setOccupation(data.getOccupation().trim());
-		member.setOrganization(data.getOrganization());
-		member.setParentName(data.getParentName().trim());
-		member.setPhone(data.getPhone().trim());
-		member.setSecAddress(data.getTmpAddress().trim());
-		member.setSecCity(data.getTmpCity().trim());
-		member.setSecPhone(data.getTmpPhone().trim());
-		member.setSecZip(data.getTmpZip());
-		member.setTitle(data.getTitle().trim());
-		member.setWarningInd(Integer.valueOf(data.getWarning()));
-		member.setZip(data.getZip());
-    if (data.getBlocked()){
-      member.setBlockReason(data.getBlockedReason().trim());
-    } else {
-      member.setBlockReason("");
-    }
-		
-		com.ftninformatika.bisis.circ.view.Membership mmbrship = user.getMmbrship();
-		member.setCorporateMember(mmbrship.getGroup());
-		member.setUserId(mmbrship.getUserID());
-		member.setMembershipType(mmbrship.getMmbrType());
-		member.setUserCategory(mmbrship.getUserCateg());
-		
-		return member;
-	}
-  
-  private CorporateMember toObjectModel(Group group, CorporateMember corporateMember){
-    corporateMember.setAddress(group.getAddress().trim());
-    corporateMember.setCity(group.getCity().trim());
-    corporateMember.setContEmail(group.getContactEmail().trim());
-    corporateMember.setContFirstName(group.getContactFirstName().trim());
-    corporateMember.setContLastName(group.getContactLastName().trim());
-    corporateMember.setEmail(group.getEmail().trim());
-    corporateMember.setFax(group.getFax().trim());
-    corporateMember.setInstName(group.getOrganization().trim());
-    corporateMember.setPhone(group.getPhone().trim());
-    corporateMember.setSecAddress(group.getTmpAddress().trim());
-    corporateMember.setSecCity(group.getTmpCity().trim());
-    corporateMember.setSecPhone(group.getTmpPhone().trim());
-    corporateMember.setSecZip(Utils.getInteger(group.getTmpZip()));
-    corporateMember.setSignDate(group.getSignDate());
-    corporateMember.setUserId(group.getUserID());
-    corporateMember.setZip(Utils.getInteger(group.getZip()));
-    return corporateMember;
-  }
-  
-  public void addLending(Lending lend){
-    if (!lendings.contains(lend)){
-    	 lendings.add(lend);
     }
 
-  }
+    public void refreshInfo(User user, Member member) {
+        boolean blocked = false;
+        String blockedInfo = "";
+        if (member.getBlockReason() != null && !"".equals(member.getBlockReason())) {
+            blockedInfo = "Blokirano: " + member.getBlockReason();
+            blocked = true;
+        }
 
-  public void updateLending(Lending lend){
-  	if (!lendings.contains(lend)){
-   	  lendings.add(lend);
-  	}
-  }
-	
-  public Double getMembership(String membershipType, String userCategory){
+        Iterator it = member.getDuplicates().iterator();
+        String dupno = "";
+        while (it.hasNext()) {
+            Duplicate dup = (Duplicate) it.next();
+            dupno = "Duplikat " + dup.getDupNo();
+        }
 
-  	for(Membership m: BisisApp.appConfig.getCodersHelper().getMemberships().values()) {
-		if (m.getMemberType().equals(membershipType) && m.getUserCateg().equals(userCategory))
-			return m.getCost();
-  	}
-  	return null;
-  }
-  
-  public String getUserId(String location){
-    String loc = location;
-    if (loc.equals(""))
-      loc = "0";
+        Date maxDate = null;
+        Date date = null;
+        it = member.getSignings().iterator();
+        while (it.hasNext()) {
+            date = ((Signing) it.next()).getUntilDate();
+            if (date != null && (maxDate == null || maxDate.before(date))) {
+                maxDate = date;
+            }
+        }
 
-      Integer last = null;
-      try {
-          last = BisisApp.bisisService.getLastUserId(Integer.valueOf(loc)).execute().body();
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
+        if (maxDate != null && maxDate.before(new Date())) {
+            if (!blockedInfo.equals(""))
+                blockedInfo = blockedInfo + ", ";
+            blockedInfo = blockedInfo + "Istekla \u010dlanarina";
+        }
 
-    if (last == null)
-    	return null;
-    String userId = Utils.makeUserId(loc, Integer.toString(last));
-    while (existsUser(userId)){
+        user.getLending().refreshInfo(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo);
+
+    }
+
+
+    public void loadCombos(User user) throws Exception {
+
+        if (BisisApp.appConfig.getCodersHelper() == null)
+            throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
+
+        user.getUserData().loadEduLvl(BisisApp.appConfig.getCodersHelper()
+                .getEducationLevels().values().stream()
+                .map(i -> i.getDescription())
+                .collect(Collectors.toList()));
+
+        user.getUserData().loadLanguage(BisisApp.appConfig.getCodersHelper()
+                .getLanguages().values().stream()
+                .map(i -> i.getDescription())
+                .collect(Collectors.toList()));
+
+        user.getUserData().loadOrganization(BisisApp.appConfig.getCodersHelper()
+                .getOrganizations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.Organization o = new com.ftninformatika.bisis.circ.pojo.Organization();
+                    o.setAddress(i.getAddress());
+                    o.setCity(i.getCity());
+                    o.setId(i.get_id());
+                    o.setName(i.getName());
+                    o.setZip(i.getZip());
+                    return o;
+                })
+                .collect(Collectors.toList()));
+
+        user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
+                .getCorporateMembers().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CorporateMember c = new com.ftninformatika.bisis.circ.pojo.CorporateMember();
+                    c.setAddress(i.getAddress());
+                    c.setCity(i.getCity());
+                    c.setContEmail(i.getContEmail());
+                    c.setContFirstName(i.getContFirstName());
+                    c.setContLastName(i.getContLastName());
+                    c.setEmail(i.getEmail());
+                    c.setFax(i.getFax());
+                    c.setInstName(i.getInstName());
+                    c.setUserId(i.getUserId());
+                    c.setPhone(i.getPhone());
+                    c.setSecAddress(i.getSecAddress());
+                    c.setSecCity(i.getSecCity());
+                    c.setSecPhone(i.getSecPhone());
+                    c.setSecZip(i.getSecZip());
+                    c.setSignDate(i.getSignDate());
+                    c.setZip(i.getZip());
+                    return c;
+                })
+                .collect(Collectors.toList()));
+
+        user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> i.getDescription())
+                .collect(Collectors.toList()));
+
+        user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
+                    l.setDescription(i.getDescription());
+                    l.setLocationCode(i.getLocationCode());
+                    return l;
+
+                })
+                .collect(Collectors.toList()));
+
+        user.getMmbrship().loadMmbrType(BisisApp.appConfig.getCodersHelper()
+                .getMembershipTypes().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.MembershipType m = new com.ftninformatika.bisis.circ.pojo.MembershipType();
+                    m.setDescription(i.getDescription());
+                    m.setPeriod(i.getPeriod());
+                    return m;
+                })
+                .collect(Collectors.toList()));
+
+        user.getMmbrship().loadUserCateg(BisisApp.appConfig.getCodersHelper()
+                .getUserCategories().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.UserCategory u = new com.ftninformatika.bisis.circ.pojo.UserCategory();
+                    u.setDescription(i.getDescription());
+                    u.setMaxPeriod(i.getMaxPeriod());
+                    u.setPeriod(i.getPeriod());
+                    u.setTitlesNo(i.getTitlesNo());
+                    return u;
+                })
+                .collect(Collectors.toList()));
+
+        user.getLending().loadLocation(BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
+                    l.setDescription(i.getDescription());
+                    l.setLocationCode(i.getLocationCode());
+                    return l;
+
+                })
+                .collect(Collectors.toList()));
+
+
+    }
+
+    public void loadCombos(Group group) throws Exception {
+        group.loadBranchID((BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
+                    l.setDescription(i.getDescription());
+                    l.setLocationCode(i.getLocationCode());
+                    return l;
+
+                })
+                .collect(Collectors.toList())));
+    }
+
+    public void loadCombos(SearchUsers searchusers) throws Exception {
+        searchusers.loadCmbLoc1((BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
+                    l.setDescription(i.getDescription());
+                    l.setLocationCode(i.getLocationCode());
+                    return l;
+
+                })
+                .collect(Collectors.toList())));
+        searchusers.loadCmbLoc2((BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
+                    l.setDescription(i.getDescription());
+                    l.setLocationCode(i.getLocationCode());
+                    return l;
+
+                })
+                .collect(Collectors.toList())));
+    }
+
+    public void loadCombos(SearchBooks searchbooks) throws Exception {
+        searchbooks.loadCmbLocL((BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
+                    l.setDescription(i.getDescription());
+                    l.setLocationCode(i.getLocationCode());
+                    return l;
+
+                })
+                .collect(Collectors.toList())));
+        searchbooks.loadCmbLocR((BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
+                    l.setDescription(i.getDescription());
+                    l.setLocationCode(i.getLocationCode());
+                    return l;
+
+                })
+                .collect(Collectors.toList())));
+    }
+
+    public void loadCombos(Report report) throws Exception {
+        report.loadCmbLocation((BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().values().stream()
+                .map(i -> {
+                    com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
+                    l.setDescription(i.getDescription());
+                    l.setLocationCode(i.getLocationCode());
+                    return l;
+
+                })
+                .collect(Collectors.toList())));
+
+    }
+
+    private Member toObjectModel(User user, Member member) {
+        UserData data = user.getUserData();
+        member.setAddress(data.getAddress().trim());
+        member.setAge(data.getAge());
+        member.setCity(data.getCity().trim());
+        member.setClassNo(Utils.getInteger(data.getClassNo()));
+        member.setCountry(data.getCountry().trim());
+        member.setDocCity(data.getDocCity().trim());
+        member.setDocId(Integer.valueOf(data.getDocId()));
+        member.setDocNo(data.getDocNo().trim());
+        member.setEducationLevel(data.getEduLvl());
+        member.setEmail(data.getEmail().trim());
+        member.setFirstName(data.getFirstName().trim());
+        member.setGender(data.getGender());
+        member.setIndexNo(data.getIndexNo().trim());
+        member.setInterests(data.getInterests().trim());
+        member.setJmbg(data.getJmbg().trim());
+        member.setLanguage(data.getLanguages());
+        member.setLastName(data.getLastName().trim());
+        member.setNote(data.getNote().trim());
+        member.setOccupation(data.getOccupation().trim());
+        member.setOrganization(data.getOrganization());
+        member.setParentName(data.getParentName().trim());
+        member.setPhone(data.getPhone().trim());
+        member.setSecAddress(data.getTmpAddress().trim());
+        member.setSecCity(data.getTmpCity().trim());
+        member.setSecPhone(data.getTmpPhone().trim());
+        member.setSecZip(data.getTmpZip());
+        member.setTitle(data.getTitle().trim());
+        member.setWarningInd(Integer.valueOf(data.getWarning()));
+        member.setZip(data.getZip());
+        if (data.getBlocked()) {
+            member.setBlockReason(data.getBlockedReason().trim());
+        } else {
+            member.setBlockReason("");
+        }
+
+        com.ftninformatika.bisis.circ.view.Membership mmbrship = user.getMmbrship();
+        member.setCorporateMember(mmbrship.getGroup());
+        member.setUserId(mmbrship.getUserID());
+        member.setMembershipType(mmbrship.getMmbrType());
+        member.setUserCategory(mmbrship.getUserCateg());
+
+        return member;
+    }
+
+    private CorporateMember toObjectModel(Group group, CorporateMember corporateMember) {
+        corporateMember.setAddress(group.getAddress().trim());
+        corporateMember.setCity(group.getCity().trim());
+        corporateMember.setContEmail(group.getContactEmail().trim());
+        corporateMember.setContFirstName(group.getContactFirstName().trim());
+        corporateMember.setContLastName(group.getContactLastName().trim());
+        corporateMember.setEmail(group.getEmail().trim());
+        corporateMember.setFax(group.getFax().trim());
+        corporateMember.setInstName(group.getOrganization().trim());
+        corporateMember.setPhone(group.getPhone().trim());
+        corporateMember.setSecAddress(group.getTmpAddress().trim());
+        corporateMember.setSecCity(group.getTmpCity().trim());
+        corporateMember.setSecPhone(group.getTmpPhone().trim());
+        corporateMember.setSecZip(Utils.getInteger(group.getTmpZip()));
+        corporateMember.setSignDate(group.getSignDate());
+        corporateMember.setUserId(group.getUserID());
+        corporateMember.setZip(Utils.getInteger(group.getZip()));
+        return corporateMember;
+    }
+
+    public void addLending(Lending lend) {
+        if (!lendings.contains(lend)) {
+            lendings.add(lend);
+        }
+
+    }
+
+    public void updateLending(Lending lend) {
+        if (!lendings.contains(lend)) {
+            lendings.add(lend);
+        }
+    }
+
+    public Double getMembership(String membershipType, String userCategory) {
+
+        for (Membership m : BisisApp.appConfig.getCodersHelper().getMemberships().values()) {
+            if (m.getMemberType().equals(membershipType) && m.getUserCateg().equals(userCategory))
+                return m.getCost();
+        }
+        return null;
+    }
+
+    public String getUserId(String location) {
+        String loc = location;
+        if (loc.equals(""))
+            loc = "0";
+        loc = String.valueOf(Integer.parseInt(loc));
+
+        Integer last = null;
         try {
-            last = BisisApp.bisisService.getLastUserId(Integer.valueOf(loc)).execute().body();
+            last = BisisApp.bisisService.getLastUserId(loc).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         if (last == null)
             return null;
-    	userId = Utils.makeUserId(loc, Integer.toString(last));
+        String userId = Utils.makeUserId(loc, Integer.toString(last));
+        while (existsUser(userId)) {
+            try {
+                last = BisisApp.bisisService.getLastUserId(loc).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (last == null)
+                return null;
+            userId = Utils.makeUserId(loc, Integer.toString(last));
+        }
+        return Integer.toString(last);
+
     }
-    return Integer.toString(last);
 
-  }
-  
-  public boolean existsUser(String userID){
-  	String retVal = null;
-      try {
-          retVal = BisisApp.bisisService.memberExist(userID).execute().body();
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
-      if (retVal == null){
-          return false;
-      } else {
-          return true;
-      }
-  }
-  
-  public String getChargedUser(String ctlgno){
-      Member m = null;
-      try {
-          m = BisisApp.bisisService.getChargedUser(ctlgno).execute().body();
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
+    public boolean existsUser(String userID) {
+        String retVal = null;
+        try {
+            retVal = BisisApp.bisisService.memberExist(userID).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (retVal == null || retVal.equals("")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-      String result = "";
+    public String getChargedUser(String ctlgno) {
+        Member m = null;
+        try {
+            m = BisisApp.bisisService.getChargedUser(ctlgno).execute().body();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String result = "";
         if (m != null) {
             chargedUser = m.getUserId();
-            result = (m.getUserId() != null ? m.getUserId()+", ": "")+(m.getFirstName() != null ? m.getFirstName()+" ": "")+(m.getLastName() != null ? m.getLastName(): "") ;
+            result = (m.getUserId() != null ? m.getUserId() + ", " : "") + (m.getFirstName() != null ? m.getFirstName() + " " : "") + (m.getLastName() != null ? m.getLastName() : "");
         }
 
-      return result;
-  }
-  
-  public boolean dischargeUser(String ctlgno){
-  	/*GetLendingCommand getLending = new GetLendingCommand(ctlgno);
-  	getLending = (GetLendingCommand)service.executeCommand(getLending);
-  	if (getLending == null)
-  		return false;
-    Lending lending = getLending.getLending();
-    if (lending != null){
-	    lending.setReturnDate(new Date());
-	    lending.setLibrarianReturn(Cirkulacija.getApp().getLibrarian().getUsername());
+        return result;
     }
-    Object primerak = Cirkulacija.getApp().getRecordsManager().changeStanje(ctlgno);
-    DischargeBookCommand discharge = new DischargeBookCommand(lending, primerak);
-    discharge = (DischargeBookCommand)service.executeCommand(discharge);
-    return discharge.isSaved();*/
-  	return false;
-  }
-  
-  public List getWarnings(){
-    return warnings;
-  }
-  
-  public List getPicturebooks(){
-  	if (member != null){
-  		return member.getPicturebooks();
-  	} else {
-  		return null;
-  	}
-  }
-  
-  public String getEnvFile(){
-      if (env == null){
-          try{
-              CircConfig config = BisisApp.bisisService.getCircConfigs(BisisApp.appConfig.getLibrary()).execute().body();
-              env = config.getCircOptionsXML();
-              validator = config.getValidatorOptionsXML();
-              //env = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("circ-options.xml").toURI())));
-          }catch (Exception e) {
-              e.printStackTrace();
-          }
-      }
-      return env;
-  }
 
-
-
-  public String getValidatorFile(){
-  	if (validator == null) {
+    public boolean dischargeUser(String ctlgno) {
+        Lending lending = null;
+        boolean done = false;
         try {
-            CircConfig config = BisisApp.bisisService.getCircConfigs(BisisApp.appConfig.getLibrary()).execute().body();
-            env = config.getCircOptionsXML();
-            validator = config.getValidatorOptionsXML();
-            //validator = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("options-validator.xml").toURI())));
-        }
-  		catch (Exception e) {
+            lending = BisisApp.bisisService.getLending(ctlgno).execute().body();
+        } catch (IOException e) {
             e.printStackTrace();
-  		}
-  	}
-  	return validator;
-  }
+        }
+        if (lending != null) {
+            lending.setReturnDate(new Date());
+            lending.setLibrarianReturn(Cirkulacija.getApp().getLibrarian().getUsername());
+            try {
+                done = BisisApp.bisisService.dischargeBook(lending).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return done;
+    }
+
+    public List getWarnings() {
+        return warnings;
+    }
+
+    public List getPicturebooks() {
+        if (member != null) {
+            return member.getPicturebooks();
+        } else {
+            return null;
+        }
+    }
+
+    public String getEnvFile() {
+        if (env == null) {
+            try {
+                CircConfig config = BisisApp.bisisService.getCircConfigs(BisisApp.appConfig.getLibrary()).execute().body();
+                env = config.getCircOptionsXML();
+                validator = config.getValidatorOptionsXML();
+                //env = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("circ-options.xml").toURI())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return env;
+    }
+
+
+    public String getValidatorFile() {
+        if (validator == null) {
+            try {
+                CircConfig config = BisisApp.bisisService.getCircConfigs(BisisApp.appConfig.getLibrary()).execute().body();
+                env = config.getCircOptionsXML();
+                validator = config.getValidatorOptionsXML();
+                //validator = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("options-validator.xml").toURI())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return validator;
+    }
 
 }

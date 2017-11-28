@@ -267,7 +267,9 @@ public class RecordsController {
             Record savedRecord = recordsRepository.save(record);
             //convert record to suitable prefix-json for elasticsearch
             Map<String, List<String>> prefixes = PrefixConverter.toMap(record, null);
-            ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id().toString(), prefixes);
+            ElasticPrefixEntity ee = new ElasticPrefixEntity();
+            ee.setId(savedRecord.get_id().toString());
+            //ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id().toString(), prefixes);
             //save and index posted element via ElasticsearchRepository
             elasticRecordsRepository.save(ee);
             elasticRecordsRepository.index(ee);
