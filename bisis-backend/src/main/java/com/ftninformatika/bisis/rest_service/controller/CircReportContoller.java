@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,23 +44,40 @@ public class CircReportContoller {
      */
 
     @RequestMapping(value="/get_users_by_categories",method = RequestMethod.GET)
-    public List<Report> getUsersByCategory(@RequestParam("start") Date start, @RequestParam("location")String location) {
+    public List<Report> getUsersByCategory(@RequestParam("start") String start,@RequestParam("end") String end, @RequestParam("location")String location){
        List<Report> reports = new ArrayList<>();
-      List<Member> h=mr.getMembersByCategories(start);
-       Report r = new Report();
-     //  r.setProperty1(userId);
-     //  r.setProperty2(h.get("firstName"));
-  //     r.setProperty3(lastName);
-    //   r.setProperty4(address);
-    //   r.setProperty5(zip);
-   //    r.setProperty6(city);
-   //    r.setProperty7(docNo);
-   //    r.setProperty8(docCity);
-   //    r.getProperty9(jmbg);
-  //     r.setProperty10(librarian);
-  //     r.setProperty11(receiptId);
- //      r.getProperty12(cost);
-    //    r.setProperty13(h.get("userCategory.description"));
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+        Date start1 = null, end1=null;
+        try {
+            start1 = sdf.parse(start);
+            end1=sdf.parse(end);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<Member> members=mr.getMembersByCategories(start1,end1,location);
+        for(Member m:members) {
+            Report r = new Report();
+            r.setProperty1(m.getUserId());
+            r.setProperty2(m.getFirstName());
+            r.setProperty3(m.getLastName());
+            r.setProperty4(m.getUserCategory().getDescription());
+            r.setProperty5(m.getAddress());
+            r.setProperty6(m.getCity());
+            r.setProperty7(m.getZip());
+            r.setProperty8(m.getDocNo());
+            r.setProperty9(m.getDocCity());
+            r.setProperty10(m.getJmbg());
+            r.setProperty11(m.getSignings().get(0).getLibrarian());
+            r.setProperty13(m.getSignings().get(0).getReceipt());
+            if(m.getSignings().get(0).getCost()==null || m.getSignings().get(0).getCost().equals(""))
+              r.setProperty20("0");
+            else{
+                r.setProperty20(String.valueOf(m.getSignings().get(0).getCost()));
+            }
+
+
+            reports.add(r);
+        }
        return reports;
     }
 }

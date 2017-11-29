@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="placanje"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="482"
+		 pageHeight="425"
+		 columnWidth="482"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="AllSectionsNoDetail"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="com.jasperassistant.designer.GridWidth" value="12" />
+	<property name="com.jasperassistant.designer.GridHeight" value="12" />
+	<property name="com.jasperassistant.designer.DataSource" value="bisisns2" />
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false" />
+	<property name="com.jasperassistant.designer.Units" value="Centimeters" />
+	<property name="com.jasperassistant.designer.Grid" value="false" />
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<reportFont name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+
+	<parameter name="begdate" isForPrompting="true" class="java.lang.String"/>
+	<parameter name="enddate" isForPrompting="true" class="java.lang.String"/>
+	<parameter name="brojbespl" isForPrompting="true" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="ogranak" isForPrompting="true" class="java.lang.Integer"/>
+	<parameter name="dom3" isForPrompting="false" class="org.w3c.dom.Document"/>
+	<queryString><![CDATA[select mt.name, count(u.id) 
+from users u, single s,mmbr_types mt
+where u.branch_id = $P{ogranak} 
+ and s.mmbr_type =mt.id  and u.id = s.user_id
+ and u.id in (select single_id from signing where sdate >= $P{begdate} and sdate <= $P{enddate})
+group by mt.name]]></queryString>
+
+	<field name="EXPRESSION1" class="java.lang.Long">
+		<fieldDescription><![CDATA[column15]]></fieldDescription>
+	</field>
+	<field name="NAME" class="java.lang.String">
+		<fieldDescription><![CDATA[column1]]></fieldDescription>
+	</field>
+
+	<variable name="sum" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{EXPRESSION1}]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="28"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="57"
+						y="8"
+						width="258"
+						height="16"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans" size="11"/>
+					</textElement>
+				<text><![CDATA[Struktura upisanih članova po vrsti učlanjenja:]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="19"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="21"
+						y="1"
+						width="197"
+						height="16"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NAME}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="221"
+						y="1"
+						width="6"
+						height="18"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="231"
+						y="1"
+						width="104"
+						height="17"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{EXPRESSION1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="43"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="83"
+						y="5"
+						width="135"
+						height="18"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[UKUPNO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="221"
+						y="5"
+						width="6"
+						height="18"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="84"
+						y="21"
+						width="134"
+						height="19"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[UKUPNO BESPLATNO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="221"
+						y="21"
+						width="6"
+						height="18"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="231"
+						y="5"
+						width="104"
+						height="17"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{sum}]]></textFieldExpression>
+				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="228"
+						y="21"
+						width="104"
+						height="20"
+						key="subreport"
+						positionType="Float"/>
+					<subreportParameter  name="ogranak">
+						<subreportParameterExpression><![CDATA[$P{ogranak}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="enddate">
+						<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="begdate">
+						<subreportParameterExpression><![CDATA[$P{begdate}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="dom3">
+						<subreportParameterExpression><![CDATA[$P{dom3}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{dom3}, "/report/row")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{brojbespl}]]></subreportExpression>
+				</subreport>
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

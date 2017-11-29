@@ -3,11 +3,13 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,6 +70,29 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
         if (currentCriteria != null) {
             q.addCriteria(currentCriteria);
+            List<Member> m = mongoTemplate.find(q, Member.class);
+            return m;
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public List<Member> getMembersByCategories(Date startDate, Date endDate, String location) {
+         Criteria cr=null;
+        if (location!=null&& !location.equals("") ) {
+            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate).and("location").is(location));
+
+        }else{
+            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate));
+        }
+        if (cr != null) {
+            Query q = new Query();
+            q.addCriteria(cr);
+            q.fields().elemMatch("signings",Criteria.where("signDate").gte(startDate).lte(endDate));
+            q.fields().include("userId").include("firstName").include("lastName").include("address").include("zip").
+                    include("city").include("docNo").include("docCity").include("jmbg").include("userCategory.description");
+            q.with(new Sort(new Sort.Order(Sort.Direction.ASC, "userCategory.description")));
             List<Member> m = mongoTemplate.find(q, Member.class);
             return m;
         }else{

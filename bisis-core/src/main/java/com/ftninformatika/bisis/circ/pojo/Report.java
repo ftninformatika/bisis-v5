@@ -24,7 +24,8 @@ public class Report implements Serializable {
     private String property9;
     private String property10;
     private String property11;
-    private String property12;
+    private Double property12;
     private String property13;
     private String property14;
+    private String property20;
 }

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="kartica_sub"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="555"
+		 columnSpacing="0"
+		 leftMargin="9"
+		 rightMargin="20"
+		 topMargin="14"
+		 bottomMargin="14"
+		 whenNoDataType="AllSectionsNoDetail"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="com.jasperassistant.designer.GridHeight" value="12" />
+	<property name="com.jasperassistant.designer.GridWidth" value="12" />
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false" />
+	<property name="com.jasperassistant.designer.Units" value="Millimeters" />
+	<property name="com.jasperassistant.designer.Grid" value="false" />
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<reportFont name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+
+
+	<field name="Ctlg" class="java.lang.String">
+		<fieldDescription><![CDATA[column1]]></fieldDescription>
+	</field>
+	<field name="Naslov" class="java.lang.String">
+		<fieldDescription><![CDATA[column2]]></fieldDescription>
+	</field>
+	<field name="Autor" class="java.lang.String">
+		<fieldDescription><![CDATA[column3]]></fieldDescription>
+	</field>
+	<field name="Izdavac" class="java.lang.String">
+		<fieldDescription><![CDATA[colun4]]></fieldDescription>
+	</field>
+	<field name="Mesto" class="java.lang.String">
+		<fieldDescription><![CDATA[column5]]></fieldDescription>
+	</field>
+	<field name="Godina" class="java.lang.String">
+		<fieldDescription><![CDATA[column6]]></fieldDescription>
+	</field>
+	<field name="Signatura" class="java.lang.String">
+		<fieldDescription><![CDATA[column7]]></fieldDescription>
+	</field>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="100"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="6"
+						width="42"
+						height="14"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[Autor:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="48"
+						y="6"
+						width="254"
+						height="14"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Autor}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="1"
+						y="24"
+						width="44"
+						height="14"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[Naslov:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="48"
+						y="24"
+						width="250"
+						height="14"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Naslov}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="51"
+						width="48"
+						height="13"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[Izdavač:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="48"
+						y="51"
+						width="248"
+						height="14"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Izdavac}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="67"
+						width="94"
+						height="13"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[Mesto izdavanja:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="101"
+						y="67"
+						width="204"
+						height="13"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Mesto}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="82"
+						width="98"
+						height="14"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[Godina izdavanja:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="101"
+						y="82"
+						width="93"
+						height="14"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Godina}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="340"
+						y="6"
+						width="81"
+						height="16"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[Inventarni broj:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="421"
+						y="6"
+						width="118"
+						height="16"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Ctlg}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="341"
+						y="24"
+						width="61"
+						height="16"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<text><![CDATA[Signatura:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="402"
+						y="24"
+						width="117"
+						height="15"
+						key="textField"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="DejaVu Sans"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Signatura}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>
