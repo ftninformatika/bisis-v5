@@ -1,16 +1,21 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 /**
  * Created by dboberic on 22/11/2017.
@@ -121,6 +126,25 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
 
+    public List<Report> groupMemberByMembershipType(Date startDate, Date endDate, String location){
+        Criteria cr=null;
+        if (location!=null&& !location.equals("") ) {
+            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate).and("location").is(location));
+
+        }else{
+            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate));
+        }
+        Aggregation agg = newAggregation(
+                match(cr),
+                group("membershipType.description").count().as("property21"),
+                project("property21").and("_id").as("property1")
+                );
+
+        AggregationResults<Report> groupResults = mongoTemplate.aggregate(agg, Member.class, Report.class);
+        List<Report> result = groupResults.getMappedResults();
+
+        return result;
+    }
     private Criteria createCriteria(String prefix,String text, String op, Criteria currentCriteria){
 
         if(text != null && !text.equals("") && !fromLendings.contains(prefix)){

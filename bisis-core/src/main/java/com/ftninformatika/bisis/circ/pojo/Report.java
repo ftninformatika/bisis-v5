@@ -28,4 +28,5 @@ public class Report implements Serializable {
     private String property13;
     private String property14;
     private String property20;
+    private long property21;
 }
