@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,17 +42,9 @@ public class CircReportContoller {
      */
 
     @RequestMapping(value="/get_users_by_categories",method = RequestMethod.GET)
-    public List<Report> getUsersByCategory(@RequestParam("start") String start,@RequestParam("end") String end, @RequestParam("location")String location){
+    public List<Report> getUsersByCategory(@RequestParam("start") Date start,@RequestParam("end") Date end, @RequestParam("location")String location){
        List<Report> reports = new ArrayList<>();
-        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-        Date start1 = null, end1=null;
-        try {
-            start1 = sdf.parse(start);
-            end1=sdf.parse(end);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        List<Member> members=mr.getMembersByCategories(start1,end1,location);
+        List<Member> members=mr.getMembersByCategories(start,end,location);
         for(Member m:members) {
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -74,8 +64,6 @@ public class CircReportContoller {
             else{
                 r.setProperty20(String.valueOf(m.getSignings().get(0).getCost()));
             }
-
-
             reports.add(r);
         }
        return reports;
