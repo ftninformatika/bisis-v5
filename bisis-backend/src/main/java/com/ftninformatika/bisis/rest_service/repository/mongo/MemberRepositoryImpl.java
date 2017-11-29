@@ -36,30 +36,30 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         Object[] signDates = (Object[])searchModel.getValueForPrefix("signings.signDate");
         Object[] untilDates = (Object[])searchModel.getValueForPrefix("signings.untilDate");
         if (signDates !=null){
-            if(currentCriteria!=null){
-                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates[0]).lte(signDates[1])));
-            }else{
-                currentCriteria = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates[0]).lte(signDates[1]));
-            }
-
-            //cita lokaciju
+            Criteria signDate=Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates[0]).lte(signDates[1]));
             if (signDates[2]!=null  && signDates[2].equals("")) {
-                Criteria and = new Criteria();
-                currentCriteria = and.andOperator(currentCriteria, Criteria.where("location").is(signDates[2]));
+                signDate=signDate.and("location").is("location");
+            }
+            if(currentCriteria!=null){
+                currentCriteria = new Criteria().andOperator(currentCriteria,signDate);
+            }else{
+                currentCriteria = signDate;
             }
 
         }
+
         if (untilDates !=null){
-            if(currentCriteria!=null) {
-                currentCriteria = new Criteria().andOperator(currentCriteria, Criteria.where("signings").elemMatch(Criteria.where("untilDate").gte(untilDates[0]).lte(untilDates[1])));
-            }else{
-                currentCriteria = Criteria.where("signings").elemMatch(Criteria.where("untilDate").gte(untilDates[0]).lte(untilDates[1]));
-            }
-            //cita lokaciju
+            Criteria untilDate=Criteria.where("signings").elemMatch(Criteria.where("untilDate").gte(untilDates[0]).lte(untilDates[1]));
             if (untilDates[2]!=null && untilDates[2].equals("") ) {
-                Criteria and = new Criteria();
-                currentCriteria = and.andOperator(currentCriteria, Criteria.where("location").is(untilDates[2]));
+                untilDate = untilDate.and("location").is(untilDates[2]);
             }
+            if(currentCriteria!=null) {
+                currentCriteria = new Criteria().andOperator(currentCriteria,untilDate );
+            }else{
+                currentCriteria = untilDate;
+            }
+
+
         }
         if (userIds !=null) {
             if (currentCriteria != null) {
@@ -78,7 +78,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public List<Member> getMembersByCategories(Date startDate, Date endDate, String location) {
+    public List<Member> getSignedMembers(Date startDate, Date endDate, String location, String sortBy) {
          Criteria cr=null;
         if (location!=null&& !location.equals("") ) {
             cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate).and("location").is(location));
@@ -91,14 +91,35 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             q.addCriteria(cr);
             q.fields().elemMatch("signings",Criteria.where("signDate").gte(startDate).lte(endDate));
             q.fields().include("userId").include("firstName").include("lastName").include("address").include("zip").
-                    include("city").include("docNo").include("docCity").include("jmbg").include("userCategory.description");
-            q.with(new Sort(new Sort.Order(Sort.Direction.ASC, "userCategory.description")));
+                    include("city").include("docNo").include("docCity").include("jmbg").
+                    include("userCategory.description").include("membershipType.description");
+            q.with(new Sort(new Sort.Order(Sort.Direction.ASC, sortBy)));
             List<Member> m = mongoTemplate.find(q, Member.class);
             return m;
         }else{
             return null;
         }
     }
+
+    @Override
+    public List<Member> getSignedCorporateMembers(Date startDate, Date endDate, String institution, String location) {
+        Criteria cr=null;
+        if (location!=null&& !location.equals("") ) {
+            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate).and("location").is(location));
+
+        }else{
+            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate));
+        }
+        if (cr != null) {
+            Query q = new Query();
+            q.addCriteria(cr.and("corporateMember.instName").is(institution));
+            List<Member> m = mongoTemplate.find(q, Member.class);
+            return m;
+        }else{
+            return null;
+        }
+    }
+
 
     private Criteria createCriteria(String prefix,String text, String op, Criteria currentCriteria){
 

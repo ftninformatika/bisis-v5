@@ -12,5 +12,6 @@ import java.util.List;
  */
 public interface MemberRepositoryCustom {
     public List<Member> getMembersFilteredByLending(SearchModelMember searchModel, List userIds);
-    public List<Member> getMembersByCategories(Date startDate, Date endDate, String location);
+    public List<Member> getSignedMembers(Date startDate, Date endDate, String location,String sortBy);
+    public List<Member> getSignedCorporateMembers(Date startDate, Date endDate,String institution, String location);
 }
