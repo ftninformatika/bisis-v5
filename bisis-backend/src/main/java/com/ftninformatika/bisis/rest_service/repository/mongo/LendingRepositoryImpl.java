@@ -79,25 +79,26 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         Criteria ctlgNoC, librarianLendC, librarianReturnC, deadlineC;
         Query q=new Query();
         if (ctlgNo != null) {
-            ctlgNoC = Criteria.where("ctlgNo").is(ctlgNo);
+
+            ctlgNoC = Criteria.where("ctlgNo").regex(ctlgNo, "i");
             if (criteria!=null)
-              criteria =criteria.andOperator(ctlgNoC);
+              criteria = new Criteria().andOperator(criteria, ctlgNoC);
             else{
                 criteria = ctlgNoC;
             }
         }
         if (librarianLend != null) {
-            librarianLendC = Criteria.where("librarianLend").is(librarianLend);
+            librarianLendC = Criteria.where("librarianLend").regex(librarianLend,"i");
             if (criteria!=null)
-                criteria =criteria.andOperator(librarianLendC);
+                criteria = new Criteria().andOperator(criteria, librarianLendC);
             else{
                 criteria = librarianLendC;
             }
         }
         if (librarianReturn != null) {
-            librarianReturnC = Criteria.where("librarianReturn").is(librarianReturn);
+            librarianReturnC = Criteria.where("librarianReturn").regex(librarianReturn,"i");
             if (criteria!=null)
-                criteria =criteria.andOperator(librarianReturnC);
+                criteria = new Criteria().andOperator(criteria, librarianReturnC);
             else{
                 criteria = librarianReturnC;
             }
@@ -105,7 +106,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         if (deadlineStart != null) {
             deadlineC = Criteria.where("deadline").gte(deadlineStart).lte(deadlineEnd);
             if (criteria!=null)
-                criteria =criteria.andOperator(deadlineC);
+                criteria = new Criteria().andOperator(criteria, deadlineC);
             else{
                 criteria = deadlineC;
             }

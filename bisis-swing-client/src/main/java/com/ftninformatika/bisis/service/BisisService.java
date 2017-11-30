@@ -266,7 +266,7 @@ public interface BisisService {
      *         vraca null ako nesto ne valja
      */
     @GET("circ_location/lastUserId")
-    Call<Integer> getLastUserId(@Query("location") Integer location);
+    Call<Integer> getLastUserId(@Query("location") String location);
 
     @POST("/corporate_members/save")
     Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
@@ -294,6 +294,13 @@ public interface BisisService {
     @POST ("search/circ/members")
     Call<List<Member>> searchMembers(@Body SearchModelMember searchModel);
 
+    @GET ("/members/getCharged")
+    Call<Member> getChargedUser(@Query("ctlgNo") String ctlgNo);
 
+    @GET ("/members/getLending")
+    Call<Lending> getLending(@Query("ctlgNo") String ctlgNo);
+
+    @POST ("members/dischargeBook")
+    Call<Boolean> dischargeBook(@Body Lending lending);
 
 }

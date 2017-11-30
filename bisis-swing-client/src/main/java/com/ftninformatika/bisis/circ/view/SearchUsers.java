@@ -22,7 +22,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.UsersPrefix;
 import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.circ.pojo.CircLocation;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -833,7 +833,7 @@ public class SearchUsers {
 			q=q+"and "+pref6+"="+endd1+" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		if(!loc1.equals(" ")){ //$NON-NLS-1$
-			q=q+" and lokacija "+((Location)loc1).getDescription()+" "; //$NON-NLS-1$ //$NON-NLS-2$
+			q=q+" and lokacija "+((CircLocation)loc1).getDescription()+" "; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (!startd2.equals("")&&(!endd2.equals(""))){ //$NON-NLS-1$ //$NON-NLS-2$
 			q=q+"and "+pref7+"="+startd2+" do "+endd2+" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -845,7 +845,7 @@ public class SearchUsers {
 			q=q+"and "+pref7+"="+endd2+" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		if(!loc2.equals(" ")){ //$NON-NLS-1$
-			q=q+" and lokacija "+((Location)loc2).getDescription();//TODO-coderId???? getName(); //$NON-NLS-1$
+			q=q+" and lokacija "+((CircLocation)loc2).getDescription();
 		}
 
 		return q;

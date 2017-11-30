@@ -20,13 +20,8 @@ public class CircLocationController {
     @Autowired CircLocationRepository circLocationRepository;
 
     @RequestMapping("/lastUserId")
-    public Integer getLastUserId(@RequestParam("location") Integer location, @RequestHeader("Library") String library){
-        String l = "";
-        if (location < 10)
-            l = "0" + location;
-        else
-            l = Integer.toString(location);
-        List<CircLocation> circLocation = circLocationRepository.findByLocationCodeAndLibrary(l, library);
+    public Integer getLastUserId(@RequestParam("location") String location, @RequestHeader("Library") String library){
+        List<CircLocation> circLocation = circLocationRepository.findByLocationCodeAndLibrary(location, library);
 
         if (circLocation == null || circLocation.size() > 1 || circLocation.size() == 0)
             return null;

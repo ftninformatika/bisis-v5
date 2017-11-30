@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,14 +59,21 @@ public class MemberController {
 
     @RequestMapping( path = "/addUpdateMemberData", method = RequestMethod.POST)
     public boolean addUpdateMemberData(@RequestBody MemberData memberData){
-       if ( memberRep.save(memberData.getMember()) == null )
-           return false;
-       if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
-           lendingRepository.save(memberData.getLendings());
-           itemAvailabilityRepository.save(memberData.getBooks());
-       }
+        try {
+            if (memberData.getMember() != null){
+                memberRep.save(memberData.getMember());
+            }
+            if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
+                lendingRepository.save(memberData.getLendings());
+                itemAvailabilityRepository.save(memberData.getBooks());
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
 
-       return true;
+
     }
 
     @RequestMapping( path = "/getMemberDataById")
@@ -128,6 +136,36 @@ public class MemberController {
         memberRep.save(m);
         return true;
 
+    }
+
+    @RequestMapping( path = "/getCharged" )
+    public Member getChargedMember(@RequestParam("ctlgNo") String ctlgNo){
+        Lending lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);
+        if (lending != null){
+            return memberRep.getMemberByUserId(lending.getUserId());
+        } else {
+            return null;
+        }
+    }
+
+    @RequestMapping( path = "/getLending" )
+    public Lending getLending(@RequestParam("ctlgNo") String ctlgNo){
+        Lending lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);
+        return lending;
+    }
+
+    @RequestMapping( path = "/dischargeBook" )
+    public Boolean dischargeBook(@RequestBody Lending lending){
+        try {
+            Lending l = lendingRepository.save(lending);
+            ItemAvailability item = itemAvailabilityRepository.getByCtlgNo(lending.getCtlgNo());
+            item.setBorrowed(false);
+            itemAvailabilityRepository.save(item);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @RequestMapping( path = "/fixMemberOrganizationIds")

@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +64,47 @@ public class SearchModel {
 
         return retVal.toString();
     }
+    public Object getValueForPrefix(String pref){
+        if (pref.equals(getPref1())){
+            return getText1();
+        }
+        if (pref.equals(getPref2())){
+            return getText2();
+        }
+        if (pref.equals(getPref3())){
+            return getText3();
+        }
+        if (pref.equals(getPref4())){
+            return getText4();
+        }
+        if (pref.equals(getPref5())){
+            return getText5();
+        }
+        return null;
+    }
 
+    public void setValueForPrefix(String pref,String value){
+        if (pref.equals(getPref1())){
+            setText1(value);
+        }
+        if (pref.equals(getPref2())){
+            setText2(value);
+        }
+        if (pref.equals(getPref3())){
+            setText3(value);
+        }
+        if (pref.equals(getPref4())){
+            setText4(value);
+        }
+        if (pref.equals(getPref5())){
+            setText5(value);
+        }
+    }
+    public void fixDepartments(){
+        for (int i = 0; i < this.departments.size(); i++){
+            if(departments.get(i).length() == 1)
+                departments.set(i, "0" + departments.get(i));
+        }
+    }
 
 }
