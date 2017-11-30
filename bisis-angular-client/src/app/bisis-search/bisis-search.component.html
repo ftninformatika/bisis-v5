@@ -14,10 +14,10 @@
       </div><br>
       <div class="ui-grid-row" *ngIf="departmentList.length > 0">
           <div class="ui-grid-col-4"  align="left">
-              <b>Одаберите одељење:</b>
+              <b>Одаберите огранке:</b>
           </div>
           <div class="ui-grid-col-8" align="left">
-              <p-multiSelect  [selectedItemsLabel]="'{0} одабраних одељења'" [defaultLabel]="'Било које одељење'"  [options]="departmentList" [(ngModel)]="selectedDepartments"></p-multiSelect>
+              <p-multiSelect  [selectedItemsLabel]="'{0} одабраних огранака'" [defaultLabel]="'Било који огранак'"  [options]="departmentList" [(ngModel)]="selectedDepartments"></p-multiSelect>
           </div>
       </div>
   </div>

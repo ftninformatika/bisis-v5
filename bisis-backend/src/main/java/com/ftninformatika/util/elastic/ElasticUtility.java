@@ -31,7 +31,6 @@ public class ElasticUtility {
 
     public static BoolQueryBuilder searchUniversalQuery(UniversalSearchModel universalSearchModel) {
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
-        universalSearchModel.fixDepartments();
 
         if (universalSearchModel.getSearchText() != null && ! "".equals(universalSearchModel.getSearchText())){
             retVal.must(QueryBuilders.simpleQueryStringQuery(universalSearchModel.getSearchText()));
@@ -54,7 +53,6 @@ public class ElasticUtility {
     //formiranje Query-ja za glavnu pretragu zapisa
     public static BoolQueryBuilder makeQuery(SearchModel sm){
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
-        sm.fixDepartments();
 
         try {
             if (sm.getText1() != null && !"".equals(sm.getText1()))

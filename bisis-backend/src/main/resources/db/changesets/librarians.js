@@ -3,7 +3,7 @@
 
 //changeset petar:ChangeSet-librarians
 db.librarians.insert({
-    "username": "admin.admin@gbns.com",
+    "username": "admin.admin@gbns",
     "password": "admin1",
     "biblioteka": "gbns",
     "authorities" : [
@@ -22,7 +22,7 @@ db.librarians.insert({
             { 'fieldName': '001', 'subfieldName': '7'},
             { 'fieldName': '001', 'subfieldName': 'a'},
             { 'fieldName': '001', 'subfieldName': 'b'},
-            { 'fieldName': '001', 'subfieldName': 'c'},
+            { 'fieldName': '001', 'subfieldName': 'c'}
         ],
         'mandatoryFields': [
             { 'fieldName': '001', 'subfieldName': '7'},
@@ -35,7 +35,7 @@ db.librarians.insert({
                     { 'fieldName': '001', 'subfieldName': '7'},
                     { 'fieldName': '001', 'subfieldName': 'a'},
                     { 'fieldName': '001', 'subfieldName': 'b'},
-                    { 'fieldName': '001', 'subfieldName': 'c'},
+                    { 'fieldName': '001', 'subfieldName': 'c'}
                 ],
                 'mandatoryFields': [
                     { 'fieldName': '001', 'subfieldName': '7'},
