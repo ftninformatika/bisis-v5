@@ -1,15 +1,16 @@
 import {SelectItem} from 'primeng/primeng';
+import {Prefix} from "./Prefix";
 
 export class SelectItemPrefix implements  SelectItem{
 
     label: any;
-    value: any;
+    value: Prefix;
     styleClass?: string;
-    coder: boolean = false;
 
-    constructor(l: string, v: any){
-        this.label = l;
-        this.value = v;
+    constructor(label: any, value: any, isCoder: boolean = false){
+        this.label = label;
+        this.value = new Prefix(value, label, isCoder);
     }
+
 
 }
