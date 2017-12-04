@@ -410,8 +410,6 @@ public class RecordsController {
                 for (Record rec: lr){
                     Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
                     ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
-                   // ee.getPrefixes().put("OD", rec.getDepartmentsString());
-                    //ovo je reseno u PrefixConverteru
                     ep.add(ee);
                }
                 elasticRecordsRepository.save(ep);

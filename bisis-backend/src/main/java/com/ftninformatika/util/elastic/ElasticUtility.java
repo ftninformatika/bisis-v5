@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
 import java.util.List;
@@ -29,17 +30,25 @@ public class ElasticUtility {
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
 
         if (universalSearchModel.getSearchText() != null && ! "".equals(universalSearchModel.getSearchText())){
-            retVal.must(QueryBuilders.simpleQueryStringQuery(universalSearchModel.getSearchText()));
+            //retVal.must(QueryBuilders.simpleQueryStringQuery(universalSearchModel.getSearchText()));
+            retVal.should(QueryBuilders.matchQuery("prefixes.AU", universalSearchModel.getSearchText()));
+            retVal.should(QueryBuilders.matchQuery("prefixes.TI", universalSearchModel.getSearchText()));
+            retVal.should(QueryBuilders.matchQuery("prefixes.BN", universalSearchModel.getSearchText())); //isbn??
+            retVal.should(QueryBuilders.matchQuery("prefixes.SP", universalSearchModel.getSearchText())); //issn
+            retVal.should(QueryBuilders.matchQuery("prefixes.SB", universalSearchModel.getSearchText())); //predmetne odrednice
+            retVal.should(QueryBuilders.matchQuery("prefixes.DC", universalSearchModel.getSearchText())); //udk??
+            retVal.should(QueryBuilders.matchQuery("prefixes.KW", universalSearchModel.getSearchText()));
+            retVal.should(QueryBuilders.matchQuery("prefixes.PP", universalSearchModel.getSearchText()));
+            retVal.should(QueryBuilders.matchQuery("prefixes.PU", universalSearchModel.getSearchText()));
+
+            retVal.minimumNumberShouldMatch(1);
+
 
         }
 
         if (universalSearchModel.getDepartments() != null && universalSearchModel.getDepartments().size() > 0){
             for (String dep :universalSearchModel.getDepartments()){
                 retVal.must(QueryBuilders.matchQuery("prefixes.OD", dep));
-                //BoolQueryBuilder queryDeps = QueryBuilders.boolQuery();
-                //queryDeps.should(QueryBuilders.matchQuery("prefixes.OD", dep));
-                //queryDeps.minimumNumberShouldMatch(dep.)
-
             }
         }
 
