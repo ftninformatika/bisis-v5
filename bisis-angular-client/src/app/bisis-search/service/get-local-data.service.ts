@@ -16,7 +16,7 @@ export class GetCoder {
     }
 
 
-    getCoderData() {
+    getCoderData(prefix) {
 
         return this._http.get('/assets/utils/coders.json')
             .map(data => data.json());

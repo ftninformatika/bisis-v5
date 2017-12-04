@@ -41,14 +41,14 @@ export class SearchFormComponent implements OnInit {
 
   changed(pref, fieldNum){
     this.text[fieldNum] = "";
-    if (["LA"].indexOf(pref) > -1) { // If prefix is coder
+    if (["LA", "RT", "CC"].indexOf(pref) > -1) { // If prefix is coder
 
-      this.getCoder.getCoderData().subscribe(
+      this.getCoder.getCoderData(pref).subscribe(
           response => {
             console.log(response);
             arrayify(response[pref].codes).forEach(
                 d => {
-                  this.coderValues[fieldNum].push({"label": d.description, "value": d.code});
+                  this.coderValues[fieldNum].push({"label": d.value, "value": d.code});
                 }
             );
           }
@@ -192,7 +192,6 @@ export class SearchFormComponent implements OnInit {
     this.allPrefixes.push({label: 'Збирка', value: 'CL'});
     //korporativno telo ako izbacimo onda АУ treba da pretrazuje 71x i 91x
     //predmetne odrednice - sve (da li sve u jedan prefiks ili sve vrste p o ubaciti?)
-
     this.allPrefixes.push({label: 'Инвентарни број', value: 'IN'});
     this.allPrefixes.push({label: 'Место издавања', value: 'PP'});
     this.allPrefixes.push({label: 'Број записа', value: 'RN'});
