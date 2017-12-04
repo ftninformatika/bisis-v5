@@ -43,7 +43,7 @@ export class SearchFormComponent implements OnInit {
     this.text[fieldNum] = "";
     if (["LA"].indexOf(pref) > -1) { // If prefix is coder
 
-      this.getCoder.getObjectData().subscribe(
+      this.getCoder.getCoderData().subscribe(
           response => {
             console.log(response);
             arrayify(response[pref].codes).forEach(
@@ -57,7 +57,6 @@ export class SearchFormComponent implements OnInit {
       }
     else {
       this.coder[fieldNum] = false;
-
     }
   }
 
@@ -163,7 +162,6 @@ export class SearchFormComponent implements OnInit {
 
   constructor( public bisisService: BisisSearchService, public libraryService: LibraryService, public messageService: MessageService, public getCoder: GetCoder) {
       this.populateAdvancedFormCombos();
-
   }
 
   private populateAdvancedFormCombos(){
@@ -184,10 +182,21 @@ export class SearchFormComponent implements OnInit {
     this.allPrefixes.push({label: 'Кључне речи', value: 'KW'});
     this.allPrefixes.push({label: 'Издавач', value: 'PU'});
     this.allPrefixes.push({label: 'Година издавања', value: 'PY'});
+    this.allPrefixes.push({label: 'Држава издавања', value: 'CO'});
+    this.allPrefixes.push({label: 'Библиографски ниво', value: 'DT'});
+    this.allPrefixes.push({label: 'УДК', value: 'DC'});
+    this.allPrefixes.push({label: 'ISBN', value: 'BN'});
+    this.allPrefixes.push({label: 'ISSN', value: 'SP'});
+    this.allPrefixes.push({label: 'Код за врсту записа', value: 'RT'}); //coder
+    this.allPrefixes.push({label: 'Код за врсту садржаја', value: 'CC'}); //coder //kod za vrstu sadrzaja dodati 105
+    this.allPrefixes.push({label: 'Збирка', value: 'CL'});
+    //korporativno telo ako izbacimo onda АУ treba da pretrazuje 71x i 91x
+    //predmetne odrednice - sve (da li sve u jedan prefiks ili sve vrste p o ubaciti?)
+
     this.allPrefixes.push({label: 'Инвентарни број', value: 'IN'});
     this.allPrefixes.push({label: 'Место издавања', value: 'PP'});
     this.allPrefixes.push({label: 'Број записа', value: 'RN'});
-    this.allPrefixes.push({label: 'Језик', value: 'LA'}); //jezik
+    this.allPrefixes.push({label: 'Језик', value: 'LA'}); ////Jezik LG, 101c, LO izbaciti (verovatno misli na LA i LO???)
     this.allPrefixes.push({label: 'Наслов', value: 'SG'}); //signatura
     this.bondings.push({label: 'AND', value: 'AND'});
     this.bondings.push({label: 'OR', value: 'OR'});
