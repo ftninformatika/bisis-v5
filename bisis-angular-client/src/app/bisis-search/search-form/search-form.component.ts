@@ -6,7 +6,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 import {arrayify} from "tslint/lib/utils";
 import {RecordsPageModel} from "../model/RecordsPageModel";
 import {MessageService} from "primeng/components/common/messageservice";
-import * as globals from "../../globals"
+import {GetCoder} from "../service/get-local-data.service";
 
 
 @Component({
@@ -41,25 +41,20 @@ export class SearchFormComponent implements OnInit {
 
   changed(pref, fieldNum){
     this.text[fieldNum] = "";
-    if (pref /*in globals.coderPrefixes*/ ["LA"]) { // If prefix is coder
-      this.coder[fieldNum] = true; // Hide text, show dropdown
-      this.libraryService.getLanguageCoders().subscribe(
+    if (["LA"].indexOf(pref) > -1) { // If prefix is coder
+
+      this.getCoder.getObjectData().subscribe(
           response => {
             console.log(response);
-            arrayify(response).forEach(
-              d => {
-                this.coderValues[fieldNum].push({"label": d.description, "value": d.description});
-            }
+            arrayify(response[pref].codes).forEach(
+                d => {
+                  this.coderValues[fieldNum].push({"label": d.description, "value": d.code});
+                }
             );
           }
       );
-      /*this.coder[fieldNum] = true;
-      globals.coderPrefixValues[pref].forEach(
-          v => {
-            this.coderValues[fieldNum].push({"label": v.name, "value": v.value});
-          }
-      );*/
-    }
+      this.coder[fieldNum] = true; // Hide text, show dropdown
+      }
     else {
       this.coder[fieldNum] = false;
 
@@ -166,7 +161,7 @@ export class SearchFormComponent implements OnInit {
     }
   }
 
-  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService, public messageService: MessageService) {
+  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService, public messageService: MessageService, public getCoder: GetCoder) {
       this.populateAdvancedFormCombos();
 
   }

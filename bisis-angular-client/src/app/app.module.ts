@@ -128,7 +128,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { AuthHelper } from './auth/utilities/authhelper';
 import { LibraryService } from './service/library.service';
-
+import { GetCoder } from './bisis-search/service/get-local-data.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -256,7 +256,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CarService, CountryService, EventService, NodeService, BisisSearchService,
-        AuthGuard, AuthHelper, LibraryService, MessageService
+        AuthGuard, AuthHelper, LibraryService, MessageService, GetCoder
     ],
     bootstrap: [AppComponent]
 })
