@@ -1,17 +1,24 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
+import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by dboberic on 03/11/2017.
@@ -21,6 +28,12 @@ import java.util.List;
 public class CircReportContoller {
     @Autowired
     MemberRepository mr;
+
+    @Autowired
+    LendingRepository lr;
+
+    @Autowired
+    RecordsRepository rr;
 
     /**
      * ukupan broj korisnika koji su se uclanili od pocetka godine
@@ -71,8 +84,8 @@ public class CircReportContoller {
     }
 
     /*
-    uclanjeni korisnici sa tipom uclanjenja
-     */
+    uclanjeni korisnici sa tipom uclanjenja*/ /*MmbrTypeReportCommand*/
+
     @RequestMapping(value = "/get_members_with_member_type", method = RequestMethod.GET)
     public List<Report> getMembersWithMemberType(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
@@ -119,6 +132,8 @@ public class CircReportContoller {
         return reports;
     }
 
+    /*uclanjeni korisnici preko nekog korporativnog clana*//*MemberByGroupReportCommand*/
+
     @RequestMapping(value = "/get_signed_corporateMembers", method = RequestMethod.GET)
     public List<Report> getSignedCorporateMembers(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location, @RequestParam("company") String company) {
         List<Report> reports = new ArrayList<>();
@@ -132,10 +147,42 @@ public class CircReportContoller {
         }
         return reports;
     }
+/*broj uclanjenih korisnika grupisanih po tipu*/ /*MemberTypeReportCommand*/
 
     @RequestMapping(value = "/group_by_membership_type", method = RequestMethod.GET)
     public List<Report> groupByMembershipType(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location){
         List<Report> reports = mr.groupMemberByMembershipType(start,end,location);
+        return reports;
+    }
+
+    /*istorija zaduzenja clana *//*LendingHistoryReportCommand*/
+
+    @RequestMapping(value = "/get_lending_history", method = RequestMethod.GET)
+    public List<Report> getLendingHistory(@RequestParam("memberNo") String memberNo,@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location){
+        List<Report> reports=new ArrayList<Report>();
+        List<Lending> lendings;
+        if (location==null ||location.equals("")){
+            lendings =lr.findLendingsByUserIdAndLendDateBetween(memberNo,start,end);
+        }else{
+            lendings = lr.findLendingsByUserIdAndLendDateBetweenAndLocation(memberNo,start,end,location);
+        }
+        List<String> ctlgNos= lendings.stream().map(l -> l.getCtlgNo()).collect(Collectors.toList());
+        Record r;
+        RecordPreview rp = new RecordPreview();
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+
+       for(Lending l:lendings){
+            r = rr.getRecordByPrimerakInvNum(l.getCtlgNo());
+            rp.init(r);
+            Report report = new Report();
+            report.setProperty1(sdf.format(l.getLendDate()));
+            report.setProperty2(sdf.format(l.getReturnDate()));
+            report.setProperty3(rp.getAuthor());
+            report.setProperty4(rp.getTitle());
+            report.setProperty5(l.getCtlgNo());
+            reports.add(report);
+       }
+
         return reports;
     }
 }
