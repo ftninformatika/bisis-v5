@@ -33,12 +33,12 @@ import javax.swing.table.TableCellRenderer;
 public class CharacterLookup extends JDialog {
 
   public CharacterLookup(JFrame parent) {
-    super(parent, "Izaberite karakter", true);
+    super(parent, "Изаберите карактер", true);
     
-    btnOK = new JButton("Potvrdi");
+    btnOK = new JButton("Потврди");
     btnOK.setIcon(new ImageIcon(getClass().getResource(
         "/icons/images/ok.gif")));
-    btnCancel = new JButton("Odustani");
+    btnCancel = new JButton("Одустани");
     btnCancel.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 

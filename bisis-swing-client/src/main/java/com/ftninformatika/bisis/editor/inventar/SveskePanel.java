@@ -63,7 +63,7 @@ public class SveskePanel extends JPanel {
     brojTxtFld = new JTextField(10); 
     knjigaTxtFld = new JTextField(10);
     datumStatusaTxtFld = new JTextField(10);
-    dodajSveskuButton = new JButton("Dodaj");
+    dodajSveskuButton = new JButton("Додај");
     dodajSveskuButton.setIcon(new ImageIcon(getClass().getResource(
     "/icons/plus16.png")));
     createSveskeTable();
@@ -256,10 +256,10 @@ public class SveskePanel extends JPanel {
   private void deleteSelectedSveska(){
   	if(sveskeTable.getSelectedRow()>=0){
 	  	Sveska s = sveskeTableModel.getRow(sveskeTable.getSelectedRow());
-	  	Object[] options = { "Obri\u0161i", "Odustani" };
-	  	String message = "Da li ste sigurni da \u017eelite da obri\u0161ete svesku, \n" +
-	  			"inventarni broj: "+s.getInvBroj()+"?";  	
-			int ret = JOptionPane.showOptionDialog(null, message , "Brisanje", 
+	  	Object[] options = { "Обриши", "Одустани" };
+	  	String message = "Да ли сте сигурни да желите да обришете свеску, \n" +
+	  			"инвентарни број: "+s.getInvBroj()+"?";
+			int ret = JOptionPane.showOptionDialog(null, message , "Брисање",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 					null, options, options[0]); 
 			if(ret==0)
@@ -273,13 +273,13 @@ public class SveskePanel extends JPanel {
     //inputPanel.setLayout(new MigLayout("","[][]","[]0[]5[]0[]5[]0[]5[]0[]5[]0[]"));    
     inputPanel.setLayout(new MigLayout("","[]5[]","[]0[]5[]0[]5[]0[]10[]"));
     //inputPanel.setLayout(new MigLayout("","[]5[]","[]0[]5[]0[]5[]"));
-    inputPanel.add(new JLabel("Broj sveske:"),"");
-    inputPanel.add(new JLabel("Knjiga (Godi\u0161te):"),"wrap");
+    inputPanel.add(new JLabel("Број свеске:"),"");
+    inputPanel.add(new JLabel("Књига (Годиште):"),"wrap");
     inputPanel.add(brojTxtFld,"");
     inputPanel.add(knjigaTxtFld,"wrap");   
-    inputPanel.add(new JLabel("Inventarni broj"),"wrap, span 2");    
+    inputPanel.add(new JLabel("Инвентарни број"),"wrap, span 2");
     inputPanel.add(invBrojPanel,"wrap, span 2");    
-    inputPanel.add(new JLabel("Status:"),"wrap, span 2");
+    inputPanel.add(new JLabel("Статус:"),"wrap, span 2");
     inputPanel.add(statusPanel,"wrap, span 2");   
     //inputPanel.add(new JLabel("Datum statusa:"),"wrap, span 2");
     //inputPanel.add(datumStatusaTxtFld, "wrap, span 2");

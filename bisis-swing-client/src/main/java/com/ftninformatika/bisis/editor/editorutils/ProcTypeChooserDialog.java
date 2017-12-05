@@ -42,15 +42,15 @@ public class ProcTypeChooserDialog extends CenteredDialog {
 	
 	public ProcTypeChooserDialog(){
 		this.setSize(473, 400);		
-		this.setTitle("Promena tipa obrade");		
+		this.setTitle("Промена типа обраде");
 		initializeList();	
-		labelString = "Tipovi obrade za bibliotekara: \n"
+		labelString = "Типови обраде за библиотекара: \n"
 			+ BisisApp.appConfig.getLibrarian().getUsername();
-		okButton = new JButton("Potvrdi");		
+		okButton = new JButton("Потврди");
 		okButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
 		
-		cancelButton = new JButton("Odustani");
+		cancelButton = new JButton("Одустани");
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 		layoutPanels();

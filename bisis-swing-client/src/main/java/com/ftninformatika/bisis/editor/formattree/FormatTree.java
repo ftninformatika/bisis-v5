@@ -149,8 +149,8 @@ public class FormatTree extends JTree {
 		popupMenu = new JPopupMenu();
 		popupMenu.setInvoker(this);			
 		JMenuItem miCollapseOrExpand = new JMenuItem();
-		if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText("<html><b>Otvori</b>");
-		else miCollapseOrExpand.setText("<html><b>Zatvori</b>");		
+		if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText("<html><b>Отвори</b>");
+		else miCollapseOrExpand.setText("<html><b>Затвори</b>");
 		miCollapseOrExpand.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				onEnter();				
@@ -252,8 +252,8 @@ public class FormatTree extends JTree {
   public class ExpandAllAction extends AbstractAction {
 
     public ExpandAllAction() {
-      putValue(SHORT_DESCRIPTION, "Otvaranje svih elemenata stabla");
-      putValue(NAME, "Otvori sve");     
+      putValue(SHORT_DESCRIPTION, "Отварање свих елемената стабла");
+      putValue(NAME, "Отвори све");
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_MASK));
      
     }    
@@ -266,8 +266,8 @@ public class FormatTree extends JTree {
   public class CollapseAllAction extends AbstractAction {
 
     public CollapseAllAction() {
-      putValue(SHORT_DESCRIPTION, "Zatvaranje svih elemenata stabla");
-      putValue(NAME, "Zatvori sve");     
+      putValue(SHORT_DESCRIPTION, "Затварање свих елемената стабла");
+      putValue(NAME, "Затвори све");
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_MASK));     
     }    
     public void actionPerformed(ActionEvent ev) {
@@ -278,8 +278,8 @@ public class FormatTree extends JTree {
   public class AddFieldAction extends AbstractAction {
 
     public AddFieldAction() {
-      putValue(SHORT_DESCRIPTION, "dodavanje selektovanog polja u zapis");
-      putValue(NAME, "Dodaj polje u zapis");     
+      putValue(SHORT_DESCRIPTION, "додавање селектованог поља у запис");
+      putValue(NAME, "Додај поље у запис");
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.SHIFT_MASK));     
     }    
     public void actionPerformed(ActionEvent ev) {
@@ -290,8 +290,8 @@ public class FormatTree extends JTree {
   public class AddEmptyFieldAction extends AbstractAction {
 
    public AddEmptyFieldAction() {
-     putValue(SHORT_DESCRIPTION, "dodavanje selektovanog polja u zapis, bez potpolja");
-     putValue(NAME, "Dodaj prazno polje u zapis");     
+     putValue(SHORT_DESCRIPTION, "додавање одабраног поља у запис, без потпоља");
+     putValue(NAME, "Додај празно поље у запис");
      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_MASK));     
    }    
    public void actionPerformed(ActionEvent ev) {
@@ -302,8 +302,8 @@ public class FormatTree extends JTree {
   public class AddSubfieldAction extends AbstractAction {
 
 	    public AddSubfieldAction() {
-	      putValue(SHORT_DESCRIPTION, "dodavanje potpolja");
-	      putValue(NAME, "Dodaj potpolja");     
+	      putValue(SHORT_DESCRIPTION, "додавање потпоља");
+	      putValue(NAME, "Додај потпоља");
 	      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD4,0));     
 	    }    
 	    public void actionPerformed(ActionEvent ev) {

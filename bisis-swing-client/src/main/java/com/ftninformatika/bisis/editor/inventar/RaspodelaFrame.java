@@ -71,9 +71,9 @@ public class RaspodelaFrame extends JInternalFrame {
 	
 	
 	public RaspodelaFrame(InventarPanel mp) {
-    super("Raspodela primeraka", true, true, false, false);
+    super("Расподела примерака", true, true, false, false);
     this.monograph = mp instanceof MonographInventarPanel;
-    if(!monograph) setTitle("Raspodela godina");
+    if(!monograph) setTitle("Расподела година");
 		
 		this.inventarPanel = mp;
 		this.setSize(new Dimension(800,400));
@@ -107,11 +107,11 @@ public class RaspodelaFrame extends JInternalFrame {
 		raspodelaScrollPane = new JScrollPane(raspodelaTable);
 		
 		raspodelaButtonsPanel = new JPanel();
-		sacuvajButton = new JButton("Raspodeli");
+		sacuvajButton = new JButton("Расподели");
 		sacuvajButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
 		sacuvajButton.setEnabled(false);
-		odustaniButton = new JButton("Odustani");
+		odustaniButton = new JButton("Одустани");
 		odustaniButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 		raspodelaButtonsPanel.setLayout(new GridBagLayout());
@@ -125,21 +125,21 @@ public class RaspodelaFrame extends JInternalFrame {
 		MigLayout layout = new MigLayout("","[][]20[]","[][]30[]0[]10[]0[]10[][]");
 		setLayout(layout);
 		
-		add(new JLabel("Broj knjiga za raspodelu:"),"align right");		
+		add(new JLabel("Број књига за расподелу:"),"align right");
 		add(brojPrimTxtFld,"wrap, width :30: ");		
-		add(new JLabel("Preostalo:"),"align right");		
+		add(new JLabel("Преостало:"),"align right");
 		add(preostaloTxtFld,"wrap, width :30:");
 	
-		add(new JLabel("Odeljenje:"),"cell 0 2 2 1");
+		add(new JLabel("Одељење:"),"cell 0 2 2 1");
 		add(odeljenjePanel,"cell 0 3 2 1");
-		add(new JLabel("Inventarna knjiga:"),"cell 0 4 2 1");
+		add(new JLabel("Инвентарна књига:"),"cell 0 4 2 1");
 		add(invKnjPanel,   "cell 0 5 2 1");
-		add(new JLabel("Podlokacija:"),"cell 0 6 2 1");
+		add(new JLabel("Подлокација:"),"cell 0 6 2 1");
 		add(podlokacijaPanel,   "cell 0 7 2 1");
 		
 		JPanel brPrim = new JPanel();
 		brPrim.setLayout(new MigLayout());
-		brPrim.add(new JLabel("Broj primeraka:"));
+		brPrim.add(new JLabel("Број примерака:"));
 		brPrim.add(raspodelaSpinner,"growy");
 		brPrim.add(dodajButton);		
 		add(brPrim,"cell 0 8 2 1");		
@@ -205,7 +205,7 @@ public class RaspodelaFrame extends JInternalFrame {
 		Primerak primerak = ((MonographInventarPanel)inventarPanel).getPrimerakFromForm();
 		try {
 			if (odeljenjePanel.getCode().equals("") || odeljenjePanel.getCode().equals("")) 
-				throw new RaspodelaException("Nisu uneti svi podaci za raspodelu!");
+				throw new RaspodelaException("Нису унети сви подаци за расподелу!");
 			primerak.setOdeljenje(odeljenjePanel.getCode());
 			String invKnj = invKnjPanel.getCode();
 			primerak.setInvBroj(primerak.getOdeljenje()+invKnj+"#######");		
@@ -214,7 +214,7 @@ public class RaspodelaFrame extends JInternalFrame {
 			addPrimerak(primerak,(Integer)raspodelaSpinner.getValue());
 		} catch (RaspodelaException e) {
 			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-					e.getMessage(),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+					e.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
 			raspodelaSpinner.setValue(new Integer(1));
 		}		
 	}
@@ -225,7 +225,7 @@ public class RaspodelaFrame extends JInternalFrame {
 			int brPrimeraka = Integer.parseInt(brojPrimTxtFld.getText());
 			preostaloTxtFld.setText(brPrimeraka-raspodelaTableModel.getZbirRaspodeljenih()+"");
 		}catch(NumberFormatException e){
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Unesite broj knjiga za raspodelu!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Унесите број књига за расподелу!","Грешка",JOptionPane.ERROR_MESSAGE);
 		}	
 	}
 

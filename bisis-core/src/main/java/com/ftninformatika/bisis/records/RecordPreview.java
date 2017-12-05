@@ -20,7 +20,6 @@ public class RecordPreview {
 
 
     private String author;
-    private String titleAdditions;
     private String title;
     private String publisher;
     private String publishingYear;
@@ -41,7 +40,6 @@ public class RecordPreview {
         this.title = getTitle(r);
         this.publisher = getPublisher(r);
         this.publishingYear = getYear(r);
-        this.titleAdditions = r.getSubfieldContent("200e");
         this.signature = getSignature(r);
         this.pages = r.getSubfieldContent("215a");
         this.dimensions = r.getSubfieldContent("215d");

@@ -16,7 +16,7 @@ import java.util.List;
 public class AddUSubfieldDialog extends CenteredDialog {
 	
 	// clasa jos nije u funkciji 
-	private String title = "Dodavanje potpolja formata";
+	private String title = "Додавање потпоља формата";
 	private UField ownerField;
 	private JList sfList = new JList();	
 	private UElementListCellRenderer renderer = new UElementListCellRenderer();	
@@ -46,7 +46,7 @@ public class AddUSubfieldDialog extends CenteredDialog {
     getRootPane().setDefaultButton(okButton);	
 		getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		fLabel = new JLabel("<html>Dodavanje potpolja polja:<br>"
+		fLabel = new JLabel("<html>Додавање потпоља поља:<br>"
 				+ownerField.getName()+"-"+ownerField.getDescription()+"</html>");
 		c.gridx = 0;
 		c.gridy = 0;			
@@ -69,10 +69,10 @@ public class AddUSubfieldDialog extends CenteredDialog {
 		this.getContentPane().add(sfListScrollPane,c);
 		
 		buttonsPanel = new JPanel();
-		okButton = new JButton("Potvrdi");
+		okButton = new JButton("Потврди");
 		okButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
-		cancelButton = new JButton("Odustani");
+		cancelButton = new JButton("Одустани");
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 		buttonsPanel.add(okButton,null);

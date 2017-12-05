@@ -35,7 +35,7 @@ import net.miginfocom.swing.MigLayout;
 public class GroupInvFrame extends JInternalFrame {
 	
 	public GroupInvFrame(){
-		super("Grupni inventar", true, true, true, true);
+		super("Групни инвентар", true, true, true, true);
 		//setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     setPreferredSize(new Dimension(700,310));  
@@ -52,13 +52,13 @@ public class GroupInvFrame extends JInternalFrame {
     loadFilePanel.add(browseButton,"grow, wrap");
     loadFilePanel.add(loadFileButton, "");
     
-    tabbedPane.addTab("Ru\u010dni unos", manualInputPanel);
+    tabbedPane.addTab("Ручни унос", manualInputPanel);
     tabbedPane.setMnemonicAt(0, KeyEvent.VK_R);    
-    tabbedPane.addTab("U\u010ditavanje fajla",loadFilePanel);
+    tabbedPane.addTab("Учитавање фајла",loadFilePanel);
     tabbedPane.setMnemonicAt(1, KeyEvent.VK_U);    
     
     manualInputPanel.setLayout(new MigLayout("insets 10","[]10[]","[]10[]"));
-    manualInputPanel.add(new JLabel("Inventarni broj"), "grow, wrap");
+    manualInputPanel.add(new JLabel("Инвентарни број"), "grow, wrap");
     manualInputPanel.add(invBrojTextField,"grow");
     manualInputPanel.add(dodajButton,"grow");
     
@@ -222,10 +222,10 @@ public class GroupInvFrame extends JInternalFrame {
 		boolean ok = tableModel.updateRecords();
 		if(ok)
 			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-					"Podaci su uspe\u0161no sacuvani!","Izve\u0161taj",JOptionPane.INFORMATION_MESSAGE);
+					"Подаци су успешно сачувани!","Извештај",JOptionPane.INFORMATION_MESSAGE);
 		else
 			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-					"Do\u0161lo je do gre\u0161ke. Podaci nisu sacuvani!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+					"Дошло је до грешке. Подаци нису сачувани!","Грешка",JOptionPane.ERROR_MESSAGE);
 	}
 	
 	private void handleClearList(){
@@ -245,13 +245,13 @@ public class GroupInvFrame extends JInternalFrame {
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
 	private JTextField invBrojTextField = new JTextField(10);
-	private JButton dodajButton = new JButton("Dodaj");
+	private JButton dodajButton = new JButton("Додај");
 	private JTextField fileNameTxtFld = new JTextField(20);
-	private JButton browseButton = new JButton("Prona\u0111i fajl");
-	private JButton loadFileButton = new JButton("U\u010ditaj brojeve");
-	private JButton changeValueButton = new JButton("Promeni vrednost");
-	private JButton saveChangesButton = new JButton("Sa\u010duvaj");
-	private JButton resetTableButton = new JButton("Poni\u0161ti");	
+	private JButton browseButton = new JButton("Пронађи фајл");
+	private JButton loadFileButton = new JButton("Учитај бројеве");
+	private JButton changeValueButton = new JButton("Промени вредност");
+	private JButton saveChangesButton = new JButton("Сачувај");
+	private JButton resetTableButton = new JButton("Поништи");
 	private JFileChooser fileChooser = new JFileChooser();
 	
 		

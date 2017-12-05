@@ -44,8 +44,8 @@ public class GroupInvCodeDialog extends CenteredDialog {
 		this.items = items;
 		this.name = name;
 		this.setSize(280, 300);		
-		setTitle("Promena vrednosti za "+name);
-		isStatus = name.equals("Status");
+		setTitle("Промена вредности за "+name);
+		isStatus = name.equals("Статус");
 		initialize();
 	}
 
@@ -54,7 +54,7 @@ public class GroupInvCodeDialog extends CenteredDialog {
 			setLayout(new MigLayout("", "", ""));
 			datePanel = new JPanel();
 			datePanel.setLayout(new MigLayout("","[]10[]",""));
-			datePanel.add(new JLabel("Datum statusa: "));			
+			datePanel.add(new JLabel("Датум статуса: "));
 			datePanel.add(dateTxtFld,"grow");
 			Date today = new Date();
 	    dateTxtFld.setText(InventarConstraints.sdf.format(today));
@@ -70,7 +70,7 @@ public class GroupInvCodeDialog extends CenteredDialog {
 		
 		okButton = new JButton();
 		okButton.setSize(new java.awt.Dimension(88,26));
-		okButton.setText("Potvrdi");
+		okButton.setText("Потврди");
 		okButton.setIcon(new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/ok.gif")));		
 		okButton.addActionListener(new ActionListener(){
@@ -83,7 +83,7 @@ public class GroupInvCodeDialog extends CenteredDialog {
         handleKeys(e);    
       }     
     });		
-		cancelButton = new JButton("Odustani");
+		cancelButton = new JButton("Одустани");
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/remove.gif")));		
 		buttonsPanel = new JPanel();
@@ -114,8 +114,8 @@ public class GroupInvCodeDialog extends CenteredDialog {
 			datumStatusa = dateTxtFld.getText();
 			DateValidator dv = new DateValidator();
 			if(!dv.isValid(datumStatusa).equals("")){
-				String message = "Pogre\u0161an format datuma";
-				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message,"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+				String message = "Погрешан формат датума";
+				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message,"Грешка",JOptionPane.ERROR_MESSAGE);
 			}else{
 				try{
 					String selectedString = codesList.getSelectedValue().toString();

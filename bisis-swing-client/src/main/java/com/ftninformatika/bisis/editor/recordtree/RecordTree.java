@@ -324,7 +324,7 @@ public class RecordTree extends JTree {
 		}
 		
 		if(!mess.equals("")){
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),mess,"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),mess,"Грешка",JOptionPane.ERROR_MESSAGE);
 		}else{
 			if(sel instanceof Field || sel instanceof Subfield){
 				String message="";
@@ -332,15 +332,15 @@ public class RecordTree extends JTree {
 				Subfield sf = null;			
 				if(sel instanceof Field){
 					f = (Field)sel;
-					message = "Da li ste sigurni da \u017eelite da obri\u0161ete polje"+"\n "
+					message = "Да ли сте сигурни да желите да обришете поље"+"\n "
 							+f.toString();
 				}else if(sel instanceof Subfield){
 					sf = (Subfield)sel;
-					message = "Da li ste sigurni da \u017eelite da obri\u0161ete potpolje"+"\n "
+					message = "Да ли сте сигурни да желите да обришете потпоље"+"\n "
 							+sf.toString();
 				}
-				Object[] options = { "Obri\u0161i", "Odustani" };
-				int ret = JOptionPane.showOptionDialog(null, message , "Brisanje", 
+				Object[] options = { "Обриши", "Одустани" };
+				int ret = JOptionPane.showOptionDialog(null, message , "Брисање",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 				null, options, options[0]);			
 				if(ret==0){
@@ -384,8 +384,8 @@ public class RecordTree extends JTree {
 		if(!(getSelected() instanceof IndicatorNode)){
 			if(getSelected() instanceof Field){
 				JMenuItem miCollapseOrExpand = new JMenuItem();
-				if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText("<html><b>Otvori</b>");
-				else miCollapseOrExpand.setText("<html><b>Zatvori</b>");		
+				if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText("<html><b>Отвори</b>");
+				else miCollapseOrExpand.setText("<html><b>Затвори</b>");
 				miCollapseOrExpand.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						onEnter();				
@@ -419,7 +419,7 @@ public class RecordTree extends JTree {
 	  		setSelectionPath(path);  		
 	  	}
 	  	}catch(UValidatorException e){
-	  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+	  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
   	}
   }
   
@@ -450,15 +450,15 @@ public class RecordTree extends JTree {
 	  		setSelectionPath(path);  		
 	  	}
   	}catch(UValidatorException e){
-  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
   	}
   }
   
   public class DeleteElementAction extends AbstractAction {
 
     public DeleteElementAction() {
-      putValue(SHORT_DESCRIPTION, "brisanje");
-      putValue(NAME, "Obri\u0161i");     
+      putValue(SHORT_DESCRIPTION, "брисање");
+      putValue(NAME, "Обриши");
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0));     
     }    
     public void actionPerformed(ActionEvent ev) {
@@ -468,8 +468,8 @@ public class RecordTree extends JTree {
   
   public class CopyElementAction extends AbstractAction{
   	public CopyElementAction(){
-  		putValue(SHORT_DESCRIPTION, "kopiranje");
-      putValue(NAME, "Kopiraj");     
+  		putValue(SHORT_DESCRIPTION, "копирање");
+      putValue(NAME, "Копирај");
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD5, 0));
   	}
   	
@@ -480,8 +480,8 @@ public class RecordTree extends JTree {
   
   public class AddEmptyElementAction extends AbstractAction{
   	public AddEmptyElementAction(){
-  		putValue(SHORT_DESCRIPTION, "dodavanje elementa zapisa");
-      putValue(NAME, "Dodaj");     
+  		putValue(SHORT_DESCRIPTION, "додавање елемента записа");
+      putValue(NAME, "Додај");
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD4, 0));
   	}
   	

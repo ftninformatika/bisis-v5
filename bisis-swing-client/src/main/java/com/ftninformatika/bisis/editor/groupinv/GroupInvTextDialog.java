@@ -32,7 +32,7 @@ public class GroupInvTextDialog extends CenteredDialog {
 	
 		this.name = name;
 		this.setSize(280, 300);		
-		setTitle("Promena vrednosti za "+name);		
+		setTitle("Промена вредности за "+name);
 		initialize();
 	}
 	
@@ -43,7 +43,7 @@ public class GroupInvTextDialog extends CenteredDialog {
 		add(scrollPane,"grow, wrap");
 		okButton = new JButton();
 		okButton.setSize(new java.awt.Dimension(88,26));
-		okButton.setText("Potvrdi");
+		okButton.setText("Потврди");
 		okButton.setIcon(new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/ok.gif")));		
 		okButton.addActionListener(new ActionListener(){
@@ -56,7 +56,7 @@ public class GroupInvTextDialog extends CenteredDialog {
 		     handleKeys(e);    
 		   }     
 		 });		
-		cancelButton = new JButton("Odustani");
+		cancelButton = new JButton("Одустани");
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
 		     "/com/gint/app/bisis4/client/images/remove.gif")));		
 		buttonsPanel = new JPanel();

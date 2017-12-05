@@ -34,13 +34,13 @@ public class GroupInvTableModel extends AbstractTableModel {
   public GroupInvTableModel(){
   	super();
   	columns = new String[7];
-  	columns[0] = "Inventarni broj";
-  	columns[1] = "Signatura";
-  	columns[2] = "Odeljenje";
-  	columns[3] = "Status";
-  	columns[4] = "Napomena";
-  	columns[5] = "Vrsta jedinice";  	
-  	columns[6] = "Naslov";
+  	columns[0] = "Инвентарни број";
+  	columns[1] = "Сигнатура";
+  	columns[2] = "Одељење";
+  	columns[3] = "Статус";
+  	columns[4] = "Напомена";
+  	columns[5] = "Врста јединице";
+  	columns[6] = "Наслов";
   }
   
 	public int getColumnCount() {		
@@ -74,7 +74,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 			if(column==2) return ((Primerak)o).getOdeljenje();
 			if(column==3) return ((Primerak)o).getStatus();
 			if(column==4) return ((Primerak)o).getNapomene();
-			if(column==5) return "Primerak(996)";
+			if(column==5) return "Примерак(996)";
 		}
 		if(o instanceof Godina){
 			if(column==0) return ((Godina)o).getInvBroj();
@@ -82,7 +82,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 			if(column==2) return ((Godina)o).getOdeljenje();
 			if(column==3) return "";
 			if(column==4) return ((Godina)o).getNapomene();
-			if(column==5) return "Godina(997)";
+			if(column==5) return "Година(997)";
 		}		
 		if(o instanceof Sveska){
 			if(column==0) return ((Sveska)o).getInvBroj();
@@ -90,7 +90,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 			if(column==2) return "";
 			if(column==3) return ((Sveska)o).getStatus();
 			if(column==4) return "";
-			if(column==5) return "Sveska";
+			if(column==5) return "Свеска";
 		}		
 		return null;			
 	}
@@ -125,15 +125,15 @@ public class GroupInvTableModel extends AbstractTableModel {
 	 */
 	
 	public List<UItem> getCodes(int column){
-		if(columns[column].equals("Status"))
+		if(columns[column].equals("Статус"))
 			return HoldingsDataCoders.getCoder(HoldingsDataCoders.STATUS_CODER);
-		else if(columns[column].equals("Odeljenje"))
+		else if(columns[column].equals("Одељење"))
 			return HoldingsDataCoders.getCoder(HoldingsDataCoders.ODELJENJE_CODER);
 		return null;		
 	}
 	
 	public void changeCode(String newCode, int selectedColumn, String datumStatusa){
-		if(columns[selectedColumn].equals("Status")){
+		if(columns[selectedColumn].equals("Статус")){
 			for(Primerak p:primerci){
 				p.setStatus(newCode);
 				if(datumStatusa!=null)
@@ -149,7 +149,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 					}catch(ParseException e){}
 			}
 		}
-		if(columns[selectedColumn].equals("Odeljenje")){
+		if(columns[selectedColumn].equals("Одељење")){
 			for(Primerak p:primerci)
 				p.setOdeljenje(newCode);
 			for(Godina g:godine)
@@ -159,7 +159,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 	}
 	
 	public void changeText(String newText, int selectedColumn){
-		if(columns[selectedColumn].equals("Napomena")){
+		if(columns[selectedColumn].equals("Напомена")){
 			for(Primerak p:primerci){
 				p.setNapomene(newText);			
 			}
@@ -178,8 +178,8 @@ public class GroupInvTableModel extends AbstractTableModel {
 	}
 	
 	public boolean columnCanBeSelected(int column){
-		return columns[column].equals("Status") ||
-						columns[column].equals("Odeljenje") || columns[column].equals("Napomena");
+		return columns[column].equals("Статус") ||
+						columns[column].equals("Одељење") || columns[column].equals("Напомена");
 		
 	}
 	

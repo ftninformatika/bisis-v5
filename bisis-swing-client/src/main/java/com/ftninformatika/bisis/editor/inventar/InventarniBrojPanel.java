@@ -44,7 +44,7 @@ public class InventarniBrojPanel extends JPanel {
 		button = new JButton(new ImageIcon(RaspodelaFrame.class
 				.getResource("/icons/Check16.png")));
 		button.setFocusable(false);
-		button.setToolTipText("Genirisanje inventarnog broja");
+		button.setToolTipText("Генерисање инвентарног броја");
 		if(InventarConstraints.startPos==0 && InventarConstraints.endPos==0)
 			button.setEnabled(false);
 		else
@@ -138,7 +138,7 @@ public class InventarniBrojPanel extends JPanel {
 		int duzinaBroja = InventarConstraints.duzinaInventarnogBroja - 4;    
 		String nule = "000000000".substring(0,duzinaBroja);    
 		if((odeljenjeTxtFld.getText().equals("")) || invKnjTxtFld.getText().equals("")){
-			message.append("Nisu uneti svi potrebni podaci za generisanje inventarnog broja!\n");			
+			message.append("Нису унети сви потребни подаци за генерисање инвентарног броја!\n");
 		}else{
 			try{        
         if(brojTxtFld.getText().equals(""))
@@ -153,7 +153,7 @@ public class InventarniBrojPanel extends JPanel {
         if(e instanceof InventarniBrojException)
           message.append(e.getMessage());
         else
-          message.append("Gre\u0161ka u inventarnom broju!");
+          message.append("Грешка у инвентарном броју!");
 				brojTxtFld.setText("");
 			}
 		}
@@ -164,7 +164,7 @@ public class InventarniBrojPanel extends JPanel {
 	private void handleGenerate() {
 		String message = generate();
     if(!message.equals("")){
-      JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message,"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message,"Грешка",JOptionPane.ERROR_MESSAGE);
       brojTxtFld.setText("");
     }
 	
@@ -183,8 +183,8 @@ public class InventarniBrojPanel extends JPanel {
 					0;
 	    if(broj!=-1){
 	      brojTxtFld.setText(""+broj);
-	      log.warn("Nije inicijalizovan brojac za generisanje inventarnog broja!");
-	    }else throw new InventarniBrojException("Broja\u010d nije inicijalizovan!");
+	      log.warn("Није иницијализован бројач за генерисање инвентарног броја!");
+	    }else throw new InventarniBrojException("Бројач није иницијализован!");
     }
   }
   
@@ -196,7 +196,7 @@ public class InventarniBrojPanel extends JPanel {
     String message = "";
     String broj = odeljenjeTxtFld.getText()+invKnjTxtFld.getText()+brojTxtFld.getText();
     if(InventarValidation.isDuplicatedInvBroj(broj))
-      message = "Inventarni broj je ve\u0107 zauzet!\n";    
+      message = "Инвентарни број је већ заузет!\n";
     return message;    
   }  
   

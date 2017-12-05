@@ -37,10 +37,10 @@ public class RaspodelaTableModel extends AbstractTableModel {
 		super();
 		frame = rf;
 		columns = new String[4];
-		columns[0] = "Odeljenje";
-		columns[1] = "Inventarna knjiga";		
-		columns[2] = "Podlokacija";
-		columns[3] = "Broj primeraka";
+		columns[0] = "Одељење";
+		columns[1] = "Инвентарна књига";
+		columns[2] = "Подлокација";
+		columns[3] = "Број примерака";
 	}
 
 	
@@ -105,14 +105,14 @@ public class RaspodelaTableModel extends AbstractTableModel {
 			// update
 			int prethodniBrojPrimeraka = ((Integer)raspodela.get(index)[1]).intValue();
 			int razlika = brPrimeraka-prethodniBrojPrimeraka;		
-			if(razlika>preostalo) throw new RaspodelaException("Prekora\u010den broj knjiga!");	
+			if(razlika>preostalo) throw new RaspodelaException("Прекорачен број књига!");
 			raspodela.remove(index);
 			raspodela.add(index,novaRaspodela);	
 			this.fireTableRowsUpdated(0,index);		
 			frame.setPreostalo(preostalo-razlika);
 		}else{
 			//insert
-			if(brPrimeraka>preostalo) throw new RaspodelaException("Prekora\u010den broj knjiga!");			
+			if(brPrimeraka>preostalo) throw new RaspodelaException("Прекорачен број књига!");
 			raspodela.add(novaRaspodela);		
 			frame.setPreostalo(preostalo-brPrimeraka.intValue());			
 			this.fireTableRowsInserted(0,raspodela.size()-1);
@@ -152,7 +152,7 @@ public class RaspodelaTableModel extends AbstractTableModel {
           String prefiks = pocetak+"000000000".substring(0,InventarConstraints.duzinaInventarnogBroja-pocetak.length()-String.valueOf(broj).length());
           String invBroj = prefiks+broj; 
           if(InventarValidation.isDuplicatedInvBroj(invBroj))
-          		throw new UValidatorException("Inventarni broje je zauzet, \n morate podesiti broja\u010d!");
+          		throw new UValidatorException("Инвентарни број је заузет, \n морате подесити бројач!");
           Primerak newp = RecordUtils.copyPrimerakBezInv(p);
           newp.setInvBroj(invBroj);                             
           CurrRecord.addPrimerak(newp);

@@ -83,7 +83,7 @@ public class EditorFrame extends JInternalFrame {
 			if(rec!=null && !FormatUtils.isPubTypeDefined(BisisApp.appConfig.getLibrarian(), rec.getPubType())){
 				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
 						Messages.getString("EDITOR_OPTIONPANEMISSINGPROCESSTYPE"), //$NON-NLS-1$
-						"Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+						"Грешка",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 				RecordUtils.unlockRecord(rec);
 				return false;
 			}			
@@ -149,7 +149,7 @@ public class EditorFrame extends JInternalFrame {
         .getResource("/icons/book16.png"))); //$NON-NLS-1$
     inventarButton.setMnemonic(KeyEvent.VK_I);    
     
-    uploadButton = new JToggleButton("Dokumenta");
+    uploadButton = new JToggleButton("Документа");
     inventarButton.setMnemonic(KeyEvent.VK_D);  
     
     
@@ -248,9 +248,9 @@ public class EditorFrame extends JInternalFrame {
 	
   private boolean handleSaveRecord(){
   	zapisPanel.getRecordTree().refreshView();
-   String message = "Potvrda za snimanje zapisa:\n";//+CurrRecord.saveRecordReport();
-   Object[] options = {"Snimi", "Odustani"};
-   int ret = JOptionPane.showOptionDialog(null, message , "Snimanje zapisa",  //$NON-NLS-1$
+   String message = "Потврда за снимање записа:\n";//+CurrRecord.saveRecordReport();
+   Object[] options = {"Сними", "Одустани"};
+   int ret = JOptionPane.showOptionDialog(null, message , "Снимање записа",  //$NON-NLS-1$
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 				null, options, options[1]);
 			if(ret==0){
@@ -262,14 +262,14 @@ public class EditorFrame extends JInternalFrame {
                     JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message1,Messages.getString("EDITOR_SAVINGRECORDS"),JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
                     return false;
                  }
-                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Zapis je uspe\u0161no sa\u010Duvan!",Messages.getString("EDITOR_SAVINGRECORDS"),JOptionPane.INFORMATION_MESSAGE);		 //$NON-NLS-1$
+                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Запис је успешно сачуван!",Messages.getString("EDITOR_SAVINGRECORDS"),JOptionPane.INFORMATION_MESSAGE);		 //$NON-NLS-1$
                  saveRecord.setEnabled(false);
                  recordUpdated = false;
                  setUploadEnabled(true);
                  return true;
 		   } catch(Exception ex){
 		   	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-		   			"Zapis nije sa\u010Duvan!\n"+ex.getClass(),Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$		   	
+		   			"Запис није сачуван!\n"+ex.getClass(),Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		   	log.fatal(ex);		   	
 		   }
 			}
