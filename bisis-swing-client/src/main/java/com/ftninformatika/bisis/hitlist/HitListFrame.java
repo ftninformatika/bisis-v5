@@ -42,7 +42,7 @@ public class HitListFrame extends JInternalFrame {
   public static final int PAGE_SIZE = 10;
 
   public HitListFrame(List<String> recordIdsList, String sQuery) {
-    super("Rezultati pretrage", true, true, true, true);    
+    super("Резултати претраге", true, true, true, true);
     //this.queryResult = queryResult;
     //renderer.setResults(queryResult);
     //this.searchModel=sm;
@@ -103,17 +103,17 @@ public class HitListFrame extends JInternalFrame {
 			JPanel inventarTabPanel = new JPanel();
 			inventarTabPanel.setLayout(new BorderLayout());
 			inventarTabPanel.add(inventarScrollPane, BorderLayout.CENTER);
-			tabbedPane.addTab("Full format", fullFormatPaneScroll);
-			tabbedPane.addTab("Listi\u0107", cardPaneScroll);
-			tabbedPane.addTab("Inventar", inventarScrollPane);
-			tabbedPane.addTab("Dokumenta", uploadedFilesScrollPane);			
+			tabbedPane.addTab("Пун формат", fullFormatPaneScroll);
+			tabbedPane.addTab("Листић", cardPaneScroll);
+			tabbedPane.addTab("Инвентар", inventarScrollPane);
+			tabbedPane.addTab("Документа", uploadedFilesScrollPane);
 			/*if(!BisisApp.isFileMgrEnabled()){
 				tabbedPane.setEnabledAt(3, false);
 			}else{
 				tabbedPane.setEnabledAt(3, true);
 			}*/
 			
-			tabbedPane.addTab("Meta podaci", metaDataPanel);
+			tabbedPane.addTab("Мета подаци", metaDataPanel);
 			pageTxtFld.setPreferredSize(new Dimension(35,25));   
     
             // panel na kom su prikazani svi pogoci
@@ -271,7 +271,7 @@ public class HitListFrame extends JInternalFrame {
                 Record rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
 
                 if (rec == null) {
-                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(), "Zapis sa ID: " + recordId + " vec obradjuje neko!", "Zaklju\u010dan zapis", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(), "Запис са ID: " + recordId + " већ обрађује неко!", "Закључан запис", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
@@ -279,7 +279,7 @@ public class HitListFrame extends JInternalFrame {
                 }/* catch (LockException e) {
                     JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
                 }*/catch (IOException e) {
-                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Doslo je do greske!",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Дошло је до грешке!",JOptionPane.INFORMATION_MESSAGE);
 
                     e.printStackTrace();
                 }
@@ -301,7 +301,7 @@ public class HitListFrame extends JInternalFrame {
 							rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
 
                             if(rec == null) { //vraca null ako je vec u upotrebi
-                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), "Zapis sa ID: " + recordId + " vec obradjuje neko!", "Zaklju\u010dan zapis", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), "Запис са ID: " + recordId + " већ обрађује неко!", "Закључан запис", JOptionPane.INFORMATION_MESSAGE);
                                 return;
                             }
 
@@ -309,10 +309,10 @@ public class HitListFrame extends JInternalFrame {
 						} /*catch (LockException e) {
 							JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
 		                } */catch (NullPointerException e) {
-		    	            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Morate selektovati zapis","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
+		    	            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Морате селектовати запис","Грешка", JOptionPane.INFORMATION_MESSAGE);
 						} catch (IOException e) {
                             e.printStackTrace();
-                            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greška sa servera","Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Грешка са сервера","Грешка", JOptionPane.INFORMATION_MESSAGE);
                         }
 					}
 		  });
@@ -364,7 +364,7 @@ public class HitListFrame extends JInternalFrame {
     btnGroup.add(btnBrief);
     btnGroup.add(btnFull);
     btnBrief.setSelected(true);   
-    lQuery.setText("<html>Upit: <b>" + query + "</b></html>");
+    lQuery.setText("<html>Упит: <b>" + query + "</b></html>");
     updateAvailability();
     displayPage();    
     lbHitList.requestFocus();    
@@ -414,10 +414,10 @@ public class HitListFrame extends JInternalFrame {
     hitListModel.setHits(recs);
     lbHitList.setSelectedIndex(0);
     handleListSelectionChanged();    
-    lFromTo.setText("<html>Pogoci: <b>" + (page*PAGE_SIZE+1) + " - " + 
+    lFromTo.setText("<html>Погоци: <b>" + (page*PAGE_SIZE+1) + " - " +
         (page*PAGE_SIZE+count) + "</b> od <b>" + 
        recCount + "</b></html>");
-    lBrPrimeraka.setText("<html>Broj primeraka: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(Arrays.asList(recs))+"</b></html>");
+    lBrPrimeraka.setText("<html>Број примерака: <b>"+RecordUtils.getInvNumsCountFromRecordCollection(Arrays.asList(recs))+"</b></html>");
   }
   
   private int pageCount() {
@@ -460,11 +460,11 @@ public class HitListFrame extends JInternalFrame {
    rnTxtFld.setText(String.valueOf(selectedRecord.getRN()));
    String pubTypeStr = "";
    if(selectedRecord.getPubType()==2)
-   	pubTypeStr = "serijska";
+   	pubTypeStr = "серијска";
    else if(selectedRecord.getPubType()==3)
-   	pubTypeStr = "analitika";
+   	pubTypeStr = "аналитика";
    else
-   	pubTypeStr = "monografska";		
+   	pubTypeStr = "монографска";
    pubTypeLabel.setText("<html><B>"+pubTypeStr+"</B>");	
    if(selectedRecord.getPubType()==3)
    	btnAnalitika.setEnabled(false);
@@ -512,7 +512,7 @@ public class HitListFrame extends JInternalFrame {
       renderer.setResults();
       updateAvailability();
       page = 0;
-      lQuery.setText("<html>Upit: <b>" + sQuery + "</b></html>");
+      lQuery.setText("<html>Упит: <b>" + sQuery + "</b></html>");
       displayPage();
   }
   
@@ -535,16 +535,16 @@ public class HitListFrame extends JInternalFrame {
 	
 	private void createMetaDataPanel(){
 		metaDataPanel.setLayout(new MigLayout("","","[]10[]20[]10[]"));
-		metaDataPanel.add(new JLabel("<html><b>Kreirao:</b></html>"));
+		metaDataPanel.add(new JLabel("<html><b>Креирао:</b></html>"));
 		metaDataPanel.add(recCreatorLabel,"wrap");
 		
-		metaDataPanel.add(new JLabel("<html><b>Modifikovao:</b></html>"));
+		metaDataPanel.add(new JLabel("<html><b>Модификовао:</b></html>"));
 		metaDataPanel.add(recModifierLabel,"wrap");
 		
-		metaDataPanel.add(new JLabel("<html><b>Datum kreiranja:</b></html>"));
+		metaDataPanel.add(new JLabel("<html><b>Датум креирања:</b></html>"));
 		metaDataPanel.add(recCreationDateLabel,"wrap");
 		
-		metaDataPanel.add(new JLabel("<html><b>Datum izmene:</b></html>"));
+		metaDataPanel.add(new JLabel("<html><b>Датум измене:</b></html>"));
 		metaDataPanel.add(recModificationDateLabel,"wrap");	
 	}
 	
@@ -582,38 +582,38 @@ public class HitListFrame extends JInternalFrame {
 	
 	private void handleDeleteRecord(){
 		Record rec = (Record)lbHitList.getSelectedValue();
-		Object[] options = { "Obri\u0161i", "Odustani" };
+		Object[] options = { "Обриши", "Одустани" };
 		StringBuffer messBuff = new StringBuffer();
-		messBuff.append("Da li ste sigurni da \u017eelite da obri\u0161ete zapis:\n");
+		messBuff.append("Да ли сте сигурни да желите да обришете запис:\n");
 		messBuff.append(RecordUtils.getDeleteRecordReport(rec));
-		int ret = JOptionPane.showOptionDialog(null, messBuff.toString() , "Brisanje", 
+		int ret = JOptionPane.showOptionDialog(null, messBuff.toString() , "Брисање",
 		JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 		null, options, options[1]);
 		if(ret==0){
 			// jos jednom pitamo
-			Object[] options1 = { "Odustani", "Potvrdi" };
+			Object[] options1 = { "Одустани", "Потврди" };
 			messBuff = new StringBuffer();
-			messBuff.append("potvrda o brisanju zapisa\n");
+			messBuff.append("потврда о брисању записа\n");
 			messBuff.append("<html><b>ID="+rec.getRecordID()+"</b></html>\n");
 			messBuff.append("<html><b>RN="+rec.getRN()+"</b></html>");			
-			ret = JOptionPane.showOptionDialog(null, messBuff.toString(), "Brisanje", 
+			ret = JOptionPane.showOptionDialog(null, messBuff.toString(), "Брисање",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 					null, options1, options[0]);
 			if(ret == 1){				
 				boolean deleted = hitListModel.remove(lbHitList.getSelectedIndex());
 				hitListModel.refresh();
 				if(deleted)
-					JOptionPane.showMessageDialog(null, "Zapis je uspe\u0161no obrisan!");
+					JOptionPane.showMessageDialog(null, "Запис је успешно обрисан!");
 				else
-					JOptionPane.showMessageDialog(null, "Gre\u0161ka prilikom brisanja zapisa!");				
+					JOptionPane.showMessageDialog(null, "Грешка приликом брисања записа!");
 			}			
 		}
 	}
  
 	private void adjustInventarColumnWidth(){
 		TableColumn column = null;
-		int napomenaColumnIndex = inventarTableModel.getColumnIndex("Napomena");
-		int invBrojColumnIndex = inventarTableModel.getColumnIndex("Inventarni broj");
+		int napomenaColumnIndex = inventarTableModel.getColumnIndex("Напомена");
+		int invBrojColumnIndex = inventarTableModel.getColumnIndex("Инвентарни број");
 		for(int i=0;i<inventarTableModel.getColumnCount();i++){
 			column = inventarTable.getColumnModel().getColumn(i);				
 			if(inventarTableModel.isSifriranaKolona(i))
@@ -631,7 +631,7 @@ public class HitListFrame extends JInternalFrame {
       //renderer.setResults(queryResults);
       updateAvailability();
       page = 0;
-      lQuery.setText("<html>Upit: <b>" + query + "</b></html>");
+      lQuery.setText("<html>Упит: <b>" + query + "</b></html>");
       displayPage();
 	}
 	
@@ -650,21 +650,21 @@ public class HitListFrame extends JInternalFrame {
       private JLabel lQuery = new JLabel();
       private JLabel lFromTo = new JLabel();
       private JLabel lBrPrimeraka = new JLabel();
-      private JToggleButton btnBrief = new JToggleButton("Sa\u017eeti");
-      private JToggleButton btnFull = new JToggleButton("Puni");
+      private JToggleButton btnBrief = new JToggleButton("Сажети");
+      private JToggleButton btnFull = new JToggleButton("Пуни");
       private JButton btnPrev = new JButton(/*"Prethodni"*/);
       private JButton btnNext = new JButton(/*"Slede\u0107i"*/);
       private JButton btnFirst = new JButton(/*"Prvi"*/);
       private JButton btnLast = new JButton(/*"Poslednji"*/);
       private JTextField pageTxtFld = new JTextField(3);
 
-      private JButton btnDelete = new JButton("Obri\u0161i");
-      private JButton btnEdit = new JButton("Otvori");
-      private JButton btnNew = new JButton("Novi");
-      private JButton btnInventar = new JButton("Inventar");
-      private JButton btnAnalitika = new JButton("Analitika");
+      private JButton btnDelete = new JButton("Обриши");
+      private JButton btnEdit = new JButton("Отвори");
+      private JButton btnNew = new JButton("Нови");
+      private JButton btnInventar = new JButton("Инвентар");
+      private JButton btnAnalitika = new JButton("Аналитика");
 
-      private JButton btnBranches = new JButton("Grupni prikaz");
+      private JButton btnBranches = new JButton("Групни приказ");
 
       private JScrollPane spHitList = new JScrollPane();
       private JList lbHitList = new JList();

@@ -60,43 +60,43 @@ public class InventarTabTableModel extends AbstractTableModel {
 		super();
 		// opsta tabela kolona za primerke
 		primerakAll = new String[17];
-    primerakAll[0] = "Inventarni broj";
-    primerakAll[1] = "Datum inventarisanja";
-    primerakAll[2] = "Status";
-    primerakAll[3] = "Signatura";
-    primerakAll[4] = "Odeljenje";
-    primerakAll[5] = "Broj ra\u010duna";
-    primerakAll[6] = "Datum ra\u010duna";
-    primerakAll[7] = "Cena";
-    primerakAll[8] = "Dobavlja\u010d";
-    primerakAll[9] = "Finansijer";    
-    primerakAll[10] = "Povez";
-    primerakAll[11] = "Na\u010din nabavke";       
-    primerakAll[12] = "Napomene";
-    primerakAll[13] = "Dostupnost";
-    primerakAll[14] = "Inventator";
-    primerakAll[15] = "Datum statusa";
-    primerakAll[16] = "Usmeravanje";
+    primerakAll[0] = "Инвентарни број";
+    primerakAll[1] = "Датум инвентарисања";
+    primerakAll[2] = "Статус";
+    primerakAll[3] = "Сигнатура";
+    primerakAll[4] = "Одељење";
+    primerakAll[5] = "Број рачуна";
+    primerakAll[6] = "Датум рачуна";
+    primerakAll[7] = "Цена";
+    primerakAll[8] = "Добављач";
+    primerakAll[9] = "Финансијер";
+    primerakAll[10] = "Повез";
+    primerakAll[11] = "Начин набавке";
+    primerakAll[12] = "Напомене";
+    primerakAll[13] = "Доступност";
+    primerakAll[14] = "Инвентатор";
+    primerakAll[15] = "Датум статуса";
+    primerakAll[16] = "Усмеравање";
     
     //opsta tabela kolona za godine
     godineAll = new String[17];
-    godineAll[0] = "Inventarni broj";
-    godineAll[1] = "Datum inventarisanja";
-    godineAll[2] = "Signatura";
-    godineAll[3] = "Odeljenje";
-    godineAll[4] = "Broj ra\u010duna";
-    godineAll[5] = "Datum ra\u010duna";
-    godineAll[6] = "Cena";
-    godineAll[7] = "Dobavlja\u010d";
-    godineAll[8] = "Finansijer";
-    godineAll[9] = "Povez";
-    godineAll[10] = "Na\u010din nabavke";
-    godineAll[11] = "Napomene";
-    godineAll[12] = "Godi\u0161te";
-    godineAll[13] = "Godina";
-    godineAll[14] = "Broj";
-    godineAll[15] = "Dostupnost";
-    godineAll[16] = "Inventator";
+    godineAll[0] = "Инвентарни број";
+    godineAll[1] = "Датум инвентарисања";
+    godineAll[2] = "Сигнатура";
+    godineAll[3] = "Одељење";
+    godineAll[4] = "Број рачуна";
+    godineAll[5] = "Датум рачуна";
+    godineAll[6] = "Цена";
+    godineAll[7] = "Добављач";
+    godineAll[8] = "Финансијер";
+    godineAll[9] = "Повез";
+    godineAll[10] = "Начин набавке";
+    godineAll[11] = "Напомене";
+    godineAll[12] = "Годиште";
+    godineAll[13] = "Година";
+    godineAll[14] = "Број";
+    godineAll[15] = "Доступност";
+    godineAll[16] = "Инвентатор";
     
     //kolone za primerke
     String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getCataloguingInvbrSubStr();
@@ -255,11 +255,11 @@ public class InventarTabTableModel extends AbstractTableModel {
 	
 	public boolean isSifriranaKolona(int colIndex){
 		return
-			colIndex == getColumnIndex("Status") ||
-			colIndex == getColumnIndex("Odeljenje") ||
-			colIndex == getColumnIndex("Na\u010din nabavke") ||
-			colIndex == getColumnIndex("Povez") ||
-			colIndex == getColumnIndex("Dostupnost");
+			colIndex == getColumnIndex("Статус") ||
+			colIndex == getColumnIndex("Одељење") ||
+			colIndex == getColumnIndex("Начин набавке") ||
+			colIndex == getColumnIndex("Повез") ||
+			colIndex == getColumnIndex("Доступност");
 			
 	}
 }
