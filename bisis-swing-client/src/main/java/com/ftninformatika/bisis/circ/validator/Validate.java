@@ -2,13 +2,17 @@ package com.ftninformatika.bisis.circ.validator;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.options.OptionsFrame;
+import com.ftninformatika.bisis.circ.view.Messages;
 import com.ftninformatika.bisis.circ.view.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,8 +28,22 @@ import org.apache.commons.validator.ValidatorResults;
 
 public class Validate {
 
-	private static ResourceBundle res = ResourceBundle.getBundle("circ_validator.validatorResources");
-  private static Log log = LogFactory.getLog(Validate.class.getName());
+	//private static ResourceBundle res = ResourceBundle.getBundle("circ_validator.validatorResources");
+	private static ResourceBundle res;
+	private static final String BUNDLE_NAME = "circ_validator/validatorResources.properties";
+    private static Log log = LogFactory.getLog(Validate.class.getName());
+
+
+	static  {
+		try {
+			Reader reader = new InputStreamReader(Messages.class.getClassLoader().getResourceAsStream(BUNDLE_NAME), "UTF-8");
+			res = new PropertyResourceBundle(reader);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+
 
 
 	public static String validate(Object bean, ValidatorResources resources, String formName){

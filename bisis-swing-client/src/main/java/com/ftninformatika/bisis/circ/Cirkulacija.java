@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.circ.manager.RecordsManager;
 import com.ftninformatika.bisis.circ.manager.SearchUsersManager;
 import com.ftninformatika.bisis.circ.manager.UserManager;
 import com.ftninformatika.bisis.circ.view.MainFrame;
+import com.ftninformatika.bisis.circ.view.Messages;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.SplashScreen;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
@@ -59,6 +60,8 @@ public class Cirkulacija {
     PropertyConfigurator.configure(Cirkulacija.class
         .getResource("/log4j.properties"));
         log.info("Application startup");
+
+        new Messages();
 
         UIManager.put("swing.boldMetal", Boolean.FALSE);
         UIManager.installLookAndFeel("PlasticLookAndFeel",
