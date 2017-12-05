@@ -3,13 +3,13 @@
         <p-tabPanel header="{{ 'searchFormUniversalTab' | translate }}">
                 <div class="ui-g ui-fluid">
                         <div class="ui-g-12 ui-md-6 ui-lg-12" >
-                                <h3 class="first">{{ 'searchFormHeader' | translate }}</h3>
+                                <h3 class="first customfontcolor">{{ 'searchFormHeader' | translate }}</h3>
                             <div class="ui-inputgroup">
                                 <input (keyup.enter)="searchBy(searchText1)" type="text" pInputText placeholder="{{ 'searchFormUniversalInputPlaceholder' | translate }}" [(ngModel)]="searchText1"> <br>
                             </div><br>
                             <div class="ui-inputgroup">
                                 <!--button pButton type="button" label="Search all(testing)" (click)="search()"></button>  <br-->
-                                <button [disabled]="lib == undefined && (selectedLibrary == null || selectedLibrary == undefined || selectedLibrary == '')" icon="ui-icon-search" class="blue-grey-btn" pButton type="button"
+                                <button [disabled]="lib == undefined && (selectedLibrary == null || selectedLibrary == undefined || selectedLibrary == '')" icon="ui-icon-search" class="cyan-btn" pButton type="button"
                                         label="{{ 'searchFormSearchBtn' | translate }}" (click)="searchBy(searchText1)"></button>
                             </div>
                         </div>
@@ -18,13 +18,13 @@
             <p-tabPanel header="{{ 'searchFormAdvancedTab' | translate }}">
                 <div class="ui-g form-group ui-fluid">
 
-                    <div class="ui-g-12 ui-md-4 ui-lg-4"  align="center" style="border-right: solid 1px #989898;">
+                    <div class="ui-g-12 ui-md-4 ui-lg-4 customfontcolor"  align="center" style="border-right: solid 1px #989898;">
                         <label><b>{{ 'searchAdvancedPrefix' | translate }}</b></label>
                     </div>
-                    <div class="ui-g-12 ui-md-4 ui-lg-4"  align="center" style="border-right: solid 1px #989898;">
+                    <div class="ui-g-12 ui-md-4 ui-lg-4 customfontcolor"  align="center" style="border-right: solid 1px #989898;">
                         <label><b>{{ 'searchAdvancedText' | translate }}</b></label>
                     </div>
-                    <div class="ui-g-12 ui-md-4 ui-lg-4"  align="center" >
+                    <div class="ui-g-12 ui-md-4 ui-lg-4 customfontcolor"  align="center" >
                         <label><b>{{ 'searchAdvancedBinding' | translate }}</b></label>
                     </div>
 
@@ -84,7 +84,7 @@
                     <div class="ui-g-12 ui-md-4 ui-lg-4" align="right">
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
-                        <button [disabled]="lib == undefined && (selectedLibrary == null || selectedLibrary == undefined || selectedLibrary == '')" icon="ui-icon-search" class="blue-grey-btn" pButton type="button" label="{{ 'searchFormSearchBtn' | translate }}" (click)="searchAdvanced(text[0],text[1],text[2],text[3],text[4],prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4)"></button>
+                        <button [disabled]="lib == undefined && (selectedLibrary == null || selectedLibrary == undefined || selectedLibrary == '')" icon="ui-icon-search" class="cyan-btn" pButton type="button" label="{{ 'searchFormSearchBtn' | translate }}" (click)="searchAdvanced(text[0],text[1],text[2],text[3],text[4],prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4)"></button>
                     </div>
                     <div class="ui-g-12 ui-md-4 ui-lg-4">
                     </div>
