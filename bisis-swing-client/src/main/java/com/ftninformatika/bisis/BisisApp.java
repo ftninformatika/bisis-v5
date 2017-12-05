@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.config.ConfigType;
 import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.service.RecordManager;
 import com.ftninformatika.utils.RetrofitUtils;
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import retrofit2.Call;
@@ -40,8 +41,8 @@ public class BisisApp {
 
 
     try {
-      //UIManager.installLookAndFeel("seaglass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
-      //UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+      UIManager.installLookAndFeel("seaglass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
+      UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
       //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
     } catch (Exception ex) {
       System.err.println(ex.getMessage());

@@ -1,13 +1,11 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
-import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
 
 import java.util.List;
 
@@ -30,6 +28,7 @@ public interface RecordsRepository extends MongoRepository<Record, String>, Pagi
 
     List<Record> getRecordsByRecordIDIsLessThanEqual(@Param("id") int recId);
 
-
+    @Query("{'primerci.invBroj':{$in ?0}}")
+    List<Record> getRecorsForCtlgNoList(List ctlgNos);
 
 }

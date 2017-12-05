@@ -6,7 +6,10 @@ import {forEach} from "@angular/router/src/utils/collection";
 import {arrayify} from "tslint/lib/utils";
 import {RecordsPageModel} from "../model/RecordsPageModel";
 import {MessageService} from "primeng/components/common/messageservice";
-import * as globals from "../../globals"
+import {GetCoder} from "../service/get-local-data.service";
+import {SelectItemPrefix} from "../model/SelectItemPrefix";
+import {isNullOrUndefined} from "util";
+import {Prefix} from "../model/Prefix";
 
 
 @Component({
@@ -23,55 +26,40 @@ export class SearchFormComponent implements OnInit {
   // 1st Form
   searchText1: string;
   // 2nd Form
-  allPrefixes: SelectItem[];
+  allPrefixes: SelectItemPrefix[];
   bondings: SelectItem[];
   bonding1: string;
   bonding2: string;
   bonding3: string;
   bonding4: string;
-  prefix1: string;
-  prefix2: string;
-  prefix3: string;
-  prefix4: string;
-  prefix5: string;
+  prefix1: Prefix;
+  prefix2: Prefix;
+  prefix3: Prefix;
+  prefix4: Prefix;
+  prefix5: Prefix;
   text: string[];
-  coder: boolean[];
   coderValues: SelectItem[][];
 
 
   changed(pref, fieldNum){
     this.text[fieldNum] = "";
-    if (pref /*in globals.coderPrefixes*/ ["LA"]) { // If prefix is coder
-      this.coder[fieldNum] = true; // Hide text, show dropdown
-      this.libraryService.getLanguageCoders().subscribe(
+
+    if (pref.isCoder) { // If prefix is coder
+      this.getCoder.getCoderData(pref.code).subscribe(
           response => {
-            console.log(response);
-            arrayify(response).forEach(
-              d => {
-                this.coderValues[fieldNum].push({"label": d.description, "value": d.description});
-            }
-            );
-          }
-      );
-      /*this.coder[fieldNum] = true;
-      globals.coderPrefixValues[pref].forEach(
-          v => {
-            this.coderValues[fieldNum].push({"label": v.name, "value": v.value});
-          }
-      );*/
+            //console.log(response);
+            arrayify(response[pref.code].codes).forEach(
+                d => {
+                  this.coderValues[fieldNum].push({"label": d.value, "value": d.code});
+                });
+          });
+      }
     }
-    else {
-      this.coder[fieldNum] = false;
-
-    }
-  }
-
 
   search() {
     this.bisisService.getRecordsEP();
 
   }
-
   searchBy( text) {
     if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary == '') {
       this.messageService.clear();
@@ -137,11 +125,11 @@ export class SearchFormComponent implements OnInit {
     }
     else {
       var searchModel = {
-        pref1: prefix1,
-        pref2: prefix2,
-        pref3: prefix3,
-        pref4: prefix4,
-        pref5: prefix5,
+        pref1: prefix1.code,
+        pref2: prefix2.code,
+        pref3: prefix3.code,
+        pref4: prefix4.code,
+        pref5: prefix5.code,
         text1: text1,
         text2: text2,
         text3: text3,
@@ -166,43 +154,47 @@ export class SearchFormComponent implements OnInit {
     }
   }
 
-  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService, public messageService: MessageService) {
+  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService, public messageService: MessageService, public getCoder: GetCoder) {
       this.populateAdvancedFormCombos();
-
   }
 
   private populateAdvancedFormCombos(){
     this.text = [];
-    this.prefix1 = "AU";
-    this.prefix2 = "TI";
-    this.prefix3 = "KW";
-    this.prefix4 = "PU";
-    this.prefix5 = "PY";
+    this.prefix1 = new Prefix('AU', false)
+    this.prefix2 = new Prefix('TI', false);
+    this.prefix3 = new Prefix("KW", false);
+    this.prefix4 = new Prefix("PU", false);
+    this.prefix5 = new Prefix("PY", false);
     this.bonding1 = "AND";
     this.bonding2 = "AND";
     this.bonding3 = "AND";
     this.bonding4 = "AND";
     this.allPrefixes = [];
     this.bondings = [];
-    this.allPrefixes.push({label: 'Аутор', value: 'AU'});
-    this.allPrefixes.push({label: 'Наслов', value: 'TI'});
-    this.allPrefixes.push({label: 'Кључне речи', value: 'KW'});
-    this.allPrefixes.push({label: 'Издавач', value: 'PU'});
-    this.allPrefixes.push({label: 'Година издавања', value: 'PY'});
-    this.allPrefixes.push({label: 'Инвентарни број', value: 'IN'});
-    this.allPrefixes.push({label: 'Место издавања', value: 'PP'});
-    this.allPrefixes.push({label: 'Број записа', value: 'RN'});
-    this.allPrefixes.push({label: 'Језик', value: 'LA'}); //jezik
-    this.allPrefixes.push({label: 'Наслов', value: 'SG'}); //signatura
+    //TODO - staviti ovo ucitavanje prefiksa sa nekog drugog mesta
+    this.allPrefixes.push(new SelectItemPrefix('Аутор',  'AU'));
+    this.allPrefixes.push(new SelectItemPrefix('Наслов', 'TI'));
+    this.allPrefixes.push(new SelectItemPrefix('Кључне речи', 'KW'));
+    this.allPrefixes.push(new SelectItemPrefix('Издавач', 'PU'));
+    this.allPrefixes.push(new SelectItemPrefix('Година издавања', 'PY'));
+    this.allPrefixes.push(new SelectItemPrefix('Држава издавања', 'CO'));
+    this.allPrefixes.push(new SelectItemPrefix('Библиографски ниво', 'DT', true));
+    this.allPrefixes.push(new SelectItemPrefix('UDK', 'DC'));
+    this.allPrefixes.push(new SelectItemPrefix('ISBN', 'BN'));
+    this.allPrefixes.push(new SelectItemPrefix('ISSN',  'SP'));
+    this.allPrefixes.push(new SelectItemPrefix('Код за врсту записа', 'RT', true)); //coder
+    this.allPrefixes.push(new SelectItemPrefix('Код за врсту садржаја','CC', true)); //coder //kod za vrstu sadrzaja dodati 105
+    this.allPrefixes.push(new SelectItemPrefix('Збирка',  'CL'));
+    //korporativno telo ako izbacimo onda АУ treba da pretrazuje 71x i 91x
+    //predmetne odrednice - sve (da li sve u jedan prefiks ili sve vrste p o ubaciti?)
+    this.allPrefixes.push(new SelectItemPrefix('Инвентарни број', 'IN'));
+    this.allPrefixes.push(new SelectItemPrefix('Место издавања', 'PP'));
+    this.allPrefixes.push(new SelectItemPrefix('Број записа', 'RN'));
+    this.allPrefixes.push(new SelectItemPrefix('Језик', 'LA',true)); ////Jezik LG, 101c, LO izbaciti (verovatno misli na LA i LO???)
+    this.allPrefixes.push(new SelectItemPrefix('Наслов', 'SG')); //signatura
     this.bondings.push({label: 'AND', value: 'AND'});
-    this.bondings.push({label: 'OR', value: 'OR'});
-    this.bondings.push({label: 'NOT', value: 'NOT'});
-    this.coder = [];
-    this.coder[0]=false;
-    this.coder[1]=false;
-    this.coder[2]=false;
-    this.coder[3]=false;
-    this.coder[4]=false;
+    this.bondings.push({label:'OR', value: 'OR'});
+    this.bondings.push({label:'NOT', value: 'NOT'});
 
     this.coderValues = [];
 

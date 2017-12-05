@@ -11,8 +11,6 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.bisis.report.ReportMenuBuilder;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
-import com.ftninformatika.bisis.style.ChoseTheme;
-import com.ftninformatika.bisis.style.ChoseThemeFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -116,7 +114,6 @@ public class MenuBuilder extends JMenuBar {
   private WarningsFrame warningsFrame = null;
   private OptionsMainFrame optionsFrame = null;
   private SearchAdvancedFrame searchAdvancedFrame=null;
-  private ChoseThemeFrame choseTheme = null;
   /*private  OnlineReportFrame onlineReportFrame=null;*/
 	public MenuBuilder(Librarian lib) {
 		super();
@@ -351,24 +348,11 @@ public class MenuBuilder extends JMenuBar {
 			mSistem.setText("Sistem");
 			mSistem.add(getMLog());
     		mSistem.add(getMMonitor());
-    		mSistem.add(getMiTeme());
       		mSistem.add(getMIzlaz());
 		}
 		return mSistem;
 	}
 
-	private JMenuItem getMiTeme(){
-  		if( miChoseTeme == null){
-  			miChoseTeme = new JMenuItem("Teme aplikacije");
-			miChoseTeme.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					getTeme().setVisible(true);
-				}
-			});
-		}
-
-		return miChoseTeme;
-	}
 
 	private JMenu getMUserRep() {
 		if (mUserRep == null) {
@@ -1005,13 +989,6 @@ public class MenuBuilder extends JMenuBar {
 	    return searchAdvancedFrame;
 	  }
 
-	public ChoseThemeFrame getTeme() {
-		if (choseTheme == null) {
-			choseTheme = new ChoseThemeFrame();
-			BisisApp.mf.insertFrame(choseTheme);
-		}
-		return choseTheme;
-	}
 	  /*
   public OnlineReportFrame getOnlineReportFrame(){
 	    if (onlineReportFrame == null){

@@ -24,14 +24,6 @@ export class BisisSearchService {
             .catch(this.handleError);
     }
 
-    getUnimarcForRecord(recId) {
-        const headers = new Headers();
-        headers.append('Library', localStorage.getItem('libCode'));
-        const options = new RequestOptions({ headers: headers });
-        return this.http.get('/records/unimarc/' + recId, options)
-            .map(response => response)
-            .catch(this.handleError);
-    }
 
     searchRecordsByEP(choice: string, text: string, departments: string[], page = 0, size = 1000) {
 
@@ -70,7 +62,7 @@ export class BisisSearchService {
     searchRecordsAdvanced(searchModel, page = 0, size = 20): Observable<RecordsPageModel> {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
-        console.log(localStorage.getItem('libCode'));
+        //console.log(localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
             return this.http.post('/records/query/full?pageNumber=' + page + '&pageSize=' + size,searchModel, options)
               .map(response =>  response.json() as RecordsPageModel)
