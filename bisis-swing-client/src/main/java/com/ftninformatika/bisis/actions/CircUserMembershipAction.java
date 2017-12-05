@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class CircUserMembershipAction extends AbstractAction {
 
   public CircUserMembershipAction() {
-    putValue(SHORT_DESCRIPTION, "\u010clanarina korisnika");
-    putValue(NAME, "\u010clanarina");
+    putValue(SHORT_DESCRIPTION, "Чланарина корисника");
+    putValue(NAME, "Чланарина");
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
   }
   

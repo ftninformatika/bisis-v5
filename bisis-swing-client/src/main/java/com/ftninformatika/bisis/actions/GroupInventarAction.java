@@ -15,8 +15,8 @@ public class GroupInventarAction extends AbstractAction {
 
 
 	public GroupInventarAction() {
-    putValue(SHORT_DESCRIPTION, "Promena inventarnih podataka za vi\u0161e zapisa");
-    putValue(NAME, "Grupno inventarisanje...");
+    putValue(SHORT_DESCRIPTION, "Промена инвентарних података за више записа");
+    putValue(NAME, "Групно инвентарисање...");
     /*putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/new_record.gif")));*/
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));

@@ -13,7 +13,7 @@ import javax.swing.KeyStroke;
 public class MergeRecordsAction extends AbstractAction {
 
 	public MergeRecordsAction() {
-    putValue(SHORT_DESCRIPTION, "spajanje zapisa");
+    putValue(SHORT_DESCRIPTION, "спајање записа");
     putValue(NAME, "Merge");
     /*putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/new_record.gif")));*/

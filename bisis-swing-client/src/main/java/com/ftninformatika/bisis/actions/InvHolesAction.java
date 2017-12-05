@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class InvHolesAction extends AbstractAction {
 
 	public InvHolesAction() {
-    putValue(SHORT_DESCRIPTION, "pronalazenja praznina u inventarnim brojevima");
-    putValue(NAME, "Praznine u inventaru...");
+    putValue(SHORT_DESCRIPTION, "проналажење празнина у инвентарним бројевима");
+    putValue(NAME, "Празнине у инвентару...");
     /*putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/new_record.gif")));*/
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));

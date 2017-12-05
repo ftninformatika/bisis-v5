@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class CircReportAction extends AbstractAction {
 
   public CircReportAction() {
-    putValue(SHORT_DESCRIPTION, "Izve\u0161taji");
-    putValue(NAME, "Izve\u0161taji");
+    putValue(SHORT_DESCRIPTION, "Извештаји");
+    putValue(NAME, "Извештаји");
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(
         "/circ-images/files_text24.png")));
   }

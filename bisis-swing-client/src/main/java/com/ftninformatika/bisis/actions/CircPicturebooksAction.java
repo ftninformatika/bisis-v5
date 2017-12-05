@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class CircPicturebooksAction extends AbstractAction {
 
   public CircPicturebooksAction() {
-    putValue(SHORT_DESCRIPTION, "Slikovnice");
-    putValue(NAME, "Slikovnice");
+    putValue(SHORT_DESCRIPTION, "Сликовнице");
+    putValue(NAME, "Сликовнице");
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
   }
   
