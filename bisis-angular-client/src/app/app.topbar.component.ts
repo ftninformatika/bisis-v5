@@ -23,7 +23,7 @@ import {MessageService} from "primeng/components/common/messageservice";
                    
                     <li #login *ngIf="!(this.ah.authenticated)" [ngClass]="{'active-top-menu':app.activeTopbarItem === login}">
                          <a href="#/login" >
-                            <button pButton label="{{ 'loginBtn' | translate }}" icon="ui-icon-person" class="amber-btn"></button>
+                            <button pButton label="{{ 'loginBtn' | translate }}" icon="ui-icon-person" class="amber-btn" style="color: white"></button>
                         </a>
                     </li>
                      <li #login *ngIf="this.ah.authenticated" [ngClass]="{'active-top-menu':app.activeTopbarItem === logout}">
