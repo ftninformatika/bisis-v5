@@ -4,6 +4,7 @@ package com.ftninformatika.bisis.service;
  * Created by Petar on 6/20/2017.
  */
 
+import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -303,4 +304,9 @@ public interface BisisService {
     @POST ("members/dischargeBook")
     Call<Boolean> dischargeBook(@Body Lending lending);
 
+
+    //circ reports
+
+    @GET ("/circ_report/get_lending_history")
+    Call<List<Report>> getLendingHistory(@Query("memberNo") String memberNo, @Query("start") Date start, @Query("end") Date end, @Query("location") String location);
 }
