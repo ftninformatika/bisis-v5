@@ -28,7 +28,7 @@ public interface RecordsRepository extends MongoRepository<Record, String>, Pagi
 
     List<Record> getRecordsByRecordIDIsLessThanEqual(@Param("id") int recId);
 
-    @Query("{'primerci.invBroj':{$in ?0}}")
+    @Query("{'primerci.invBroj':{$in : ?0}}")
     List<Record> getRecorsForCtlgNoList(List ctlgNos);
 
 }

@@ -322,7 +322,7 @@ public class Lending {
             btnHistory.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     //TODO
-                    //Cirkulacija.getApp().getMainFrame().getReport().selectMemberHistory(parent.getMmbrship().getUserID());
+                    Cirkulacija.getApp().getMainFrame().getReport().selectMemberHistory(parent.getMmbrship().getUserID());
                     Cirkulacija.getApp().getMainFrame().showPanel("reportPanel"); //$NON-NLS-1$
                 }
             });

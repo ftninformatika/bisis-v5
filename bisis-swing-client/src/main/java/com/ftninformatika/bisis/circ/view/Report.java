@@ -17,6 +17,8 @@ import javax.swing.JTextField;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 
+import com.ftninformatika.bisis.circ.pojo.CircLocation;
+import com.ftninformatika.bisis.circ.report.MemberHistory;
 import com.ftninformatika.bisis.circ.validator.Validator;
 import net.sf.jasperreports.engine.JasperPrint;
 
@@ -383,11 +385,11 @@ public class Report {
 			btnSearch.setText("Pretra\u017ei");
 			btnSearch.setIcon(new ImageIcon(getClass().getResource(
 					"/circ-images/find16.png")));
-//			btnSearch.addActionListener(new java.awt.event.ActionListener() {
-//				public void actionPerformed(java.awt.event.ActionEvent e) {
-//				  try{
-//					int value = cmbReport.getSelectedIndex();
-//					switch (value) {
+			btnSearch.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+				  try{
+					int value = cmbReport.getSelectedIndex();
+					switch (value) {
 //						case 1 :
 //							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Librarian.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
 //							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
@@ -446,22 +448,22 @@ public class Report {
 //			         Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem(),getCmbGroup().getSelectedItem()));
 //			         Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 //			         break;
-//						case 13 :
-//								String userid = Validator.convertUserId2DB(getTfNumber().getText());
-//								if (!userid.equals("")){
-//									JasperPrint jp = MemberHistory.setPrint(userid,getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem());
-//									if (jp != null){
-//										Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(jp);
-//										Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//									} else {
-//										JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), "Nepostoje\u0107i korisnik", "Greska", JOptionPane.ERROR_MESSAGE,
-//												new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png")));
-//									}
-//								}else{
-//									JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), "Broj korisnika nije validan", "Greska", JOptionPane.ERROR_MESSAGE,
-//											new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png")));
-//								}
-//			          break;
+						case 13 :
+								String userid = Validator.convertUserId2DB(getTfNumber().getText());
+								if (!userid.equals("")){
+									JasperPrint jp = MemberHistory.setPrint(userid,getTfStartDate().getDate(),getTfEndDate().getDate(),(CircLocation)getCmbLocation().getSelectedItem());
+									if (jp != null){
+										Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(jp);
+										Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+									} else {
+										JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), "Nepostoje\u0107i korisnik", "Greska", JOptionPane.ERROR_MESSAGE,
+												new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+									}
+								}else{
+									JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), "Broj korisnika nije validan", "Greska", JOptionPane.ERROR_MESSAGE,
+											new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+								}
+			          break;
 //						case 14 :
 //								String ctlgno = Validator.convertCtlgNo2DB(getTfNumber().getText().trim());
 //								if (!ctlgno.equals("")){
@@ -503,20 +505,20 @@ public class Report {
 //						default : JOptionPane.showMessageDialog(null, "Niste uneli podatke!",
 //					             "Greska", JOptionPane.ERROR_MESSAGE);
 //
-//					}
-//					//clear();
-//
-//				  }
-//				  catch(Exception exc1){
-//				  	exc1.printStackTrace();
-//				  	JOptionPane.showMessageDialog(null, "Greska!", "Greska",JOptionPane.ERROR_MESSAGE);
-//
-//
-//				  }
-//
-//
-//				}
-//			});
+					}
+					//clear();
+
+				  }
+				  catch(Exception exc1){
+				  	exc1.printStackTrace();
+				  	JOptionPane.showMessageDialog(null, "Greska!", "Greska",JOptionPane.ERROR_MESSAGE);
+
+
+				  }
+
+
+				}
+			});
 				
 		}
 		return btnSearch;
