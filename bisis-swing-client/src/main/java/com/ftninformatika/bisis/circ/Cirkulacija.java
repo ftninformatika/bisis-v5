@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.circ.manager.RecordsManager;
 import com.ftninformatika.bisis.circ.manager.SearchUsersManager;
 import com.ftninformatika.bisis.circ.manager.UserManager;
 import com.ftninformatika.bisis.circ.view.MainFrame;
+import com.ftninformatika.bisis.circ.view.Messages;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.SplashScreen;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
