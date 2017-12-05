@@ -49,40 +49,40 @@ public class CodedValuePanel extends JPanel {
     allowedSymbols.clear();
 		switch(sifType){
 			case(CodersHelper.NACINNABAVKE_CODER):
-				labelStr = "Na\u010din nabavke";
+				labelStr = "Начин набавке";
 				codesList = //HoldingsDataCoders.getCoder(HoldingsDataCoders.NACINNABAVKE_CODER);
 						BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.NACINNABAVKE_CODER);
 				break;
 			case(CodersHelper.POVEZ_CODER):
-				labelStr = "Povez";
+				labelStr = "Повез";
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.POVEZ_CODER);
 				break;
 			case(CodersHelper.PODLOKACIJA_CODER):
-				labelStr = "Podlokacija";
+				labelStr = "Подлокација";
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.PODLOKACIJA_CODER);
 				break;
 			case(CodersHelper.FORMAT_CODER):
-				labelStr = "Format";
+				labelStr = "Формат";
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.FORMAT_CODER);
 				break;
 			case(CodersHelper.INTERNAOZNAKA_CODER):
-				labelStr = "Interna oznaka";
+				labelStr = "Интерна ознака";
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INTERNAOZNAKA_CODER);
 				break;
 			case(CodersHelper.ODELJENJE_CODER):
-				labelStr = "Odeljenje";
+				labelStr = "Одељење";
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.ODELJENJE_CODER);
 				break;
 			case(CodersHelper.STATUS_CODER):
-				labelStr = "Status";
+				labelStr = "Статус";
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.STATUS_CODER);
 				break;
 			case(CodersHelper.INVENTARNAKNJIGA_CODER):
-				labelStr = "Inventarna knjiga";
+				labelStr = "Инвентарна књига";
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INVENTARNAKNJIGA_CODER);
         break;
       case(CodersHelper.DOSTUPNOST_CODER):
-        labelStr = "Stepen dostupnosti/nedostupnosti";
+        labelStr = "Степен доступности/недоступности";
       codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.DOSTUPNOST_CODER);
 		}		
 		create();    
@@ -107,7 +107,7 @@ public class CodedValuePanel extends JPanel {
 		this.add(codeTxtFld, "grow");		
 		this.add(valueTxtFld,"grow");		
 		this.add(coderButton);	
-		coderButton.setToolTipText("\u0160ifanik");
+		coderButton.setToolTipText("Шифарник");
 		coderButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				handleOpenCoder();				
@@ -158,7 +158,7 @@ public class CodedValuePanel extends JPanel {
 	
 	private void handleOpenCoder(){
 		InventarCodeChoiceDialog ccd = null;
-		ccd = new InventarCodeChoiceDialog(labelStr+"- \u0161ifanik",codesList);
+		ccd = new InventarCodeChoiceDialog(labelStr+"- шифарник",codesList);
 		if(ccd!=null){
 			ccd.setVisible(true);
 			if(ccd.getSelectedCode()!=null){
@@ -194,7 +194,7 @@ public class CodedValuePanel extends JPanel {
     if(sifType==CodersHelper.ODELJENJE_CODER
         && !InventarConstraints.imaOdeljenja){
       codeTxtFld.setText("00");   
-      valueTxtFld.setText("Nema odeljenja");
+      valueTxtFld.setText("Нема одељења");
       codeTxtFld.setForeground(Color.BLACK);
       setForInv("00");
       setEnabled(false);

@@ -207,7 +207,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 			ownerTree.getModel().handleValueChanged(lastPath,getCellEditorValue());
 			ownerTree.cancelEditing();
 		} catch (UValidatorException e1) {
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
 			//problemi sa enterom
 			String value = cellEditor.getText();
 			if(value.endsWith("\n"))

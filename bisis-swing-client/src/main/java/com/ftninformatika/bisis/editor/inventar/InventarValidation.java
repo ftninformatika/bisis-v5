@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 public class InventarValidation {
 	
-  private static String codeMessagePref = "Neodgovaraju\u0107a \u0161ifra za polje: ";
+  private static String codeMessagePref = "Неодговарајућа шифра за поље: ";
   private static Log log = LogFactory.getLog(InventarValidation.class.getName());
 	
   public static String validateInventarPanelData(InventarPanel panel, boolean all){
@@ -51,9 +51,9 @@ public class InventarValidation {
       messageBuff.append(validateInventarniBroj
         (panel.getInvBrojPanel().getInventarniBroj()));    
     if(!panel.getStatusPanel().isValidCode())
-      messageBuff.append(codeMessagePref+"Status!\n");
+      messageBuff.append(codeMessagePref+"Статус!\n");
     if(!panel.getCenaTxtFld().getText().equals("") && !isValidCena(panel.getCenaTxtFld().getText()))
-      messageBuff.append("Gre\u0161ka u formatu broja u polju Cena!\n");    
+      messageBuff.append("Грешка у формату броја у пољу Цена!\n");
     return messageBuff.toString();
   }
 	
@@ -102,19 +102,19 @@ public class InventarValidation {
   	// raspodela je korektna ako je uneto odeljenje i inventarna knjiga 
   	// jer se bez tih podataka ne moze kreirati inventarni broj 
   	StringBuffer message = new StringBuffer();
-  	String messagePref = "Nedostaje podatak: ";
+  	String messagePref = "Недостаје податак: ";
   	if(odeljenje.equals("")){
-  		message.append(messagePref+"Odeljenje!\n");
+  		message.append(messagePref+"Одељење!\n");
   	}
   	if(invKnjiga.equals("")){
-  		message.append(messagePref+"Inventarna knjiga!\n");
+  		message.append(messagePref+"Инвентарна књига!\n");
   	}  		
   	return message.toString();
   }
   
   public static String validateInvBrojUnique(String invbroj){
     if(isDuplicatedInvBroj(invbroj))
-     return "Inventarni broj "+invbroj+" je ve\u0107 zauzet!";
+     return "Инвентарни број "+invbroj+" је већ заузет!";
     else
       return "";
   }
@@ -132,35 +132,35 @@ public class InventarValidation {
 		StringBuffer message = new StringBuffer();		
 		if(nacinNabavke!=null && !nacinNabavke.equals("")){
 			if(!BisisApp.appConfig.getCodersHelper().isValidNacinNabavke(nacinNabavke))
-				message.append(codeMessagePref+"Na\u010din nabavke!\n");				
+				message.append(codeMessagePref+"Начин набавке!\n");
 		}
 		if(povez!=null && !povez.equals("")){
 			if(!BisisApp.appConfig.getCodersHelper().isValidPovez(povez))
-				message.append(codeMessagePref+"Povez!\n");
+				message.append(codeMessagePref+"Повез!\n");
 		}
 		if(podlokacija!=null && !podlokacija.equals("")){
 			if(!BisisApp.appConfig.getCodersHelper().isValidPodlokacija(podlokacija))
-				message.append(codeMessagePref+"Podlokacija (signatura)!\n");
+				message.append(codeMessagePref+"Подлокација (сигнатура)!\n");
 		}		
 		if(format!=null && !format.equals("")){
 			if(!BisisApp.appConfig.getCodersHelper().isValidFormat(format))
-				message.append(codeMessagePref+"Format (signatura)!\n");
+				message.append(codeMessagePref+"Формат (сигнатура)!\n");
 		}
 		if(intOznaka!=null && !intOznaka.equals("")){
 			if(!BisisApp.appConfig.getCodersHelper().isValidInternaOznaka(intOznaka))
-				message.append(codeMessagePref+"Interna oznaka (signatura)!\n");
+				message.append(codeMessagePref+"Интерна ознака (сигнатура)!\n");
 		}
 		if(odeljenje!=null && !odeljenje.equals("")){
 			if(!BisisApp.appConfig.getCodersHelper().isValidOdeljenje(odeljenje))
-				message.append(codeMessagePref+"Odeljenje!\n");
+				message.append(codeMessagePref+"Одељење!\n");
 		}
 		  if(status!=null && !status.equals("")){
 			  if(!BisisApp.appConfig.getCodersHelper().isValidStatus(status))
-				  message.append(codeMessagePref+"Status!\n");
+				  message.append(codeMessagePref+"Статус!\n");
 		  }
     if(dostupnost!=null && !dostupnost.equals("")){
       if(!BisisApp.appConfig.getCodersHelper().isValidDostupnost(dostupnost))
-        message.append(codeMessagePref+"Dostupnost!\n");
+        message.append(codeMessagePref+"Доступност!\n");
     }
 		return message.toString();		
 	}
@@ -175,27 +175,27 @@ public class InventarValidation {
 //		 datumi
 		if(datumRacuna!=null && !datumRacuna.equals("")){
 			if(!dv.isValid(datumRacuna).equals(""))
-				message.append(dv.isValid(datumRacuna)+" (polje Datum ra\u010duna)\n");
+				message.append(dv.isValid(datumRacuna)+" (поље Датум рачуна)\n");
 		}
 		
 		if(datumInventarisanja!=null && !datumInventarisanja.equals("")){
 			if(!dv.isValid(datumInventarisanja).equals(""))
-				message.append(dv.isValid(datumInventarisanja)+" u polju Datum inventarisanja!\n");
+				message.append(dv.isValid(datumInventarisanja)+" у пољу Датум инвентарисања!\n");
 		}	
 		if(datumStatusa!=null && !datumStatusa.equals("")){
 			if(!dv.isValid(datumStatusa).equals(""))
-				message.append(dv.isValid(datumStatusa)+" u polju Datum statusa!\n");
+				message.append(dv.isValid(datumStatusa)+" у пољу Датум статуса!\n");
 		}	
 		//cena (da li je broj)		
 		if(cena!=null && !cena.equals("")){
 			if(!isValidCena(cena))	
-				message.append("Gre\u0161ka u formatu broja u polju Cena!\n");
+				message.append("Грешка у формату броја у пољу Цена!\n");
 		}		
 		return message.toString();
 	}
 	
 	private static String validateInventarniBroj(String content){
-		if(content.length()!=11 && isNumberStr(content)) return "Inventarni broj mora imati 11 cifara!";
+		if(content.length()!=11 && isNumberStr(content)) return "Инвентарни број мора бити 11 цифара!";
 		String message = "";		
 		for(int i=0;i<content.length();i++){				
 			 switch (content.charAt(i)) {
@@ -215,11 +215,11 @@ public class InventarValidation {
         case '.':
           break;
         default:
-          message = "Pogre\u0161an znak u inv. broju: ";
+          message = "Погрешан знаг у инв. броју: ";
       }
 		}
 		if(message.equals("") && content.length()<11){						
-			message = "Minimalna du\u017eina inv. broja je 11 znakova!";		
+			message = "Минимална дужина инв. броја је 11 знакова!";
 		}  
 		return message;
 	}

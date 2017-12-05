@@ -22,23 +22,23 @@ public class GodineTableModel extends AbstractTableModel {
   public GodineTableModel(){
     super();
     godineAll = new String[17];
-    godineAll[0] = "Inventarni broj";
-    godineAll[1] = "Datum inventarisanja";
-    godineAll[2] = "Signatura";
-    godineAll[3] = "Odeljenje";
-    godineAll[4] = "Broj ra\u010duna";
-    godineAll[5] = "Datum ra\u010duna";
-    godineAll[6] = "Cena";
-    godineAll[7] = "Dobavlja\u010d";
-    godineAll[8] = "Finansijer";
-    godineAll[9] = "Povez";
-    godineAll[10] = "Na\u010din nabavke";
-    godineAll[11] = "Napomene";
-    godineAll[12] = "Godi\u0161te";
-    godineAll[13] = "Godina";
-    godineAll[14] = "Broj";
-    godineAll[15] = "Dostupnost";
-    godineAll[16] = "Inventator";    
+    godineAll[0] = "Инвентарни број";
+    godineAll[1] = "Датум инвентарисања";
+    godineAll[2] = "Сигнатура";
+    godineAll[3] = "Одељење";
+    godineAll[4] = "Број рачуна";
+    godineAll[5] = "Датум рачуна";
+    godineAll[6] = "Цена";
+    godineAll[7] = "Добављач";
+    godineAll[8] = "Финансијер";
+    godineAll[9] = "Повез";
+    godineAll[10] = "Начин набавке";
+    godineAll[11] = "Напомене";
+    godineAll[12] = "Годиште";
+    godineAll[13] = "Година";
+    godineAll[14] = "Број";
+    godineAll[15] = "Доступност";
+    godineAll[16] = "Инвентатор";
     String columnSetStr = BisisApp.appConfig.getClientConfig().getCataloguingGodineModel();
     columnSet = columnSetStr.split(" ");
     columns = new String[columnSet.length];
@@ -135,13 +135,13 @@ public class GodineTableModel extends AbstractTableModel {
           throw new InventarniBrojException(InventarValidation.validateInvBrojUnique(g.getInvBroj()));
         for(Sveska s:g.getSveske()){
         	if(!InventarValidation.validateInvBrojUnique(s.getInvBroj()).equals(""))
-        		throw new InventarniBrojException("Godina ne mo\u017ee biti sa\u010duvana" +
-        				"\n Postoje\u0107i inventarni broj sveske!");        	
+        		throw new InventarniBrojException("Година не може бити сачувана" +
+        				"\n Постојећи инвентарни број свеске!");
         }
         CurrRecord.addGodina(g);
       }      
     }else{
-      throw new InventarniBrojException("Morate uneti inventarni broj!");
+      throw new InventarniBrojException("Морате унети инвентарни број!");
     }
     fireTableDataChanged();
   }  
@@ -200,11 +200,11 @@ public class GodineTableModel extends AbstractTableModel {
  	
  	public boolean isSifriranaKolona(int colIndex){
  		return
- 			colIndex == getColumnIndex("Status") ||
- 			colIndex == getColumnIndex("Odeljenje") ||
- 			colIndex == getColumnIndex("Na\u010din nabavke") ||
- 			colIndex == getColumnIndex("Povez") ||
- 			colIndex == getColumnIndex("Dostupnost");
+ 			colIndex == getColumnIndex("Статус") ||
+ 			colIndex == getColumnIndex("Одељење") ||
+ 			colIndex == getColumnIndex("Начин набавке") ||
+ 			colIndex == getColumnIndex("Повез") ||
+ 			colIndex == getColumnIndex("Доступност");
  			
  	}
 }

@@ -50,7 +50,7 @@ public class CardFrame extends CenteredDialog implements Printable {
   
   public CardFrame(){
     super(BisisApp.getMainFrame());
-    setTitle("Prikaz zapisa u formi listi\u0107a");
+    setTitle("Приказ записа у форми листића");
     setResizable(false);    
     editorPane = new JEditorPane();
     editorPane.setEditorKit(new HTMLEditorKit());
@@ -60,23 +60,23 @@ public class CardFrame extends CenteredDialog implements Printable {
     editorPane.setEditable(false);
    // editorPane.setSize(500, 400);
    // editorPane.setBorder(arg0)
-    showButton = new JButton("Prika\u017ei");
+    showButton = new JButton("Прикажи");
     initialize();    
     setSize(785, 528);
     
     choicePanel = new JPanel();
     MigLayout migLayout = new MigLayout("","","[]10[]10[]");
     choicePanel.setLayout(migLayout);
-    choicePanel.add(new JLabel("Vrste listi\u0107a: "));
+    choicePanel.add(new JLabel("Врсте листића: "));
     choicePanel.add(vrsteListicaCmbBox);
     choicePanel.add(showButton);
     
     buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new MigLayout("","","[]5[]"));
-    zatvoriButton = new JButton("Zatvori");
+    zatvoriButton = new JButton("Затвори");
     zatvoriButton.setIcon(new ImageIcon(getClass().getResource(
     "/icons/remove.gif")));
-    stampajButton = new JButton("\u0160tampaj");
+    stampajButton = new JButton("Штампај");
     stampajButton.setIcon(new ImageIcon(getClass().getResource(
     "/icons/print_16.png")));
     buttonsPanel.add(stampajButton);

@@ -297,14 +297,14 @@ public class RecordUtils { //TODO-hardcoded all over the place
     if(name.length()==3){
       UField uf = CurrFormat.format.getField(name); 
       if(CurrFormat.isMandatoryFiled(name) && RecordUtils.getFieldCount(name)<2){
-        return "Polje "+uf.getName()+"-"+uf.getDescription()+"\n"
-        +"je obavezno polje i ne mo\u017ee biti obrisano!";       
+        return "Поље "+uf.getName()+"-"+uf.getDescription()+"\n"
+        +"је обавезно поље и не може бити обрисано!";
       }
     }else if(name.length()==4){
       USubfield usf = CurrFormat.format.getSubfield(name);
       if(CurrFormat.isMandatorySubfield(name) && RecordUtils.getSubfieldCount(name)<2){       
-        return "Potpolje "+usf.getName()+"-"+usf.getDescription()+"\n"
-        +"je obavezno i ne mo\u017ee biti obrisano!";     
+        return "Потпоље "+usf.getName()+"-"+usf.getDescription()+"\n"
+        +"је обавезно и не може бити обрисано!";
       }
     }
     return "";
@@ -590,7 +590,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   	buff.append("<html><b>RN: </b>"+rec.getRN()+"\n");
   	buff.append("<html><b>TI:</b> "+rec.getSubfieldContent("200a")+"\n");
   	buff.append("<html><b>PY</b>: "+rec.getSubfieldContent("100c")+"\n");  	
-  	buff.append("Inventarni brojevi:\n");
+  	buff.append("Инвентарни бројеви:\n");
   	for(Primerak p:rec.getPrimerci())
   		buff.append(p.getInvBroj()+"\n");
   	for(Godina g:rec.getGodine())

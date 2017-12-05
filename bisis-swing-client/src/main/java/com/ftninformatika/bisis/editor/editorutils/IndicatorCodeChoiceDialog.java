@@ -13,9 +13,9 @@ public class IndicatorCodeChoiceDialog extends CodeChoiceDialog {
 	}
 	
 	public IndicatorCodeChoiceDialog(UIndicator ind, Frame owner) {
-		super(owner, "Obrada indikatora", 
+		super(owner, "Обрада индикатора",
 				ind.getValues(), 
-				"Polje: "+ind.getOwner().getName()+"-"+ind.getOwner().getDescription(),
+				"Поље: "+ind.getOwner().getName()+"-"+ind.getOwner().getDescription(),
 				"ind"+ind.getIndex()+"-"+ind.getDescription()); 
 		
 	}

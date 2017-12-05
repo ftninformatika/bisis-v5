@@ -189,7 +189,7 @@ public class MonographInventarPanel extends InventarPanel {
 
   private void handleOpenRaspodelaFrame(){
   	if(!handleValidateFormData(false).equals(""))			
-  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(false),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(false),"Грешка",JOptionPane.ERROR_MESSAGE);
   	else{
   		raspodelaFrame = new RaspodelaFrame(this);		
   		BisisApp.getMainFrame().insertFrame(raspodelaFrame);
@@ -201,13 +201,13 @@ public class MonographInventarPanel extends InventarPanel {
     Obrada.editorFrame.recordUpdated();
     if(primerciTable.getSelectedRowCount()<=1){
   		if(!handleValidateFormData(true).equals(""))			
-  			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(true),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);
+  			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(true),"Грешка",JOptionPane.ERROR_MESSAGE);
   		else{
   			Primerak p = getPrimerakFromForm();       
   			try {
           primerciTableModel.updatePrimerak(p, changeInvBr);
         } catch (InventarniBrojException e) {
-            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE);         
+            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
         }
   		changeInvBr = false;
   		invBrojPanel.setChangeInvBr(false);
@@ -239,10 +239,10 @@ public class MonographInventarPanel extends InventarPanel {
   
   private void deleteSelectedPrimerak(){
   	Primerak p = primerciTableModel.getRow(primerciTable.getSelectedRow());
-  	Object[] options = { "Obri\u0161i", "Odustani" };
-  	String message = "Da li ste sigurni da \u017eelite da obri\u0161ete primerak, \n" +
-  			"inventarni broj: "+p.getInvBroj()+"?";  	
-		int ret = JOptionPane.showOptionDialog(null, message , "Brisanje", 
+  	Object[] options = { "Обриши", "Одустани" };
+  	String message = "Да ли сте сигурни да желите да обришете примерак, \n" +
+  			"инвентарни број: "+p.getInvBroj()+"?";
+		int ret = JOptionPane.showOptionDialog(null, message , "Брисање",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 				null, options, options[0]);
 		if(ret==0){
@@ -257,13 +257,13 @@ public class MonographInventarPanel extends InventarPanel {
     
     glavniPanel.setLayout(new MigLayout("","","[]0[]5[]0[]5[]0[]"));
     
-    glavniPanel.add(new JLabel("Odeljenje:"),"wrap");
+    glavniPanel.add(new JLabel("Одељење:"),"wrap");
     glavniPanel.add(odeljenjePanel,"wrap, grow");
         
-    glavniPanel.add(new JLabel("Inventarna knjiga:"),"wrap");
+    glavniPanel.add(new JLabel("Инвентарна књига:"),"wrap");
     glavniPanel.add(invKnjPanel,"wrap, grow");   
             
-    glavniPanel.add(new JLabel("Inventarni broj:"),"wrap");
+    glavniPanel.add(new JLabel("Инвентарни број:"),"wrap");
     glavniPanel.add(invBrojPanel,"wrap, grow");
     
    /* glavniPanel.add(new JLabel("Datum inventarisanja:"),"wrap");
@@ -271,13 +271,13 @@ public class MonographInventarPanel extends InventarPanel {
     
     ostaloPanel.setLayout(new MigLayout("","","[]0[]5[]0[]5[]0[]5[]0[]"));
     
-    ostaloPanel.add(new JLabel("Datum inventarisanja:"),"wrap");
+    ostaloPanel.add(new JLabel("Датум инвентарисања:"),"wrap");
     ostaloPanel.add(datumInvTxtFld,"wrap, grow");
-    ostaloPanel.add(new JLabel("Inventarisao:"),"wrap");
+    ostaloPanel.add(new JLabel("Инвентарисао:"),"wrap");
     ostaloPanel.add(inventatorTxtFld,"wrap, grow");    
-    ostaloPanel.add(new JLabel("Status:"),"wrap");
+    ostaloPanel.add(new JLabel("Статус:"),"wrap");
     ostaloPanel.add(statusPanel,"wrap, grow");
-    ostaloPanel.add(new JLabel("Datum statusa:"),"wrap");
+    ostaloPanel.add(new JLabel("Датум статуса:"),"wrap");
     ostaloPanel.add(datumStatusaTxtFld,"wrap, grow");  
  
     
@@ -305,13 +305,13 @@ public class MonographInventarPanel extends InventarPanel {
     
     numCurPanel.setLayout(new MigLayout("","","[]0[]5[]0[]20[]0[]"));
     
-    numCurPanel.add(new JLabel("Podlokacija"),"wrap");
+    numCurPanel.add(new JLabel("Подлокација"),"wrap");
     numCurPanel.add(podlokacijaPanel,"wrap, grow");  
         
     numCurPanel.add(new JLabel("Numerus curens:"),"wrap");
     numCurPanel.add(sigNumerusCurensPanel,"wrap, grow");
     
-    numCurPanel.add(new JLabel("Interna oznaka:"),"wrap");
+    numCurPanel.add(new JLabel("Интерна ознака:"),"wrap");
     numCurPanel.add(intOznakaPanel,"wrap, grow");
     
     ostaloPanel.setLayout(new MigLayout("","","[]0[]7[]0[]7[]0[]"));
@@ -319,10 +319,10 @@ public class MonographInventarPanel extends InventarPanel {
     ostaloPanel.add(new JLabel("UDK:"),"wrap");
     ostaloPanel.add(sigUDK675bPanel,"wrap, grow");
     
-    ostaloPanel.add(new JLabel("Format:"),"wrap");
+    ostaloPanel.add(new JLabel("Формат:"),"wrap");
     ostaloPanel.add(formatPanel,"wrap, grow");
     
-    ostaloPanel.add(new JLabel("Dublet:"),"wrap");   
+    ostaloPanel.add(new JLabel("Дублет:"),"wrap");
     ostaloPanel.add(sigDubletTxtFld,"wrap, grow");
     
     signaturaPanel.setLayout(new MigLayout("","[center]20[center]","[center]"));
@@ -334,14 +334,14 @@ public class MonographInventarPanel extends InventarPanel {
 	
 	private void createButtonsPanel(){
 		buttonsPanel = new JPanel();
-		sacuvajButton = new JButton("Sa\u010duvaj");
+		sacuvajButton = new JButton("Сачувај");
 		sacuvajButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
-		ponistiButton = new JButton("Poni\u0161ti");
+		ponistiButton = new JButton("Поништи");
 		ponistiButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 		ponistiButton.setSelected(false);	
-		raspodelaButton = new JButton("Raspodela");
+		raspodelaButton = new JButton("Расподела");
 		raspodelaButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/edit.gif")));
 		
@@ -393,16 +393,16 @@ public class MonographInventarPanel extends InventarPanel {
   	
   	JPanel prviPanel = new JPanel();
   	prviPanel.setLayout(new MigLayout("","","[]0[]5[]0[]5[]0[]"));
-  	prviPanel.add(new JLabel("Dostupnost:"),"wrap");
+  	prviPanel.add(new JLabel("Доступност:"),"wrap");
   	prviPanel.add(dostupnostPanel,"grow, wrap");
-  	prviPanel.add(new JLabel("Povez:"),"wrap");
+  	prviPanel.add(new JLabel("Повез:"),"wrap");
     prviPanel.add(povezPanel,"wrap, grow");
-    prviPanel.add(new JLabel("Usmeravanje:"),"wrap, grow");
+    prviPanel.add(new JLabel("Усмеравање:"),"wrap, grow");
     prviPanel.add(usmeravanjeTxtFld,"wrap, grow");
     
     JPanel drugiPanel = new JPanel();
     drugiPanel.setLayout(new MigLayout("","","[]0[]"));
-    drugiPanel.add(new JLabel("Napomene:"),"wrap");
+    drugiPanel.add(new JLabel("Напомене:"),"wrap");
     drugiPanel.add(napomeneScrollPane,"wrap, grow");
   	
   	ostaloPanel.setLayout(new MigLayout("","[]10[]",""));  	    
@@ -519,8 +519,8 @@ public class MonographInventarPanel extends InventarPanel {
   
   private void adjustInventarColumnWidth(){
  		TableColumn column = null;		
- 		int napomenaColumnIndex = primerciTableModel.getColumnIndex("Napomena");
- 		int invBrojColumnIndex = primerciTableModel.getColumnIndex("Inventarni broj");
+ 		int napomenaColumnIndex = primerciTableModel.getColumnIndex("Напомена");
+ 		int invBrojColumnIndex = primerciTableModel.getColumnIndex("Инвентарни број");
  		for(int i=0;i<primerciTableModel.getColumnCount();i++){
  			column = primerciTable.getColumnModel().getColumn(i);				
  			if(primerciTableModel.isSifriranaKolona(i))

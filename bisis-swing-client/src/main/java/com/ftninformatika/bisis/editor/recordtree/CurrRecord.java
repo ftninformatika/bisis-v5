@@ -159,7 +159,7 @@ public class CurrRecord {
         		f = RecordUtils.getRecordFieldWithoutSubfield(uf);
           record.add(f);
         }else{
-          throw new UValidatorException("Polje "+fName+"-"+uf.getDescription()+" nije ponovljivo");
+          throw new UValidatorException("Поље "+fName+"-"+uf.getDescription()+" није поновљиво");
         }
       }
       l.add(record);
@@ -168,7 +168,7 @@ public class CurrRecord {
     if(selectedField!=null && CurrFormat.block4.contains(selectedField.getName())){
       if(uf.isSecondary()){
         if(RecordUtils.secondaryFieldAlreadyExist(uf) && !uf.isRepeatable())
-          throw new UValidatorException("Polje "+fName+"-"+uf.getDescription()+" nije ponovljivo");        
+          throw new UValidatorException("Поље "+fName+"-"+uf.getDescription()+" није поновљиво");
         Subfield sf = new Subfield('1');
         if(!withSubfields)
          f = RecordUtils.getRecordField(uf);
@@ -181,7 +181,7 @@ public class CurrRecord {
         l.add(sf);
         l.add(f);
       }else
-        throw new UValidatorException("Polje "+fName+"-"+uf.getDescription()+" nije sekundarno");
+        throw new UValidatorException("Поље "+fName+"-"+uf.getDescription()+" није секундарно");
     }
       
     
@@ -206,7 +206,7 @@ public class CurrRecord {
   public static void addField(Field field, int index)throws UValidatorException{
   	UField uf = CurrFormat.getFullFormat().getField(field.getName());
   	if(record.getField(field.getName())!=null && !uf.isRepeatable()) 
-  		throw new UValidatorException("Polje "+uf.getName()+"-"+uf.getDescription()+" nije ponovljivo");
+  		throw new UValidatorException("Поље "+uf.getName()+"-"+uf.getDescription()+" није поновљиво");
   	else
   		record.getFields().add(index,field);
   	RecordUtils.sortFields();

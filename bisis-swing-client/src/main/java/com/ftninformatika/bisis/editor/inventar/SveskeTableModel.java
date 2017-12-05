@@ -26,13 +26,13 @@ public class SveskeTableModel extends AbstractTableModel {
   public SveskeTableModel(List<Sveska> sveske) {
     this.sveske = sveske;
     columns = new String[7];
-    columns[0] = "Inventarni broj";
-    columns[1] = "Broj sveske";        
-    columns[2] = "Knjiga";
-    columns[3] = "Status";
-    columns[4] = "Datum statusa";
-    columns[5] = "Inventator";
-    columns[6] = "Cena";
+    columns[0] = "Инвентарни број";
+    columns[1] = "Број свеске";
+    columns[2] = "Књига";
+    columns[3] = "Статус";
+    columns[4] = "Датум статуса";
+    columns[5] = "Инвентатор";
+    columns[6] = "Цена";
   }  
   
 
@@ -104,7 +104,7 @@ public class SveskeTableModel extends AbstractTableModel {
       		//moze postojati inv broj u nekoj drugoj godini u ovom 
       		// zapisu koji jos nije sacuvan
       		if(RecordUtils.invBrojSveskePostojiUZapisu(s.getInvBroj()))
-      			throw new InventarniBrojException("Dupli inventarni broj (tekuci zapis)!");      	
+      			throw new InventarniBrojException("Дупли инвентарни број (текући запис)!");
         if(!InventarValidation.validateInvBrojUnique(s.getInvBroj()).equals(""))
           throw new InventarniBrojException(InventarValidation.validateInvBrojUnique(s.getInvBroj()));
         //s.setStanje(0);

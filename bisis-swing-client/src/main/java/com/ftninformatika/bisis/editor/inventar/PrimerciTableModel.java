@@ -31,23 +31,23 @@ public class PrimerciTableModel extends AbstractTableModel {
 	public PrimerciTableModel() {
 		super();
     primerakAll = new String[17];
-    primerakAll[0] = "Inventarni broj";
-    primerakAll[1] = "Datum inventarisanja";
-    primerakAll[2] = "Status";
-    primerakAll[3] = "Signatura";
-    primerakAll[4] = "Odeljenje";
-    primerakAll[5] = "Broj ra\u010duna";
-    primerakAll[6] = "Datum ra\u010duna";
-    primerakAll[7] = "Cena";
-    primerakAll[8] = "Dobavlja\u010d";
-    primerakAll[9] = "Finansijer";    
-    primerakAll[10] = "Povez";
-    primerakAll[11] = "Na\u010din nabavke";       
-    primerakAll[12] = "Napomene";
-    primerakAll[13] = "Dostupnost";
-    primerakAll[14] = "Inventator";
-    primerakAll[15] = "Datum statusa";
-    primerakAll[16] = "Usmeravanje";
+    primerakAll[0] = "Инвентарни број";
+    primerakAll[1] = "Датум инвентарисања";
+    primerakAll[2] = "Стаус";
+    primerakAll[3] = "Сигнатура";
+    primerakAll[4] = "Одељење";
+    primerakAll[5] = "Број рачуна";
+    primerakAll[6] = "Датум рачуна";
+    primerakAll[7] = "Цена";
+    primerakAll[8] = "Добављач";
+    primerakAll[9] = "Финансијер";
+    primerakAll[10] = "Повез";
+    primerakAll[11] = "Начин набавке";
+    primerakAll[12] = "Напомене";
+    primerakAll[13] = "Доступност";
+    primerakAll[14] = "Инвентатор";
+    primerakAll[15] = "Датум статуса";
+    primerakAll[16] = "Усмеравање";
     String columnSetStr = BisisApp.appConfig.getClientConfig().getCataloguingPrimerciModel();
     columnSet = columnSetStr.split(" ");
     columns = new String[columnSet.length];
@@ -211,11 +211,11 @@ public class PrimerciTableModel extends AbstractTableModel {
  	
  	public boolean isSifriranaKolona(int colIndex){
  		return
- 			colIndex == getColumnIndex("Status") ||
- 			colIndex == getColumnIndex("Odeljenje") ||
- 			colIndex == getColumnIndex("Na\u010din nabavke") ||
- 			colIndex == getColumnIndex("Povez") ||
- 			colIndex == getColumnIndex("Dostupnost");
+ 			colIndex == getColumnIndex("Статус") ||
+ 			colIndex == getColumnIndex("Одељење") ||
+ 			colIndex == getColumnIndex("Начин набавке") ||
+ 			colIndex == getColumnIndex("Повез") ||
+ 			colIndex == getColumnIndex("Доступност");
  			
  	}
   
