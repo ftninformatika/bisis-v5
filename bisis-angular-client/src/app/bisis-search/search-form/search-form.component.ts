@@ -9,6 +9,7 @@ import {MessageService} from "primeng/components/common/messageservice";
 import {GetCoder} from "../service/get-local-data.service";
 import {SelectItemPrefix} from "../model/SelectItemPrefix";
 import {isNullOrUndefined} from "util";
+import {Prefix} from "../model/Prefix";
 
 
 @Component({
@@ -31,49 +32,34 @@ export class SearchFormComponent implements OnInit {
   bonding2: string;
   bonding3: string;
   bonding4: string;
-  prefix1: string;
-  prefix2: string;
-  prefix3: string;
-  prefix4: string;
-  prefix5: string;
+  prefix1: Prefix;
+  prefix2: Prefix;
+  prefix3: Prefix;
+  prefix4: Prefix;
+  prefix5: Prefix;
   text: string[];
-  coder: boolean[];
   coderValues: SelectItem[][];
 
 
   changed(pref, fieldNum){
     this.text[fieldNum] = "";
-    switch (fieldNum){
-      case 0: this.prefix1 = pref.code;
-      case 1: this.prefix2 = pref.code;
-      case 2: this.prefix3 = pref.code;
-      case 3: this.prefix4 = pref.code;
-      case 4: this.prefix5 = pref.code;
-    }
+
     if (pref.isCoder) { // If prefix is coder
       this.getCoder.getCoderData(pref.code).subscribe(
           response => {
-            console.log(response);
+            //console.log(response);
             arrayify(response[pref.code].codes).forEach(
                 d => {
                   this.coderValues[fieldNum].push({"label": d.value, "value": d.code});
-                }
-            );
-          }
-      );
-      this.coder[fieldNum] = true; // Hide text, show dropdown
+                });
+          });
       }
-    else {
-      this.coder[fieldNum] = false;
     }
-  }
-
 
   search() {
     this.bisisService.getRecordsEP();
 
   }
-
   searchBy( text) {
     if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary == '') {
       this.messageService.clear();
@@ -139,11 +125,11 @@ export class SearchFormComponent implements OnInit {
     }
     else {
       var searchModel = {
-        pref1: prefix1,
-        pref2: prefix2,
-        pref3: prefix3,
-        pref4: prefix4,
-        pref5: prefix5,
+        pref1: prefix1.code,
+        pref2: prefix2.code,
+        pref3: prefix3.code,
+        pref4: prefix4.code,
+        pref5: prefix5.code,
         text1: text1,
         text2: text2,
         text3: text3,
@@ -174,17 +160,18 @@ export class SearchFormComponent implements OnInit {
 
   private populateAdvancedFormCombos(){
     this.text = [];
-    this.prefix1 = "AU";
-    this.prefix2 = "TI";
-    this.prefix3 = "KW";
-    this.prefix4 = "PU";
-    this.prefix5 = "PY";
+    this.prefix1 = new Prefix('AU', false)
+    this.prefix2 = new Prefix('TI', false);
+    this.prefix3 = new Prefix("KW", false);
+    this.prefix4 = new Prefix("PU", false);
+    this.prefix5 = new Prefix("PY", false);
     this.bonding1 = "AND";
     this.bonding2 = "AND";
     this.bonding3 = "AND";
     this.bonding4 = "AND";
     this.allPrefixes = [];
     this.bondings = [];
+    //TODO - staviti ovo ucitavanje prefiksa sa nekog drugog mesta
     this.allPrefixes.push(new SelectItemPrefix('Аутор',  'AU'));
     this.allPrefixes.push(new SelectItemPrefix('Наслов', 'TI'));
     this.allPrefixes.push(new SelectItemPrefix('Кључне речи', 'KW'));
@@ -208,12 +195,6 @@ export class SearchFormComponent implements OnInit {
     this.bondings.push({label: 'AND', value: 'AND'});
     this.bondings.push({label:'OR', value: 'OR'});
     this.bondings.push({label:'NOT', value: 'NOT'});
-    this.coder = [];
-    this.coder[0]=false;
-    this.coder[1]=false;
-    this.coder[2]=false;
-    this.coder[3]=false;
-    this.coder[4]=false;
 
     this.coderValues = [];
 
