@@ -541,7 +541,8 @@ public class StringUtils {
   }
   
   public static void main(String[] args) {
-    System.out.println(replace("\"<Filip Visnjic\">", "<", ""));
-    System.out.println(replace("\"<Filip Visnjic\">", ">", ""));
+//    System.out.println(replace("\"<Filip Visnjic\">", "<", ""));
+//    System.out.println(replace("\"<Filip Visnjic\">", ">", ""));
+      System.out.println(LatCyrUtils.toCyrillic("Bibliotekari"));
   }
 }
