@@ -63,13 +63,13 @@ public class BisisApp {
         splashScreen = new SplashScreen();
         splashScreen.setImage("/icons/book-big.png");
         splashScreen.setVisible(true);
-        splashScreen.getMessage().setText("Pokre\u0107em menad\u017eer zapisa");
+        splashScreen.getMessage().setText("Покрећем менаџер записа");
 
         String token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), login.getUsername(), login.getPassword());
         if (token == null) {
           splashScreen.setVisible(false);
-          JOptionPane.showMessageDialog(null, "Server je nedostupan!",
-              "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(null, "Сервер је недоступан!",
+              "Грешка", JOptionPane.ERROR_MESSAGE);
           System.exit(0);
         }
 
@@ -122,8 +122,8 @@ public class BisisApp {
 
         } else {
           splashScreen.setVisible(false);
-          JOptionPane.showMessageDialog(null, "Pogre\u0161no ime/lozinka",
-              "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(null, "Погрешно име/лозинка",
+              "Грешка", JOptionPane.ERROR_MESSAGE);
           login.setVis(true);
         }
       } else {

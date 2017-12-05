@@ -24,7 +24,7 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
 
     public MainFrame() {
-        setTitle("BISIS " + BisisApp.appVersion);
+        setTitle("БИСИС " + BisisApp.appVersion);
         ImageIcon icon = new ImageIcon(getClass().getResource("/icons/appicon_old.png"));
         setIconImage(icon.getImage());
         add(desktop, BorderLayout.CENTER);
@@ -50,7 +50,7 @@ public class MainFrame extends JFrame {
     }
 
     public void initialize(Librarian lib){
-        statusnaLinija.setText("Bibliotekar: "+BisisApp.appConfig.getLibrarian().getUsername());
+        statusnaLinija.setText("Библиотекар: "+BisisApp.appConfig.getLibrarian().getUsername());
         if (lib.isAdministracija()){
             desktop.add(getIntOznFrame());
             desktop.add(getNacinFrame());
