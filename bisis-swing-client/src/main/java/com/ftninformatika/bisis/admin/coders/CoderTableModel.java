@@ -177,7 +177,7 @@ public class CoderTableModel extends AbstractTableModel {
           try {
 			newRow.add(Integer.parseInt(s.trim()));
           } catch (NumberFormatException e){
-			throw new Exception ("Format polja "+ table.getColumns().get(index).getName() + " mora biti broj!");
+			throw new Exception ("Формат поља "+ table.getColumns().get(index).getName() + " мора бити број!");
           }
           break;
         case Types.CHAR:
@@ -188,13 +188,13 @@ public class CoderTableModel extends AbstractTableModel {
           try {
         	  newRow.add(new BigDecimal(s.trim()));
           } catch (NumberFormatException e){
-  			throw new Exception ("Format polja "+ table.getColumns().get(index).getName() + " mora biti decimalan broj!");
+  			throw new Exception ("Формат поља "+ table.getColumns().get(index).getName() + " мора бити децималан број!");
           }
         case Types.DATE:
           try {
         	  newRow.add(sdf.parse(s.trim()));
           } catch (ParseException e){
-    		  throw new Exception ("Format za datum mora biti dd.MM.yyyy!" );
+    		  throw new Exception ("Форамт за датум dd.MM.yyyy!" );
            }
         default:
       }
