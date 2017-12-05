@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by dboberic on 03/11/2017.
@@ -166,7 +165,6 @@ public class CircReportContoller {
         }else{
             lendings = lr.findLendingsByUserIdAndLendDateBetweenAndLocation(memberNo,start,end,location);
         }
-        List<String> ctlgNos= lendings.stream().map(l -> l.getCtlgNo()).collect(Collectors.toList());
         Record r;
         RecordPreview rp = new RecordPreview();
         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
@@ -175,8 +173,12 @@ public class CircReportContoller {
             r = rr.getRecordByPrimerakInvNum(l.getCtlgNo());
             rp.init(r);
             Report report = new Report();
+            String returnDate="";
+            if (l.getReturnDate()!=null){
+                returnDate = sdf.format(l.getReturnDate());
+            }
             report.setProperty1(sdf.format(l.getLendDate()));
-            report.setProperty2(sdf.format(l.getReturnDate()));
+            report.setProperty2(returnDate);
             report.setProperty3(rp.getAuthor());
             report.setProperty4(rp.getTitle());
             report.setProperty5(l.getCtlgNo());
