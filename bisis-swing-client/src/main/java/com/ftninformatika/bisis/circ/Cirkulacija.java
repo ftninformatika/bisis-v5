@@ -61,8 +61,6 @@ public class Cirkulacija {
         .getResource("/log4j.properties"));
         log.info("Application startup");
 
-        new Messages();
-
         UIManager.put("swing.boldMetal", Boolean.FALSE);
         UIManager.installLookAndFeel("PlasticLookAndFeel",
                 "com.jgoodies.looks.plastic.PlasticLookAndFeel");
