@@ -4,6 +4,7 @@
 package com.ftninformatika.bisis.editor.editorutils;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.FormatUtils;
 import com.ftninformatika.bisis.libenv.ProcessTypeListCellRenderer;
@@ -14,7 +15,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;import java.text.MessageFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,15 +43,14 @@ public class ProcTypeChooserDialog extends CenteredDialog {
 	
 	public ProcTypeChooserDialog(){
 		this.setSize(473, 400);		
-		this.setTitle("Промена типа обраде");
+		this.setTitle(Messages.getString("EDITOR_TOOLTIPCHANGEPROCESSTYPE"));
 		initializeList();	
-		labelString = "Типови обраде за библиотекара: \n"
-			+ BisisApp.appConfig.getLibrarian().getUsername();
-		okButton = new JButton("Потврди");
+		labelString = MessageFormat.format(Messages.getString("PROCESS_TYPES_FOR_LIBRARIAN.0"), BisisApp.appConfig.getLibrarian().getUsername());
+		okButton = new JButton(Messages.getString("EDITOR_BUTTONACCEPT"));
 		okButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
 		
-		cancelButton = new JButton("Одустани");
+		cancelButton = new JButton(Messages.getString("EDITOR_BUTTONCANCEL"));
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 		layoutPanels();

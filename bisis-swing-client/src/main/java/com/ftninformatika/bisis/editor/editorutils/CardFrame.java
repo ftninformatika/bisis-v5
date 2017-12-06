@@ -28,6 +28,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.PaperBL;
 import com.ftninformatika.bisis.cards.Report;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import net.miginfocom.swing.MigLayout;
 /**
@@ -50,7 +51,7 @@ public class CardFrame extends CenteredDialog implements Printable {
   
   public CardFrame(){
     super(BisisApp.getMainFrame());
-    setTitle("Приказ записа у форми листића");
+    setTitle(Messages.getString("SHOW_CARD"));
     setResizable(false);    
     editorPane = new JEditorPane();
     editorPane.setEditorKit(new HTMLEditorKit());
@@ -60,23 +61,23 @@ public class CardFrame extends CenteredDialog implements Printable {
     editorPane.setEditable(false);
    // editorPane.setSize(500, 400);
    // editorPane.setBorder(arg0)
-    showButton = new JButton("Прикажи");
+    showButton = new JButton(Messages.getString("SHOW"));
     initialize();    
     setSize(785, 528);
     
     choicePanel = new JPanel();
     MigLayout migLayout = new MigLayout("","","[]10[]10[]");
     choicePanel.setLayout(migLayout);
-    choicePanel.add(new JLabel("Врсте листића: "));
+    choicePanel.add(new JLabel(Messages.getString("CARD_TYPES")));
     choicePanel.add(vrsteListicaCmbBox);
     choicePanel.add(showButton);
     
     buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new MigLayout("","","[]5[]"));
-    zatvoriButton = new JButton("Затвори");
+    zatvoriButton = new JButton(Messages.getString("CLOSE"));
     zatvoriButton.setIcon(new ImageIcon(getClass().getResource(
     "/icons/remove.gif")));
-    stampajButton = new JButton("Штампај");
+    stampajButton = new JButton(Messages.getString("PRINT"));
     stampajButton.setIcon(new ImageIcon(getClass().getResource(
     "/icons/print_16.png")));
     buttonsPanel.add(stampajButton);

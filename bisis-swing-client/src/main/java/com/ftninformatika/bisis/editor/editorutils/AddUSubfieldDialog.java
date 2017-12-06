@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.editor.editorutils;
 
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.USubfield;
@@ -10,13 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
 
 public class AddUSubfieldDialog extends CenteredDialog {
 	
 	// clasa jos nije u funkciji 
-	private String title = "Додавање потпоља формата";
+	private String title = Messages.getString("EDITOR_ADD_SUBFIELD_FORMAT");
 	private UField ownerField;
 	private JList sfList = new JList();	
 	private UElementListCellRenderer renderer = new UElementListCellRenderer();	
@@ -46,8 +47,7 @@ public class AddUSubfieldDialog extends CenteredDialog {
     getRootPane().setDefaultButton(okButton);	
 		getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		fLabel = new JLabel("<html>Додавање потпоља поља:<br>"
-				+ownerField.getName()+"-"+ownerField.getDescription()+"</html>");
+		fLabel = new JLabel(MessageFormat.format(Messages.getString("EDITOR_ADD_SUBFIEDL"), ownerField.getName(), ownerField.getDescription()));
 		c.gridx = 0;
 		c.gridy = 0;			
 		c.anchor = GridBagConstraints.CENTER;
@@ -69,10 +69,10 @@ public class AddUSubfieldDialog extends CenteredDialog {
 		this.getContentPane().add(sfListScrollPane,c);
 		
 		buttonsPanel = new JPanel();
-		okButton = new JButton("Потврди");
+		okButton = new JButton(Messages.getString("EDITOR_BUTTONACCEPT"));
 		okButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
-		cancelButton = new JButton("Одустани");
+		cancelButton = new JButton(Messages.getString("EDITOR_BUTTONCANCEL"));
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 		buttonsPanel.add(okButton,null);

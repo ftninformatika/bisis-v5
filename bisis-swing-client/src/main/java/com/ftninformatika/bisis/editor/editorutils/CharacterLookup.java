@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.editor.editorutils;
 
+import com.ftninformatika.bisis.editor.Messages;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -33,12 +35,12 @@ import javax.swing.table.TableCellRenderer;
 public class CharacterLookup extends JDialog {
 
   public CharacterLookup(JFrame parent) {
-    super(parent, "Изаберите карактер", true);
+    super(parent, Messages.getString("CHOSE_CHAR"), true);
     
-    btnOK = new JButton("Потврди");
+    btnOK = new JButton(Messages.getString("EDITOR_BUTTONACCEPT"));
     btnOK.setIcon(new ImageIcon(getClass().getResource(
         "/icons/images/ok.gif")));
-    btnCancel = new JButton("Одустани");
+    btnCancel = new JButton(Messages.getString("EDITOR_BUTTONCANCEL"));
     btnCancel.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 

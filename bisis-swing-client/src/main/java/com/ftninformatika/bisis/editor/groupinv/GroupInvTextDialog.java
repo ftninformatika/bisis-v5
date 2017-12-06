@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -13,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.utils.CenteredDialog;
 import net.miginfocom.swing.MigLayout;
 
@@ -32,7 +34,7 @@ public class GroupInvTextDialog extends CenteredDialog {
 	
 		this.name = name;
 		this.setSize(280, 300);		
-		setTitle("Промена вредности за "+name);
+		setTitle(MessageFormat.format(Messages.getString("CHANGE_VALUE_FOR.0"), name));
 		initialize();
 	}
 	
@@ -43,7 +45,7 @@ public class GroupInvTextDialog extends CenteredDialog {
 		add(scrollPane,"grow, wrap");
 		okButton = new JButton();
 		okButton.setSize(new java.awt.Dimension(88,26));
-		okButton.setText("Потврди");
+		okButton.setText(Messages.getString("EDITOR_BUTTONACCEPT"));
 		okButton.setIcon(new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/ok.gif")));		
 		okButton.addActionListener(new ActionListener(){
@@ -56,7 +58,7 @@ public class GroupInvTextDialog extends CenteredDialog {
 		     handleKeys(e);    
 		   }     
 		 });		
-		cancelButton = new JButton("Одустани");
+		cancelButton = new JButton(Messages.getString("EDITOR_BUTTONCANCEL"));
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
 		     "/com/gint/app/bisis4/client/images/remove.gif")));		
 		buttonsPanel = new JPanel();
