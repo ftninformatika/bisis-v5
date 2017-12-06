@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by dboberic on 03/11/2017.
@@ -39,6 +38,7 @@ public class CircReportContoller {
      * ukupan broj korisnika koji su se uclanili od pocetka godine
      * ukupan broj korisnika koji su se uclanili u tom periodu
      */
+     /*UsersNumberReportCommand*//*Statistic1ReportCommand*/
 
     @RequestMapping(value = "/get_number_of_members_by_period", method = RequestMethod.GET)
     public int getNumberOfMembersByPeriod(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
@@ -54,6 +54,7 @@ public class CircReportContoller {
     /**
      * podaci o korisniku koji su se uclanili datog dana po kategorijama
      */
+/*UserCategReportCommand*/
 
     @RequestMapping(value = "/get_members_with_categories", method = RequestMethod.GET)
     public List<Report> getMembersWithCategory(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
@@ -107,6 +108,8 @@ public class CircReportContoller {
     /*
     uclanjeni korisnici sortitani po prezimenu
      */
+    /*MemberBookReportCommand*/
+
     @RequestMapping(value = "/get_signed_members", method = RequestMethod.GET)
     public List<Report> getSignedMembers(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
@@ -166,7 +169,6 @@ public class CircReportContoller {
         }else{
             lendings = lr.findLendingsByUserIdAndLendDateBetweenAndLocation(memberNo,start,end,location);
         }
-        List<String> ctlgNos= lendings.stream().map(l -> l.getCtlgNo()).collect(Collectors.toList());
         Record r;
         RecordPreview rp = new RecordPreview();
         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
@@ -175,8 +177,12 @@ public class CircReportContoller {
             r = rr.getRecordByPrimerakInvNum(l.getCtlgNo());
             rp.init(r);
             Report report = new Report();
+            String returnDate="";
+            if (l.getReturnDate()!=null){
+                returnDate = sdf.format(l.getReturnDate());
+            }
             report.setProperty1(sdf.format(l.getLendDate()));
-            report.setProperty2(sdf.format(l.getReturnDate()));
+            report.setProperty2(returnDate);
             report.setProperty3(rp.getAuthor());
             report.setProperty4(rp.getTitle());
             report.setProperty5(l.getCtlgNo());
@@ -185,4 +191,22 @@ public class CircReportContoller {
 
         return reports;
     }
-}
+/*SubMemberBookReportCommand*/
+    @RequestMapping(value = "/get_cost_for_user", method = RequestMethod.GET)
+    public List<Report> getCostForUser(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
+        List<Report> reports=new ArrayList<Report>();
+        List<Member> members = mr.getSignedMembers(start, end, location, "membershipType.description");
+        for (Member m : members) {
+            Report r = new Report();
+            r.setProperty1(m.getUserId());
+            r.setProperty2(m.getMembershipType().getDescription());
+            if (m.getSignings().get(0).getCost() == null || m.getSignings().get(0).getCost().equals(""))
+                r.setProperty20("0");
+            else {
+                r.setProperty20(String.valueOf(m.getSignings().get(0).getCost()));
+            }
+            reports.add(r);
+        }
+        return reports;
+    }
+    }
