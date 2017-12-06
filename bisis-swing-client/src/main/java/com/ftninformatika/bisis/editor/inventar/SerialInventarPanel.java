@@ -10,7 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
-import java.text.ParseException;
+import java.text.MessageFormat;import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -28,6 +28,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Godina;
@@ -139,8 +140,8 @@ public class SerialInventarPanel extends InventarPanel {
   
   private void adjustInventarColumnWidth(){
  		TableColumn column = null;		
- 		int napomenaColumnIndex = godineTableModel.getColumnIndex("Напомена");
- 		int invBrojColumnIndex = godineTableModel.getColumnIndex("Инвентарни број");
+ 		int napomenaColumnIndex = godineTableModel.getColumnIndex(Messages.getString("NOTE"));
+ 		int invBrojColumnIndex = godineTableModel.getColumnIndex(Messages.getString("INV_NUM"));
  		for(int i=0;i<godineTableModel.getColumnCount();i++){
  			column = godineTable.getColumnModel().getColumn(i);				
  			if(godineTableModel.isSifriranaKolona(i))
@@ -283,20 +284,20 @@ public class SerialInventarPanel extends InventarPanel {
     Obrada.editorFrame.recordUpdated();
     if(godineTable.getSelectedRowCount()<=1){
       if(!handleValidateFormData(true).equals(""))      
-        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(true),"Грешка",JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(true), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
       else{
         Godina g = getGodinaFromForm();        
         try {
           godineTableModel.updateGodina(g, changeInvBr);
         } catch (InventarniBrojException e) {
-          JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
         }
       		changeInvBr = false;
       		invBrojPanel.setChangeInvBr(false);
       }
     }else{
       if(!handleValidateFormData(false).equals(""))      
-        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(true),"Грешка",JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(true), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
       else
         godineTableModel.updateGodine(godineTable.getSelectedRows(), getGodinaFromForm());
     }   
@@ -304,7 +305,7 @@ public class SerialInventarPanel extends InventarPanel {
   
   private void handleOpenRaspodelaFrame(){
     if(!handleValidateFormData(false).equals(""))     
-      JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(false),"Грешка",JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(BisisApp.getMainFrame(),handleValidateFormData(false), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
     else{
       raspodelaFrame = new RaspodelaFrame(this);    
       BisisApp.getMainFrame().insertFrame(raspodelaFrame);
@@ -357,10 +358,9 @@ public class SerialInventarPanel extends InventarPanel {
   
   private void deleteSelectedGodina(){
   	Godina g = godineTableModel.getRow(godineTable.getSelectedRow());
-  	Object[] options = { "Обриши", "Одустани" };
-  	String message = "Да ли сте сигурни да желите да обришете годину, \n" +
-			"инвентарни број: "+g.getInvBroj()+"?";
-  	int ret = JOptionPane.showOptionDialog(null, message , "Брисање",
+  	Object[] options = {Messages.getString("EDITOR_DELETE"), Messages.getString("EDITOR_BUTTONCANCEL") };
+  	String message = MessageFormat.format(Messages.getString("ARE_U_SURE_TO_DELETE_YEARј.0"), g.getInvBroj());
+  	int ret = JOptionPane.showOptionDialog(null, message , Messages.getString("DELETING"),
 		JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 			null, options, options[0]);
   	if(ret==0){  	
@@ -376,7 +376,7 @@ public class SerialInventarPanel extends InventarPanel {
     createSignaturaPanel();
     createOstaloPanel();
     createButtonsPanel();    
-    tabbedPane.addTab("Свеске", sveskePanel);
+    tabbedPane.addTab(Messages.getString("NOTEBOOK"), sveskePanel);
     tabbedPane.setMnemonicAt(4, KeyEvent.VK_V);
     
   //  MigLayout layout = new MigLayout("","[]10[]10[]","");
@@ -404,13 +404,13 @@ public class SerialInventarPanel extends InventarPanel {
     
     glavniPanel.setLayout(new MigLayout("","","[]0[]5[]0[]5[]0[]5[]0[]"));
     
-    glavniPanel.add(new JLabel("Одељење:"),"wrap");
+    glavniPanel.add(new JLabel(Messages.getString("LOCATION:")),"wrap");
     glavniPanel.add(odeljenjePanel,"wrap, grow");
         
-    glavniPanel.add(new JLabel("Инвентарна књига:"),"wrap");
+    glavniPanel.add(new JLabel(Messages.getString("INV_BOOK:")),"wrap");
     glavniPanel.add(invKnjPanel,"wrap, grow");   
             
-    glavniPanel.add(new JLabel("Инвентарни број:"),"wrap");
+    glavniPanel.add(new JLabel(Messages.getString("INV_NUM:")),"wrap");
     glavniPanel.add(invBrojPanel,"wrap, grow");
     
     
@@ -418,18 +418,18 @@ public class SerialInventarPanel extends InventarPanel {
     
     godistePanel.setLayout(new MigLayout("","[]10[]","[]0[]5[]0[]10[]0[]5[]0[]"));
     
-    godistePanel.add(new JLabel("Датум инвентарисања:"),"span 2, wrap");
+    godistePanel.add(new JLabel(Messages.getString("INV_DATE:")),"span 2, wrap");
     godistePanel.add(datumInvTxtFld,"wrap, grow, span 2");
     
-    godistePanel.add(new JLabel("Инвентарисао:"), "span 2, wrap");
+    godistePanel.add(new JLabel(Messages.getString("INVENTOR:")), "span 2, wrap");
     godistePanel.add(inventatorTxtFld, "span 2, wrap");
     
-    godistePanel.add(new JLabel("Година:"),"grow");
-    godistePanel.add(new JLabel("Годиште:"),"grow, wrap");
+    godistePanel.add(new JLabel(Messages.getString("YEAR:")),"grow");
+    godistePanel.add(new JLabel(Messages.getString("YEARING:")),"grow, wrap");
     
     godistePanel.add(godinaTxtFld,"grow");
     godistePanel.add(godisteTxtFld,"grow, wrap");
-    godistePanel.add(new JLabel("Број:"),"wrap, grow");
+    godistePanel.add(new JLabel(Messages.getString("NUMBER:")),"wrap, grow");
     godistePanel.add(brojTxtFld,"grow, span 2, wrap");
     
     
@@ -461,27 +461,27 @@ public class SerialInventarPanel extends InventarPanel {
     
     numCurPanel.setLayout(new MigLayout("","","[]0[]5[]0[]20[]0[]5[]0[]"));
     
-    numCurPanel.add(new JLabel("Подлокација"),"wrap");
+    numCurPanel.add(new JLabel(Messages.getString("SUBLOCATION")),"wrap");
     numCurPanel.add(podlokacijaPanel,"wrap, grow");  
         
-    numCurPanel.add(new JLabel("Numerus curens:"),"wrap");
+    numCurPanel.add(new JLabel(Messages.getString("NUMERUS_CURENS")),"wrap");
     numCurPanel.add(sigNumerusCurensTxtFld,"wrap, grow");
     
-    numCurPanel.add(new JLabel("Интерна ознака:"),"wrap");
+    numCurPanel.add(new JLabel(Messages.getString("INTERNAL_MARK:")),"wrap");
     numCurPanel.add(intOznakaPanel,"wrap, grow");
     
-    numCurPanel.add(new JLabel("Нумерација:"),"wrap");
+    numCurPanel.add(new JLabel(Messages.getString("NUMERATION:")),"wrap");
     numCurPanel.add(sigNumeracijaTxtFld,"wrap, grow");
     
     ostaloPanel.setLayout(new MigLayout("","","[]0[]7[]0[]7[]0[]"));
     
-    ostaloPanel.add(new JLabel("UDK:"),"wrap");
+    ostaloPanel.add(new JLabel(Messages.getString("UDK:")),"wrap");
     ostaloPanel.add(sigUDK675bPanel,"wrap, grow");
     
-    ostaloPanel.add(new JLabel("Формат:"),"wrap");
+    ostaloPanel.add(new JLabel(Messages.getString("FORMAT:")),"wrap");
     ostaloPanel.add(formatPanel,"wrap, grow");
     
-    ostaloPanel.add(new JLabel("Дублет:"),"wrap");
+    ostaloPanel.add(new JLabel(Messages.getString("DOUBLET:")),"wrap");
     ostaloPanel.add(sigDubletTxtFld,"wrap, grow");
     
     
@@ -495,14 +495,14 @@ public class SerialInventarPanel extends InventarPanel {
   
   private void createButtonsPanel(){
     buttonsPanel = new JPanel();
-    sacuvajButton = new JButton("Сачувај");
+    sacuvajButton = new JButton(Messages.getString("EDITOR_SAVE_BUTTON"));
     sacuvajButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
-    ponistiButton = new JButton("Поништи");
+    ponistiButton = new JButton(Messages.getString("EDITOR_CANCEL_BUTTON"));
     ponistiButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
     ponistiButton.setSelected(false); 
-    raspodelaButton = new JButton("Расподела");
+    raspodelaButton = new JButton(Messages.getString("DISTRIBUTION"));
     raspodelaButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/edit.gif")));
     

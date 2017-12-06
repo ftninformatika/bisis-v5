@@ -8,7 +8,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
-import java.text.ParseException;
+import java.text.MessageFormat;import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +28,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.records.Godina;
@@ -63,7 +64,7 @@ public class SveskePanel extends JPanel {
     brojTxtFld = new JTextField(10); 
     knjigaTxtFld = new JTextField(10);
     datumStatusaTxtFld = new JTextField(10);
-    dodajSveskuButton = new JButton("Додај");
+    dodajSveskuButton = new JButton(Messages.getString("EDITOR_ADD_BUTTON"));
     dodajSveskuButton.setIcon(new ImageIcon(getClass().getResource(
     "/icons/plus16.png")));
     createSveskeTable();
@@ -256,9 +257,8 @@ public class SveskePanel extends JPanel {
   private void deleteSelectedSveska(){
   	if(sveskeTable.getSelectedRow()>=0){
 	  	Sveska s = sveskeTableModel.getRow(sveskeTable.getSelectedRow());
-	  	Object[] options = { "Обриши", "Одустани" };
-	  	String message = "Да ли сте сигурни да желите да обришете свеску, \n" +
-	  			"инвентарни број: "+s.getInvBroj()+"?";
+	  	Object[] options = {Messages.getString("EDITOR_DELETE"), Messages.getString("EDITOR_BUTTONCANCEL") };
+	  	String message = MessageFormat.format(Messages.getString("ARE_U_SURE_TO_DELETE_NOTEBOOK_FOR_INV_NUM.0"), s.getInvBroj());
 			int ret = JOptionPane.showOptionDialog(null, message , "Брисање",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 					null, options, options[0]); 
@@ -273,13 +273,13 @@ public class SveskePanel extends JPanel {
     //inputPanel.setLayout(new MigLayout("","[][]","[]0[]5[]0[]5[]0[]5[]0[]5[]0[]"));    
     inputPanel.setLayout(new MigLayout("","[]5[]","[]0[]5[]0[]5[]0[]10[]"));
     //inputPanel.setLayout(new MigLayout("","[]5[]","[]0[]5[]0[]5[]"));
-    inputPanel.add(new JLabel("Број свеске:"),"");
-    inputPanel.add(new JLabel("Књига (Годиште):"),"wrap");
+    inputPanel.add(new JLabel(Messages.getString("NOTEBOOK_NUM:")),"");
+    inputPanel.add(new JLabel(Messages.getString("BOOK_YEARING")),"wrap");
     inputPanel.add(brojTxtFld,"");
     inputPanel.add(knjigaTxtFld,"wrap");   
-    inputPanel.add(new JLabel("Инвентарни број"),"wrap, span 2");
+    inputPanel.add(new JLabel(Messages.getString("INV_NUM")),"wrap, span 2");
     inputPanel.add(invBrojPanel,"wrap, span 2");    
-    inputPanel.add(new JLabel("Статус:"),"wrap, span 2");
+    inputPanel.add(new JLabel(Messages.getString("STATUS:")),"wrap, span 2");
     inputPanel.add(statusPanel,"wrap, span 2");   
     //inputPanel.add(new JLabel("Datum statusa:"),"wrap, span 2");
     //inputPanel.add(datumStatusaTxtFld, "wrap, span 2");

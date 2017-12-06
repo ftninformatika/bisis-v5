@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Sveska;
 import org.apache.commons.logging.Log;
@@ -26,13 +27,13 @@ public class SveskeTableModel extends AbstractTableModel {
   public SveskeTableModel(List<Sveska> sveske) {
     this.sveske = sveske;
     columns = new String[7];
-    columns[0] = "Инвентарни број";
-    columns[1] = "Број свеске";
-    columns[2] = "Књига";
-    columns[3] = "Статус";
-    columns[4] = "Датум статуса";
-    columns[5] = "Инвентатор";
-    columns[6] = "Цена";
+    columns[0] = Messages.getString("INV_NUM");
+    columns[1] = Messages.getString("NOTEBOOK_NUMBER");
+    columns[2] = Messages.getString("BOOK");
+    columns[3] = Messages.getString("STATUS");
+    columns[4] = Messages.getString("SD");
+    columns[5] = Messages.getString("INVENTOR");
+    columns[6] = Messages.getString("PRICE");
   }  
   
 
@@ -104,7 +105,7 @@ public class SveskeTableModel extends AbstractTableModel {
       		//moze postojati inv broj u nekoj drugoj godini u ovom 
       		// zapisu koji jos nije sacuvan
       		if(RecordUtils.invBrojSveskePostojiUZapisu(s.getInvBroj()))
-      			throw new InventarniBrojException("Дупли инвентарни број (текући запис)!");
+      			throw new InventarniBrojException(Messages.getString("DUPLICATE_INV_NUM"));
         if(!InventarValidation.validateInvBrojUnique(s.getInvBroj()).equals(""))
           throw new InventarniBrojException(InventarValidation.validateInvBrojUnique(s.getInvBroj()));
         //s.setStanje(0);
