@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class CircUserLendingAction extends AbstractAction {
 
   public CircUserLendingAction() {
-    putValue(SHORT_DESCRIPTION, "Задужења корисника");
-    putValue(NAME, "Задужења");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.userlendings"));
+    putValue(NAME, Messages.getString("actions.charging"));
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
   }
   

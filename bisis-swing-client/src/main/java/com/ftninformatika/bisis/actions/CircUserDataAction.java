@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class CircUserDataAction extends AbstractAction {
 
   public CircUserDataAction() {
-    putValue(SHORT_DESCRIPTION, "PПостојећи корисник");
-    putValue(NAME, "Подаци");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.existinguser"));
+    putValue(NAME, Messages.getString("actions.data"));
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(
         "/circ-images/user24.png")));
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));

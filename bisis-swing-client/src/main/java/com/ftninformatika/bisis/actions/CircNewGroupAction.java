@@ -11,8 +11,8 @@ import javax.swing.ImageIcon;
 public class CircNewGroupAction extends AbstractAction {
 
   public CircNewGroupAction() {
-    putValue(SHORT_DESCRIPTION, "Нови колективни корисник");
-    putValue(NAME, "Колективни");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.newgroupuser"));
+    putValue(NAME, Messages.getString("actions.corporate"));
     putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/circ-images/add_user_group_boldbold16.png")));
   }

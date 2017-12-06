@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class CircSearchUsersAction extends AbstractAction {
 
   public CircSearchUsersAction() {
-    putValue(SHORT_DESCRIPTION, "Претраживање корисника");
-    putValue(NAME, "Корисници");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.searchuser"));
+    putValue(NAME, Messages.getString("actions.users"));
     putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/circ-images/find_user16.png")));
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(

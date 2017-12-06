@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class CircNewUserAction extends AbstractAction {
 
   public CircNewUserAction() {
-    putValue(SHORT_DESCRIPTION, "Нови индивидуални корниск");
-    putValue(NAME, "Индивидуални");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.newsolouser"));
+    putValue(NAME, Messages.getString("actions.individual"));
     putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/circ-images/add_user_bold16.png")));
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(

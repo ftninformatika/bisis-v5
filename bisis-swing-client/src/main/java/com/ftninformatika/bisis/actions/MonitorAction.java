@@ -6,8 +6,8 @@ import javax.swing.AbstractAction;
 public class MonitorAction extends AbstractAction {
 
   public MonitorAction() {
-    putValue(SHORT_DESCRIPTION, "Карактерисике система");
-    putValue(NAME, "Монитор");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.sysconfiguration"));
+    putValue(NAME, Messages.getString("actions.monitor"));
   }
   
   public void actionPerformed(ActionEvent ev) {

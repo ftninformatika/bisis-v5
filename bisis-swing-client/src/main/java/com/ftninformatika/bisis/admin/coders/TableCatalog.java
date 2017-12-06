@@ -33,8 +33,8 @@ public class TableCatalog {
             new Column("Povez_Opis", "Опис", Types.VARCHAR, 255, 0, false)}));
     tables.put("SigFormat", 
         new Table("SigFormat", "Формат", new Column[] {
-            new Column("SigFormat_ID", "\u0160ifra", Types.CHAR, 2, 0, true), 
-            new Column("Format_Opis", "Opis", Types.VARCHAR, 255, 0, false)}));
+            new Column("SigFormat_ID", "Шифра", Types.CHAR, 2, 0, true),
+            new Column("Format_Opis", "Опис", Types.VARCHAR, 255, 0, false)}));
     tables.put("Status_Primerka", 
         new Table("Status_Primerka", "Статус примерка", new Column[] {
             new Column("Status_ID", "Ширфа", Types.CHAR, 1, 0, true),
