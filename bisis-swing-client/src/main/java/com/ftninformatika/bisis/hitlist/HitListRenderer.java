@@ -35,7 +35,7 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
   public Component getListCellRendererComponent(JList list, Object value, 
       int index, boolean isSelected, boolean cellHasFocus) {
   	
-  	if(value == null) setText("Обрисан запис");
+  	if(value == null) setText(Messages.getString("HITLIST_DELETED_RECORD"));
     if (value instanceof Record) {
       Record rec = (Record)value;
       if(findRedniBroj(rec)!=-1)

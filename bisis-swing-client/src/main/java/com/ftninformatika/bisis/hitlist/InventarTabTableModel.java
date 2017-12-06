@@ -60,43 +60,43 @@ public class InventarTabTableModel extends AbstractTableModel {
 		super();
 		// opsta tabela kolona za primerke
 		primerakAll = new String[17];
-    primerakAll[0] = "Инвентарни број";
-    primerakAll[1] = "Датум инвентарисања";
-    primerakAll[2] = "Статус";
-    primerakAll[3] = "Сигнатура";
-    primerakAll[4] = "Одељење";
-    primerakAll[5] = "Број рачуна";
-    primerakAll[6] = "Датум рачуна";
-    primerakAll[7] = "Цена";
-    primerakAll[8] = "Добављач";
-    primerakAll[9] = "Финансијер";
-    primerakAll[10] = "Повез";
-    primerakAll[11] = "Начин набавке";
-    primerakAll[12] = "Напомене";
-    primerakAll[13] = "Доступност";
-    primerakAll[14] = "Инвентатор";
-    primerakAll[15] = "Датум статуса";
-    primerakAll[16] = "Усмеравање";
+    primerakAll[0] = Messages.getString("HITLIST_INV_NUM");
+    primerakAll[1] = Messages.getString("HITLIST_INV_DATE");
+    primerakAll[2] = Messages.getString("HITLIST_STATUS");
+    primerakAll[3] = Messages.getString("HITLIST_SIGNATURE");
+    primerakAll[4] = Messages.getString("HITLIST_LOCATION");
+    primerakAll[5] = Messages.getString("HITLIST_BILL_NUMBER");
+    primerakAll[6] = Messages.getString("HITLIST_BILL_DATE");
+    primerakAll[7] = Messages.getString("HITLIST_PRICE");
+    primerakAll[8] = Messages.getString("HITLIST_ACQ");
+    primerakAll[9] = Messages.getString("HITLIST_FINANCIER");
+    primerakAll[10] = Messages.getString("HITLIST_BINDING");
+    primerakAll[11] = Messages.getString("HITLIST_EDITOR_ACQ_TYPE");
+    primerakAll[12] = Messages.getString("HITLIST_NOTES");
+    primerakAll[13] = Messages.getString("HITLIST_AVAILABILITY");
+    primerakAll[14] = Messages.getString("HITLIST_INVENTOR");
+    primerakAll[15] = Messages.getString("HITLIST_STATUS_DATE");
+    primerakAll[16] = Messages.getString("HITLIST_ROUTING");
     
     //opsta tabela kolona za godine
     godineAll = new String[17];
-    godineAll[0] = "Инвентарни број";
-    godineAll[1] = "Датум инвентарисања";
-    godineAll[2] = "Сигнатура";
-    godineAll[3] = "Одељење";
-    godineAll[4] = "Број рачуна";
-    godineAll[5] = "Датум рачуна";
-    godineAll[6] = "Цена";
-    godineAll[7] = "Добављач";
-    godineAll[8] = "Финансијер";
-    godineAll[9] = "Повез";
-    godineAll[10] = "Начин набавке";
-    godineAll[11] = "Напомене";
-    godineAll[12] = "Годиште";
-    godineAll[13] = "Година";
-    godineAll[14] = "Број";
-    godineAll[15] = "Доступност";
-    godineAll[16] = "Инвентатор";
+    godineAll[0] = Messages.getString("HITLIST_INV_NUM");
+    godineAll[1] = Messages.getString("HITLIST_INV_DATE");
+    godineAll[2] = Messages.getString("HITLIST_SIGNATURE");
+    godineAll[3] = Messages.getString("HITLIST_LOCATION");
+    godineAll[4] = Messages.getString("HITLIST_BILL_NUMBER");
+    godineAll[5] = Messages.getString("HITLIST_BILL_DATE");
+    godineAll[6] = Messages.getString("HITLIST_PRICE");
+    godineAll[7] = Messages.getString("HITLIST_ACQ");
+    godineAll[8] = Messages.getString("HITLIST_FINANCIER");
+    godineAll[9] = Messages.getString("HITLIST_BINDING");
+    godineAll[10] = Messages.getString("HITLIST_EDITOR_ACQ_TYPE");
+    godineAll[11] = Messages.getString("HITLIST_NOTES");
+    godineAll[12] = Messages.getString("HITLIST_YEARING");
+    godineAll[13] = Messages.getString("HITLIST_YEAR");
+    godineAll[14] = Messages.getString("HITLIST_NUMBER");
+    godineAll[15] = Messages.getString("HITLIST_AVAILABILITY");
+    godineAll[16] = Messages.getString("HITLIST_INVENTOR");
     
     //kolone za primerke
     String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getCataloguingInvbrSubStr();
@@ -255,11 +255,11 @@ public class InventarTabTableModel extends AbstractTableModel {
 	
 	public boolean isSifriranaKolona(int colIndex){
 		return
-			colIndex == getColumnIndex("Статус") ||
-			colIndex == getColumnIndex("Одељење") ||
-			colIndex == getColumnIndex("Начин набавке") ||
-			colIndex == getColumnIndex("Повез") ||
-			colIndex == getColumnIndex("Доступност");
+			colIndex == getColumnIndex(Messages.getString("HITLIST_STATUS")) ||
+			colIndex == getColumnIndex(Messages.getString("HITLIST_LOCATION")) ||
+			colIndex == getColumnIndex(Messages.getString("HITLIST_EDITOR_ACQ_TYPE")) ||
+			colIndex == getColumnIndex(Messages.getString("HITLIST_BINDING")) ||
+			colIndex == getColumnIndex(Messages.getString("HITLIST_AVAILABILITY"));
 			
 	}
 }
