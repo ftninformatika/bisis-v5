@@ -13,8 +13,8 @@ import javax.swing.KeyStroke;
 public class MergeRecordsAction extends AbstractAction {
 
 	public MergeRecordsAction() {
-    putValue(SHORT_DESCRIPTION, "спајање записа");
-    putValue(NAME, "Merge");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.mergingrecords"));
+    putValue(NAME, Messages.getString("actions.merge"));
     /*putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/new_record.gif")));*/
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));

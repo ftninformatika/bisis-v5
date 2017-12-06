@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.editor.inventar;
 import javax.swing.table.AbstractTableModel;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Sveska;
@@ -22,23 +23,23 @@ public class GodineTableModel extends AbstractTableModel {
   public GodineTableModel(){
     super();
     godineAll = new String[17];
-    godineAll[0] = "Инвентарни број";
-    godineAll[1] = "Датум инвентарисања";
-    godineAll[2] = "Сигнатура";
-    godineAll[3] = "Одељење";
-    godineAll[4] = "Број рачуна";
-    godineAll[5] = "Датум рачуна";
-    godineAll[6] = "Цена";
-    godineAll[7] = "Добављач";
-    godineAll[8] = "Финансијер";
-    godineAll[9] = "Повез";
-    godineAll[10] = "Начин набавке";
-    godineAll[11] = "Напомене";
-    godineAll[12] = "Годиште";
-    godineAll[13] = "Година";
-    godineAll[14] = "Број";
-    godineAll[15] = "Доступност";
-    godineAll[16] = "Инвентатор";
+    godineAll[0] = Messages.getString("INV_NUM");
+    godineAll[1] = Messages.getString("INV_DATE");
+    godineAll[2] = Messages.getString("SIGNATURE");
+    godineAll[3] = Messages.getString("LOCATION");
+    godineAll[4] = Messages.getString("BILL_NUMBER");
+    godineAll[5] = Messages.getString("BILL_DATE");
+    godineAll[6] = Messages.getString("PRICE");
+    godineAll[7] = Messages.getString("ACQ");
+    godineAll[8] = Messages.getString("FINANCIER");
+    godineAll[9] = Messages.getString("BINDING");
+    godineAll[10] = Messages.getString("EDITOR_ACQ_TYPE");
+    godineAll[11] = Messages.getString("NOTES");
+    godineAll[12] = Messages.getString("YEARING");
+    godineAll[13] = Messages.getString("YEAR");
+    godineAll[14] = Messages.getString("NUMBER");
+    godineAll[15] = Messages.getString("AVAILABILITY");
+    godineAll[16] = Messages.getString("INVENTOR");
     String columnSetStr = BisisApp.appConfig.getClientConfig().getCataloguingGodineModel();
     columnSet = columnSetStr.split(" ");
     columns = new String[columnSet.length];
@@ -135,13 +136,12 @@ public class GodineTableModel extends AbstractTableModel {
           throw new InventarniBrojException(InventarValidation.validateInvBrojUnique(g.getInvBroj()));
         for(Sveska s:g.getSveske()){
         	if(!InventarValidation.validateInvBrojUnique(s.getInvBroj()).equals(""))
-        		throw new InventarniBrojException("Година не може бити сачувана" +
-        				"\n Постојећи инвентарни број свеске!");
+        		throw new InventarniBrojException(Messages.getString("YEAR_CAN_NOT_BE_SAVED"));
         }
         CurrRecord.addGodina(g);
       }      
     }else{
-      throw new InventarniBrojException("Морате унети инвентарни број!");
+      throw new InventarniBrojException(Messages.getString("MUST_ENTER_INV_NUM"));
     }
     fireTableDataChanged();
   }  
@@ -200,11 +200,11 @@ public class GodineTableModel extends AbstractTableModel {
  	
  	public boolean isSifriranaKolona(int colIndex){
  		return
- 			colIndex == getColumnIndex("Статус") ||
- 			colIndex == getColumnIndex("Одељење") ||
- 			colIndex == getColumnIndex("Начин набавке") ||
- 			colIndex == getColumnIndex("Повез") ||
- 			colIndex == getColumnIndex("Доступност");
+ 			colIndex == getColumnIndex(Messages.getString("STATUS")) ||
+ 			colIndex == getColumnIndex(Messages.getString("LOCATION")) ||
+ 			colIndex == getColumnIndex(Messages.getString("EDITOR_ACQ_TYPE")) ||
+ 			colIndex == getColumnIndex(Messages.getString("BINDING")) ||
+ 			colIndex == getColumnIndex(Messages.getString("AVAILABILITY"));
  			
  	}
 }

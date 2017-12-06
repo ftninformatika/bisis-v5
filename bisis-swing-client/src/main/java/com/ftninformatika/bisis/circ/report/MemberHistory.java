@@ -1,11 +1,5 @@
 package com.ftninformatika.bisis.circ.report;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.common.Utils;
@@ -20,8 +14,13 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import noNamespace.ReportDocument;
 import noNamespace.ReportDocument.Report;
 import noNamespace.ReportDocument.Report.Row;
-
 import org.w3c.dom.Document;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MemberHistory {
 

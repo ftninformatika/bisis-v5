@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.editor.formattree;
 
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.editorutils.AddUFieldDialog;
 import com.ftninformatika.bisis.editor.editorutils.AddUSubfieldDialog;
@@ -149,8 +150,8 @@ public class FormatTree extends JTree {
 		popupMenu = new JPopupMenu();
 		popupMenu.setInvoker(this);			
 		JMenuItem miCollapseOrExpand = new JMenuItem();
-		if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText("<html><b>Отвори</b>");
-		else miCollapseOrExpand.setText("<html><b>Затвори</b>");
+		if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText(Messages.getString("OPEN"));
+		else miCollapseOrExpand.setText(Messages.getString("CLOSE"));
 		miCollapseOrExpand.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				onEnter();				
@@ -252,8 +253,8 @@ public class FormatTree extends JTree {
   public class ExpandAllAction extends AbstractAction {
 
     public ExpandAllAction() {
-      putValue(SHORT_DESCRIPTION, "Отварање свих елемената стабла");
-      putValue(NAME, "Отвори све");
+      putValue(SHORT_DESCRIPTION, Messages.getString("OPENING_TREE_ELEMENTS"));
+      putValue(NAME, Messages.getString("OPEN_ALL"));
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_MASK));
      
     }    
@@ -266,8 +267,8 @@ public class FormatTree extends JTree {
   public class CollapseAllAction extends AbstractAction {
 
     public CollapseAllAction() {
-      putValue(SHORT_DESCRIPTION, "Затварање свих елемената стабла");
-      putValue(NAME, "Затвори све");
+      putValue(SHORT_DESCRIPTION, Messages.getString("CLOSE_TREE_ELEMENTS"));
+      putValue(NAME, Messages.getString("CLOSE_ALL"));
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_MASK));     
     }    
     public void actionPerformed(ActionEvent ev) {
@@ -278,8 +279,8 @@ public class FormatTree extends JTree {
   public class AddFieldAction extends AbstractAction {
 
     public AddFieldAction() {
-      putValue(SHORT_DESCRIPTION, "додавање селектованог поља у запис");
-      putValue(NAME, "Додај поље у запис");
+      putValue(SHORT_DESCRIPTION, Messages.getString("ADDING_SELECTED_FIELD_TO_RECORD"));
+      putValue(NAME, Messages.getString("ADD_FIELD_TO_RECORD"));
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.SHIFT_MASK));     
     }    
     public void actionPerformed(ActionEvent ev) {
@@ -290,8 +291,8 @@ public class FormatTree extends JTree {
   public class AddEmptyFieldAction extends AbstractAction {
 
    public AddEmptyFieldAction() {
-     putValue(SHORT_DESCRIPTION, "додавање одабраног поља у запис, без потпоља");
-     putValue(NAME, "Додај празно поље у запис");
+     putValue(SHORT_DESCRIPTION, Messages.getString("ADDING_FIELD_TO_RECORD_WITHOUT_SUBFIELD"));
+     putValue(NAME, Messages.getString("ADD_EMPTY_FIELD_TO_RECORD"));
      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_MASK));     
    }    
    public void actionPerformed(ActionEvent ev) {
@@ -302,8 +303,8 @@ public class FormatTree extends JTree {
   public class AddSubfieldAction extends AbstractAction {
 
 	    public AddSubfieldAction() {
-	      putValue(SHORT_DESCRIPTION, "додавање потпоља");
-	      putValue(NAME, "Додај потпоља");
+	      putValue(SHORT_DESCRIPTION, Messages.getString("ADDING_SUBFIELD"));
+	      putValue(NAME, Messages.getString("ADD_SUBFIELDS"));
 	      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD4,0));     
 	    }    
 	    public void actionPerformed(ActionEvent ev) {

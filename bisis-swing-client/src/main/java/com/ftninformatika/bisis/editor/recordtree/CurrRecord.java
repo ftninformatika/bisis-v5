@@ -3,11 +3,13 @@ package com.ftninformatika.bisis.editor.recordtree;
 
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.editor.inventar.InventarValidation;
@@ -159,7 +161,7 @@ public class CurrRecord {
         		f = RecordUtils.getRecordFieldWithoutSubfield(uf);
           record.add(f);
         }else{
-          throw new UValidatorException("Поље "+fName+"-"+uf.getDescription()+" није поновљиво");
+          throw new UValidatorException(MessageFormat.format(Messages.getString("FIELD.0.1.NOT_REPEATABLE"), fName, uf.getDescription()));
         }
       }
       l.add(record);
@@ -168,7 +170,7 @@ public class CurrRecord {
     if(selectedField!=null && CurrFormat.block4.contains(selectedField.getName())){
       if(uf.isSecondary()){
         if(RecordUtils.secondaryFieldAlreadyExist(uf) && !uf.isRepeatable())
-          throw new UValidatorException("Поље "+fName+"-"+uf.getDescription()+" није поновљиво");
+          throw new UValidatorException(MessageFormat.format(Messages.getString("FIELD.0.1.NOT_REPEATABLE"), fName, uf.getDescription()));
         Subfield sf = new Subfield('1');
         if(!withSubfields)
          f = RecordUtils.getRecordField(uf);
@@ -181,7 +183,7 @@ public class CurrRecord {
         l.add(sf);
         l.add(f);
       }else
-        throw new UValidatorException("Поље "+fName+"-"+uf.getDescription()+" није секундарно");
+        throw new UValidatorException(MessageFormat.format(Messages.getString("FIELD.0.1.NOT_SECONDARY"), fName, uf.getDescription()));
     }
       
     
@@ -206,7 +208,7 @@ public class CurrRecord {
   public static void addField(Field field, int index)throws UValidatorException{
   	UField uf = CurrFormat.getFullFormat().getField(field.getName());
   	if(record.getField(field.getName())!=null && !uf.isRepeatable()) 
-  		throw new UValidatorException("Поље "+uf.getName()+"-"+uf.getDescription()+" није поновљиво");
+  		throw new UValidatorException(MessageFormat.format(Messages.getString("FIELD.0.1.NOT_REPEATABLE"), uf.getName(), uf.getDescription()));
   	else
   		record.getFields().add(index,field);
   	RecordUtils.sortFields();
@@ -226,8 +228,7 @@ public class CurrRecord {
           // polje vec sadrzi dato potpolje       
           if(!us.isRepeatable()){
             // potpolje nije ponovljivo         
-            throw new UValidatorException("Potpolje "+us.getName()+"-"+us.getDescription()
-              +" nije ponovljivo u okviru polja"+"\n"+uf.getName()+"-"+uf.getDescription());         
+            throw new UValidatorException(MessageFormat.format(Messages.getString("SUBFIELD.0.1.NOT_REPEATABLE_IN_FIELDS.n.2.3"), us.getName(), us.getDescription(), uf.getName(), uf.getDescription()));
           }         
       }
       }
@@ -255,8 +256,7 @@ public class CurrRecord {
   			.getSubfield(f.getName()+sf.getName());
   	UField uf = CurrFormat.getFullFormat().getField(f.getName());
   	if(f.getSubfield(sf.getName())!=null && !usf.isRepeatable())
-  		 throw new UValidatorException("Potpolje "+usf.getName()+"-"+usf.getDescription()
-           +" nije ponovljivo u okviru polja"+"\n"+uf.getName()+"-"+uf.getDescription());
+  		 throw new UValidatorException(MessageFormat.format(Messages.getString("SF.0.1.NOT_REPEATABLE_IN_FIELDS.2.3"), usf.getName(), usf.getDescription(), uf.getName(), uf.getDescription()));
   	else
   		f.getSubfields().add(index, sf);
   }
@@ -274,15 +274,15 @@ public class CurrRecord {
 	    	  //validira nad podacima iz tabele
 	    	  if (!HoldingsDataCoders.isValid992b(newContent))
 	    		  throw new UValidatorException
-		           ("Kod koji ste izabrali nije definisan za potpolje "+"\n"+us.getName()+"-"+us.getDescription());
+		           (MessageFormat.format(Messages.getString("CHOSEN_CODE_NOT_DEFINED_FOR_FIELD.0.1"), us.getName(), us.getDescription()));
 	      }else if (us.getOwner().getName().equalsIgnoreCase("992")&&(us.getName()=='f')){
 	    	  if (!HoldingsDataCoders.isValidLibrarian(newContent))
 	    		  throw new UValidatorException
-		          ("Kod koji ste izabrali nije definisan za potpolje "+"\n"+us.getName()+"-"+us.getDescription());
+		          (MessageFormat.format(Messages.getString("CHOSEN_CODE_NOT_DEFINED_FOR_SUBFIELD.n.0.1"), us.getName(), us.getDescription()));
 	      }else{
 	        if (!newContent.equals("") && us.getCoder().getValue(newContent)==null){        
 	           throw new UValidatorException
-	           ("Kod koji ste izabrali nije definisan za potpolje "+"\n"+us.getName()+"-"+us.getDescription());
+	           (MessageFormat.format(Messages.getString("CHOSEN_CODE_NOT_DEFINED_FOR_SUBFIELD.0.1"), us.getName(), us.getDescription()));
 	        }
 	      }  
 	     }
@@ -300,7 +300,7 @@ public class CurrRecord {
   	}
   	if(newValue.equals("") || ui.getValue(newValue)==null)
   		throw new UValidatorException
-    ("Kod koji ste izabrali nije definisan za izabrani indikator!");
+    (Messages.getString("CODE_NOT_DEFINED_FOR_INDICATOR"));
   		
   	
   }
@@ -308,7 +308,7 @@ public class CurrRecord {
   public static String validateRecord(){
     StringBuffer izvestaj = new StringBuffer();
     StringBuffer message = new StringBuffer();   
-    String potpoljePref = "Nije uneto obavezno potpolje: ";    
+    String potpoljePref = Messages.getString("NOT_ENTERED_MANDATORY_FIELD");
     valid = true;    
     List<USubfield> mandatorySubfields = CurrFormat.returnMandatorySubfields();
     for(int i=0;i<mandatorySubfields.size();i++) {
@@ -327,9 +327,9 @@ public class CurrRecord {
       }
     }    
     if (valid){
-      izvestaj.append("Zapis je validan!");
+      izvestaj.append(Messages.getString("RECORD_IS_VALID"));
     }else{
-      izvestaj.append("Zapis nije validan!");
+      izvestaj.append(Messages.getString("RECORD_NOT_VALID"));
       izvestaj.append("\n");
       izvestaj.append(message);
     }    

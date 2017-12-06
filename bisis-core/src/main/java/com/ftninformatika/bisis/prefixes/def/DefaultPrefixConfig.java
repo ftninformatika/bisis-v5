@@ -5,6 +5,10 @@ import com.ftninformatika.bisis.prefixes.PrefixHandler;
 import com.ftninformatika.bisis.prefixes.PrefixMap;
 import com.ftninformatika.bisis.prefixes.PrefixValue;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -163,14 +167,19 @@ public class DefaultPrefixConfig implements PrefixConfig {
   }
   
   private List<PrefixValue> initPrefixNameList(Locale locale) {
+    String BUNDLE_NAME_SUBFIELDS = "com/ftninformatika/bisis/prefixes/SubfieldNames_sr.properties";
+    String BUNDLE_NAME_PREFIXES = "com/ftninformatika/bisis/prefixes/PrefixNames_sr.properties";
     List<PrefixValue> retVal = new ArrayList<>();
     ResourceBundle rb = null;
-    if (locale == null)
-      rb = PropertyResourceBundle.getBundle(
-          "com.ftninformatika.bisis.prefixes.PrefixNames");
-    else
-      rb = PropertyResourceBundle.getBundle(
-          "com.ftninformatika.bisis.prefixes.PrefixNames", locale);
+    try {
+      Reader reader = new InputStreamReader(DefaultPrefixConfig.class.getClassLoader().getResourceAsStream(BUNDLE_NAME_PREFIXES), "UTF-8");
+      rb = new PropertyResourceBundle(reader);
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
     if (rb == null)
       return retVal;
     Enumeration keys = rb.getKeys();
@@ -182,12 +191,29 @@ public class DefaultPrefixConfig implements PrefixConfig {
     Collections.sort(retVal);
 
     List<PrefixValue> temp = new ArrayList<PrefixValue>();
-    if (locale == null)
-      rb = PropertyResourceBundle.getBundle(
-          "com.ftninformatika.bisis.prefixes.SubfieldNames");
-    else
-      rb = PropertyResourceBundle.getBundle(
-          "com.ftninformatika.bisis.prefixes.SubfieldNames", locale);
+    if (locale == null) {
+
+      Reader reader = null;
+      try {
+        reader = new InputStreamReader(DefaultPrefixConfig.class.getClassLoader().getResourceAsStream(BUNDLE_NAME_SUBFIELDS), "UTF-8");
+        rb = new PropertyResourceBundle(reader);
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    else {
+      try {
+        Reader reader = new InputStreamReader(DefaultPrefixConfig.class.getClassLoader().getResourceAsStream(BUNDLE_NAME_SUBFIELDS), "UTF-8");
+        rb = new PropertyResourceBundle(reader);
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
+    }
     if (rb == null)
       return retVal;
     keys = rb.getKeys();

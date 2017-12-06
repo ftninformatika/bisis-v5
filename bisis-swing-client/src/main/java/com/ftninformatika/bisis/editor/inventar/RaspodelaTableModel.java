@@ -4,6 +4,7 @@
 package com.ftninformatika.bisis.editor.inventar;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
@@ -37,10 +38,10 @@ public class RaspodelaTableModel extends AbstractTableModel {
 		super();
 		frame = rf;
 		columns = new String[4];
-		columns[0] = "Одељење";
-		columns[1] = "Инвентарна књига";
-		columns[2] = "Подлокација";
-		columns[3] = "Број примерака";
+		columns[0] = Messages.getString("LOCATION");
+		columns[1] = Messages.getString("INV_BOOK");
+		columns[2] = Messages.getString("SUBLOCATION");
+		columns[3] = Messages.getString("NO_OF_ITEMS");
 	}
 
 	
@@ -105,14 +106,14 @@ public class RaspodelaTableModel extends AbstractTableModel {
 			// update
 			int prethodniBrojPrimeraka = ((Integer)raspodela.get(index)[1]).intValue();
 			int razlika = brPrimeraka-prethodniBrojPrimeraka;		
-			if(razlika>preostalo) throw new RaspodelaException("Прекорачен број књига!");
+			if(razlika>preostalo) throw new RaspodelaException(Messages.getString("OVERRUN_NO_BOOKS"));
 			raspodela.remove(index);
 			raspodela.add(index,novaRaspodela);	
 			this.fireTableRowsUpdated(0,index);		
 			frame.setPreostalo(preostalo-razlika);
 		}else{
 			//insert
-			if(brPrimeraka>preostalo) throw new RaspodelaException("Прекорачен број књига!");
+			if(brPrimeraka>preostalo) throw new RaspodelaException(Messages.getString("OVERRUN_NO_BOOKS"));
 			raspodela.add(novaRaspodela);		
 			frame.setPreostalo(preostalo-brPrimeraka.intValue());			
 			this.fireTableRowsInserted(0,raspodela.size()-1);
@@ -152,7 +153,7 @@ public class RaspodelaTableModel extends AbstractTableModel {
           String prefiks = pocetak+"000000000".substring(0,InventarConstraints.duzinaInventarnogBroja-pocetak.length()-String.valueOf(broj).length());
           String invBroj = prefiks+broj; 
           if(InventarValidation.isDuplicatedInvBroj(invBroj))
-          		throw new UValidatorException("Инвентарни број је заузет, \n морате подесити бројач!");
+          		throw new UValidatorException(Messages.getString("INV_NUM_TAKEN_SET_COUNTER"));
           Primerak newp = RecordUtils.copyPrimerakBezInv(p);
           newp.setInvBroj(invBroj);                             
           CurrRecord.addPrimerak(newp);

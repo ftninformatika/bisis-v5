@@ -10,13 +10,14 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.coders.CodersHelper;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.format.UItem;
 import net.miginfocom.swing.MigLayout;
 
@@ -49,40 +50,40 @@ public class CodedValuePanel extends JPanel {
     allowedSymbols.clear();
 		switch(sifType){
 			case(CodersHelper.NACINNABAVKE_CODER):
-				labelStr = "Начин набавке";
+				labelStr = Messages.getString("EDITOR_ACQ_TYPE");
 				codesList = //HoldingsDataCoders.getCoder(HoldingsDataCoders.NACINNABAVKE_CODER);
 						BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.NACINNABAVKE_CODER);
 				break;
 			case(CodersHelper.POVEZ_CODER):
-				labelStr = "Повез";
+				labelStr = Messages.getString("BINDING");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.POVEZ_CODER);
 				break;
 			case(CodersHelper.PODLOKACIJA_CODER):
-				labelStr = "Подлокација";
+				labelStr = Messages.getString("SUBLOCATION");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.PODLOKACIJA_CODER);
 				break;
 			case(CodersHelper.FORMAT_CODER):
-				labelStr = "Формат";
+				labelStr = Messages.getString("FORMAT");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.FORMAT_CODER);
 				break;
 			case(CodersHelper.INTERNAOZNAKA_CODER):
-				labelStr = "Интерна ознака";
+				labelStr = Messages.getString("INTERNAL_MARK");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INTERNAOZNAKA_CODER);
 				break;
 			case(CodersHelper.ODELJENJE_CODER):
-				labelStr = "Одељење";
+				labelStr = Messages.getString("LOCATION");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.ODELJENJE_CODER);
 				break;
 			case(CodersHelper.STATUS_CODER):
-				labelStr = "Статус";
+				labelStr = Messages.getString("STATUS");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.STATUS_CODER);
 				break;
 			case(CodersHelper.INVENTARNAKNJIGA_CODER):
-				labelStr = "Инвентарна књига";
+				labelStr = Messages.getString("INV_BOOK");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INVENTARNAKNJIGA_CODER);
         break;
       case(CodersHelper.DOSTUPNOST_CODER):
-        labelStr = "Степен доступности/недоступности";
+        labelStr = Messages.getString("AVAILABILITY");
       codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.DOSTUPNOST_CODER);
 		}		
 		create();    
@@ -107,7 +108,7 @@ public class CodedValuePanel extends JPanel {
 		this.add(codeTxtFld, "grow");		
 		this.add(valueTxtFld,"grow");		
 		this.add(coderButton);	
-		coderButton.setToolTipText("Шифарник");
+		coderButton.setToolTipText(Messages.getString("CODER"));
 		coderButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				handleOpenCoder();				
@@ -158,7 +159,7 @@ public class CodedValuePanel extends JPanel {
 	
 	private void handleOpenCoder(){
 		InventarCodeChoiceDialog ccd = null;
-		ccd = new InventarCodeChoiceDialog(labelStr+"- шифарник",codesList);
+		ccd = new InventarCodeChoiceDialog(MessageFormat.format(Messages.getString("0.CODER"), labelStr),codesList);
 		if(ccd!=null){
 			ccd.setVisible(true);
 			if(ccd.getSelectedCode()!=null){
@@ -194,7 +195,7 @@ public class CodedValuePanel extends JPanel {
     if(sifType==CodersHelper.ODELJENJE_CODER
         && !InventarConstraints.imaOdeljenja){
       codeTxtFld.setText("00");   
-      valueTxtFld.setText("Нема одељења");
+      valueTxtFld.setText(Messages.getString("NO_LOCATION"));
       codeTxtFld.setForeground(Color.BLACK);
       setForInv("00");
       setEnabled(false);

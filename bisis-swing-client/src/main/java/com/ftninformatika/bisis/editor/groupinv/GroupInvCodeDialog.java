@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.editorutils.CodesList;
 import com.ftninformatika.bisis.editor.inventar.InventarConstraints;
 import com.ftninformatika.bisis.format.UItem;
@@ -44,8 +46,8 @@ public class GroupInvCodeDialog extends CenteredDialog {
 		this.items = items;
 		this.name = name;
 		this.setSize(280, 300);		
-		setTitle("Промена вредности за "+name);
-		isStatus = name.equals("Статус");
+		setTitle(MessageFormat.format(Messages.getString("CHANGE_VALUE_FOR.0"), name));
+		isStatus = name.equals(Messages.getString("STATUS"));
 		initialize();
 	}
 
@@ -54,7 +56,7 @@ public class GroupInvCodeDialog extends CenteredDialog {
 			setLayout(new MigLayout("", "", ""));
 			datePanel = new JPanel();
 			datePanel.setLayout(new MigLayout("","[]10[]",""));
-			datePanel.add(new JLabel("Датум статуса: "));
+			datePanel.add(new JLabel(Messages.getString("STATUS_DATE")));
 			datePanel.add(dateTxtFld,"grow");
 			Date today = new Date();
 	    dateTxtFld.setText(InventarConstraints.sdf.format(today));
@@ -70,7 +72,7 @@ public class GroupInvCodeDialog extends CenteredDialog {
 		
 		okButton = new JButton();
 		okButton.setSize(new java.awt.Dimension(88,26));
-		okButton.setText("Потврди");
+		okButton.setText(Messages.getString("EDITOR_BUTTONACCEPT"));
 		okButton.setIcon(new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/ok.gif")));		
 		okButton.addActionListener(new ActionListener(){
@@ -83,7 +85,7 @@ public class GroupInvCodeDialog extends CenteredDialog {
         handleKeys(e);    
       }     
     });		
-		cancelButton = new JButton("Одустани");
+		cancelButton = new JButton(Messages.getString("EDITOR_BUTTONCANCEL"));
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
         "/com/gint/app/bisis4/client/images/remove.gif")));		
 		buttonsPanel = new JPanel();
@@ -114,8 +116,8 @@ public class GroupInvCodeDialog extends CenteredDialog {
 			datumStatusa = dateTxtFld.getText();
 			DateValidator dv = new DateValidator();
 			if(!dv.isValid(datumStatusa).equals("")){
-				String message = "Погрешан формат датума";
-				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message,"Грешка",JOptionPane.ERROR_MESSAGE);
+				String message = Messages.getString("WRONG_DATE_FORMAT");
+				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message, Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
 			}else{
 				try{
 					String selectedString = codesList.getSelectedValue().toString();

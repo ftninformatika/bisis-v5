@@ -6,6 +6,7 @@ package com.ftninformatika.bisis.editor.inventar;
 import javax.swing.table.AbstractTableModel;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.utils.string.Signature;
@@ -31,23 +32,23 @@ public class PrimerciTableModel extends AbstractTableModel {
 	public PrimerciTableModel() {
 		super();
     primerakAll = new String[17];
-    primerakAll[0] = "Инвентарни број";
-    primerakAll[1] = "Датум инвентарисања";
-    primerakAll[2] = "Стаус";
-    primerakAll[3] = "Сигнатура";
-    primerakAll[4] = "Одељење";
-    primerakAll[5] = "Број рачуна";
-    primerakAll[6] = "Датум рачуна";
-    primerakAll[7] = "Цена";
-    primerakAll[8] = "Добављач";
-    primerakAll[9] = "Финансијер";
-    primerakAll[10] = "Повез";
-    primerakAll[11] = "Начин набавке";
-    primerakAll[12] = "Напомене";
-    primerakAll[13] = "Доступност";
-    primerakAll[14] = "Инвентатор";
-    primerakAll[15] = "Датум статуса";
-    primerakAll[16] = "Усмеравање";
+    primerakAll[0] = Messages.getString("INV_NUM");
+    primerakAll[1] = Messages.getString("INV_DATE");
+    primerakAll[2] = Messages.getString("STATUS");
+    primerakAll[3] = Messages.getString("SIGNATURE");
+    primerakAll[4] = Messages.getString("LOCATION");
+    primerakAll[5] = Messages.getString("BILL_NUMBER");
+    primerakAll[6] = Messages.getString("BILL_DATE");
+    primerakAll[7] = Messages.getString("PRICE");
+    primerakAll[8] = Messages.getString("ACQ");
+    primerakAll[9] = Messages.getString("FINANCIER");
+    primerakAll[10] = Messages.getString("BINDING");
+    primerakAll[11] = Messages.getString("EDITOR_ACQ_TYPE");
+    primerakAll[12] = Messages.getString("NOTES");
+    primerakAll[13] = Messages.getString("AV");
+    primerakAll[14] = Messages.getString("INVENTOR");
+    primerakAll[15] = Messages.getString("SD");
+    primerakAll[16] = Messages.getString("ROUTINGG");
     String columnSetStr = BisisApp.appConfig.getClientConfig().getCataloguingPrimerciModel();
     columnSet = columnSetStr.split(" ");
     columns = new String[columnSet.length];
@@ -211,11 +212,11 @@ public class PrimerciTableModel extends AbstractTableModel {
  	
  	public boolean isSifriranaKolona(int colIndex){
  		return
- 			colIndex == getColumnIndex("Статус") ||
- 			colIndex == getColumnIndex("Одељење") ||
- 			colIndex == getColumnIndex("Начин набавке") ||
- 			colIndex == getColumnIndex("Повез") ||
- 			colIndex == getColumnIndex("Доступност");
+ 			colIndex == getColumnIndex(Messages.getString("STATUS")) ||
+ 			colIndex == getColumnIndex(Messages.getString("LOCATION")) ||
+ 			colIndex == getColumnIndex(Messages.getString("EDITOR_ACQ_TYPE")) ||
+ 			colIndex == getColumnIndex(Messages.getString("BINDING")) ||
+ 			colIndex == getColumnIndex(Messages.getString("AV"));
  			
  	}
   

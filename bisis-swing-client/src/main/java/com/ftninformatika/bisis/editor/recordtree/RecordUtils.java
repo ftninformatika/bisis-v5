@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.editor.recordtree;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.UField;
@@ -10,6 +11,7 @@ import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.*;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -297,14 +299,12 @@ public class RecordUtils { //TODO-hardcoded all over the place
     if(name.length()==3){
       UField uf = CurrFormat.format.getField(name); 
       if(CurrFormat.isMandatoryFiled(name) && RecordUtils.getFieldCount(name)<2){
-        return "Поље "+uf.getName()+"-"+uf.getDescription()+"\n"
-        +"је обавезно поље и не може бити обрисано!";
+        return MessageFormat.format(Messages.getString("FIELD.0.1.IS_MANDATORY_BUT_U_CAN_REMOVE_IT"), uf.getName(), uf.getDescription());
       }
     }else if(name.length()==4){
       USubfield usf = CurrFormat.format.getSubfield(name);
       if(CurrFormat.isMandatorySubfield(name) && RecordUtils.getSubfieldCount(name)<2){       
-        return "Потпоље "+usf.getName()+"-"+usf.getDescription()+"\n"
-        +"је обавезно и не може бити обрисано!";
+        return MessageFormat.format(Messages.getString("SUBFIELD.0.1.NOT_MANDATORY_AND_CANT_BE_REMOVED"), usf.getName(), usf.getDescription());
       }
     }
     return "";
@@ -590,7 +590,7 @@ public class RecordUtils { //TODO-hardcoded all over the place
   	buff.append("<html><b>RN: </b>"+rec.getRN()+"\n");
   	buff.append("<html><b>TI:</b> "+rec.getSubfieldContent("200a")+"\n");
   	buff.append("<html><b>PY</b>: "+rec.getSubfieldContent("100c")+"\n");  	
-  	buff.append("Инвентарни бројеви:\n");
+  	buff.append(Messages.getString("INV_NUMS:"));
   	for(Primerak p:rec.getPrimerci())
   		buff.append(p.getInvBroj()+"\n");
   	for(Godina g:rec.getGodine())

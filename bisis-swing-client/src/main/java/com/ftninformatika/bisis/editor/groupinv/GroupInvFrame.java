@@ -29,13 +29,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import net.miginfocom.swing.MigLayout;
 ;
 
 public class GroupInvFrame extends JInternalFrame {
 	
 	public GroupInvFrame(){
-		super("Групни инвентар", true, true, true, true);
+		super(Messages.getString("GROUP_INV"), true, true, true, true);
 		//setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     setPreferredSize(new Dimension(700,310));  
@@ -52,13 +53,13 @@ public class GroupInvFrame extends JInternalFrame {
     loadFilePanel.add(browseButton,"grow, wrap");
     loadFilePanel.add(loadFileButton, "");
     
-    tabbedPane.addTab("Ручни унос", manualInputPanel);
+    tabbedPane.addTab(Messages.getString("MANUAL_INPUT"), manualInputPanel);
     tabbedPane.setMnemonicAt(0, KeyEvent.VK_R);    
-    tabbedPane.addTab("Учитавање фајла",loadFilePanel);
+    tabbedPane.addTab(Messages.getString("LOAD_FILE"),loadFilePanel);
     tabbedPane.setMnemonicAt(1, KeyEvent.VK_U);    
     
     manualInputPanel.setLayout(new MigLayout("insets 10","[]10[]","[]10[]"));
-    manualInputPanel.add(new JLabel("Инвентарни број"), "grow, wrap");
+    manualInputPanel.add(new JLabel(Messages.getString("INV_NUM")), "grow, wrap");
     manualInputPanel.add(invBrojTextField,"grow");
     manualInputPanel.add(dodajButton,"grow");
     
@@ -222,10 +223,10 @@ public class GroupInvFrame extends JInternalFrame {
 		boolean ok = tableModel.updateRecords();
 		if(ok)
 			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-					"Подаци су успешно сачувани!","Извештај",JOptionPane.INFORMATION_MESSAGE);
+					Messages.getString("DATA_SUCESSFULLY_SAVED"), Messages.getString("REPORT"),JOptionPane.INFORMATION_MESSAGE);
 		else
 			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-					"Дошло је до грешке. Подаци нису сачувани!","Грешка",JOptionPane.ERROR_MESSAGE);
+					Messages.getString("ERROR_DATA_NOT_SAVED"), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
 	}
 	
 	private void handleClearList(){
@@ -245,13 +246,13 @@ public class GroupInvFrame extends JInternalFrame {
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
 	private JTextField invBrojTextField = new JTextField(10);
-	private JButton dodajButton = new JButton("Додај");
+	private JButton dodajButton = new JButton(Messages.getString("EDITOR_ADD_BUTTON"));
 	private JTextField fileNameTxtFld = new JTextField(20);
-	private JButton browseButton = new JButton("Пронађи фајл");
-	private JButton loadFileButton = new JButton("Учитај бројеве");
-	private JButton changeValueButton = new JButton("Промени вредност");
-	private JButton saveChangesButton = new JButton("Сачувај");
-	private JButton resetTableButton = new JButton("Поништи");
+	private JButton browseButton = new JButton(Messages.getString("EDITOR_FIND_FILE_BUTTON"));
+	private JButton loadFileButton = new JButton(Messages.getString("EDITOR_LOAD_NUMS_BUTTON"));
+	private JButton changeValueButton = new JButton(Messages.getString("EDITOR_CHANGE_VALUE_BUTTON"));
+	private JButton saveChangesButton = new JButton(Messages.getString("EDITOR_SAVE_BUTTON"));
+	private JButton resetTableButton = new JButton(Messages.getString("EDITOR_CANCEL_BUTTON"));
 	private JFileChooser fileChooser = new JFileChooser();
 	
 		

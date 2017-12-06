@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -161,7 +162,7 @@ public class CircReportContoller {
     /*istorija zaduzenja clana *//*LendingHistoryReportCommand*/
 
     @RequestMapping(value = "/get_lending_history", method = RequestMethod.GET)
-    public List<Report> getLendingHistory(@RequestParam("memberNo") String memberNo,@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location){
+    public List<Report> getLendingHistory(@RequestParam("memberNo") String memberNo, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)Date end, @RequestParam("location") String location){
         List<Report> reports=new ArrayList<Report>();
         List<Lending> lendings;
         if (location==null ||location.equals("")){

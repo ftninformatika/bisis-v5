@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.ftninformatika.bisis.coders.CodersHelper;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import net.miginfocom.swing.MigLayout;
@@ -132,10 +133,10 @@ public class InventarPanel extends JPanel{
     napomeneScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
     napomeneTxtArea.setLineWrap(true); 
     
-    tabbedPane.addTab("Инвентар",invPanel);
-    tabbedPane.addTab("Сигнатура",signaturaPanel);
-    tabbedPane.addTab("Набавка",nabavkaPanel);
-    tabbedPane.addTab("Остало", ostaloPanel);
+    tabbedPane.addTab(Messages.getString("EDITOR_TOGGLEBUTTONINVENTAR"),invPanel);
+    tabbedPane.addTab(Messages.getString("SIGNATURE"),signaturaPanel);
+    tabbedPane.addTab(Messages.getString("BUYING"),nabavkaPanel);
+    tabbedPane.addTab(Messages.getString("OTHER"), ostaloPanel);
     tabbedPane.setMnemonicAt(0, KeyEvent.VK_I);
     tabbedPane.setMnemonicAt(1, KeyEvent.VK_S);
     tabbedPane.setMnemonicAt(2, KeyEvent.VK_N); 
@@ -367,13 +368,13 @@ public class InventarPanel extends JPanel{
     
     racunPanel.setLayout(racunLayout);
     
-    racunPanel.add(new JLabel("Број рачуна:"),"wrap");
+    racunPanel.add(new JLabel(Messages.getString("BILL_NUM")),"wrap");
     racunPanel.add(brojRacunaTxtFld,"wrap, span 2, grow");
     
-    racunPanel.add(new JLabel("Датум рачуна:"),"wrap");
+    racunPanel.add(new JLabel(Messages.getString("BILL_DATE:")),"wrap");
     racunPanel.add(datumRacunaTxtFld,"wrap,span 2, grow");
     
-    racunPanel.add(new JLabel("Цена:"),"wrap");
+    racunPanel.add(new JLabel(Messages.getString("PRICE:")),"wrap");
     racunPanel.add(cenaTxtFld,"wrap, grow"); 
     
      
@@ -381,13 +382,13 @@ public class InventarPanel extends JPanel{
     nabavkaPanel.setLayout(layout);
     
     osnovnoPanel.setLayout(layout);
-    osnovnoPanel.add(new JLabel("Начин набавке:"),"wrap, grow");
+    osnovnoPanel.add(new JLabel(Messages.getString("ACQ:")),"wrap, grow");
     osnovnoPanel.add(nacinNabavkePanel,"wrap, grow");  
     
-    osnovnoPanel.add(new JLabel("Финансијер:"),"wrap");
+    osnovnoPanel.add(new JLabel(Messages.getString("FINANCIER:")),"wrap");
     osnovnoPanel.add(finansijerTxtFld,"wrap, grow");
     
-    osnovnoPanel.add(new JLabel("Добављач:"),"wrap");
+    osnovnoPanel.add(new JLabel(Messages.getString("SUPPLIER:")),"wrap");
     osnovnoPanel.add(dobavljacTxtFld,"wrap, grow");
     
     nabavkaPanel.setLayout(new MigLayout("","[]20[]",""));
@@ -401,14 +402,14 @@ public class InventarPanel extends JPanel{
   	
   	JPanel prviPanel = new JPanel();
   	prviPanel.setLayout(new MigLayout("","","[]0[]10[]0[]"));
-  	prviPanel.add(new JLabel("Доступност:"),"wrap");
+  	prviPanel.add(new JLabel(Messages.getString("AVAILABILITY:")),"wrap");
   	prviPanel.add(dostupnostPanel,"grow, wrap");
-  	prviPanel.add(new JLabel("Повез:"),"wrap");
+  	prviPanel.add(new JLabel(Messages.getString("BINDING:")),"wrap");
     prviPanel.add(povezPanel,"wrap, grow");
     
     JPanel drugiPanel = new JPanel();
     drugiPanel.setLayout(new MigLayout("","","[]0[]"));
-    drugiPanel.add(new JLabel("Напомене:"),"wrap");
+    drugiPanel.add(new JLabel(Messages.getString("NOTES:")),"wrap");
     drugiPanel.add(napomeneScrollPane,"wrap, grow");
   	
   	ostaloPanel.setLayout(new MigLayout("","[]10[]",""));  	    

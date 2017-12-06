@@ -35,6 +35,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.records.Primerak;
@@ -71,9 +72,9 @@ public class RaspodelaFrame extends JInternalFrame {
 	
 	
 	public RaspodelaFrame(InventarPanel mp) {
-    super("Расподела примерака", true, true, false, false);
+    super(Messages.getString("ITEM_DISTRIBUTION"), true, true, false, false);
     this.monograph = mp instanceof MonographInventarPanel;
-    if(!monograph) setTitle("Расподела година");
+    if(!monograph) setTitle(Messages.getString("YEAR_DISTRIBUTION"));
 		
 		this.inventarPanel = mp;
 		this.setSize(new Dimension(800,400));
@@ -107,11 +108,11 @@ public class RaspodelaFrame extends JInternalFrame {
 		raspodelaScrollPane = new JScrollPane(raspodelaTable);
 		
 		raspodelaButtonsPanel = new JPanel();
-		sacuvajButton = new JButton("Расподели");
+		sacuvajButton = new JButton(Messages.getString("DISTRIBUTE"));
 		sacuvajButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/ok.gif")));
 		sacuvajButton.setEnabled(false);
-		odustaniButton = new JButton("Одустани");
+		odustaniButton = new JButton(Messages.getString("EDITOR_BUTTONCANCEL"));
 		odustaniButton.setIcon(new ImageIcon(getClass().getResource(
         "/icons/remove.gif")));
 		raspodelaButtonsPanel.setLayout(new GridBagLayout());
@@ -125,21 +126,21 @@ public class RaspodelaFrame extends JInternalFrame {
 		MigLayout layout = new MigLayout("","[][]20[]","[][]30[]0[]10[]0[]10[][]");
 		setLayout(layout);
 		
-		add(new JLabel("Број књига за расподелу:"),"align right");
+		add(new JLabel(Messages.getString("NO_BOOKS_FOR_DISTRIBUTION")),"align right");
 		add(brojPrimTxtFld,"wrap, width :30: ");		
-		add(new JLabel("Преостало:"),"align right");
+		add(new JLabel(Messages.getString("LEFT")),"align right");
 		add(preostaloTxtFld,"wrap, width :30:");
 	
-		add(new JLabel("Одељење:"),"cell 0 2 2 1");
+		add(new JLabel(Messages.getString("LOCATION:")),"cell 0 2 2 1");
 		add(odeljenjePanel,"cell 0 3 2 1");
-		add(new JLabel("Инвентарна књига:"),"cell 0 4 2 1");
+		add(new JLabel(Messages.getString("INV_BOOK:")),"cell 0 4 2 1");
 		add(invKnjPanel,   "cell 0 5 2 1");
-		add(new JLabel("Подлокација:"),"cell 0 6 2 1");
+		add(new JLabel(Messages.getString("SUBLOC")),"cell 0 6 2 1");
 		add(podlokacijaPanel,   "cell 0 7 2 1");
 		
 		JPanel brPrim = new JPanel();
 		brPrim.setLayout(new MigLayout());
-		brPrim.add(new JLabel("Број примерака:"));
+		brPrim.add(new JLabel(Messages.getString("ITEMS_NO")));
 		brPrim.add(raspodelaSpinner,"growy");
 		brPrim.add(dodajButton);		
 		add(brPrim,"cell 0 8 2 1");		
@@ -205,7 +206,7 @@ public class RaspodelaFrame extends JInternalFrame {
 		Primerak primerak = ((MonographInventarPanel)inventarPanel).getPrimerakFromForm();
 		try {
 			if (odeljenjePanel.getCode().equals("") || odeljenjePanel.getCode().equals("")) 
-				throw new RaspodelaException("Нису унети сви подаци за расподелу!");
+				throw new RaspodelaException(Messages.getString("NOT_ALL_DATA_ENTERED_FOR_DISTRIBUTION"));
 			primerak.setOdeljenje(odeljenjePanel.getCode());
 			String invKnj = invKnjPanel.getCode();
 			primerak.setInvBroj(primerak.getOdeljenje()+invKnj+"#######");		
@@ -214,7 +215,7 @@ public class RaspodelaFrame extends JInternalFrame {
 			addPrimerak(primerak,(Integer)raspodelaSpinner.getValue());
 		} catch (RaspodelaException e) {
 			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-					e.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
+					e.getMessage(), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
 			raspodelaSpinner.setValue(new Integer(1));
 		}		
 	}
@@ -225,7 +226,7 @@ public class RaspodelaFrame extends JInternalFrame {
 			int brPrimeraka = Integer.parseInt(brojPrimTxtFld.getText());
 			preostaloTxtFld.setText(brPrimeraka-raspodelaTableModel.getZbirRaspodeljenih()+"");
 		}catch(NumberFormatException e){
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Унесите број књига за расподелу!","Грешка",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("ENTER_FOR_DISTRIBUTION"), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
 		}	
 	}
 

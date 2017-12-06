@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.admin.coders;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Types;
-import java.text.ParseException;
+import java.text.MessageFormat;import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -177,7 +177,7 @@ public class CoderTableModel extends AbstractTableModel {
           try {
 			newRow.add(Integer.parseInt(s.trim()));
           } catch (NumberFormatException e){
-			throw new Exception ("Формат поља "+ table.getColumns().get(index).getName() + " мора бити број!");
+			throw new Exception (MessageFormat.format(Messages.getString("fieldformat.0.mustbenumber"), table.getColumns().get(index).getName()));
           }
           break;
         case Types.CHAR:
@@ -188,13 +188,13 @@ public class CoderTableModel extends AbstractTableModel {
           try {
         	  newRow.add(new BigDecimal(s.trim()));
           } catch (NumberFormatException e){
-  			throw new Exception ("Формат поља "+ table.getColumns().get(index).getName() + " мора бити децималан број!");
+  			throw new Exception (MessageFormat.format(Messages.getString("fieldformat.0.mustbedecimal"), table.getColumns().get(index).getName()));
           }
         case Types.DATE:
           try {
         	  newRow.add(sdf.parse(s.trim()));
           } catch (ParseException e){
-    		  throw new Exception ("Форамт за датум dd.MM.yyyy!" );
+    		  throw new Exception (Messages.getString("dateformat") );
            }
         default:
       }

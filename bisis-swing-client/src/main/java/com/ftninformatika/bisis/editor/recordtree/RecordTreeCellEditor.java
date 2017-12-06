@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.editor.recordtree;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.editorutils.IndicatorCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.SubfieldCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.TableCodeChoiceDialog;
@@ -207,7 +208,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 			ownerTree.getModel().handleValueChanged(lastPath,getCellEditorValue());
 			ownerTree.cancelEditing();
 		} catch (UValidatorException e1) {
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
 			//problemi sa enterom
 			String value = cellEditor.getText();
 			if(value.endsWith("\n"))

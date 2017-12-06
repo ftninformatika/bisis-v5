@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.editor.groupinv;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.inventar.InventarConstraints;
 import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.UItem;
@@ -34,13 +35,13 @@ public class GroupInvTableModel extends AbstractTableModel {
   public GroupInvTableModel(){
   	super();
   	columns = new String[7];
-  	columns[0] = "Инвентарни број";
-  	columns[1] = "Сигнатура";
-  	columns[2] = "Одељење";
-  	columns[3] = "Статус";
-  	columns[4] = "Напомена";
-  	columns[5] = "Врста јединице";
-  	columns[6] = "Наслов";
+  	columns[0] = Messages.getString("INV_NUM");
+  	columns[1] = Messages.getString("SIGNATURE");
+  	columns[2] = Messages.getString("LOCATION");
+  	columns[3] = Messages.getString("STATUS");
+  	columns[4] = Messages.getString("NOTE");
+  	columns[5] = Messages.getString("UNIT_TYPE");
+  	columns[6] = Messages.getString("TITLE");
   }
   
 	public int getColumnCount() {		
@@ -125,15 +126,15 @@ public class GroupInvTableModel extends AbstractTableModel {
 	 */
 	
 	public List<UItem> getCodes(int column){
-		if(columns[column].equals("Статус"))
+		if(columns[column].equals(Messages.getString("STATUS")))
 			return HoldingsDataCoders.getCoder(HoldingsDataCoders.STATUS_CODER);
-		else if(columns[column].equals("Одељење"))
+		else if(columns[column].equals(Messages.getString("LOCATION")))
 			return HoldingsDataCoders.getCoder(HoldingsDataCoders.ODELJENJE_CODER);
 		return null;		
 	}
 	
 	public void changeCode(String newCode, int selectedColumn, String datumStatusa){
-		if(columns[selectedColumn].equals("Статус")){
+		if(columns[selectedColumn].equals(Messages.getString("STATUS"))){
 			for(Primerak p:primerci){
 				p.setStatus(newCode);
 				if(datumStatusa!=null)
@@ -149,7 +150,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 					}catch(ParseException e){}
 			}
 		}
-		if(columns[selectedColumn].equals("Одељење")){
+		if(columns[selectedColumn].equals(Messages.getString("LOCATION"))){
 			for(Primerak p:primerci)
 				p.setOdeljenje(newCode);
 			for(Godina g:godine)
@@ -159,7 +160,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 	}
 	
 	public void changeText(String newText, int selectedColumn){
-		if(columns[selectedColumn].equals("Напомена")){
+		if(columns[selectedColumn].equals(Messages.getString("NOTE"))){
 			for(Primerak p:primerci){
 				p.setNapomene(newText);			
 			}
@@ -178,8 +179,8 @@ public class GroupInvTableModel extends AbstractTableModel {
 	}
 	
 	public boolean columnCanBeSelected(int column){
-		return columns[column].equals("Статус") ||
-						columns[column].equals("Одељење") || columns[column].equals("Напомена");
+		return columns[column].equals(Messages.getString("STATUS")) ||
+						columns[column].equals(Messages.getString("LOCATION")) || columns[column].equals(Messages.getString("NOTE"));
 		
 	}
 	

@@ -12,8 +12,8 @@ import javax.swing.KeyStroke;
 public class CircSearchBooksAction extends AbstractAction {
 
   public CircSearchBooksAction() {
-    putValue(SHORT_DESCRIPTION, "Претраживање публикација");
-    putValue(NAME, "Публикације");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.searchpublications"));
+    putValue(NAME, Messages.getString("actions.publications"));
     putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/circ-images/find_book16.png")));
     putValue(LARGE_ICON_KEY, new ImageIcon(getClass().getResource(

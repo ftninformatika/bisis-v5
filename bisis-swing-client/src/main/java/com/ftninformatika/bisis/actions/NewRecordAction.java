@@ -14,8 +14,8 @@ import javax.swing.KeyStroke;
 public class NewRecordAction extends AbstractAction {
 
   public NewRecordAction() {
-    putValue(SHORT_DESCRIPTION, "Отварање новог записа");
-    putValue(NAME, "Нови запис...");
+    putValue(SHORT_DESCRIPTION, Messages.getString("actions.openingnewrecord"));
+    putValue(NAME, Messages.getString("actions.newrecord"));
     putValue(SMALL_ICON, new ImageIcon(getClass().getResource(
         "/icons/new_record.gif")));
     putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));

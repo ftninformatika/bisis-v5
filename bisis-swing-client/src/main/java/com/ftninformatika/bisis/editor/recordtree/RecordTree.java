@@ -9,7 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -22,6 +22,7 @@ import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.TreePath;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.UField;
@@ -324,7 +325,7 @@ public class RecordTree extends JTree {
 		}
 		
 		if(!mess.equals("")){
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),mess,"Грешка",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),mess, Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
 		}else{
 			if(sel instanceof Field || sel instanceof Subfield){
 				String message="";
@@ -332,15 +333,13 @@ public class RecordTree extends JTree {
 				Subfield sf = null;			
 				if(sel instanceof Field){
 					f = (Field)sel;
-					message = "Да ли сте сигурни да желите да обришете поље"+"\n "
-							+f.toString();
+					message = MessageFormat.format(Messages.getString("ARE_U_SURE_U_WANT_TO_DELETE_FIELD.0"), f.toString());
 				}else if(sel instanceof Subfield){
 					sf = (Subfield)sel;
-					message = "Да ли сте сигурни да желите да обришете потпоље"+"\n "
-							+sf.toString();
+					message = MessageFormat.format(Messages.getString("ARE_U_SURE_U_WANT_TO_DELETE_SUBFIELD.0"), sf.toString());
 				}
-				Object[] options = { "Обриши", "Одустани" };
-				int ret = JOptionPane.showOptionDialog(null, message , "Брисање",
+				Object[] options = {Messages.getString("EDITOR_DELETE"), Messages.getString("EDITOR_BUTTONCANCEL") };
+				int ret = JOptionPane.showOptionDialog(null, message , Messages.getString("DELETING"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 				null, options, options[0]);			
 				if(ret==0){
@@ -384,8 +383,8 @@ public class RecordTree extends JTree {
 		if(!(getSelected() instanceof IndicatorNode)){
 			if(getSelected() instanceof Field){
 				JMenuItem miCollapseOrExpand = new JMenuItem();
-				if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText("<html><b>Отвори</b>");
-				else miCollapseOrExpand.setText("<html><b>Затвори</b>");
+				if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText(Messages.getString("OPEN"));
+				else miCollapseOrExpand.setText(Messages.getString("CLOSE"));
 				miCollapseOrExpand.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						onEnter();				
@@ -419,7 +418,7 @@ public class RecordTree extends JTree {
 	  		setSelectionPath(path);  		
 	  	}
 	  	}catch(UValidatorException e){
-	  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
+	  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
   	}
   }
   
@@ -450,15 +449,15 @@ public class RecordTree extends JTree {
 	  		setSelectionPath(path);  		
 	  	}
   	}catch(UValidatorException e){
-  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
+  		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(), Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);
   	}
   }
   
   public class DeleteElementAction extends AbstractAction {
 
     public DeleteElementAction() {
-      putValue(SHORT_DESCRIPTION, "брисање");
-      putValue(NAME, "Обриши");
+      putValue(SHORT_DESCRIPTION, Messages.getString("DELETION"));
+      putValue(NAME, Messages.getString("EDITOR_DELETE"));
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0));     
     }    
     public void actionPerformed(ActionEvent ev) {
@@ -468,8 +467,8 @@ public class RecordTree extends JTree {
   
   public class CopyElementAction extends AbstractAction{
   	public CopyElementAction(){
-  		putValue(SHORT_DESCRIPTION, "копирање");
-      putValue(NAME, "Копирај");
+  		putValue(SHORT_DESCRIPTION, Messages.getString("COPYING"));
+      putValue(NAME, Messages.getString("COPY"));
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD5, 0));
   	}
   	
@@ -480,8 +479,8 @@ public class RecordTree extends JTree {
   
   public class AddEmptyElementAction extends AbstractAction{
   	public AddEmptyElementAction(){
-  		putValue(SHORT_DESCRIPTION, "додавање елемента записа");
-      putValue(NAME, "Додај");
+  		putValue(SHORT_DESCRIPTION, Messages.getString("ADDING_RECORD_ELEMENT"));
+      putValue(NAME, Messages.getString("EDITOR_ADD_BUTTON"));
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD4, 0));
   	}
   	
