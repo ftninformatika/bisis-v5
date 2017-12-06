@@ -1,15 +1,10 @@
 package com.ftninformatika.bisis.circ.report;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.pojo.CircLocation;
+import com.ftninformatika.utils.PathDate;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -19,8 +14,13 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import noNamespace.ReportDocument;
 import noNamespace.ReportDocument.Report;
 import noNamespace.ReportDocument.Report.Row;
-
 import org.w3c.dom.Document;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MemberHistory {
 
@@ -69,7 +69,7 @@ public class MemberHistory {
             Member member = null;
             try {
                 member = BisisApp.bisisService.getMemberDataById(userNo).execute().body().getMember();
-                results = BisisApp.bisisService.getLendingHistory(userNo, start, end, branch.getDescription()).execute().body();
+                results = BisisApp.bisisService.getLendingHistory(userNo, new PathDate(start), new PathDate(end), branch.getDescription()).execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
             }

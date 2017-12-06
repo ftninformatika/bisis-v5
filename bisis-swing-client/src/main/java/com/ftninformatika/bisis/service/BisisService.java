@@ -4,24 +4,24 @@ package com.ftninformatika.bisis.service;
  * Created by Petar on 6/20/2017.
  */
 
+import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.pojo.Report;
+import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.circ.*;
-import com.ftninformatika.bisis.circ.wrappers.MemberData;
-import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.SearchModelMember;
+import com.ftninformatika.utils.PathDate;
 import com.google.gson.JsonObject;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
-import java.util.Date;
 import java.util.List;
 
 public interface BisisService {
@@ -308,5 +308,5 @@ public interface BisisService {
     //circ reports
 
     @GET ("/circ_report/get_lending_history")
-    Call<List<Report>> getLendingHistory(@Query("memberNo") String memberNo, @Query("start") Date start, @Query("end") Date end, @Query("location") String location);
+    Call<List<Report>> getLendingHistory(@Query("memberNo") String memberNo, @Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 }
