@@ -77,7 +77,7 @@ public class Picturebooks {
 
     public JLabel getLDate() {
         if (lDate == null) {
-            lDate = new JLabel("Datum");
+            lDate = new JLabel(Messages.getString("circulation.date"));
         }
         return lDate;
     }
@@ -91,7 +91,7 @@ public class Picturebooks {
 
     public JLabel getLState() {
         if (lState == null) {
-            lState = new JLabel("Stanje");
+            lState = new JLabel(Messages.getString("circulation.state"));
         }
         return lState;
     }
@@ -106,7 +106,7 @@ public class Picturebooks {
 
     public JLabel getLLend() {
         if (lLend == null) {
-            lLend = new JLabel("Zadu\u017eio");
+            lLend = new JLabel(Messages.getString("circulation.checkout2"));
         }
         return lLend;
     }
@@ -120,7 +120,7 @@ public class Picturebooks {
 
     public JLabel getLReturn() {
         if (lReturn == null) {
-            lReturn = new JLabel("Razdu\u017eio");
+            lReturn = new JLabel(Messages.getString("circulation.discharge2"));
         }
         return lReturn;
     }
@@ -135,7 +135,7 @@ public class Picturebooks {
     private JButton getBtnLend() {
         if (btnLend == null) {
             btnLend = new JButton();
-            btnLend.setToolTipText("Zadu\u017ei");
+            btnLend.setToolTipText(Messages.getString("circulation.checkout"));
             btnLend.setIcon(new ImageIcon(getClass().getResource("/circ-images/plus16.png")));
             btnLend.setFocusable(false);
             btnLend.setPreferredSize(new java.awt.Dimension(28, 28));
@@ -158,7 +158,7 @@ public class Picturebooks {
                         getTfReturn().setText("");
                         pinRequired = true;
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(getPanel(), "Gre\u0161ka pri unosu broja!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE,
+                        JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.error_enter"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
                                 new ImageIcon(getClass().getResource("/circ-images/images/x32.png")));
                     }
                 }

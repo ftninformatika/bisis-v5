@@ -23,9 +23,9 @@ public class MmbrshipCoderTableModel extends AbstractTableModel implements Seria
 
     public MmbrshipCoderTableModel() {
     	columnIdentifiers = new ArrayList<String>();
-        columnIdentifiers.add("Vrsta \u010dlanstva");
-    	columnIdentifiers.add("Kategorija korisnika");   	
-        columnIdentifiers.add("Cena");
+        columnIdentifiers.add(Messages.getString("circulation.user_categ"));
+    	columnIdentifiers.add(Messages.getString("circulation.member_type"));
+        columnIdentifiers.add(Messages.getString("circulation.cost"));
 		data = BisisApp.appConfig.getCodersHelper()
 				.getMemberships().values().stream()
 				.collect(Collectors.toList());

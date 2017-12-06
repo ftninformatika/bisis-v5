@@ -66,12 +66,12 @@ public class Report {
 		pb.add(getLTfCmb(), cc.xy(2, 8));
 		pb.add(getTfNumber(), cc.xyw(4, 8, 3));
 		pb.add(getCmbGroup(), cc.xyw(4, 8, 3));
-		pb.addLabel("Datum", cc.xy(2, 10));
+		pb.addLabel(Messages.getString("circulation.date"), cc.xy(2, 10));
 		pb.add(getTfStartDate(), cc.xy(4, 10));
 		pb.addLabel("-", cc.xy(5, 10, "center, center"));
 		pb.add(getTfEndDate(), cc.xy(6, 10));
 
-		pb.addLabel("Odeljenje", cc.xy(2, 12));
+		pb.addLabel(Messages.getString("circulation.location"), cc.xy(2, 12));
 		pb.add(getCmbLocation(), cc.xyw(4, 12, 3));
 
 		pb.add(getButtonPanel(), cc.xyw(2, 14, 8));

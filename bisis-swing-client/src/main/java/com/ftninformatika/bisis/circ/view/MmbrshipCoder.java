@@ -44,7 +44,7 @@ public class MmbrshipCoder extends JInternalFrame {
   private MmbrshipCoderTableModel tableModel = null;
 
   public MmbrshipCoder() {
-    super("\u010clanarina", true, true, true, true);
+    super(Messages.getString("circulation.membership"), true, true, true, true);
     initialize();
   }
 
@@ -111,12 +111,12 @@ public class MmbrshipCoder extends JInternalFrame {
       pb = new PanelBuilder(layout);
       pb.setDefaultDialogBorder();
       
-      pb.addSeparator("Vrsta \u010dlanstva", cc.xy(2,2));
+      pb.addSeparator(Messages.getString("circulation.user_categ"), cc.xy(2,2));
       pb.add(getSpMmbrTypes(), cc.xywh(2,3,1,3,"fill, fill"));
-      pb.addSeparator("Kategorija korisnika", cc.xy(2,7));
+      pb.addSeparator(Messages.getString("circulation.member_type"), cc.xy(2,7));
       pb.add(getSpUserCateegs(), cc.xywh(2,8,1,3,"fill, fill"));
       
-      pb.addSeparator("Cena", cc.xyw(4,3,2));
+      pb.addSeparator(Messages.getString("circulation.cost"), cc.xyw(4,3,2));
       pb.add(getTfCost(), cc.xyw(4,5,2));
       pb.add(getBtnAdd(), cc.xy(5,8,"fill, fill"));
       pb.add(getBtnDelete(), cc.xy(5,10,"fill, fill"));
@@ -206,7 +206,7 @@ public class MmbrshipCoder extends JInternalFrame {
   private JButton getBtnAdd() {
     if (btnAdd == null) {
       btnAdd = new JButton();
-      btnAdd.setText("Dodaj");
+      btnAdd.setText(Messages.getString("circulation.add"));
       btnAdd.setIcon(new ImageIcon(getClass().getResource("/circ-images/down16.png")));
       btnAdd.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -214,13 +214,13 @@ public class MmbrshipCoder extends JInternalFrame {
           List mmbrtypes = getMmbrTypesList().getSelectedValuesList();
           
           if (mmbrtypes == null || mmbrtypes.size() == 0){
-            JOptionPane.showMessageDialog(null, "Kategorija korsinika nije selektovana!", "Greska", JOptionPane.ERROR_MESSAGE,
+            JOptionPane.showMessageDialog(null, Messages.getString("circulation.user_categ_not_selected"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
                 new ImageIcon(getClass().getResource("/circ-images/x32.png")));
           } else if (usercategs == null || usercategs.size() == 0){
-            JOptionPane.showMessageDialog(null, "Vrsta \u010dlanstva nije selektovana!", "Greska", JOptionPane.ERROR_MESSAGE,
+            JOptionPane.showMessageDialog(null, Messages.getString("circulation.member_type_not_selected"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
                 new ImageIcon(getClass().getResource("/circ-images/x32.png")));
           } else if (getTfCost().getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Cena nije uneta!", "Greska", JOptionPane.ERROR_MESSAGE,
+            JOptionPane.showMessageDialog(null, Messages.getString("circulation.cost_not_entered"),Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
                 new ImageIcon(getClass().getResource("/circ-images/x32.png")));
           } else {
             try {
@@ -231,7 +231,7 @@ public class MmbrshipCoder extends JInternalFrame {
                 }
               }
             } catch (NumberFormatException e1) {
-              JOptionPane.showMessageDialog(null, "Cena nije validna!", "Greska", JOptionPane.ERROR_MESSAGE,
+              JOptionPane.showMessageDialog(null, Messages.getString("circulation.cost_not_valid"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
                   new ImageIcon(getClass().getResource("circ-images/x32.png")));
             }
           }
@@ -244,14 +244,14 @@ public class MmbrshipCoder extends JInternalFrame {
   private JButton getBtnDelete() {
     if (btnDelete == null) {
       btnDelete = new JButton();
-      btnDelete.setText("Obrisi");
+      btnDelete.setText(Messages.getString("circulation.delete"));
       btnDelete.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/Delete16.png")));
       btnDelete.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent e) {
           if (getJTable().getSelectedRow() != -1){
             getTableModel().removeRows(getJTable().getSelectedRows());
           }else{
-            JOptionPane.showMessageDialog(null, "Nista nije selektovano!", "Greska", JOptionPane.ERROR_MESSAGE,
+            JOptionPane.showMessageDialog(null, Messages.getString("circulation.not_selected"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
                 new ImageIcon(getClass().getResource("/circ-images/x32.png")));
           }
         }

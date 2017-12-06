@@ -18,10 +18,10 @@ public class PicturebooksTableModel extends AbstractTableModel implements Serial
 
     public PicturebooksTableModel() {
         columnIdentifiers = new ArrayList<String>();
-        columnIdentifiers.add("Datum");
-        columnIdentifiers.add("Zadu\u017eio");
-        columnIdentifiers.add("Razdu\u017eio");
-        columnIdentifiers.add("Stanje");
+        columnIdentifiers.add(Messages.getString("circulation.date"));
+        columnIdentifiers.add(Messages.getString("circulation.checkout2"));
+        columnIdentifiers.add(Messages.getString("circulation.discharge2"));
+        columnIdentifiers.add(Messages.getString("circulation.state"));
         data = new ArrayList<PictureBook>();
     }
 

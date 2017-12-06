@@ -242,7 +242,7 @@ public class Group extends JPanel {
 						if (id != null){
 							getTfUserID().setText(id);
 						} else {
-							JOptionPane.showMessageDialog(null, "Gre\u0161ka pri konekciji sa bazom podataka!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, Messages.getString("circulation.error_message_data"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}

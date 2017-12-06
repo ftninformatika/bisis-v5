@@ -22,37 +22,37 @@ public class UsersPrefixModel extends AbstractListModel<String> {
   }
   
   public void initUsersPrefix(){
-  	prefixlist.add(new UsersPrefix("Adresa", "address", "members"));
-  	prefixlist.add(new UsersPrefix("Broj dokumenta", "docNo", "members"));
-  	prefixlist.add(new UsersPrefix("Broj indeksa", "indexNo", "members"));
-    prefixlist.add(new UsersPrefix("Broj korisnika", "userId", "members"));
-    prefixlist.add(new UsersPrefix("Vrsta u\u010dlanjenja", "membershipType.description", "members"));
-    prefixlist.add(new UsersPrefix("Grupa", "corporateMember.instName", "members"));
-    prefixlist.add(new UsersPrefix("Ime", "firstName", "members"));
-    prefixlist.add(new UsersPrefix("Ime roditelja", "parentName", "members"));
-    prefixlist.add(new UsersPrefix("Inventarni broj", "ctlgNo", "lendings"));
-    prefixlist.add(new UsersPrefix("Jezik", "language", "members"));
-    prefixlist.add(new UsersPrefix("JMBG", "jmbg", "members"));
-    prefixlist.add(new UsersPrefix("Kategorija", "userCategory.description", "members"));
-    prefixlist.add(new UsersPrefix("Mesto", "city", "members"));
-    prefixlist.add(new UsersPrefix("Napomena", "note", "members"));
-    prefixlist.add(new UsersPrefix("Organizacija", "organization.name", "members"));
-    prefixlist.add(new UsersPrefix("Pol", "gender", "members"));
-    prefixlist.add(new UsersPrefix("Prezime", "lastName", "members"));
-    prefixlist.add(new UsersPrefix("Priznanica", "signings.receipt", "members"));
-    prefixlist.add(new UsersPrefix("Stru\u010dna sprema", "educationLevel", "members"));
-    prefixlist.add(new UsersPrefix("Bibliotekar u\u010dlanio", "signings.librarian", "members"));
-    prefixlist.add(new UsersPrefix("Bibliotekar zadu\u017eio", "librarianLend", "lendings"));
-    prefixlist.add(new UsersPrefix("Bibliotekar razdu\u017eio", "librarianReturn", "lendings"));
+  	prefixlist.add(new UsersPrefix(Messages.getString("circulation.address"), "address", "members"));
+  	prefixlist.add(new UsersPrefix(Messages.getString("circulation.documentnumber"), "docNo", "members"));
+  	prefixlist.add(new UsersPrefix(Messages.getString("circulation.studentcard"), "indexNo", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.usernumber"), "userId", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.membershiptype"), "membershipType.description", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.corporate"), "corporateMember.instName", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.firstname"), "firstName", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.parentname"), "parentName", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.acquisitionnumber"), "ctlgNo", "lendings"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.language"), "language", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.umcn"), "jmbg", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.usercategory"), "userCategory.description", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.place"), "city", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.note"), "note", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.organization"), "organization.name", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.gender"), "gender", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.lastname"), "lastName", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.receipt"), "signings.receipt", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.education"), "educationLevel", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.librarian_signing"), "signings.librarian", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.librarian_lend"), "librarianLend", "lendings"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.librarian_return"), "librarianReturn", "lendings"));
         
   }
   
   public void initDatePrefix(){
-    prefixlist.add(new UsersPrefix("Datum zadu\u017eenja", "lendDate", "lendings"));
-    prefixlist.add(new UsersPrefix("Datum razdu\u017eenja", "returnDate", "lendings"));
-    prefixlist.add(new UsersPrefix("Datum upisa", "signings.signDate", "members"));
-    prefixlist.add(new UsersPrefix("Istek \u010dlanarine", "signings.untilDate", "members"));
-    prefixlist.add(new UsersPrefix("Rok vra\u0107anja", "deadline", "lendings"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.chargingdate"), "lendDate", "lendings"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.dischargingdate"), "returnDate", "lendings"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.membershipdate"), "signings.signDate", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.membershipexpire"), "signings.untilDate", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.duedate"), "deadline", "lendings"));
  }
   
   public int getSize(){

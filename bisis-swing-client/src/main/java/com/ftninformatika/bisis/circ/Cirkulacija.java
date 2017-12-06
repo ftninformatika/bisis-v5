@@ -82,7 +82,7 @@ public class Cirkulacija {
         susermng = new SearchUsersManager();
 
         if (usermng.getEnvFile() == null){
-            JOptionPane.showMessageDialog(null, "Gre\u0161ka pri ucitavanju parametara!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, Messages.getString("circulation.error_message"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
         env = new Environment(usermng.getEnvFile());
@@ -100,7 +100,7 @@ public class Cirkulacija {
             }
             Utils.setUIFontSize(env.getFontSize());
 
-            splash.getMessage().setText("initializing GUI");
+            splash.getMessage().setText(Messages.getString("circulation.initializing_gui"));
             mf = new MainFrame();
             BisisApp.getMainFrame().insertFrame(mf);
             try {
@@ -113,7 +113,7 @@ public class Cirkulacija {
                 e.printStackTrace();
             }
 
-            splash.getMessage().setText("initializing data");
+            splash.getMessage().setText(Messages.getString("circulation.initializing_data"));
             loadDefaults();
 
             splash.setVisible(false);
@@ -132,7 +132,7 @@ public class Cirkulacija {
             getUserManager().loadCombos(mf.getSearchBooks());
             getUserManager().loadCombos(mf.getReport());
         }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Gre\u0161ka pri ucitavanju podataka!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, Messages.getString("circulation.error_message"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }
