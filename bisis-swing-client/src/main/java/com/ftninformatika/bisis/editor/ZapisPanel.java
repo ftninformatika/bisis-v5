@@ -31,7 +31,7 @@ public class ZapisPanel extends JPanel {
   private FormatTree formatTree;
   private RecordTree recordTree; 
   public ZapisPanel(){
-    setName("Запис"); //$NON-NLS-1$
+    setName(Messages.getString("EDITOR_TOGGLEBUTTONRECORD")); //$NON-NLS-1$
     create();
     addActionListeners();
   }

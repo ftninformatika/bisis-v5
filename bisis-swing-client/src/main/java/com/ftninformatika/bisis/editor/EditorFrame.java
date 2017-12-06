@@ -11,7 +11,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyVetoException;
+import java.beans.PropertyVetoException;import java.text.MessageFormat;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -250,7 +250,7 @@ public class EditorFrame extends JInternalFrame {
   	zapisPanel.getRecordTree().refreshView();
    String message = Messages.getString("CONFIRMT_SAVING_RECORD");//+CurrRecord.saveRecordReport();
    Object[] options = {Messages.getString("SAVE"), Messages.getString("EDITOR_BUTTONCANCEL")};
-   int ret = JOptionPane.showOptionDialog(null, message , "Снимање записа",  //$NON-NLS-1$
+   int ret = JOptionPane.showOptionDialog(null, message , Messages.getString("EDITOR_SAVINGRECORDS"),  //$NON-NLS-1$
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 				null, options, options[1]);
 			if(ret==0){
@@ -269,7 +269,7 @@ public class EditorFrame extends JInternalFrame {
                  return true;
 		   } catch(Exception ex){
 		   	JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-		   			"Запис није сачуван!\n"+ex.getClass(),Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+                    MessageFormat.format(Messages.getString("RECORD_NOT_SAVED.n.0"), ex.getClass()),Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		   	log.fatal(ex);		   	
 		   }
 			}
