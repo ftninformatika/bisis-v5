@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.admin.coders;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,10 +41,10 @@ public class CoderFrame extends JInternalFrame {
         "/icons/commit.gif")));
     btnRefresh.setIcon(new ImageIcon(getClass().getResource(
         "/icons/refresh.gif")));
-    btnAdd.setToolTipText("Нов ред");
-    btnUpdate.setToolTipText("Ажурирај ред");
-    btnDelete.setToolTipText("Обриши ред");
-    btnRefresh.setToolTipText("Освежи табелу");
+    btnAdd.setToolTipText(Messages.getString("newline"));
+    btnUpdate.setToolTipText(Messages.getString("updaterow"));
+    btnDelete.setToolTipText(Messages.getString("deleterow"));
+    btnRefresh.setToolTipText(Messages.getString("refreshtable"));
     MigLayout layout = new MigLayout(
         "insets dialog, wrap",
         "[]rel[]rel[]rel[grow]rel[]",
@@ -78,7 +78,7 @@ public class CoderFrame extends JInternalFrame {
       		JOptionPane.showMessageDialog(
   					BisisApp.getMainFrame(),
   					ex.getMessage(),
-  					"Грешка",JOptionPane.ERROR_MESSAGE);
+                    Messages.getString("error"),JOptionPane.ERROR_MESSAGE);
       	}
         if (tblModel.getRowCount() > 0)
           tblData.setRowSelectionInterval(0, 0);
@@ -97,7 +97,7 @@ public class CoderFrame extends JInternalFrame {
 			JOptionPane.showMessageDialog(
 					BisisApp.getMainFrame(),
 					e1.getMessage(),
-					"Грешка",JOptionPane.ERROR_MESSAGE);
+                    Messages.getString("error"),JOptionPane.ERROR_MESSAGE);
 		}
         if (tblModel.getRowCount() > 0)
           tblData.setRowSelectionInterval(0, 0);
@@ -115,7 +115,7 @@ public class CoderFrame extends JInternalFrame {
       		JOptionPane.showMessageDialog(
   					BisisApp.getMainFrame(),
   					ex.getMessage(),
-  					"Грешка",JOptionPane.ERROR_MESSAGE);
+                    Messages.getString("error"),JOptionPane.ERROR_MESSAGE);
       	}
       }
     });
@@ -140,7 +140,7 @@ public class CoderFrame extends JInternalFrame {
     		JOptionPane.showMessageDialog(
 					BisisApp.getMainFrame(),
 					e.getMessage(),
-					"Грешка",JOptionPane.ERROR_MESSAGE);
+                    Messages.getString("error"),JOptionPane.ERROR_MESSAGE);
     	}
       if (tblModel.getRowCount() > 0)
         tblData.setRowSelectionInterval(0, 0);
@@ -153,8 +153,8 @@ public class CoderFrame extends JInternalFrame {
     ArrayList<String> row = new ArrayList<String>();
     for (Column c : table.getColumns()) {
       String svalue = JOptionPane.showInternalInputDialog(
-          this, "Унесите поље: " + c.getCaption(),
-          "Нови ред", JOptionPane.QUESTION_MESSAGE);
+          this, MessageFormat.format(Messages.getString("inputfield"), c.getCaption()),
+              Messages.getString("newline"), JOptionPane.QUESTION_MESSAGE);
       		if (svalue == null || svalue.equals(""))
       			return;
       		row.add(svalue);
@@ -165,7 +165,7 @@ public class CoderFrame extends JInternalFrame {
 		JOptionPane.showMessageDialog(
 				BisisApp.getMainFrame(),
 				e.getMessage(),
-				"Грешка",JOptionPane.ERROR_MESSAGE);
+                Messages.getString("error"),JOptionPane.ERROR_MESSAGE);
 	} 
     tblData.setRowSelectionInterval(
         tblModel.getRowCount()-1, tblModel.getRowCount()-1);
@@ -177,7 +177,7 @@ public class CoderFrame extends JInternalFrame {
   private JButton btnDelete = new JButton();
   private JButton btnUpdate = new JButton();
   private JButton btnRefresh = new JButton();
-  private JButton btnClose = new JButton("Затвори");
+  private JButton btnClose = new JButton(Messages.getString("exit"));
   private JScrollPane spData = new JScrollPane();
   private JTable tblData = new JTable();
   private CoderTableModel tblModel;
