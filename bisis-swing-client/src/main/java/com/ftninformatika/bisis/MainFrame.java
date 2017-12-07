@@ -3,6 +3,7 @@ package com.ftninformatika.bisis;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -17,6 +18,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
+import java.text.MessageFormat;
 import java.util.List;
 import javax.swing.*;
 
@@ -24,7 +26,7 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
 
     public MainFrame() {
-        setTitle("БИСИС " + BisisApp.appVersion);
+        setTitle(MessageFormat.format(Messages.getString("MAIN_BISIS.0"), BisisApp.appVersion));
         ImageIcon icon = new ImageIcon(getClass().getResource("/icons/appicon_old.png"));
         setIconImage(icon.getImage());
         add(desktop, BorderLayout.CENTER);
@@ -50,7 +52,7 @@ public class MainFrame extends JFrame {
     }
 
     public void initialize(Librarian lib){
-        statusnaLinija.setText("Библиотекар: "+BisisApp.appConfig.getLibrarian().getUsername());
+        statusnaLinija.setText(MessageFormat.format(Messages.getString("MAIN_LIBRARIAN.0"), BisisApp.appConfig.getLibrarian().getUsername()));
         if (lib.isAdministracija()){
             desktop.add(getIntOznFrame());
             desktop.add(getNacinFrame());

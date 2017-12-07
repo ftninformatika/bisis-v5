@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.login.*;
@@ -63,13 +64,13 @@ public class BisisApp {
         splashScreen = new SplashScreen();
         splashScreen.setImage("/icons/book-big.png");
         splashScreen.setVisible(true);
-        splashScreen.getMessage().setText("Покрећем менаџер записа");
+        splashScreen.getMessage().setText(Messages.getString("MAIN_LOADING_RECORD_MANAGER"));
 
         String token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), login.getUsername(), login.getPassword());
         if (token == null) {
           splashScreen.setVisible(false);
-          JOptionPane.showMessageDialog(null, "Сервер је недоступан!",
-              "Грешка", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(null, Messages.getString("MAIN_SERVER_UNAVAILABLE"),
+                  Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
           System.exit(0);
         }
 
@@ -122,8 +123,8 @@ public class BisisApp {
 
         } else {
           splashScreen.setVisible(false);
-          JOptionPane.showMessageDialog(null, "Погрешно име/лозинка",
-              "Грешка", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(null, Messages.getString("MAIN_WRONG_USERNAME_PASS"),
+                  Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
           login.setVis(true);
         }
       } else {
