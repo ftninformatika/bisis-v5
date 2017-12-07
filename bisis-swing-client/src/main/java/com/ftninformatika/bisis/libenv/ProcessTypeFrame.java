@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
+import java.text.MessageFormat;import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -203,7 +203,7 @@ public class ProcessTypeFrame extends JInternalFrame {
 	private void handleSaveProcessType() {		
 		boolean saved = processTypeTableModel.updateProcessType(getProcessTypeFromForm());
 		if(!saved)
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 	}
 	
 	private void handleUpdatePubTypeTree() {
@@ -211,7 +211,7 @@ public class ProcessTypeFrame extends JInternalFrame {
 			treeModel.setPubTypeId
 				(((UFormat)pubTypeCmbBox.getSelectedItem()).getPubType());
 		else{
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),validatePubTypeChange(),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),validatePubTypeChange(), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 			pubTypeCmbBox.setSelectedItem(PubTypes.getPubType(treeModel.getPubTypeId()));
 		}
 			
@@ -267,23 +267,22 @@ public class ProcessTypeFrame extends JInternalFrame {
 			if(isConnectionOK()){			
 				if(getSelectedProcessType()!=null){
 				if(isProcessTypeFree(getSelectedProcessType())){			
-					String message = "Bri\u0161emo tip obrade\n" + //$NON-NLS-1$
-								getSelectedProcessType().getName();
-						Object[] options = {"Da", "Odustani"}; //$NON-NLS-1$ //$NON-NLS-2$
+					String message = MessageFormat.format(Messages.getString("DELETING_PROCESS_TYPE.0"), getSelectedProcessType().getName());
+						Object[] options = {Messages.getString("LIBENV_YES"), Messages.getString("LIBENV_CANCEL")}; //$NON-NLS-1$ //$NON-NLS-2$
 						int ret = JOptionPane.showOptionDialog(BisisApp.getMainFrame(),
-								message, "Brisanjetipa obrade", JOptionPane.DEFAULT_OPTION,  //$NON-NLS-1$
+								message, Messages.getString("LIBENV_DELETING_PT"), JOptionPane.DEFAULT_OPTION,  //$NON-NLS-1$
 								JOptionPane.YES_NO_OPTION, null, options, options[1]);
 						if(ret==0){
 							processTypeTableModel.deleteProcessType(getSelectedProcessType());
 							initializeForm();
 						}
 			}else{
-				String message = "Tip obrade je vezan za bibliotekara\n i ne mo\u017ee biti obrisan."; //$NON-NLS-1$
-				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message,"Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+				String message = Messages.getString("PT_BINDED_TO_LIBRARIAN_CANT_BE_DELETED"); //$NON-NLS-1$
+				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),message, Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 			}
 				}
 		}else{
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		}
 			
 		
@@ -310,7 +309,7 @@ public class ProcessTypeFrame extends JInternalFrame {
 			}
 			return true;	
 		}else{
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 			return true;
 		}		
 	}
@@ -335,7 +334,7 @@ public class ProcessTypeFrame extends JInternalFrame {
 	
 	
 	private String validatePubTypeChange(){
-		String messagePref = "Slede\u0107a potpolja ne pripadaju izabranom tipu publikacije:\n"; //$NON-NLS-1$
+		String messagePref = Messages.getString("SFS_DONT_BELONG_TO_PUB_TYPE"); //$NON-NLS-1$
 		StringBuffer buff = new StringBuffer();
 		for(USubfield usf:sfTableModel.getInitialSubfields())
 			if(FormatUtils.pubTypeContainsSubfield
@@ -368,8 +367,8 @@ public class ProcessTypeFrame extends JInternalFrame {
 				loadProcessType(selectedProcessType);				
 			}else{			
 				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-						"Neispravna sintaksa XML-a!", //$NON-NLS-1$
-						"Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+						Messages.getString("LIBENV_SYNTAX_ERROR_XML"), //$NON-NLS-1$
+						Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 				selectedProcessType = getProcessTypeFromForm();
 				tabbedPane.setSelectedIndex(1);
 			}

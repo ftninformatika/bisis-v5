@@ -37,7 +37,7 @@ public class LibrarianTableModel extends AbstractTableModel {
 			columns[3]=Messages.getString("LibrarianEnvironment.E-MAIL");
 			columns[4]=Messages.getString("LibrarianEnvironment.ROLES");
 		}else{
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		}
 		
 	}
@@ -47,7 +47,7 @@ public class LibrarianTableModel extends AbstractTableModel {
 		if(libList!=null)
 			fireTableDataChanged();
 		else
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		}
 
 	public int getColumnCount() {

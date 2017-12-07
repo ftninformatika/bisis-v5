@@ -29,7 +29,7 @@ public class ProcessTypeTableModel extends AbstractTableModel {
 		if(procTypeList!=null){		
 			initializeColumnNames();
 		}else{
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		}
 	}
 	
@@ -43,7 +43,7 @@ public class ProcessTypeTableModel extends AbstractTableModel {
 		if(procTypeList!=null)
 			fireTableDataChanged();
 		else
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 	}
 	
 	public int getColumnCount() {		

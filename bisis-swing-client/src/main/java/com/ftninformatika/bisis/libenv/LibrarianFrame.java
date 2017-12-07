@@ -15,7 +15,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -186,10 +186,10 @@ public class LibrarianFrame extends JInternalFrame {
 		if(validateFormData().equals("")){		
 			boolean saved = librariansTableModel.updateLibrarian(getLibrarianFromForm());
 			if(!saved)
-				JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+				JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		}
 		else
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),validateFormData(),"Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(),validateFormData(), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 	}	
 	
 	private void handleKeys(Component comp, KeyEvent ke) {
@@ -208,16 +208,15 @@ public class LibrarianFrame extends JInternalFrame {
 
 	private void handleDeleteLibrarian() {
 		if(getSelectedLibrarian()!=null){
-			String message = "Bri\u0161emo bibliotekara sa korisni\u010dkim imenom\n" + //$NON-NLS-1$
-					getSelectedLibrarian().getUsername();
-			Object[] options = {"Da", "Odustani"}; //$NON-NLS-1$ //$NON-NLS-2$
+			String message = MessageFormat.format(Messages.getString("LIBENV_DELETING_LIBRARIAN_WITH_USERNAME.0"), getSelectedLibrarian().getUsername());
+			Object[] options = {Messages.getString("LIBENV_YES"), Messages.getString("LIBENV_CANCEL")}; //$NON-NLS-1$ //$NON-NLS-2$
 			int ret = JOptionPane.showOptionDialog(BisisApp.getMainFrame(),
-					message, "Brisanje bibliotekara", JOptionPane.DEFAULT_OPTION,  //$NON-NLS-1$
+					message, Messages.getString("LIBENV_DELETING_LIBRARIAN"), JOptionPane.DEFAULT_OPTION,  //$NON-NLS-1$
 					JOptionPane.YES_NO_OPTION, null, options, options[1]);
 			if(ret==0){
 				boolean deleted = librariansTableModel.deleteLibrarian(getSelectedLibrarian());
 				if(!deleted)
-					JOptionPane.showMessageDialog(BisisApp.getMainFrame(),"Greska u komunikciji sa bazom podataka!","Gre\u0161ka",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+					JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 			}
 							
 		}	
@@ -272,19 +271,18 @@ public class LibrarianFrame extends JInternalFrame {
 	private String validateFormData(){
 		StringBuffer message = new StringBuffer();
 		if(!validateUsername(usernameTxtFld.getText())) //$NON-NLS-1$
-			message.append("Molimo vas unesite korisnicko ime u formatu: (zeljeno ime)@"+ BisisApp.appConfig.getLibrarian().getUsername().split("@")[1] + "\n"); //$NON-NLS-1$
+			message.append(MessageFormat.format(Messages.getString("LIBENV_USERNAME_FORMAT_ERROR"), BisisApp.appConfig.getLibrarian().getUsername().split("@")[1])); //$NON-NLS-1$
 		if(passwordTxtFld.getText().equals("")) //$NON-NLS-1$
-			message.append("Nije uneto obavezno polje Lozinka.\n"); //$NON-NLS-1$
+			message.append(Messages.getString("LIBENV_PASSWORD_REQUIRED")); //$NON-NLS-1$
 		if(!administracijaCheckBox.isSelected() 
 				&& !obradaCheckBox.isSelected()
 				&& !cirkulacijaCheckBox.isSelected())
-			message.append("Mora biti selektovana jedna od uloga.\n"); //$NON-NLS-1$
+			message.append(Messages.getString("LIBENV_SELECT_ROLE")); //$NON-NLS-1$
 		if(!emailTxtFld.getText().equals("") && !emailTxtFld.getText().contains("@")) //$NON-NLS-1$ //$NON-NLS-2$
-			message.append("Neispravna e-mail adresa.\n"); //$NON-NLS-1$
+			message.append(Messages.getString("LIBENV_WRONG_EMAIL")); //$NON-NLS-1$
 		if(obradaCheckBox.isSelected() 
 				&& libProcTypesListModel.getDefaultProcessType()==null)
-			message.append("Bibliotekar-obra\u0111iva\u010d " + //$NON-NLS-1$
-					"morati imati default tip obrade.\n"); //$NON-NLS-1$
+			message.append(Messages.getString("LIBENV_LIBRARIAN_DEFAULT_PROCESS_TYPE")); //$NON-NLS-1$
 
 
 		return message.toString();		
@@ -450,7 +448,7 @@ public class LibrarianFrame extends JInternalFrame {
 	public class SetDefaultAction extends AbstractAction {
 
     public SetDefaultAction() {
-      putValue(SHORT_DESCRIPTION, "Postavljanje default tipa obrade"); //$NON-NLS-1$
+      putValue(SHORT_DESCRIPTION, Messages.getString("LIBENV_SETTING_DEFAULT_PROCESS_TYPE")); //$NON-NLS-1$
       putValue(NAME, Messages.getString("LibrarianEnvironment.SET_DEFAULT"));      //$NON-NLS-1$
       putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.SHIFT_MASK));     
     }    
