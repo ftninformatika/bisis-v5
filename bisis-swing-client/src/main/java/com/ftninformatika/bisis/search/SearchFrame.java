@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.search;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.text.MessageFormat;import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -26,6 +26,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.text.JTextComponent;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -63,17 +64,17 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private JComboBox<String> cbOper2 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
   private JComboBox<String> cbOper3 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
   private JComboBox<String> cbOper4 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
-  private JButton btnSearch = new JButton("Pretra\u017ei");
-  private JRadioButton rbLocalSearch = new JRadioButton("Pretraga u lokalu");
-  private JRadioButton rbNetSearch = new JRadioButton("Pretraga na mre\u017ei");
+  private JButton btnSearch = new JButton(Messages.getString("SEARCH"));
+  private JRadioButton rbLocalSearch = new JRadioButton(Messages.getString("SEARCH_LOCALE"));
+  private JRadioButton rbNetSearch = new JRadioButton(Messages.getString("SEARCH_NET"));
   private JScrollPane spServerList = new JScrollPane();
-  private JRadioButton rbZipNetSearch = new JRadioButton("Koristi kompresiju za prenos");
+  private JRadioButton rbZipNetSearch = new JRadioButton(Messages.getString("SEARCH_USE_COMPRESSION"));
 
   private JComboBox cbSort = new JComboBox();
 
 
   public SearchFrame() {
-    super("Pretra\u017eivanje zapisa", true, true, false, true);
+    super(Messages.getString("SEARCH_SEARCHING_RECORD"), true, true, false, true);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     //td=MessagingEnvironment.getThreadDispatcher();
     for (String sp: PrefixConfigFactory.getPrefixConfig().getSortPrefixes())
@@ -121,7 +122,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     add(tfPref5, "growx");
     add(btnCoder5, "wrap");
     add(new JLabel(" "), "span 5, split 3, growx");
-    add(new JLabel("Sortiraj po"), "");
+    add(new JLabel(Messages.getString("SEARCH_SORT_BY")), "");
     add(cbSort, "wrap");
     add(btnSearch, "span 5, tag ok, growy");
     pack();
@@ -292,7 +293,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     List<UItem> codesList = CodedPrefUtils.getCodesForPrefix(prefix);
     if (codesList != null) {
       CodeChoiceDialog ccd = new CodeChoiceDialog(BisisApp.getMainFrame(),
-          "\u0160ifarnik", codesList, "\u0160ifarnik za prefiks " + prefix,"");
+              Messages.getString("SEARCH_CODER"), codesList, MessageFormat.format(Messages.getString("SEARCH_CODER_FOR_PREFIX.0"), prefix),"");
       ccd.setVisible(true);
       if(ccd.getSelectedCode()!=null)
         tfPref.setText(ccd.getSelectedCode());
@@ -563,7 +564,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
    */
   public synchronized void setErrors(String text) {
 	  JOptionPane.showMessageDialog(BisisApp.mf,
-			  text, "Pretraga", JOptionPane.INFORMATION_MESSAGE);
+			  text, Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
   }
   /*
   public synchronized void processResponse(Document resp,

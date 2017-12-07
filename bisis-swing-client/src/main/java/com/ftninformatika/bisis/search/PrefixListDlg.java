@@ -10,13 +10,14 @@ import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+import com.ftninformatika.bisis.editor.Messages;
 import net.miginfocom.swing.MigLayout;
 
 
 public class PrefixListDlg extends JDialog {
   
   public PrefixListDlg(Frame owner) {
-    super(owner, "Izbor prefiksa", true);
+    super(owner, Messages.getString("SEARCH_CHOSE_PREFIX"), true);
     lbPrefixList.setModel(plm);
     spPrefixList.setViewportView(lbPrefixList);
     spPrefixList.setFocusable(false);
@@ -101,8 +102,8 @@ public class PrefixListDlg extends JDialog {
 
   private JList lbPrefixList = new JList();
   private JScrollPane spPrefixList = new JScrollPane();
-  private JButton btnOK = new JButton("Izaberi");
-  private JButton btnCancel = new JButton("Odustani");
+  private JButton btnOK = new JButton(Messages.getString("SEARCH_CHOSE"));
+  private JButton btnCancel = new JButton(Messages.getString("SEARCH_CANCEL"));
 
   private boolean selected = false;
   private PrefixListModel plm = new PrefixListModel();

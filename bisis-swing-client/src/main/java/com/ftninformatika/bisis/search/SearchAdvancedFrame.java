@@ -11,21 +11,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
+import com.ftninformatika.bisis.editor.Messages;
 import net.miginfocom.swing.MigLayout;
 
 public class SearchAdvancedFrame extends JInternalFrame{
 	
 	public  SearchAdvancedFrame() {
-		super("Napredno pretra\u017eivanje",true, true, false, true);
+		super(Messages.getString("SEARCH_ADVANCED_SEARCH"),true, true, false, true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		panel.setLayout(layout);
-		btnOK.setText("Pretra\u017ei");
+		btnOK.setText(Messages.getString("SEARCH"));
 		btnOK.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bOK_actionPerformed(e);
 			}
 		});
-		btnCancel.setText("Odustani");
+		btnCancel.setText(Messages.getString("SEARCH_CANCEL"));
 		btnCancel.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bCancel_actionPerformed(e);

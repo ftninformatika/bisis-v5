@@ -9,7 +9,7 @@ export class SelectItemPrefix implements  SelectItem{
 
     constructor(label: any, value: any, isCoder: boolean = false){
         this.label = label;
-        this.value = new Prefix(value, label, isCoder);
+        this.value = new Prefix(value,  isCoder);
     }
 
 

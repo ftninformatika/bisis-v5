@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.report;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.actions.Messages;
 import com.ftninformatika.utils.WindowUtils;
 
 import java.awt.BorderLayout;
@@ -28,7 +29,7 @@ import javax.swing.WindowConstants;
 
 public class ReportChooserDlg extends JDialog {
   public ReportChooserDlg() {
-    super(BisisApp.getMainFrame(), "Izaberite izve\u0161taj", true);
+    super(BisisApp.getMainFrame(), Messages.getString("REPORT_CHOSE_REPORT"), true);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setLayout(new BorderLayout());
     JPanel pCenter = new JPanel();
@@ -144,8 +145,8 @@ public class ReportChooserDlg extends JDialog {
     private List<ListItem> items = new ArrayList<ListItem>();
   }
 
-  private JButton btnOK = new JButton("   OK   ");
-  private JButton btnCancel = new JButton("Odustani");
+  private JButton btnOK = new JButton(Messages.getString("REPORT_BTN_OK"));
+  private JButton btnCancel = new JButton(Messages.getString("REPORT_BTN_CANCEL"));
   private JScrollPane spReportList = new JScrollPane();
   private JList lReportList = new JList();
   private ListModel model = new ListModel();

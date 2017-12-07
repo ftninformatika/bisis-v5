@@ -11,13 +11,14 @@ import javax.swing.WindowConstants;
 
 import com.ftninformatika.bisis.BisisApp;
 
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.utils.WindowUtils;
 import net.miginfocom.swing.MigLayout;
 
 public class SearchStatusDlg extends JDialog {
 
 	  public SearchStatusDlg() {
-		  super(BisisApp.getMainFrame(), "Info", true);
+		  super(BisisApp.getMainFrame(), Messages.getString("SEARCH_INFO"), true);
 	        setSize(250,150);
 		    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		    progressBar.setMinimum(0);
@@ -31,7 +32,7 @@ public class SearchStatusDlg extends JDialog {
 		        "[]",
 		        "[]para[]para[]");
 		    setLayout(mig);
-		    add(new JLabel("<html> <b>Pretraga je u toku...</html>"), "center, wrap");
+		    add(new JLabel(Messages.getString("SEARCH_SEARCHING_IN_PROGRESS_HTML")), "center, wrap");
 		    add(progressBar, "span 2, center, growx, wrap");
 		    add(cancelBtn, "span 2, split 2, tag cancel");
 			  pack();
@@ -46,6 +47,6 @@ public class SearchStatusDlg extends JDialog {
 	  }
 
 	  private JProgressBar progressBar = new JProgressBar();
-	  private JButton cancelBtn=new JButton("Odustani");
+	  private JButton cancelBtn=new JButton(Messages.getString("SEARCH_CANCEL"));
 
 	}

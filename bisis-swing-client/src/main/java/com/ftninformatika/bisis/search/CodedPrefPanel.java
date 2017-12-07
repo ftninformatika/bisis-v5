@@ -4,6 +4,7 @@
 package com.ftninformatika.bisis.search;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
 
@@ -13,7 +14,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.text.MessageFormat;import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -78,7 +79,7 @@ public class CodedPrefPanel extends JPanel {
 		List<UItem> codesList = CodedPrefUtils.getCodesForPrefix(pref);
 		if(codesList!=null){
 			CodeChoiceDialog ccd = new CodeChoiceDialog(BisisApp.getMainFrame(),
-				"\u0160ifarnik", codesList,"\u0160ifarnik za prefiks "+pref,"");
+					Messages.getString("SEARCH_CODER"), codesList, MessageFormat.format(Messages.getString("SEARCH_CODER_FOR_PREFIX.0"), pref),"");
 			ccd.setVisible(true);		
 			if(ccd.getSelectedCode()!=null)
 				txtFld.setText(ccd.getSelectedCode());

@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.search;
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.records.Record;
 import java.io.IOException;
 import java.util.List;
@@ -93,19 +94,19 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
   protected void done() {  
 	     if (!isCancelled){
 	       if (connError){
-	    	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(), 
-	       	         "Konekcija na server nije uspela!"+" \n"+" Obratite se administratoru!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
+	    	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
+                     Messages.getString("SEARCH_CONNECTION_REFUSED_TALK_TO_ADMIN"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
 	       }else if(recordQueryResultIds == null){
 	    	   JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-	    	           "Nema pogodaka!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
+                       Messages.getString("SEARCH_NO_HITS"), Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
 	       }
 	       else if (recordQueryResultIds.size() == 0){
 	        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-	           "Nema pogodaka!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
+                    Messages.getString("SEARCH_NO_HITS"), Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
 	       }
            else if(bigSet){
                JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-                       "Prevelik skup pogodaka. Preformulisati upit!", "Gre\u0161ka", JOptionPane.INFORMATION_MESSAGE);
+                       Messages.getString("SEARCH_LARGE_RESULTSET_REQUERY"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
            }
 	       else{
 	        BisisApp.getMainFrame().addHitListFrame(this.recordQueryResultIds, searchModel.toString());

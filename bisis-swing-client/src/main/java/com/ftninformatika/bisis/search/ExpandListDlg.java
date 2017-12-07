@@ -10,13 +10,14 @@ import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
+import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.utils.WindowUtils;
 import net.miginfocom.swing.MigLayout;
 
 public class ExpandListDlg extends JDialog {
 
 	public ExpandListDlg(Frame owner) {
-		super(owner, "Ekspandovani prefiks", true);
+		super(owner, Messages.getString("SEARCH_EXPAND_PREFIX"), true);
 		
 		spExpandList.setViewportView(lbExpandList);
 		spExpandList.setFocusable(false);
@@ -86,9 +87,9 @@ public class ExpandListDlg extends JDialog {
 
 	private JScrollPane spExpandList = new JScrollPane();
 
-	private JButton btnOK = new JButton("Izaberi");
+	private JButton btnOK = new JButton(Messages.getString("SEARCH_CHOSE"));
 
-	private JButton btnCancel = new JButton("Odustani");
+	private JButton btnCancel = new JButton(Messages.getString("SEARCH_CANCEL"));
 
 	private boolean selected = false;
 
