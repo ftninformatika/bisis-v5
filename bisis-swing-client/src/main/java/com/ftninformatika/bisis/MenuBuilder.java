@@ -11,6 +11,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.bisis.report.ReportMenuBuilder;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
+import com.ftninformatika.bisis.editor.Messages;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -144,7 +145,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenu getMObradaDefault(){
    if (mObrada == null){ 
-    mObrada = new JMenu("Обрада");
+    mObrada = new JMenu(Messages.getString("MENU_PROCESSING"));
     mObrada.setMnemonic(KeyEvent.VK_O);
     searchAction = new SearchAction();
     mObrada.add(new JMenuItem(searchAction));
@@ -168,7 +169,7 @@ public class MenuBuilder extends JMenuBar {
   private JMenu getMCirculation(){
     if (mCirculation == null) {
       mCirculation = new JMenu();
-      mCirculation.setText("Циркулација");
+      mCirculation.setText(Messages.getString("MENU_CIRC"));
       mCirculation.setMnemonic(KeyEvent.VK_C);
       mCirculation.add(getMUsers());
       mCirculation.add(getMSearch());
@@ -179,7 +180,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMUsers() {
 		if (mNewUser == null) {
 			mUsers = new JMenu();
-			mUsers.setText("Корисници");
+			mUsers.setText(Messages.getString("MENU_USERS"));
       		mUsers.setMnemonic(KeyEvent.VK_K);
 			mUsers.add(getMNewUser());
 			mUsers.add(getMUser());
@@ -189,7 +190,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMNewUser() {
 		if (mNewUser == null) {
 			mNewUser = new JMenu();
-			mNewUser.setText("Нови корисник");
+			mNewUser.setText(Messages.getString("MENU_NEW_USER"));
 			mNewUser.setIcon(new ImageIcon(getClass().getResource("/circ-images/add_user_bold16.png")));
 			mNewUser.add(getMNewSingle());
 			mNewUser.add(getMNewGroup());
@@ -214,7 +215,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMUser() {
 		if (mUser == null) {
 			mUser = new JMenu();
-			mUser.setText("Постојећи корисник");
+			mUser.setText(Messages.getString("MENU_EXISTING_USER"));
 			mUser.setIcon(new ImageIcon(getClass().getResource("/circ-images/user16.png")));
 			mUser.add(getMData());
 			mUser.add(getMMembership());
@@ -263,7 +264,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMSearch() {
 		if (mSearch == null) {
 			mSearch = new JMenu();
-			mSearch.setText("Претраживање");
+			mSearch.setText(Messages.getString("MENU_SEARCHING"));
 			mSearch.setMnemonic(KeyEvent.VK_P);
 			mSearch.add(getMSearchUser());
 			mSearch.add(getMSearchBooks());
@@ -281,7 +282,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMCircReport() {
 		if (mReport == null) {
 			mReport = new JMenu();
-			mReport.setText("Извештаји");
+			mReport.setText(Messages.getString("MENU_REPORTS"));
 			mReport.setMnemonic(KeyEvent.VK_I);
 			mReport.add(getMCircReportItem());
 		}
@@ -290,7 +291,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenu getMObradaReport() {
    if (mIzvestaji == null) {
-      mIzvestaji = new JMenu("Извештаји");
+      mIzvestaji = new JMenu(Messages.getString("MENU_REPORTS"));
       mIzvestaji.setMnemonic(KeyEvent.VK_I);
 	   List<Report> reports=BisisApp.appConfig.getClientConfig().getReports();
 	   ReportMenuBuilder.addReports(mIzvestaji, reports);
@@ -301,10 +302,10 @@ public class MenuBuilder extends JMenuBar {
   private JMenu getMAllReport() {
     if (mAdminReport == null) {
       mAdminReport = new JMenu();
-      mAdminReport.setText("Извештаји");
+      mAdminReport.setText(Messages.getString("MENU_REPORTS"));
       mAdminReport.setMnemonic(KeyEvent.VK_I);
       mAdminReport.add(getMCircReportItem());
-      getMObradaReport().setText("Обрада");
+      getMObradaReport().setText(Messages.getString("MENU_PROCESSING"));
       mAdminReport.add(getMObradaReport());
       //mAdminReport.add(getOnlineReports());
     }
@@ -313,9 +314,9 @@ public class MenuBuilder extends JMenuBar {
   private JMenu getMAllObradaReport() {
 	    if (mObradaReport == null) {
 	    	mObradaReport = new JMenu();
-	    	mObradaReport.setText("Извештаји");
+	    	mObradaReport.setText(Messages.getString("MENU_REPORTS"));
 	    	mObradaReport.setMnemonic(KeyEvent.VK_I);
-		  getMObradaReport().setText("Обрада");
+		  getMObradaReport().setText(Messages.getString("MENU_PROCESSING"));
 		  mObradaReport.add(getMObradaReport());
 	      //mObradaReport.add(getOnlineReports());
 	    }
@@ -325,7 +326,7 @@ public class MenuBuilder extends JMenuBar {
   private JMenu getMAdministration() {
     if (mAdministration == null) {
       mAdministration = new JMenu();
-      mAdministration.setText("Администрација");
+      mAdministration.setText(Messages.getString("MENU_ADMINISTRATION"));
       mAdministration.setMnemonic(KeyEvent.VK_A);
       //mAdministration.add(getMBackup());
       mAdministration.addSeparator();
@@ -345,7 +346,7 @@ public class MenuBuilder extends JMenuBar {
   private JMenu getMSistem() {
 		if (mSistem == null) {
 			mSistem = new JMenu();
-			mSistem.setText("Систем");
+			mSistem.setText(Messages.getString("MENU_SYSTEM"));
 			mSistem.add(getMLog());
     		mSistem.add(getMMonitor());
       		mSistem.add(getMIzlaz());
@@ -357,7 +358,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMUserRep() {
 		if (mUserRep == null) {
 			mUserRep = new JMenu();
-			mUserRep.setText("Корисници");
+			mUserRep.setText(Messages.getString("MENU_USERS"));
 			mUserRep.add(getMMmbrBook());
 			mUserRep.add(getMStructureNew());
 			mUserRep.add(getMStructureVisitors());
@@ -370,7 +371,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMBooksRep() {
 		if (mBooksRep == null) {
 			mBooksRep = new JMenu();
-			mBooksRep.setText("Публикације");
+			mBooksRep.setText(Messages.getString("MENU_PUBLICATIONS"));
 			mBooksRep.add(getMMostRead());
 			mBooksRep.add(getMMostReadUDK());
 			mBooksRep.add(getMBookCard());
@@ -383,7 +384,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMHistoryRep() {
 		if (mHistoryRep == null) {
 			mHistoryRep = new JMenu();
-			mHistoryRep.setText("Исотија");
+			mHistoryRep.setText(Messages.getString("MENU_HISTORY"));
 			mHistoryRep.add(getMHistoryUser());
 			mHistoryRep.add(getMHistoryBook());
 		}
@@ -393,7 +394,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenu getMMmbrBook() {
 		if (mMmbrBook == null) {
 			mMmbrBook = new JMenu();
-			mMmbrBook.setText("Књига уписа");
+			mMmbrBook.setText(Messages.getString("MENU_ENTRY_BOOK"));
 			mMmbrBook.add(getMLibrarian());
 			mMmbrBook.add(getMCategory());
 			mMmbrBook.add(getMMmbrType());
@@ -404,7 +405,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMLibrarian() {
 		if (mLibrarian == null) {
 			mLibrarian = new JMenuItem();
-			mLibrarian.setText("По библиотекару");
+			mLibrarian.setText(Messages.getString("MENU_BY_LIBRARIAN"));
 		}
 		return mLibrarian;
 	}
@@ -412,7 +413,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMCategory() {
 		if (mCategory == null) {
 			mCategory = new JMenuItem();
-			mCategory.setText("По категорији");
+			mCategory.setText(Messages.getString("MENU_BY_CATEG"));
 		}
 		return mCategory;
 	}
@@ -420,7 +421,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMMmbrType() {
 		if (mMmbrType == null) {
 			mMmbrType = new JMenuItem();
-			mMmbrType.setText("По врсти учлањења");
+			mMmbrType.setText(Messages.getString("MENU_BY_USER_CATEG"));
 		}
 		return mMmbrType;
 	}
@@ -428,7 +429,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMStructureNew() {
 		if (mStructureNew == null) {
 			mStructureNew = new JMenuItem();
-			mStructureNew.setText("Структура уписаних корисника");
+			mStructureNew.setText(Messages.getString("MENU_STRUCT_MEMBERS"));
 		}
 		return mStructureNew;
 	}
@@ -436,7 +437,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMStructureVisitors() {
 		if (mStructureVisitors == null) {
 			mStructureVisitors = new JMenuItem();
-			mStructureVisitors.setText("Структура посетилаца");
+			mStructureVisitors.setText(Messages.getString("MENU_STRUCT_VISITORS"));
 		}
 		return mStructureVisitors;
 	}
@@ -444,7 +445,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMVisitors() {
 		if (mVisitors == null) {
 			mVisitors = new JMenuItem();
-			mVisitors.setText("Посетиоци");
+			mVisitors.setText(Messages.getString("MENU_VISITORS"));
 		}
 		return mVisitors;
 	}
@@ -452,7 +453,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMSumary() {
 		if (mSumary == null) {
 			mSumary = new JMenuItem();
-			mSumary.setText("Збирни извештај");
+			mSumary.setText(Messages.getString("MENU_COLLECTIVE_REPORT"));
 		}
 		return mSumary;
 	}
@@ -460,7 +461,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMHistoryUser() {
 		if (mHistoryUser == null) {
 			mHistoryUser = new JMenuItem();
-			mHistoryUser.setText("Корисника");
+			mHistoryUser.setText(Messages.getString("MENU_FROM_USER"));
 		}
 		return mHistoryUser;
 	}
@@ -468,7 +469,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMHistoryBook() {
 		if (mHistoryBook == null) {
 			mHistoryBook = new JMenuItem();
-			mHistoryBook.setText("Публикације");
+			mHistoryBook.setText(Messages.getString("MENU_PUBLICATIONS"));
 		}
 		return mHistoryBook;
 	}
@@ -476,7 +477,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMMostRead() {
 		if (mMostRead == null) {
 			mMostRead = new JMenuItem();
-			mMostRead.setText("Најчитаније књиге");
+			mMostRead.setText(Messages.getString("MENU_MOST_RED"));
 		}
 		return mMostRead;
 	}
@@ -484,7 +485,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMMostReadUDK() {
 		if (mMostReadUDK == null) {
 			mMostReadUDK = new JMenuItem();
-			mMostReadUDK.setText("Најчитаније књиге по UDK");
+			mMostReadUDK.setText(Messages.getString("MENU_MOST_READ_BY_UDK"));
 		}
 		return mMostReadUDK;
 	}
@@ -492,7 +493,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMBookCard() {
 		if (mBookCard == null) {
 			mBookCard = new JMenuItem();
-			mBookCard.setText("Картица књиге");
+			mBookCard.setText(Messages.getString("MENU_BOOK_CARD"));
 		}
 		return mBookCard;
 	}
@@ -500,7 +501,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMCategUDK() {
 		if (mCategUDK == null) {
 			mCategUDK = new JMenuItem();
-			mCategUDK.setText("По категорији корисника и UDK");
+			mCategUDK.setText(Messages.getString("MENU_BY_CATEG_USER_UDK"));
 		}
 		return mCategUDK;
 	}
@@ -508,7 +509,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMLendingUDK() {
 		if (mLendingUDK == null) {
 			mLendingUDK = new JMenuItem();
-			mLendingUDK.setText("Издате и враћене по UDK");
+			mLendingUDK.setText(Messages.getString("MENU_TAKEN_RETURNED_BY_UDK"));
 		}
 		return mLendingUDK;
 	}
@@ -516,7 +517,7 @@ public class MenuBuilder extends JMenuBar {
   private JMenuItem getMCircReportItem() {
     if (mCircReports == null) {
       mCircReports = new JMenuItem(new CircReportAction());
-      mCircReports.setText("Циркулација");
+      mCircReports.setText(Messages.getString("MENU_CIRC"));
     }
     return mCircReports;
   }
@@ -524,7 +525,7 @@ public class MenuBuilder extends JMenuBar {
 	private JMenuItem getMOptions() {
 		if (mOptions == null) {
 			mOptions = new JMenuItem();
-			mOptions.setText("Опције");
+			mOptions.setText(Messages.getString("MENU_OPTIONS"));
 			mOptions.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 				  getOptionsFrame().setVisible(true);
@@ -547,7 +548,7 @@ public class MenuBuilder extends JMenuBar {
   }*/
   private JMenuItem getSearchAdvanced() {
 	    if (searchAdvanced == null) {
-	    	searchAdvanced = new JMenuItem("Напредно претраживање");
+	    	searchAdvanced = new JMenuItem(Messages.getString("SEARCH_ADVANCED_SEARCH"));
 	    	searchAdvanced.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	          getSearchAdvancedFrame().setVisible(true);
@@ -570,7 +571,7 @@ public class MenuBuilder extends JMenuBar {
 	  }*/
   private JMenu getMSifInv(){
     if (mSifInv == null){
-      mSifInv = new JMenu("Шифарници инвентара");
+      mSifInv = new JMenu(Messages.getString("MENU_INV_CODERS"));
       mSifInv.add(getMiOdeljenja());
       mSifInv.add(getMiInvknj());
       mSifInv.add(getMiFormati());
@@ -586,7 +587,7 @@ public class MenuBuilder extends JMenuBar {
 
   private JMenuItem getMiOdeljenja() {
     if (miOdeljenja == null) {
-      miOdeljenja = new JMenuItem("Одељења");
+      miOdeljenja = new JMenuItem(Messages.getString("MENU_LOCATIONS"));
       miOdeljenja.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
          BisisApp.getMainFrame().getOdeljenjeFrame().setVisible(true);
@@ -598,7 +599,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiInvknj() {
     if (miInvknj == null) {
-      miInvknj = new JMenuItem("Инвентарна књига");
+      miInvknj = new JMenuItem(Messages.getString("INV_BOOK"));
       miInvknj.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           BisisApp.getMainFrame().getInvknjFrame().setVisible(true);
@@ -610,7 +611,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiFormati() {
     if (miFormati == null) {
-      miFormati = new JMenuItem("Формати");
+      miFormati = new JMenuItem(Messages.getString("MENU_FORMATS"));
       miFormati.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           BisisApp.getMainFrame().getFormatFrame().setVisible(true);
@@ -622,7 +623,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiStatus() {
     if (miStatus == null) {
-      miStatus = new JMenuItem("Статус примерака");
+      miStatus = new JMenuItem(Messages.getString("MENU_ITEM_STATUS"));
       miStatus.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           BisisApp.getMainFrame().getStatusFrame().setVisible(true);
@@ -634,7 +635,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiPovez() {
     if (miPovez == null) {
-      miPovez = new JMenuItem("Повез");
+      miPovez = new JMenuItem(Messages.getString("MENU_BINDING"));
       miPovez.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           BisisApp.getMainFrame().getPovezFrame().setVisible(true);
@@ -646,7 +647,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMi992b() {
 	    if (mi992b == null) {
-	    	mi992b = new JMenuItem("Акције над записом");
+	    	mi992b = new JMenuItem(Messages.getString("MENU_ACTIONS"));
 	    	mi992b.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	          BisisApp.getMainFrame().get992bFrame().setVisible(true);
@@ -658,7 +659,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiPodlokacija() {
     if (miPodlokacija == null) {
-      miPodlokacija = new JMenuItem("Подлокације");
+      miPodlokacija = new JMenuItem(Messages.getString("MENU_SUBLOCATIONS"));
       miPodlokacija.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           BisisApp.getMainFrame().getPodlokacijaFrame().setVisible(true);
@@ -670,7 +671,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiNacin() {
     if (miNacin == null) {
-      miNacin = new JMenuItem("Начин набаввке");
+      miNacin = new JMenuItem(Messages.getString("MENU_ACQ_TYPE"));
       miNacin.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           BisisApp.getMainFrame().getNacinFrame().setVisible(true);
@@ -682,7 +683,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiIntOzn() {
     if (miIntOzn == null) {
-      miIntOzn = new JMenuItem("Интерна ознака");
+      miIntOzn = new JMenuItem(Messages.getString("INTERNAL_MARK"));
       miIntOzn.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           BisisApp.getMainFrame().getIntOznFrame().setVisible(true);
@@ -694,7 +695,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiBrojaci() {
     if (miBrojaci == null) {
-      miBrojaci = new JMenuItem("Бројачи");
+      miBrojaci = new JMenuItem(Messages.getString("MENU_COUNTERS"));
       miBrojaci.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           BisisApp.getMainFrame().getCountersFrame().setVisible(true);
@@ -706,7 +707,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiBibliotekari() {
     if (miBibliotekari == null) {
-      miBibliotekari = new JMenuItem("Библиотекари");
+      miBibliotekari = new JMenuItem(Messages.getString("MENU_LIBRARIANS"));
       miBibliotekari.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					LibEnvironment.showLibrariansFrame();
@@ -718,7 +719,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiTipoviObrade(){
   	if(miTipoviObrade == null) {
-  		miTipoviObrade = new JMenuItem("Типови обраде");
+  		miTipoviObrade = new JMenuItem(Messages.getString("MENU_PROCESS_TYPES"));
   		miTipoviObrade.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					LibEnvironment.showProcessTypesFrame();
@@ -731,7 +732,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMIzlaz() {
     if (mIzlaz == null) {
-      mIzlaz = new JMenuItem("Излаз");
+      mIzlaz = new JMenuItem(Messages.getString("MENU_EXIT"));
       mIzlaz.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           System.exit(0);
@@ -743,7 +744,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMLog() {
     if (mLog == null) {
-      mLog = new JMenuItem("Log");
+      mLog = new JMenuItem(Messages.getString("MENU_LOG"));
       //TODO
     }
     return mLog;
@@ -752,14 +753,14 @@ public class MenuBuilder extends JMenuBar {
   private JMenuItem getMMonitor() {
     if (mMonitor == null) {
       mMonitor = new JMenuItem(new MonitorAction());
-      mMonitor.setText("Monitor");
+      mMonitor.setText(Messages.getString("MENU_MONITOR"));
     }
     return mMonitor;
   }
 
   private JMenu getMSifCirc(){
     if (mSifCirc == null){
-      mSifCirc = new JMenu("Шифарници циркулације");
+      mSifCirc = new JMenu(Messages.getString("MENU_CIRC_CODERS"));
       mSifCirc.add(getMiUserCategs());
       mSifCirc.add(getMiMmbrTypes());
       mSifCirc.add(getMiMmbrship());
@@ -775,7 +776,7 @@ public class MenuBuilder extends JMenuBar {
 
   private JMenuItem getMiUserCategs() {
     if (miUserCategs == null) {
-      miUserCategs = new JMenuItem("Категорије корисника");
+      miUserCategs = new JMenuItem(Messages.getString("MENU_USER_CATEGS"));
       miUserCategs.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getUserCategsFrame().setVisible(true);
@@ -787,7 +788,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiMmbrTypes() {
     if (miMmbrTypes == null) {
-      miMmbrTypes = new JMenuItem("Врсте чланства");
+      miMmbrTypes = new JMenuItem(Messages.getString("MENU_MMBR_TYPES"));
       miMmbrTypes.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getMmbrTypesFrame().setVisible(true);
@@ -799,7 +800,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiEduLvl() {
     if (miEduLvl == null) {
-      miEduLvl = new JMenuItem("Степен образовања");
+      miEduLvl = new JMenuItem(Messages.getString("MENU_EDU_LVL"));
       miEduLvl.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getEduLvlFrame().setVisible(true);
@@ -811,7 +812,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiLanguages() {
     if (miLanguages == null) {
-      miLanguages = new JMenuItem("Матерњи језик");
+      miLanguages = new JMenuItem(Messages.getString("MENU_LANG"));
       miLanguages.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getLanguagesFrame().setVisible(true);
@@ -823,7 +824,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiOrganization() {
     if (miOrganization == null) {
-      miOrganization = new JMenuItem("Организација");
+      miOrganization = new JMenuItem(Messages.getString("MENU_ORGANIZATION"));
       miOrganization.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getOrganizationFrame().setVisible(true);
@@ -835,7 +836,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiLocation() {
     if (miLocation == null) {
-      miLocation = new JMenuItem("Одељења");
+      miLocation = new JMenuItem(Messages.getString("MENU_LOCATIONS"));
       miLocation.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getLocationFrame().setVisible(true);
@@ -847,7 +848,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiPlaces() {
     if (miPlaces == null) {
-      miPlaces = new JMenuItem("Места");
+      miPlaces = new JMenuItem(Messages.getString("MENU_PLACES"));
       miPlaces.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getPlacesFrame().setVisible(true);
@@ -859,7 +860,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiWarnCounters() {
     if (miWarnCounters == null) {
-    	miWarnCounters = new JMenuItem("Бројачи за опомене");
+    	miWarnCounters = new JMenuItem(Messages.getString("MENU_WARN_COUNTERS"));
     	miWarnCounters.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getWarnCountersFrame().setVisible(true);
@@ -871,7 +872,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiMmbrship() {
     if (miMmbrship == null) {
-      miMmbrship = new JMenuItem("Чланарина");
+      miMmbrship = new JMenuItem(Messages.getString("MENU_FEE"));
       miMmbrship.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getMmbrshipFrame().setVisible(true);
@@ -883,7 +884,7 @@ public class MenuBuilder extends JMenuBar {
   
   private JMenuItem getMiWarnings() {
     if (miWarnings == null) {
-      miWarnings = new JMenuItem("Опомене");
+      miWarnings = new JMenuItem(Messages.getString("MENU_NOTES"));
       miWarnings.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getWarningsFrame().setVisible(true);

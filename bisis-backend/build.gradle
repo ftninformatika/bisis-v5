@@ -4,6 +4,8 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
+		jcenter()
+		maven { url "http://repo.spring.io/libs-snapshot" }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -13,6 +15,13 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'war'
+
+war {
+	baseName = 'bisiswar'
+	version =  '5.0.0'
+}
+
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
