@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.login;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.actions.Messages;
 import com.ftninformatika.bisis.config.DevelopmentConfig;
 import com.ftninformatika.utils.WindowUtils;
 import net.miginfocom.swing.MigLayout;
@@ -19,7 +21,7 @@ import net.miginfocom.swing.MigLayout;
 public class LoginDlg extends JDialog {
 
   public LoginDlg(LoginFrame parent) {
-    super(parent, "BISIS " + BisisApp.appVersion + " prijavljivanje", true);
+    super(parent, MessageFormat.format(Messages.getString("LOGIN_BISIS.0.LOGIN"), BisisApp.appVersion), true);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     btnCancel.setFocusable(false);
     btnOK.setFocusable(false);
@@ -32,13 +34,13 @@ public class LoginDlg extends JDialog {
     btnOK.addActionListener(e -> handleOK());
     MigLayout layout = new MigLayout(
         "insets dialog, wrap",
-        "[right]rel[150lp]",
+        "[right]rel[160lp]",
         "[]rel[]para[]");
     setLayout(layout);
     
-    add(new JLabel("Bibliotekar"), "");
+    add(new JLabel(Messages.getString("LOGIN_LIBRARIAN")), "");
     add(tfUsername, "grow, wrap");
-    add(new JLabel("Lozinka"), "");
+    add(new JLabel(Messages.getString("LOGIN_PASSWORD")), "");
     add(pfPassword, "grow, wrap");
     add(btnCancel, "span 2, split 2, tag cancel");
     add(btnOK, "tag ok");
@@ -74,8 +76,8 @@ public class LoginDlg extends JDialog {
   
   JTextField tfUsername = new JTextField();
   JPasswordField pfPassword = new JPasswordField();
-  JButton btnCancel = new JButton("Odustani");
-  JButton btnOK = new JButton("Prijavi se");
+  JButton btnCancel = new JButton(Messages.getString("LOGIN_CANCEL"));
+  JButton btnOK = new JButton(Messages.getString("LOGIN_LOGIN"));
   
   boolean confirmed = false;
 }

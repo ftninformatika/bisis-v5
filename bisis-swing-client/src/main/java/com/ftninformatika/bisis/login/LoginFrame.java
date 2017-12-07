@@ -1,11 +1,13 @@
 package com.ftninformatika.bisis.login;
 
+import com.ftninformatika.bisis.actions.Messages;
+
 import javax.swing.JFrame;
 
 public class LoginFrame extends JFrame {
 
   public LoginFrame() {
-    setTitle("BISIS prijavljivanje");
+    setTitle(Messages.getString("LOGIN_BISIS_L"));
     setBounds(-1000, -1000, 0, 0);
     String osname = System.getProperty("os.name");
     if (!osname.equals("Linux"))
