@@ -41,7 +41,7 @@ public class RecordUtilities {
 			else
 				return "";
 		}
-		retVal.append(" kom ");
+		retVal.append(Messages.getString("CARDS_PIECES"));
 		
 		return retVal.toString();
 	}
@@ -809,7 +809,7 @@ public class RecordUtilities {
 		StringBuffer buff = new StringBuffer();
 		buff.append("<html>");
 		buff.append("<table>");
-		buff.append("<tr><td><B>"+"\u0413\u043E\u0434\u0438\u0448\u0442\u0435"+"</B></td><td><B>\u0413\u043E\u0434\u0438\u043D\u0430</B></td><td><B>\u0411\u0440\u043E\u0458</B></td></tr>");	
+		buff.append(Messages.getString("CARDS_YEARING_YEAR_NUMBER_HTML"));
 		for(Godina g:rec.getGodine()){
 			buff.append("<tr>");
 			String godiste = g.getGodiste()!=null?g.getGodiste():"";			

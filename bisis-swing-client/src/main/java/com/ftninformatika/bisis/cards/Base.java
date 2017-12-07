@@ -525,25 +525,25 @@ public class Base {
 		if (godina.size()>0)
 			root.put("godine", godina);
 		
-		root.put("nemaSignature","Nedostaje signatura");//root.put("nemaSignature",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_NOCALLNUMBER"));
-		root.put("odrednica","GRE\u0160KA: Nije definisana odrednica, niti je naslov znacajan!");//root.put("odrednica",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_NOHEADWORD"));
-		root.put("promocija","Promocija:");//root.put("promocija",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_PROMOTION"));
-		root.put("mentor","Mentor:");//root.put("mentor",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_MENTOR"));
-		root.put("komisija","Komisija:");//root.put("komisija",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_DEFENDBOARD"));
-		root.put("odbrana","Odbrana:");//root.put("odbrana",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_DEFEND"));
-		root.put("sadrzaj","Sadr\u017eaj:");//root.put("sadrzaj",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_CONTENT"));
-		root.put("mrtitle","GL. STV. NASL.");//root.put("mrtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_MRTITLE"));
-		root.put("crtitle","UPORED. STV. NASL.");//root.put("crtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_CRTITLE"));
-		root.put("ortitle","OM. STV. NASL.");//root.put("ortitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_ORTITLE"));
-		root.put("rtitleshead","STV. NASL. NA SPOR. NASL. STR.");//root.put("rtitleshead",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_RTITLESHEAD"));
-		root.put("rtitleabovetext","STV. NASL. NAD TEKSTOM");//root.put("rtitleabovetext",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_RTITLEABOVETEXT"));
-		root.put("currtitle","TEKU\u0106I STV. NASL.");//root.put("currtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_CURRTITLE"));
-		root.put("hrbtitle","HRBT. STV. NASL.");//root.put("hrbtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_HRBTTITLE"));
-		root.put("ssltitle","DR. SPOR. STV. NASL.");//root.put("ssltitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_SSLTTITLE"));
-		root.put("addtitle","DODAT. NASLOV");//root.put("addtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_ADDTITLE"));
-		root.put("f423mustHave200", "U POLJU 423 OBAVEZNO JE BAR JEDNO POLJE 200 ILI JEDNO 500");//root.put("f423mustHave200", com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_F423MUSTHAVE200"));
-		root.put("f423content", "U POLJE 423 UNOSE SE BAR JEDNO POLJE 200 ILI JEDNO 500, A ZATIM POLJE IZ BLOKA 7 ILI POLJE 503");//root.put("f423content", com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_F423CONTENT"));
-		root.put("f423wrongFieldOrder","POGRE\u0160AN REDOSLED SEK. POLJA U 423 (treba 200, pa 7XX)!");//root.put("f423wrongFieldOrder",com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_F423WRONGSECFIELDORDER"));
+		root.put("nemaSignature", Messages.getString("CARDS_SIGNATURE_MISSING"));//root.put("nemaSignature",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_NOCALLNUMBER"));
+		root.put("odrednica", Messages.getString("CARDS_HEADING_NOT_DEFINED"));//root.put("odrednica",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_NOHEADWORD"));
+		root.put("promocija", Messages.getString("CARDS_PROMOTION"));//root.put("promocija",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_PROMOTION"));
+		root.put("mentor", Messages.getString("CARDS_MENTOR"));//root.put("mentor",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_MENTOR"));
+		root.put("komisija", Messages.getString("CARDS_COMMISSION"));//root.put("komisija",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_DEFENDBOARD"));
+		root.put("odbrana", Messages.getString("CARDS_CONCEPT_DEFEND"));//root.put("odbrana",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_DEFEND"));
+		root.put("sadrzaj", Messages.getString("CARDS_CONCEPT_CONTENT"));//root.put("sadrzaj",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_CONTENT"));
+		root.put("mrtitle", Messages.getString("CARDS_MAIN_TITLE"));//root.put("mrtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_MRTITLE"));
+		root.put("crtitle", Messages.getString("CARDS_CONCEPT_TITPE"));//root.put("crtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_CRTITLE"));
+		root.put("ortitle", Messages.getString("CARDS_OM_REAL_TITLE"));//root.put("ortitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_ORTITLE"));
+		root.put("rtitleshead", Messages.getString("CARDS_REAL_TITLE_ON_SECONDARY"));//root.put("rtitleshead",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_RTITLESHEAD"));
+		root.put("rtitleabovetext", Messages.getString("CARDS_MAIN_TITLE_ON_TEXT"));//root.put("rtitleabovetext",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_RTITLEABOVETEXT"));
+		root.put("currtitle", Messages.getString("CARDS_MAIN_CURRENT_TITLE"));//root.put("currtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_CURRTITLE"));
+		root.put("hrbtitle", Messages.getString("CARDS_HRB_TITLE"));//root.put("hrbtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_HRBTTITLE"));
+		root.put("ssltitle", Messages.getString("CARDS_OTHER_SECONDARY_MAIN_TITLE"));//root.put("ssltitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_SSLTTITLE"));
+		root.put("addtitle", Messages.getString("CARDS_ADDED_TITLE"));//root.put("addtitle",com.gint.app.bisis.editor.Messages.get("BISISAPP_CONCEPT_ADDTITLE"));
+		root.put("f423mustHave200", Messages.getString("CARDS_FIELD_200_OR_500_MANDATORY_IN_FIELD_423"));//root.put("f423mustHave200", com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_F423MUSTHAVE200"));
+		root.put("f423content", Messages.getString("CARDS_FIELDS_200_OR_500_AND_7_OR_503_IN_423"));//root.put("f423content", com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_F423CONTENT"));
+		root.put("f423wrongFieldOrder", Messages.getString("CARDS_WRONG_ORDER_SEC_FIELDS_423"));//root.put("f423wrongFieldOrder",com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_F423WRONGSECFIELDORDER"));
 		
 		
 		return root;

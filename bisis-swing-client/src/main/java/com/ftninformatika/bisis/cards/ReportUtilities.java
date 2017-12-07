@@ -124,7 +124,7 @@ public class ReportUtilities {
       return out;
     }
     else
-      return "Greska u listi\u0107ima";
+      return Messages.getString("CARDS_ERROR_IN_CARD");
   }
 
 

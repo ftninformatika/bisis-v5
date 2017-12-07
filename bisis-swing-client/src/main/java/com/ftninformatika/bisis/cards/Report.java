@@ -109,7 +109,7 @@ public class Report {
   			
   		}catch(Exception e2){
   			e2.printStackTrace();
-  			return izlaz="Nepostojeci tip listica";
+  			return izlaz= Messages.getString("CARDS_NO_CARD_TYPE");
   		}        
   	}  	
   	try{
@@ -118,7 +118,7 @@ public class Report {
 			try{
 				 temp1 = cfg.getTemplate("_novaStr.ftl");
 			}catch(Exception e4){
-				return izlaz="Neodgovarajuci tip listica";//com.gint.app.bisis.editor.Messages.get("BISISAPP_CMD_ELIST_UNKNOWNTYPE");		  		
+				return izlaz= Messages.getString("CARDS_INADEQUATE_CARD_TYPE");//com.gint.app.bisis.editor.Messages.get("BISISAPP_CMD_ELIST_UNKNOWNTYPE");
 			}
 			
 		}		
@@ -148,11 +148,11 @@ public class Report {
 			root.put("brSignatura",new Integer(brSignatura));
 			root.put("brk",new Integer (bkmax-1));
 		}catch(Exception ex1){			
-				return izlaz="Greska u odredjivanju osobina";
+				return izlaz= Messages.getString("CARDS_ERROR_DETERMINING_PROPERTIES");
 		}
 	
 	if (!Base.checkPubType(type))
-		return izlaz = "<BR><BR>Pogresan tip publikacije"; //+ com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_WRONGPUBTYPE") + "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
+		return izlaz = Messages.getString("CARDS_WRONG_PUB_TYPE"); //+ com.gint.app.bisis.editor.Messages.get("BISISAPP_REPORT_WRONGPUBTYPE") + "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
 
 		Writer out=new StringWriter();
 		Writer out1=new StringWriter();
@@ -231,7 +231,7 @@ public class Report {
   	} 	
   	
   	if(typeCode.equals(""))
-  		return "Ne postoji tip listica za izabrani zapis";
+  		return Messages.getString("CARDS_NONEXISTING_CARD_TYPE_FOR_RECORD");
   	
   	
   	try{
@@ -244,7 +244,7 @@ public class Report {
   			 temp = cfg.getTemplate(typeCode+".ftl");  			
   		}catch(Exception e2){
   			e2.printStackTrace();
-  			return izlaz="Nepostojeci tip listica";
+  			return izlaz= Messages.getString("CARDS_NO_CARD_TYPE");
   		}        
   	}  	
   	try{
@@ -253,7 +253,7 @@ public class Report {
 			try{
 				 temp1 = cfg.getTemplate("_novaStr.ftl");
 			}catch(Exception e4){
-				return izlaz="Neodgovarajuci tip listica";		  		
+				return izlaz= Messages.getString("CARDS_INADEQUATE_CARD_TYPE");
 			}			
 		}	
 		
@@ -283,11 +283,11 @@ public class Report {
 			root.put("brSignatura",new Integer(brSignatura));
 			root.put("brk",new Integer (bkmax-1));
 		}catch(Exception ex1){			
-				return izlaz="Greska u odredjivanju osobina";
+				return izlaz= Messages.getString("CARDS_ERROR_DETERMINING_PROPERTIES");
 		}
 	
 	if (!Base.checkPubType(type))
-		return izlaz = "<BR><BR>Pogresan tip publikacije"; 
+		return izlaz = Messages.getString("CARDS_WRONG_PUB_TYPE");
 
     Writer out=new StringWriter();
     Writer out1=new StringWriter();
@@ -386,10 +386,10 @@ public class Report {
             }
           }
         if(!existCurrent ){        	
-        	JOptionPane.showMessageDialog(null, "Ne postoji tekuci tip");            
+        	JOptionPane.showMessageDialog(null, Messages.getString("CARDS_NO_CURRENT_TYPE"));
         }        	
       } catch (Exception ex) {
-      	log.fatal("Ne moze da nadje direktorijum sa tipovima listica");
+      	log.fatal(Messages.getString("CARDS_NO_CARDS_TYPE_DIRECTORY"));
       }
   }
   
