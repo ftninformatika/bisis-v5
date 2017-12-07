@@ -26,12 +26,6 @@ public class EmailController {
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
 
-    @RequestMapping( value = "/sendTest")
-    public void sendEmailWithoutTemplating() {
-
-
-
-    }
 
 
 
