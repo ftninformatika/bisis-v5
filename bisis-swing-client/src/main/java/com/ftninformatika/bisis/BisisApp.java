@@ -77,14 +77,6 @@ public class BisisApp {
           System.exit(0);
         }
 
-        if (token == null) {
-          splashScreen.setVisible(false);
-          JOptionPane.showMessageDialog(null, Messages.getString("MAIN_WRONG_USERNAME_PASSWORD"),
-                  Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
-          System.exit(0);
-        }
-
-
 
         if (token != null && !token.equals("")) {
 
