@@ -26,6 +26,8 @@ export class LoginComponent implements OnInit {
           localStorage.clear();
           localStorage.setItem('token', response.json().token);
           localStorage.setItem('authenticated', response.json().member_info.username);
+          localStorage.setItem('authenticatedUserId', response.json().member_info.index);;
+          localStorage.setItem('authenticatedUserLib', response.json().member_info.libraryPrefix);
           localStorage.setItem('shortInfo', JSON.stringify(response.json().member_info));
             this.messageService.add({
                 severity: 'info',
