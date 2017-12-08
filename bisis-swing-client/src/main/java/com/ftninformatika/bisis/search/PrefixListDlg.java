@@ -10,7 +10,7 @@ import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
-import com.ftninformatika.bisis.editor.Messages;
+import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
 

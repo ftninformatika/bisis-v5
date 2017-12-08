@@ -1,9 +1,9 @@
 package com.ftninformatika.bisis.editor.inventar;
 
+import com.ftninformatika.utils.Messages;
 import javax.swing.table.AbstractTableModel;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Sveska;

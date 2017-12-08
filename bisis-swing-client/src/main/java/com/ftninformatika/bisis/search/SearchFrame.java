@@ -26,13 +26,12 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.text.JTextComponent;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
 import com.ftninformatika.utils.CharacterLookup;
-import com.ftninformatika.utils.string.LatCyrUtils;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.StringUtils;
 import net.miginfocom.swing.MigLayout;
 

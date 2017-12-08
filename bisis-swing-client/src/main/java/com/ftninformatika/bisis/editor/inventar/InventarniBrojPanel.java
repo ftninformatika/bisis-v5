@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
+import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.logging.Log;

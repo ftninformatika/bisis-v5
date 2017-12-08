@@ -37,6 +37,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.toedter.calendar.JDateChooserCellEditor;
 
+import com.ftninformatika.utils.Messages;
 public class Membership {
 
 	

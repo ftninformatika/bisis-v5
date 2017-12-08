@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.editor.editorutils;
 
-import com.ftninformatika.bisis.editor.Messages;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.format.UItem;
 
 import java.awt.Frame;
@@ -13,7 +13,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -21,8 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 public class CodeChoiceDialog extends CenteredDialog {

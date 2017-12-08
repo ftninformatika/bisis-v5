@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.editor.recordtree;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.UField;
@@ -13,7 +13,6 @@ import com.ftninformatika.bisis.records.*;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 

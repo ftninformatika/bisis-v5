@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.circ.view;
 
 
+import com.ftninformatika.utils.Messages;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;

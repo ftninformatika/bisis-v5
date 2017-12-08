@@ -1,18 +1,17 @@
 package com.ftninformatika.bisis.circ;
 
+import com.ftninformatika.utils.Messages;
 import java.beans.PropertyVetoException;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.circ.Environment;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.manager.RecordsManager;
 import com.ftninformatika.bisis.circ.manager.SearchUsersManager;
 import com.ftninformatika.bisis.circ.manager.UserManager;
 import com.ftninformatika.bisis.circ.view.MainFrame;
-import com.ftninformatika.bisis.circ.view.Messages;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.SplashScreen;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;

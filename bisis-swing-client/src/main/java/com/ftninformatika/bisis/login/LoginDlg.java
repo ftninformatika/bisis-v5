@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.login;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.ftninformatika.utils.Messages;
 import java.text.MessageFormat;
 
 import javax.swing.ImageIcon;
@@ -13,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.actions.Messages;
 import com.ftninformatika.bisis.config.DevelopmentConfig;
 import com.ftninformatika.utils.WindowUtils;
 import net.miginfocom.swing.MigLayout;

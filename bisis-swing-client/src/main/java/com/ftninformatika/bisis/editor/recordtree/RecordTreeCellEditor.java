@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.editor.recordtree;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.editorutils.IndicatorCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.SubfieldCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.TableCodeChoiceDialog;
@@ -23,7 +23,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.EventObject;

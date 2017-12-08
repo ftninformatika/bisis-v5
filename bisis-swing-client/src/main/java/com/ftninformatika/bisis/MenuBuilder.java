@@ -11,7 +11,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.bisis.report.ReportMenuBuilder;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
-import com.ftninformatika.bisis.editor.Messages;
+import com.ftninformatika.utils.Messages;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

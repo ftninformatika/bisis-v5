@@ -26,6 +26,7 @@ public class BasicUserDetailsService implements UserDetailsService {
             return user;
         } else {
             throw new UsernameNotFoundException("LibrarianUser with username:" + username + " not found");
+
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.editor.formattree;
 
+import com.ftninformatika.utils.Messages;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.editorutils.AddUFieldDialog;
 import com.ftninformatika.bisis.editor.editorutils.AddUSubfieldDialog;
@@ -151,7 +151,7 @@ public class FormatTree extends JTree {
 		popupMenu.setInvoker(this);			
 		JMenuItem miCollapseOrExpand = new JMenuItem();
 		if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText(Messages.getString("OPEN"));
-		else miCollapseOrExpand.setText(Messages.getString("CLOSE"));
+		else miCollapseOrExpand.setText(Messages.getString("CLOSE_HTML"));
 		miCollapseOrExpand.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				onEnter();				

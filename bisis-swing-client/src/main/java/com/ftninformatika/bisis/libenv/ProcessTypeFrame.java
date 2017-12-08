@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.libenv;
 
+import com.ftninformatika.utils.Messages;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -399,7 +400,7 @@ public class ProcessTypeFrame extends JInternalFrame {
 		//c.weighty = 0.05;			
 		c.insets = new Insets(5,5,5,5);
 		c.anchor = GridBagConstraints.LINE_START;
-		pubTypePanel.add(new JLabel(com.ftninformatika.bisis.libenv.Messages.getString("ProcessType.PUBLICATION_TYPE")),c); //$NON-NLS-1$
+		pubTypePanel.add(new JLabel(Messages.getString("ProcessType.PUBLICATION_TYPE")),c); //$NON-NLS-1$
 		c.gridy = 1;
 		c.insets = new Insets(0,5,5,5);
 		pubTypePanel.add(pubTypeCmbBox,c);
@@ -413,7 +414,7 @@ public class ProcessTypeFrame extends JInternalFrame {
 				
 		JPanel ptPanel = new JPanel();
 		ptPanel.setLayout(new MigLayout("","[]","[]5[]10[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		ptPanel.add(new JLabel(com.ftninformatika.bisis.libenv.Messages.getString("ProcessType.NAME_PROCESS_TYPE")),"wrap"); //$NON-NLS-1$ //$NON-NLS-2$
+		ptPanel.add(new JLabel(Messages.getString("ProcessType.NAME_PROCESS_TYPE")),"wrap"); //$NON-NLS-1$ //$NON-NLS-2$
 		ptPanel.add(processTypeNameTxtFld,"wrap, grow"); //$NON-NLS-1$
 		ptPanel.add(sfTableScrollPane,"grow"); //$NON-NLS-1$
 		tabbedPane.addTab("table", ptPanel); //$NON-NLS-1$
@@ -485,8 +486,8 @@ public class ProcessTypeFrame extends JInternalFrame {
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
 	private JPanel buttonsPanel = new JPanel();
-	private JButton sacuvajButton = new JButton(com.ftninformatika.bisis.libenv.Messages.getString("ProcessType.SAVE")); //$NON-NLS-1$
-	private JButton ponistiButton = new JButton(com.ftninformatika.bisis.libenv.Messages.getString("ProcessType.NEW")); //$NON-NLS-1$
+	private JButton sacuvajButton = new JButton(Messages.getString("ProcessType.SAVE")); //$NON-NLS-1$
+	private JButton ponistiButton = new JButton(Messages.getString("ProcessType.NEW")); //$NON-NLS-1$
 	
 	
 	public class PubTypeCmbBoxCellRenderer extends JLabel 

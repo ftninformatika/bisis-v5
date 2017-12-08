@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis;
 
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.login.*;
@@ -10,6 +9,7 @@ import com.ftninformatika.bisis.config.AppConfig;
 import com.ftninformatika.bisis.config.ConfigType;
 import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.service.RecordManager;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.RetrofitUtils;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import org.apache.commons.logging.Log;
@@ -95,6 +95,7 @@ public class BisisApp {
           appConfig.setLibrarian(LibrarianManager.initializeLibrarianFromDTO(response));
           appConfig.setLibrary(response.getBiblioteka());
           appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
+          Messages.setLocale(appConfig.getClientConfig().getLocale());
           appConfig.initCoders();
 
           recMgr = new RecordManager();

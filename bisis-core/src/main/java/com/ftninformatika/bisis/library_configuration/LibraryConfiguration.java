@@ -69,6 +69,8 @@ public class LibraryConfiguration {
     private String pincodeEnabled;
     private String pincodeLibrary;
 
+    private String locale;
+
     private List<Report> reports;
 
 

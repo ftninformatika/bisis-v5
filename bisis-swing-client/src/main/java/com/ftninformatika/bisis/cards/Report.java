@@ -6,6 +6,7 @@ import javax.swing.*;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.service.BisisService;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.file.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

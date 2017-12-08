@@ -13,7 +13,6 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.text.MessageFormat;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -28,8 +27,8 @@ import javax.swing.text.html.HTMLEditorKit;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.PaperBL;
 import com.ftninformatika.bisis.cards.Report;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
+import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 /**
  * @author dimicb

@@ -3,6 +3,7 @@
  */
 package com.ftninformatika.bisis.libenv;
 
+import com.ftninformatika.utils.Messages;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

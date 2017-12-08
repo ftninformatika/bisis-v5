@@ -4,9 +4,9 @@
 package com.ftninformatika.bisis.search;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
+import com.ftninformatika.utils.Messages;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

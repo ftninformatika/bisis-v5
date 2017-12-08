@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.pojo.MembershipType;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.circ.pojo.Signing;
+import com.ftninformatika.utils.Messages;
 
 import java.io.Serializable;
 import java.util.ArrayList;

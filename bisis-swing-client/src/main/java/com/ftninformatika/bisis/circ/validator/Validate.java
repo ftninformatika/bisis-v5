@@ -12,8 +12,8 @@ import java.util.ResourceBundle;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.options.OptionsFrame;
-import com.ftninformatika.bisis.circ.view.Messages;
 import com.ftninformatika.bisis.circ.view.User;
+import com.ftninformatika.utils.Messages;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

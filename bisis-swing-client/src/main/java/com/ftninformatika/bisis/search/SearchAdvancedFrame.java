@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.search;
 
+import com.ftninformatika.utils.Messages;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -11,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
-import com.ftninformatika.bisis.editor.Messages;
 import net.miginfocom.swing.MigLayout;
 
 public class SearchAdvancedFrame extends JInternalFrame{

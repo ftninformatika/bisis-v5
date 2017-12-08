@@ -50,6 +50,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import com.ftninformatika.utils.Messages;
 public class SearchBooksResults extends JPanel {
 
     private JSplitPane jSplitPane = null;
