@@ -5,17 +5,16 @@ package com.ftninformatika.bisis.editor.recordtree;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.editor.inventar.InventarValidation;
 import com.ftninformatika.bisis.format.*;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
+import com.ftninformatika.utils.Messages;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -3,8 +3,7 @@
  */
 package com.ftninformatika.bisis.editor.inventar;
 
-import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;

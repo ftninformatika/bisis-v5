@@ -15,6 +15,7 @@ package com.ftninformatika.bisis.cards;
  */
 //import com.gint.app.bisis.editor.RezanceUtilities;
 import com.ftninformatika.bisis.records.*;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
 import freemarker.template.SimpleHash;

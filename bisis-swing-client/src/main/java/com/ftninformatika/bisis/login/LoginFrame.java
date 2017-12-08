@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.login;
 
-import com.ftninformatika.bisis.actions.Messages;
-
+import com.ftninformatika.utils.Messages;
 import javax.swing.JFrame;
 
 public class LoginFrame extends JFrame {

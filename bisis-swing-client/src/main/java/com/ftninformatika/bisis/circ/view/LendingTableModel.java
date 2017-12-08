@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.utils.Messages;
 
 import java.io.Serializable;
 import java.util.ArrayList;

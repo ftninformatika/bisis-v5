@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.format.USubfield;
 import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.utils.Messages;
 
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;

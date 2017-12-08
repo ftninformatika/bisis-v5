@@ -1,7 +1,5 @@
 package com.ftninformatika.bisis.editor.groupinv;
 
-import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.inventar.InventarConstraints;
 import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.UItem;
@@ -9,12 +7,12 @@ import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.Signature;
 
 import java.text.ParseException;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;

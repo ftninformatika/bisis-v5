@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.circ.Member;
 
 import java.io.Serializable;

@@ -9,9 +9,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.MessageFormat;import java.util.ArrayList;
+import java.text.MessageFormat;
 import java.util.List;
 
+import com.ftninformatika.utils.Messages;
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -22,7 +23,6 @@ import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.TreePath;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.UField;
@@ -384,7 +384,7 @@ public class RecordTree extends JTree {
 			if(getSelected() instanceof Field){
 				JMenuItem miCollapseOrExpand = new JMenuItem();
 				if(isCollapsed(getSelectionPath())) miCollapseOrExpand.setText(Messages.getString("OPEN"));
-				else miCollapseOrExpand.setText(Messages.getString("CLOSE"));
+				else miCollapseOrExpand.setText(Messages.getString("CLOSE_HTML"));
 				miCollapseOrExpand.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						onEnter();				

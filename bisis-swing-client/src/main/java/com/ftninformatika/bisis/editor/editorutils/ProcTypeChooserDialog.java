@@ -3,8 +3,8 @@
  */
 package com.ftninformatika.bisis.editor.editorutils;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.FormatUtils;
 import com.ftninformatika.bisis.libenv.ProcessTypeListCellRenderer;

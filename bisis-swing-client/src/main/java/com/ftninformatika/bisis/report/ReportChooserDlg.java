@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.report;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.actions.Messages;
 import com.ftninformatika.utils.WindowUtils;
 
 import java.awt.BorderLayout;

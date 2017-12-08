@@ -42,6 +42,7 @@ import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.utils.Messages;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

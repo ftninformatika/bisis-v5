@@ -20,9 +20,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.ftninformatika.bisis.coders.CodersHelper;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
+import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
 

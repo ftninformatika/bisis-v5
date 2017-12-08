@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.cards;
 
+import com.ftninformatika.utils.Messages;
 import java.util.*;
 
 /** Klasa sa pomocnim funkcijama za rad sa stringovima u izvestavanju.

@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.editor.editorutils;
 
-import com.ftninformatika.bisis.editor.Messages;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.USubfield;

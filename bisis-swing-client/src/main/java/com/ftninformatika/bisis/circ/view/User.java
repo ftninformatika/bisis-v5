@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.barcode.epl2.Label;
 import com.ftninformatika.bisis.barcode.epl2.Printer2;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.validator.Validate;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;

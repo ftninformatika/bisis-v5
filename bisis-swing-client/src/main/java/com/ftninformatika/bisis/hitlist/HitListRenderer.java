@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.hitlist;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;

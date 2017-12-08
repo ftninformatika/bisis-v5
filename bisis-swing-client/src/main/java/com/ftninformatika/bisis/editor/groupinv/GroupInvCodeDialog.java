@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.editor.groupinv;
 
+import com.ftninformatika.utils.Messages;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -18,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.editorutils.CodesList;
 import com.ftninformatika.bisis.editor.inventar.InventarConstraints;
 import com.ftninformatika.bisis.format.UItem;

@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.ftninformatika.bisis.circ.pojo.Duplicate;
-
+import com.ftninformatika.utils.Messages;
 
 
 public class DuplicateTableModel extends AbstractTableModel implements Serializable {

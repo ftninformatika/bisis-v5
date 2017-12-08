@@ -35,10 +35,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
 

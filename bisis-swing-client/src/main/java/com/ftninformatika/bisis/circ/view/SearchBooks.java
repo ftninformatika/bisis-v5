@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.utils.Messages;
 import javax.swing.JPanel;
 
 import java.awt.*;

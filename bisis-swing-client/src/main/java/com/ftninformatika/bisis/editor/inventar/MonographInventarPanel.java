@@ -29,10 +29,10 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
 

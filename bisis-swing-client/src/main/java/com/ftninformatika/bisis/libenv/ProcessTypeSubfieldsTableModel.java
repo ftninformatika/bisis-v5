@@ -3,6 +3,7 @@
  */
 package com.ftninformatika.bisis.libenv;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.USubfield;
 

@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.search;
 
+import com.ftninformatika.utils.Messages;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
@@ -11,7 +12,6 @@ import javax.swing.WindowConstants;
 
 import com.ftninformatika.bisis.BisisApp;
 
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.utils.WindowUtils;
 import net.miginfocom.swing.MigLayout;
 

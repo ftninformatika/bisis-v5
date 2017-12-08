@@ -1,13 +1,13 @@
 package com.ftninformatika.bisis.search;
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
-import com.ftninformatika.bisis.records.Record;
+
 import java.io.IOException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 
+import com.ftninformatika.utils.Messages;
 public class SearchTask extends SwingWorker<Integer, Integer> {
 	
  private String pref1;

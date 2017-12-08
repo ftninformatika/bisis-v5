@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Sveska;
+import com.ftninformatika.utils.Messages;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

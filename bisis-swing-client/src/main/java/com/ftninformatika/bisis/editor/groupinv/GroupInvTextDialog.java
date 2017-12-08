@@ -1,11 +1,11 @@
 package com.ftninformatika.bisis.editor.groupinv;
 
+import com.ftninformatika.utils.Messages;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.utils.CenteredDialog;
 import net.miginfocom.swing.MigLayout;
 

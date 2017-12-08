@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.editor.editorutils;
 
-import com.ftninformatika.bisis.editor.Messages;
-
+import com.ftninformatika.utils.Messages;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;

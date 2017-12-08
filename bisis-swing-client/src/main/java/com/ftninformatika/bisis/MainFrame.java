@@ -1,9 +1,9 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.librarian.Librarian;

@@ -1,17 +1,13 @@
 package com.ftninformatika.bisis.editor.inventar;
 
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.coders.CodersHelper;
-import com.ftninformatika.bisis.editor.Messages;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.validators.DateValidator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;import java.text.MessageFormat;
+import java.text.MessageFormat;
 
 
 public class InventarValidation {

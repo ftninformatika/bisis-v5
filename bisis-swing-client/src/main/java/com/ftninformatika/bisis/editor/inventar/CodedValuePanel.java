@@ -17,8 +17,8 @@ import javax.swing.*;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.coders.CodersHelper;
-import com.ftninformatika.bisis.editor.Messages;
 import com.ftninformatika.bisis.format.UItem;
+import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
 

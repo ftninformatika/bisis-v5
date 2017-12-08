@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.hitlist;
 
+import com.ftninformatika.utils.Messages;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 

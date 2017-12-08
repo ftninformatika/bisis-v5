@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.circ.view;
 
 
+import com.ftninformatika.utils.Messages;
+
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
