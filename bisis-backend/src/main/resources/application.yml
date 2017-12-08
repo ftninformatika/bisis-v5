@@ -17,11 +17,16 @@ security:
 spring:
   profiles: development
   data:
+    elasticsearch:
+      properties:
+        path:
+          data: C:/elasticsearch_storage
+#      cluster-nodes: localhost:9300
     mongodb:
       host: localhost
       port: 27017
  #     username: bisis
-      database: bisisdev
+      database: bisis
       #uri: mongodb://bisis:bisis@94.130.24.103:27017/bisisdev
 #      password: bisis
 
@@ -43,18 +48,19 @@ logging:
   level:
     com.ftninformatika: INFO
 
-mongeez:
-  location: db/mongeez.xml
-  database: bisisdev
+#mongeez:
+#  location: db/mongeez.xml
+#  database: bisisdev
 
 ---
+
 spring:
   profiles: reporting
   data:
     mongodb:
       host: localhost
       port: 27017
-      database: bisisdev
+      database: 10_11_bisis
   main:
     web-environment: false
 ---
