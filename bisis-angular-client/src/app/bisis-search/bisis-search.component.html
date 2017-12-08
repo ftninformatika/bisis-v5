@@ -2,6 +2,14 @@
 <div class="card card-w-title">
  <div *ngIf="lib" class="customfontcolor">
    Библиотека: {{lib}}
+     <div class="ui-grid-row" *ngIf="departmentList.length > 0"> <br>
+         <div class="ui-grid-col-4 customfontcolor"  align="left">
+             <b>Одаберите огранке:</b>
+         </div>
+         <div class="ui-grid-col-8" align="left">
+             <p-multiSelect  [selectedItemsLabel]="'{0} одабраних огранака'" [defaultLabel]="'Било који огранак'"  [options]="departmentList" [(ngModel)]="selectedDepartments"></p-multiSelect>
+         </div>
+     </div>
  </div>
   <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="lib == undefined || lib == ''" style="font-size:14px;text-align:center;padding:20px;">
       <div class="ui-grid-row" >

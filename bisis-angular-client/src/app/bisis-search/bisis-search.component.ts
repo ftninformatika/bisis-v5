@@ -36,11 +36,11 @@ export class BisisSearchComponent implements OnInit {
     localStorage.setItem("libCode", null);
     this.departmentList = [];
     this.libList = [];
-    this.libList.push({label:'Одаберите библиотеку', value: null});
+    this.libList.push({label: 'Одаберите библиотеку', value: null});
     this.libList.push({label:'Градска библиотека Нови Сад', value:'gbns'});
     this.libList.push({label:'Градска библиотека Шабац', value:'gbsa'});
-    this.libList.push({label:'Библиотека Техничког факултета у Зрењанину', value:'tfzr'});
-    this.libList.push({label:'Библиотека ПМФ Нови Сад', value:'pmf_uns_ac_rs'});
+    //this.libList.push({label:'Библиотека Техничког факултета у Зрењанину', value:'tfzr'});
+    this.libList.push({label:'Библиотека града Београда', value:'bgb'});
   }
 
   ngOnInit() {
@@ -52,11 +52,24 @@ export class BisisSearchComponent implements OnInit {
                 if (params['lib']) {
                   if (response.includes(params['lib'])){
                     this.lib = params['lib'];
-                    console.log("pretraga kao bilbioteka :" + this.lib);
+                    //console.log("pretraga kao bilbioteka :" + this.lib);
                     localStorage.setItem('libCode', params['lib']);
+                    this.selectedLibrary = params['lib'];
+
+                      this.libService.getDepartmentsForLib(this.selectedLibrary).subscribe(
+                          response => {
+                              this.departmentList = [];
+                              this.selectedDepartments = [];
+                              console.log(response);
+                              arrayify(response).forEach(
+                                  d => {
+                                      this.departmentList.push({"label": d.description, "value": d.coder_id});
+                                  });
+                          }
+                      );
                   }
                   else{
-                    console.log("nepostojeca putanja, biblioteka, redirekcija na univerazalnu!!!");
+                    //console.log("nepostojeca putanja, biblioteka, redirekcija na univerazalnu!!!");
                     this.router.navigate(['/bisis-search']);
                   }
                 }
@@ -74,8 +87,6 @@ export class BisisSearchComponent implements OnInit {
       this.selectedDepartments = [];
     if (this.selectedLibrary == undefined || this.selectedLibrary == null)
       return
-
-    var deps = [];
 
     this.libService.getDepartmentsForLib(this.selectedLibrary).subscribe(
         response => {
