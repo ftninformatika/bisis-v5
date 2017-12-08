@@ -67,10 +67,16 @@ processResources {
 task compileJasperJava(dependsOn: 'compileJava') << {
     def jasperSourceDir = file('src/main/resources/jaspers')
     def jasperTargetDir = file('build/resources/main/jaspers')
+    def jasperTargetDirSrc = file('src/main/resources/jaspers')
     ant {
         taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: sourceSets.main.compileClasspath.asPath )
         jasperTargetDir.mkdirs()
         jrc(srcdir: jasperSourceDir, destdir: jasperTargetDir) {
+            classpath(path: sourceSets.main.output.classesDir)
+            include(name: '**/*.jrxml')
+        }
+        jasperTargetDirSrc.mkdirs()
+        jrc(srcdir: jasperSourceDir, destdir: jasperTargetDirSrc) {
             classpath(path: sourceSets.main.output.classesDir)
             include(name: '**/*.jrxml')
         }
