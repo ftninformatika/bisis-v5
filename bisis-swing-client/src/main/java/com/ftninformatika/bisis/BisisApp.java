@@ -44,6 +44,7 @@ public class BisisApp {
     try {
       UIManager.installLookAndFeel("seaglass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
       UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+
       //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
     } catch (Exception ex) {
       System.err.println(ex.getMessage());

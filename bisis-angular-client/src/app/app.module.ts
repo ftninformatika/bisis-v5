@@ -108,6 +108,7 @@ import {CountryService} from './demo/service/countryservice';
 import {EventService} from './demo/service/eventservice';
 import {NodeService} from './demo/service/nodeservice';
 import { BisisSearchService } from './bisis-search/service/bisis-search.service';
+import {MemberService} from './service/member.service';
 
 import { BisisSearchComponent } from './bisis-search/bisis-search.component';
 import { ResultViewComponent } from './bisis-search/result-view/result-view.component';
@@ -256,7 +257,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CarService, CountryService, EventService, NodeService, BisisSearchService,
-        AuthGuard, AuthHelper, LibraryService, MessageService, GetCoder
+        AuthGuard, AuthHelper, LibraryService, MessageService, GetCoder, MemberService
     ],
     bootstrap: [AppComponent]
 })
