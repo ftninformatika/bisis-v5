@@ -1,16 +1,11 @@
 package com.ftninformatika.bisis.reports;
 
 import com.ftninformatika.bisis.LibraryCoders;
-import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.BindingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.io.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -223,6 +218,5 @@ public abstract class Report {
 
     protected String library;
     protected ReportsRepository repository;
-    private BindingRepository binRep;
     protected Map<String, StringBuilder > fileMap = new HashMap<String, StringBuilder >();
 }

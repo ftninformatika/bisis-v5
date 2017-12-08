@@ -1,13 +1,5 @@
 package com.ftninformatika.bisis.gbns;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
@@ -17,6 +9,9 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.text.NumberFormat;
+import java.util.*;
+
 public class JeziciPoOgrancima extends Report {
 
 	@Override
@@ -25,11 +20,6 @@ public class JeziciPoOgrancima extends Report {
 		log.info("Report initialized.");
 	}
 
-	//@Override
-	public void finishInv() { // zbog inventerni one se snimaju u fajl po
-		// segmentima a ne sve od jednom
-
-	}
 
 	@Override
 	public void finish() {

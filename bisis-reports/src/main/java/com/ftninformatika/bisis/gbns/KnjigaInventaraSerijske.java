@@ -1,25 +1,20 @@
 package com.ftninformatika.bisis.gbns;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
-
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Period;
 import com.ftninformatika.bisis.reports.Report;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Pattern;
 
 
 public class KnjigaInventaraSerijske extends Report {
@@ -127,9 +122,16 @@ public class KnjigaInventaraSerijske extends Report {
 	      
 	      out.append("</report>");
             GeneratedReport gr=new GeneratedReport();
-            gr.setReportName(key.substring(0,key.indexOf("-")));
+            if (key.indexOf("-") >= 0){
+                gr.setReportName(key.substring(0,key.indexOf("-")));
+                gr.setPeriod(key.substring(key.indexOf("-")+1));
+            }
+            else{
+                gr.setReportName(key);
+                gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+            }
             gr.setFullReportName(key);
-            gr.setPeriod(key.substring(key.indexOf("-")+1));
             gr.setContent(out.toString());
             gr.setReportType(getType().name().toLowerCase());
             getReportRepository().save(gr);

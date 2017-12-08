@@ -1,16 +1,5 @@
 package com.ftninformatika.bisis.gbns;
 
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
@@ -18,6 +7,11 @@ import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Pattern;
 
 
 public class RashodovaneMonografske extends Report {
@@ -33,9 +27,7 @@ public class RashodovaneMonografske extends Report {
 					.compile(getReportSettings().getInvnumpattern());
 			log.info("Report initialized.");
 	  }
-	  public void finishInv() {
-		  
-	  }
+
 	  @Override
 	  public void finish() {
 			log.info("Finishing report...");
@@ -50,9 +42,16 @@ public class RashodovaneMonografske extends Report {
 				}
 				out.append("</report>");
 				GeneratedReport gr=new GeneratedReport();
-				gr.setReportName(key.substring(0,key.indexOf("-")));
+				if (key.indexOf("-") >= 0){
+					gr.setReportName(key.substring(0,key.indexOf("-")));
+					gr.setPeriod(key.substring(key.indexOf("-")+1));
+				}
+				else{
+					gr.setReportName(key);
+					gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+				}
 				gr.setFullReportName(key);
-				gr.setPeriod(key.substring(key.indexOf("-")+1));
 				gr.setContent(out.toString());
 				gr.setReportType(getType().name().toLowerCase());
 				getReportRepository().save(gr);
@@ -154,8 +153,6 @@ public class RashodovaneMonografske extends Report {
 		      buf.append(sigla);
 		      buf.append("</sigla>\n");
 		      buf.append("<ogranak>");
-				if(sigla.startsWith("0") && sigla.length() == 2)
-					sigla = sigla.substring(1);
 				String sig = "nepoznatno";
 				if(getCoders().getLocCoders().get(sigla) != null)
 					sig = getCoders().getLocCoders().get(sigla).getDescription();

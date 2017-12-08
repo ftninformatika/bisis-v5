@@ -1,11 +1,5 @@
 package com.ftninformatika.bisis.gbns;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
@@ -14,6 +8,12 @@ import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 
 public class StatistikaObradjivaca extends Report {
@@ -35,9 +35,16 @@ public class StatistikaObradjivaca extends Report {
     }
     out.append("</report>");
       GeneratedReport gr=new GeneratedReport();
-      gr.setReportName(key.substring(0,key.indexOf("-")));
+      if (key.indexOf("-") >= 0){
+        gr.setReportName(key.substring(0,key.indexOf("-")));
+        gr.setPeriod(key.substring(key.indexOf("-")+1));
+      }
+      else{
+        gr.setReportName(key);
+        gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+      }
       gr.setFullReportName(key);
-      gr.setPeriod(key.substring(key.indexOf("-")+1));
       gr.setContent(out.toString());
       gr.setReportType(getType().name().toLowerCase());
       getReportRepository().save(gr);

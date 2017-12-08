@@ -2,12 +2,12 @@ package com.ftninformatika.bisis.reports;
 
 import com.ftninformatika.bisis.LibraryCoders;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.rest_service.repository.mongo.BindingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class ReportCollection {
 
  
-  public ReportCollection(LibraryConfiguration lc, ReportsRepository reportsRep,BindingRepository binRep, LibraryCoders coders) {
+  public ReportCollection(LibraryConfiguration lc, ReportsRepository reportsRep, LibraryCoders coders) {
 
       List<com.ftninformatika.bisis.library_configuration.Report> reportsConf = lc.getReports();
       reports = new ArrayList<Report>(reportsConf.size());
@@ -29,7 +29,6 @@ public class ReportCollection {
                   report.setReportSettings(r);
                   report.setRepository(reportsRep);
                   report.setLibrary(lc.getLibraryName());
-                  report.setBinRep(binRep);
                   reports.add(report);
               } catch (Exception e) {
                   log.fatal(e);

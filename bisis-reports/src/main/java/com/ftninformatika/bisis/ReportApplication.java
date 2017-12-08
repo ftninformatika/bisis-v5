@@ -1,23 +1,16 @@
 package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.coders.*;
-import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.reports.ReportCollection;
 import com.ftninformatika.bisis.reports.ReportRunner;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
-import com.ftninformatika.bisis.rest_service.controller.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -42,11 +35,12 @@ public class ReportApplication  {
 
         ReportsRepository reportRep=ctx.getBean(ReportsRepository.class);
         RecordsRepository recRep=ctx.getBean(RecordsRepository.class);
-
+        for (LibraryConfiguration lc:libconfigs) {
+            libProvider.setPrefix(lc.getLibraryName());
+            reportRep.deleteAll();
+        }
         for (LibraryConfiguration lc:libconfigs){
 
-            if(!lc.getLibraryName().equals("gbsa"))
-                continue;
             LibraryCoders libCoders = new LibraryCoders();
             libCoders.setAccRegCoders(ctx.getBean(AccessionRegisterRepository.class).getCoders(lc.getLibraryName())
                     .stream().collect(Collectors.toMap(AccessionRegister::getCoder_id, i -> i)));
@@ -70,11 +64,9 @@ public class ReportApplication  {
                     .stream().collect(Collectors.toMap(LibrarianDTO::get_id, i -> i)));
 
 
-
-
             libProvider.setPrefix(lc.getLibraryName());
-            ReportCollection collection = new ReportCollection(lc,reportRep,ctx.getBean(BindingRepository.class), libCoders);
-            //reportRep.deleteAll();
+            ReportCollection collection = new ReportCollection(lc,reportRep, libCoders);
+
             ReportRunner runner = new ReportRunner(collection,recRep);
             runner.run();
         }
