@@ -30,8 +30,9 @@ public class RetrofitUtils {
         final String[] token = new String[1];
         try {
             token[0] = ans.execute().body().string();
-        } catch (IOException e) {
-            System.err.println(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //System.err.println(e);
             return null;
         }
         token[0] = token[0].split(":")[1];

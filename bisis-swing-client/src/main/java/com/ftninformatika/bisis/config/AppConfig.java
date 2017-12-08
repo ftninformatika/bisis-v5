@@ -20,8 +20,8 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @ToString
 public abstract class AppConfig {
 
-  private String serverUrl = "http://127.0.0.1:8080";
-  private String baseUrl = "http://localhost:8080";
+  private String serverUrl = "http://127.0.0.1:8080/bisisWS";
+  private String baseUrl = "http://localhost:8080/bisisWS";
   private Librarian librarian;
   private String library;
   private Retrofit retrofit;

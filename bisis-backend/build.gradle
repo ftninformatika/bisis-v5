@@ -1,15 +1,5 @@
-buildscript {
-	ext {
-		springBootVersion = '1.5.7.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-		jcenter()
-		maven { url "http://repo.spring.io/libs-snapshot" }
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+plugins {
+	id 'org.springframework.boot' version '1.5.7.RELEASE'
 }
 
 apply plugin: 'java'
@@ -18,8 +8,7 @@ apply plugin: 'idea'
 apply plugin: 'war'
 
 war {
-	baseName = 'bisiswar'
-	version =  '5.0.0'
+	baseName = 'bisisWS'
 }
 
 
@@ -33,6 +22,7 @@ repositories {
 
 dependencies {
 	compile project(":bisis-core")
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '1.5.7.RELEASE'
 	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.7.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '2.1.0.RELEASE'
@@ -42,9 +32,5 @@ dependencies {
 	compile group: 'ma.glasnost.orika', name: 'orika-core', version: '1.4.6'
 	compile group: 'net.java.dev.jna', name: 'jna', version: '4.5.0'
 	compile group: 'it.ozimov', name: 'spring-boot-email-core', version: '0.6.3'
-
 	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.7.RELEASE'
-	
-
 }
-

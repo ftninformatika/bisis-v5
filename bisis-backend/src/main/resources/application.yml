@@ -2,10 +2,10 @@
 logging:
   level:
     root: INFO
+
 spring:
   profiles:
-    active: development
-
+    active: production
 
 security:
   token:
@@ -29,6 +29,7 @@ spring:
       database: bisis
       #uri: mongodb://bisis:bisis@94.130.24.103:27017/bisisdev
 #      password: bisis
+
 
   mail:
     host: smtp.gmail.com
@@ -63,4 +64,38 @@ spring:
       database: 10_11_bisis
   main:
     web-environment: false
+
 ---
+
+spring:
+  profiles: production
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+ #     username: bisis
+      database: bisis
+      #uri: mongodb://bisis:bisis@94.130.24.103:27017/bisisdev
+#      password: bisis
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ftninformatika@gmail.com
+    password: bisis123
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+
+logging:
+  level:
+    com.ftninformatika: INFO
+
+---
+

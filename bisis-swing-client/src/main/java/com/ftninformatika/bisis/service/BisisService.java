@@ -26,28 +26,28 @@ import java.util.List;
 
 public interface BisisService {
 
-    @POST("/auth")
+    @POST("auth")
     Call<ResponseBody> getToken(@Body UserCredentials creds);
 
-    @GET("/circ")
+    @GET("circ")
     Call<ResponseBody> getMembers();
 
-    @GET("/libraries")
+    @GET("libraries")
     Call<ResponseBody> getLibs();
 
-    @GET("/configs/search/getByLibraryName")
+    @GET("configs/search/getByLibraryName")
     Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
 
-    @POST("/coders/process_types")
+    @POST("coders/process_types")
     Call<Void> addProcessType(@Body ProcessTypeDTO processType);
 
-    @GET("/coders/process_types/getByLibrary")
+    @GET("coders/process_types/getByLibrary")
     Call<List<ProcessTypeDTO>> getProcessTypesForLibrary(@Query("libName") String libName);
 
     @GET("sveske/{invNum}")
     Call<Sveska> getSveskaByInvNum(@Path("invNum") String invNum);
 
-    @GET("/lendings/getLendingsByUserId")
+    @GET("lendings/getLendingsByUserId")
     Call<List<Lending>> getLendingsByUserId(@Query("userId") String userId);
 
 //primerci--------------------------------------------------------------
@@ -60,10 +60,10 @@ public interface BisisService {
 //    @GET("/members/getById")
 //    Call<Member> getMemberById(@Query("userId") String userId);
 
-    @GET("/members/memberExist")
+    @GET("members/memberExist")
     Call<String> memberExist(@Query("userId") String userId);
 
-    @POST("/members/addUpdate")
+    @POST("members/addUpdate")
     Call<Member> addUpdateMember(@Body Member member);
 
     /**
@@ -74,7 +74,7 @@ public interface BisisService {
      *         MemberData objekat, bez inUseBy propertija (inUseBy azuriran i sacuvan kod Member- a) - ako je uspoesno zakljucao
      *         MemberData objekat, koji sadrzi samo inUseBy (ostalo null) - ako je vec zakljucan
      */
-    @GET("/members/getAndLock")
+    @GET("members/getAndLock")
     Call<MemberData> getAndLockMemberById(@Query("userId") String userId, @Query("librarianId") String librarianId);
 
     /**
@@ -83,181 +83,181 @@ public interface BisisService {
      * @return false - ako ne postoji korisnik za taj userId
      *         true - ako postoji i promeni inUseBy na null
      */
-    @GET("/members/releaseById")
+    @GET("members/releaseById")
     Call<Boolean> releaseMemberById(@Query("userId") String userId);
 
-    @GET("/members/getMemberDataById")
+    @GET("members/getMemberDataById")
     Call<MemberData> getMemberDataById(@Query("userId") String userId);
 
-    @POST("/members/addUpdateMemberData")
+    @POST("members/addUpdateMemberData")
     Call<Boolean> addUpdateMemberData(@Body MemberData memberData);
 
 //librarians------------------------------------------------------------
 
-    @GET("/librarians/getByUsername")
+    @GET("librarians/getByUsername")
     Call<LibrarianDTO> getLibrarianByUsername(@Query("username") String username);
 
-    @GET("/mongo_repository_librarians/search/getByUsername")
+    @GET("mongo_repository_librarians/search/getByUsername")
     Call<LibrarianDTO> getLibrarian(@Query("username") String username);
 
-    @GET("/librarians/getByLibrary")
+    @GET("librarians/getByLibrary")
     Call<List<LibrarianDTO>> getAllLibrarinasInThisLibrary(@Query("library") String library);
 
-    @POST("/mongo_repository_librarians")
+    @POST("mongo_repository_librarians")
     Call<Void> createLibrarian(@Body LibrarianDTO librarian);
 
-    @POST("/librarians/update")
+    @POST("librarians/update")
     Call<Boolean> updateLibrarian(@Body LibrarianDTO librarian);
 
-    @HTTP(method = "DELETE", path = "/mongo_repository_librarians", hasBody = true)
+    @HTTP(method = "DELETE", path = "mongo_repository_librarians", hasBody = true)
     Call<Void> deleteLibraian(@Body LibrarianDTO librarian);
 
 //records---------------------------------------------------------------
 
-    @GET("/mongo_repository_records?size=20&")
+    @GET("mongo_repository_records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
 
-    @GET("/records/{recordId}")
+    @GET("records/{recordId}")
     Call<Record> getOneRecord(@Path("recordId") String recordId);
 
-    @GET("/mongo_repository_records/search/deleteByRecordID")
+    @GET("mongo_repository_records/search/deleteByRecordID")
     Call<Long> deleteRecordByRecId(@Query("id") int id);
 
-    @GET("/mongo_repository_records/search/getByID")
+    @GET("mongo_repository_records/search/getByID")
     Call<Record> getRecordById(@Query("id") int id);
 
-    @POST("/records/search_ids") //vraca kolekciju id-jeva
+    @POST("records/search_ids") //vraca kolekciju id-jeva
     Call<List<String>> searchRecordsIds(@Body SearchModel searchModel);
 
-    @POST("/records/search_ids_circ") //vraca kolekciju id-jeva
+    @POST("records/search_ids_circ") //vraca kolekciju id-jeva
     Call<List<String>> searchRecordsIdsCirc(@Body SearchModelCirc searchModel);
 
-    @POST("/records/multiple_ids")
+    @POST("records/multiple_ids")
     Call<List<Record>> getRecordsByIds(@Body List<String> idList);
 
 
 
-    @GET("/expand_prefix_controller")
+    @GET("expand_prefix_controller")
     Call<List<String>> getExpand(@Query("prefix") String prefix, @Query("text") String text);
 
-    @POST("/records/query")
+    @POST("records/query")
     Call<List<Record>> queryRecords(@Body SearchModel sm);
 
-    @POST("/records/querywrapper")
+    @POST("records/querywrapper")
     Call<List<RecordResponseWrapper>> queryRecordsWrapper(@Body SearchModel sm);
 
-    @GET("/records/clear_elastic")
+    @GET("records/clear_elastic")
     Call<Boolean> clearElasticStorage();
 
-    @GET("/records/fill_elastic")
+    @GET("records/fill_elastic")
     Call<Boolean> fillElasticStorage();
 
-    @POST("/records")
+    @POST("records")
     Call<Record> createRecord(@Body Record rec);
 
-    @POST("/records")
+    @POST("records")
     Call<Record> updateRecord(@Body Record rec);
 
-    @GET("/records/get_and_lock")
+    @GET("records/get_and_lock")
     Call<Record> getAndLockRecord(@Query("recId") String recId, @Query("librarianId") String librarianId);
 
-    @GET("/records/lock")
+    @GET("records/lock")
     Call<String> lockRecord(@Query("recId") String recId, @Query("lirbrarianId") String librarianId);
 
-    @GET("/records/unlock")
+    @GET("records/unlock")
     Call<String> unlockRecord(@Query("recId") String recId);
 
     @HTTP(method = "DELETE", path = "/records", hasBody = true)
     Call<Boolean> deleteRecord(String recID);
 
-    @GET("/records/getRecord")
+    @GET("records/getRecord")
     Call<Record> getRecordByCtlgNo(@Query("ctlgno") String ctlgno);
     // full record
 
-    @GET("/records/getWrapperRecord")
+    @GET("records/getWrapperRecord")
     Call<Record> getWrapperRecordByCtlgNo(@Query("ctlgno") String ctlgno);
     // wrappovani
 
     //coders----------------------------------------------
-    @GET("/coders/accession_register")
+    @GET("coders/accession_register")
     Call<List<AccessionRegister>> getAccessionRegs(@Query("libName")String libName);
 
-    @GET("/coders/acquisiton_type")
+    @GET("coders/acquisiton_type")
     Call<List<Acquisition>> getAcquisitonTypes(@Query("libName")String libName);
 
-    @GET("/coders/availability")
+    @GET("coders/availability")
     Call<List<Availability>> getAvailabilities(@Query("libName")String libName);
 
-    @GET("/coders/binding")
+    @GET("coders/binding")
     Call<List<Binding>> getBindings(@Query("libName")String libName);
 
-    @GET("/coders/format")
+    @GET("coders/format")
     Call<List<Format>> getFormats(@Query("libName")String libName);
 
-    @GET("/coders/internal_mark")
+    @GET("coders/internal_mark")
     Call<List<InternalMark>> getInterMarks(@Query("libName")String libName);
 
-    @GET("/coders/item_status")
+    @GET("coders/item_status")
     Call<List<ItemStatus>> getStatusCoders(@Query("libName")String libName);
 
-    @GET("/coders/location")
+    @GET("coders/location")
     Call<List<Location>> getLocations(@Query("libName")String libName);
 
-    @GET("/coders/sublocation")
+    @GET("coders/sublocation")
     Call<List<Sublocation>> getSubLocations(@Query("libName")String libName);
 
 //coders circulation----------------------------------------------------------
 
-    @GET("/coders/circlocation")
+    @GET("coders/circlocation")
     Call<List<CircLocation>> getCircLocations(@Query("libName")String libName);
 
-    @GET("/coders/corporatemember")
+    @GET("coders/corporatemember")
     Call<List<CorporateMember>> getCorporateMembers(@Query("libName")String libName);
 
-    @GET("/coders/education")
+    @GET("coders/education")
     Call<List<EducationLvl>> getEducationLvls(@Query("libName")String libName);
 
-    @GET("/coders/language")
+    @GET("coders/language")
     Call<List<Language>> getLanguages(@Query("libName")String libName);
 
-    @GET("/coders/place")
+    @GET("coders/place")
     Call<List<Place>> getPlaces(@Query("libName")String libName);
 
-    @GET("/coders/education")
+    @GET("coders/education")
     Call<List<EducationLvl>> getEducations(@Query("libName")String libName);
 
-    @GET("/coders/membership")
+    @GET("coders/membership")
     Call<List<Membership>> getMemberships(@Query("libName")String libName);
 
-    @POST("/memberships")
+    @POST("memberships")
     Call<Membership> addMembership(@Body Membership membership);
 
-    @HTTP(method = "DELETE", path = "/memberships", hasBody = true)
+    @HTTP(method = "DELETE", path = "memberships", hasBody = true)
     Call<Boolean> deleteMembership(@Body String membershipId);
     //vratice true ako je uspesno obrisan, a ako ga nije pronasao vraca false!
 
-    @GET("/coders/membership_type")
+    @GET("coders/membership_type")
     Call<List<MembershipType>> getMembershipTypes(@Query("libName")String libName);
 
-    @GET("/coders/user_category")
+    @GET("coders/user_category")
     Call<List<UserCategory>> getUserCategories(@Query("libName")String libName);
 
-    @GET("/coders/warning_type")
+    @GET("coders/warning_type")
     Call<List<WarningType>> getWarningTypes(@Query("libName")String libName);
 
-    @GET("/coders/warning_counter")
+    @GET("coders/warning_counter")
     Call<List<WarningCounter>> getWarningCounters(@Query("libName")String libName);
 
-    @GET("/coders/organization")
+    @GET("coders/organization")
     Call<List<Organization>> getOrganizations(@Query("libName")String libName);
 
-    @GET("/circ_configs/search/findByLibrary")
+    @GET("circ_configs/search/findByLibrary")
     Call<CircConfig> getCircConfigs(@Query("libname") String libName);
 
-    @POST("/circ_configuration/save")
+    @POST("circ_configuration/save")
     Call<CircConfig> saveCircConfigs(@Body CircConfig circConfig);
 
-    @GET("/corporate_members/getById")
+    @GET("corporate_members/getById")
     Call<CorporateMember> getCorporateMemberById(@Query("userId") String userId);
 
     /**
@@ -269,7 +269,7 @@ public interface BisisService {
     @GET("circ_location/lastUserId")
     Call<Integer> getLastUserId(@Query("location") String location);
 
-    @POST("/corporate_members/save")
+    @POST("corporate_members/save")
     Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
 
     @GET("itemAvailabilities/getByCtlgNo")
@@ -288,17 +288,17 @@ public interface BisisService {
     Call<List<String>> searchBooks(@Body SearchModelCirc searchModel);
 
 
-    @POST("/records/multiple_ids_wrapper")
+    @POST("records/multiple_ids_wrapper")
     Call<List<RecordResponseWrapper>> getRecordsAllDataByIds(@Body List<String> idList);
 
 
     @POST ("search/circ/members")
     Call<List<Member>> searchMembers(@Body SearchModelMember searchModel);
 
-    @GET ("/members/getCharged")
+    @GET ("members/getCharged")
     Call<Member> getChargedUser(@Query("ctlgNo") String ctlgNo);
 
-    @GET ("/members/getLending")
+    @GET ("members/getLending")
     Call<Lending> getLending(@Query("ctlgNo") String ctlgNo);
 
     @POST ("members/dischargeBook")
@@ -307,6 +307,6 @@ public interface BisisService {
 
     //circ reports
 
-    @GET ("/circ_report/get_lending_history")
+    @GET ("circ_report/get_lending_history")
     Call<List<Report>> getLendingHistory(@Query("memberNo") String memberNo, @Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 }
