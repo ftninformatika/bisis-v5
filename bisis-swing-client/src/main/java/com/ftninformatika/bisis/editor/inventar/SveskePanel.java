@@ -256,7 +256,7 @@ public class SveskePanel extends JPanel {
 	  	Sveska s = sveskeTableModel.getRow(sveskeTable.getSelectedRow());
 	  	Object[] options = {Messages.getString("EDITOR_DELETE"), Messages.getString("EDITOR_BUTTONCANCEL") };
 	  	String message = MessageFormat.format(Messages.getString("ARE_U_SURE_TO_DELETE_NOTEBOOK_FOR_INV_NUM.0"), s.getInvBroj());
-			int ret = JOptionPane.showOptionDialog(null, message , "Брисање",
+			int ret = JOptionPane.showOptionDialog(null, message , Messages.getString("HITLIST_DELETING"),
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 					null, options, options[0]); 
 			if(ret==0)

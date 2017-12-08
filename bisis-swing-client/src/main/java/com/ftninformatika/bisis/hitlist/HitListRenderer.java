@@ -21,7 +21,6 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
     setOpaque(true);
     formatter = RecordFormatterFactory.getFormatter(
         RecordFormatterFactory.FORMAT_BRIEF);
-    this.setSelectionColor(new Color(0x3366EC));
   }
   
   public void setFormatter(int type) {

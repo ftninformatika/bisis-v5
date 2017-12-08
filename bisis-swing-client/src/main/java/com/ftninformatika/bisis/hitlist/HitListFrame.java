@@ -272,7 +272,7 @@ public class HitListFrame extends JInternalFrame {
                 Record rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
 
                 if (rec == null) {
-                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(), MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), recordId), "Закључан запис", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(), MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), recordId), Messages.getString("RECORD_LOCKED"), JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
@@ -302,7 +302,7 @@ public class HitListFrame extends JInternalFrame {
 							rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
 
                             if(rec == null) { //vraca null ako je vec u upotrebi
-                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), recordId), "Закључан запис", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), recordId), Messages.getString("RECORD_LOCKED"), JOptionPane.INFORMATION_MESSAGE);
                                 return;
                             }
 
@@ -310,10 +310,10 @@ public class HitListFrame extends JInternalFrame {
 						} /*catch (LockException e) {
 							JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
 		                } */catch (NullPointerException e) {
-		    	            JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("HITLIST_PLEASE_SELECT_RECORD"),"Грешка", JOptionPane.INFORMATION_MESSAGE);
+		    	            JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("HITLIST_PLEASE_SELECT_RECORD"), Messages.getString("MAIN_ERROR"), JOptionPane.INFORMATION_MESSAGE);
 						} catch (IOException e) {
                             e.printStackTrace();
-                            JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("HITLIST_SERVER_ERROR"),"Грешка", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("HITLIST_SERVER_ERROR"), Messages.getString("MAIN_ERROR"), JOptionPane.INFORMATION_MESSAGE);
                         }
 					}
 		  });
@@ -581,7 +581,7 @@ public class HitListFrame extends JInternalFrame {
 	
 	private void handleDeleteRecord(){
 		Record rec = (Record)lbHitList.getSelectedValue();
-		Object[] options = {Messages.getString("HITLIST_DELETE"), "Одустани" };
+		Object[] options = {Messages.getString("HITLIST_DELETE"), Messages.getString("HITLIST_CANCEL") };
 		StringBuffer messBuff = new StringBuffer();
 		messBuff.append(Messages.getString("HITLIST_ARE_YOU_SURE_TO_DELETE"));
 		messBuff.append(RecordUtils.getDeleteRecordReport(rec));
@@ -595,7 +595,7 @@ public class HitListFrame extends JInternalFrame {
 			messBuff.append(Messages.getString("HITLIST_CONFIRMATION_DELETING_RECORD"));
 			messBuff.append("<html><b>ID="+rec.getRecordID()+"</b></html>\n");
 			messBuff.append("<html><b>RN="+rec.getRN()+"</b></html>");			
-			ret = JOptionPane.showOptionDialog(null, messBuff.toString(), "Брисање",
+			ret = JOptionPane.showOptionDialog(null, messBuff.toString(), Messages.getString("HITLIST_DELETING"),
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 					null, options1, options[0]);
 			if(ret == 1){				
@@ -630,7 +630,7 @@ public class HitListFrame extends JInternalFrame {
       //renderer.setResults(queryResults);
       updateAvailability();
       page = 0;
-      lQuery.setText("<html>Упит: <b>" + query + "</b></html>");
+      lQuery.setText(MessageFormat.format(Messages.getString("HITLIST_.0.QUERY_HTML"), query));
       displayPage();
 	}
 	

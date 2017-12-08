@@ -184,7 +184,7 @@ public class InventarniBrojPanel extends JPanel {
 					0;
 	    if(broj!=-1){
 	      brojTxtFld.setText(""+broj);
-	      log.warn("Није иницијализован бројач за генерисање инвентарног броја!");
+	      log.warn("Nije inicijalizovan brojc za generisanje inventarnog broja");
 	    }else throw new InventarniBrojException(Messages.getString("COUNTER_NOT_INITIALIZED"));
     }
   }

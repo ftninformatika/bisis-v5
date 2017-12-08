@@ -73,7 +73,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 			if(column==2) return ((Primerak)o).getOdeljenje();
 			if(column==3) return ((Primerak)o).getStatus();
 			if(column==4) return ((Primerak)o).getNapomene();
-			if(column==5) return "Примерак(996)";
+			if(column==5) return Messages.getString("ITEM_996");
 		}
 		if(o instanceof Godina){
 			if(column==0) return ((Godina)o).getInvBroj();
@@ -81,7 +81,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 			if(column==2) return ((Godina)o).getOdeljenje();
 			if(column==3) return "";
 			if(column==4) return ((Godina)o).getNapomene();
-			if(column==5) return "Година(997)";
+			if(column==5) return Messages.getString("YEAR_997");
 		}		
 		if(o instanceof Sveska){
 			if(column==0) return ((Sveska)o).getInvBroj();
@@ -89,7 +89,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 			if(column==2) return "";
 			if(column==3) return ((Sveska)o).getStatus();
 			if(column==4) return "";
-			if(column==5) return "Свеска";
+			if(column==5) return Messages.getString("NOTEBOOK_COLUMN");
 		}		
 		return null;			
 	}
