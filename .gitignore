@@ -80,3 +80,5 @@ bisis-backend/src/main/resources/application.yml
 bisis-backend/src/main/resources/application.yml
 *.jasper
 bisis-backend/src/main/resources/application.yml
+bisis-backend/src/main/java/com/ftninformatika/bisis/rest_service/Application.java
+bisis-swing-client/src/main/java/com/ftninformatika/bisis/config/DevelopmentConfig.java

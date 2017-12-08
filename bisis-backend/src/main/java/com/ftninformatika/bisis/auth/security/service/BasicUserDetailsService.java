@@ -22,11 +22,6 @@ public class BasicUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         final LibrarianUser user = userService.findByUsername(username);
-        if (user != null) {
-            return user;
-        } else {
-            throw new UsernameNotFoundException("LibrarianUser with username:" + username + " not found");
-
-        }
+        return user;
     }
 }

@@ -66,10 +66,20 @@ public class BisisApp {
         splashScreen.setVisible(true);
         splashScreen.getMessage().setText(Messages.getString("MAIN_LOADING_RECORD_MANAGER"));
 
-        String token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), login.getUsername(), login.getPassword());
-        if (token == null) {
+        String token = null;
+        try {
+          token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), login.getUsername(), login.getPassword());
+        } catch (IOException e) {
+          //e.printStackTrace();
           splashScreen.setVisible(false);
           JOptionPane.showMessageDialog(null, Messages.getString("MAIN_SERVER_UNAVAILABLE"),
+                  Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
+          System.exit(0);
+        }
+
+        if (token == null) {
+          splashScreen.setVisible(false);
+          JOptionPane.showMessageDialog(null, Messages.getString("MAIN_WRONG_USERNAME_PASSWORD"),
                   Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
           System.exit(0);
         }

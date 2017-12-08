@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class RetrofitUtils {
 
-    public static String acquireToken(String serverUrl, String username, String password) {
+    public static String acquireToken(String serverUrl, String username, String password) throws IOException {
 			/*OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();  // zbog proxija u jugodrvu ako gadja neki public api
 			HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
 			okHttpClient.addInterceptor(loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS));*/
@@ -28,13 +28,12 @@ public class RetrofitUtils {
 
         Call<ResponseBody> ans = bs.getToken(new UserCredentials(username,password));
         final String[] token = new String[1];
-        try {
-            token[0] = ans.execute().body().string();
-        } catch (Exception e) {
-            e.printStackTrace();
-            //System.err.println(e);
+        Object response = ans.execute().body();
+        if(response == null)
             return null;
-        }
+
+        token[0] = (String) response;
+
         token[0] = token[0].split(":")[1];
         token[0] = token[0].substring(1, token[0].length()-2);
 
