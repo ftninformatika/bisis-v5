@@ -5,8 +5,7 @@ import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
 
-import java.awt.*;
-import java.awt.color.ICC_ColorSpace;
+import java.awt.Component;
 
 import javax.swing.JEditorPane;
 import javax.swing.JList;

@@ -454,6 +454,7 @@ public class HitListFrame extends JInternalFrame {
       } catch (IOException e) {
           e.printStackTrace();
       }
+
    selectedRecord =  zapis;
    idTxtFld.setText(String.valueOf(selectedRecord.getRecordID()));//-----------------------
    rnTxtFld.setText(String.valueOf(selectedRecord.getRN()));

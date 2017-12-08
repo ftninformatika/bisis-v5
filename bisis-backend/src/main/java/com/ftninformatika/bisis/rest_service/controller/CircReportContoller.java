@@ -192,6 +192,37 @@ public class CircReportContoller {
 
         return reports;
     }
+
+       /*istorija zaduzenja clana *//*LendingHistoryReportCommand*/
+
+    @RequestMapping(value = "/get_lending_history_full", method = RequestMethod.GET)
+    public List<Report> getLendingHistoryFull(@RequestParam("memberNo") String memberNo){
+        List<Report> reports=new ArrayList<Report>();
+        List<Lending> lendings;
+        lendings = lr.findByUserId(memberNo);
+
+        Record r;
+        RecordPreview rp = new RecordPreview();
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+
+        for(Lending l:lendings){
+            r = rr.getRecordByPrimerakInvNum(l.getCtlgNo());
+            rp.init(r);
+            Report report = new Report();
+            String returnDate="";
+            if (l.getReturnDate()!=null){
+                returnDate = sdf.format(l.getReturnDate());
+            }
+            report.setProperty1(sdf.format(l.getLendDate()));
+            report.setProperty2(returnDate);
+            report.setProperty3(rp.getAuthor());
+            report.setProperty4(rp.getTitle());
+            report.setProperty5(l.getCtlgNo());
+            reports.add(report);
+        }
+
+        return reports;
+    }
 /*SubMemberBookReportCommand*/
     @RequestMapping(value = "/get_cost_for_user", method = RequestMethod.GET)
     public List<Report> getCostForUser(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
