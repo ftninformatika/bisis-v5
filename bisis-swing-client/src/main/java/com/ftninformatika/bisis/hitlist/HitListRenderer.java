@@ -5,7 +5,8 @@ import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
 
-import java.awt.Component;
+import java.awt.*;
+import java.awt.color.ICC_ColorSpace;
 
 import javax.swing.JEditorPane;
 import javax.swing.JList;
@@ -20,6 +21,7 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
     setOpaque(true);
     formatter = RecordFormatterFactory.getFormatter(
         RecordFormatterFactory.FORMAT_BRIEF);
+    this.setSelectionColor(new Color(0x3366EC));
   }
   
   public void setFormatter(int type) {

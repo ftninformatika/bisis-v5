@@ -32,7 +32,7 @@ public class RetrofitUtils {
         if(response == null)
             return null;
 
-        token[0] = (String) response;
+        token[0] = ((ResponseBody)response).string();
 
         token[0] = token[0].split(":")[1];
         token[0] = token[0].substring(1, token[0].length()-2);
