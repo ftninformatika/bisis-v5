@@ -29,14 +29,20 @@ public class BisisApp {
 
 
     Properties props = new Properties();
+    String profile = null;
     try (final InputStream stream = BisisApp.class.getResourceAsStream("/config.properties")) {
       props.load(stream);
       appVersion = props.getProperty("appVersion");
+      profile = props.getProperty("profile");
     } catch (Exception ex) {
       System.err.println(ex);
       return;
     }
-    appConfig = ConfigFactory.getConfig(ConfigType.DEVELOPMENT);
+    if (profile != null && profile.equals("production")){
+      appConfig = ConfigFactory.getConfig(ConfigType.PRODUCTION);
+    } else {
+      appConfig = ConfigFactory.getConfig(ConfigType.DEVELOPMENT);
+    }
 
     UIManager.put("swing.boldMetal", Boolean.FALSE);
 
