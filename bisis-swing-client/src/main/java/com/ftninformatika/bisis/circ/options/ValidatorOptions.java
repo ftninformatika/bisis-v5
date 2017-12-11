@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import options.*;
 
 import noNamespace.FormValidationDocument;
 import org.apache.xmlbeans.XmlOptions;

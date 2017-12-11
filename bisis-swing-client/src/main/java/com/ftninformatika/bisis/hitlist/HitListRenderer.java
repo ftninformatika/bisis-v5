@@ -5,11 +5,10 @@ import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
 
-import java.awt.Component;
+import java.awt.*;
 
-import javax.swing.JEditorPane;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
+import javax.swing.plaf.BorderUIResource;
 
 
 public class HitListRenderer extends JEditorPane implements ListCellRenderer {
@@ -21,7 +20,7 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
     formatter = RecordFormatterFactory.getFormatter(
         RecordFormatterFactory.FORMAT_BRIEF);
   }
-  
+
   public void setFormatter(int type) {
     formatter = RecordFormatterFactory.getFormatter(type);
     if (formatter == null)
@@ -33,9 +32,9 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
   	//results = res;
   }
   
-  public Component getListCellRendererComponent(JList list, Object value, 
+  public Component getListCellRendererComponent(JList list, Object value,
       int index, boolean isSelected, boolean cellHasFocus) {
-  	
+
   	if(value == null) setText(Messages.getString("HITLIST_DELETED_RECORD"));
     if (value instanceof Record) {
       Record rec = (Record)value;
@@ -43,19 +42,26 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
       	setText(findRedniBroj(rec)+". "+formatter.toHTML(rec, "sr"));
       else
       	setText(formatter.toHTML(rec, "sr"));
+
+      Font f = super.getFont();
       if (isSelected) {
-        setForeground(list.getSelectionForeground());
-        setBackground(list.getSelectionBackground());
+        setForeground(/*list.getSelectionForeground()*/new Color(0x2A6191));
+        //setBorder(UIManager.getBorder("Table.focusSelectedCellHighlightBorder"));
+        setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+        setBorder(BorderFactory.createMatteBorder(
+                1, 5, 1, 1, new Color(0x40A5EC)));
       } else {
         setForeground(list.getForeground());
-        setBackground(list.getBackground());
+        setBorder(null);
+        setFont(f.deriveFont(f.getStyle() &  ~Font.BOLD));
+        setBackground(list.getBackground()/*new Color(0xCEDDF2)*/);
       }
     }
     return this;
   }
-  
+
   // vraca redni broj pogotka u rezultatima results
-  
+
   private int findRedniBroj(Record rec){
   /*	for(int i=0;i<results.getResultCount();i++){
   		if(rec.getRecordID()==results.getRecords()[i])

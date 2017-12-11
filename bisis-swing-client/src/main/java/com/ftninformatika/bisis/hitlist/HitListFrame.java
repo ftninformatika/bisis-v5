@@ -1,9 +1,8 @@
 package com.ftninformatika.bisis.hitlist;
 
 import com.ftninformatika.utils.Messages;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -36,6 +35,8 @@ import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
+import com.seaglasslookandfeel.ui.SeaGlassListUI;
+import com.seaglasslookandfeel.ui.SeaGlassTableUI;
 import net.miginfocom.swing.MigLayout;
 
 public class HitListFrame extends JInternalFrame {
@@ -70,6 +71,7 @@ public class HitListFrame extends JInternalFrame {
         .getResource("/icons/doc_rich16.png")));
     
     lbHitList.setModel(hitListModel);
+    lbHitList.setUI(new SeaGlassListUI());
     lbHitList.setCellRenderer(renderer);
     spHitList.setViewportView(lbHitList);    
     spHitList.setPreferredSize(new Dimension(500, 500));
@@ -469,7 +471,7 @@ public class HitListFrame extends JInternalFrame {
    if(selectedRecord.getPubType()==3)
    	btnAnalitika.setEnabled(false);
    else
-   	btnAnalitika.setEnabled(true);   		
+   	btnAnalitika.setEnabled(true);
    handleLoadTabs();
   }
   
