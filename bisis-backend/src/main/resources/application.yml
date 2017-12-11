@@ -17,11 +17,6 @@ security:
 spring:
   profiles: development
   data:
-    elasticsearch:
-      properties:
-        path:
-          data: C:/elasticsearch_storage
-#      cluster-nodes: localhost:9300
     mongodb:
       host: localhost
       port: 27017
@@ -29,7 +24,6 @@ spring:
       database: bisis
       #uri: mongodb://bisis:bisis@94.130.24.103:27017/bisisdev
 #      password: bisis
-
 
   mail:
     host: smtp.gmail.com
@@ -78,6 +72,10 @@ spring:
       #uri: mongodb://bisis:bisis@94.130.24.103:27017/bisisdev
 #      password: bisis
 
+    elasticsearch:
+      properties:
+        path:
+          data: /opt/elasticsearch_storage
 
   mail:
     host: smtp.gmail.com

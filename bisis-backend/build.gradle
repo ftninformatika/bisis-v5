@@ -10,7 +10,7 @@ apply plugin: 'war'
 war {
 	baseName = 'bisisWS'
 }
-
+// gradle build pakuje war aplikaciju
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

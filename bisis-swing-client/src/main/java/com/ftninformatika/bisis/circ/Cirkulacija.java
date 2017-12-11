@@ -71,7 +71,7 @@ public class Cirkulacija {
                 "com.jgoodies.looks.windows.WindowsLookAndFeel");
 
         splash = new SplashScreen();
-        splash = BisisApp.getSplash();
+        //splash = BisisApp.getSplash();
         splash.setImage("/circ-images/splash.png");
         splash.setVisible(true);
         splash.getMessage().setText("initializing environment");

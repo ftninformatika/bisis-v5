@@ -8,10 +8,7 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 public class ReportUtils {
@@ -50,7 +47,10 @@ public class ReportUtils {
 					.getResource(reportSpec.getSubjasper()));
     		params.put("subjasper", subreport);
     	}
+    	params.put("library",reportSpec.getLibrary());
         params.put("period", report.getPeriod());
+        params.put("title",reportSpec.getReportTitle());
+        params.put(JRParameter.REPORT_LOCALE,new Locale(BisisApp.appConfig.getClientConfig().getLocale()));
         JRXmlDataSource dataSource = new JRXmlDataSource(XMLUtils.getDocumentFromString(report.getContent()), "/report/item");
         JasperPrint jp = JasperFillManager.fillReport(Report.class.getResource(reportSpec.getJasper()).openStream(), params, dataSource);
         BisisApp.getMainFrame().addReportFrame(report.getReportName(), jp);

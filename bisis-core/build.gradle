@@ -1,13 +1,5 @@
-buildscript {
-    ext {
-        springBootVersion = '1.5.7.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+plugins {
+    id 'org.springframework.boot' version '1.5.7.RELEASE'
 }
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -15,6 +7,8 @@ apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+version = "5.0.0"
 
 repositories {
     mavenCentral()
@@ -32,7 +26,6 @@ dependencies {
     compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '1.10.8.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-mail:1.5.8.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.8.RELEASE'
-
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.7.RELEASE'
 
 

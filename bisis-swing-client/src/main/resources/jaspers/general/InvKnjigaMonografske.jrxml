@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InvKnjigaMonografske" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-12-08T20:12:11 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InvKnjigaMonografske" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" resourceBundle="messages_properties/internationalization/messages" uuid="fa776a26-a3ce-413a-bf83-6d6361f616c9">
 	<property name="com.jasperassistant.designer.Rulers" value="true"/>
 	<property name="com.jasperassistant.designer.GridWidth" value="3"/>
 	<property name="com.jasperassistant.designer.GridHeight" value="3"/>
@@ -12,11 +14,14 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-	<style name="font" fontName="Arial" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="font" fontName="Arial"/>
 	<parameter name="period" class="java.lang.String"/>
+	<parameter name="library" class="java.lang.String"/>
+	<parameter name="title" class="java.lang.String"/>
 	<field name="rbr" class="java.lang.String">
 		<fieldDescription><![CDATA[rbr]]></fieldDescription>
 	</field>
@@ -51,35 +56,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="55" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="0" y="15" width="802" height="19"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="12" isBold="false" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[Инвентарска књига за монографске публикације]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="54" y="0" width="201" height="20"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font fontName="DejaVu Sans" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H"/>
-				</textElement>
-				<text><![CDATA[Градска библиотека у Новом Саду]]></text>
-			</staticText>
+		<band height="53" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="333" y="35" width="110" height="18"/>
+				<reportElement key="textField" positionType="Float" x="346" y="35" width="110" height="18" uuid="24452b8b-7c7c-4893-b8d9-511bd8565eb6"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -87,48 +66,63 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="10" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{period}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{period}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="210" height="30" isPrintWhenDetailOverflows="true" uuid="99b3344b-8ea0-4402-94a8-20b3c1e100bc"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+					<paragraph lineSpacing="AtLeast"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{library}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="5" width="400" height="30" uuid="de375449-3143-4bc6-8850-4dff237a50f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="30" splitType="Stretch">
+		<band height="31" splitType="Stretch">
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="608" y="0" width="54" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="608" y="0" width="54" height="30" uuid="85d42c09-24d2-4184-b66e-27800577a5a4"/>
 			</rectangle>
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="514" y="0" width="96" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="514" y="0" width="96" height="30" uuid="9dadf004-5c2b-4118-b2a6-83a06a50b0ee"/>
 			</rectangle>
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="463" y="0" width="52" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="463" y="0" width="52" height="30" uuid="31bb3e37-ace0-4f3e-94de-416a5fe65b57"/>
 			</rectangle>
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="735" y="0" width="66" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="735" y="0" width="66" height="30" uuid="f6d8c7f3-f731-444c-ac8a-d7952be24e03"/>
 			</rectangle>
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="54" y="0" width="78" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="0" y="0" width="57" height="30" uuid="2748976f-2152-4a2f-b98d-6de249d7fc0f"/>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="54" y="0" width="76" height="30"/>
+				<reportElement key="staticText" positionType="Float" x="0" y="0" width="39" height="30" uuid="fde550a1-fd68-480f-ae79-89f84456cbf0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<text><![CDATA[Редни
 број]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="130" y="0" width="53" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="57" y="0" width="60" height="30" uuid="bdfd2801-a967-4c21-997d-1d505556036d"/>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="130" y="0" width="51" height="30"/>
+				<reportElement key="staticText" positionType="Float" x="60" y="0" width="58" height="30" uuid="512ea7e7-cd0d-4135-ad3e-6e8bda8b1ec3"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -136,15 +130,15 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<text><![CDATA[Датум]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="182" y="0" width="249" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="117" y="0" width="313" height="30" uuid="1c604a3e-6c93-422c-a031-16878d7a2b8a"/>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText" style="font" positionType="Float" x="185" y="0" width="240" height="30"/>
+				<reportElement key="staticText" positionType="Float" x="735" y="0" width="65" height="30" uuid="f1834fe4-0973-44dc-8f70-246c5c0db63a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -152,26 +146,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[ Аутор, наслов, број свеске (тома),
-место издавања, издавач, година, РН]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="735" y="0" width="65" height="30"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<text><![CDATA[Напомена]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="515" y="0" width="95" height="30"/>
+				<reportElement key="staticText" positionType="Float" x="515" y="0" width="95" height="30" uuid="b0dce35e-8551-43b4-9566-8e0de23d1f9a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -179,12 +159,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<text><![CDATA[Начин набавке]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="610" y="0" width="50" height="30"/>
+				<reportElement key="staticText" positionType="Float" x="610" y="0" width="50" height="30" uuid="259112d1-2caa-46bb-b5a2-104289b17877"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -192,12 +172,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<text><![CDATA[Цена]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="464" y="0" width="50" height="30"/>
+				<reportElement key="staticText" positionType="Float" x="464" y="0" width="50" height="30" uuid="814943d9-1f20-4710-a1b8-74bb16e618c0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -205,15 +185,17 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<text><![CDATA[Димензије]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="430" y="0" width="34" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="400" y="0" width="64" height="30" uuid="934b7263-9037-44b7-90ad-44c4dda83ce5"/>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="430" y="0" width="34" height="30"/>
+				<reportElement key="staticText" positionType="Float" x="400" y="0" width="62" height="30" uuid="39d792ce-3431-4785-a10b-976600b83098">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -221,15 +203,15 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<text><![CDATA[Врста повеза]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement key="rectangle" positionType="Float" x="660" y="0" width="76" height="30"/>
+				<reportElement key="rectangle" positionType="Float" x="660" y="0" width="76" height="30" uuid="8d40e0fc-1845-4825-b764-e3a5c5c926bd"/>
 			</rectangle>
 			<staticText>
-				<reportElement key="staticText" style="font" positionType="Float" x="660" y="0" width="75" height="30"/>
+				<reportElement key="staticText" style="font" positionType="Float" x="660" y="0" width="75" height="30" uuid="58438b93-e5cf-4f98-8185-efb931ac530d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -237,10 +219,17 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<text><![CDATA[Сигнатура]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="130" y="0" width="270" height="30" uuid="c69adfa5-0b03-4755-a7c4-a1da622cb67b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new String($R{REPORT_REGISTER_BOOK_DESC}.getBytes("ISO-8859-1"), "UTF-8")]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -249,63 +238,51 @@
 	<detail>
 		<band height="32" splitType="Stretch">
 			<line>
-				<reportElement key="line" positionType="Float" x="54" y="31" width="746" height="1"/>
+				<reportElement key="line" positionType="Float" x="0" y="31" width="800" height="1" uuid="d54c3e3d-b95a-4a6c-b4e7-000ff34f9d9b"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="130" y="0" width="1" height="32"/>
+				<reportElement key="line" positionType="Float" x="515" y="0" width="1" height="32" uuid="0844eb63-176d-49b0-8f07-a56469b009d8"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="182" y="0" width="1" height="32"/>
+				<reportElement key="line" positionType="Float" x="800" y="0" width="1" height="32" uuid="73afeabc-7704-4c00-b833-ee5c204eb806"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="430" y="0" width="1" height="32"/>
+				<reportElement key="line" positionType="Float" x="736" y="0" width="1" height="32" uuid="dba6b546-5393-4c90-a10e-311f92858e6d"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="514" y="0" width="1" height="32"/>
+				<reportElement key="line" positionType="Float" x="660" y="0" width="1" height="32" uuid="4c87c18a-00f6-4507-a053-01174a84e27e"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="463" y="0" width="1" height="32"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="800" y="0" width="1" height="32"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="735" y="0" width="1" height="32"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="660" y="0" width="1" height="32"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="609" y="0" width="1" height="32"/>
+				<reportElement key="line" positionType="Float" x="610" y="0" width="1" height="32" uuid="3c6ccb84-20dc-4911-afe1-a3225364e456"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="font" positionType="Float" x="59" y="0" width="69" height="32"/>
+				<reportElement key="textField" style="font" positionType="Float" x="0" y="0" width="57" height="32" uuid="190cc42e-bb28-479f-b926-7be73e530e48"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{rbr}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{rbr}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="font" positionType="Float" x="130" y="0" width="50" height="32"/>
+				<reportElement key="textField" style="font" positionType="Float" x="57" y="0" width="60" height="32" uuid="f8c5a087-432f-4936-ba85-183854bf8e77"/>
 				<box leftPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{datum}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{datum}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="font" positionType="Float" x="185" y="0" width="240" height="32"/>
+				<reportElement key="textField" style="font" positionType="Float" x="130" y="0" width="269" height="32" uuid="34d53057-810d-4ec2-ad73-1c37cff80c40"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -313,12 +290,27 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{opis}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{opis}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="429" y="0" width="34" height="32"/>
+				<reportElement key="textField" positionType="Float" x="400" y="0" width="64" height="32" uuid="8570629e-f801-49eb-b516-dc05fd88eade">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{povez}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" positionType="Float" x="465" y="0" width="49" height="32" uuid="6f20f272-0738-49e1-942b-4e851a8b9374"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -326,12 +318,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{povez}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{dim}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="465" y="0" width="49" height="32"/>
+				<reportElement key="textField" style="font" positionType="Float" x="517" y="0" width="94" height="32" uuid="840c80d2-04f3-4df5-9129-a1dda2ebec0c"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -339,25 +331,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{dim}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nabavka}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="font" positionType="Float" x="517" y="0" width="92" height="32"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{nabavka}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="611" y="0" width="48" height="32"/>
+				<reportElement key="textField" positionType="Float" x="611" y="0" width="48" height="32" uuid="09dbedfe-dea1-4593-ae3b-b92e06f2da03"/>
 				<box rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -365,12 +344,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cena}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cena}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="665" y="0" width="70" height="32"/>
+				<reportElement key="textField" positionType="Float" x="665" y="0" width="71" height="32" uuid="d848de7b-3283-4412-8470-50b46994a62a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -378,12 +357,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{signatura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{signatura}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="font" positionType="Float" x="739" y="0" width="61" height="32"/>
+				<reportElement key="textField" style="font" positionType="Float" x="739" y="0" width="61" height="32" uuid="719ac290-a7f6-48bd-b4b8-939715d4504a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -391,12 +370,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="ARIALUNI.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{napomena}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{napomena}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line-1" x="54" y="0" width="1" height="31"/>
+				<reportElement key="line-1" x="0" y="0" width="1" height="31" uuid="bab6920f-1888-4fe8-9469-54ba4e1f7f89"/>
 			</line>
 		</band>
 	</detail>

@@ -6,7 +6,9 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Period;
 import com.ftninformatika.bisis.reports.Report;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
+import com.ftninformatika.utils.string.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -46,7 +48,7 @@ public class InvKnjigaMonografske extends Report {
 	      buf.append("</rbr>\n    <datum>");
 	      buf.append(datum == null ? "" : sdf.format(datum));
 	      buf.append("</datum>\n    <opis>");
-	      buf.append(opis==null ? "": opis);
+	      buf.append(opis==null ? "": StringUtils.adjustForHTML(opis));
 	      buf.append("</opis>\n    <povez>");
 	      buf.append(povez);
 	      buf.append("</povez>\n    <dim>");
@@ -89,9 +91,16 @@ public class InvKnjigaMonografske extends Report {
 	       out.append("</report>");
 
            GeneratedReport gr=new GeneratedReport();
-           gr.setReportName(key.substring(0,key.indexOf("-")));
+            if (key.indexOf("-") >= 0){
+                gr.setReportName(key.substring(0,key.indexOf("-")));
+                gr.setPeriod(key.substring(key.indexOf("-")+1));
+            }
+            else{
+                gr.setReportName(key);
+                gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+            }
            gr.setFullReportName(key);
-           gr.setPeriod(key.substring(key.indexOf("-")+1));
            gr.setContent(out.toString());
            gr.setReportType(getType().name().toLowerCase());
            getReportRepository().save(gr);
@@ -174,11 +183,8 @@ public class InvKnjigaMonografske extends Report {
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
 
-      if(i.opis.indexOf("&") >= 0)
-          i.opis = i.opis.replace("&", "&amp;");
-
-      if (getBinRep().getCoder(getLibrary(),nvl(p.getPovez()))!=null)
-       i.povez = getBinRep().getCoder(getLibrary(),nvl(p.getPovez())).getDescription();
+      if (getCoders().getBinCoders().get(nvl(p.getPovez()))!=null)
+       i.povez = getCoders().getBinCoders().get(nvl(p.getPovez())).getDescription();
 
         i.dim = dim;
       String dobavljac=nvl(p.getDobavljac());

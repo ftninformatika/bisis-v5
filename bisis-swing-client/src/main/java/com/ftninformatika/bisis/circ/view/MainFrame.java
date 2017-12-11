@@ -187,7 +187,7 @@ public class MainFrame extends JInternalFrame {
 	private JToolBar getToolBar() {
 		if (toolBar == null) {
 			toolBar = new JToolBar();
-			toolBar.addSeparator(new Dimension(280, 0));
+			toolBar.addSeparator(new Dimension(20, 0));
 			toolBar.add(getBtnNew());
 			toolBar.add(getBtnUser());
 			toolBar.add(getBtnSearchUser());

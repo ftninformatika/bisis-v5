@@ -42,7 +42,7 @@ public class CircReportContoller {
      /*UsersNumberReportCommand*//*Statistic1ReportCommand*/
 
     @RequestMapping(value = "/get_number_of_members_by_period", method = RequestMethod.GET)
-    public int getNumberOfMembersByPeriod(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
+    public int getNumberOfMembersByPeriod(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         int num = 0;
         if ((location == null) || (location.equals(""))) {
             num = mr.getNumberOfMembersByPeriod(start, end, location);
@@ -58,7 +58,7 @@ public class CircReportContoller {
 /*UserCategReportCommand*/
 
     @RequestMapping(value = "/get_members_with_categories", method = RequestMethod.GET)
-    public List<Report> getMembersWithCategory(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
+    public List<Report> getMembersWithCategory(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
         List<Member> members = mr.getSignedMembers(start, end, location, "userCategory.description");
         for (Member m : members) {
@@ -89,7 +89,7 @@ public class CircReportContoller {
     uclanjeni korisnici sa tipom uclanjenja*/ /*MmbrTypeReportCommand*/
 
     @RequestMapping(value = "/get_members_with_member_type", method = RequestMethod.GET)
-    public List<Report> getMembersWithMemberType(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
+    public List<Report> getMembersWithMemberType(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
         List<Member> members = mr.getSignedMembers(start, end, location, "membershipType.description");
         for (Member m : members) {
@@ -112,7 +112,7 @@ public class CircReportContoller {
     /*MemberBookReportCommand*/
 
     @RequestMapping(value = "/get_signed_members", method = RequestMethod.GET)
-    public List<Report> getSignedMembers(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
+    public List<Report> getSignedMembers(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
         List<Member> members = mr.getSignedMembers(start, end, location, "lastName");
         for (Member m : members) {
@@ -139,7 +139,7 @@ public class CircReportContoller {
     /*uclanjeni korisnici preko nekog korporativnog clana*//*MemberByGroupReportCommand*/
 
     @RequestMapping(value = "/get_signed_corporateMembers", method = RequestMethod.GET)
-    public List<Report> getSignedCorporateMembers(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location, @RequestParam("company") String company) {
+    public List<Report> getSignedCorporateMembers(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location, @RequestParam("company") String company) {
         List<Report> reports = new ArrayList<>();
         List<Member> members = mr.getSignedCorporateMembers(start, end, location, company);
         for (Member m : members) {
@@ -154,7 +154,7 @@ public class CircReportContoller {
 /*broj uclanjenih korisnika grupisanih po tipu*/ /*MemberTypeReportCommand*/
 
     @RequestMapping(value = "/group_by_membership_type", method = RequestMethod.GET)
-    public List<Report> groupByMembershipType(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location){
+    public List<Report> groupByMembershipType(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location){
         List<Report> reports = mr.groupMemberByMembershipType(start,end,location);
         return reports;
     }
@@ -193,7 +193,7 @@ public class CircReportContoller {
         return reports;
     }
 
-       /*istorija zaduzenja clana *//*LendingHistoryReportCommand*/
+       /*istorija zaduzenja clana */
 
     @RequestMapping(value = "/get_lending_history_full", method = RequestMethod.GET)
     public List<Report> getLendingHistoryFull(@RequestParam("memberNo") String memberNo){
@@ -225,7 +225,7 @@ public class CircReportContoller {
     }
 /*SubMemberBookReportCommand*/
     @RequestMapping(value = "/get_cost_for_user", method = RequestMethod.GET)
-    public List<Report> getCostForUser(@RequestParam("start") Date start, @RequestParam("end") Date end, @RequestParam("location") String location) {
+    public List<Report> getCostForUser(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports=new ArrayList<Report>();
         List<Member> members = mr.getSignedMembers(start, end, location, "membershipType.description");
         for (Member m : members) {
