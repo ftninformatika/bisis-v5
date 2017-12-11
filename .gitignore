@@ -86,3 +86,6 @@ bisis-backend/build.gradle
 bisis-swing-client/src/main/java/com/ftninformatika/bisis/config/DevelopmentConfig.java
 bisis-backend/build.gradle
 bisis-backend/src/main/java/com/ftninformatika/bisis/rest_service/Application.java
+bisis-swing-client/src/main/java/com/ftninformatika/bisis/config/DevelopmentConfig.java
+bisis-backend/src/main/java/com/ftninformatika/bisis/rest_service/Application.java
+bisis-backend/build.gradle
