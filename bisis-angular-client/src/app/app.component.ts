@@ -1,6 +1,7 @@
 import {Component, AfterViewInit, ElementRef, Renderer, ViewChild, OnDestroy} from '@angular/core';
 import {AuthHelper} from "./auth/utilities/authhelper";
 import { TranslateService } from '@ngx-translate/core';
+import {Messages} from "primeng/primeng";
 
 enum MenuOrientation {
     STATIC,
@@ -17,6 +18,8 @@ declare var jQuery: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
+
+    msgs: Messages[];
 
     layoutCompact = true;
 

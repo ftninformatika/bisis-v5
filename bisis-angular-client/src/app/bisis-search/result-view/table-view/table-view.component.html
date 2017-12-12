@@ -15,5 +15,5 @@ reorderableColumns="true" (onRowClick)="tableView.toggleRow($event.data)">
         Нема реултата претраге.
     </ng-template>
 </p-dataTable>
-<label *ngIf="resultRecords==undefined || resultRecords.length <=0 "><h2><br>Нема резултата претраге!</h2></label>
+<label *ngIf="resultRecords==undefined || resultRecords.totalElements <=0 "><h2><br>Нема резултата претраге!</h2></label>
 
