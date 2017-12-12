@@ -23,6 +23,7 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -91,7 +92,8 @@ public class HitListFrame extends JInternalFrame {
 			inventarTable.setAutoCreateRowSorter(true);
 			inventarTable.setCellSelectionEnabled(true);
 			inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
-			//inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			//inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), new DefaultTableCellRenderer());
+            //inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			adjustInventarColumnWidth();
 			
 			//uploadedFilesTable.setModel(uploadedFilesTableModel);

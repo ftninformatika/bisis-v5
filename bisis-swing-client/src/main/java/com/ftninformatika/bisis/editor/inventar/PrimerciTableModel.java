@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PrimerciTableModel extends AbstractTableModel {
 
-		private String[] primerakAll;
+  private String[] primerakAll;
   private String[] columns;
   private String[] columnSet;
   

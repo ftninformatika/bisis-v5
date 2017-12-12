@@ -100,9 +100,9 @@ public class InventarTabTableCellRenderer extends JLabel
             super.setForeground(unselectedForeground != null
                                     ? unselectedForeground
                                     : table.getForeground());
-				    super.setBackground(unselectedBackground != null
-			                                    ? unselectedBackground
-			                                    : table.getBackground());
+            super.setBackground(unselectedBackground != null
+                                        ? unselectedBackground
+                                        : table.getBackground());
         }
 
 	setFont(table.getFont());

@@ -18,7 +18,7 @@ export class MemberService {
     getLendings(memberNo){
         const headers = new Headers();
         headers.append('Library', localStorage.getItem("authenticatedUserLib"));
-        headers.append('Authorization', localStorage.getItem("token"))
+        headers.append('Authorization', localStorage.getItem("token"));
         const options = new RequestOptions({ headers: headers });
         return this.http.get('circ_report/get_lending_history_full?memberNo=' + memberNo, options)
             .map( response => response.json())
@@ -29,7 +29,7 @@ export class MemberService {
         console.log(localStorage);
         const headers = new Headers();
         headers.append('Library', localStorage.getItem("authenticatedUserLib"));
-        headers.append('Authorization', localStorage.getItem("token"))
+        headers.append('Authorization', localStorage.getItem("token"));
         const options = new RequestOptions({ headers: headers });
         return this.http.get('members_repository/'+id, options)
             .map( response => response.json())
