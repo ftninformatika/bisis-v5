@@ -14,15 +14,20 @@ export class MemberService {
     }
 
     getLendings(memberNo){
-        return this.http.get('circ_report/get_lending_history_full?memberNo=' + memberNo)
+        const headers = new Headers();
+        headers.append('Library', localStorage.getItem("authenticatedUserLib"));
+        headers.append('Authorization', localStorage.getItem("token"))
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get('circ_report/get_lending_history_full?memberNo=' + memberNo, options)
             .map( response => response.json())
             .catch(this.handleError);
     }
 
     getMemberData(id){
-        console.log(localStorage.getItem("authenticatedUserLib"));
+        console.log(localStorage);
         const headers = new Headers();
         headers.append('Library', localStorage.getItem("authenticatedUserLib"));
+        headers.append('Authorization', localStorage.getItem("token"))
         const options = new RequestOptions({ headers: headers });
         return this.http.get('members_repository/'+id, options)
             .map( response => response.json())

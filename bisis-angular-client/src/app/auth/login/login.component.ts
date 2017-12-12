@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         response => {
           localStorage.clear();
-          localStorage.setItem('token', response.json().token);
+          localStorage.setItem('token', response.json().token['token']);
           localStorage.setItem('authenticated', response.json().member_info.username);
           localStorage.setItem('authenticatedUserId', response.json().member_info.index);;
           localStorage.setItem('authenticatedUserLib', response.json().member_info.libraryPrefix);
@@ -49,8 +49,7 @@ export class LoginComponent implements OnInit {
 
 
   logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('shortInfo');
+      localStorage.clear();
   }
 
   forgotPass(){

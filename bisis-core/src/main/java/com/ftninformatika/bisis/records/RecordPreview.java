@@ -1,10 +1,12 @@
 package com.ftninformatika.bisis.records;
 
+import com.ftninformatika.utils.string.Signature;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +20,12 @@ import java.util.List;
 @NoArgsConstructor
 public class RecordPreview {
 
+    List fields1;
+    List fields2;
+    List fields3;
+    String text = "";
+    String empty = "";
+
 
     private String author;
     private String title;
@@ -27,38 +35,79 @@ public class RecordPreview {
     private String signature;
     private String pages;
     private String dimensions;
-    private String genre;
-    private String bibliographyNumber;
+    private String subtitle;
+    private String subjectHeading;
     private String publishingPlace;
-    private String invertoryAdditions;
-    private String publishedCount;
+    private String notes;
+    private String numerus;
     private String udk;
     private String issn;
+    private String format;
 
     public void init(Record r){
-        this.author = getAuthor(r, "sr").toString();
+        this.author = getAuthor(r);
         this.title = getTitle(r);
         this.publisher = getPublisher(r);
         this.publishingYear = getYear(r);
-        this.signature = getSignature(r);
-        this.pages = r.getSubfieldContent("215a");
-        this.dimensions = r.getSubfieldContent("215d");
-        this.genre = r.getSubfieldContent("225a");
-        this.publishingPlace = r.getSubfieldContent("210a");
-        this.invertoryAdditions = r.getSubfieldContent("996r");
-        this.publishedCount = r.getSubfieldContent("992c");
-        this.bibliographyNumber = getBibliographyNumber(r);
+        this.signature = getSignatura(r);
+        this.pages = getPages(r);
+        this.dimensions = getDimensions(r);
+        this.subtitle = getSubtitle(r);
+        this.publishingPlace = getPublishingPlace(r);
+        this.notes = getNotes(r);
+        this.numerus = getNumerus(r);
+        this.subjectHeading = getSubjectHeading(r);
         this.udk = getUDK(r);
         this.issn = getISSN(r);
+        this.format = getFormat(r);
 
     }
 
-    private String getUDK(Record r){
-        if (r.getSubfieldContent("675a") != null)
-            return r.getSubfieldContent("675a");
-        if (r.getSubfieldContent("675u") != null)
-            return r.getSubfieldContent("675u");
-        return null;
+    public String getDimensions(Record rec){
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("215d");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
+        }
+        fields1 = null;
+        return text;
+    }
+
+    private String getPages(Record rec){
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("215a");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
+        }
+        fields1 = null;
+        return text;
+    }
+
+    public String getPublishingPlace(Record rec){
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("210a");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
+        }
+        fields1 = null;
+        return text;
+    }
+
+    private String getUDK(Record rec){
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("675a");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
+        }
+        return text;
     }
 
     private String getBibliographyNumber(Record r){
@@ -69,105 +118,122 @@ public class RecordPreview {
         return null;
     }
 
-    private String getSignature(Record r){
-        if (r.getSubfieldContent("996d") != null)
-            return r.getSubfieldContent("996d");
-        if (r.getSubfieldContent("996e") != null)
-            return r.getSubfieldContent("996e");
-        if (r.getSubfieldContent("997d") != null)
-            return r.getSubfieldContent("997d");
-        if (r.getSubfieldContent("997e") != null)
-            return r.getSubfieldContent("997e");
-        return null;
-    }
-
-    private StringBuffer getAuthor(Record rec, String locale) {
-        StringBuffer retVal = new StringBuffer();
-        List<Field> f700 = rec.getFields("700");
-        if (f700.size() > 0) {
-            Field f1 = (Field)f700.get(0);
-            if (f1.getInd2() == '1') {
-                Subfield sfa = f1.getSubfield('a');
-                Subfield sfb = f1.getSubfield('b');
-                if (sfa != null)
-                    retVal.append(sfa.getContent());
-                if (sfb != null) {
-                    if (retVal.length() > 0)
-                        retVal.append(", ");
-                    retVal.append(sfb.getContent());
-                }
-            } else {
-                Subfield sfa = f1.getSubfield('a');
-                if (sfa != null)
-                    retVal.append(sfa.getContent());
+    private String getSignatura(Record rec){
+        if (rec == null)
+            return "";
+        text = "";
+        try {
+            Iterator it = rec.getPrimerci().iterator();
+            while (it.hasNext()){
+                if (!text.equals(""))
+                    text = text + ", ";
+                text = text + Signature.format((Primerak)it.next());
             }
-            if (imaViseAutora(rec)) {
-                //appendEtAl(retVal, locale);
-                return retVal;
+            empty = text.substring(0, 1);
+        } catch (Exception e1) {
+            Iterator it = rec.getGodine().iterator();
+            while (it.hasNext()){
+                if (!text.equals(""))
+                    text = text + ", ";
+                text = text + Signature.format((Godina)it.next());
             }
         }
-        List<Field> f701 = rec.getFields("701");
-        if (f701.size() > 0 &&
-                f701.get(0).getSubfieldContent('a')!=null &&
-                !f701.get(0).getSubfieldContent('a').equals("")) {
-            if (retVal.length() > 0) {
-                //appendEtAl(retVal, locale);
-                return retVal;
-            }
-            Field f1 = (Field)f701.get(0);
-            if (f1.getInd2() == '1') {
-                Subfield sfa = f1.getSubfield('a');
-                Subfield sfb = f1.getSubfield('b');
-                if (sfa != null)
-                    retVal.append(sfa.getContent());
-                if (sfb != null) {
-                    if (retVal.length() > 0)
-                        retVal.append(", ");
-                    retVal.append(sfb.getContent());
-                }
-            } else {
-                Subfield sfa = f1.getSubfield('a');
-                if (sfa != null)
-                    retVal.append(sfa.getContent());
-            }
-            if (f701.size() > 1) {
-                //appendEtAl(retVal, locale);
-                return retVal;
-            }
-        }
-        List<Field> f702 = rec.getFields("702");
-        if (f702.size() > 0 &&
-                f702.get(0).getSubfieldContent('a')!=null &&
-                !f702.get(0).getSubfieldContent('a').equals("")) {
-            if (retVal.length() > 0) {
-                // appendEtAl(retVal, locale);
-                return retVal;
-            }
-            Field f1 = (Field)f702.get(0);
-            if (f1.getInd2() == '1') {
-                Subfield sfa = f1.getSubfield('a');
-                Subfield sfb = f1.getSubfield('b');
-                if (sfa != null)
-                    retVal.append(sfa.getContent());
-                if (sfb != null) {
-                    if (retVal.length() > 0)
-                        retVal.append(", ");
-                    retVal.append(sfb.getContent());
-                }
-            } else {
-                Subfield sfa = f1.getSubfield('a');
-                if (sfa != null)
-                    retVal.append(sfa.getContent());
-            }
-    /*  if (f702.size() > 1) {
-        appendEtAl(retVal, locale);
-        return retVal;
-      }
-*/    }
-        return retVal;
+        return text;
     }
 
+    public String getAuthor(Record rec){
+        List fields1;
+        List fields2;
+        List fields3;
+        String text = "";
+        String empty = "";
 
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("700a");
+            fields2 = rec.getSubfieldsContent("700b");
+            text = fieldsToString(fields1, fields2);
+            empty = text.substring(0, 2);
+        } catch (Exception e1) {
+            try {
+                fields1 = rec.getSubfieldsContent("710a");
+                text = fieldsToString(fields1);
+            } catch (Exception e2) {
+            }
+        }
+        fields1 = null;
+        fields2 = null;
+        return text;
+    }
+
+    private String fieldsToString(List fields){
+        String tmp = "";
+        Iterator it = fields.iterator();
+        while (it.hasNext()){
+            String tmp1 = (String)it.next();
+            if (!tmp1.equals("")){
+                if (!tmp.equals(""))
+                    tmp = tmp + "; ";
+                tmp = tmp + tmp1;
+            }
+        }
+        return tmp;
+    }
+
+    private String fieldsToString(List fields1, List fields2){
+        String tmp = "";
+        String item1 = "";
+        String item2 = "";
+        Iterator it1 = fields1.iterator();
+        Iterator it2 = fields2.iterator();
+        while (it1.hasNext() && it2.hasNext()){
+            item1 = it1.next().toString();
+            item2 = it2.next().toString();
+            if (!item1.equals("") && !item2.equals(""))
+                item1 = item1 + ", ";
+            item1 = item1 + item2;
+            if (!item1.equals("")){
+                if (!tmp.equals(""))
+                    tmp = tmp + "; ";
+                tmp = tmp + item1;
+            }
+        }
+        return tmp;
+    }
+
+    private String fieldsToString(List fields1, List fields2, List fields3, String fieldname){
+        String tmp = "";
+        String item1 = "";
+        String item2 = "";
+        String item3 = "";
+        Iterator it1 = fields1.iterator();
+        Iterator it2 = fields2.iterator();
+        Iterator it3 = fields3.iterator();
+        while (it1.hasNext() && it2.hasNext() && it3.hasNext()){
+            item1 = it1.next().toString();
+            item2 = it2.next().toString();
+            item3 = it3.next().toString();
+            if (!item1.equals("") && !item2.equals(""))
+                item1 = item1 + ", ";
+            item1 = item1 + item2;
+            if (!item1.equals("") && !item3.equals(""))
+                item1 = item1 + ", ";
+            item1 = item1 + getNameFromCode(fieldname,item3);
+            if (!item1.equals("")){
+                if (!tmp.equals(""))
+                    tmp = tmp + "; ";
+                tmp = tmp + item1;
+            }
+        }
+        return tmp;
+    }
+
+    private String getNameFromCode(String field, String content){
+        // if (BisisApp.getFormat().getSubfield(field).getCoder().getValue(content) != null)
+        // return BisisApp.getFormat().getSubfield(field).getCoder().getValue(content);
+        return "";
+    }
     // da li ima vise polja 700 u kojima stvarno nesto pise
     private boolean imaViseAutora(Record rec){
         List<Field> f700 = rec.getFields("700");
@@ -182,86 +248,66 @@ public class RecordPreview {
 
     }
 
-    /*
-     * vraca sve sto se nalazi u 200
-     * */
-    private String getTitle(Record rec) {
-        StringBuffer titleBuff = new StringBuffer();
-        Field f200 = rec.getField("200");
-        String temp;
-        if (f200 != null) {
-            temp = getAllSubfieldsContent(f200, 'a');
-            titleBuff.append(temp);
-            temp = getAllSubfieldsContent(f200, 'b');
-            if (!temp.equals("")) titleBuff.append(", ");
-            titleBuff.append(temp);
-            temp = getAllSubfieldsContent(f200, 'c');
-            if (!temp.equals("")) titleBuff.append(", ");
-            titleBuff.append(temp);
-            temp = getAllSubfieldsContent(f200, 'd');
-            if (!temp.equals("")) titleBuff.append(", ");
-            titleBuff.append(temp);
-            temp = getAllSubfieldsContent(f200, 'e');
-            if (!temp.equals("")) titleBuff.append(", ");
-            titleBuff.append(temp);
+    public String getTitle(Record rec){
 
-            //h i i
-            List<Subfield> sf200h = f200.getSubfields('h');
-            List<Subfield> sf200i = f200.getSubfields('i');
 
-            temp = "";
-            boolean prvi = true;
-            for(int i=0;i<sf200h.size();i++){
-                String hiStr = sf200h.get(i).getContent();
-                if(i<sf200i.size()){
-                    hiStr.concat(" "+sf200i.get(i).getContent());
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("200a");
+            text = fieldsToString(fields1);
+            empty = text.substring(0, 1);
+        } catch (Exception e1) {
+            try {
+                fields1 = rec.getSubfieldsContent("200i");
+                text = fieldsToString(fields1);
+                empty = text.substring(0, 1);
+            } catch (Exception e2) {
+                try {
+                    fields1 = rec.getSubfieldsContent("540a");
+                    text = fieldsToString(fields1);
+                } catch (Exception e3) {
                 }
-                if(prvi){
-                    temp = temp+hiStr;
-                    prvi = false;
-                }else
-                    temp = temp + ", "+hiStr;
             }
-
-            if (!temp.equals("")) titleBuff.append(", ");
-            titleBuff.append(temp);
-
-    	/*
-      Subfield sfa = f200.getSubfield('a');
-      if (sfa != null)
-        return sfa.getContent();*/
         }
-        return titleBuff.toString();
+        fields1 = null;
+        return text;
     }
 
     private String getPublisher(Record rec) {
-        Field f210 = rec.getField("210");
-        if (f210 != null) {
-            Subfield sfc = f210.getSubfield('c');
-            if (sfc != null)
-                return sfc.getContent();
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("210c");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
         }
-        return "";
+        fields1 = null;
+        return text;
     }
 
     private String getYear(Record rec) {
-        Field f100 = rec.getField("100");
-        if (f100 != null) {
-            Subfield sfc = f100.getSubfield('c');
-            if (sfc != null)
-                return sfc.getContent();
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("100c");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
         }
-        return "";
+        fields1 = null;
+        return text;
     }
 
     private String getPlace(Record rec) {
-        Field f210 = rec.getField("210");
-        if (f210 != null) {
-            Subfield sfa = f210.getSubfield('a');
-            if (sfa != null)
-                return sfa.getContent();
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("210a");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
         }
-        return "";
+        fields1 = null;
+        return text;
     }
 
     private String getEdition(Record rec){
@@ -288,18 +334,125 @@ public class RecordPreview {
         return retVal.toString();
     }
 
+
+
     public String getISSN(Record r){
-        if(r.getSubfieldContent("011a")!= null &&  !r.getSubfieldContent("011a").equals(""))
-            return r.getSubfieldContent("011a");
-        if(r.getSubfieldContent("011e")!= null && !r.getSubfieldContent("011e").equals(""))
-            return r.getSubfieldContent("011e");
+        try {
+            if (r.getSubfieldContent("011a") != null && !r.getSubfieldContent("011a").equals(""))
+                return r.getSubfieldContent("011a");
+            if (r.getSubfieldContent("011e") != null && !r.getSubfieldContent("011e").equals(""))
+                return r.getSubfieldContent("011e");
+        }catch (Exception e) {
+            return "";
+        }
         return "";
     }
 
-    /*private void appendEtAl(StringBuffer sb, String locale) {
-        String i_dr = (String)etal.get(locale);
-        if (i_dr != null)
-            sb.append(i_dr);
-    }*/
+    public String getSubtitle(Record rec){
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("200e");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
+        }
+        fields1 = null;
+        return text;
+    }
+
+    public String getNotes(Record rec){
+        if (rec == null)
+            return "";
+        try {
+            fields1 = rec.getSubfieldsContent("300a");
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
+        }
+        fields1 = null;
+        return text;
+    }
+
+    public String getSubjectHeading(Record rec){
+        if (rec == null)
+            return "";
+        try {
+            Iterator it = rec.getFields().iterator();
+            Field fl;
+            fields1 = new ArrayList<String>();
+            while (it.hasNext()){
+                fl = (Field)it.next();
+                if ((fl.getName().substring(0,1).equals("6") && !fl.getName().equals("675")) || fl.getName().substring(0,2).equals("96")){
+                    Iterator it2 = fl.getSubfields().iterator();
+                    while (it2.hasNext()){
+                        fields1.add(((Subfield)it2.next()).getContent());
+                    }
+                }
+            }
+            text = fieldsToString(fields1);
+        } catch (Exception e1) {
+        }
+        fields1 = null;
+        return text;
+    }
+
+    public String getFormat(Record rec){
+        if (rec == null)
+            return "";
+        text = "";
+        String tmp;
+        try {
+            Iterator it = rec.getPrimerci().iterator();
+            while (it.hasNext()){
+                tmp = ((Primerak)it.next()).getSigFormat();
+                if (tmp != null){
+                    if (!text.equals(""))
+                        text = text + ", ";
+                    text = text + tmp;
+                }
+            }
+            empty = text.substring(0, 1);
+        } catch (Exception e1) {
+            Iterator it = rec.getGodine().iterator();
+            while (it.hasNext()){
+                tmp = ((Godina)it.next()).getSigFormat();
+                if (tmp != null){
+                    if (!text.equals(""))
+                        text = text + ", ";
+                    text = text + tmp;
+                }
+            }
+        }
+        return text;
+    }
+
+    public String getNumerus(Record rec){
+        if (rec == null)
+            return "";
+        text = "";
+        String tmp;
+        try {
+            Iterator it = rec.getPrimerci().iterator();
+            while (it.hasNext()){
+                tmp = ((Primerak)it.next()).getSigNumerusCurens();
+                if (tmp != null){
+                    if (!text.equals(""))
+                        text = text + ", ";
+                    text = text + tmp;
+                }
+            }
+            empty = text.substring(0, 1);
+        } catch (Exception e1) {
+            Iterator it = rec.getGodine().iterator();
+            while (it.hasNext()){
+                tmp = ((Godina)it.next()).getSigNumerusCurens();
+                if (tmp != null){
+                    if (!text.equals(""))
+                        text = text + ", ";
+                    text = text + tmp;
+                }
+            }
+        }
+        return text;
+    }
 
 }
