@@ -8,24 +8,11 @@ import {MemberService} from "../service/member.service";
 })
 export class HomeComponent implements OnInit {
 
-  lendings: any[];
-  userInfo: any;
-
-  constructor(public ah: AuthHelper, public memberService: MemberService) { }
+  constructor() { }
 
 
   ngOnInit() {
-    this.memberService.getMemberData(localStorage.getItem("authenticatedUserId")).subscribe(
-        response => {
-          this.userInfo = response;
-          this.memberService.getLendings(response.userId).subscribe(
-              responseLendings => {
-                console.log(responseLendings);
 
-              }
-          );
-        }
-    );
   }
 
 }
