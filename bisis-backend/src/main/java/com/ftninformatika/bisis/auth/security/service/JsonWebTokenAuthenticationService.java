@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -47,13 +48,16 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
             }
             if ("member".equals(tokenData.getBody().get("clientType").toString())) { //autentifikacija korisnika (membera)
                 LibraryMember member = getMememberFromToken(tokenData);
-                if (tokenExpired(tokenData)){  //pitamo da li je istekao token?
+                if (tokenExpired(token, member)){  //pitamo da li je istekao token?
                     System.out.println("Your token has expired!");
                     return null;
                 }
 
-                if (member != null )
+                if (member != null ) {
+                    member.setLastActivity(new Date());
+                    libraryMemberRepository.save(member);
                     return new MemberAuthentication(member);
+                }
             }
         }
         return null;
@@ -92,12 +96,21 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
         }
     }
 
-    private boolean tokenExpired(final Jws<Claims> tokenData){
+    private boolean tokenExpired(final String token, LibraryMember member){
         Date now = new Date();
 
-        Date expirationDate = new Date((Long) tokenData.getBody().get("token_expiration_date"));
+        if (token.equals(member.getToken())) {
 
-        return expirationDate.before(now);
+           long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+
+            long t= member.getLastActivity().getTime();
+            Date expirationDate=new Date(t + (15 * ONE_MINUTE_IN_MILLIS));
+
+
+            return expirationDate.before(now); //da li je poslednja aktivnost bila pre vise od 15 min?
+        }
+        else
+            return true;
 
     }
 }

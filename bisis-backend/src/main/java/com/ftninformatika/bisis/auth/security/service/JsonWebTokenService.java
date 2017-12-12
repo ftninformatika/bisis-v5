@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +80,13 @@ public class JsonWebTokenService implements TokenService {
             JwtBuilder jwtBuilder = Jwts.builder();
             jwtBuilder.setExpiration(calendar.getTime());
             jwtBuilder.setClaims(tokenData);
-            return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
+            String encriptedToken = jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
+
+
+            user.setToken(encriptedToken);
+            user.setLastActivity(new Date());
+            libraryMemberRepository.save(user);
+            return encriptedToken;
 
         } else {
             throw new ServiceException("Library Member Authentication error", this.getClass().getName());

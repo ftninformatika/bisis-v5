@@ -4,12 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import * as bisisGlobals from "../globals";
+import {MessageService} from "primeng/components/common/messageservice";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class MemberService {
 
 
-    constructor(public http: Http) {
+    constructor(public http: Http, public router: Router) {
 
     }
 
@@ -40,6 +42,15 @@ export class MemberService {
         if (error instanceof Response) {
             const body = error.json() || '';
             const err = body.error || JSON.stringify(body);
+
+            if (err == 'Forbidden'){ //ako je istekao token
+                var libCode = localStorage.getItem('libCode');
+                localStorage.clear();
+                localStorage.setItem('libCode', libCode);
+                this.router.navigate(['/login']);
+            }
+
+
             errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
         } else {
             errMsg = error.message ? error.message : error.toString();

@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class LibraryMember {
     private String libraryPrefix;
     private String index;
     private List<Authority> authorities;
+    private String token;
+    private Date lastActivity;
 
     private String passwordResetString;
 
