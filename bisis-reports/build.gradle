@@ -2,16 +2,16 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-
+apply plugin: 'application'
 
 version = '5.0.0'
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 
 }
-
 
 dependencies {
     compile project(":bisis-backend")
@@ -20,4 +20,15 @@ dependencies {
 
 }
 
+
+jar {
+    mainClassName = 'com.ftninformatika.bisis.ReportApplication'
+    manifest {
+
+        attributes 'Implementation-Title': 'Report generator',
+                'Implementation-Version': version,
+                'Main-Class': 'com.ftninformatika.bisis.ReportApplication',
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+    }
+}
 
