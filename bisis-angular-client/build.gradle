@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
+    }
+}
+apply plugin: 'war'
+apply plugin: "com.moowork.node"
+
+war {
+    baseName = 'bisisAngularClient'
+    //dependsOn minifyJavaScript
+    from( "build/production" )
+}
+
+node {
+    version = '7.10.0'
+    download = true
+    //nodeModulesDir = file("src/main/client")
+}
+
+task buildClientDev(type: NpmTask, dependsOn: 'npmInstall') {
+    group = 'build'
+    description = 'Compile client side assets for production'
+    args = ['run', 'build']
+}
+
+task buildClient(type: NpmTask, dependsOn: 'npmInstall') { //production build
+    group = 'build'
+    description = 'Compile client side assets for production'
+    args = ['run', 'buildProd']
+}
+
+war.dependsOn(buildClient)
