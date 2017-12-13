@@ -104,7 +104,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
            long ONE_MINUTE_IN_MILLIS=60000;//millisecs
 
             long t= member.getLastActivity().getTime();
-            Date expirationDate=new Date(t + (15 * ONE_MINUTE_IN_MILLIS));
+            Date expirationDate=new Date(t + ( ONE_MINUTE_IN_MILLIS * 15));
 
 
             return expirationDate.before(now); //da li je poslednja aktivnost bila pre vise od 15 min?

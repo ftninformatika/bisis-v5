@@ -27,7 +27,7 @@ import {AuthGuard} from "./auth/authguard";
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
-    {path: '#/:email', component: HomeComponent},
+    //{path: '#/:email', component: HomeComponent},
     /*{path: 'sample', component: SampleDemoComponent}, //<---- demo komponente iz teme
     {path: 'forms', component: FormsDemoComponent},
     {path: 'data', component: DataDemoComponent},
@@ -45,7 +45,7 @@ export const routes: Routes = [
     {path: 'bisis-search/:lib', component: BisisSearchComponent},
     {path: 'record-view/:libCode/:recId', component: RecordViewComponent},
     {path: 'about-view', component: AboutViewComponent},
-    {path: 'my-bookshelf', component: MyBookshelfComponent},
+    {path: 'my-bookshelf', canActivate: [ AuthGuard ], component: MyBookshelfComponent},
     {path: 'login', component: LoginComponent},
     {path: 'profile', canActivate: [ AuthGuard ], component: ProfileComponent},
     {path: 'forgot-pass', component: PasswordResetComponent},

@@ -12,7 +12,10 @@ export class AuthHelper {
     }
 
     public logout() {
+        var libCode = localStorage.getItem('libCode');
         localStorage.clear();
+        localStorage.setItem('libCode', libCode);
+
 
     }
 

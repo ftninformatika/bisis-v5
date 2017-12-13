@@ -13,13 +13,13 @@ export class AuthGuard implements CanActivate {
 
     if (!(this.ah.authenticated)) {
       this.router.navigate(['login']);
-      console.log("Niste ulogovani");
+      //console.log("Niste ulogovani");
       return false;
     }
-    /*if (tokenNotExpired()) {
-      console.log('not expired');
+    if (tokenNotExpired()) {
+      //console.log('not expired');
       return true;
-    }*/
+    }
     return true;
   }
 

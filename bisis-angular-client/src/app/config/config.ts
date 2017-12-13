@@ -4,7 +4,7 @@ export class config {
         var environment:string;
         var data = {};
         environment = window.location.hostname;
-        console.log("Environment: " + environment);
+        //console.log("Environment: " + environment);
         switch (environment) {
             case'localhost':
                 data = {

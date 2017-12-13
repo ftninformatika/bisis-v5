@@ -49,11 +49,11 @@ public class JsonWebTokenService implements TokenService {
             tokenData.put("userID", user.getId());
             tokenData.put("username", user.getUsername());
             tokenData.put("token_create_date", LocalDateTime.now());
-            Calendar calendar = Calendar.getInstance();
+            /*Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MINUTE, tokenExpirationTime);
-            tokenData.put("token_expiration_date", calendar.getTime());
+            tokenData.put("token_expiration_date", calendar.getTime());*/
             JwtBuilder jwtBuilder = Jwts.builder();
-            jwtBuilder.setExpiration(calendar.getTime());
+            //jwtBuilder.setExpiration(calendar.getTime());
             jwtBuilder.setClaims(tokenData);
             return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
 
@@ -74,11 +74,11 @@ public class JsonWebTokenService implements TokenService {
             tokenData.put("username", user.getUsername());
             Calendar calendar = Calendar.getInstance();
             tokenData.put("token_create_date", calendar);
-            Calendar calendar2 = Calendar.getInstance();
+            /*Calendar calendar2 = Calendar.getInstance();
             calendar2.add(Calendar.MINUTE, tokenExpirationTime);
-            tokenData.put("token_expiration_date", calendar2.getTime());
+            tokenData.put("token_expiration_date", calendar2.getTime());*/
             JwtBuilder jwtBuilder = Jwts.builder();
-            jwtBuilder.setExpiration(calendar.getTime());
+            //jwtBuilder.setExpiration(calendar.getTime());
             jwtBuilder.setClaims(tokenData);
             String encriptedToken = jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
 

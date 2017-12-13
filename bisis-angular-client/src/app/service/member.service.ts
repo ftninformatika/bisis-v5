@@ -12,7 +12,7 @@ import {config} from "../config/config";
 export class MemberService {
 
 
-    constructor(public http: Http, public router: Router) {
+    constructor(public http: Http) {
 
     }
 
@@ -27,7 +27,6 @@ export class MemberService {
     }
 
     getMemberData(id){
-        console.log(localStorage);
         const headers = new Headers();
         headers.append('Library', localStorage.getItem("authenticatedUserLib"));
         headers.append('Authorization', localStorage.getItem("token"))
@@ -40,23 +39,14 @@ export class MemberService {
 
     private handleError (error: Response | any) {
         let errMsg: string;
-        if (error instanceof Response) {
+        if (error instanceof Response)  {
             const body = error.json() || '';
             const err = body.error || JSON.stringify(body);
-
-            if (err == 'Forbidden'){ //ako je ist
-                var libCode = localStorage.getItem('libCode');
-                localStorage.clear();
-                localStorage.setItem('libCode', libCode);
-                this.router.navigate(['/login']);
-            }
-
-
             errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        console.error(errMsg);
+        //console.error(errMsg);
         return Observable.throw(errMsg);
     }
 
