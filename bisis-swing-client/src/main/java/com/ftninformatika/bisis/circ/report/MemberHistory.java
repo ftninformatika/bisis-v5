@@ -51,7 +51,7 @@ public class MemberHistory {
     }
 
 
-    public static JasperPrint setPrint(String userNo, Date start, Date end, CircLocation branch)
+    public static JasperPrint setPrint(String userNo, Date start, Date end, String branch)
             throws IOException {
         try {
             if (start == null) {
@@ -69,7 +69,7 @@ public class MemberHistory {
             Member member = null;
             try {
                 member = BisisApp.bisisService.getMemberDataById(userNo).execute().body().getMember();
-                results = BisisApp.bisisService.getLendingHistory(userNo, new PathDate(start), new PathDate(end), branch.getDescription()).execute().body();
+                results = BisisApp.bisisService.getLendingHistory(userNo, new PathDate(start), new PathDate(end), branch).execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -86,8 +86,8 @@ public class MemberHistory {
                                 .openStream());
 
                 Map<String, Object> params = new HashMap<String, Object>(6);
-                if (branch instanceof CircLocation) {
-                    params.put("nazivogr", "odeljenje: " + ((CircLocation) branch).getDescription());
+                if (!branch.equals("")) {
+                    params.put("nazivogr", "odeljenje: " + branch);
                 } else {
                     params.put("nazivogr", "");
                 }

@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.circ.report.UserCategSigning;
 import com.ftninformatika.utils.Messages;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -396,11 +397,11 @@ public class Report {
 //							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 //							break;
 //
-//						case 2 :
-//							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(UserCategSigning.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
-//							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//							break;
-//
+						case 2 :
+							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(UserCategSigning.setPrint(getTfStartDate().getDate(),Utils.getCmbValue(getCmbLocation().getSelectedItem())));
+							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+							break;
+
 //						case 3 :
 //							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MmbrType.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
 //							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
@@ -452,7 +453,7 @@ public class Report {
 						case 13 :
 								String userid = Validator.convertUserId2DB(getTfNumber().getText());
 								if (!userid.equals("")){
-									JasperPrint jp = MemberHistory.setPrint(userid,getTfStartDate().getDate(),getTfEndDate().getDate(),(CircLocation)getCmbLocation().getSelectedItem());
+									JasperPrint jp = MemberHistory.setPrint(userid,getTfStartDate().getDate(),getTfEndDate().getDate(), Utils.getCmbValue(getCmbLocation().getSelectedItem()));
 									if (jp != null){
 										Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(jp);
 										Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
