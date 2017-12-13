@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../headers';
 import {MessageService} from "primeng/components/common/messageservice";
+import {config} from "../../config/config";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     let body = JSON.stringify({ username, password });
     this.messageService.clear();
-    this.http.post('/memauth', body, { headers: contentHeaders })
+    this.http.post(config.getEnvironmentVariable('endPoint') + '/memauth', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.clear();

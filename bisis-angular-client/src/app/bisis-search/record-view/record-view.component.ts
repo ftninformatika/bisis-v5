@@ -49,14 +49,14 @@ export class RecordViewComponent  {
               }
         );
       }
-    else
-      console.log("something");
+    // else
+    //   console.log("something");
 
   }
 
   makeUnimarc(record: any) {
     if(!record) {
-      console.log('something went wrong');
+      //console.log('something went wrong');
       return;
     }
 
@@ -85,7 +85,7 @@ export class RecordViewComponent  {
 
     });
     this.unimarcRows = retVal;
-    console.log(this.unimarcRows);
+    //console.log(this.unimarcRows);
   }
 
 }

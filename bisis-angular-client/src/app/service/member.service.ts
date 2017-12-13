@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import * as bisisGlobals from "../globals";
 import {MessageService} from "primeng/components/common/messageservice";
 import {Router} from "@angular/router";
 import {config} from "../config/config";

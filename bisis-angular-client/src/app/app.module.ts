@@ -122,6 +122,7 @@ import { AboutViewComponent } from './about-view/about-view.component';
 import { MyBookshelfComponent } from './my-bookshelf/my-bookshelf.component';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { config } from './config/config';
+//import {ProgressBar} from './utils/progressbar';
 
 import { AuthGuard } from './auth/authguard';
 import { AuthModule } from './auth/auth.module';

@@ -28,7 +28,7 @@ export class BisisSearchService {
 
     searchRecordsByEP(choice: string, text: string, departments: string[], page = 0, size = 1000) {
 
-        console.log("odabrana bilioteka " + localStorage.getItem('libCode'));
+        //console.log("odabrana bilioteka " + localStorage.getItem('libCode'));
         if (localStorage.getItem('libCode') == undefined || localStorage.getItem('libCode') == null || localStorage.getItem('libCode') == ''){
             this.messageService.clear();
             this.messageService.add({
@@ -43,7 +43,7 @@ export class BisisSearchService {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
-        console.log('Searching ' + choice + ':' + text + '\nPage: ' + page + '\nPageSize: ' + size);
+        //console.log('Searching ' + choice + ':' + text + '\nPage: ' + page + '\nPageSize: ' + size);
 
         var universalSearchModel = {
             "searchText": text,

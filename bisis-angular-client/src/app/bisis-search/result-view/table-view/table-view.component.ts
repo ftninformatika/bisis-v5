@@ -22,8 +22,8 @@ export class TableViewComponent implements OnInit {
   }
 
   onRowSelect(event) {
-    console.log(event);
-    console.log(this.selectedRec);
+    //console.log(event);
+    //console.log(this.selectedRec);
   }
 
   /*loadRecordsLazy(event: LazyLoadEvent){

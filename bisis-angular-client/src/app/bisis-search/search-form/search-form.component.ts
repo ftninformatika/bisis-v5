@@ -10,7 +10,7 @@ import {GetCoder} from "../service/get-local-data.service";
 import {SelectItemPrefix} from "../model/SelectItemPrefix";
 import {isNullOrUndefined} from "util";
 import {Prefix} from "../model/Prefix";
-
+// import {ProgressSpinnerModule} from "../../../../node_modules/primeng/primeng";
 
 @Component({
   selector: 'app-search-form',
@@ -92,7 +92,7 @@ export class SearchFormComponent implements OnInit {
   setLib(lib) {
     this.selectedLibrary = lib.value;
     localStorage.setItem('libCode', lib.value);
-    console.log(this.lib, this.selectedLibrary);
+    //console.log(this.lib, this.selectedLibrary);
   }
 
   private validateQuery(choice, text): boolean {
@@ -150,7 +150,7 @@ export class SearchFormComponent implements OnInit {
               },
               error => console.log(error)
           );
-      console.log(searchModel);
+      //console.log(searchModel);
     }
   }
 

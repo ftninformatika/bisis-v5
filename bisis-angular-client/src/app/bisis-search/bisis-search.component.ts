@@ -60,7 +60,7 @@ export class BisisSearchComponent implements OnInit {
                           response => {
                               this.departmentList = [];
                               this.selectedDepartments = [];
-                              console.log(response);
+                              //console.log(response);
                               arrayify(response).forEach(
                                   d => {
                                       this.departmentList.push({"label": d.description, "value": d.coder_id});
@@ -91,7 +91,7 @@ export class BisisSearchComponent implements OnInit {
     this.libService.getDepartmentsForLib(this.selectedLibrary).subscribe(
         response => {
 
-          console.log(response);
+          //console.log(response);
           arrayify(response).forEach(
               d => {
                 this.departmentList.push({"label": d.description, "value": d.coder_id});
@@ -111,7 +111,7 @@ export class BisisSearchComponent implements OnInit {
               detail: 'Превелик скуп погодака, враћено 1000 од' + this.searchResults.totalElements + '! Формулишите бољи упит. '
           });
       }
-    console.log(this.searchResults);
+    //console.log(this.searchResults);
   }
 
 }
