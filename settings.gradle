@@ -1,4 +1,5 @@
 rootProject.name = "bisis-v5"
 include "bisis-core", "bisis-backend", "bisis-swing-client"
 include 'bisis-reports'
+include 'bisis-angular-client'
 

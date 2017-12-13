@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import * as bisisGlobals from "../globals";
+import {config} from "../config/config";
 
 @Injectable()
 export class LibraryService {
@@ -14,14 +15,14 @@ export class LibraryService {
     }
 
     getLanguageCoders(){
-        return this.http.get( '/coders/language?libName=gbns')
+        return this.http.get(config.getEnvironmentVariable('endPoint') +  '/coders/language?libName=gbns')
             .map(response => response.json() )
             .catch(this.handleError);
     }
 
 
     getLibs(){
-        return this.http.get( '/coders/lib_configurations')
+        return this.http.get(config.getEnvironmentVariable('endPoint') +  '/coders/lib_configurations')
             .map(response => response.json().map(
                 item => item.libraryName
             ) )
@@ -30,7 +31,7 @@ export class LibraryService {
 
     getDepartmentsForLib(libName){
 
-        return this.http.get('coders/location?libName=' + libName)
+        return this.http.get(config.getEnvironmentVariable('endPoint') + 'coders/location?libName=' + libName)
             .map( response => response.json())
             .catch(this.handleError);
 

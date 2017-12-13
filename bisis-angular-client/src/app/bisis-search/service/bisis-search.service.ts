@@ -5,6 +5,7 @@ import { RecordsPageModel } from '../model/RecordsPageModel';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {MessageService} from "primeng/components/common/messageservice";
+import {config} from "../../config/config";
 
 @Injectable()
 export class BisisSearchService {
@@ -19,7 +20,7 @@ export class BisisSearchService {
         const headers = new Headers();
         headers.append('Library', libCode);
         const options = new RequestOptions({ headers: headers });
-        return this.http.get('/records/wrapperrec/' + recId, options)
+        return this.http.get(config.getEnvironmentVariable('endPoint') + '/records/wrapperrec/' + recId, options)
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -51,7 +52,7 @@ export class BisisSearchService {
         };
 
 
-        return this.http.post('/records/wrapperrec/universal?pageNumber=' + page + '&pageSize=' + size, universalSearchModel , options)
+        return this.http.post(config.getEnvironmentVariable('endPoint') + '/records/wrapperrec/universal?pageNumber=' + page + '&pageSize=' + size, universalSearchModel , options)
             .map(response => response.json() as RecordsPageModel)
             .catch(this.handleError);
 
@@ -64,7 +65,7 @@ export class BisisSearchService {
         headers.append('Library', localStorage.getItem('libCode'));
         //console.log(localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
-            return this.http.post('/records/query/full?pageNumber=' + page + '&pageSize=' + size,searchModel, options)
+            return this.http.post(config.getEnvironmentVariable('endPoint') + '/records/query/full?pageNumber=' + page + '&pageSize=' + size,searchModel, options)
               .map(response =>  response.json() as RecordsPageModel)
               .catch(this.handleError);
     }

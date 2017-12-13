@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import * as bisisGlobals from "../globals";
 import {MessageService} from "primeng/components/common/messageservice";
 import {Router} from "@angular/router";
+import {config} from "../config/config";
 
 @Injectable()
 export class MemberService {
@@ -18,9 +19,9 @@ export class MemberService {
     getLendings(memberNo){
         const headers = new Headers();
         headers.append('Library', localStorage.getItem("authenticatedUserLib"));
-        headers.append('Authorization', localStorage.getItem("token"));
+        headers.append('Authorization', localStorage.getItem("token"))
         const options = new RequestOptions({ headers: headers });
-        return this.http.get('circ_report/get_lending_history_full?memberNo=' + memberNo, options)
+        return this.http.get(config.getEnvironmentVariable('endPoint') + 'circ_report/get_lending_history_full?memberNo=' + memberNo, options)
             .map( response => response.json())
             .catch(this.handleError);
     }
@@ -29,21 +30,21 @@ export class MemberService {
         console.log(localStorage);
         const headers = new Headers();
         headers.append('Library', localStorage.getItem("authenticatedUserLib"));
-        headers.append('Authorization', localStorage.getItem("token"));
+        headers.append('Authorization', localStorage.getItem("token"))
         const options = new RequestOptions({ headers: headers });
-        return this.http.get('members_repository/'+id, options)
+        return this.http.get(config.getEnvironmentVariable('endPoint') + 'members_repository/'+id, options)
             .map( response => response.json())
             .catch(this.handleError);
 
     }
 
-    handleError (error: Response | any) {
+    private handleError (error: Response | any) {
         let errMsg: string;
         if (error instanceof Response) {
             const body = error.json() || '';
             const err = body.error || JSON.stringify(body);
 
-            if (err == 'Forbidden'){ //ako je istekao token
+            if (err == 'Forbidden'){ //ako je ist
                 var libCode = localStorage.getItem('libCode');
                 localStorage.clear();
                 localStorage.setItem('libCode', libCode);
