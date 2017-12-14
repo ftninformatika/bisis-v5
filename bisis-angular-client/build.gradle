@@ -12,8 +12,7 @@ apply plugin: 'war'
 apply plugin: "com.moowork.node"
 
 war {
-    baseName = 'bisisAngularClient'
-    //dependsOn minifyJavaScript
+    baseName = 'ROOT'
     from( "build/production" )
 }
 
@@ -25,7 +24,7 @@ node {
 
 task buildClientDev(type: NpmTask, dependsOn: 'npmInstall') {
     group = 'build'
-    description = 'Compile client side assets for production'
+    description = 'Compile client side assets'
     args = ['run', 'build']
 }
 
