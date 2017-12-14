@@ -4,6 +4,7 @@
     {{userInfo.address}} {{userInfo.city}} {{userInfo.zip}}
 </div>
 <h3 class="first customfontcolor">Историја задужења:</h3>
+
 <p-dataTable [value]="lendings" [rows]="15" [paginator]="true" [pageLinks]="3"
              resizableColumns="true" expandableRows="true" [responsive]="true" selectionMode="none"
              reorderableColumns="true" >
@@ -12,6 +13,6 @@
     <p-column field="property4" header="Наслов" [sortable]="true"></p-column>
     <p-column field="property3" header="Аутор" [sortable]="true"></p-column>
     <ng-template pTemplate="emptymessage">
-
+        <p-progressBar  [value]="value"></p-progressBar>
     </ng-template>
 </p-dataTable>

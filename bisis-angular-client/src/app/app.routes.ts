@@ -27,7 +27,7 @@ import {AuthGuard} from "./auth/authguard";
 
 export const routes: Routes = [
     {path: '', redirectTo: 'bisis-search', pathMatch: 'full'},
-    {path: 'home', component: HomeComponent},
+    //{path: 'home', component: HomeComponent},
     //{path: '#/:email', component: HomeComponent},
     /*{path: 'sample', component: SampleDemoComponent}, //<---- demo komponente iz teme
     {path: 'forms', component: FormsDemoComponent},

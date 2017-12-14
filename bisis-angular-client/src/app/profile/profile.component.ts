@@ -3,7 +3,7 @@ import {SelectItem} from "primeng/primeng";
 import {MemberService} from "../service/member.service";
 import {AuthHelper} from "../auth/utilities/authhelper";
 import {Router} from "@angular/router";
-
+import {ProgressBarModule} from 'primeng/primeng';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -13,6 +13,9 @@ export class ProfileComponent implements OnInit {
 
   lendings: any[];
   userInfo: any;
+
+  interval: any;
+  value = 0;
 
   constructor(public ah: AuthHelper, public memberService: MemberService, public router: Router) { }
 
@@ -33,5 +36,15 @@ export class ProfileComponent implements OnInit {
             this.router.navigate(['/login']);
         }
     );
+
+      //za progress bar
+      this.interval = setInterval(() => {
+          this.value = this.value + Math.floor(Math.random() * 10) + 1;
+          if (this.value >= 100) {
+              this.value = 100;
+              clearInterval(this.interval);
+              this.interval = null;
+          }
+      }, 50);
   }
 }
