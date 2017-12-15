@@ -98,3 +98,4 @@ bisis-backend/src/main/java/com/ftninformatika/bisis/rest_service/Application.ja
 bisis-backend/build.gradle
 bisis-backend/src/main/resources/application.yml
 bisis-swing-client/build.gradle
+bisis-backend/src/main/java/com/ftninformatika/bisis/auth/config/SecurityConfig.java

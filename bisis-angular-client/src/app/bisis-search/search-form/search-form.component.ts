@@ -109,7 +109,7 @@ export class SearchFormComponent implements OnInit {
         clearInterval(this.interval);
         this.interval = null;
       }
-    }, 10);
+    }, 33);
   }
 
 
@@ -165,11 +165,13 @@ export class SearchFormComponent implements OnInit {
         oper4: bonding4,
         departments: this.selectedDeps
       };
+      this.displayDialog = true;
+      this.runProgressBar();
       this.bisisService.searchRecordsAdvanced(searchModel)
           .subscribe(
               response => {
                 response['searchModel'] = searchModel;
-
+                this.displayDialog = false;
                 this.serviceCallResult.emit(response)
               },
               error => console.log(error)
