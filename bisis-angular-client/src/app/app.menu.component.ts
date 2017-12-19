@@ -43,8 +43,7 @@ export class AppMenuComponent implements OnInit {
                             res3 => {
                                 this.aboutText = res3;
                                 this.model = [
-                                    {label: this.homeText, icon: 'home', routerLink: ['/']},
-                                    {label: this.searchText, icon: 'search', routerLink: ['/bisis-search']},
+                                    {label: this.homeText, icon: 'home', routerLink: ['/bisis-search']},
                                     {label: this.aboutText, icon: 'info', routerLink: ['/about-view']}
 
                                 ];

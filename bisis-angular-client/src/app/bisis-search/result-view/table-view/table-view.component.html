@@ -12,7 +12,7 @@ reorderableColumns="true" (onRowClick)="tableView.toggleRow($event.data)">
         <app-record-view  [selectedRec]='rec'></app-record-view>
     </ng-template>
     <ng-template pTemplate="emptymessage">
-        Нема реултата претраге.
+        Нема резултата претраге.
     </ng-template>
 </p-dataTable>
 <label *ngIf="resultRecords==undefined || resultRecords.totalElements <=0 "><h2><br>Нема резултата претраге!</h2></label>

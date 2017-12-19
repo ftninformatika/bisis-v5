@@ -309,4 +309,8 @@ public interface BisisService {
 
     @GET ("circ_report/get_lending_history")
     Call<List<Report>> getLendingHistory(@Query("memberNo") String memberNo, @Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
+    @GET ("circ_report/get_members_with_categories")
+    Call<List<Report>> getMembersWithCategories(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
 }

@@ -25,6 +25,7 @@ export class BisisSearchComponent implements OnInit {
   departmentList: SelectItem[];
   selectedDepartments: string[];
   selectedLibrary: string;
+  libHeader: string;
 
 
 
@@ -37,10 +38,9 @@ export class BisisSearchComponent implements OnInit {
     this.departmentList = [];
     this.libList = [];
     this.libList.push({label: 'Одаберите библиотеку', value: null});
-    this.libList.push({label:'Градска библиотека Нови Сад', value:'gbns'});
-    this.libList.push({label:'Градска библиотека Шабац', value:'gbsa'});
-    //this.libList.push({label:'Библиотека Техничког факултета у Зрењанину', value:'tfzr'});
-    this.libList.push({label:'Библиотека града Београда', value:'bgb'});
+    this.libList.push({label:'Градска библиотека у Новом Саду', value:'gbns'});
+    this.libList.push({label:'Библиотека шабачка', value:'gbsa'});
+    this.libList.push({label:'Библиотека Града Београда', value:'bgb'});
   }
 
   ngOnInit() {
@@ -55,6 +55,7 @@ export class BisisSearchComponent implements OnInit {
                     //console.log("pretraga kao bilbioteka :" + this.lib);
                     localStorage.setItem('libCode', params['lib']);
                     this.selectedLibrary = params['lib'];
+                    this.libHeader = this.getLibName(this.selectedLibrary);
 
                       this.libService.getDepartmentsForLib(this.selectedLibrary).subscribe(
                           response => {
@@ -77,10 +78,14 @@ export class BisisSearchComponent implements OnInit {
           );
         }
     );
-
-
   }
 
+  getLibName(libCode): string{
+      for (let i of this.libList)
+        if (i.value == libCode)
+            return i.label.toString();
+      return "";
+  }
 
   selectionChanged(){
       this.departmentList = [];

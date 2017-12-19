@@ -10,7 +10,7 @@ import {GetCoder} from "../service/get-local-data.service";
 import {SelectItemPrefix} from "../model/SelectItemPrefix";
 import {isNullOrUndefined} from "util";
 import {Prefix} from "../model/Prefix";
-// import {ProgressSpinnerModule} from "../../../../node_modules/primeng/primeng";
+import {ProgressBarModule} from 'primeng/primeng';
 
 @Component({
   selector: 'app-search-form',
@@ -23,6 +23,11 @@ export class SearchFormComponent implements OnInit {
   @Input() selectedLibrary: string;
   @Input() selectedDeps: string[];
   @Output() serviceCallResult: EventEmitter<RecordsPageModel> = new EventEmitter();
+
+  //loading bar
+  displayDialog = false;
+  value = 0;
+  interval: any;
   // 1st Form
   searchText1: string;
   // 2nd Form
@@ -78,15 +83,34 @@ export class SearchFormComponent implements OnInit {
     if (!this.validateQuery(choice, text)) {
       return;
     }
+    this.displayDialog = true;
+    this.runProgressBar();
     this.bisisService.searchRecordsByEP(choice, text, this.selectedDeps)
     .subscribe(    // ovo postoji zbog paginga i sortiga u drugim komponentama
       response => {
         response['query'] = text;
-        response['deps'] = this.selectedDeps;this.serviceCallResult.emit(response)},
-      error => console.log(error)
+        response['deps'] = this.selectedDeps;
+        this.serviceCallResult.emit(response);
+        this.displayDialog = false;
+      },
+      error => {
+        console.log(error);
+        this.displayDialog = false;
+      }
     );
   }
 
+  runProgressBar(){
+    this.value = 0;
+    this.interval = setInterval(() => {
+      this.value = this.value + Math.floor(Math.random() * 10) + 1;
+      if (this.value >= 100) {
+        this.value = 100;
+        clearInterval(this.interval);
+        this.interval = null;
+      }
+    }, 33);
+  }
 
 
   setLib(lib) {
@@ -141,11 +165,13 @@ export class SearchFormComponent implements OnInit {
         oper4: bonding4,
         departments: this.selectedDeps
       };
+      this.displayDialog = true;
+      this.runProgressBar();
       this.bisisService.searchRecordsAdvanced(searchModel)
           .subscribe(
               response => {
                 response['searchModel'] = searchModel;
-
+                this.displayDialog = false;
                 this.serviceCallResult.emit(response)
               },
               error => console.log(error)

@@ -30,17 +30,17 @@ public class ElasticUtility {
 
         if (universalSearchModel.getSearchText() != null && ! "".equals(universalSearchModel.getSearchText())){
             //retVal.must(QueryBuilders.simpleQueryStringQuery(universalSearchModel.getSearchText()));
-            retVal.should(QueryBuilders.matchQuery("prefixes.AU", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
-            retVal.should(QueryBuilders.matchQuery("prefixes.TI", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
-            retVal.should(QueryBuilders.matchQuery("prefixes.BN", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()))); //isbn??
-            retVal.should(QueryBuilders.matchQuery("prefixes.SP", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()))); //issn
-            retVal.should(QueryBuilders.matchQuery("prefixes.SB", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()))); //predmetne odrednice
-            retVal.should(QueryBuilders.matchQuery("prefixes.DC", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()))); //udk??
-            retVal.should(QueryBuilders.matchQuery("prefixes.KW", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
-            retVal.should(QueryBuilders.matchQuery("prefixes.PP", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
-            retVal.should(QueryBuilders.matchQuery("prefixes.PU", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.AU", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.TI", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.BN", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()))); //isbn??
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.SP", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()))); //issn
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.SB", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()))); //predmetne odrednice
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.DC", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()))); //udk??
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.KW", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PP", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
+            retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PU", LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText())));
 
-            retVal.minimumNumberShouldMatch(1);
+            retVal.minimumNumberShouldMatch(universalSearchModel.getSearchText().split(" ").length);
 
 
         }

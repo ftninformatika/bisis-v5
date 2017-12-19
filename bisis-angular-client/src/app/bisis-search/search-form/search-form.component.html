@@ -91,3 +91,7 @@
                 </div>
             </p-tabPanel>
     </p-tabView>
+
+    <p-dialog header="Учитавање" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="860" [closable]="false" [draggable]="false">
+        <p-progressBar [value]="value"></p-progressBar>
+    </p-dialog>

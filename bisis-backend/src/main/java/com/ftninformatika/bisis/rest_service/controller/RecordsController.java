@@ -198,7 +198,7 @@ public class RecordsController {
 
 
         Pageable p = new PageRequest(page, pSize);
-        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,new PageRequest(page, pSize, new Sort(Sort.Direction.ASC, "prefixes.AU")));
+        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,new PageRequest(page, pSize/*, new Sort(Sort.Direction.ASC, "prefixes.AU")*/));
 
         iRecs.forEach(
                 e -> {
