@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.records;
 
+import com.ftninformatika.bisis.prefixes.def.DefaultPrefixMap;
 import com.ftninformatika.utils.string.Signature;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,7 +61,29 @@ public class RecordPreview {
         this.udk = getUDK(r);
         this.issn = getISSN(r);
         this.format = getFormat(r);
+        this.keywords = getKeywords(r);
+    }
 
+    public String getKeywords(Record rec){
+        StringBuffer retVal = new StringBuffer();
+        DefaultPrefixMap prefixMap = new DefaultPrefixMap();
+        List<String> keyWords = new ArrayList();
+
+        String fieldContent = "";
+        for (String subField: prefixMap.getSubfields("KW")) {
+            try {
+                fieldContent = rec.getSubfieldContent(subField);
+                if (fieldContent == null)
+                    continue;
+                if (!keyWords.contains(fieldContent))
+                    keyWords.add(fieldContent);
+            } catch (Exception e) {
+                continue;
+            }
+        }
+        for (String s: keyWords)
+            retVal.append(s + ", ");
+        return retVal.toString();
     }
 
     public String getDimensions(Record rec){
@@ -110,13 +133,6 @@ public class RecordPreview {
         return text;
     }
 
-    private String getBibliographyNumber(Record r){
-        if (r.getSubfieldContent("010z") != null)
-            return r.getSubfieldContent("010z");
-        if (r.getSubfieldContent("010a") != null)
-            return r.getSubfieldContent("010a");
-        return null;
-    }
 
     private String getSignatura(Record rec){
         if (rec == null)

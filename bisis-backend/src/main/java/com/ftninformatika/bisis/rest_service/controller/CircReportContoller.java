@@ -35,6 +35,35 @@ public class CircReportContoller {
     @Autowired
     RecordsRepository rr;
 
+
+    /**
+     *
+     */
+    /*BookHistoryReportCommand*//*BookHistoryReportCommand*/
+    @RequestMapping( value = "get_book_history_report")
+    public List<Report> getBookHistoryReport( @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location/*desc*/,@RequestParam(value = "ctlgno") String ctlgNo){
+        List<Report> retVal = new ArrayList<>();
+        //vraca userId, lendDate, returnDate
+        List<Lending> lendings = null;
+        if (location != null)
+            lendings = lr.findByLendDateBetweenAndCtlgNoAndLocation(start, end, ctlgNo, location);
+        else
+            lendings = lr.findByLendDateBetweenAndCtlgNo(start, end, ctlgNo);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (Lending l: lendings){
+            Report r = new Report();
+            r.setProperty1(l.getUserId());
+            if(l.getLendDate() != null)
+                r.setProperty2(formatter.format(l.getLendDate()));
+            if(l.getReturnDate() != null)
+                r.setProperty3(formatter.format(l.getReturnDate()));
+            retVal.add(r);
+        }
+
+        return retVal;
+    }
+
     /**
      * ukupan broj korisnika koji su se uclanili od pocetka godine
      * ukupan broj korisnika koji su se uclanili u tom periodu

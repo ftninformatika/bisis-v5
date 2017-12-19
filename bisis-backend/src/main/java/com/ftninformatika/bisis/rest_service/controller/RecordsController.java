@@ -18,9 +18,8 @@ import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.collections.IteratorUtils;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.SimpleQueryStringBuilder;
+import org.apache.lucene.search.WildcardQuery;
+import org.elasticsearch.index.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
@@ -188,6 +187,7 @@ public class RecordsController {
         List<RecordResponseWrapper> retVal = new ArrayList<>();
 
         BoolQueryBuilder query = ElasticUtility.searchUniversalQuery(universalSearchModel);
+        //QueryStringQueryBuilder wq = ElasticUtility.wildCardQuery(universalSearchModel);
         int page=0;
         int pSize =20;
 

@@ -6,6 +6,8 @@ import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.WildcardQueryBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,9 +26,24 @@ public class ElasticUtility {
     }
 
 
+    public static QueryStringQueryBuilder wildCardQuery(UniversalSearchModel universalSearchModel) {
+        QueryStringQueryBuilder retVal =  QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(universalSearchModel.getSearchText()));
+        retVal.field("prefixes.TI");
+        retVal.field("prefixes.AU");
+        retVal.field("prefixes.BN");
+        retVal.field("prefixes.SP");
+        retVal.field("prefixes.SB");
+        retVal.field("prefixes.DC");
+        retVal.field("prefixes.KW");
+        retVal.field("prefixes.PP");
+        retVal.field("prefixes.PU");
+
+        return retVal;
+    }
 
     public static BoolQueryBuilder searchUniversalQuery(UniversalSearchModel universalSearchModel) {
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+
 
         if (universalSearchModel.getSearchText() != null && ! "".equals(universalSearchModel.getSearchText())){
             //retVal.must(QueryBuilders.simpleQueryStringQuery(universalSearchModel.getSearchText()));
@@ -58,7 +75,7 @@ public class ElasticUtility {
     public static BoolQueryBuilder makeQuery(SearchModel sm){
 
         //ovo je zbog vrste autorstva Pera Peric mentor, sve se trazi u jednom polju AU
-        if (sm.getValueForPrefix("AU")!=null && !sm.getValueForPrefix("AU").equals("") && sm.getValueForPrefix("TA")!=null){
+        if (sm.getValueForPrefix("AU")!=null && !sm.getValueForPrefix("AU").equals("") && sm.getValueForPrefix("TA")!= null){
             sm.setValueForPrefix("AU",sm.getValueForPrefix("AU")+" "+sm.getValueForPrefix("TA"));
             sm.setValueForPrefix("TA","");
         }

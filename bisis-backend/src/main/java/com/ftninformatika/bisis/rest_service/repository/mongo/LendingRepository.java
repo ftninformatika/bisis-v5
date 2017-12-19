@@ -14,6 +14,10 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "lendings", path = "mongo_repository_lendings")
 public interface LendingRepository extends MongoRepository<Lending, String>,LendingRepositoryCustom{
 
+    public List<Lending> findByLendDateBetweenAndCtlgNo(@Param("lendDate") Date start,@Param("lendDate") Date end, @Param("ctlgno") String ctlgno);
+
+    public List<Lending> findByLendDateBetweenAndCtlgNoAndLocation(@Param("lendDate") Date start,@Param("lendDate") Date end, @Param("ctlgno") String ctlgno, @Param("location") String location);
+
     public List<Lending> findByUserId(@Param("userId") String userId);
 
     public List<Lending> findByUserIdAndReturnDateIsNull(@Param("userId") String userId);

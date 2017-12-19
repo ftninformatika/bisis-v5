@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.circ.report.BookHistory;
 import com.ftninformatika.bisis.circ.report.UserCategSigning;
 import com.ftninformatika.utils.Messages;
 import java.awt.Color;
@@ -466,16 +467,16 @@ public class Report {
 											new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 								}
 			          break;
-//						case 14 :
-//								String ctlgno = Validator.convertCtlgNo2DB(getTfNumber().getText().trim());
-//								if (!ctlgno.equals("")){
-//	  		          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BookHistory.setPrint(ctlgno,getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
-//	  		          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//								}else {
-//									JOptionPane.showMessageDialog(getPanel(), "Inventarni broj nije validan!", "Greska", JOptionPane.ERROR_MESSAGE,
-//                    new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png")));
-//								}
-//  		          break;
+						case 14 :
+								String ctlgno = Validator.convertCtlgNo2DB(getTfNumber().getText().trim());
+								if (!ctlgno.equals("")){
+	  		          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BookHistory.setPrint(ctlgno,getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
+	  		          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+								}else {
+									JOptionPane.showMessageDialog(getPanel(), "Inventarni broj nije validan!", "Greska", JOptionPane.ERROR_MESSAGE,
+                    new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+								}
+  		          break;
 //						case 15 :
 //			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(CtgrUdk.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 //			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
