@@ -33,8 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/auth", "/memauth", "/coders/language", "/coders/lib_configurations", "/records/wrapperrec/**",
                         "/records/wrapperrec/universal", "/records/unimarc", "/records/query/**",
                         "/library_members/**", "/coders/location**").permitAll()
-                .antMatchers("/members_repository/**", "/circ_report/**").hasAuthority("ROLE_USER")
-                .anyRequest().hasAuthority("ROLE_ADMIN")
+                .antMatchers("/members_repository/**", "/circ_report/**").hasAnyRole("USER","ADMIN")
+
+                .antMatchers("/**").hasAuthority("ROLE_ADMIN")
                 //.anyRequest().authenticated()
                 //.anyRequest().permitAll()
                 .and()

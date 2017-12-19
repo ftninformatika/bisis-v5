@@ -24,7 +24,7 @@ public class WarningsManager {
 	
   public void loadCombos(WarningsFrame warnings) throws Exception{
       List data = (BisisApp.appConfig.getCodersHelper()
-              .getCircLocations().values().stream()
+              .getCircLocations().stream()
               .map(i -> {
                   com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                   l.setDescription(i.getDescription());
@@ -36,8 +36,8 @@ public class WarningsManager {
       Utils.loadCombo(warnings.getCmbBranch(), data);
 
       data = BisisApp.appConfig.getCodersHelper()
-              .getWarningTypes().values().stream()
-              .map(i -> i.getDescription())
+              .getWarningTypes().stream()
+              .map(i -> i)
               .collect(Collectors.toList());
 
 	Utils.loadCombo(warnings.getCmbType(), data);
