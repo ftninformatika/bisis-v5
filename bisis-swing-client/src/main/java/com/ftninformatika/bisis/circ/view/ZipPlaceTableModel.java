@@ -26,7 +26,7 @@ public class ZipPlaceTableModel extends AbstractTableModel implements Serializab
     columnIdentifiers.add(Messages.getString("circulation.zipcode")); //$NON-NLS-1$
     columnIdentifiers.add(Messages.getString("circulation.place"));     //$NON-NLS-1$
       data = BisisApp.appConfig.getCodersHelper()
-              .getPlaces().values().stream()
+              .getPlaces().stream()
               .collect(Collectors.toList());
 	}
   

@@ -367,17 +367,17 @@ public class UserManager {
             throw new Exception("Gre\u0161ka u konekciji s bazom podataka!");
 
         user.getUserData().loadEduLvl(BisisApp.appConfig.getCodersHelper()
-                .getEducationLevels().values().stream()
+                .getEducationLevels().stream()
                 .map(i -> i.getDescription())
                 .collect(Collectors.toList()));
 
         user.getUserData().loadLanguage(BisisApp.appConfig.getCodersHelper()
-                .getLanguages().values().stream()
+                .getLanguages().stream()
                 .map(i -> i.getDescription())
                 .collect(Collectors.toList()));
 
         user.getUserData().loadOrganization(BisisApp.appConfig.getCodersHelper()
-                .getOrganizations().values().stream()
+                .getOrganizations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.Organization o = new com.ftninformatika.bisis.circ.pojo.Organization();
                     o.setAddress(i.getAddress());
@@ -390,7 +390,7 @@ public class UserManager {
                 .collect(Collectors.toList()));
 
         user.getMmbrship().loadGroups(BisisApp.appConfig.getCodersHelper()
-                .getCorporateMembers().values().stream()
+                .getCorporateMembers().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CorporateMember c = new com.ftninformatika.bisis.circ.pojo.CorporateMember();
                     c.setAddress(i.getAddress());
@@ -414,12 +414,12 @@ public class UserManager {
                 .collect(Collectors.toList()));
 
         user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> i.getDescription())
                 .collect(Collectors.toList()));
 
         user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                     l.setDescription(i.getDescription());
@@ -430,7 +430,7 @@ public class UserManager {
                 .collect(Collectors.toList()));
 
         user.getMmbrship().loadMmbrType(BisisApp.appConfig.getCodersHelper()
-                .getMembershipTypes().values().stream()
+                .getMembershipTypes().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.MembershipType m = new com.ftninformatika.bisis.circ.pojo.MembershipType();
                     m.setDescription(i.getDescription());
@@ -440,7 +440,7 @@ public class UserManager {
                 .collect(Collectors.toList()));
 
         user.getMmbrship().loadUserCateg(BisisApp.appConfig.getCodersHelper()
-                .getUserCategories().values().stream()
+                .getUserCategories().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.UserCategory u = new com.ftninformatika.bisis.circ.pojo.UserCategory();
                     u.setDescription(i.getDescription());
@@ -452,7 +452,7 @@ public class UserManager {
                 .collect(Collectors.toList()));
 
         user.getLending().loadLocation(BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                     l.setDescription(i.getDescription());
@@ -467,7 +467,7 @@ public class UserManager {
 
     public void loadCombos(Group group) throws Exception {
         group.loadBranchID((BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                     l.setDescription(i.getDescription());
@@ -480,7 +480,7 @@ public class UserManager {
 
     public void loadCombos(SearchUsers searchusers) throws Exception {
         searchusers.loadCmbLoc1((BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                     l.setDescription(i.getDescription());
@@ -490,7 +490,7 @@ public class UserManager {
                 })
                 .collect(Collectors.toList())));
         searchusers.loadCmbLoc2((BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                     l.setDescription(i.getDescription());
@@ -503,7 +503,7 @@ public class UserManager {
 
     public void loadCombos(SearchBooks searchbooks) throws Exception {
         searchbooks.loadCmbLocL((BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                     l.setDescription(i.getDescription());
@@ -513,7 +513,7 @@ public class UserManager {
                 })
                 .collect(Collectors.toList())));
         searchbooks.loadCmbLocR((BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                     l.setDescription(i.getDescription());
@@ -526,7 +526,7 @@ public class UserManager {
 
     public void loadCombos(Report report) throws Exception {
         report.loadCmbLocation((BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().values().stream()
+                .getCircLocations().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.CircLocation l = new com.ftninformatika.bisis.circ.pojo.CircLocation();
                     l.setDescription(i.getDescription());
@@ -619,7 +619,7 @@ public class UserManager {
 
     public Double getMembership(String membershipType, String userCategory) {
 
-        for (Membership m : BisisApp.appConfig.getCodersHelper().getMemberships().values()) {
+        for (Membership m : BisisApp.appConfig.getCodersHelper().getMemberships()) {
             if (m.getMemberType().equals(membershipType) && m.getUserCateg().equals(userCategory))
                 return m.getCost();
         }
@@ -630,7 +630,7 @@ public class UserManager {
         String loc = location;
         if (loc.equals(""))
             loc = "0";
-        loc = String.valueOf(Integer.parseInt(loc));
+        //loc = String.valueOf(Integer.parseInt(loc));
 
         Integer last = null;
         try {

@@ -28,7 +28,7 @@ public class MmbrshipCoderTableModel extends AbstractTableModel implements Seria
     	columnIdentifiers.add(Messages.getString("circulation.member_type"));
         columnIdentifiers.add(Messages.getString("circulation.cost"));
 		data = BisisApp.appConfig.getCodersHelper()
-				.getMemberships().values().stream()
+				.getMemberships().stream()
 				.collect(Collectors.toList());
     }
     

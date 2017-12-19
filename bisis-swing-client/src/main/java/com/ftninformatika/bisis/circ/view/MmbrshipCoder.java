@@ -148,7 +148,7 @@ public class MmbrshipCoder extends JInternalFrame {
     if (userCategsModel == null){
       userCategsModel = new DefaultListModel();
       List data = BisisApp.appConfig.getCodersHelper()
-              .getUserCategories().values().stream()
+              .getUserCategories().stream()
               .map(i -> {
                 UserCategory u = new UserCategory();
                 u.setDescription(i.getDescription());
@@ -180,7 +180,7 @@ public class MmbrshipCoder extends JInternalFrame {
     if (mmbrTypesModel == null){
       mmbrTypesModel = new DefaultListModel();
       List data = BisisApp.appConfig.getCodersHelper()
-              .getMembershipTypes().values().stream()
+              .getMembershipTypes().stream()
               .map(i -> {
                 MembershipType m = new MembershipType();
                 m.setDescription(i.getDescription());

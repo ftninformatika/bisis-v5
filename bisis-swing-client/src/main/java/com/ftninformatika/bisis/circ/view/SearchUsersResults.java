@@ -6,12 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JButton;
+import javax.swing.*;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -100,13 +95,21 @@ public class SearchUsersResults {
   			public void actionPerformed(java.awt.event.ActionEvent e) {
   				if(getTblResults().getSelectedRow()!=-1){
   				  String userID = getSearchUsersTableModel().getUser(getTblResults().convertRowIndexToModel(getTblResults().getSelectedRow()));
-  				  Cirkulacija.getApp().getUserManager().showUser(Cirkulacija.getApp().getMainFrame().getUserPanel(), userID);
-  				  if (Cirkulacija.getApp().getMainFrame().getRequestedPanel() == 3){
-  				  	Cirkulacija.getApp().getMainFrame().getUserPanel().showLending();
-  				  } else {
-  				  	Cirkulacija.getApp().getMainFrame().getUserPanel().showData();
-  				  }
-            Cirkulacija.getApp().getMainFrame().showPanel("userPanel"); //$NON-NLS-1$
+  				  int found = Cirkulacija.getApp().getUserManager().showUser(Cirkulacija.getApp().getMainFrame().getUserPanel(), userID);
+                    if (found == 1) {
+                        if (Cirkulacija.getApp().getMainFrame().getRequestedPanel() == 3) {
+                            Cirkulacija.getApp().getMainFrame().getUserPanel().showLending();
+                        } else {
+                            Cirkulacija.getApp().getMainFrame().getUserPanel().showData();
+                        }
+                        Cirkulacija.getApp().getMainFrame().showPanel("userPanel"); //$NON-NLS-1$
+                    }else if (found == 3) {
+                        JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.userinuse"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                    } else {
+                        JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.userdontexists"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                    }
   				}
   			}
       });
