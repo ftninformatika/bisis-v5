@@ -20,9 +20,9 @@ public class CircUserLendingAction extends AbstractAction {
   }
   
   public void actionPerformed(ActionEvent ev) {
-   /* if (Cirkulacija.getApp().getMainFrame().getBlank()){
+    if (Cirkulacija.getApp().getMainFrame().getBlank()){
       Cirkulacija.getApp().getMainFrame().setRequestedPanel(3);
       Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true);
-    }*/
+    }
   }
 }

@@ -20,8 +20,8 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @ToString
 public abstract class AppConfig {
 
-  private String serverUrl = "http://localhost:8080/bisisWS";
-  private String baseUrl = "http://localhost:8080/bisisWS";
+  private String serverUrl;// = "http://localhost:8080/bisisWS";
+  private String baseUrl;// = "http://localhost:8080/bisisWS";
   private Librarian librarian;
   private String library;
   private Retrofit retrofit;
@@ -33,27 +33,29 @@ public abstract class AppConfig {
     this.librarian = librarian;
     this.library = library;
 
-    OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+    setRetrofit(token, library);
 
-    String finalToken = token;
-    okHttpClient.addInterceptor(chain -> {
-      Request req = chain.request();
-      Request.Builder newRequest = req.newBuilder()
-          .header("Authorization", finalToken)
-          .header("Library", library);
-      return chain.proceed(newRequest.build());
-    });
-
-
-    ObjectMapper jacksonMapper = new ObjectMapper();
-    jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-    retrofit = new Retrofit.Builder()
-        .baseUrl(serverUrl)
-        .client(okHttpClient.build())
-        .addConverterFactory(new CustomConverterFactory())
-        .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
-        .build();
+//    OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+//
+//    String finalToken = token;
+//    okHttpClient.addInterceptor(chain -> {
+//      Request req = chain.request();
+//      Request.Builder newRequest = req.newBuilder()
+//          .header("Authorization", finalToken)
+//          .header("Library", library);
+//      return chain.proceed(newRequest.build());
+//    });
+//
+//
+//    ObjectMapper jacksonMapper = new ObjectMapper();
+//    jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//
+//    retrofit = new Retrofit.Builder()
+//        .baseUrl(serverUrl)
+//        .client(okHttpClient.build())
+//        .addConverterFactory(new CustomConverterFactory())
+//        .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
+//        .build();
 
   }
 
@@ -79,7 +81,6 @@ public abstract class AppConfig {
     ObjectMapper jacksonMapper = new ObjectMapper();
     jacksonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-
     this.retrofit = new Retrofit.Builder()
         .baseUrl(serverUrl)
         .client(okHttpClient.build())
@@ -88,6 +89,9 @@ public abstract class AppConfig {
         .build();
 
   }
+
+
+
 
   public void setLibraryConfiguration(String libName, Retrofit ret){
 

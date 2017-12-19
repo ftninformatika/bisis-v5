@@ -73,7 +73,7 @@ public class CodersHelper {
         }
 
         if (coderName.equals("organization")){
-            for(Organization i: organizations.values()){
+            for(Organization i: organizations){
                 ArrayList<Object> l = new ArrayList<>();
                 l.add(i.get_id());
                 l.add(i.getName());
@@ -85,7 +85,7 @@ public class CodersHelper {
         }
 
         if (coderName.equals("languages")){
-            for(Language i: languages.values()){
+            for(Language i: languages){
                 ArrayList<Object> l = new ArrayList<>();
                 l.add(i.get_id());
                 l.add(i.getDescription());
@@ -94,7 +94,7 @@ public class CodersHelper {
         }
 
         if (coderName.equals("edu_lvl")){
-            for(EducationLvl i: educationLevels.values()){
+            for(EducationLvl i: educationLevels){
                 ArrayList<Object> l = new ArrayList<>();
                 l.add(i.get_id());
                 l.add(i.getDescription());
@@ -103,7 +103,7 @@ public class CodersHelper {
         }
 
         if (coderName.equals("mmbr_types")){
-            for(MembershipType i: membershipTypes.values()){
+            for(MembershipType i: membershipTypes){
                 ArrayList<Object> l = new ArrayList<>();
                 l.add(i.get_id());
                 l.add(i.getDescription());
@@ -114,7 +114,7 @@ public class CodersHelper {
 
 
         if (coderName.equals("user_categs"))
-                for(UserCategory uc: userCategories.values()){
+                for(UserCategory uc: userCategories){
                     ArrayList<Object> l = new ArrayList<>();
                     l.add(uc.get_id());
                     l.add(uc.getDescription());
@@ -225,29 +225,30 @@ public class CodersHelper {
             sublocations = sublocCoders.stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
 
             //circkulacija
-            List<CircLocation> circLocationList = BisisApp.bisisService.getCircLocations(BisisApp.appConfig.getLibrary()).execute().body();
-            List<CorporateMember> corporateMemberList = BisisApp.bisisService.getCorporateMembers(BisisApp.appConfig.getLibrary()).execute().body();
-            List<EducationLvl> educationLvlList = BisisApp.bisisService.getEducationLvls(BisisApp.appConfig.getLibrary()).execute().body();
-            List<Language> languageList = BisisApp.bisisService.getLanguages(BisisApp.appConfig.getLibrary()).execute().body();
-            List<Place> placeList = BisisApp.bisisService.getPlaces(BisisApp.appConfig.getLibrary()).execute().body();
-            List<Membership> membershipList = BisisApp.bisisService.getMemberships(BisisApp.appConfig.getLibrary()).execute().body();
-            List<MembershipType> membershipTypeList = BisisApp.bisisService.getMembershipTypes(BisisApp.appConfig.getLibrary()).execute().body();
-            List<UserCategory> userCategoryList = BisisApp.bisisService.getUserCategories(BisisApp.appConfig.getLibrary()).execute().body();
-            List<WarningType> warningTypesList = BisisApp.bisisService.getWarningTypes(BisisApp.appConfig.getLibrary()).execute().body();
-            List<WarningCounter> warningCounterList = BisisApp.bisisService.getWarningCounters(BisisApp.appConfig.getLibrary()).execute().body();
-            List<Organization> organizationList = BisisApp.bisisService.getOrganizations(BisisApp.appConfig.getLibrary()).execute().body();
+            /*List<CircLocation> circLocationList =*/
+            circLocations = BisisApp.bisisService.getCircLocations(BisisApp.appConfig.getLibrary()).execute().body();
+            corporateMembers = BisisApp.bisisService.getCorporateMembers(BisisApp.appConfig.getLibrary()).execute().body();
+            educationLevels = BisisApp.bisisService.getEducationLvls(BisisApp.appConfig.getLibrary()).execute().body();
+            languages = BisisApp.bisisService.getLanguages(BisisApp.appConfig.getLibrary()).execute().body();
+            places = BisisApp.bisisService.getPlaces(BisisApp.appConfig.getLibrary()).execute().body();
+            memberships = BisisApp.bisisService.getMemberships(BisisApp.appConfig.getLibrary()).execute().body();
+            membershipTypes = BisisApp.bisisService.getMembershipTypes(BisisApp.appConfig.getLibrary()).execute().body();
+            userCategories = BisisApp.bisisService.getUserCategories(BisisApp.appConfig.getLibrary()).execute().body();
+            warningTypes = BisisApp.bisisService.getWarningTypes(BisisApp.appConfig.getLibrary()).execute().body();
+            warningCounters = BisisApp.bisisService.getWarningCounters(BisisApp.appConfig.getLibrary()).execute().body();
+            organizations = BisisApp.bisisService.getOrganizations(BisisApp.appConfig.getLibrary()).execute().body();
 
-            circLocations = circLocationList.stream().collect(Collectors.toMap(CircLocation::get_id, i-> i));
-            corporateMembers = corporateMemberList.stream().collect(Collectors.toMap(CorporateMember::get_id, i-> i));
-            educationLevels = educationLvlList.stream().collect(Collectors.toMap(EducationLvl::get_id, i-> i));
-            languages = languageList.stream().collect(Collectors.toMap(Language::get_id, i-> i));
-            places = placeList.stream().collect(Collectors.toMap(Place::get_id, i-> i));
-            memberships = membershipList.stream().collect(Collectors.toMap(Membership::get_id, i-> i));
-            membershipTypes = membershipTypeList.stream().collect(Collectors.toMap(MembershipType::get_id, i-> i));
-            userCategories = userCategoryList.stream().collect(Collectors.toMap(UserCategory::get_id, i-> i));
-            warningTypes = warningTypesList.stream().collect(Collectors.toMap(WarningType::get_id, i-> i));
-            warningCounters = warningCounterList.stream().collect(Collectors.toMap(WarningCounter::get_id, i-> i));
-            organizations = organizationList.stream().collect(Collectors.toMap(Organization::get_id, i-> i));
+            //circLocations = circLocationList.stream().collect(Collectors.toMap(CircLocation::get_id, i-> i));
+            //corporateMembers = corporateMemberList.stream().collect(Collectors.toMap(CorporateMember::get_id, i-> i));
+            //educationLevels = educationLvlList.stream().collect(Collectors.toMap(EducationLvl::get_id, i-> i));
+            //languages = languageList.stream().collect(Collectors.toMap(Language::get_id, i-> i));
+            //places = placeList.stream().collect(Collectors.toMap(Place::get_id, i-> i));
+            //memberships = membershipList.stream().collect(Collectors.toMap(Membership::get_id, i-> i));
+            //membershipTypes = membershipTypeList.stream().collect(Collectors.toMap(MembershipType::get_id, i-> i));
+            //userCategories = userCategoryList.stream().collect(Collectors.toMap(UserCategory::get_id, i-> i));
+            //warningTypes = warningTypesList.stream().collect(Collectors.toMap(WarningType::get_id, i-> i));
+            //warningCounters = warningCounterList.stream().collect(Collectors.toMap(WarningCounter::get_id, i-> i));
+            //organizations = organizationList.stream().collect(Collectors.toMap(Organization::get_id, i-> i));
 
 
         } catch (IOException e) {
@@ -289,17 +290,17 @@ public class CodersHelper {
     private Map<String, Location> locations = new HashMap<>();
 
     //circkulacija-----------------
-    private Map<String, CircLocation> circLocations = new HashMap<>();
-    private Map<String, CorporateMember> corporateMembers = new HashMap<>();
-    private Map<String, EducationLvl> educationLevels = new HashMap<>();
-    private Map<String, Language> languages = new HashMap<>();
-    private Map<String, Membership> memberships = new HashMap<>();
-    private Map<String, MembershipType> membershipTypes = new HashMap<>();
-    private Map<String, Organization> organizations = new HashMap<>();
-    private Map<String, Place> places = new HashMap<>();
-    private Map<String, UserCategory> userCategories = new HashMap<>();
-    private Map<String, WarningType> warningTypes = new HashMap<>();
-    private Map<String, WarningCounter> warningCounters = new HashMap<>();
+    private List<CircLocation> circLocations = new ArrayList<>();
+    private List<CorporateMember> corporateMembers = new ArrayList<>();
+    private List<EducationLvl> educationLevels = new ArrayList<>();
+    private List<Language> languages = new ArrayList<>();
+    private List<Membership> memberships = new ArrayList<>();
+    private List<MembershipType> membershipTypes = new ArrayList<>();
+    private List<Organization> organizations = new ArrayList<>();
+    private List<Place> places = new ArrayList<>();
+    private List<UserCategory> userCategories = new ArrayList<>();
+    private List<WarningType> warningTypes = new ArrayList<>();
+    private List<WarningCounter> warningCounters = new ArrayList<>();
 
     public static final int ODELJENJE_CODER = 				0;
     public static final int FORMAT_CODER =    				1;
