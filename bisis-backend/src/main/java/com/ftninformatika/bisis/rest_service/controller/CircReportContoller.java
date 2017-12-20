@@ -41,11 +41,11 @@ public class CircReportContoller {
      */
     /*BookHistoryReportCommand*//*BookHistoryReportCommand*/
     @RequestMapping( value = "get_book_history_report")
-    public List<Report> getBookHistoryReport( @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location/*desc*/,@RequestParam(value = "ctlgno") String ctlgNo){
+    public List<Report> getBookHistoryReport( @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(value = "ctlgno") String ctlgNo, @RequestParam(name = "location", required = false)String location/*desc*/){
         List<Report> retVal = new ArrayList<>();
         //vraca userId, lendDate, returnDate
         List<Lending> lendings = null;
-        if (location != null)
+        if (location != null && location != "")
             lendings = lr.findByLendDateBetweenAndCtlgNoAndLocation(start, end, ctlgNo, location);
         else
             lendings = lr.findByLendDateBetweenAndCtlgNo(start, end, ctlgNo);

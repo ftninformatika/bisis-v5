@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.CircLocation;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.utils.PathDate;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -43,8 +46,9 @@ public class BookHistory {
 		Report report = reportDoc.addNewReport();
 		Row row = report.addNewRow();
 		row.addNewColumn1().setStringValue(ctlgNo);
-		RecordPreview record = null;
+		RecordPreview record = new RecordPreview();
 		Call<Record> cRecord = BisisApp.bisisService.getRecordByCtlgNo(ctlgNo);
+		Record r = null;
 
 		try {
 			record.init(cRecord.execute().body());
@@ -60,7 +64,6 @@ public class BookHistory {
 			row.addNewColumn7().setStringValue(record.getSignature());
 		}
 		return report.getDomNode().getOwnerDocument();
-
 	}
 
 	public static JasperPrint setPrint(String ctlgNo, Date start, Date end,
@@ -80,14 +83,14 @@ public class BookHistory {
 			}
 
 			List<com.ftninformatika.bisis.circ.pojo.Report> results = null;
+			String loc = "";
+			if (branch instanceof CircLocation)
+				loc = ((CircLocation) branch).getDescription();
+			results = BisisApp.bisisService.getBookHistoryReport(new PathDate(start),new PathDate(end), ctlgNo, loc).execute().body();
 
-
-//			BookHistoryReportCommand history = new BookHistoryReportCommand(start, end, branch, ctlgNo);
-//			history = (BookHistoryReportCommand)Cirkulacija.getApp().getService().executeCommand(history);
-//			List l= history.getList();
-			//Document dom = setXML(l);
+			Document dom = setXML(results);
 			Document doc = setSubXML(ctlgNo);
-//			ds = new JRXmlDataSource(dom, "/report/row");
+			ds = new JRXmlDataSource(dom, "/report/row");
 			JasperReport subreport = (JasperReport) JRLoader
 					.loadObject(BookHistory.class
 							.getResource(
@@ -95,12 +98,12 @@ public class BookHistory {
 							.openStream());
 
 			Map<String, Object> params = new HashMap<String, Object>(5);
-//			if (branch instanceof Location) {
-//				params.put("nazivogr", "odeljenje: "
-//						+ ((Location) branch).getName());
-//			} else {
-//				params.put("nazivogr", "");
-//			}
+			if (branch instanceof Location) {
+				params.put("nazivogr", "odeljenje: "
+						+ ((Location) branch).getDescription());
+			} else {
+				params.put("nazivogr", "");
+			}
 
 			params.put("begdate", Utils.toLocaleDate(start));
 			params.put("enddate", Utils.toLocaleDate(end));

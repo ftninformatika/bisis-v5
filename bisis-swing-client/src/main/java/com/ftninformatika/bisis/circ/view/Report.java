@@ -470,8 +470,8 @@ public class Report {
 						case 14 :
 								String ctlgno = Validator.convertCtlgNo2DB(getTfNumber().getText().trim());
 								if (!ctlgno.equals("")){
-	  		          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BookHistory.setPrint(ctlgno,getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
-	  		          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+									  Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BookHistory.setPrint(ctlgno,getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
+									  Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 								}else {
 									JOptionPane.showMessageDialog(getPanel(), "Inventarni broj nije validan!", "Greska", JOptionPane.ERROR_MESSAGE,
                     new ImageIcon(getClass().getResource("/circ-images/x32.png")));
@@ -518,8 +518,6 @@ public class Report {
 
 
 				  }
-
-
 				}
 			});
 				
