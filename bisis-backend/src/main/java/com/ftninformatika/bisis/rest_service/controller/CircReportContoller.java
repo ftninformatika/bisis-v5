@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -76,7 +77,8 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = mr.getSignedMembers(date, date, location, "userId");
+        members = mr.getSignedMembers(date, date, location, "signings.librarian");
+        Collections.sort(members, (Member m1, Member m2) -> m1.getSignings().get(0).getLibrarian().compareTo(m2.getSignings().get(0).getLibrarian())); //sortira po bibliotekarima
         for (Member m: members){
             Report r = new Report();
             r.setProperty1(m.getUserId());

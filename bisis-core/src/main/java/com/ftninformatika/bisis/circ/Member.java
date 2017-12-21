@@ -8,10 +8,7 @@ import com.ftninformatika.bisis.circ.pojo.CorporateMember;
 import com.ftninformatika.bisis.circ.pojo.MembershipType;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.circ.pojo.Organization;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -27,6 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_members")
+@ToString(of = "firstName")
 public class Member implements java.io.Serializable {
 
 
@@ -103,5 +101,6 @@ public class Member implements java.io.Serializable {
 		}
 		return null;
 	}
+
 
 }
