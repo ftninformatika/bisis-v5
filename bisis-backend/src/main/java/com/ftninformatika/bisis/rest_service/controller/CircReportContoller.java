@@ -3,11 +3,14 @@ package com.ftninformatika.bisis.rest_service.controller;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
+import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.MembershipTypeRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import org.elasticsearch.monitor.os.OsStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,15 +38,52 @@ public class CircReportContoller {
     @Autowired
     RecordsRepository rr;
 
+    @Autowired
+    MembershipTypeRepository membershipTypeRepository;
 
     /**
-     *
+     * podatke o clanu za prosledjen datum uclanjenja i ogranak(opciono)
+     */
+    /*LibrarianReportCommand*/
+    @RequestMapping( value = "get_librarian_report")
+    public List<Report> getLibrarianReport( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location){
+        List<Report> retVal = new ArrayList<>();
+        List<Member> members = null;
+
+        members = mr.getSignedMembers(date, date, location, "signings.librarian");
+        for (Member m: members){
+            Report r = new Report();
+            r.setProperty1(m.getUserId());
+            r.setProperty2(m.getFirstName());
+            r.setProperty3(m.getLastName());
+            r.setProperty4(m.getAddress());
+            r.setProperty5(m.getZip());
+            r.setProperty6(m.getCity());
+            r.setProperty7(m.getDocNo());
+            r.setProperty8(m.getDocCity());
+            r.setProperty9(m.getJmbg());
+            for(Signing s: m.getSignings()){
+                if (date.equals(s.getSignDate()))
+                    r.setProperty10(s.getLibrarian());
+                    r.setProperty11(s.getReceipt());
+                    r.setProperty12(s.getCost());
+                    break;
+            }
+            r.setProperty13(m.getMembershipType().getDescription());
+            retVal.add(r);
+        }
+
+        return retVal;
+    }
+
+    /**
+     * id- jeve korisnika koji su zaduzivali knjigu sa prosledjenim ctlgno u prosledjenom periodu
+     * datum zaduzenja, datum razduzenja
      */
     /*BookHistoryReportCommand*//*BookHistoryReportCommand*/
     @RequestMapping( value = "get_book_history_report")
     public List<Report> getBookHistoryReport( @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(value = "ctlgno") String ctlgNo, @RequestParam(name = "location", required = false)String location/*desc*/){
         List<Report> retVal = new ArrayList<>();
-        //vraca userId, lendDate, returnDate
         List<Lending> lendings = null;
         if (location != null && location != "")
             lendings = lr.findByLendDateBetweenAndCtlgNoAndLocation(start, end, ctlgNo, location);

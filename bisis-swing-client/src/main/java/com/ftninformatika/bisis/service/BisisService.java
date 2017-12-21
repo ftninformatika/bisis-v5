@@ -316,4 +316,6 @@ public interface BisisService {
     @GET ("circ_report/get_book_history_report")
     Call<List<Report>> getBookHistoryReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("ctlgno") String ctlgNo, @Query("location") String location);
 
+    @GET ("circ_report/get_librarian_report")
+    Call<List<Report>> getLibrarianReport(@Query("date") PathDate date, @Query("location") String location);
 }

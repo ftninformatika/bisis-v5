@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.report.BookHistory;
+import com.ftninformatika.bisis.circ.report.Librarian;
 import com.ftninformatika.bisis.circ.report.UserCategSigning;
 import com.ftninformatika.utils.Messages;
 import java.awt.Color;
@@ -393,11 +394,11 @@ public class Report {
 				  try{
 					int value = cmbReport.getSelectedIndex();
 					switch (value) {
-//						case 1 :
-//							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Librarian.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
-//							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//							break;
-//
+						case 1 :
+							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Librarian.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
+							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+							break;
+
 						case 2 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(UserCategSigning.setPrint(getTfStartDate().getDate(),Utils.getCmbValue(getCmbLocation().getSelectedItem())));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
