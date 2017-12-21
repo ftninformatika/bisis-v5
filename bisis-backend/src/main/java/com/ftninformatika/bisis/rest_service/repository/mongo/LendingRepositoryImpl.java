@@ -58,6 +58,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         }
         return currentCriteria;
     }
+
     public List<String> getLendingsCtlgNo(Date startL, Date endL, Date startR, Date endR, String location){
          Criteria criteria = createCriteria(startL,endL,startR,endR,location);
          if (criteria!=null) {
@@ -70,6 +71,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
          }
 
     }
+
 
     @Override
     public List<String> getLendingsUserId(String ctlgNo, String librarianLend, String librarianReturn, String location,

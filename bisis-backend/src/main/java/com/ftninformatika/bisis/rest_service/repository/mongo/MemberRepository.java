@@ -6,7 +6,9 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Petar on 6/8/2017.
@@ -25,5 +27,7 @@ public interface MemberRepository extends MongoRepository<Member,String>, Member
 
     @Query("{'signings':{ $elemMatch: {'signDate':{ $gte :?0,$lte:?1} }}}.count()")
     int getNumberOfMembersByPeriod(Date startDate, Date endDate);
+
+    List<Member> findByUserIdIn(Collection<String> ids);
 
 }

@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by dboberic on 03/11/2017.
@@ -42,6 +40,46 @@ public class CircReportContoller {
     @Autowired
     MembershipTypeRepository membershipTypeRepository;
 
+    /** podaci o korisnicima koji su tog dana zaduzili knjigu, produzili ili vratili knjigu
+     *
+     */
+    /*VisitorsReportCommand*/
+    @RequestMapping( value = "get_visitors_report")
+    public List<Report> getVisitorsReport(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location){
+        List<Report> retVal = new ArrayList<>();
+        List<Lending> lendings = null;
+        Iterable<Member> members = null;
+
+        lendings = lr.findByLendDateOrReturnDateOrReturnDate(date, date, date);
+        Set<String> userIds = lendings.stream().map(i -> i.getUserId()).collect(Collectors.toSet());
+        members = mr.findByUserIdIn(userIds);
+
+        members.forEach(
+                m -> {
+                    Report r = new Report();
+                    r.setProperty1(m.getUserId());
+                    r.setProperty2(m.getFirstName());
+                    r.setProperty3(m.getLastName());
+                    r.setProperty4(m.getAddress());
+                    r.setProperty5(m.getCity());
+                    r.setProperty6(m.getZip());
+                    r.setProperty7(m.getDocNo());
+                    r.setProperty8(m.getDocCity());
+                    r.setProperty9(m.getJmbg());
+                    if(location != null && !location.equals(""))
+                        r.setProperty10(location);
+
+                }
+        );
+
+        return retVal;
+    }
+
+
+    /**
+     * podaci o korisniku koji su se uclanili datog dana po vrsti uclanjenja
+     */
+    /*MmbrTypeReportCommand*/
     @RequestMapping( value = "get_mmbr_type_report")
     public List<Report> getMmbrTypeReport( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
@@ -69,7 +107,7 @@ public class CircReportContoller {
     }
 
         /**
-         * podatke o clanu za prosledjen datum uclanjenja i ogranak(opciono)
+         * podatke o clanu za prosledjen datum uclanjenja i ogranak(opciono) sortirano po bibliotekarima
          */
     /*LibrarianReportCommand*/
     @RequestMapping( value = "get_librarian_report")
