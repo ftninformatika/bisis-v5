@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.circ.pojo.Duplicate;
@@ -15,6 +16,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -72,5 +74,34 @@ public class Member implements java.io.Serializable {
 	//private List<Lending> lendings = new ArrayList<>();
 	private List<Duplicate> duplicates = new ArrayList<>();
 	private List<PictureBook> picturebooks = new ArrayList<>();
+
+	@JsonIgnore
+	public String getLibrarianForSigningDate(Date date){
+
+		for (Signing s: signings){
+			if (date.equals(s.getSignDate()))
+				return s.getLibrarian();
+		}
+		return null;
+	}
+
+	@JsonIgnore
+	public String getRecieptForSigingDate(Date date){
+
+		for (Signing s: signings){
+			if (date.equals(s.getSignDate()))
+				return s.getReceipt();
+		}
+		return null;
+	}
+	@JsonIgnore
+	public Double getCostForSigningDate(Date date){
+
+		for (Signing s: signings){
+			if (date.equals(s.getSignDate()))
+				return s.getCost();
+		}
+		return null;
+	}
 
 }

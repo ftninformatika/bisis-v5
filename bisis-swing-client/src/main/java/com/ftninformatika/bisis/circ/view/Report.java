@@ -1,8 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.circ.report.BookHistory;
-import com.ftninformatika.bisis.circ.report.Librarian;
-import com.ftninformatika.bisis.circ.report.UserCategSigning;
+import com.ftninformatika.bisis.circ.report.*;
 import com.ftninformatika.utils.Messages;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -22,7 +20,6 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 
 import com.ftninformatika.bisis.circ.pojo.CircLocation;
-import com.ftninformatika.bisis.circ.report.MemberHistory;
 import com.ftninformatika.bisis.circ.validator.Validator;
 import net.sf.jasperreports.engine.JasperPrint;
 
@@ -404,10 +401,10 @@ public class Report {
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
 
-//						case 3 :
-//							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MmbrType.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
-//							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//							break;
+						case 3 :
+							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MmbrType.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
+							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+							break;
 //
 //						case 4 :
 //							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Structure.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));

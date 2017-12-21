@@ -41,16 +41,12 @@ public class CircReportContoller {
     @Autowired
     MembershipTypeRepository membershipTypeRepository;
 
-    /**
-     * podatke o clanu za prosledjen datum uclanjenja i ogranak(opciono)
-     */
-    /*LibrarianReportCommand*/
-    @RequestMapping( value = "get_librarian_report")
-    public List<Report> getLibrarianReport( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location){
+    @RequestMapping( value = "get_mmbr_type_report")
+    public List<Report> getMmbrTypeReport( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = mr.getSignedMembers(date, date, location, "signings.librarian");
+        members = mr.getSignedMembers(date, date, location, "membershipType.description");
         for (Member m: members){
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -62,13 +58,39 @@ public class CircReportContoller {
             r.setProperty7(m.getDocNo());
             r.setProperty8(m.getDocCity());
             r.setProperty9(m.getJmbg());
-            for(Signing s: m.getSignings()){
-                if (date.equals(s.getSignDate()))
-                    r.setProperty10(s.getLibrarian());
-                    r.setProperty11(s.getReceipt());
-                    r.setProperty12(s.getCost());
-                    break;
-            }
+            r.setProperty10(m.getLibrarianForSigningDate(date));
+            r.setProperty11(m.getRecieptForSigingDate(date));
+            r.setProperty12(m.getCostForSigningDate(date));
+            r.setProperty13(m.getMembershipType().getDescription());
+            retVal.add(r);
+        }
+        return retVal;
+    }
+
+        /**
+         * podatke o clanu za prosledjen datum uclanjenja i ogranak(opciono)
+         */
+    /*LibrarianReportCommand*/
+    @RequestMapping( value = "get_librarian_report")
+    public List<Report> getLibrarianReport( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location){
+        List<Report> retVal = new ArrayList<>();
+        List<Member> members = null;
+
+        members = mr.getSignedMembers(date, date, location, "userId");
+        for (Member m: members){
+            Report r = new Report();
+            r.setProperty1(m.getUserId());
+            r.setProperty2(m.getFirstName());
+            r.setProperty3(m.getLastName());
+            r.setProperty4(m.getAddress());
+            r.setProperty5(m.getZip());
+            r.setProperty6(m.getCity());
+            r.setProperty7(m.getDocNo());
+            r.setProperty8(m.getDocCity());
+            r.setProperty9(m.getJmbg());
+            r.setProperty10(m.getLibrarianForSigningDate(date));
+            r.setProperty11(m.getRecieptForSigingDate(date));
+            r.setProperty12(m.getCostForSigningDate(date));
             r.setProperty13(m.getMembershipType().getDescription());
             retVal.add(r);
         }
