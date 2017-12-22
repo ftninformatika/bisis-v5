@@ -106,6 +106,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
     }
 
+
     @Override
     public List<Member> getSignedCorporateMembers(Date startDate, Date endDate, String institution, String location) {
         Criteria cr=null;

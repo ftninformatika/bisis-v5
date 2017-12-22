@@ -34,9 +34,22 @@ public class CircReportContoller {
     @Autowired CorporateMemberRepository corporateMemberRepository;
 
     @Autowired LocationRepository locationRepository;
+
     /**
-     * spisak kolektivnih clanova
+     * podaci o individualnim clanovima koji pripadaju kolektivnim clanovima
      */
+    /*MemberByGroupReportCommand*/
+    @RequestMapping(value = "get_member_by_group_report")
+    public List<Member> getMemberByGroupReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "institution")String institution, @RequestParam(name = "location", required = false)String location) {
+        List<Member> retVal = null;
+        retVal = memberRepository.getSignedCorporateMembers(start, end, institution, location);
+
+        return retVal;
+    }
+
+        /**
+         * spisak kolektivnih clanova
+         */
     /*GroupsReportCommand*/
     @RequestMapping( value = "get_group_report")
     public List<CorporateMember> getGroupReport(@RequestHeader("Library") String lib, @RequestParam(name = "location", required = false)String location/*coder_id*/) {

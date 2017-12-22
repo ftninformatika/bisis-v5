@@ -445,10 +445,10 @@ public class Report {
 							 Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
 							 Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 			         	break;
-//						case 12 :
-//			         Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem(),getCmbGroup().getSelectedItem()));
-//			         Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//			         break;
+						case 12 :
+							 Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem(),getCmbGroup().getSelectedItem()));
+							 Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+			         	break;
 						case 13 :
 								String userid = Validator.convertUserId2DB(getTfNumber().getText());
 								if (!userid.equals("")){
