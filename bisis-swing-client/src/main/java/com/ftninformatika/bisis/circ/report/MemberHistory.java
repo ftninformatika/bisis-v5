@@ -65,6 +65,9 @@ public class MemberHistory {
                 end = Utils.setMaxDate(end);
             }
 
+            if(branch == null)
+                branch = "";
+
             List<com.ftninformatika.bisis.circ.pojo.Report> results = null;
             Member member = null;
             try {

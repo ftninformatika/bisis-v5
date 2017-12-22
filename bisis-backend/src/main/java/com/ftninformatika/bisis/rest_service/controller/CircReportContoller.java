@@ -41,6 +41,37 @@ public class CircReportContoller {
     @Autowired
     MembershipTypeRepository membershipTypeRepository;
 
+
+    /**
+     * podaci o uclanjenim korisnicima na dati datum
+     */
+    /*MemberBookReportCommand*//*SubMemberBookReportCommand*/
+    @RequestMapping( value = "get_member_book_report")
+    public List<Report> getMemberBookReport (@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        List<Report> retVal = new ArrayList<>();
+        List<Member> members = null;
+
+        members = mr.getSignedMembers(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location, "lastName");
+        members.forEach(
+                m -> {
+                    Report r = new Report();
+                    r.setProperty1(m.getUserId());
+                    r.setProperty2(m.getFirstName());
+                    r.setProperty3(m.getLastName());
+                    r.setProperty4(m.getAddress());
+                    r.setProperty5(m.getZip());
+                    r.setProperty6(m.getCity());
+                    r.setProperty7(m.getDocNo());
+                    r.setProperty8(m.getDocCity());
+                    r.setProperty9(m.getJmbg());
+                    r.setProperty10(m.getMembershipType().getDescription());
+                    r.setProperty12(m.getSignings().get(0).getCost());
+                    retVal.add(r);
+                }
+        );
+        return retVal;
+    }
+
     /** podaci o korisnicima koji su tog dana zaduzili knjigu, produzili ili vratili knjigu
      *
      */
@@ -49,14 +80,17 @@ public class CircReportContoller {
     public List<Report> getVisitorsReport(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location){
         List<Report> retVal = new ArrayList<>();
         List<Lending> lendings = null;
-        Iterable<Member> members = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        lendings = lr.findByLendDateOrReturnDateOrReturnDate(date, date, date);
-        Set<String> userIds = lendings.stream().map(i -> i.getUserId()).collect(Collectors.toSet());
-        members = mr.findByUserIdIn(userIds);
+        lendings = lr.findByLendDateBetweenOrReturnDateBetweenOrResumeDateBetween(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date),DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date),DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date));
+        if(location != null && !location.equals(""))
+            lendings = lendings.stream().filter( l -> l.getLocation().equals(location)).collect(Collectors.toList());
 
-        members.forEach(
-                m -> {
+        Collections.reverse(lendings);
+
+        lendings.forEach(
+                l -> {
+                    Member m = mr.getMemberByUserId(l.getUserId());
                     Report r = new Report();
                     r.setProperty1(m.getUserId());
                     r.setProperty2(m.getFirstName());
@@ -67,12 +101,15 @@ public class CircReportContoller {
                     r.setProperty7(m.getDocNo());
                     r.setProperty8(m.getDocCity());
                     r.setProperty9(m.getJmbg());
-                    if(location != null && !location.equals(""))
-                        r.setProperty10(location);
-
+                    r.setProperty10(l.getLocation());
+                    if (l.getReturnDate() != null)
+                        r.setProperty11(formatter.format(l.getReturnDate()));
+                    if (l.getLendDate() != null)
+                        r.setProperty13(formatter.format(l.getLendDate()));
+                    r.setProperty14(l.getCtlgNo());
+                    retVal.add(r);
                 }
         );
-
         return retVal;
     }
 
@@ -117,6 +154,7 @@ public class CircReportContoller {
         List<Member> members = null;
 
 
+        members = mr.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "userId");
         members.sort(Comparator.comparing(m -> m.getSignings().get(0).getLibrarian()));//sortira po bibliotekaru
 
         for (Member m: members){

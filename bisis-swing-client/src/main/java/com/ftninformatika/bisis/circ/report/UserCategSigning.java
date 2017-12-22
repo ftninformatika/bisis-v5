@@ -52,6 +52,9 @@ public class UserCategSigning {
 		
 		Map<String, Object> params = new HashMap<String, Object>(2);
 		params.put("date", Utils.toLocaleDate(date));
+		if(branch == null)
+			branch = "";
+
 		if (!branch.equals("")) {
 			params.put("nazivogr", "odeljenje: "+ branch);
 		} else {

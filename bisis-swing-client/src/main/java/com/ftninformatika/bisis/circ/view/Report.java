@@ -441,10 +441,10 @@ public class Report {
 //		           Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 //						   break;
 //
-//						case 11 :
-//			         Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
-//			         Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//			         break;
+						case 11 :
+							 Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+							 Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+			         	break;
 //						case 12 :
 //			         Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem(),getCmbGroup().getSelectedItem()));
 //			         Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
@@ -464,7 +464,7 @@ public class Report {
 									JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), "Broj korisnika nije validan", "Greska", JOptionPane.ERROR_MESSAGE,
 											new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 								}
-			          break;
+			            break;
 						case 14 :
 								String ctlgno = Validator.convertCtlgNo2DB(getTfNumber().getText().trim());
 								if (!ctlgno.equals("")){
@@ -472,9 +472,9 @@ public class Report {
 									  Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 								}else {
 									JOptionPane.showMessageDialog(getPanel(), "Inventarni broj nije validan!", "Greska", JOptionPane.ERROR_MESSAGE,
-                    new ImageIcon(getClass().getResource("/circ-images/x32.png")));
-								}
-  		          break;
+								new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+											}
+						break;
 //						case 15 :
 //			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(CtgrUdk.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 //			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
