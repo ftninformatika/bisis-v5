@@ -8,6 +8,7 @@ import com.ftninformatika.bisis.circ.pojo.CorporateMember;
 import com.ftninformatika.bisis.circ.pojo.MembershipType;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.circ.pojo.Organization;
+import com.ftninformatika.utils.date.DateUtils;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -77,7 +78,7 @@ public class Member implements java.io.Serializable {
 	public String getLibrarianForSigningDate(Date date){
 
 		for (Signing s: signings){
-			if (date.equals(s.getSignDate()))
+			if (DateUtils.compareDates(date, s.getSignDate()))
 				return s.getLibrarian();
 		}
 		return null;
@@ -87,7 +88,7 @@ public class Member implements java.io.Serializable {
 	public String getRecieptForSigingDate(Date date){
 
 		for (Signing s: signings){
-			if (date.equals(s.getSignDate()))
+			if (DateUtils.compareDates(date, s.getSignDate()))
 				return s.getReceipt();
 		}
 		return null;
@@ -96,7 +97,7 @@ public class Member implements java.io.Serializable {
 	public Double getCostForSigningDate(Date date){
 
 		for (Signing s: signings){
-			if (date.equals(s.getSignDate()))
+			if (DateUtils.compareDates(date, s.getSignDate()))
 				return s.getCost();
 		}
 		return null;

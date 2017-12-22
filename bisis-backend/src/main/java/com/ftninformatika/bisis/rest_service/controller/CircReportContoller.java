@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MembershipTypeRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.utils.date.DateUtils;
 import org.elasticsearch.monitor.os.OsStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -85,7 +86,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = mr.getSignedMembers(date, date, location, "membershipType.description");
+        members = mr.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "membershipType.description");
         for (Member m: members){
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -115,8 +116,9 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = mr.getSignedMembers(date, date, location, "signings.librarian");
-        Collections.sort(members, (Member m1, Member m2) -> m1.getSignings().get(0).getLibrarian().compareTo(m2.getSignings().get(0).getLibrarian())); //sortira po bibliotekarima
+
+        members.sort(Comparator.comparing(m -> m.getSignings().get(0).getLibrarian()));//sortira po bibliotekaru
+
         for (Member m: members){
             Report r = new Report();
             r.setProperty1(m.getUserId());
