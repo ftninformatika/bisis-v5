@@ -14,4 +14,6 @@ public interface LocationRepository extends MongoRepository<Location,String> {
 
     @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
     public List<Location> getCoders(String libName);
+
+    public Location getByDescriptionAndLibrary(String desc, String lib);
 }

@@ -1,23 +1,16 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.circ.CorporateMember;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
-import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MembershipTypeRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.utils.date.DateUtils;
-import org.elasticsearch.monitor.os.OsStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,18 +22,39 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/circ_report")
 public class CircReportContoller {
-    @Autowired
-    MemberRepository mr;
 
-    @Autowired
-    LendingRepository lr;
+    @Autowired MemberRepository memberRepository;
 
-    @Autowired
-    RecordsRepository rr;
+    @Autowired LendingRepository lendingRepository;
 
-    @Autowired
-    MembershipTypeRepository membershipTypeRepository;
+    @Autowired RecordsRepository recordsRepository;
 
+    @Autowired MembershipTypeRepository membershipTypeRepository;
+
+    @Autowired CorporateMemberRepository corporateMemberRepository;
+
+    @Autowired LocationRepository locationRepository;
+    /**
+     * spisak kolektivnih clanova
+     */
+    /*GroupsReportCommand*/
+    @RequestMapping( value = "get_group_report")
+    public List<CorporateMember> getGroupReport(@RequestHeader("Library") String lib, @RequestParam(name = "location", required = false)String location/*coder_id*/) {
+        List<CorporateMember> retVal = null;
+
+
+        retVal = corporateMemberRepository.getCoders(lib); //sifarnik - uzimamo iz RequestHeader-a biblioteku
+        if (location != null && !location.equals("")) {
+            String locationCode = locationRepository.getByDescriptionAndLibrary(location, lib).getCoder_id(); //prosledjuje se description lokacije, pa da iscupamo kod
+                                                                                                              //pretpostavka da ne postoji vise lokacija sa identicnim imenom unutar
+                                                                                                              //jedne biblioteke
+            retVal = retVal.stream()
+                    .filter(i -> i.getUserId() != null && i.getUserId().length() > 3 && i.getUserId().substring(0, 2).equals(locationCode))
+                    .collect(Collectors.toList());
+        }
+
+        return retVal;
+    }
 
     /**
      * podaci o uclanjenim korisnicima na dati datum
@@ -51,7 +65,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = mr.getSignedMembers(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location, "lastName");
+        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location, "lastName");
         members.forEach(
                 m -> {
                     Report r = new Report();
@@ -82,7 +96,7 @@ public class CircReportContoller {
         List<Lending> lendings = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        lendings = lr.findByLendDateBetweenOrReturnDateBetweenOrResumeDateBetween(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date),DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date),DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date));
+        lendings = lendingRepository.findByLendDateBetweenOrReturnDateBetweenOrResumeDateBetween(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date),DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date),DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date));
         if(location != null && !location.equals(""))
             lendings = lendings.stream().filter( l -> l.getLocation().equals(location)).collect(Collectors.toList());
 
@@ -90,7 +104,7 @@ public class CircReportContoller {
 
         lendings.forEach(
                 l -> {
-                    Member m = mr.getMemberByUserId(l.getUserId());
+                    Member m = memberRepository.getMemberByUserId(l.getUserId());
                     Report r = new Report();
                     r.setProperty1(m.getUserId());
                     r.setProperty2(m.getFirstName());
@@ -123,7 +137,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = mr.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "membershipType.description");
+        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "membershipType.description");
         for (Member m: members){
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -154,7 +168,7 @@ public class CircReportContoller {
         List<Member> members = null;
 
 
-        members = mr.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "userId");
+        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "userId");
         members.sort(Comparator.comparing(m -> m.getSignings().get(0).getLibrarian()));//sortira po bibliotekaru
 
         for (Member m: members){
@@ -188,9 +202,9 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Lending> lendings = null;
         if (location != null && location != "")
-            lendings = lr.findByLendDateBetweenAndCtlgNoAndLocation(start, end, ctlgNo, location);
+            lendings = lendingRepository.findByLendDateBetweenAndCtlgNoAndLocation(start, end, ctlgNo, location);
         else
-            lendings = lr.findByLendDateBetweenAndCtlgNo(start, end, ctlgNo);
+            lendings = lendingRepository.findByLendDateBetweenAndCtlgNo(start, end, ctlgNo);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         for (Lending l: lendings){
@@ -216,9 +230,9 @@ public class CircReportContoller {
     public int getNumberOfMembersByPeriod(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         int num = 0;
         if ((location == null) || (location.equals(""))) {
-            num = mr.getNumberOfMembersByPeriod(start, end, location);
+            num = memberRepository.getNumberOfMembersByPeriod(start, end, location);
         } else {
-            num = mr.getNumberOfMembersByPeriod(start, end);
+            num = memberRepository.getNumberOfMembersByPeriod(start, end);
         }
         return num;
     }
@@ -231,7 +245,7 @@ public class CircReportContoller {
     @RequestMapping(value = "/get_members_with_categories", method = RequestMethod.GET)
     public List<Report> getMembersWithCategory(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
-        List<Member> members = mr.getSignedMembers(start, end, location, "userCategory.description");
+        List<Member> members = memberRepository.getSignedMembers(start, end, location, "userCategory.description");
         for (Member m : members) {
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -262,7 +276,7 @@ public class CircReportContoller {
     @RequestMapping(value = "/get_members_with_member_type", method = RequestMethod.GET)
     public List<Report> getMembersWithMemberType(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
-        List<Member> members = mr.getSignedMembers(start, end, location, "membershipType.description");
+        List<Member> members = memberRepository.getSignedMembers(start, end, location, "membershipType.description");
         for (Member m : members) {
             Report r = new Report();
             r.setProperty1(m.getMembershipType().getDescription());
@@ -285,7 +299,7 @@ public class CircReportContoller {
     @RequestMapping(value = "/get_signed_members", method = RequestMethod.GET)
     public List<Report> getSignedMembers(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
-        List<Member> members = mr.getSignedMembers(start, end, location, "lastName");
+        List<Member> members = memberRepository.getSignedMembers(start, end, location, "lastName");
         for (Member m : members) {
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -312,7 +326,7 @@ public class CircReportContoller {
     @RequestMapping(value = "/get_signed_corporateMembers", method = RequestMethod.GET)
     public List<Report> getSignedCorporateMembers(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location, @RequestParam("company") String company) {
         List<Report> reports = new ArrayList<>();
-        List<Member> members = mr.getSignedCorporateMembers(start, end, location, company);
+        List<Member> members = memberRepository.getSignedCorporateMembers(start, end, location, company);
         for (Member m : members) {
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -326,7 +340,7 @@ public class CircReportContoller {
 
     @RequestMapping(value = "/group_by_membership_type", method = RequestMethod.GET)
     public List<Report> groupByMembershipType(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location){
-        List<Report> reports = mr.groupMemberByMembershipType(start,end,location);
+        List<Report> reports = memberRepository.groupMemberByMembershipType(start,end,location);
         return reports;
     }
 
@@ -337,16 +351,16 @@ public class CircReportContoller {
         List<Report> reports=new ArrayList<Report>();
         List<Lending> lendings;
         if (location==null ||location.equals("")){
-            lendings =lr.findLendingsByUserIdAndLendDateBetween(memberNo,start,end);
+            lendings = lendingRepository.findLendingsByUserIdAndLendDateBetween(memberNo,start,end);
         }else{
-            lendings = lr.findLendingsByUserIdAndLendDateBetweenAndLocation(memberNo,start,end,location);
+            lendings = lendingRepository.findLendingsByUserIdAndLendDateBetweenAndLocation(memberNo,start,end,location);
         }
         Record r;
         RecordPreview rp = new RecordPreview();
         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
 
        for(Lending l:lendings){
-            r = rr.getRecordByPrimerakInvNum(l.getCtlgNo());
+            r = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
             rp.init(r);
             Report report = new Report();
             String returnDate="";
@@ -370,14 +384,14 @@ public class CircReportContoller {
     public List<Report> getLendingHistoryFull(@RequestParam("memberNo") String memberNo){
         List<Report> reports=new ArrayList<Report>();
         List<Lending> lendings;
-        lendings = lr.findByUserId(memberNo);
+        lendings = lendingRepository.findByUserId(memberNo);
 
         Record r;
         RecordPreview rp = new RecordPreview();
         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
 
         for(Lending l:lendings){
-            r = rr.getRecordByPrimerakInvNum(l.getCtlgNo());
+            r = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
             rp.init(r);
             Report report = new Report();
             String returnDate="";
@@ -398,7 +412,7 @@ public class CircReportContoller {
     @RequestMapping(value = "/get_cost_for_user", method = RequestMethod.GET)
     public List<Report> getCostForUser(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports=new ArrayList<Report>();
-        List<Member> members = mr.getSignedMembers(start, end, location, "membershipType.description");
+        List<Member> members = memberRepository.getSignedMembers(start, end, location, "membershipType.description");
         for (Member m : members) {
             Report r = new Report();
             r.setProperty1(m.getUserId());
