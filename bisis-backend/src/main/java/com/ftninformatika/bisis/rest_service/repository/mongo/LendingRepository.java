@@ -26,6 +26,8 @@ public interface LendingRepository extends MongoRepository<Lending, String>,Lend
 
     public List<Lending> findByLendDateBetweenOrReturnDateBetweenOrResumeDateBetween( Date d01, Date d02, Date d11, Date d12, Date d21, Date d22);
 
+
+
     public List<Lending> findLendingsByUserIdAndLendDateBetween(@Param("userId") String userId, @Param("lendDate") Date start,@Param("lendDate") Date end);
 
     public List<Lending> findLendingsByUserIdAndLendDateBetweenAndLocation(@Param("userId") String userId, @Param("lendDate") Date start,@Param("lendDate") Date end,@Param("location") String loc);

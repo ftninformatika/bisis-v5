@@ -41,6 +41,13 @@ public class DateUtils {
     return c.getTime();
   }
 
+  public static Date getYesterday(Date date){
+    Calendar c = Calendar.getInstance();
+    c.setTime(date);
+    c.add(Calendar.DATE, -1);
+    return c.getTime();
+  }
+
   public static boolean compareDates(Date d1, Date d2){
     Calendar cal1 = Calendar.getInstance();
     Calendar cal2 = Calendar.getInstance();

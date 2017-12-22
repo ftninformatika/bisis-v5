@@ -96,15 +96,22 @@ public class CircReportContoller {
         List<Lending> lendings = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        lendings = lendingRepository.findByLendDateBetweenOrReturnDateBetweenOrResumeDateBetween(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date),DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date),DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date));
+        lendings = lendingRepository.findByLendDateBetweenOrReturnDateBetweenOrResumeDateBetween(DateUtils.getEndOfDay(DateUtils.getYesterday(date)), DateUtils.getEndOfDay(date),
+                DateUtils.getEndOfDay(DateUtils.getYesterday(date)), DateUtils.getEndOfDay(date),
+                DateUtils.getEndOfDay(DateUtils.getYesterday(date)), DateUtils.getEndOfDay(date));
+
         if(location != null && !location.equals(""))
             lendings = lendings.stream().filter( l -> l.getLocation().equals(location)).collect(Collectors.toList());
+
+        List<String> userIds = lendings.stream().map(l -> l.getUserId()).collect(Collectors.toList());
+        Map<String, Member> members = memberRepository.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));
 
         Collections.reverse(lendings);
 
         lendings.forEach(
                 l -> {
-                    Member m = memberRepository.getMemberByUserId(l.getUserId());
+                    //Member m = memberRepository.getMemberByUserId(l.getUserId()); ovako je radilo jako sporo i response time je bio preveliki pa je pucalo za pojedine datume
+                    Member m = members.get(l.getUserId());
                     Report r = new Report();
                     r.setProperty1(m.getUserId());
                     r.setProperty2(m.getFirstName());
