@@ -24,7 +24,7 @@ public interface LendingRepository extends MongoRepository<Lending, String>,Lend
 
     public Lending findByCtlgNoAndReturnDateIsNull(@Param("ctlgNo") String ctlgNo);
 
-    public List<Lending> findByLendDateOrReturnDateOrReturnDate( Date date, Date date1, Date date2);
+    public List<Lending> findByLendDateBetweenOrReturnDateBetweenOrResumeDateBetween( Date d01, Date d02, Date d11, Date d12, Date d21, Date d22);
 
     public List<Lending> findLendingsByUserIdAndLendDateBetween(@Param("userId") String userId, @Param("lendDate") Date start,@Param("lendDate") Date end);
 

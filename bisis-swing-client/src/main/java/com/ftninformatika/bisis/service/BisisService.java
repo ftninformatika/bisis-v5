@@ -321,4 +321,7 @@ public interface BisisService {
 
     @GET ("circ_report/get_mmbr_type_report")
     Call<List<Report>> getMmbrTypeReport(@Query("date") PathDate date, @Query("location") String location);
+
+    @GET ("circ_report/get_visitors_report")
+    Call<List<Report>> getVisitorsReport(@Query("date") PathDate date, @Query("location") String location);
 }
