@@ -35,9 +35,30 @@ public class CircReportContoller {
 
     @Autowired LocationRepository locationRepository;
 
-    /**
-     * podaci o individualnim clanovima koji pripadaju kolektivnim clanovima
-     */
+    @RequestMapping(value = "get_best_reader_report")
+    public List<Report> getBestReaderReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        List<Report> retVal = new ArrayList<>();
+
+        List<Object> l = lendingRepository.getBesReaderMap(start, end, location);
+
+        for (Object o: l){
+            if(o instanceof LinkedHashMap){
+                Report r = new Report();
+                Member m = memberRepository.getMemberByUserId(((LinkedHashMap)o).get("userId").toString());
+                r.setProperty1(m.getUserId());
+                r.setProperty2(m.getFirstName());
+                r.setProperty3(m.getLastName());
+                r.setProperty4(((LinkedHashMap)o).get("booksRed").toString());
+                retVal.add(r);
+            }
+        }
+
+        return retVal;
+    }
+
+        /**
+         * podaci o individualnim clanovima koji pripadaju kolektivnim clanovima
+         */
     /*MemberByGroupReportCommand*/
     @RequestMapping(value = "get_member_by_group_report")
     public List<Member> getMemberByGroupReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "institution")String institution, @RequestParam(name = "location", required = false)String location) {
@@ -78,7 +99,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location, "lastName");
+        members = memberRepository.getSignedMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), location, "lastName");
         members.forEach(
                 m -> {
                     Report r = new Report();

@@ -187,7 +187,6 @@ public class RecordsController {
         List<RecordResponseWrapper> retVal = new ArrayList<>();
 
         BoolQueryBuilder query = ElasticUtility.searchUniversalQuery(universalSearchModel);
-        //QueryStringQueryBuilder wq = ElasticUtility.wildCardQuery(universalSearchModel);
         int page=0;
         int pSize =20;
 
@@ -198,7 +197,7 @@ public class RecordsController {
 
 
         Pageable p = new PageRequest(page, pSize);
-        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,new PageRequest(page, pSize/*, new Sort(Sort.Direction.ASC, "prefixes.AU")*/));
+        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query, new PageRequest(page, pSize/*, new Sort(Sort.Direction.ASC, "prefixes.AU")*/));
 
         iRecs.forEach(
                 e -> {
