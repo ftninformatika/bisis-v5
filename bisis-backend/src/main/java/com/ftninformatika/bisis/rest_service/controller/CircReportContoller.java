@@ -109,17 +109,10 @@ public class CircReportContoller {
         List<Lending> lendings = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        lendings = lendingRepository.findByLendDateBetweenOrReturnDateBetweenOrResumeDateBetween(DateUtils.getEndOfDay(DateUtils.getYesterday(date)), DateUtils.getEndOfDay(date),
-                DateUtils.getEndOfDay(DateUtils.getYesterday(date)), DateUtils.getEndOfDay(date),
-                DateUtils.getEndOfDay(DateUtils.getYesterday(date)), DateUtils.getEndOfDay(date));
-
-        if(location != null && !location.equals(""))
-            lendings = lendings.stream().filter( l -> l.getLocation().equals(location)).collect(Collectors.toList());
+        lendings = lendingRepository.getLenignsWithAnyActivityOnDate(date, location);
 
         List<String> userIds = lendings.stream().map(l -> l.getUserId()).collect(Collectors.toList());
         Map<String, Member> members = memberRepository.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));
-
-        Collections.reverse(lendings);
 
         lendings.forEach(
                 l -> {

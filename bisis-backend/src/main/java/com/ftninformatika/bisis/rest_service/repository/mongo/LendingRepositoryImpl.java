@@ -2,7 +2,10 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.utils.date.DateUtils;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -70,6 +73,31 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
              return null;
          }
 
+    }
+
+    public List<Lending> getLenignsWithAnyActivityOnDate(Date dateOfActivity, String location){
+        List<Lending> retVal = null;
+        Criteria lendDateCriteria, returnDateCriteria, resumeDateCriteria, or, desiredCriteria;
+        lendDateCriteria = Criteria.where("lendDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(dateOfActivity))).lte(DateUtils.getEndOfDay(dateOfActivity));
+        returnDateCriteria = Criteria.where("returnDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(dateOfActivity))).lte(DateUtils.getEndOfDay(dateOfActivity));
+        resumeDateCriteria = Criteria.where("resumeDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(dateOfActivity))).lte(DateUtils.getEndOfDay(dateOfActivity));
+        or = new Criteria();
+        or.orOperator(lendDateCriteria, returnDateCriteria, resumeDateCriteria);
+
+        if(location != null && !location.equals(""))
+            desiredCriteria = or.andOperator(or, Criteria.where("location").is(location));
+        else
+            desiredCriteria = or;
+
+        if (desiredCriteria != null){
+            Query q = new Query();
+            q.addCriteria(desiredCriteria);
+            q.with(new Sort(Sort.Direction.DESC, "lendDate"));
+            q.with(new Sort(Sort.Direction.DESC, "returnDate"));
+            retVal = mongoTemplate.find(q, Lending.class);
+        }
+
+        return retVal;
     }
 
 
