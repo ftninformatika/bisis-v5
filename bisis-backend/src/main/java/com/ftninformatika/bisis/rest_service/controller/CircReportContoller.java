@@ -42,7 +42,7 @@ public class CircReportContoller {
     @RequestMapping(value = "get_member_by_group_report")
     public List<Member> getMemberByGroupReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "institution")String institution, @RequestParam(name = "location", required = false)String location) {
         List<Member> retVal = null;
-        retVal = memberRepository.getSignedCorporateMembers(start, end, institution, location);
+        retVal = memberRepository.getSignedCorporateMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), institution, location);
 
         return retVal;
     }
@@ -157,7 +157,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "membershipType.description");
+        members = memberRepository.getSignedMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(date)), DateUtils.getEndOfDay(date), location, "membershipType.description");
         for (Member m: members){
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -265,7 +265,7 @@ public class CircReportContoller {
     @RequestMapping(value = "/get_members_with_categories", method = RequestMethod.GET)
     public List<Report> getMembersWithCategory(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
-        List<Member> members = memberRepository.getSignedMembers(start, end, location, "userCategory.description");
+        List<Member> members = memberRepository.getSignedMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), location, "userCategory.description");
         for (Member m : members) {
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -281,9 +281,9 @@ public class CircReportContoller {
             r.setProperty11(m.getSignings().get(0).getLibrarian());
             r.setProperty13(m.getSignings().get(0).getReceipt());
             if (m.getSignings().get(0).getCost() == null || m.getSignings().get(0).getCost().equals(""))
-                r.setProperty20("0");
+                r.setProperty12(0.0);
             else {
-                r.setProperty20(String.valueOf(m.getSignings().get(0).getCost()));
+                r.setProperty12(m.getSignings().get(0).getCost());
             }
             reports.add(r);
         }

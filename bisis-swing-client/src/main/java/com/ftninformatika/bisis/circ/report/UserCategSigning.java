@@ -39,8 +39,13 @@ public class UserCategSigning {
 			row.addNewColumn8().setStringValue(r.getProperty8());
 			row.addNewColumn9().setStringValue(r.getProperty9());
 			row.addNewColumn10().setStringValue(r.getProperty10());
-
 			row.addNewColumn11().setStringValue(r.getProperty11());
+
+			if(r.getProperty12() == null)
+				row.addNewColumn20().setStringValue("0");
+			else
+				row.addNewColumn20().setStringValue(String.valueOf(r.getProperty12()));
+
 			row.addNewColumn13().setStringValue(r.getProperty13());
 		}
 		return report.getDomNode().getOwnerDocument();
