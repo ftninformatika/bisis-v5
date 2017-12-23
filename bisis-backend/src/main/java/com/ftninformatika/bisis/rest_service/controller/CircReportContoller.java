@@ -188,7 +188,7 @@ public class CircReportContoller {
         List<Member> members = null;
 
 
-        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "userId");
+        members = memberRepository.getSignedMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(date)), DateUtils.getEndOfDay(date), location, "userId");
         members.sort(Comparator.comparing(m -> m.getSignings().get(0).getLibrarian()));//sortira po bibliotekaru
 
         for (Member m: members){

@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Member;
+import org.elasticsearch.monitor.os.OsStats;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -29,5 +30,9 @@ public interface MemberRepository extends MongoRepository<Member,String>, Member
     int getNumberOfMembersByPeriod(Date startDate, Date endDate);
 
     List<Member> findByUserIdIn(Collection<String> ids);
+
+    @Query(value =  "{'corporateMember.instName': ?0}")
+    List<Member> findByCorporateMember(String groupName);
+
 
 }
