@@ -1,19 +1,15 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Lending;
-import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.utils.date.DateUtils;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Field;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -98,6 +94,23 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         }
 
         return retVal;
+    }
+
+    public List<Object> getBesReaderMap(Date start, Date end, String location){
+        List<Object> results = null;
+        Criteria lendDateCriteria = Criteria.where("lendDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
+        if (location != null && !location.equals(""))
+            lendDateCriteria = new Criteria().andOperator(lendDateCriteria, Criteria.where("location").is(location));
+
+        Aggregation agg = Aggregation.newAggregation(Aggregation.match(lendDateCriteria),
+                                                     Aggregation.group("userId").count().as("booksRed"),
+                                                     Aggregation.project("booksRed").and("userId").previousOperation(),
+                                                     Aggregation.sort(Sort.Direction.DESC, "booksRed")
+                                                     );
+        results = mongoTemplate.aggregate(agg, Lending.class, Object.class).getMappedResults();
+
+
+        return results.subList(0, 20);
     }
 
 

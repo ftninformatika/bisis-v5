@@ -51,7 +51,8 @@ public class BookHistory {
 		Record r = null;
 
 		try {
-			record.init(cRecord.execute().body());
+			r = cRecord.execute().body();
+			record.init(r);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

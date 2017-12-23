@@ -16,4 +16,6 @@ public interface LendingRepositoryCustom {
                                    Date deadlineStart, Date deadlineEnd);
 
     public List<Lending> getLenignsWithAnyActivityOnDate(Date dateOfActivity, String location);
+
+    public List<Object> getBesReaderMap(Date start, Date end, String location);
 }
