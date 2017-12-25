@@ -182,9 +182,9 @@ public class InvKnjigaMonografske extends Report {
       i.invbr =  nvl(p.getInvBroj());
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
-
-      if (getCoders().getBinCoders().get(nvl(p.getPovez()))!=null)
-       i.povez = getCoders().getBinCoders().get(nvl(p.getPovez())).getDescription();
+        i.povez="";
+      if (getCoders().getBinCoders().get(p.getPovez())!=null)
+       i.povez = getCoders().getBinCoders().get(p.getPovez()).getDescription();
 
         i.dim = dim;
       String dobavljac=nvl(p.getDobavljac());

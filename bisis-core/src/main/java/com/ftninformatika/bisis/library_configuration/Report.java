@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Report {
 
-
+    private String library;
     private String reportName;
     private String className;
     private String invnumpattern;
@@ -23,5 +23,6 @@ public class Report {
     private String type;
     private String jasper;
     private String subjasper;
+    private String reportTitle;
 
 }

@@ -13,10 +13,7 @@ import java.util.*;
 
 public class ReportUtils {
 
-  /**
-   * Prikazuje dijalog za izbor izvestaja, vraca niz stringova. Na prvom mestu je ucitani XML
-   * izvestaj a na drugom je naziv XML fajla. Vraca null ako je korisnik odustao
-   */
+
   public static GeneratedReport loadReport(Report report) {
     try {
         List<ListItem> list = getReportList(report);
@@ -60,7 +57,7 @@ public class ReportUtils {
   }
 
   /**
-   * Formira listu postojecih varijanti za dati izvestaj. Poziva servlet.
+   * Formira listu postojecih varijanti za dati izvestaj.
    */
  public static List<ListItem> getReportList(Report report) {
 
