@@ -17,7 +17,7 @@ public interface LendingRepositoryCustom {
                                           Date lendDateStart, Date lendDateEnd, Date returnDateStart, Date returnDateEnd,
                                           Date deadlineStart, Date deadlineEnd);
 
-    public List<Lending> getLenignsWithAnyActivityOnDate(Date dateOfActivity, String location);
+    public List<Lending> getLenignsWithAnyActivityOnDate(Date start,Date end, String location);
 
     public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField, String byLendReturnResume, Integer listSize);
 

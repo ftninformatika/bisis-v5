@@ -72,12 +72,12 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
 
     }
 
-    public List<Lending> getLenignsWithAnyActivityOnDate(Date dateOfActivity, String location){
+    public List<Lending> getLenignsWithAnyActivityOnDate(Date start,Date end, String location){
         List<Lending> retVal = null;
         Criteria lendDateCriteria, returnDateCriteria, resumeDateCriteria, or, desiredCriteria;
-        lendDateCriteria = Criteria.where("lendDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(dateOfActivity))).lte(DateUtils.getEndOfDay(dateOfActivity));
-        returnDateCriteria = Criteria.where("returnDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(dateOfActivity))).lte(DateUtils.getEndOfDay(dateOfActivity));
-        resumeDateCriteria = Criteria.where("resumeDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(dateOfActivity))).lte(DateUtils.getEndOfDay(dateOfActivity));
+        lendDateCriteria = Criteria.where("lendDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
+        returnDateCriteria = Criteria.where("returnDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
+        resumeDateCriteria = Criteria.where("resumeDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
         or = new Criteria();
         or.orOperator(lendDateCriteria, returnDateCriteria, resumeDateCriteria);
 

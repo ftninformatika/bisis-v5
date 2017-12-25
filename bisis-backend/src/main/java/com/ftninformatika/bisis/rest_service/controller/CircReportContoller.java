@@ -4,7 +4,6 @@ import com.ftninformatika.bisis.circ.CorporateMember;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
-import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,6 +39,34 @@ public class CircReportContoller {
     @Autowired LibrarianRepository librarianRepository;
 
 
+    @RequestMapping(value = "get_lend_return_language_report")
+    public List<Report> getLendReturnLanguageReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        List<Report> retVal = new ArrayList<>();
+
+        List<Lending> lendings = lendingRepository.getLenignsWithAnyActivityOnDate(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), location);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        lendings.forEach(
+                l -> {
+                    Report r = new Report();
+                    if (l.getCtlgNo() != null)
+                        r.setProperty1(l.getCtlgNo());
+                    if (l.getLendDate() != null)
+                        r.setProperty2(formatter.format(l.getLendDate()));
+                    if (l.getReturnDate() != null)
+                        r.setProperty3(formatter.format(l.getReturnDate()));
+                    if (l.getResumeDate() != null)
+                        r.setProperty4(formatter.format(l.getResumeDate()));
+                    retVal.add(r);
+                }
+        );
+
+        return retVal;
+    }
+        /**
+         * blokirane korisnike
+         */
+    /*BlockedReportCommand*/
     @RequestMapping(value = "get_blocked_report")
     public List<Report> getBlockedReport(@RequestParam(name = "location", required = false)String location){
         List<Report> retVal = new ArrayList<>();
@@ -245,7 +271,7 @@ public class CircReportContoller {
         List<Lending> lendings = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        lendings = lendingRepository.getLenignsWithAnyActivityOnDate(date, location);
+        lendings = lendingRepository.getLenignsWithAnyActivityOnDate(date, date, location);
 
         List<String> userIds = lendings.stream().map(l -> l.getUserId()).collect(Collectors.toList());
         Map<String, Member> members = memberRepository.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));

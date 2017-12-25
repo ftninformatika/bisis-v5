@@ -343,7 +343,9 @@ public interface BisisService {
     @GET ("circ_report/get_librarian_statistic_report")
     Call<List<Report>> getLibrarianStatisticReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
-
     @GET ("circ_report/get_blocked_report")
     Call<List<Report>> getBlockedReport( @Query("location") String location);
+
+    @GET ("circ_report/get_lend_return_language_report")
+    Call<List<Report>> getLendReturnLanguageReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 }
