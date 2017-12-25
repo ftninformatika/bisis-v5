@@ -479,10 +479,10 @@ public class Report {
 //			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(CtgrUdk.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 //			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 //			          break;
-//						case 16 :
-//			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
-//			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//			          break;
+						case 16 :
+			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
+			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+			          break;
 //						case 17 :
 //			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBookUdk.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem(),getTfNumber().getText()));
 //			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");

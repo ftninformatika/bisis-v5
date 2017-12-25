@@ -96,21 +96,23 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         return retVal;
     }
 
-    public List<Object> getBesReaderMap(Date start, Date end, String location){
+    public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField){
         List<Object> results = null;
         Criteria lendDateCriteria = Criteria.where("lendDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
         if (location != null && !location.equals(""))
             lendDateCriteria = new Criteria().andOperator(lendDateCriteria, Criteria.where("location").is(location));
 
         Aggregation agg = Aggregation.newAggregation(Aggregation.match(lendDateCriteria),
-                                                     Aggregation.group("userId").count().as("booksRed"),
-                                                     Aggregation.project("booksRed").and("userId").previousOperation(),
-                                                     Aggregation.sort(Sort.Direction.DESC, "booksRed")
-                                                     );
+                Aggregation.group(groupByField).count().as(countFieldName),
+                Aggregation.project(countFieldName).and(groupByField).previousOperation(),
+                Aggregation.sort(Sort.Direction.DESC, sortByField)
+        );
         results = mongoTemplate.aggregate(agg, Lending.class, Object.class).getMappedResults();
 
-
-        return results.subList(0, 20);
+        if (results != null && results.size() >= 20)
+            return results.subList(0, 20);
+        else
+            return results;
     }
 
 

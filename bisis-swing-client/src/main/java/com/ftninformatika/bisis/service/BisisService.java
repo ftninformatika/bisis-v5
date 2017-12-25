@@ -336,4 +336,7 @@ public interface BisisService {
 
     @GET ("circ_report/get_best_reader_report")
     Call<List<Report>> getBestReaderReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
+    @GET ("circ_report/get_best_book_report")
+    Call<List<Report>> getBestBookReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 }

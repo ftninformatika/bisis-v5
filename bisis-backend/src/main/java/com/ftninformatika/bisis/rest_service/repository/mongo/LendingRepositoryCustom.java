@@ -12,10 +12,11 @@ public interface LendingRepositoryCustom {
     public List<String> getLendingsCtlgNo(Date startL, Date endL, Date startR, Date endR, String location);
 
     public List<String> getLendingsUserId(String ctlgNo, String librarianLend, String librarianReturn, String location,
-                                   Date lendDateStart, Date lendDateEnd, Date returnDateStart, Date returnDateEnd,
-                                   Date deadlineStart, Date deadlineEnd);
+                                          Date lendDateStart, Date lendDateEnd, Date returnDateStart, Date returnDateEnd,
+                                          Date deadlineStart, Date deadlineEnd);
 
     public List<Lending> getLenignsWithAnyActivityOnDate(Date dateOfActivity, String location);
 
-    public List<Object> getBesReaderMap(Date start, Date end, String location);
+    public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField);
+
 }

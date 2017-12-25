@@ -35,21 +35,51 @@ public class CircReportContoller {
 
     @Autowired LocationRepository locationRepository;
 
+    /**
+     * najcitanije knjige
+     */
+    /*BestBookReportCommand*/
+    @RequestMapping(value = "get_best_book_report")
+    public List<Report> getBestBookReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        List<Report> retVal = new ArrayList<>();
+
+        List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location,
+                                                                "ctlgNo", "lendedCount", "lendedCount");
+        if (l != null){
+            for(Object o: l){
+                if(o instanceof LinkedHashMap){
+                    Report r = new Report();
+                    r.setProperty1(((LinkedHashMap) o).get("ctlgNo").toString());
+                    r.setProperty2(((LinkedHashMap) o).get("lendedCount").toString());
+                    retVal.add(r);
+                }
+            }
+        }
+
+        return retVal;
+    }
+
+        /**
+         * citaoci koji su zaduzili najvise knjiga
+         */
+    /*BestReaderReportCommand*/
     @RequestMapping(value = "get_best_reader_report")
     public List<Report> getBestReaderReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
 
-        List<Object> l = lendingRepository.getBesReaderMap(start, end, location);
-
-        for (Object o: l){
-            if(o instanceof LinkedHashMap){
-                Report r = new Report();
-                Member m = memberRepository.getMemberByUserId(((LinkedHashMap)o).get("userId").toString());
-                r.setProperty1(m.getUserId());
-                r.setProperty2(m.getFirstName());
-                r.setProperty3(m.getLastName());
-                r.setProperty4(((LinkedHashMap)o).get("booksRed").toString());
-                retVal.add(r);
+        List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location,
+                                                                "userId", "booksRed", "booksRed");
+        if (l != null) {
+            for (Object o : l) {
+                if (o instanceof LinkedHashMap) {
+                    Report r = new Report();
+                    Member m = memberRepository.getMemberByUserId(((LinkedHashMap) o).get("userId").toString());
+                    r.setProperty1(m.getUserId());
+                    r.setProperty2(m.getFirstName());
+                    r.setProperty3(m.getLastName());
+                    r.setProperty4(((LinkedHashMap) o).get("booksRed").toString());
+                    retVal.add(r);
+                }
             }
         }
 
