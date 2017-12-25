@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-12-08T20:12:11 -->
+<!-- 2017-12-09T09:17:14 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InvKnjigaMonografske" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" resourceBundle="messages_properties/internationalization/messages" uuid="fa776a26-a3ce-413a-bf83-6d6361f616c9">
 	<property name="com.jasperassistant.designer.Rulers" value="true"/>
 	<property name="com.jasperassistant.designer.GridWidth" value="3"/>
@@ -79,9 +79,9 @@
 				<textFieldExpression><![CDATA[$P{library}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="201" y="5" width="400" height="30" uuid="de375449-3143-4bc6-8850-4dff237a50f8"/>
+				<reportElement x="210" y="5" width="476" height="30" uuid="de375449-3143-4bc6-8850-4dff237a50f8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="14"/>
+					<font fontName="DejaVu Sans" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
