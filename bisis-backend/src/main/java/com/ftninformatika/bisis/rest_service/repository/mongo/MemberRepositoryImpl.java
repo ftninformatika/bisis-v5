@@ -116,6 +116,24 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
     }
 
+    public List<Member> getBlockedMembers(String location){
+        List<Member> retVal = new ArrayList<>();
+
+        Criteria cr = new Criteria();
+        cr = cr.andOperator(Criteria.where("blockReason").ne(null), Criteria.where("blockReason").ne(""));
+        if (location != null && !location.equals(""))
+            cr = new Criteria().andOperator(cr, Criteria.where("location").is(location));
+
+        if (cr != null){
+            Query q = new Query();
+            q.addCriteria(cr);
+            q.with(new Sort(new Sort.Order(Sort.Direction.DESC, "blockReason")));
+            retVal = mongoTemplate.find(q, Member.class);
+        }
+
+        return retVal;
+    }
+
     @Override
     public List<Member> getSignedMembers(Date startDate, Date endDate, String location, String sortBy) {
          Criteria cr=null;

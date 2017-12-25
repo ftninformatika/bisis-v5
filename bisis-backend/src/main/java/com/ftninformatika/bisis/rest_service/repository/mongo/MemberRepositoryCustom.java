@@ -18,4 +18,5 @@ public interface MemberRepositoryCustom {
     public List<Member> getSignedCorporateMembers(Date startDate, Date endDate,String institution, String location);
     public List<Report> groupMemberByMembershipType(Date startDate, Date endDate, String location);
     public Map<String, Integer> getLibrarianSignedCount(Date start, Date end, String location);
+    public List<Member> getBlockedMembers(String location);
 }

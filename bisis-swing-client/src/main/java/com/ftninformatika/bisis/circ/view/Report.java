@@ -430,20 +430,20 @@ public class Report {
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestReader.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-//
-//						case 9 :
-//	            Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Blocked.setPrint(getCmbLocation().getSelectedItem()));
-//	            Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//							break;
-//
+
+						case 9 :
+							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Blocked.setPrint(getCmbLocation().getSelectedItem()));
+							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+							break;
+
 						case 10 :
-		           Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(GroupsReport.setPrint(getCmbLocation().getSelectedItem()));
-		           Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+						   Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(GroupsReport.setPrint(getCmbLocation().getSelectedItem()));
+						   Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 						   break;
 
 						case 11 :
-							 Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
-							 Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+						 Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+						 Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 			         	break;
 						case 12 :
 							 Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem(),getCmbGroup().getSelectedItem()));

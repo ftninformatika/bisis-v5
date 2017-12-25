@@ -41,6 +41,38 @@ public class CircReportContoller {
     @Autowired LibrarianRepository librarianRepository;
 
 
+    @RequestMapping(value = "get_blocked_report")
+    public List<Report> getBlockedReport(@RequestParam(name = "location", required = false)String location){
+        List<Report> retVal = new ArrayList<>();
+
+        List<Member> members = memberRepository.getBlockedMembers(location);
+        members.forEach(
+                m -> {
+                    Report r = new Report();
+                    if (m.getUserId() != null)
+                        r.setProperty1(m.getUserId());
+                    if(m.getFirstName() != null)
+                        r.setProperty2(m.getFirstName());
+                    if(m.getLastName() != null)
+                        r.setProperty3(m.getLastName());
+                    if(m.getBlockReason() != null)
+                        r.setProperty4(m.getBlockReason());
+                    retVal.add(r);
+                }
+        );
+
+        return retVal;
+    }
+
+
+    /**
+     * broj uclanjenih korisnika po bibliotekarima
+     * broj zaduzenja po bibliotekarima
+     * broj produzenja po bibliotekarima
+     * broj razduzenja po bibliotekarima
+     *
+     */
+    /*LibrarianStatistic1Command LibrarianStatistic2Command LibrarianStatistic4Command LibrarianStatistic3Command*/
     @RequestMapping(value = "get_librarian_statistic_report")
     public List<Report> getLibrarianStatisticReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
@@ -81,17 +113,6 @@ public class CircReportContoller {
             r.setProperty4(entry.getValue().getProperty4());
             r.setProperty5(entry.getValue().getProperty5());
 
-            Integer total = 0;
-            if (entry.getValue().getProperty2() != null)
-                total += Integer.parseInt(entry.getValue().getProperty2());
-            if (entry.getValue().getProperty3() != null)
-                total += Integer.parseInt(entry.getValue().getProperty3());
-            if (entry.getValue().getProperty4() != null)
-                total += Integer.parseInt(entry.getValue().getProperty4());
-            if (entry.getValue().getProperty5() != null)
-                total += Integer.parseInt(entry.getValue().getProperty5());
-
-            r.setProperty6(String.valueOf(total));
             retVal.add(r);
         }
 
