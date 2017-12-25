@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.search.SearchModelMember;
+import com.ftninformatika.utils.date.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -11,9 +12,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
@@ -26,6 +25,41 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     MongoTemplate mongoTemplate;
     List<String> fromLendings = Arrays.asList("ctlgNo","librarianLend","librarianReturn","lendDate","returnDate","deadline");
     String currentOperator=null;
+
+    public Map<String, Integer> getLibrarianSignedCount(Date start, Date end, String location){
+        /*List<Object> retVal = null;
+        Criteria cr=null;
+        if (location!=null&& !location.equals("") ) {
+            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start)))
+                                                                                 .lte(DateUtils.getEndOfDay(end)).and("location").is(location));
+
+        }else{
+            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start)))
+                                                                                 .lte(DateUtils.getEndOfDay(end)));
+        }
+
+        Aggregation agg = Aggregation.newAggregation(
+                Aggregation.match(cr),
+                unwind("signings", "0"),
+                Aggregation.group("signings.librarian").count().as("signedCount"),
+                Aggregation.project("signedCount").and("signings.librarian").previousOperation(),
+                Aggregation.sort(Sort.Direction.DESC, "signedCount")
+        );
+
+        retVal = mongoTemplate.aggregate(agg, Member.class, Object.class).getMappedResults();*/
+
+        List<Member> members = getSignedMembers(start, end, location, "userId");
+        Map<String, Integer> mp = new HashMap<>();
+        for(Member m: members){
+            String librarian = m.getSignings().get(0).getLibrarian();
+            if (mp.containsKey(librarian))
+                mp.put(librarian, mp.get(librarian) + 1);
+            else
+                mp.put(librarian, 1);
+        }
+
+        return mp;
+    }
 
     @Override
     public List<Member> getMembersFilteredByLending(SearchModelMember searchModel, List userIds) {

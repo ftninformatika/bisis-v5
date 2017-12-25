@@ -4,6 +4,8 @@ import com.ftninformatika.bisis.circ.CorporateMember;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,16 +38,77 @@ public class CircReportContoller {
 
     @Autowired LocationRepository locationRepository;
 
-    /**
-     * najcitanije knjige
-     */
+    @Autowired LibrarianRepository librarianRepository;
+
+
+    @RequestMapping(value = "get_librarian_statistic_report")
+    public List<Report> getLibrarianStatisticReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        List<Report> retVal = new ArrayList<>();
+
+        Map<String, Report> reportMap = lendingRepository.getLibrarianStatistic(start, end, location);
+
+
+        Map<String, Integer> signedMap = memberRepository.getLibrarianSignedCount(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), location);
+
+
+        for (Map.Entry<String, Integer> entry : signedMap.entrySet()){
+            if(reportMap.containsKey(entry.getKey())){
+                reportMap.get(entry.getKey()).setProperty5(String.valueOf(entry.getValue()));
+            }
+            else {
+                Report r = new Report();
+                r.setProperty1(entry.getKey());
+                r.setProperty5(String.valueOf(entry.getValue()));
+            }
+        }
+
+        for (Map.Entry<String, Report> entry : reportMap.entrySet()){
+            LibrarianDTO m = librarianRepository.getByUsername(entry.getKey() + "@" + lib);
+            Report r = new Report();
+            String fullName = "";
+            if (m != null) {
+                if (m.getIme() != null)
+                    fullName = fullName + m.getIme();
+                if (m.getPrezime() != null)
+                    fullName = fullName + " " + m.getPrezime();
+
+                r.setProperty1(fullName);
+            }
+            else
+                r.setProperty1(entry.getKey());
+            r.setProperty2(entry.getValue().getProperty2());
+            r.setProperty3(entry.getValue().getProperty3());
+            r.setProperty4(entry.getValue().getProperty4());
+            r.setProperty5(entry.getValue().getProperty5());
+
+            Integer total = 0;
+            if (entry.getValue().getProperty2() != null)
+                total += Integer.parseInt(entry.getValue().getProperty2());
+            if (entry.getValue().getProperty3() != null)
+                total += Integer.parseInt(entry.getValue().getProperty3());
+            if (entry.getValue().getProperty4() != null)
+                total += Integer.parseInt(entry.getValue().getProperty4());
+            if (entry.getValue().getProperty5() != null)
+                total += Integer.parseInt(entry.getValue().getProperty5());
+
+            r.setProperty6(String.valueOf(total));
+            retVal.add(r);
+        }
+
+
+        return retVal;
+    }
+
+        /**
+         * najcitanije knjige
+         */
     /*BestBookReportCommand*/
     @RequestMapping(value = "get_best_book_report")
     public List<Report> getBestBookReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
 
         List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location,
-                                                                "ctlgNo", "lendedCount", "lendedCount");
+                                                                "ctlgNo", "lendedCount", "lendedCount", "lendDate", 20);
         if (l != null){
             for(Object o: l){
                 if(o instanceof LinkedHashMap){
@@ -68,7 +132,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
 
         List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location,
-                                                                "userId", "booksRed", "booksRed");
+                                                                "userId", "booksRed", "booksRed", "lendDate", 20);
         if (l != null) {
             for (Object o : l) {
                 if (o instanceof LinkedHashMap) {

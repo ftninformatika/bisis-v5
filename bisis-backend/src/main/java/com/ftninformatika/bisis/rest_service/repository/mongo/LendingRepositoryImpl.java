@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.utils.date.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -96,9 +97,85 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         return retVal;
     }
 
-    public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField){
+    public Map<String, com.ftninformatika.bisis.circ.pojo.Report> getLibrarianStatistic(Date start, Date end, String location){
+        //List<com.ftninformatika.bisis.circ.pojo.Report> retVal = null;
+        Map<String, com.ftninformatika.bisis.circ.pojo.Report> reportMap = new HashMap<>();
+
+        List<Object> lLend = getGroupByForLendingsBetweenDate(start, end, location,
+                "librarianLend", "lendedCount", "librarianLend", "lendDate", null);
+
+        List<Object> lReturn = getGroupByForLendingsBetweenDate(start, end, location,
+                "librarianReturn", "returnedCount", "librarianReturn", "returnDate", null);
+
+        List<Object> lResume = getGroupByForLendingsBetweenDate(start, end, location,
+                "librarianResume", "resumedCount", "librarianResume", "resumeDate", null);
+
+        lLend.forEach(
+                l -> {
+                    if (l!= null && l instanceof LinkedHashMap){
+                        String libraran = ((LinkedHashMap)l).get("librarianLend").toString();
+                        Integer count = (Integer) ((LinkedHashMap)l).get("lendedCount");
+
+                        if (!reportMap.containsKey(libraran)){
+                            com.ftninformatika.bisis.circ.pojo.Report r = new com.ftninformatika.bisis.circ.pojo.Report();
+                            r.setProperty1(libraran);
+                            r.setProperty2(String.valueOf(count));
+                            reportMap.put(libraran, r);
+                        }
+                        else {
+                            reportMap.get(libraran).setProperty2(String.valueOf(count));
+                        }
+
+                    }
+                }
+        );
+
+        lReturn.forEach(
+                l -> {
+                    if (l!= null && l instanceof LinkedHashMap){
+                        String libraran = ((LinkedHashMap)l).get("librarianReturn").toString();
+                        Integer count = (Integer) ((LinkedHashMap)l).get("returnedCount");
+
+                        if (!reportMap.containsKey(libraran)){
+                            com.ftninformatika.bisis.circ.pojo.Report r = new com.ftninformatika.bisis.circ.pojo.Report();
+                            r.setProperty1(libraran);
+                            r.setProperty3(String.valueOf(count));
+                            reportMap.put(libraran, r);
+                        }
+                        else {
+                            reportMap.get(libraran).setProperty3(String.valueOf(count));
+                        }
+
+                    }
+                }
+        );
+
+        lResume.forEach(
+                l -> {
+                    if (l!= null && l instanceof LinkedHashMap){
+                        String libraran = ((LinkedHashMap)l).get("librarianResume").toString();
+                        Integer count = (Integer) ((LinkedHashMap)l).get("resumedCount");
+
+                        if (!reportMap.containsKey(libraran)){
+                            com.ftninformatika.bisis.circ.pojo.Report r = new com.ftninformatika.bisis.circ.pojo.Report();
+                            r.setProperty1(libraran);
+                            r.setProperty4(String.valueOf(count));
+                            reportMap.put(libraran, r);
+                        }
+                        else {
+                            reportMap.get(libraran).setProperty4(String.valueOf(count));
+                        }
+
+                    }
+                }
+        );
+
+        return reportMap;
+    }
+
+    public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField, String byLendReturnResume, Integer listSize){
         List<Object> results = null;
-        Criteria lendDateCriteria = Criteria.where("lendDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
+        Criteria lendDateCriteria = Criteria.where(byLendReturnResume).gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
         if (location != null && !location.equals(""))
             lendDateCriteria = new Criteria().andOperator(lendDateCriteria, Criteria.where("location").is(location));
 
@@ -109,11 +186,13 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         );
         results = mongoTemplate.aggregate(agg, Lending.class, Object.class).getMappedResults();
 
-        if (results != null && results.size() >= 20)
-            return results.subList(0, 20);
+        if (results != null && results.size() >= 20 && listSize != null)
+            return results.subList(0, listSize);
         else
             return results;
     }
+
+
 
 
     @Override

@@ -1,9 +1,11 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.pojo.Report;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dboberic on 17/11/2017.
@@ -17,6 +19,7 @@ public interface LendingRepositoryCustom {
 
     public List<Lending> getLenignsWithAnyActivityOnDate(Date dateOfActivity, String location);
 
-    public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField);
+    public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField, String byLendReturnResume, Integer listSize);
 
+    public Map<String, Report> getLibrarianStatistic(Date start, Date end, String location);
 }
