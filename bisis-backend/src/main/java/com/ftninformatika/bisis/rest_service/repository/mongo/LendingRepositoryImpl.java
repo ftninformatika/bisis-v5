@@ -42,7 +42,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
             or = new Criteria();
             or.orOperator(landDate, resumeDate);
             and = new Criteria();
-            if (location!=null  ) {
+            if (location!=null && !location.equals("") ) {
                 currentCriteria = and.andOperator(or, Criteria.where("location").is(location));
             }else{
                 currentCriteria =or;

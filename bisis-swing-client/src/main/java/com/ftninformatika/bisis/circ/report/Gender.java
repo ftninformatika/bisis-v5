@@ -14,11 +14,8 @@ public class Gender {
 		Report report = reportDoc.addNewReport();
 		for (com.ftninformatika.bisis.circ.pojo.Report r: l ) {
 
-			String gender = "Неодређено";
-			if(r.getProperty1() !=null && r.getProperty1().equals("F"))
-				gender = "Женско";
-			if(r.getProperty1() !=null && r.getProperty1().equals("M"))
-				gender = "Мушко";
+			String gender = r.getProperty1();
+
 			long br = r.getProperty21();
 			Row row = report.addNewRow();
 			row.addNewColumn1().setStringValue(gender);

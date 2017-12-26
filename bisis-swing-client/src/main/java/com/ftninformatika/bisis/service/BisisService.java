@@ -364,4 +364,7 @@ public interface BisisService {
     @GET ("circ_report/get_gender_report")
     Call<List<Report>> getGenderReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
+    @GET ("circ_report/get_best_book_udk")
+    Call<List<Report>> getBestBookUdk(@Query("start") PathDate start, @Query("end") PathDate end, @Query("udk") String udk, @Query("location") String location);
+
 }

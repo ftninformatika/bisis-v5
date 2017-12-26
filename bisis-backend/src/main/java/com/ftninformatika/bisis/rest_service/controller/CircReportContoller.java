@@ -5,17 +5,22 @@ import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.utils.date.DateUtils;
+import ma.glasnost.orika.MapEntry;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +43,59 @@ public class CircReportContoller {
     @Autowired LocationRepository locationRepository;
 
     @Autowired LibrarianRepository librarianRepository;
+
+    @Autowired ElasticRecordsRepository elasticRecordsRepository;
+
+
+    /**
+     * najcitanije knjige po UDK
+     */
+    /*BestBookUDKReportCommand, FilterManager.bestBookUDK()*/
+    @RequestMapping(value = "get_best_book_udk")
+    public List<Report> getBestBookUdk(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("udk")String udk, @RequestParam(name = "location", required = false)String location) {
+        List<Report> retVal = new ArrayList<>();
+        List<Object> finalResults = new ArrayList<>();
+        HashMap<String, Integer> retMap = new HashMap<>();
+        MatchQueryBuilder pp = null;
+        if(udk != null && !udk.equals("")) {
+            pp = QueryBuilders.matchPhrasePrefixQuery("prefixes.DC", udk);
+            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
+            //svi ctlgNo koji su iznajmljeni u zadatom periodu - iz ove kolekcije brojimo
+            List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
+            //zbog brzine contains() metode - iz ove kolekcije proveravamo
+            Set<String> setCtlgNos = new HashSet<>(lendResultClgNos);
+            Collections.sort(lendResultClgNos);
+            ee.forEach(
+                    e -> {
+                        if (e.getPrefixes().get("IN") != null) {
+                            for (String in : e.getPrefixes().get("IN")) {
+                                if(setCtlgNos.contains(in) && !retMap.containsKey(in)){
+                                    retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
+                                }
+                            }
+                        }
+                    }
+            );
+        }
+        if(retMap.size() > 0){
+            //osakatimo mapu na 20 najcitanijih
+            finalResults = retMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(20).collect(Collectors.toList());
+            for (Object o: finalResults){
+                if(o instanceof HashMap.Entry){
+                    Report r = new Report();
+                    Record rec = recordsRepository.findOne(((HashMap.Entry)o).getKey().toString());
+                    RecordPreview pr = new RecordPreview();
+                    pr.init(rec);
+                    r.setProperty21(Long.parseLong((((HashMap.Entry)o).getValue().toString())));
+                    r.setProperty1(pr.getTitle());
+                    r.setProperty2(pr.getAuthor());
+                    retVal.add(r);
+
+                }
+            }
+        }
+        return retVal;
+    }
 
     /** broj korisnika po polu koji su se uclanili u datom periodu
      */
