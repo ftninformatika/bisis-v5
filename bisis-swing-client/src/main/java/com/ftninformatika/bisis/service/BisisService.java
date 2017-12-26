@@ -348,4 +348,20 @@ public interface BisisService {
 
     @GET ("circ_report/get_lend_return_language_report")
     Call<List<Report>> getLendReturnLanguageReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
+    @GET ("circ_report/get_categoria_report")
+    Call<List<Report>> getCategoriaReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
+    @GET ("circ_report/get_mmbr_type_struct_report")
+    Call<List<Report>> getMmbrTypeStructReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
+    @GET ("circ_report/get_free_signing_report")
+    Call<Long> getFreeSigningReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
+    @GET ("circ_report/get_users_number_report")
+    Call<Long> getUsersNumberReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
+    @GET ("circ_report/get_gender_report")
+    Call<List<Report>> getGenderReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
 }

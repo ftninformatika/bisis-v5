@@ -61,6 +61,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return mp;
     }
 
+    public List<Report> groupSignedMembersByGender(Date start, Date end, String location){
+        List<Report> retVal = null;
+
+
+
+        return retVal;
+    }
+
     @Override
     public List<Member> getMembersFilteredByLending(SearchModelMember searchModel, List userIds) {
         Query q=new Query();
@@ -130,7 +138,6 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             q.with(new Sort(new Sort.Order(Sort.Direction.DESC, "blockReason")));
             retVal = mongoTemplate.find(q, Member.class);
         }
-
         return retVal;
     }
 
@@ -178,8 +185,38 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
     }
 
+    public Long getFreeSigningMembersCount(Date start, Date end, String location){
+        Criteria cr, cr1,cr2;
+        if (location!=null && !location.equals("") ) {
+            cr1 =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(DateUtils.getStartOfDay(start))).lte(DateUtils.getEndOfDay(end)).and("location").is(location);
 
-    public List<Report> groupMemberByMembershipType(Date startDate, Date endDate, String location){
+        }else{
+            cr1 =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(DateUtils.getStartOfDay(start)).lte(DateUtils.getEndOfDay(end)));
+        }
+        cr2 = Criteria.where("signings.cost").is(0);
+        cr = new Criteria().andOperator(cr1, cr2);
+
+        Query query = new Query();
+        query.addCriteria(cr);
+        Long count = mongoTemplate.count(query, Member.class);
+        return count;
+    }
+
+    public Long getUserSignedCount(Date start, Date end, String location){
+        Criteria cr1;
+        if (location!=null && !location.equals("") ) {
+            cr1 =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end)).and("location").is(location));
+
+        }else{
+            cr1 =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end)));
+        }
+        Query query = new Query();
+        query.addCriteria(cr1);
+        Long count = mongoTemplate.count(query, Member.class);
+        return count;
+    }
+
+    public List<Report> groupMemberByField(Date startDate, Date endDate, String location, String groupByField){
         Criteria cr=null;
         if (location!=null&& !location.equals("") ) {
             cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate).and("location").is(location));
@@ -189,7 +226,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
         Aggregation agg = newAggregation(
                 match(cr),
-                group("membershipType.description").count().as("property21"),
+                group(groupByField).count().as("property21"),
                 project("property21").and("_id").as("property1")
                 );
 
@@ -198,6 +235,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
         return result;
     }
+
     private Criteria createCriteria(String prefix,String text, String op, Criteria currentCriteria){
 
         if(text != null && !text.equals("") && !fromLendings.contains(prefix)){

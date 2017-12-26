@@ -34,8 +34,4 @@ public interface MemberRepository extends MongoRepository<Member,String>, Member
     @Query(value =  "{'corporateMember.instName': ?0}")
     List<Member> findByCorporateMember(String groupName);
 
-    @Query(value = "{'blockReason': {'$exists': true, '$ne': '', '$ne': null}}")
-    List<Member> findBlockedMembers ();
-
-
 }

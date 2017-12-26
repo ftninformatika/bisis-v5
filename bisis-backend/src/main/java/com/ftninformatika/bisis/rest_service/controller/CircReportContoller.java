@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.utils.date.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,55 @@ public class CircReportContoller {
 
     @Autowired LibrarianRepository librarianRepository;
 
+    /** broj korisnika po polu koji su se uclanili u datom periodu
+     */
+    /*GenderReportCommand*/
+    @RequestMapping(value = "get_gender_report")
+    public List<Report> getGenderReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+       return memberRepository.groupMemberByField(DateUtils.getYesterday(DateUtils.getEndOfDay(start)),
+               DateUtils.getEndOfDay(end), location, "gender");
+    }
 
+        /**
+         *  ukupan broj korisnika koji su se uclanili od pocetka godine
+         *  ukupan broj korisnika koji su se uclanili u tom periodu
+         */
+    /*UsersNumberReportCommand*/
+    @RequestMapping(value = "get_users_number_report")
+    public Long getUsersNumberReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        return memberRepository.getUserSignedCount(start, end, location);
+    }
+
+    /**broj korisnika koji su se uclanili u datom periodu ali ne placaju clanarinu
+     */
+    /*FreeSigningReportCommand*/
+    @RequestMapping(value = "get_free_signing_report")
+    public Long getFreeSigningReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        return memberRepository.getFreeSigningMembersCount(start, end, location);
+    }
+
+    /** broj korisnika iz odredjene vrste uclanjenja koji su se uclanili u datom periodu
+     */
+    /*MemberTypeReportCommand*/
+    @RequestMapping(value = "get_mmbr_type_struct_report")
+    public List<Report> getMmbrTypeStructReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location){
+        return memberRepository.groupMemberByField(DateUtils.getYesterday(DateUtils.getEndOfDay(start)),
+                        DateUtils.getEndOfDay(end), location, "membershipType.description");
+    }
+
+        /**broj korisnika koji pripadaju odredjenoj kategoriji i uclanili su se u datom periodu
+         */
+    /*CategoriaReportCommand*/
+     @RequestMapping(value = "get_categoria_report")
+    public List<Report> getCategoriaReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location){
+        return memberRepository.groupMemberByField(DateUtils.getYesterday(DateUtils.getEndOfDay(start)),
+                DateUtils.getEndOfDay(end), location, "userCategory.description");
+    }
+
+        /**
+         * izdate i vracene po jeziku
+         */
+    /*LendReturnLanguageReportCommand*///TODO-optimizovati, ne valja ovako nikako
     @RequestMapping(value = "get_lend_return_language_report")
     public List<Report> getLendReturnLanguageReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
@@ -515,7 +564,7 @@ public class CircReportContoller {
 
     @RequestMapping(value = "/group_by_membership_type", method = RequestMethod.GET)
     public List<Report> groupByMembershipType(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location){
-        List<Report> reports = memberRepository.groupMemberByMembershipType(start,end,location);
+        List<Report> reports = memberRepository.groupMemberByField(start,end,location, "membershipType.description");
         return reports;
     }
 
