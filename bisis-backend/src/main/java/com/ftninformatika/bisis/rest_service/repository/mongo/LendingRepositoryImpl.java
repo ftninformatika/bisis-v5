@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.utils.date.DateUtils;
+import freemarker.template.utility.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -57,6 +58,43 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
             }
         }
         return currentCriteria;
+    }
+
+//    public List<Object> getPassiveVisitors(Date start, Date end, String location){
+//        List<Object> retVal = null;
+//        start = DateUtils.getStartOfDay(start);
+//        end = DateUtils.getEndOfDay(end);
+//
+//        Criteria lendDateCr = Criteria.where("returnDate").gte(start).lte(end);
+//        Criteria and1 = new Criteria().andOperator(Criteria.where("lendDate > returnDate"), Criteria.where("lendDate < ")
+//
+//
+//        return retVal;
+//    }
+
+    public List<Object> getActiveVisitors(Date start, Date end, String location){
+        List<Lending> retVal = null;
+        Criteria and1 = new Criteria().andOperator(Criteria.where("lendDate").gt(DateUtils.getStartOfDay(start)).lte(DateUtils.getEndOfDay(end)),
+                        Criteria.where("returnDate").is(null));
+        Criteria or1 = new Criteria().orOperator(and1, Criteria.where("returnDate").gt(DateUtils.getEndOfDay(end)));
+
+        Criteria and2 = new Criteria().andOperator(Criteria.where("resumeDate").gt(DateUtils.getStartOfDay(start)).lte(DateUtils.getEndOfDay(end)),
+                                                    Criteria.where("returnDate").is(null));
+        Criteria or2 = new Criteria().orOperator(and2, Criteria.where("resumeDate").gt(DateUtils.getEndOfDay(end)));
+        Criteria finalCriteria = new Criteria().orOperator(or1, or2);
+
+        if (location != null && !location.equals(""))
+            finalCriteria = new Criteria().andOperator(finalCriteria, Criteria.where("location").is(location));
+
+
+        Aggregation agg = Aggregation.newAggregation(Aggregation.match(finalCriteria),
+                Aggregation.group("userId").count().as("count"),
+                Aggregation.project("count").and("userId").previousOperation(),
+                Aggregation.sort(Sort.Direction.DESC, "count")
+        );
+        List<Object> results = mongoTemplate.aggregate(agg, Lending.class, Object.class).getMappedResults();
+
+        return results;
     }
 
     public List<String> getLendingsCtlgNo(Date startL, Date endL, Date startR, Date endR, String location){

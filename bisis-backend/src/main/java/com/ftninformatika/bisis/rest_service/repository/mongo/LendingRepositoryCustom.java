@@ -22,4 +22,5 @@ public interface LendingRepositoryCustom {
     public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField, String byLendReturnResume, Integer listSize);
 
     public Map<String, Report> getLibrarianStatistic(Date start, Date end, String location);
+    public List<Object> getActiveVisitors(Date start, Date end, String location);
 }

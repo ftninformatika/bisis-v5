@@ -13,6 +13,8 @@ import retrofit2.Retrofit;
 //import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import java.util.concurrent.TimeUnit;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -66,6 +68,7 @@ public abstract class AppConfig {
 
   public void setRetrofit(String token, String domain) {
     OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+    okHttpClient.readTimeout(20, TimeUnit.SECONDS);
 
 
     String finalToken = token;

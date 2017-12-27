@@ -13,19 +13,19 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.utils.date.DateUtils;
 import ma.glasnost.orika.MapEntry;
 import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.Query;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/**
- * Created by dboberic on 03/11/2017.
- */
+
 @RestController
 @RequestMapping("/circ_report")
 public class CircReportContoller {
@@ -47,18 +47,61 @@ public class CircReportContoller {
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
 
 
+
+
     /**
-     * najcitanije knjige po UDK
+     * aktivni korisnici su oni koji su:
+     * 1. u datom periodu su zaduzili knjigu i nisu je vratili ili su je vratili posle datuma zaduzenja(to moze
+     * biti i sutradan jer se aktivni korisnici racunaju na jedan dan)
+     *
+     * 2. u datom periodu su produzili zaduzenje i nisu vratili knjigu ili su knjigu produzili posle
+     * datuma zaduzenja (najranije sutradan)
+     *
      */
+    /*ActiveVisitorsReportCommand*/
+    @RequestMapping(value = "get_active_visitors_report")
+    public List<Report> getActiveVisitorsReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        List<Report> retVal = new ArrayList<>();
+        List<Object> lendings = lendingRepository.getActiveVisitors(start, end, location);
+        Map<String, Integer> countUsrCat = new HashMap<>();
+        for (Object o: lendings){
+            if(o instanceof LinkedHashMap){
+                String userId = ((LinkedHashMap<String, String>)o).get("userId");
+                Integer count = ((LinkedHashMap<String, Integer>)o).get("count");
+                String ctg = memberRepository.getMemberByUserId(userId).getUserCategory().getDescription();
+                if(countUsrCat.containsKey(ctg)){
+                    countUsrCat.put(ctg, countUsrCat.get(ctg) + count);
+                }
+                else {
+                    countUsrCat.put(ctg, count);
+                }
+            }
+        }
+        countUsrCat.keySet().forEach(
+                k -> {
+                    Report r = new Report();
+                    r.setProperty1(k);
+                    r.setProperty21(countUsrCat.get(k));
+                    retVal.add(r);
+                }
+        );
+
+        return retVal;
+    }
+
+        /**
+         * najcitanije knjige po UDK
+         */
     /*BestBookUDKReportCommand, FilterManager.bestBookUDK()*/
     @RequestMapping(value = "get_best_book_udk")
     public List<Report> getBestBookUdk(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("udk")String udk, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
         List<Object> finalResults = new ArrayList<>();
         HashMap<String, Integer> retMap = new HashMap<>();
-        MatchQueryBuilder pp = null;
+        QueryBuilder pp = null;
         if(udk != null && !udk.equals("")) {
             pp = QueryBuilders.matchPhrasePrefixQuery("prefixes.DC", udk);
+
             Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
             //svi ctlgNo koji su iznajmljeni u zadatom periodu - iz ove kolekcije brojimo
             List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
