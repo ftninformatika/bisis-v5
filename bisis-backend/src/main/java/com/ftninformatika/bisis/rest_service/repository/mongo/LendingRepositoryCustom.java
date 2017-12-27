@@ -23,4 +23,7 @@ public interface LendingRepositoryCustom {
 
     public Map<String, Report> getLibrarianStatistic(Date start, Date end, String location);
     public List<Object> getActiveVisitors(Date start, Date end, String location);
+    public Long getLendCount(Date start, Date end, String location);
+    public Long getReturnCount(Date start, Date end, String location);
+    public Long getActiveVisitorsCount(Date start, Date end, String location);
 }

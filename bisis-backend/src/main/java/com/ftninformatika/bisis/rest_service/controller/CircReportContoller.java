@@ -48,16 +48,29 @@ public class CircReportContoller {
 
 
 
+    @RequestMapping(value = "get_zb_statistic_report")
+    public List<Report> getZbStatisticReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        List<Report> retVal = new ArrayList<>();
 
-    /**
-     * aktivni korisnici su oni koji su:
-     * 1. u datom periodu su zaduzili knjigu i nisu je vratili ili su je vratili posle datuma zaduzenja(to moze
-     * biti i sutradan jer se aktivni korisnici racunaju na jedan dan)
-     *
-     * 2. u datom periodu su produzili zaduzenje i nisu vratili knjigu ili su knjigu produzili posle
-     * datuma zaduzenja (najranije sutradan)
-     *
-     */
+        Long signedCount = memberRepository.getUserSignedCount(start,end, location);
+        Long lendCount = lendingRepository.getLendCount(start,end,location);
+        Long returnCount = lendingRepository.getReturnCount(start, end, location);
+        Long activeUsersCount = lendingRepository.getActiveVisitorsCount(start, end, location);
+
+
+
+        return retVal;
+    }
+
+        /**
+         * aktivni korisnici su oni koji su:
+         * 1. u datom periodu su zaduzili knjigu i nisu je vratili ili su je vratili posle datuma zaduzenja(to moze
+         * biti i sutradan jer se aktivni korisnici racunaju na jedan dan)
+         *
+         * 2. u datom periodu su produzili zaduzenje i nisu vratili knjigu ili su knjigu produzili posle
+         * datuma zaduzenja (najranije sutradan)
+         *
+         */
     /*ActiveVisitorsReportCommand*/
     @RequestMapping(value = "get_active_visitors_report")
     public List<Report> getActiveVisitorsReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
