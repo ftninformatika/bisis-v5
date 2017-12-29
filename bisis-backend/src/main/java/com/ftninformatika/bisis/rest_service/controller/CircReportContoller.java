@@ -11,18 +11,15 @@ import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.utils.date.DateUtils;
-import ma.glasnost.orika.MapEntry;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import com.sun.org.apache.regexp.internal.RE;
+import org.apache.lucene.queryparser.xml.FilterBuilder;
+import org.elasticsearch.index.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-
-import javax.management.Query;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -48,6 +45,145 @@ public class CircReportContoller {
 
 
 
+    @SuppressWarnings("Duplicates")
+    @RequestMapping(value = "get_lend_return_udk_report")
+    public Map<String, Report> getLendReturnUdkReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+
+        Map<String, Report> retVal = new HashMap<>();
+        List<String> lendingsCtlgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
+        List<String> returnCtlgNos = lendingRepository.getLendingsCtlgNo( null, null,DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location);
+        Set<String> lendingsCtlgNosSet = new HashSet<>(lendingsCtlgNos);
+        Set<String> retCtlgNosSet = new HashSet<>(returnCtlgNos);
+        lendingsCtlgNos.sort(Comparator.naturalOrder());
+        returnCtlgNos.sort(Comparator.naturalOrder());
+        Map<String , Integer> lendMap = new HashMap<>();
+        Map<String , Integer> retMap = new HashMap<>();
+        Map<String , Integer> lendMapNasl = new HashMap<>();
+        Map<String , Integer> retMapNasl = new HashMap<>();
+
+        int ukupnoNaslova = 0;
+        for (int i = 0; i <= 9; i++) {
+            final Integer[] primeraka = {0};
+            BoolQueryBuilder query = QueryBuilders.boolQuery();
+            TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", lendingsCtlgNos);
+            PrefixQueryBuilder pf = QueryBuilders.prefixQuery("prefixes.DC", i + "");
+            query.must(tq);
+            query.must(pf);
+            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
+            ukupnoNaslova +=  /*((Collection<?>) ee).size()*/0; //TODO size iterable
+            lendMapNasl.put(""+i,  /*((Collection<?>) ee).size()*/0);
+            ee.forEach(
+                    ep -> {
+                        if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
+                            ep.getPrefixes().get("IN").forEach(
+                                    in -> {
+                                        if(lendingsCtlgNosSet.contains(in)){
+                                            primeraka[0] = primeraka[0] + Collections.frequency(lendingsCtlgNos, in);
+                                    }
+                                    }
+                            );
+                        }
+                    }
+            );
+            lendMap.put(""+i, primeraka[0]);
+        }
+        lendMap.put("ukupnoPrimerka", lendMap.values().stream().mapToInt(i -> i).sum());
+        lendMap.put("ukupnoNaslova", ukupnoNaslova);
+
+        int ukupnoNaslovaRet = 0;
+        for (int i = 0; i <= 9; i++) {
+            final Integer[] primeraka = {0};
+            BoolQueryBuilder q = QueryBuilders.boolQuery();
+            TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", returnCtlgNos);
+            PrefixQueryBuilder pf = QueryBuilders.prefixQuery("prefixes.DC", i + "");
+            q.must(tq);
+            q.must(pf);
+            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(q);
+            ukupnoNaslovaRet +=/* ((Collection<?>) ee).size()*/0;
+            retMapNasl.put(""+i, /* ((Collection<?>) ee).size()*/0);
+            ee.forEach(
+                    ep -> {
+                        if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
+                            ep.getPrefixes().get("IN").forEach(
+                                    in -> {
+                                        if(retCtlgNosSet.contains(in)){
+                                            primeraka[0] = primeraka[0] + Collections.frequency(returnCtlgNos, in);
+                                        }
+                                    }
+                            );
+                        }
+                    }
+            );
+            retMap.put(""+i, primeraka[0]);
+        }
+        retMap.put("ukupnoPrimerka", retMap.values().stream().mapToInt(i -> i).sum());
+        retMap.put("ukupnoNaslova", ukupnoNaslovaRet);
+
+        Report rLend = new Report();
+        rLend.setProperty11("izdatoP");
+        rLend.setProperty10(String.valueOf(lendMap.get("0")));
+        rLend.setProperty1(String.valueOf(lendMap.get("1")));
+        rLend.setProperty2(String.valueOf(lendMap.get("2")));
+        rLend.setProperty3(String.valueOf(lendMap.get("3")));
+        rLend.setProperty4(String.valueOf(lendMap.get("4")));
+        rLend.setProperty5(String.valueOf(lendMap.get("5")));
+        rLend.setProperty6(String.valueOf(lendMap.get("6")));
+        rLend.setProperty7(String.valueOf(lendMap.get("7")));
+        rLend.setProperty8(String.valueOf(lendMap.get("8")));
+        rLend.setProperty9(String.valueOf(lendMap.get("9")));
+        rLend.setProperty13(String.valueOf(lendMap.get("ukupnoPrimerka")));
+
+        Report rLend1 = new Report();
+        rLend1.setProperty11("izdatoN");
+        rLend1.setProperty10(String.valueOf(lendMapNasl.get("0")));
+        rLend1.setProperty1(String.valueOf(lendMapNasl.get("1")));
+        rLend1.setProperty2(String.valueOf(lendMapNasl.get("2")));
+        rLend1.setProperty3(String.valueOf(lendMapNasl.get("3")));
+        rLend1.setProperty4(String.valueOf(lendMapNasl.get("4")));
+        rLend1.setProperty5(String.valueOf(lendMapNasl.get("5")));
+        rLend1.setProperty6(String.valueOf(lendMapNasl.get("6")));
+        rLend1.setProperty7(String.valueOf(lendMapNasl.get("7")));
+        rLend1.setProperty8(String.valueOf(lendMapNasl.get("8")));
+        rLend1.setProperty9(String.valueOf(lendMapNasl.get("9")));
+        rLend1.setProperty13(String.valueOf(lendMap.get("ukupnoNaslova")));
+
+        Report rRet = new Report();
+        rRet.setProperty11("vracenoP");
+        rRet.setProperty10(String.valueOf(retMap.get("0")));
+        rRet.setProperty1(String.valueOf(retMap.get("1")));
+        rRet.setProperty2(String.valueOf(retMap.get("2")));
+        rRet.setProperty3(String.valueOf(retMap.get("3")));
+        rRet.setProperty4(String.valueOf(retMap.get("4")));
+        rRet.setProperty5(String.valueOf(retMap.get("5")));
+        rRet.setProperty6(String.valueOf(retMap.get("6")));
+        rRet.setProperty7(String.valueOf(retMap.get("7")));
+        rRet.setProperty8(String.valueOf(retMap.get("8")));
+        rRet.setProperty9(String.valueOf(retMap.get("9")));
+        rRet.setProperty13(String.valueOf(retMap.get("ukupnoPrimerka")));
+
+        Report rRet1 = new Report();
+        rRet1.setProperty11("vracenoN");
+        rRet1.setProperty10(String.valueOf(retMapNasl.get("0")));
+        rRet1.setProperty1(String.valueOf(retMapNasl.get("1")));
+        rRet1.setProperty2(String.valueOf(retMapNasl.get("2")));
+        rRet1.setProperty3(String.valueOf(retMapNasl.get("3")));
+        rRet1.setProperty4(String.valueOf(retMapNasl.get("4")));
+        rRet1.setProperty5(String.valueOf(retMapNasl.get("5")));
+        rRet1.setProperty6(String.valueOf(retMapNasl.get("6")));
+        rRet1.setProperty7(String.valueOf(retMapNasl.get("7")));
+        rRet1.setProperty8(String.valueOf(retMapNasl.get("8")));
+        rRet1.setProperty9(String.valueOf(retMapNasl.get("9")));
+        rRet1.setProperty13(String.valueOf(retMap.get("ukupnoNaslova")));
+
+        retVal.put("iz",rLend);
+        retVal.put("vr",rRet);
+        retVal.put("izN",rLend1);
+        retVal.put("vrN",rRet);
+
+        return retVal;
+    }
+
+        //TODO pasivni clanovi....
     @RequestMapping(value = "get_zb_statistic_report")
     public List<Report> getZbStatisticReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
@@ -56,6 +192,7 @@ public class CircReportContoller {
         Long lendCount = lendingRepository.getLendCount(start,end,location);
         Long returnCount = lendingRepository.getReturnCount(start, end, location);
         Long activeUsersCount = lendingRepository.getActiveVisitorsCount(start, end, location);
+        Long passiveUsersCount = lendingRepository.getPassiveVisitorsCount(start, end, location);
 
 
 

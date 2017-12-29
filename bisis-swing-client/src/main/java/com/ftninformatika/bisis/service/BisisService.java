@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BisisService {
 
@@ -366,5 +367,8 @@ public interface BisisService {
 
     @GET ("circ_report/get_best_book_udk")
     Call<List<Report>> getBestBookUdk(@Query("start") PathDate start, @Query("end") PathDate end, @Query("udk") String udk, @Query("location") String location);
+
+    @GET ("circ_report/get_lend_return_udk_report")
+    Call<Map<String, Report>> getLendReturnUdkReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
 }

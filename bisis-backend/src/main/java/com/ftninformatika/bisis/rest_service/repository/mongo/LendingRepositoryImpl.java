@@ -60,24 +60,32 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         }
         return currentCriteria;
     }
-//
-//    public List<Object> getPassiveVisitors(Date start, Date end, String location){
-//        List<Object> retVal = null;
-//        start = DateUtils.getStartOfDay(start);
-//        end = DateUtils.getEndOfDay(end);
-//
-//        Criteria lendDateCr = Criteria.where("returnDate").gte(start).lte(end);
-//        if(location != null && !location.equals(""))
-//            lendDateCr = new Criteria().andOperator(lendDateCr, Criteria.where("location").is(location));
-//
+
+    public Long getPassiveVisitorsCount(Date start, Date end, String location){
+        List<Object> retVal = null;
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+
+        Criteria lendDateCr = //Criteria.where("returnDate").gte(start).lte(end);
+                                Criteria.where(" ( (new Date(this.lendDate) > new Date(ISODate(\"2013-11-19T14:00:00Z\"))) && (new Date(this.lendDate) < new Date(ISODate(\"2014-12-19T14:00:00Z\"))))");
+        if(location != null && !location.equals(""))
+            lendDateCr = new Criteria().andOperator(lendDateCr, Criteria.where("location").is(location));
+
+        //lendDateCr = new Criteria().andOperator(lendDateCr, Criteria.where("returnDate").lte("new Timestamp(this.lendDate, 1)"));
+        Criteria retDateCr = Criteria.where("returnDate").exists(true);
+        retDateCr = new Criteria().andOperator(retDateCr,Criteria.where("new Date(this.lendDate) >=  new Date(this.returnDate"), Criteria.where("new Date(this.lendDate) <=  new Date(this.returnDate.getTime() + 86400000"));
+        //lendDateCr = new Criteria().andOperator(lendDateCr, retDateCr);
+        Query q = new Query();
+        q.addCriteria(lendDateCr);
+        List<Lending> lendings = mongoTemplate.find(q, Lending.class);
 //        Aggregation agg = Aggregation.newAggregation(Aggregation.match(lendDateCr),
 //                Aggregation.project("lendDate").and("userId").previousOperation(),
 //                Aggregation.sort(Sort.Direction.DESC, "count")
 //        );
 //        List<Object> results = mongoTemplate.aggregate(agg, Lending.class, Object.class).getMappedResults();
-//
-//        return retVal;
-//    }
+
+        return null;
+    }
 
     public Long getLendCount(Date start, Date end, String location){
         Long retVal = null;
@@ -167,6 +175,26 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
 
         return results;
     }
+
+//    public List<Object> getPassiveVisitors(Date start, Date end, String location){
+//        List<Lending> retVal = null;
+//        Criteria and1 = new Criteria().andOperator(Criteria.where("lendDate").gt(DateUtils.getStartOfDay(start)).lte(DateUtils.getEndOfDay(end)),
+//                Criteria.where("returnDate").is(null));
+//
+//
+//        if (location != null && !location.equals(""))
+//            finalCriteria = new Criteria().andOperator(finalCriteria, Criteria.where("location").is(location));
+//
+//
+//        Aggregation agg = Aggregation.newAggregation(Aggregation.match(finalCriteria),
+//                Aggregation.group("userId").count().as("count"),
+//                Aggregation.project("count").and("userId").previousOperation(),
+//                Aggregation.sort(Sort.Direction.DESC, "count")
+//        );
+//        List<Object> results = mongoTemplate.aggregate(agg, Lending.class, Object.class).getMappedResults();
+//
+//        return results;
+//    }
 
     public List<String> getLendingsCtlgNo(Date startL, Date endL, Date startR, Date endR, String location){
          Criteria criteria = createCriteria(startL,endL,startR,endR,location);
