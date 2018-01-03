@@ -10,18 +10,15 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.utils.IterableUtils;
 import com.ftninformatika.utils.date.DateUtils;
-import com.sun.org.apache.regexp.internal.RE;
-import org.apache.lucene.queryparser.xml.FilterBuilder;
 import org.elasticsearch.index.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 @RestController
 @RequestMapping("/circ_report")
@@ -70,16 +67,16 @@ public class CircReportContoller {
             query.must(tq);
             query.must(pf);
             Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
-            ukupnoNaslova +=  /*((Collection<?>) ee).size()*/0; //TODO size iterable
-            lendMapNasl.put(""+i,  /*((Collection<?>) ee).size()*/0);
+            ukupnoNaslova +=IterableUtils.size(ee);
+            lendMapNasl.put(""+i, IterableUtils.size(ee));
             ee.forEach(
                     ep -> {
                         if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                             ep.getPrefixes().get("IN").forEach(
                                     in -> {
                                         if(lendingsCtlgNosSet.contains(in)){
-                                            primeraka[0] = primeraka[0] + Collections.frequency(lendingsCtlgNos, in);
-                                    }
+                                            primeraka[0] += Collections.frequency(lendingsCtlgNos, in);
+                                        }
                                     }
                             );
                         }
@@ -87,7 +84,7 @@ public class CircReportContoller {
             );
             lendMap.put(""+i, primeraka[0]);
         }
-        lendMap.put("ukupnoPrimerka", lendMap.values().stream().mapToInt(i -> i).sum());
+        lendMap.put("ukupnoPrimerka", retMap.values().stream().mapToInt(Number::intValue).sum());
         lendMap.put("ukupnoNaslova", ukupnoNaslova);
 
         int ukupnoNaslovaRet = 0;
@@ -99,15 +96,15 @@ public class CircReportContoller {
             q.must(tq);
             q.must(pf);
             Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(q);
-            ukupnoNaslovaRet +=/* ((Collection<?>) ee).size()*/0;
-            retMapNasl.put(""+i, /* ((Collection<?>) ee).size()*/0);
+            ukupnoNaslovaRet += IterableUtils.size(ee);
+            retMapNasl.put(""+i, IterableUtils.size(ee));
             ee.forEach(
                     ep -> {
                         if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                             ep.getPrefixes().get("IN").forEach(
                                     in -> {
                                         if(retCtlgNosSet.contains(in)){
-                                            primeraka[0] = primeraka[0] + Collections.frequency(returnCtlgNos, in);
+                                            primeraka[0] += Collections.frequency(returnCtlgNos, in);
                                         }
                                     }
                             );
@@ -116,7 +113,7 @@ public class CircReportContoller {
             );
             retMap.put(""+i, primeraka[0]);
         }
-        retMap.put("ukupnoPrimerka", retMap.values().stream().mapToInt(i -> i).sum());
+        retMap.put("ukupnoPrimerka", retMap.values().stream().mapToInt(Number::intValue).sum());
         retMap.put("ukupnoNaslova", ukupnoNaslovaRet);
 
         Report rLend = new Report();
@@ -193,8 +190,6 @@ public class CircReportContoller {
         Long returnCount = lendingRepository.getReturnCount(start, end, location);
         Long activeUsersCount = lendingRepository.getActiveVisitorsCount(start, end, location);
         Long passiveUsersCount = lendingRepository.getPassiveVisitorsCount(start, end, location);
-
-
 
         return retVal;
     }

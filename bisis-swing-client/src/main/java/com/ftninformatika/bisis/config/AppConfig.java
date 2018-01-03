@@ -68,7 +68,7 @@ public abstract class AppConfig {
 
   public void setRetrofit(String token, String domain) {
     OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
-    okHttpClient.readTimeout(20, TimeUnit.SECONDS);
+    okHttpClient.readTimeout(60, TimeUnit.SECONDS);
 
 
     String finalToken = token;
@@ -93,12 +93,7 @@ public abstract class AppConfig {
 
   }
 
-
-
-
   public void setLibraryConfiguration(String libName, Retrofit ret){
-
     clientConfig = RetrofitUtils.acquireLibraryConfiguration(libName, ret);
-
   }
 }
