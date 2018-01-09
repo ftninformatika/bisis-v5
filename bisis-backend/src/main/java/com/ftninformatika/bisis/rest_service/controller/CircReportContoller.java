@@ -30,8 +30,6 @@ public class CircReportContoller {
 
     @Autowired RecordsRepository recordsRepository;
 
-    @Autowired MembershipTypeRepository membershipTypeRepository;
-
     @Autowired CorporateMemberRepository corporateMemberRepository;
 
     @Autowired LocationRepository locationRepository;
@@ -40,8 +38,78 @@ public class CircReportContoller {
 
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
 
+    @Autowired UserCategRepository userCategRepository;
+
+    /**
+     * podaci o broju knjiga sortirane po UDK grupam koje su zaduzili korisnici iz odredjenih kategorija
+     * u datom periodu
+     */
+    /*CtgrUdkReportCommand*//*CtgrUdkGroupReportCommand*/
+    @RequestMapping(value = "get_ctgr_udk_report")
+    public Map<String, Report> getCtgrUdkReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        Map<String, Report> retVal = new HashMap<>();
+
+        List<Lending> lendings = lendingRepository.getCtlgnoUsrId(start, end, location);
+        Map<String, List<String>> userCategCtlgnosMap = new HashMap<>();
 
 
+        for (Lending l: lendings){
+            String usrCateg = memberRepository.getMemberByUserId(l.getUserId()).getUserCategory().getDescription();
+            if(userCategCtlgnosMap.containsKey(usrCateg)){
+                userCategCtlgnosMap.get(usrCateg).add(l.getUserId());
+            }
+            else{
+                userCategCtlgnosMap.put(usrCateg, new ArrayList<>());
+            }
+
+        }
+
+        for (Map.Entry<String, List<String>> entry: userCategCtlgnosMap.entrySet()){
+            Report r = new Report();
+            for (int i = 0; i <=9 ; i++){
+                final Integer[] primeraka = {0};
+                BoolQueryBuilder query = QueryBuilders.boolQuery();
+                TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", entry.getValue());
+                PrefixQueryBuilder pf = QueryBuilders.prefixQuery("prefixes.DC", i + "");
+                query.must(tq);
+                query.must(pf);
+                Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
+                ee.forEach(
+                        ep -> {
+                            if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
+                                ep.getPrefixes().get("IN").forEach(
+                                        in -> {
+                                            if(entry.getValue().contains(in)){
+                                                primeraka[0] += Collections.frequency(entry.getValue(), in);
+                                            }
+                                        }
+                                );
+                            }
+                        }
+                );
+                switch (i) {
+                    case 0: r.setProperty10(primeraka[0].toString()); break;
+                    case 1: r.setProperty1(primeraka[0].toString()); break;
+                    case 2: r.setProperty2(primeraka[0].toString()); break;
+                    case 3: r.setProperty3(primeraka[0].toString()); break;
+                    case 4: r.setProperty4(primeraka[0].toString()); break;
+                    case 5: r.setProperty5(primeraka[0].toString()); break;
+                    case 6: r.setProperty6(primeraka[0].toString()); break;
+                    case 7: r.setProperty7(primeraka[0].toString()); break;
+                    case 8: r.setProperty8(primeraka[0].toString()); break;
+                    case 9: r.setProperty9(primeraka[0].toString()); break;
+                }
+            }
+            retVal.put(entry.getKey(), r);
+        }
+
+        return retVal;
+    }
+
+    /**
+     * izdate i vracene po UDK
+     */
+    /*LendUDKReportCommand*//*ReturnUDKReportCommand*/
     @SuppressWarnings("Duplicates")
     @RequestMapping(value = "get_lend_return_udk_report")
     public Map<String, Report> getLendReturnUdkReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
@@ -84,7 +152,7 @@ public class CircReportContoller {
             );
             lendMap.put(""+i, primeraka[0]);
         }
-        lendMap.put("ukupnoPrimerka", retMap.values().stream().mapToInt(Number::intValue).sum());
+        lendMap.put("ukupnoPrimerka", lendMap.values().stream().mapToInt(Number::intValue).sum());
         lendMap.put("ukupnoNaslova", ukupnoNaslova);
 
         int ukupnoNaslovaRet = 0;
@@ -189,7 +257,7 @@ public class CircReportContoller {
         Long lendCount = lendingRepository.getLendCount(start,end,location);
         Long returnCount = lendingRepository.getReturnCount(start, end, location);
         Long activeUsersCount = lendingRepository.getActiveVisitorsCount(start, end, location);
-        Long passiveUsersCount = lendingRepository.getPassiveVisitorsCount(start, end, location);
+        //Long passiveUsersCount = lendingRepository.getPassiveVisitorsCount(start, end, location);
 
         return retVal;
     }

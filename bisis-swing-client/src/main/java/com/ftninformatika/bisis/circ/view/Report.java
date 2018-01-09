@@ -475,10 +475,10 @@ public class Report {
 								new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 											}
 						break;
-//						case 15 :
-//			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(CtgrUdk.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
-//			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//			          break;
+						case 15 :
+			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(CtgrUdk.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
+			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+			          break;
 						case 16 :
 			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");

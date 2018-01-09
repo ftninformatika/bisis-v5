@@ -110,10 +110,10 @@ public class LendReturn {
 
 			row = report.addNewRow();
 			row.addNewColumn1().setStringValue("UKUPNO");
-			row.addNewColumn2().setStringValue(l.get("izN").getProperty13());
-			row.addNewColumn3().setStringValue(l.get("iz").getProperty13());
-			row.addNewColumn4().setStringValue(l.get("vrN").getProperty13());
-			row.addNewColumn5().setStringValue(l.get("vr").getProperty13());
+			row.addNewColumn2().setStringValue(l.get("iz").getProperty13());
+			row.addNewColumn3().setStringValue(l.get("izN").getProperty13());
+			row.addNewColumn4().setStringValue(l.get("vr").getProperty13());
+			row.addNewColumn5().setStringValue(l.get("vrN").getProperty13());
 
 		return report.getDomNode().getOwnerDocument();
 	}

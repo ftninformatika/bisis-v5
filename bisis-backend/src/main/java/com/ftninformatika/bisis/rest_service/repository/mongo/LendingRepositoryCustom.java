@@ -26,5 +26,6 @@ public interface LendingRepositoryCustom {
     public Long getLendCount(Date start, Date end, String location);
     public Long getReturnCount(Date start, Date end, String location);
     public Long getActiveVisitorsCount(Date start, Date end, String location);
-    public Long getPassiveVisitorsCount(Date start, Date end, String location);
+    //public Long getPassiveVisitorsCount(Date start, Date end, String location);
+    public List<Lending> getCtlgnoUsrId(Date start, Date end, String location);
 }

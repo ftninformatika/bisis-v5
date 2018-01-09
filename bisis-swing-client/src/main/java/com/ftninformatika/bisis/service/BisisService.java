@@ -371,4 +371,7 @@ public interface BisisService {
     @GET ("circ_report/get_lend_return_udk_report")
     Call<Map<String, Report>> getLendReturnUdkReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
+    @GET ("circ_report/get_ctgr_udk_report")
+    Call<Map<String, Report>> getCtgrUdkReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
 }
