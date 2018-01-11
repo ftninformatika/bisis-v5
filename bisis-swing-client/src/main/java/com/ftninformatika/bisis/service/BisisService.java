@@ -348,7 +348,7 @@ public interface BisisService {
     Call<List<Report>> getBlockedReport( @Query("location") String location);
 
     @GET ("circ_report/get_lend_return_language_report")
-    Call<List<Report>> getLendReturnLanguageReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+    Call<Map<String, Report>> getLendReturnLanguageReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
     @GET ("circ_report/get_categoria_report")
     Call<List<Report>> getCategoriaReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);

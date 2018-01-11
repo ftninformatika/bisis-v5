@@ -23,6 +23,25 @@ public class ElasticUtility {
     }
 
 
+    public static ElasticPrefixEntity getEPEFromCtlgno(String ctlgNo, Iterable<ElasticPrefixEntity> elasticPrefixEntities){
+        final ElasticPrefixEntity[] retVal = {null};
+
+        elasticPrefixEntities.forEach(
+                ep -> {
+                    if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().size() > 0){
+                        for (String ct: ep.getPrefixes().get("IN")) {
+                            if (ct.equals(ctlgNo)){
+                                retVal[0] = ep;
+                                break;
+                            }
+                        }
+                    }
+                }
+        );
+
+        return retVal[0];
+    }
+
 
     public static BoolQueryBuilder searchUniversalQuery(UniversalSearchModel universalSearchModel) {
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();

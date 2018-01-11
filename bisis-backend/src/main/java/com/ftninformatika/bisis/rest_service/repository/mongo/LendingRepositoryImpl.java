@@ -32,7 +32,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
             or.orOperator(landDate, resumeDate);
             returnDate = Criteria.where("returnDate").gte(startR).lte(endR);
             and = new Criteria();
-            if (location!=null  ) {
+            if (location!=null && !location.equals("") ) {
                 currentCriteria = and.andOperator(or, returnDate, Criteria.where("location").is(location));
             }else{
                 currentCriteria = and.andOperator(or, returnDate);
@@ -50,8 +50,9 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
                 currentCriteria =or;
             }
         }else if (startL==null&&startR!=null) {
-            returnDate = Criteria.where("returnDate").gte(startR).lte(endR);
-            if (location!=null  ) {
+            returnDate = Criteria.where("returnDate").ne(null);
+            returnDate = new Criteria().andOperator(Criteria.where("returnDate").gte(startR).lte(endR), returnDate);
+            if (location!=null && !location.equals("") ) {
                 and = new Criteria();
                 currentCriteria = and.andOperator(returnDate, Criteria.where("location").is(location));
             }else{

@@ -10,9 +10,11 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.IterableUtils;
 import com.ftninformatika.utils.date.DateUtils;
 import org.elasticsearch.index.query.*;
+import org.elasticsearch.search.aggregations.metrics.percentiles.hdr.InternalHDRPercentiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,8 @@ public class CircReportContoller {
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
 
     @Autowired UserCategRepository userCategRepository;
+
+    @Autowired RecordsController recordsController;
 
     /**
      * slikovnice
@@ -413,12 +417,65 @@ public class CircReportContoller {
          */
     /*LendReturnLanguageReportCommand*///TODO-optimizovati, ne valja ovako nikako
     @RequestMapping(value = "get_lend_return_language_report")
-    public List<Report> getLendReturnLanguageReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
-        List<Report> retVal = new ArrayList<>();
-
-       List<String> lendCtlgnos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end)
+    public Map<String, Report> getLendReturnLanguageReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        Map<String, Report> retVal = new HashMap<>();
+        BoolQueryBuilder eQuery = QueryBuilders.boolQuery();
+        List<String> lendCtlgnos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end)
                                                                                             , null, null, location);
+        List<String> retCtlgnos = lendingRepository.getLendingsCtlgNo(null, null,
+                                                                        DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location);
 
+        Iterable<ElasticPrefixEntity> lRec = elasticRecordsRepository.search(eQuery.filter(QueryBuilders.termsQuery("prefixes.IN", lendCtlgnos)));
+        Iterable<ElasticPrefixEntity> rRec = elasticRecordsRepository.search(eQuery.filter(QueryBuilders.termsQuery("prefixes.IN", retCtlgnos)));
+
+        for (String ctl: lendCtlgnos){
+
+            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl, lRec);
+            if (ep == null){
+                System.out.println("Lend problem ctlgno: " + ctl);
+                continue;
+            }
+            if (ep.getPrefixes().get("101a") != null && ep.getPrefixes().get("101a").size() > 0){
+                for (String lan: ep.getPrefixes().get("101a")){
+                    if (retVal.containsKey(lan)){
+                        Report r = retVal.get(lan);
+                        r.setProperty1((Integer.valueOf(r.getProperty1()) + 1 ) + "");
+                        retVal.put(lan, r);
+                    }
+                    else {
+                        Report r = new Report();
+                        r.setProperty1("1");
+                        retVal.put(lan, r);
+                    }
+                }
+            }
+        }
+
+        for (String ctl: retCtlgnos){
+            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl, rRec);
+            if (ep == null){
+                //TODO -proveriti zasto ovo ne radi kako treba
+                System.out.println("Return problem ctlgno: " + ctl);
+                continue;
+            }
+            if (ep.getPrefixes().get("101a") != null && ep.getPrefixes().get("101a").size() > 0){
+                for (String lan: ep.getPrefixes().get("101a")){
+                    if (retVal.containsKey(lan)){
+                        Report r = retVal.get(lan);
+                        if(r.getProperty2() == null)
+                            r.setProperty2("1");
+                        else
+                            r.setProperty2((Integer.valueOf(r.getProperty2()) + 1) + "");
+                        retVal.put(lan, r);
+                    }
+                    else {
+                        Report r = new Report();
+                        r.setProperty2("1");
+                        retVal.put(lan, r);
+                    }
+                }
+            }
+        }
 
         return retVal;
     }

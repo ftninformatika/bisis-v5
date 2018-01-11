@@ -12,5 +12,4 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "elastic_records", path = "elastic_records")
 public interface ElasticRecordsRepository extends ElasticsearchRepository<ElasticPrefixEntity, String>, PagingAndSortingRepository<ElasticPrefixEntity, String> {
 
-
 }
