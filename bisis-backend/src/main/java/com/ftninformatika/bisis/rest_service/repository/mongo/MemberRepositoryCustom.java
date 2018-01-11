@@ -21,4 +21,5 @@ public interface MemberRepositoryCustom {
     public List<Member> getBlockedMembers(String location);
     public Long getFreeSigningMembersCount(Date start, Date end, String location);
     public Long getUserSignedCount(Date start, Date end, String location);
+    public Report getPictureBooksReport(Date start, Date end, String location);
 }

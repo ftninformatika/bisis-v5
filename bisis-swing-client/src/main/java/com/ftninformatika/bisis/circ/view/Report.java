@@ -495,10 +495,10 @@ public class Report {
 			          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LendReturnLanguage.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 			          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 			          break;
-//						case 20 :
-//				          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Picturebooks.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate()));
-//				          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
-//				          break;
+						case 20 :
+				          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(com.ftninformatika.bisis.circ.report.Picturebooks.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate()));
+				          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+				          break;
 						case 21 :
 				          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LibrarianStatistic.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
 				          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");

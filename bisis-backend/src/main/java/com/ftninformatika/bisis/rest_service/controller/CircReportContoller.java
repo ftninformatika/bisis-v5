@@ -41,9 +41,19 @@ public class CircReportContoller {
     @Autowired UserCategRepository userCategRepository;
 
     /**
-     * podaci o broju knjiga sortirane po UDK grupam koje su zaduzili korisnici iz odredjenih kategorija
-     * u datom periodu
+     * slikovnice
      */
+    /*PictureBooksReportCommand*/
+    @RequestMapping(value = "get_picturebooks_report")
+    public Report getPicturebooksReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        return memberRepository.getPictureBooksReport(start, end, location);
+    }
+
+
+        /**
+         * podaci o broju knjiga sortirane po UDK grupam koje su zaduzili korisnici iz odredjenih kategorija
+         * u datom periodu
+         */
     /*CtgrUdkReportCommand*//*CtgrUdkGroupReportCommand*/
     @RequestMapping(value = "get_ctgr_udk_report")
     public Map<String, Report> getCtgrUdkReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
@@ -406,23 +416,9 @@ public class CircReportContoller {
     public List<Report> getLendReturnLanguageReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
 
-        List<Lending> lendings = lendingRepository.getLenignsWithAnyActivityOnDate(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), location);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+       List<String> lendCtlgnos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end)
+                                                                                            , null, null, location);
 
-        lendings.forEach(
-                l -> {
-                    Report r = new Report();
-                    if (l.getCtlgNo() != null)
-                        r.setProperty1(l.getCtlgNo());
-                    if (l.getLendDate() != null)
-                        r.setProperty2(formatter.format(l.getLendDate()));
-                    if (l.getReturnDate() != null)
-                        r.setProperty3(formatter.format(l.getReturnDate()));
-                    if (l.getResumeDate() != null)
-                        r.setProperty4(formatter.format(l.getResumeDate()));
-                    retVal.add(r);
-                }
-        );
 
         return retVal;
     }

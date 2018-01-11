@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.utils.date.DateUtils;
@@ -61,10 +63,41 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return mp;
     }
 
-    public List<Report> groupSignedMembersByGender(Date start, Date end, String location){
-        List<Report> retVal = null;
+    public Report getPictureBooksReport(Date start, Date end, String location){
+        Report retVal = new Report();
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
 
+        Criteria cr = Criteria.where("picturebooks").elemMatch(Criteria.where("lendDate").gte(start).lte(end));
+        if (location != null && !location.equals(""))
+            cr = new Criteria().andOperator(cr, Criteria.where("location").is(location));
 
+        Query q = new Query();
+        q.addCriteria(cr);
+        q.fields().include("picturebooks");
+        List<Member> m = mongoTemplate.find(q, Member.class);
+
+        int usrCount = 0;
+        final int[] sumLend = {0};
+        final int[] returnNo = {0};
+
+        if (m != null){
+            usrCount = m.size();
+            m.forEach(
+                    mem -> {
+                        mem.getPicturebooks().forEach(
+                                pb -> {
+                                    sumLend[0] += pb.getLendNo();
+                                    returnNo[0] += pb.getReturnNo();
+                                }
+                        );
+                    }
+            );
+        }
+
+        retVal.setProperty1(String.valueOf(usrCount));
+        retVal.setProperty2(String.valueOf(sumLend[0]));
+        retVal.setProperty3(String.valueOf(returnNo[0]));
 
         return retVal;
     }
