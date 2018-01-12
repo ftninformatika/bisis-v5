@@ -25,7 +25,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_members")
-@ToString(of = "firstName")
+@ToString(of = {"userId","firstName"})
 public class Member implements java.io.Serializable {
 
 

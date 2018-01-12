@@ -28,28 +28,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     List<String> fromLendings = Arrays.asList("ctlgNo","librarianLend","librarianReturn","lendDate","returnDate","deadline");
     String currentOperator=null;
 
+
+
     public Map<String, Integer> getLibrarianSignedCount(Date start, Date end, String location){
-        /*List<Object> retVal = null;
-        Criteria cr=null;
-        if (location!=null&& !location.equals("") ) {
-            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start)))
-                                                                                 .lte(DateUtils.getEndOfDay(end)).and("location").is(location));
-
-        }else{
-            cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start)))
-                                                                                 .lte(DateUtils.getEndOfDay(end)));
-        }
-
-        Aggregation agg = Aggregation.newAggregation(
-                Aggregation.match(cr),
-                unwind("signings", "0"),
-                Aggregation.group("signings.librarian").count().as("signedCount"),
-                Aggregation.project("signedCount").and("signings.librarian").previousOperation(),
-                Aggregation.sort(Sort.Direction.DESC, "signedCount")
-        );
-
-        retVal = mongoTemplate.aggregate(agg, Member.class, Object.class).getMappedResults();*/
-
         List<Member> members = getSignedMembers(start, end, location, "userId");
         Map<String, Integer> mp = new HashMap<>();
         for(Member m: members){
@@ -176,6 +157,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     @Override
     public List<Member> getSignedMembers(Date startDate, Date endDate, String location, String sortBy) {
+        startDate = DateUtils.getStartOfDay(startDate);
+        endDate = DateUtils.getEndOfDay(endDate);
          Criteria cr=null;
         if (location!=null&& !location.equals("") ) {
             cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate).and("location").is(location));
@@ -188,7 +171,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             q.addCriteria(cr);
             q.fields().elemMatch("signings",Criteria.where("signDate").gte(startDate).lte(endDate));
             q.fields().include("userId").include("firstName").include("lastName").include("address").include("zip").
-                    include("city").include("docNo").include("docCity").include("jmbg").
+                    include("city").include("docNo").include("docCity").include("jmbg").include("gender").
                     include("userCategory.description").include("membershipType.description");
             q.with(new Sort(new Sort.Order(Sort.Direction.ASC, sortBy)));
             List<Member> m = mongoTemplate.find(q, Member.class);

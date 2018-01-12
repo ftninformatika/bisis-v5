@@ -377,4 +377,8 @@ public interface BisisService {
     @GET ("circ_report/get_picturebooks_report")
     Call<Report> getPicturebooksReport(@Query("start") PathDate start, @Query("end") PathDate end/*, @Query("location") String location*/);
 
+    @GET ("circ_report/get_visitor_structure_report")
+    Call<Map<String, Map<String, Integer>>> getVisitorStructureReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
+
+
 }

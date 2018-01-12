@@ -13,6 +13,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.IterableUtils;
 import com.ftninformatika.utils.date.DateUtils;
+import org.elasticsearch.common.recycler.Recycler;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.aggregations.metrics.percentiles.hdr.InternalHDRPercentiles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,84 @@ public class CircReportContoller {
     @Autowired UserCategRepository userCategRepository;
 
     @Autowired RecordsController recordsController;
+
+    /**
+     * Posetioci - korisnici koji su u datom periodu:
+     *      1. Zadruzili, razduzili ili produzili knjigu
+     *      2. Koji su se u datom periodu uclanili
+     *      *ne broji duplikate
+     *
+     * Struktura posetilaca po: kategoriji, tipu clanstva i polu
+     *
+     */
+    @RequestMapping(value = "get_visitor_structure_report")
+    public Map<String, Map<String, Integer>> getVisitorStructureReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        Map<String, Map<String, Integer>> retVal = new HashMap<>();
+        retVal.put("pol", new HashMap<>());
+        retVal.put("kategorija", new HashMap<>());
+        retVal.put("clanstvo", new HashMap<>());
+
+        //clanovi koji su se uclanili u datom periodu
+        List<Member> signedMembers = memberRepository.getSignedMembers(start, end, location, "userId");
+        {
+            for (Member m : signedMembers) {
+                String pol = m.getGender() == null ? "Nesvrstano" : m.getGender();
+                String kat = (m.getUserCategory() != null && m.getUserCategory().getDescription() != null) ? m.getUserCategory().getDescription() : "Nesvrstano";
+                String cla = (m.getMembershipType() != null && m.getMembershipType().getDescription() != null) ? m.getMembershipType().getDescription() : "Nesvrstano";
+                if (retVal.get("pol").containsKey(pol)) {
+                    retVal.get("pol").put(pol, retVal.get("pol").get(pol) + 1);
+                } else {
+                    retVal.get("pol").put(m.getGender(), 1);
+                }
+
+                if (retVal.get("kategorija").containsKey(kat)) {
+                    retVal.get("kategorija").put(kat, retVal.get("kategorija").get(kat) + 1);
+                } else {
+                    retVal.get("kategorija").put(kat, 1);
+                }
+
+                if (retVal.get("clanstvo").containsKey(cla)) {
+                    retVal.get("clanstvo").put(cla, retVal.get("clanstvo").get(cla) + 1);
+                } else {
+                    retVal.get("clanstvo").put(cla, 1);
+                }
+            }
+        }
+        Set<String> userIds = new HashSet<>(signedMembers.stream().map(result -> result.getUserId()).collect(Collectors.toList()));
+        //userId clanova koji su nesto zduzili/produzili/vratili
+        Set<String> lendMembersUserIds = new HashSet<>(lendingRepository.getLendingsUserId(null, null, null, location,
+                                                                                DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end),
+                                                                                DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null));
+        //razlika, da ne bi dovlacili duple clanove
+        lendMembersUserIds.removeAll(userIds);
+        List<Member> remainingMembers = memberRepository.findByUserIdIn(lendMembersUserIds);
+
+        for (Member m: remainingMembers){
+            String pol = m.getGender() == null ? "Nesvrstano" : m.getGender();
+            String kat = (m.getUserCategory() != null && m.getUserCategory().getDescription() != null) ? m.getUserCategory().getDescription() : "Nesvrstano";
+            String cla = (m.getMembershipType() != null && m.getMembershipType().getDescription() != null) ? m.getMembershipType().getDescription() : "Nesvrstano";
+            if (retVal.get("pol").containsKey(pol)) {
+                retVal.get("pol").put(pol, retVal.get("pol").get(pol) + 1);
+            } else {
+                retVal.get("pol").put(m.getGender(), 1);
+            }
+
+            if (retVal.get("kategorija").containsKey(kat)) {
+                retVal.get("kategorija").put(kat, retVal.get("kategorija").get(kat) + 1);
+            } else {
+                retVal.get("kategorija").put(kat, 1);
+            }
+
+            if (retVal.get("clanstvo").containsKey(cla)) {
+                retVal.get("clanstvo").put(cla, retVal.get("clanstvo").get(cla) + 1);
+            } else {
+                retVal.get("clanstvo").put(cla, 1);
+            }
+        }
+        return retVal;
+    }
+
+
 
     /**
      * slikovnice
@@ -270,7 +349,7 @@ public class CircReportContoller {
         Long signedCount = memberRepository.getUserSignedCount(start,end, location);
         Long lendCount = lendingRepository.getLendCount(start,end,location);
         Long returnCount = lendingRepository.getReturnCount(start, end, location);
-        Long activeUsersCount = lendingRepository.getActiveVisitorsCount(start, end, location);
+        //Long activeUsersCount = lendingRepository.getActiveVisitorsCount(start, end, location);
         //Long passiveUsersCount = lendingRepository.getPassiveVisitorsCount(start, end, location);
 
         return retVal;
@@ -289,7 +368,7 @@ public class CircReportContoller {
     @RequestMapping(value = "get_active_visitors_report")
     public List<Report> getActiveVisitorsReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
-        List<Object> lendings = lendingRepository.getActiveVisitors(start, end, location);
+        List<Object> lendings = new ArrayList<>();//TODO //lendingRepository.getActiveVisitors(start, end, location);
         Map<String, Integer> countUsrCat = new HashMap<>();
         for (Object o: lendings){
             if(o instanceof LinkedHashMap){
