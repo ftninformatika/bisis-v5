@@ -47,16 +47,6 @@ public class CtgrUdk {
 	public static JasperPrint setPrint(Date start, Date end, Object branch)
 			throws IOException {
 
-		if (start == null) {
-			end = Utils.setMaxDate(end);
-			start = Utils.setMinDate(end);
-		} else if (end == null) {
-			end = Utils.setMaxDate(start);
-			start = Utils.setMinDate(start);
-		} else {
-			start = Utils.setMinDate(start);
-			end = Utils.setMaxDate(end);
-		}
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate", Utils.toLocaleDate(end));

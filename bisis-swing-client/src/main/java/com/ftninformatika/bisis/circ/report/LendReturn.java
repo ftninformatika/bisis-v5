@@ -25,18 +25,8 @@ public class LendReturn {
 	
 	public static Document setXML(Map<String, com.ftninformatika.bisis.circ.pojo.Report> l) {
 		ReportDocument reportDoc = ReportDocument.Factory.newInstance();
-		Report report = reportDoc.addNewReport(); 
-//		int  izPu = 0, izNu = 0, vrNu = 0,  vrPu = 0;
-//
-//
-//		for(int i=0;i<udkIz.length;i++){
-//			izPu=izPu+(Integer)udkIz[i].get(1);
-//			izNu=izNu+(Integer)udkIz[i].get(0);
-//		}
-//		for(int i=0;i<udkVr.length;i++){
-//			vrPu=vrPu+(Integer)udkVr[i].get(1);
-//			vrNu=vrNu+(Integer)udkVr[i].get(0);
-//		}
+		Report report = reportDoc.addNewReport();
+
 			//TODO i broj naslova...
 			Row row = report.addNewRow();
 			row.addNewColumn1().setStringValue("0");
@@ -120,18 +110,6 @@ public class LendReturn {
 
 	public static JasperPrint setPrint(Date start, Date end, Object location)
 			throws IOException {
-		
-			if (start == null) {
-				end = Utils.setMaxDate(end);
-				start = Utils.setMinDate(end);
-			} else if (end == null) {
-				end = Utils.setMaxDate(start);
-				start = Utils.setMinDate(start);
-			} else {
-				start = Utils.setMinDate(start);
-				end = Utils.setMaxDate(end);
-			}
-		
 
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put("begdate", Utils.toLocaleDate(start));

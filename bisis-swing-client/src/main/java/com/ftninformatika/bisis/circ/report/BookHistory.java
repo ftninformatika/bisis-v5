@@ -71,17 +71,6 @@ public class BookHistory {
 			Object branch) throws IOException {
 		JRXmlDataSource ds;
 		try {
-			
-			if (start == null) {
-				end = Utils.setMaxDate(end);
-				start = Utils.setMinDate(end);
-			} else if (end == null) {
-				end = Utils.setMaxDate(start);
-				start = Utils.setMinDate(start);
-			} else {
-				start = Utils.setMinDate(start);
-				end = Utils.setMaxDate(end);
-			}
 
 			List<com.ftninformatika.bisis.circ.pojo.Report> results = null;
 			String loc = "";

@@ -228,7 +228,9 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
 
     public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField, String byLendReturnResume, Integer listSize){
         List<Object> results = null;
-        Criteria lendDateCriteria = Criteria.where(byLendReturnResume).gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+        Criteria lendDateCriteria = Criteria.where(byLendReturnResume).gte(start).lte(end);
         if (location != null && !location.equals(""))
             lendDateCriteria = new Criteria().andOperator(lendDateCriteria, Criteria.where("location").is(location));
 

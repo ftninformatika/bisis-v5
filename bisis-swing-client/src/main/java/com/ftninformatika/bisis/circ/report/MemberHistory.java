@@ -54,16 +54,6 @@ public class MemberHistory {
     public static JasperPrint setPrint(String userNo, Date start, Date end, String branch)
             throws IOException {
         try {
-            if (start == null) {
-                end = Utils.setMaxDate(end);
-                start = Utils.setMinDate(end);
-            } else if (end == null) {
-                end = Utils.setMaxDate(start);
-                start = Utils.setMinDate(start);
-            } else {
-                start = Utils.setMinDate(start);
-                end = Utils.setMaxDate(end);
-            }
 
             if(branch == null)
                 branch = "";

@@ -673,7 +673,7 @@ public class CircReportContoller {
     public List<Report> getBestReaderReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
 
-        List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location,
+        List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location,
                                                                 "userId", "booksRed", "booksRed", "lendDate", 20);
         if (l != null) {
             for (Object o : l) {
@@ -872,9 +872,9 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Lending> lendings = null;
         if (location != null && location != "")
-            lendings = lendingRepository.findByLendDateBetweenAndCtlgNoAndLocation(start, end, ctlgNo, location);
+            lendings = lendingRepository.findByLendDateBetweenAndCtlgNoAndLocation(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), ctlgNo, location);
         else
-            lendings = lendingRepository.findByLendDateBetweenAndCtlgNo(start, end, ctlgNo);
+            lendings = lendingRepository.findByLendDateBetweenAndCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), ctlgNo);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         for (Lending l: lendings){
