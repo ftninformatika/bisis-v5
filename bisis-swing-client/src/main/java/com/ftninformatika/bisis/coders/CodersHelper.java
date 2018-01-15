@@ -196,6 +196,15 @@ public class CodersHelper {
             }
         }
 
+        if (coderName.equals("Counters")){
+            for(Counter i: counters.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCounterName());
+                l.add(i.getCounterValue());
+                retVal.add(l);
+            }
+        }
+
         return retVal;
     }
 
