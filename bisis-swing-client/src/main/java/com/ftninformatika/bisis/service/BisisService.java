@@ -212,6 +212,9 @@ public interface BisisService {
     @GET("coders/circlocation")
     Call<List<CircLocation>> getCircLocations(@Query("libName")String libName);
 
+    @GET("coders/counters")
+    Call<List<Counter>> getCounters(@Query("libName")String libName);
+
     @GET("coders/corporatemember")
     Call<List<CorporateMember>> getCorporateMembers(@Query("libName")String libName);
 

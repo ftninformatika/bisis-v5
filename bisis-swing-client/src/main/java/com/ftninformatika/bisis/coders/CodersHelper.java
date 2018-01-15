@@ -213,6 +213,7 @@ public class CodersHelper {
             List<ItemStatus> stCoders=BisisApp.bisisService.getStatusCoders(BisisApp.appConfig.getLibrary()).execute().body();
             List<Sublocation> sublocCoders=BisisApp.bisisService.getSubLocations(BisisApp.appConfig.getLibrary()).execute().body();
             List<Location> locCoders=BisisApp.bisisService.getLocations(BisisApp.appConfig.getLibrary()).execute().body();
+            List<Counter> countersCoders = BisisApp.bisisService.getCounters(BisisApp.appConfig.getLibrary()).execute().body();
 
             accessionRegs = accRegCoders.stream().collect(Collectors.toMap(AccessionRegister::getCoder_id, i -> i));
             acquisitionTypes = acqCoders.stream().collect(Collectors.toMap(Acquisition::getCoder_id, i -> i));
@@ -223,6 +224,7 @@ public class CodersHelper {
             itemStatuses = stCoders.stream().collect(Collectors.toMap(ItemStatus::getCoder_id, i -> i));
             locations = locCoders.stream().collect(Collectors.toMap(Location::getCoder_id, i -> i));
             sublocations = sublocCoders.stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
+            counters = countersCoders.stream().collect(Collectors.toMap(Counter::getCounterName, i -> i));
 
             //circkulacija
             /*List<CircLocation> circLocationList =*/
@@ -253,7 +255,6 @@ public class CodersHelper {
 
         } catch (IOException e) {
             e.printStackTrace();
-
         }
 
     }
@@ -288,6 +289,7 @@ public class CodersHelper {
     private Map<String, ItemStatus> itemStatuses = new HashMap<>();
     private Map<String, Sublocation> sublocations = new HashMap<>();
     private Map<String, Location> locations = new HashMap<>();
+    private Map<String, Counter> counters = new HashMap<>();
 
     //circkulacija-----------------
     private List<CircLocation> circLocations = new ArrayList<>();

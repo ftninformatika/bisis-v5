@@ -20,71 +20,51 @@ import java.util.List;
 @RequestMapping("/coders")
 public class CodersController {
 
-    @Autowired
-    AcquisitionRepository acqrep;
+    @Autowired AcquisitionRepository acqrep;
 
-    @Autowired
-    AvailabilityRepository availrep;
+    @Autowired AvailabilityRepository availrep;
 
-    @Autowired
-    AccessionRegisterRepository accregrep;
+    @Autowired AccessionRegisterRepository accregrep;
 
-    @Autowired
-    BindingRepository bindrep;
+    @Autowired BindingRepository bindrep;
 
-    @Autowired
-    FormatRepository formrep;
+    @Autowired FormatRepository formrep;
 
-    @Autowired
-    InternalMarkRepository intmrep;
+    @Autowired InternalMarkRepository intmrep;
 
-    @Autowired
-    ItemStatusRepository statrep;
+    @Autowired ItemStatusRepository statrep;
 
-    @Autowired
-    LocationRepository locrep;
+    @Autowired LocationRepository locrep;
 
-    @Autowired
-    SublocationRepository sublocrep;
+    @Autowired SublocationRepository sublocrep;
 
-    @Autowired
-    EducationLvlRepository edurep;
+    @Autowired EducationLvlRepository edurep;
 
-    @Autowired
-    LanguageRepository langrep;
+    @Autowired LanguageRepository langrep;
 
-    @Autowired
-    MembershipRepository mbrshiprep;
+    @Autowired MembershipRepository mbrshiprep;
 
-    @Autowired
-    MembershipTypeRepository mbrtyperep;
+    @Autowired MembershipTypeRepository mbrtyperep;
 
-    @Autowired
-    PlaceRepository placerep;
+    @Autowired PlaceRepository placerep;
 
-    @Autowired
-    UserCategRepository usrcategrep;
+    @Autowired UserCategRepository usrcategrep;
 
-    @Autowired
-    WarningTypeRepository warnrep;
+    @Autowired WarningTypeRepository warnrep;
 
-    @Autowired
-    WarningCounterRepository warncountrep;
+    @Autowired WarningCounterRepository warncountrep;
 
-    @Autowired
-    OrganizationRepository orgrep;
+    @Autowired OrganizationRepository orgrep;
 
-    @Autowired
-    ProcessTypeRepository processTypeRepository;
+    @Autowired ProcessTypeRepository processTypeRepository;
 
-    @Autowired
-    CircLocationRepository circLocationRepository;
+    @Autowired CircLocationRepository circLocationRepository;
 
-    @Autowired
-    CorporateMemberRepository corporateMemberRepository;
+    @Autowired CorporateMemberRepository corporateMemberRepository;
 
-    @Autowired
-    LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+
+    @Autowired CounterRepository counterRepository;
 
     @RequestMapping( path = "process_types")
     public ProcessTypeDTO addProcessType(@RequestBody ProcessTypeDTO pt){
@@ -197,5 +177,10 @@ public class CodersController {
     @RequestMapping(path = "corporatemember")
     public List<CorporateMember> getCorporateMembers(String libName){
         return corporateMemberRepository.getCoders(libName);
+    }
+
+    @RequestMapping(path = "counters")
+    public List<Counter> getCounters(String libName){
+        return counterRepository.getCoders(libName);
     }
 }
