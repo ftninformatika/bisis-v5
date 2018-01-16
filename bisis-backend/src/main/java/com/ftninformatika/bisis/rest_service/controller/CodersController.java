@@ -6,10 +6,7 @@ import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -182,5 +179,17 @@ public class CodersController {
     @RequestMapping(path = "counters")
     public List<Counter> getCounters(String libName){
         return counterRepository.getCoders(libName);
+    }
+
+    /**
+     * povecava vrednost brojaca i vraca je nazad
+     */
+    @RequestMapping(path = "increment_counter")
+    public Integer incrementCounter(@RequestHeader("Library") String lib, @RequestParam("counterKey") String counterKey){
+        List<Counter> counters = counterRepository.getCoders(lib);
+        Counter c = counters.stream().filter(i -> i.getCounterName().equals(counterKey)).findFirst().get();
+        c.setCounterValue(c.getCounterValue() + 1);
+        counterRepository.save(c);
+        return c.getCounterValue();
     }
 }

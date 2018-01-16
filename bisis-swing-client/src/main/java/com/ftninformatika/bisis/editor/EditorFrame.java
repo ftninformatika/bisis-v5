@@ -256,7 +256,7 @@ public class EditorFrame extends JInternalFrame {
 				null, options, options[1]);
 			if(ret==0){
 				try {
-					boolean ok = zapisPanel.getRecordTree().saveRecord(); //TODO-hardcoded
+					boolean ok = zapisPanel.getRecordTree().saveRecord();
 
                  if(!ok){
                     String message1 = Messages.getString("EDITOR_SAVERECORDERROR"); //$NON-NLS-1$
@@ -282,7 +282,6 @@ public class EditorFrame extends JInternalFrame {
   }	
 	private void handleValidateRecord(){
 		String mess = CurrRecord.validateRecord();
-                    //"nesto";//TODO-hardcoded
 		JOptionPane.showMessageDialog(BisisApp.getMainFrame(),mess,Messages.getString("EDITOR_VALIDITYREPORT"),JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 	} 
   

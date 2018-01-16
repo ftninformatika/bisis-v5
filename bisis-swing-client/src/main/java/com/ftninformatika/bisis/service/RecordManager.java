@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.service;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.coders.Counter;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordResponseWrapper;
 import com.ftninformatika.bisis.search.SearchModel;
@@ -67,6 +68,25 @@ public class RecordManager {
 
     public List<String> selectExp(/*String query,*/ String prefix, String text) throws IOException {
         return BisisApp.bisisService.getExpand(prefix, text).execute().body();
+    }
+
+
+    public Integer getNewID(String counterName){
+        Integer retVal = -1;
+        if (BisisApp.appConfig.getCodersHelper().getCounters().containsKey(counterName)){
+            try {
+                retVal = BisisApp.bisisService.incrementCounter(counterName).execute().body();
+                Counter c = BisisApp.appConfig.getCodersHelper().getCounters().get(counterName);
+                c.setCounterValue(c.getCounterValue() + 1);
+                BisisApp.appConfig.getCodersHelper().getCounters().put(counterName, c);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            throw new RuntimeException("Nije pronadjen brojac: " + counterName);
+        }
+        return retVal;
     }
 
 }

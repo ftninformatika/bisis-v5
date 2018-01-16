@@ -207,6 +207,9 @@ public interface BisisService {
     @GET("coders/sublocation")
     Call<List<Sublocation>> getSubLocations(@Query("libName")String libName);
 
+    @GET("coders/increment_counter")
+    Call<Integer> incrementCounter(@Query("counterKey")String counterKey);
+
 //coders circulation----------------------------------------------------------
 
     @GET("coders/circlocation")

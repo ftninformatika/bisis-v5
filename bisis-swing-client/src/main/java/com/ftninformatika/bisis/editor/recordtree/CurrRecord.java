@@ -71,6 +71,10 @@ public class CurrRecord {
     }else{
       if(!update){
         if(!savedOnce && record.getRecordID()==0){
+          int id = BisisApp.recMgr.getNewID("recordid");
+          int rn = BisisApp.recMgr.getNewID("RN");
+          record.setRecordID(id);
+          record.setRN(rn);
           record.setPubType(CurrFormat.getPubType());   
           if(record.getCreator()==null){
           	record.setCreator(new Author(BisisApp.appConfig.getLibrarian().getUsername(),BisisApp.appConfig.getClientConfig().getLibraryName()));
@@ -86,7 +90,7 @@ public class CurrRecord {
             }
             ok = r != null;
             savedOnce = true;
-          log.info("add record, recordId="+r.get_id()+ ", creator: "+record.getCreator().getUsername());
+          log.info("add record, recordId=" + r.get_id() + ", creator: "+record.getCreator().getUsername());
         }else{    	
           //record = BisisApp.getRecordManager().update(record);
             Record r = null;

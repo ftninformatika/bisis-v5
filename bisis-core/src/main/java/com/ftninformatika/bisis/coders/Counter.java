@@ -19,5 +19,5 @@ public class Counter {
     private String _id;
     private String library;
     private String counterName;
-    private String counterValue;
+    private Integer counterValue;
 }
