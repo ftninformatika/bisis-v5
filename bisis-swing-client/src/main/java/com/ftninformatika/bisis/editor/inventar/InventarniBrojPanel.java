@@ -180,8 +180,7 @@ public class InventarniBrojPanel extends JPanel {
     if(InventarConstraints.startPos==3 && InventarConstraints.endPos==4)
     	brojacName = invKnjTxtFld.getText();        
     if(!brojacName.equals("")){
-    	int broj = //BisisApp.getRecordManager().getNewID(brojacName);    	TODO-hardcoded
-					0;
+    	int broj = BisisApp.recMgr.getNewID(brojacName);
 	    if(broj!=-1){
 	      brojTxtFld.setText(""+broj);
 	      log.warn("Nije inicijalizovan brojc za generisanje inventarnog broja");
