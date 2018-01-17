@@ -32,8 +32,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
  private String queryString="";
  private SearchStatusDlg statusDlg;
  private SearchModel searchModel;
- //private List<Record> recordQueryResult;
- private List<String> recordQueryResultIds;
+ private Result queryResult;
  
   public SearchTask(String pref1, String oper1, String text1, 
 					String pref2, String oper2, String text2,
@@ -69,8 +68,8 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 
 	  if (this.searchModel != null){
           try {
-              this.recordQueryResultIds = BisisApp.recMgr.searchRecords(searchModel);
-              return this.recordQueryResultIds.size();
+              this.queryResult = BisisApp.recMgr.searchRecords(searchModel);
+              return this.queryResult.getResultCount();
           } catch (IOException e) {
               e.printStackTrace();
               this.connError = true;
@@ -96,11 +95,11 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	       if (connError){
 	    	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                      Messages.getString("SEARCH_CONNECTION_REFUSED_TALK_TO_ADMIN"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
-	       }else if(recordQueryResultIds == null){
+	       }else if(queryResult.getRecords() == null){
 	    	   JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                        Messages.getString("SEARCH_NO_HITS"), Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
 	       }
-	       else if (recordQueryResultIds.size() == 0){
+	       else if (queryResult.getResultCount() == 0){
 	        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                     Messages.getString("SEARCH_NO_HITS"), Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
 	       }
@@ -109,7 +108,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
                        Messages.getString("SEARCH_LARGE_RESULTSET_REQUERY"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
            }
 	       else{
-	        BisisApp.getMainFrame().addHitListFrame(this.recordQueryResultIds, searchModel.toString());
+	        BisisApp.getMainFrame().addHitListFrame(queryResult, searchModel.toString());
 	       }
 	     } 
 	     statusDlg.dispose();  

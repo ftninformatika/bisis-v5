@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.hitlist;
 
+import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
@@ -28,8 +29,8 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
           RecordFormatterFactory.FORMAT_BRIEF);
   }
   
-  public void setResults(/*Result res*/){
-  	//results = res;
+  public void setResults(Result res){
+  	results = res;
   }
   
   public Component getListCellRendererComponent(JList list, Object value,
@@ -63,13 +64,13 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
   // vraca redni broj pogotka u rezultatima results
 
   private int findRedniBroj(Record rec){
-  /*	for(int i=0;i<results.getResultCount();i++){
-  		if(rec.getRecordID()==results.getRecords()[i])
+  	for(int i=0;i<results.getResultCount();i++){
+  		if(rec.get_id()==results.getRecords()[i])
   			return i+1;
-  	}*/
+  	}
   	return -1;
   }
   
   private RecordFormatter formatter;
-  //private Result results;
+  private Result results;
 }

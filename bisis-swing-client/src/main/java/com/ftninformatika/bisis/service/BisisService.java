@@ -13,6 +13,7 @@ import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
+import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.SearchModelMember;
@@ -129,6 +130,9 @@ public interface BisisService {
 
     @POST("records/search_ids") //vraca kolekciju id-jeva
     Call<List<String>> searchRecordsIds(@Body SearchModel searchModel);
+
+    @POST("records/search_ids_result") //vraca kolekciju id-jeva
+    Call<Result> searchRecordsIdsResult(@Body SearchModel searchModel);
 
     @POST("records/search_ids_circ") //vraca kolekciju id-jeva
     Call<List<String>> searchRecordsIdsCirc(@Body SearchModelCirc searchModel);

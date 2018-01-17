@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.coders.Counter;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordResponseWrapper;
+import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 
@@ -16,8 +17,8 @@ import java.util.List;
 public class RecordManager {
 
 
-    public List<String> searchRecords(SearchModel searchModel) throws IOException {
-        return BisisApp.bisisService.searchRecordsIds(searchModel).execute().body();
+    public Result searchRecords(SearchModel searchModel) throws IOException {
+        return BisisApp.bisisService.searchRecordsIdsResult(searchModel).execute().body();
     }
 
     public List<String> searchRecordsCirc(SearchModelCirc searchModel) throws IOException {

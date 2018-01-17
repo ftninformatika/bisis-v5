@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
@@ -97,13 +98,13 @@ public class MainFrame extends JFrame {
         }
     }
 
-        public void addHitListFrame(List<String> recordIdsList, String sQuery/*SearchModel smString query/*, Result queryResults*/) {
+        public void addHitListFrame(Result queryResults, String sQuery) {
             if(hlf==null){
-                hlf = new HitListFrame(recordIdsList,sQuery);
+                hlf = new HitListFrame(queryResults,sQuery);
                 desktop.add(hlf);
             }
             else {
-                hlf.setRecordsQueryResult(recordIdsList, sQuery);
+                hlf.setQueryResults(sQuery, queryResults);
                 showHitlistFrame();
             }
             try {

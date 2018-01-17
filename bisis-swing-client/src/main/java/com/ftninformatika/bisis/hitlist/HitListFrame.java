@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.hitlist;
 
+import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.utils.Messages;
 
 import java.awt.*;
@@ -44,13 +45,11 @@ public class HitListFrame extends JInternalFrame {
 
   public static final int PAGE_SIZE = 10;
 
-  public HitListFrame(List<String> recordIdsList, String sQuery) {
+  public HitListFrame(Result queryResult, String sQuery) {
     super(Messages.getString("HITLIST_SEARCHRESULTS"), true, true, true, true);
-    //this.queryResult = queryResult;
-    //renderer.setResults(queryResult);
-    //this.searchModel=sm;
+    this.queryResult = queryResult;
+    renderer.setResults(queryResult);
     this.query = sQuery;
-    this.recordsQueryResultIds = recordIdsList;
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     btnFirst.setIcon(new ImageIcon(getClass().getResource(
     "/icons/first.gif")));
@@ -72,10 +71,10 @@ public class HitListFrame extends JInternalFrame {
         .getResource("/icons/doc_rich16.png")));
     
     lbHitList.setModel(hitListModel);
-    lbHitList.setUI(new SeaGlassListUI());
+    //lbHitList.setUI(new SeaGlassListUI());
     lbHitList.setCellRenderer(renderer);
     spHitList.setViewportView(lbHitList);    
-    spHitList.setPreferredSize(new Dimension(500, 500));
+    //spHitList.setPreferredSize(new Dimension(500, 500));
     idLabel.setText("<html><B>ID</B>");
     idTxtFld.setEditable(false);
     rnLabel.setText("<html><B>RN</B>");
@@ -92,7 +91,6 @@ public class HitListFrame extends JInternalFrame {
 			inventarTable.setAutoCreateRowSorter(true);
 			inventarTable.setCellSelectionEnabled(true);
 			inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
-			//inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), new DefaultTableCellRenderer());
             //inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			adjustInventarColumnWidth();
 			
@@ -101,7 +99,7 @@ public class HitListFrame extends JInternalFrame {
 			JScrollPane inventarScrollPane = new JScrollPane(inventarTable);
 			JScrollPane uploadedFilesScrollPane =  new JScrollPane(uploadedFilesTable);
 		
-			inventarScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			//inventarScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			createMetaDataPanel();
 			
 			tabbedPane.setPreferredSize(new Dimension(400,500));			
@@ -220,7 +218,6 @@ public class HitListFrame extends JInternalFrame {
       public void actionPerformed(ActionEvent ev) {
         renderer.setFormatter(RecordFormatterFactory.FORMAT_BRIEF);
         hitListModel.refresh();
-          System.out.println("Action preformed!");
       }
     });
     
@@ -245,7 +242,6 @@ public class HitListFrame extends JInternalFrame {
       public void actionPerformed(ActionEvent ev) {
         renderer.setFormatter(RecordFormatterFactory.FORMAT_FULL);
         hitListModel.refresh();
-          System.out.println("Action preformed!");
       }
     });
     
@@ -392,41 +388,34 @@ public class HitListFrame extends JInternalFrame {
   
   private void displayPage() {
 
-    int count = PAGE_SIZE;
-    int recCount = this.recordsQueryResultIds.size();
-    if (page == pageCount()-1 ){  //ako je poslednja stranica
-    	if ( recCount % PAGE_SIZE==0 ){
-    		count=PAGE_SIZE;
-    	}
-    	else{
-            count = recCount % PAGE_SIZE;
-    	}
-    }
+      if (queryResult == null || queryResult.getRecords().length == 0)
+          return;
+      int count = PAGE_SIZE;
 
-      Record[] recs = null;
-      try {
-           recs = BisisApp.recMgr.getRecords(this.recordsQueryResultIds);
-      } catch (IOException e) {
-          e.printStackTrace();
+      if (page == pageCount()-1 ){  //ako je poslednja stranica
+          if (queryResult.getResultCount() % PAGE_SIZE==0){
+              count=PAGE_SIZE;
+          }
+          else{
+              count = queryResult.getResultCount() % PAGE_SIZE;
+          }
       }
-
-
       pageTxtFld.setText(String.valueOf(page));
-    String[] recIDs = new String[count];
-    for (int i = 0; i < count; i++)
-      recIDs[i] = this.recordsQueryResultIds.get(page * PAGE_SIZE + i); //TODO- za ovo dogovoriti sta da se prikazuje (mongod ID ?????)
+      String[] recIDs = new String[count];
+      for (int i = 0; i < count; i++)
+          recIDs[i] = queryResult.getRecords()[page*PAGE_SIZE + i];
+      hitListModel.setHits(recIDs);
+      lbHitList.setSelectedIndex(0);
+      handleListSelectionChanged();
+      lFromTo.setText(MessageFormat.format(Messages.getString("HITLIST_HITS0.1.2_HTML"), page * PAGE_SIZE + 1, page * PAGE_SIZE + count, queryResult.getResultCount()));
+      lBrPrimeraka.setText(MessageFormat.format(Messages.getString("HITLIST_ITEMS_NO.0._HTML"), queryResult.getInvs().size()));
 
-    hitListModel.setHits(recs);
-    lbHitList.setSelectedIndex(0);
-    handleListSelectionChanged();    
-    lFromTo.setText(MessageFormat.format(Messages.getString("HITLIST_HITS0.1.2_HTML"), page * PAGE_SIZE + 1, page * PAGE_SIZE + count, recCount));
-    lBrPrimeraka.setText(MessageFormat.format(Messages.getString("HITLIST_ITEMS_NO.0._HTML"), RecordUtils.getInvNumsCountFromRecordCollection(Arrays.asList(recs))));
-  }
+    }
   
   private int pageCount() {
-    if (recordsQueryResultIds == null || recordsQueryResultIds.size() == 0)
-        return 0;
-     return recordsQueryResultIds.size() / PAGE_SIZE + (recordsQueryResultIds.size() % PAGE_SIZE > 0 ? 1 : 0);
+      if (queryResult == null || queryResult.getResultCount() == 0)
+          return 0;
+      return queryResult.getResultCount() / PAGE_SIZE + (queryResult.getResultCount() % PAGE_SIZE > 0 ? 1 : 0);
   }
   
   
@@ -496,7 +485,7 @@ public class HitListFrame extends JInternalFrame {
 
 		}else if(tabbedPane.getSelectedIndex() == 3){
 			String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
-           //selectedRecord = BisisApp.getRecordManager().getRecord(recordId);
+           //selectedRecord = BisisApp.getRecordManager().getRecord(recordId); //TODO - uploaded files nema
            //uploadedFilesTableModel.setDocFiles(BisisApp.getRecordManager().getDocFiles(selectedRecord.getRN()));
         }else if(tabbedPane.getSelectedIndex() == 4){
             String recordId = ((Record)lbHitList.getSelectedValue()).get_id();
@@ -510,15 +499,15 @@ public class HitListFrame extends JInternalFrame {
        loadMetaData(selectedRecord);
 	  }
   }
-  public void setRecordsQueryResult(List<String> recs, String sQuery){
-      this.recordsQueryResultIds = recs;
-      this.query = sQuery;
-      renderer.setResults();
-      updateAvailability();
-      page = 0;
-      lQuery.setText(MessageFormat.format(Messages.getString("HITLIST_.0.QUERY_HTML"), sQuery));
-      displayPage();
-  }
+//  public void setRecordsQueryResult(List<String> recs, String sQuery){
+//      this.recordsQueryResultIds = recs;
+//      this.query = sQuery;
+//      renderer.setResults();
+//      updateAvailability();
+//      page = 0;
+//      lQuery.setText(MessageFormat.format(Messages.getString("HITLIST_.0.QUERY_HTML"), sQuery));
+//      displayPage();
+//  }
   
   //private void handleTab
   
@@ -629,10 +618,10 @@ public class HitListFrame extends JInternalFrame {
 			}
 	}
 	
-	public void setQueryResults(String query){
-		//this.queryResult = queryResults;
+	public void setQueryResults(String query, Result queryResults){
+	  this.queryResult = queryResults;
       this.query=query;
-      //renderer.setResults(queryResults);
+      renderer.setResults(queryResults);
       updateAvailability();
       page = 0;
       lQuery.setText(MessageFormat.format(Messages.getString("HITLIST_.0.QUERY_HTML"), query));
@@ -706,8 +695,8 @@ public class HitListFrame extends JInternalFrame {
       private RecordFormatter formatter;
       private Record selectedRecord = null;
       private SearchModel searchModel;
-  
-      private List<String> recordsQueryResultIds;
+
+      private Result queryResult;
 
       private String query;
       private int page = 0;

@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRe
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
@@ -336,6 +337,26 @@ public class RecordsController {
       return  new ResponseEntity<>(retVal, HttpStatus.OK);
 
   }
+
+    @RequestMapping( value = "/search_ids_result", method = RequestMethod.POST )
+    public ResponseEntity<Result> searchIdsResult(@RequestBody SearchModel search){
+        Result retVal = new Result();
+        ArrayList<String> ids = new ArrayList<>();
+        ArrayList<String> ctlgnos = new ArrayList<>();
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
+        ii.forEach(
+                r -> {
+                    ids.add(r.getId());
+                    if(r.getPrefixes().get("IN") != null && r.getPrefixes().get("IN").size() > 0)
+                        ctlgnos.addAll(r.getPrefixes().get("IN"));
+                }
+        );
+
+        retVal.setRecords(ids.toArray(new String[ids.size()]));
+        retVal.setInvs(ctlgnos);
+        return  new ResponseEntity<>(retVal, HttpStatus.OK);
+
+    }
 
     @RequestMapping( value = "/search_ids_circ", method = RequestMethod.POST )
     public ResponseEntity<List<String>> searchIdsCirc(@RequestBody SearchModelCirc search){
