@@ -24,17 +24,13 @@ public class InventarConstraints {
   
   
   static{ 
-	  String invbrSubStr = //BisisApp.getINIFile().getString("cataloguing","invbrSubStr");
-                            "1 4";
+	  String invbrSubStr = BisisApp.appConfig.getClientConfig().getCataloguingInvbrSubStr();
 		String [] pos = invbrSubStr.split(" ");
 		startPos = Integer.valueOf(pos[0]);
 		endPos = Integer.valueOf(pos[1]);
-		defaultPrimerakInvKnj = //BisisApp.getINIFile().getString("cataloguing", "defaultPrimerakInvKnj");
-                                "00";
-		defaultGodinaInvKnj = //BisisApp.getINIFile().getString("cataloguing", "defaultGodinaInvKnj");
-                                "00";
-		defaultSveskaInvKnj = //BisisApp.getINIFile().getString("cataloguing", "defaultSveskaInvKnj");
-                                "00";
+		defaultPrimerakInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultPrimerakInvKnj();
+		defaultGodinaInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultGodinaInvKnj();
+		defaultSveskaInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultSveskaInvKnj();
 		if(HoldingsDataCoders.getCoder(HoldingsDataCoders.ODELJENJE_CODER).size()==1){
 			defaultOdeljenje = HoldingsDataCoders.getCoder(HoldingsDataCoders.ODELJENJE_CODER).get(0).getCode();
 		}
