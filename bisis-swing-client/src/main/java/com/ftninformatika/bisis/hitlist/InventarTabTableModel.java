@@ -28,8 +28,7 @@ import org.apache.commons.logging.LogFactory;
  * u konfiguracionom fajlu u kategoriji
  * 
  * cataloguing/primerciModel i godineModel
- * 
- *  
+ *
  */
 
 
@@ -100,7 +99,7 @@ public class InventarTabTableModel extends AbstractTableModel {
     godineAll[16] = Messages.getString("HITLIST_INVENTOR");
     
     //kolone za primerke
-    String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getCataloguingInvbrSubStr();
+    String columnSetStrPrimerci = BisisApp.appConfig.getClientConfig().getCataloguingPrimerciModel();
     columnSetPrimerci = columnSetStrPrimerci.split(" ");
     if(columnSetPrimerci.length<MAX_COLUMN_COUNT)
     	primerciColumnCount = columnSetPrimerci.length;

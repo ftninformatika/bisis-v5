@@ -51,8 +51,7 @@ public class CodedValuePanel extends JPanel {
 		switch(sifType){
 			case(CodersHelper.NACINNABAVKE_CODER):
 				labelStr = Messages.getString("EDITOR_ACQ_TYPE");
-				codesList = //HoldingsDataCoders.getCoder(HoldingsDataCoders.NACINNABAVKE_CODER);
-						BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.NACINNABAVKE_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.NACINNABAVKE_CODER);
 				break;
 			case(CodersHelper.POVEZ_CODER):
 				labelStr = Messages.getString("BINDING");
