@@ -40,19 +40,15 @@ public class RecordsController {
 
   @Autowired RecordsRepository recordsRepository;
 
-
-
   @Autowired ElasticRecordsRepository elasticRecordsRepository;
 
   @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
 
-  @RequestMapping(method = RequestMethod.DELETE)
-  public boolean deleteRecord(@RequestBody String recId){
-      boolean retVal = false;
-      recordsRepository.delete(recId);
-      elasticRecordsRepository.delete(recId);
-      return true;
-
+  @RequestMapping(value = "/{mongoID}", method = RequestMethod.DELETE)
+  public boolean deleteRecord(@PathVariable("mongoID") String mongoID){
+    recordsRepository.delete(mongoID);
+    elasticRecordsRepository.delete(mongoID);
+    return true;
   }
 
     @RequestMapping(value = "/getRecord")

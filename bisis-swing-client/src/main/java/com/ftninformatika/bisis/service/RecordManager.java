@@ -59,8 +59,8 @@ public class RecordManager {
         return null;
     }
 
-    public boolean delete(String recID) throws IOException {
-        return BisisApp.bisisService.deleteRecord(recID).execute().body();
+    public boolean delete(String _id) throws IOException {
+        return BisisApp.bisisService.deleteRecord(_id).execute().body();
     }
 
     public boolean reindex(String recID) {

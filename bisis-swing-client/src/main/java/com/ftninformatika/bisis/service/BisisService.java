@@ -172,8 +172,8 @@ public interface BisisService {
     @GET("records/unlock")
     Call<String> unlockRecord(@Query("recId") String recId);
 
-    @HTTP(method = "DELETE", path = "/records", hasBody = true)
-    Call<Boolean> deleteRecord(String recID);
+    @HTTP(method = "DELETE", path = "/records/{mongoID}")
+    Call<Boolean> deleteRecord(@Path("mongoID") String mongoID);
 
     @GET("records/getRecord")
     Call<Record> getRecordByCtlgNo(@Query("ctlgno") String ctlgno);
