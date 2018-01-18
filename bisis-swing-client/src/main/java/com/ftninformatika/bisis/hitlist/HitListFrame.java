@@ -71,7 +71,7 @@ public class HitListFrame extends JInternalFrame {
         .getResource("/icons/doc_rich16.png")));
     
     lbHitList.setModel(hitListModel);
-    //lbHitList.setUI(new SeaGlassListUI());
+    lbHitList.setUI(new SeaGlassListUI());
     lbHitList.setCellRenderer(renderer);
     spHitList.setViewportView(lbHitList);    
     //spHitList.setPreferredSize(new Dimension(500, 500));
@@ -90,7 +90,7 @@ public class HitListFrame extends JInternalFrame {
 			inventarTable.setModel(inventarTableModel);
 			inventarTable.setAutoCreateRowSorter(true);
 			inventarTable.setCellSelectionEnabled(true);
-			inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
+			//inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
             //inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			adjustInventarColumnWidth();
 			
@@ -686,7 +686,7 @@ public class HitListFrame extends JInternalFrame {
 
       private JTable inventarTable = new JTable();
       private InventarTabTableModel inventarTableModel = new InventarTabTableModel();
-      private InventarTabTableCellRenderer inventartTableRenderer = new InventarTabTableCellRenderer();
+      //private InventarTabTableCellRenderer inventartTableRenderer = new InventarTabTableCellRenderer();
 
       private JTable uploadedFilesTable = new JTable();
       //private UploadedFilesTableModel uploadedFilesTableModel = new UploadedFilesTableModel();
