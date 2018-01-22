@@ -51,24 +51,15 @@ public class HitListFrame extends JInternalFrame {
     renderer.setResults(queryResult);
     this.query = sQuery;
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-    btnFirst.setIcon(new ImageIcon(getClass().getResource(
-    "/icons/first.gif")));
-    btnPrev.setIcon(new ImageIcon(getClass().getResource(
-        "/icons/prev.gif")));
-    btnNext.setIcon(new ImageIcon(getClass().getResource(
-        "/icons/next.gif")));
-    btnLast.setIcon(new ImageIcon(getClass().getResource(
-    "/icons/last.gif")));
-    btnEdit.setIcon(new ImageIcon(getClass().getResource(
-        "/icons/edit.gif")));
-    btnDelete.setIcon(new ImageIcon(getClass().getResource(
-        "/icons/remove.gif")));
-    btnNew.setIcon(new ImageIcon(getClass().getResource(
-        "/icons/copy.gif")));
-    btnInventar.setIcon(new ImageIcon(EditorFrame.class
-        .getResource("/icons/book16.png")));
-    btnAnalitika.setIcon(new ImageIcon(EditorFrame.class
-        .getResource("/icons/doc_rich16.png")));
+    btnFirst.setIcon(new ImageIcon(getClass().getResource("/icons/first.gif")));
+    btnPrev.setIcon(new ImageIcon(getClass().getResource("/icons/prev.gif")));
+    btnNext.setIcon(new ImageIcon(getClass().getResource("/icons/next.gif")));
+    btnLast.setIcon(new ImageIcon(getClass().getResource("/icons/last.gif")));
+    btnEdit.setIcon(new ImageIcon(getClass().getResource("/icons/edit.gif")));
+    btnDelete.setIcon(new ImageIcon(getClass().getResource("/icons/remove.gif")));
+    btnNew.setIcon(new ImageIcon(getClass().getResource("/icons/copy.gif")));
+    btnInventar.setIcon(new ImageIcon(EditorFrame.class.getResource("/icons/book16.png")));
+    btnAnalitika.setIcon(new ImageIcon(EditorFrame.class.getResource("/icons/doc_rich16.png")));
     
     lbHitList.setModel(hitListModel);
     lbHitList.setUI(new SeaGlassListUI());
@@ -387,7 +378,6 @@ public class HitListFrame extends JInternalFrame {
   }
   
   private void displayPage() {
-
       if (queryResult == null || queryResult.getRecords().length == 0)
           return;
       int count = PAGE_SIZE;

@@ -56,20 +56,6 @@ public class HitListModel extends AbstractListModel {
   }
 
   public boolean remove(int index){
-    if(/*BisisApp.isFileMgrEnabled()*/true){
-      if(/*FileManagerClient.deleteAllForRecord(BisisApp.getFileManagerURL(), records[index].get_id())*/true){
-        boolean deleted = false;
-        try {
-          deleted = BisisApp.recMgr.delete(records[index].get_id());
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        if(deleted)
-          records[index] = null;
-        return deleted;
-      }else
-        return false;
-    }else{
       boolean deleted = false;
       try {
         deleted = BisisApp.recMgr.delete(records[index].get_id());
@@ -79,8 +65,6 @@ public class HitListModel extends AbstractListModel {
       if(deleted)
         records[index] = null;
       return deleted;
-    }
-
   }
 
   private Record[] records; //promenjeno u drugi models radi testiranja hitlist frame-a

@@ -18,15 +18,13 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
   public HitListRenderer() {
     super("text/html", "");
     setOpaque(true);
-    formatter = RecordFormatterFactory.getFormatter(
-        RecordFormatterFactory.FORMAT_BRIEF);
+    formatter = RecordFormatterFactory.getFormatter(RecordFormatterFactory.FORMAT_BRIEF);
   }
 
   public void setFormatter(int type) {
     formatter = RecordFormatterFactory.getFormatter(type);
     if (formatter == null)
-      formatter = RecordFormatterFactory.getFormatter(
-          RecordFormatterFactory.FORMAT_BRIEF);
+      formatter = RecordFormatterFactory.getFormatter(RecordFormatterFactory.FORMAT_BRIEF);
   }
   
   public void setResults(Result res){
@@ -62,10 +60,9 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
   }
 
   // vraca redni broj pogotka u rezultatima results
-
   private int findRedniBroj(Record rec){
   	for(int i=0;i<results.getResultCount();i++){
-  		if(rec.get_id()==results.getRecords()[i])
+  		if(rec.get_id().equals(results.getRecords()[i]))
   			return i+1;
   	}
   	return -1;

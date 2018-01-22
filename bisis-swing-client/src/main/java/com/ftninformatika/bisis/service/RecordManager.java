@@ -67,7 +67,7 @@ public class RecordManager {
         return false;
     }
 
-    public List<String> selectExp(/*String query,*/ String prefix, String text) throws IOException {
+    public List<String> selectExp( String prefix, String text) throws IOException {
         return BisisApp.bisisService.getExpand(prefix, text).execute().body();
     }
 
