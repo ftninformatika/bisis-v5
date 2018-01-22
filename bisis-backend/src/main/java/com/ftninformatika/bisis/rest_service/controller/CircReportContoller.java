@@ -341,18 +341,37 @@ public class CircReportContoller {
         return retVal;
     }
 
-        //TODO pasivni clanovi....
+    /**
+     * zbirna statistika za period
+     */
     @RequestMapping(value = "get_zb_statistic_report")
-    public List<Report> getZbStatisticReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
-        List<Report> retVal = new ArrayList<>();
+    public Report getZbStatisticReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        Report r = new Report();
 
-        Long signedCount = memberRepository.getUserSignedCount(start,end, location);
-        Long lendCount = lendingRepository.getLendCount(start,end,location);
-        Long returnCount = lendingRepository.getReturnCount(start, end, location);
-        //Long activeUsersCount = lendingRepository.getActiveVisitorsCount(start, end, location);
-        //Long passiveUsersCount = lendingRepository.getPassiveVisitorsCount(start, end, location);
+        Long signedUCount = memberRepository.getUserSignedCount(start,end, location); //Statistic1ReportCommand
+        Long lendUCount = lendingRepository.getLendCount(start,end,location);  //Statistic2ReportCommand
+        Long returnUCount = lendingRepository.getReturnCount(start, end, location); //Statistic3ReportCommand
+        Long lendBCount = Long.valueOf(new HashSet<>(lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start),
+                DateUtils.getEndOfDay(end), null, null, location)).size()); //br zaduzenih knjiga Statistic7ReportCommand
+        Long resBCount = Long.valueOf(new HashSet<>(lendingRepository.getResumedLendings(start,end,location)).size());//br produzenih knjiga Statistic8ReportCommand
+        Long returnBCount = Long.valueOf(new HashSet<>(lendingRepository.getLendingsCtlgNo(null, null,
+                DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location)).size()); //br razduzenih knjiga Statistic9ReportCommand
+        Long lendSCount = Long.valueOf(lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start),
+                DateUtils.getEndOfDay(end), null, null, location).size());//br usluga zaduzenja Statistic10ReportCommand
+        Long resSCount = Long.valueOf(lendingRepository.getResumedLendings(start,end,location).size()); //br usluga produzenja Statistic11ReportCommand
+        int retSCount = lendingRepository.getLendingsCtlgNo(null, null,
+                DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location).size();//br usluga razduzenja Statistic12ReportCommand
 
-        return retVal;
+        r.setProperty1(String.valueOf(signedUCount));
+        r.setProperty2(String.valueOf(lendUCount));
+        r.setProperty3(String.valueOf(returnUCount));
+        r.setProperty4(String.valueOf(lendBCount));
+        r.setProperty5(String.valueOf(resBCount));
+        r.setProperty6(String.valueOf(returnBCount));
+        r.setProperty7(String.valueOf(lendSCount));
+        r.setProperty8(String.valueOf(resSCount));
+        r.setProperty9(String.valueOf(retSCount));
+        return r;
     }
 
         /**

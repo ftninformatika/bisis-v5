@@ -24,5 +24,6 @@ public interface LendingRepositoryCustom {
     public Map<String, Report> getLibrarianStatistic(Date start, Date end, String location);
     public Long getLendCount(Date start, Date end, String location);
     public Long getReturnCount(Date start, Date end, String location);
-       public List<Lending> getCtlgnoUsrId(Date start, Date end, String location);
+    public List<Lending> getResumedLendings(Date start, Date end, String locaiton);
+    public List<Lending> getCtlgnoUsrId(Date start, Date end, String location);
 }

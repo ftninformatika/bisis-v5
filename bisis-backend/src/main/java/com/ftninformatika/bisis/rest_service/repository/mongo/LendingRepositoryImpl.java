@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.awt.image.CropImageFilter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,6 +81,20 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         return results;
     }
 
+
+    public List<Lending> getResumedLendings(Date start, Date end, String locaiton){
+        List<Lending> retVal = null;
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+        Criteria cr = Criteria.where("resumeDate").gte(start).lte(end);
+        if (locaiton != null && !locaiton.equals(""))
+            cr = new Criteria().andOperator(cr, Criteria.where("location").is(locaiton));
+        Query q = new Query();
+        q.addCriteria(cr);
+        retVal = mongoTemplate.find(q, Lending.class);
+
+        return retVal;
+    }
 
     public Long getLendCount(Date start, Date end, String location){
         Long retVal = null;

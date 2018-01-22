@@ -48,15 +48,11 @@ public class AddUFieldDialog extends CenteredDialog {
 	
 	private JLabel fLabel = new JLabel();
 	private JLabel sfLabel = new JLabel();
-	
-	
-	
+
 	private String title = Messages.getString("EDITOR_ADDFIELDFRAMETITLE"); //$NON-NLS-1$
 	
 	private UField chosenUField = null;
-	
 
-	
 	public AddUFieldDialog(Frame owner) {
 		super(owner,true);		
 		initialize();
