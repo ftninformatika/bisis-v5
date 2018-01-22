@@ -61,7 +61,7 @@ public class HitListRenderer extends JEditorPane implements ListCellRenderer {
 
   // vraca redni broj pogotka u rezultatima results
   private int findRedniBroj(Record rec){
-  	for(int i=0;i<results.getResultCount();i++){
+  	for(int i=0; i<results.getResultCount(); i++){
   		if(rec.get_id().equals(results.getRecords()[i]))
   			return i+1;
   	}

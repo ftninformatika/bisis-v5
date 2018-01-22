@@ -415,7 +415,7 @@ public class Report {
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(VisitorStructure.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-//
+
 						case 6 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Visitors.setPrint(getTfStartDate().getDate(), getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
@@ -503,9 +503,9 @@ public class Report {
 				          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LibrarianStatistic.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
 				          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 				          break;
-//						default : JOptionPane.showMessageDialog(null, "Niste uneli podatke!",
-//					             "Greska", JOptionPane.ERROR_MESSAGE);
-//
+						default : JOptionPane.showMessageDialog(null, "Niste uneli podatke!",
+					             "Greska", JOptionPane.ERROR_MESSAGE);
+
 					}
 					//clear();
 

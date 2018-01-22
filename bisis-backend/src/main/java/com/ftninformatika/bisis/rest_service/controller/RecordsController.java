@@ -375,6 +375,7 @@ public class RecordsController {
   @RequestMapping( value = "/multiple_ids", method = RequestMethod.POST )
   public ResponseEntity<List<Record>> getMultipleRecordsByIds(@RequestBody List<String> ids){
       List<Record> retVal = (List<Record>) recordsRepository.findAll(ids);
+      retVal.sort(Comparator.comparingDouble(r->ids.indexOf(r.get_id())));
       if (retVal != null)
         return new ResponseEntity<>( retVal, HttpStatus.OK);
       else
