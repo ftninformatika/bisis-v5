@@ -692,7 +692,7 @@ public class CircReportContoller {
     public List<Report> getBestReaderReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
 
-        List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location,
+        List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location,
                                                                 "userId", "booksRed", "booksRed", "lendDate", 20);
         if (l != null) {
             for (Object o : l) {
