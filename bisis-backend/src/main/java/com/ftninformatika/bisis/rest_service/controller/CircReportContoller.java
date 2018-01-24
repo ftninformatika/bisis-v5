@@ -348,9 +348,9 @@ public class CircReportContoller {
     public Report getZbStatisticReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         Report r = new Report();
 
-        Long signedUCount = memberRepository.getUserSignedCount(start,end, location); //Statistic1ReportCommand
-        Long lendUCount = lendingRepository.getLendCount(start,end,location);  //Statistic2ReportCommand
-        Long returnUCount = lendingRepository.getReturnCount(start, end, location); //Statistic3ReportCommand
+        Long signedUCount = memberRepository.getUserSignedCount(start,end, location); //upisani clanovi Statistic1ReportCommand
+        Long lendUCount = lendingRepository.getLendCount(start,end,location);  //izdato clanova Statistic2ReportCommand
+        Long returnUCount = lendingRepository.getReturnCount(start, end, location); //vraceno clanova Statistic3ReportCommand
         Long lendBCount = Long.valueOf(new HashSet<>(lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start),
                 DateUtils.getEndOfDay(end), null, null, location)).size()); //br zaduzenih knjiga Statistic7ReportCommand
         Long resBCount = Long.valueOf(new HashSet<>(lendingRepository.getResumedLendings(start,end,location)).size());//br produzenih knjiga Statistic8ReportCommand
@@ -783,7 +783,7 @@ public class CircReportContoller {
     public List<Report> getVisitorsReport(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location){
         List<Report> retVal = new ArrayList<>();
         List<Lending> lendings = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
         lendings = lendingRepository.getLenignsWithAnyActivityOnDate(date, date, location);
 
@@ -895,7 +895,7 @@ public class CircReportContoller {
         else
             lendings = lendingRepository.findByLendDateBetweenAndCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), ctlgNo);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         for (Lending l: lendings){
             Report r = new Report();
             r.setProperty1(l.getUserId());
@@ -1044,9 +1044,10 @@ public class CircReportContoller {
         }else{
             lendings = lendingRepository.findLendingsByUserIdAndLendDateBetweenAndLocation(memberNo,start,end,location);
         }
+        lendings.sort(Comparator.comparing(d -> d.getLendDate()));
         Record r;
         RecordPreview rp = new RecordPreview();
-        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf =new SimpleDateFormat("dd.MM.yyyy");
 
        for(Lending l:lendings){
             r = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
@@ -1077,7 +1078,7 @@ public class CircReportContoller {
 
         Record r;
         RecordPreview rp = new RecordPreview();
-        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf =new SimpleDateFormat("dd.MM.yyyy");
 
         for(Lending l:lendings){
             r = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());

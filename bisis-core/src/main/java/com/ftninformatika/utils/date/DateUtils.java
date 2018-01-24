@@ -1,12 +1,15 @@
 package com.ftninformatika.utils.date;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class DateUtils {
+
+  private static final String dateRegExString = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$";
 
   public static String toGMTstring(Date date) {
     DateFormat df = new SimpleDateFormat("dd MMM yyyy kk:mm:ss z");
@@ -56,5 +59,14 @@ public class DateUtils {
     boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
             cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
     return sameDay;
+  }
+
+  public static String getFormatedStringFromStringDate(String date){
+    String retVal = "";
+    if(date.matches(dateRegExString)){
+        String[] parts = date.split("-");
+        retVal = parts[2] + "." + parts[1] + "." + parts[0];
+    }
+    return retVal;
   }
 }
