@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.ItemAvailability;
@@ -11,12 +12,14 @@ import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import com.ftninformatika.utils.RecordUtils;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.lucene.search.WildcardQuery;
@@ -39,10 +42,10 @@ import java.util.stream.StreamSupport;
 public class RecordsController {
 
   @Autowired RecordsRepository recordsRepository;
-
   @Autowired ElasticRecordsRepository elasticRecordsRepository;
-
   @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+  @Autowired LocationRepository locationRepository;
+
 
   @RequestMapping(value = "/{mongoID}", method = RequestMethod.DELETE)
   public boolean deleteRecord(@PathVariable("mongoID") String mongoID){
@@ -248,7 +251,7 @@ public class RecordsController {
 
   //dodavanje novog ili izmena postojeceg zapisa
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<Record> addOrUpdate(@RequestBody Record record) {
+  public ResponseEntity<Record> addOrUpdate(@RequestHeader("Library") String lib, @RequestBody Record record) {
 
         try {
 
@@ -256,9 +259,24 @@ public class RecordsController {
                 record.setLastModifiedDate(new Date());
                 record.setCreationDate(new Date());
             }
-            else
+            else {
                 record.setLastModifiedDate(new Date());
+                Record storedRec = recordsRepository.findOne(record.get_id());
+                List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, storedRec); //novi primerci - pretabani u ItemAvailability
+                if (newItems.size() > 0) {
+                    List<Location> locs = locationRepository.getCoders(lib);
+                    for(ItemAvailability i: newItems) {
+                        Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
+                        i.setLibDepartment(locDesc.get().getDescription());
+                        itemAvailabilityRepository.save(i);
+                    }
+                }
+                List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
+                if (deletedInvs.size() > 0)
+                    itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
 
+
+            }
             //insert record in mongodb via MongoRepository
             Record savedRecord = recordsRepository.save(record);
             //convert record to suitable prefix-json for elasticsearch
