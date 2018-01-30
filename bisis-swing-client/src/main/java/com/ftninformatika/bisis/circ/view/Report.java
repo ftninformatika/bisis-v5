@@ -395,52 +395,42 @@ public class Report {
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Librarian.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 2 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(UserCategSigning.setPrint(getTfStartDate().getDate(),Utils.getCmbValue(getCmbLocation().getSelectedItem())));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 3 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MmbrType.setPrint(getTfStartDate().getDate(),getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 4 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Structure.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 5 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(VisitorStructure.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 6 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Visitors.setPrint(getTfStartDate().getDate(), getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 7 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(ZbStatistic.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 8 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestReader.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 9 :
 							Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Blocked.setPrint(getCmbLocation().getSelectedItem()));
 							Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 							break;
-
 						case 10 :
 						   Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(GroupsReport.setPrint(getCmbLocation().getSelectedItem()));
 						   Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 						   break;
-
 						case 11 :
 						 Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
 						 Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
@@ -513,8 +503,6 @@ public class Report {
 				  catch(Exception exc1){
 				  	exc1.printStackTrace();
 				  	JOptionPane.showMessageDialog(null, "Greska!", "Greska",JOptionPane.ERROR_MESSAGE);
-
-
 				  }
 				}
 			});

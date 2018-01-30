@@ -274,9 +274,8 @@ public class RecordsController {
                 List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
                 if (deletedInvs.size() > 0)
                     itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
-
-
             }
+            record.pack();
             //insert record in mongodb via MongoRepository
             Record savedRecord = recordsRepository.save(record);
             //convert record to suitable prefix-json for elasticsearch
@@ -284,8 +283,6 @@ public class RecordsController {
             ElasticPrefixEntity ee = new ElasticPrefixEntity();
             ee.setId(savedRecord.get_id().toString());
             ee.setPrefixes(prefixes);
-            //ElasticPrefixEntity ee = new ElasticPrefixEntity(savedRecord.get_id().toString(), prefixes);
-            //save and index posted element via ElasticsearchRepository
             elasticRecordsRepository.save(ee);
             elasticRecordsRepository.index(ee);
             return new ResponseEntity<>(record, HttpStatus.OK);
@@ -301,12 +298,8 @@ public class RecordsController {
           ,@RequestParam(value = "pageSize", required = false) final Integer pageSize){
       ArrayList<Record> retVal = new ArrayList<>();
 
-
       Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
-
-
       Iterable<String> ids = ElasticUtility.getIdsFromElasticIterable(ii);
-
       retVal = (ArrayList<Record>) recordsRepository.findAll(ids);
 
       return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);

@@ -1025,7 +1025,7 @@ public class CircReportContoller {
         }
         return reports;
     }
-/*broj uclanjenih korisnika grupisanih po tipu*/ /*MemberTypeReportCommand*/
+/*broj uclanjenih korisnika grupisanih po tipu*//*MemberTypeReportCommand*/
 
     @RequestMapping(value = "/group_by_membership_type", method = RequestMethod.GET)
     public List<Report> groupByMembershipType(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location){

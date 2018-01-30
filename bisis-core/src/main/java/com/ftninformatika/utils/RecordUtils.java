@@ -15,6 +15,12 @@ import java.util.stream.Collectors;
  */
 public class RecordUtils {
 
+    /**
+     *
+     * @param freshRecord - editovan zapis poslat na bekend
+     * @param storedRecord - trenutna verzija istog zapisa
+     * @return - listu objekata ItemAvailability koji su novoinventarisani
+     */
     public static List<ItemAvailability> getItemAvailabilityNewDelta(Record freshRecord, Record storedRecord){
         List<ItemAvailability> retVal = new ArrayList<>();
         if (freshRecord.getPrimerci() != null && storedRecord.getPrimerci() != null && freshRecord.getPrimerci().size() > 0 && storedRecord.getPrimerci().size() > 0){
@@ -43,6 +49,12 @@ public class RecordUtils {
         return retVal;
     }
 
+    /**
+     *
+     * @param freshRecord - editovan zapis poslat na bekend
+     * @param storedRecord - trenutna verzija istog zapisa
+     * @return listu inventarnih brojeva koji su obrisani
+     */
     public static List<String> getDeletedInvNumsDelta(Record freshRecord, Record storedRecord){
         List<String> retVal = new ArrayList<>();
 

@@ -149,7 +149,7 @@ public class ElasticUtility {
             if ("".equals(prefName) || "".equals(prefValue))
                 return null;
 
-            retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes."+prefName, LatCyrUtils.toLatinUnaccented(prefValue)));
+            retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes."+prefName, LatCyrUtils.toLatinUnaccented(prefValue) ));
         }
         catch (NullPointerException e){
             e.printStackTrace();

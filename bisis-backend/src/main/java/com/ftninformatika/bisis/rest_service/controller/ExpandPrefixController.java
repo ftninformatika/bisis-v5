@@ -42,9 +42,7 @@ public class ExpandPrefixController {
 
         for (ElasticPrefixEntity ep: ii) {
             for (String ss: ep.getPrefixes().get(prefix)) {
-//            if (!retVal.contains(ep.getPrefixes().get(prefix)))
-//                retVal.add(ep.getPrefixes().get(prefix));
-                if (!retVal.contains(ss))
+                if (!retVal.contains(ss) && ss.toLowerCase().startsWith(text.toLowerCase()))
                     retVal.add(ss);
             }
         }
