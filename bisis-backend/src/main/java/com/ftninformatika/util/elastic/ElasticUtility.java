@@ -86,12 +86,16 @@ public class ElasticUtility {
             if (sm.getText1() != null && !"".equals(sm.getText1())) {
                 QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText1()));
                 qb.defaultField("prefixes." + sm.getPref1());
+                qb.defaultOperator(QueryStringQueryBuilder.Operator.AND);
+                qb.autoGeneratePhraseQueries(true);
                 retVal.must(qb);
             }
 
             if (sm.getText2() != null && !"".equals(sm.getText2())) {
                 QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText2()));
                 qb.defaultField("prefixes." + sm.getPref2());
+                qb.autoGeneratePhraseQueries(true);
+                qb.defaultOperator(QueryStringQueryBuilder.Operator.AND);
                 if ( "AND".equals(sm.getOper1()))
                     retVal.must(qb);
                 if ( "OR".equals(sm.getOper1())) {
@@ -104,6 +108,8 @@ public class ElasticUtility {
             if (sm.getText3() != null && !"".equals(sm.getText3())) {
                 QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText3()));
                 qb.defaultField("prefixes." + sm.getPref3());
+                qb.autoGeneratePhraseQueries(true);
+                qb.defaultOperator(QueryStringQueryBuilder.Operator.AND);
                 if ( "AND".equals(sm.getOper2()))
                     retVal.must(qb);
                 if ( "OR".equals(sm.getOper2()))
@@ -115,6 +121,8 @@ public class ElasticUtility {
             if (sm.getText4() != null && !"".equals(sm.getText4())) {
                 QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText4()));
                 qb.defaultField("prefixes." + sm.getPref4());
+                qb.autoGeneratePhraseQueries(true);
+                qb.defaultOperator(QueryStringQueryBuilder.Operator.AND);
                 if ( "AND".equals(sm.getOper3()))
                     retVal.must(qb);
                 if ( "OR".equals(sm.getOper3()))
@@ -126,6 +134,8 @@ public class ElasticUtility {
             if (sm.getText5() != null && !"".equals(sm.getText5())) {
                 QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText5()));
                 qb.defaultField("prefixes." + sm.getPref5());
+                qb.autoGeneratePhraseQueries(true);
+                qb.defaultOperator(QueryStringQueryBuilder.Operator.AND);
                 if ( "AND".equals(sm.getOper4()))
                     retVal.must(qb);
                 if ( "OR".equals(sm.getOper4()))
