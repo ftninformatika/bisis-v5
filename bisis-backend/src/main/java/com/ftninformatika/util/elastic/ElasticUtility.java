@@ -16,10 +16,9 @@ import java.util.stream.StreamSupport;
 public class ElasticUtility {
 
     public static List<String> getIdsFromElasticIterable(Iterable<ElasticPrefixEntity> elasticResponse){
-        List<String> retVal = StreamSupport.stream(elasticResponse.spliterator(), false)
-                .map(i -> i.getId())
+        return StreamSupport.stream(elasticResponse.spliterator(), false)
+                .map(ElasticPrefixEntity::getId)
                 .collect(Collectors.toList());
-        return retVal;
     }
 
 
@@ -84,45 +83,55 @@ public class ElasticUtility {
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
 
         try {
-            if (sm.getText1() != null && !"".equals(sm.getText1()))
-                retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref1(), LatCyrUtils.toLatinUnaccented(sm.getText1())));
+            if (sm.getText1() != null && !"".equals(sm.getText1())) {
+                QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText1()));
+                qb.defaultField("prefixes." + sm.getPref1());
+                retVal.must(qb);
+            }
 
             if (sm.getText2() != null && !"".equals(sm.getText2())) {
+                QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText2()));
+                qb.defaultField("prefixes." + sm.getPref2());
                 if ( "AND".equals(sm.getOper1()))
-                    retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref2(), LatCyrUtils.toLatinUnaccented(sm.getText2())));
+                    retVal.must(qb);
                 if ( "OR".equals(sm.getOper1())) {
-                    retVal.should(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref2(), LatCyrUtils.toLatinUnaccented(sm.getText2())));
+                    retVal.should(QueryBuilders.matchPhraseQuery("prefixes." + sm.getPref2(), LatCyrUtils.toLatinUnaccented(sm.getText2())));
                 }
                 if ( "NOT".equals(sm.getOper1()))
-                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref2(), LatCyrUtils.toLatinUnaccented(sm.getText2())));
+                    retVal.mustNot(qb);
             }
 
             if (sm.getText3() != null && !"".equals(sm.getText3())) {
+                QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText3()));
+                qb.defaultField("prefixes." + sm.getPref3());
                 if ( "AND".equals(sm.getOper2()))
-                    retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref3(), LatCyrUtils.toLatinUnaccented(sm.getText3())));
+                    retVal.must(qb);
                 if ( "OR".equals(sm.getOper2()))
-                    retVal.should(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref3(), LatCyrUtils.toLatinUnaccented(sm.getText3())));
+                    retVal.should(qb);
                 if ( "NOT".equals(sm.getOper2()))
-                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref3(), LatCyrUtils.toLatinUnaccented(sm.getText3())));
+                    retVal.mustNot(qb);
             }
 
             if (sm.getText4() != null && !"".equals(sm.getText4())) {
-
+                QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText4()));
+                qb.defaultField("prefixes." + sm.getPref4());
                 if ( "AND".equals(sm.getOper3()))
-                    retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref4(), LatCyrUtils.toLatinUnaccented(sm.getText4())));
+                    retVal.must(qb);
                 if ( "OR".equals(sm.getOper3()))
-                    retVal.should(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref4(), LatCyrUtils.toLatinUnaccented(sm.getText4())));
+                    retVal.should(qb);
                 if ( "NOT".equals(sm.getOper3()))
-                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref4(), LatCyrUtils.toLatinUnaccented(sm.getText4())));
+                    retVal.mustNot(qb);
             }
 
             if (sm.getText5() != null && !"".equals(sm.getText5())) {
+                QueryStringQueryBuilder qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(sm.getText5()));
+                qb.defaultField("prefixes." + sm.getPref5());
                 if ( "AND".equals(sm.getOper4()))
-                    retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref5(),LatCyrUtils.toLatinUnaccented( sm.getText5())));
+                    retVal.must(qb);
                 if ( "OR".equals(sm.getOper4()))
-                    retVal.should(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref5(), LatCyrUtils.toLatinUnaccented(sm.getText5())));
+                    retVal.should(qb);
                 if ( "NOT".equals(sm.getOper4()))
-                    retVal.mustNot(QueryBuilders.matchPhrasePrefixQuery("prefixes." + sm.getPref5(), LatCyrUtils.toLatinUnaccented(sm.getText5())));
+                    retVal.mustNot(qb);
             }
 
             if (sm.getDepartments() != null && sm.getDepartments().size() > 0){
@@ -134,8 +143,6 @@ public class ElasticUtility {
         catch (NullPointerException e){
             e.printStackTrace();
         }
-//        List list = Arrays.asList("01000091953", "01000098221");
-//        retVal.filter(QueryBuilders.termsQuery("prefixes.IN", list));
 
         return retVal;
     }
@@ -158,5 +165,6 @@ public class ElasticUtility {
 
         return retVal;
     }
+
 
 }
