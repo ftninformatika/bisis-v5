@@ -147,6 +147,12 @@ public class DefaultPrefixConfig implements PrefixConfig {
     allPrefixes.add("SS");
     allPrefixes.add("ST");
     allPrefixes.add("SU");
+    allPrefixes.add("SF");
+    allPrefixes.add("SL");
+    allPrefixes.add("SW");
+    allPrefixes.add("SX");
+    allPrefixes.add("SY");
+    allPrefixes.add("SZ");
     allPrefixes.add("TA");
     allPrefixes.add("TI");
     allPrefixes.add("TN");

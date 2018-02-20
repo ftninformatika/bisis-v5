@@ -64,6 +64,7 @@ public class SearchModel {
 
         return retVal.toString();
     }
+
     public Object getValueForPrefix(String pref){
         if (pref.equals(getPref1())){
             return getText1();
@@ -100,11 +101,4 @@ public class SearchModel {
             setText5(value);
         }
     }
-    public void fixDepartments(){
-        for (int i = 0; i < this.departments.size(); i++){
-            if(departments.get(i).length() == 1)
-                departments.set(i, "0" + departments.get(i));
-        }
-    }
-
 }

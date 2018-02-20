@@ -11,7 +11,6 @@ import java.util.Map;
 /**
  * Created by Petar on 7/5/2017.
  */
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -21,4 +20,18 @@ public class ElasticPrefixEntity {
 
     @Id String id;
     private Map<String,List<String>> prefixes;
+
+    @Override
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+        sb.append(id + "\n");
+        for(Map.Entry<String,List<String>> entry: prefixes.entrySet()){
+            sb.append(entry.getKey() + ": \n");
+                    for(String s: entry.getValue())
+                        sb.append(s + "\n");
+            sb.append("---------------\n");
+        }
+        return sb.toString();
+    }
+
 }

@@ -22,15 +22,15 @@ spring:
       port: 27017
       database: bisis
     elasticsearch:
-        properties:
-          indices:
-            query:
-              bool:
-                max_clause_count: 1000000
-#          index:
-#            max_result_window: 20000
-#          path:
-#            data: C:/elasticsearch_storage
+      properties:
+        indices:
+          query:
+            bool:
+              max_clause_count: 1000000
+      cluster-nodes: localhost:9300
+      repositories:
+        enabled: true
+
 
   mail:
     host: smtp.gmail.com
@@ -43,8 +43,6 @@ spring:
           auth: true
           starttls:
             enable: true
-
-
 
 logging:
   level:

@@ -110,6 +110,9 @@ public class PrefixConverter {
       if (g.getOdeljenje() != null)
           dest.add(new PrefixValue("OD",g.getOdeljenje()));
       ///TODO proveriti kako da se indeksira signatura!!! Trenutno je onako kako se vidi u editoru
+      List<PrefixValue> signaturePrefixes = getSignaturePrefixes(g);//indeksiranje signatura
+      if (signaturePrefixes.size() > 0)
+        dest.addAll(signaturePrefixes);
 
       String sig=Signature.format(g);
       if(!sig.equals(""))
@@ -146,6 +149,10 @@ public class PrefixConverter {
           dest.add(new PrefixValue("OD",p.getOdeljenje()));
 
       ///TODO proveriti kako da se indeksira signatura!!! Trenutno je onako kako se vidi u editoru
+      List<PrefixValue> signaturePrefixes = getSignaturePrefixes(p);
+      if (signaturePrefixes.size() > 0)
+        dest.addAll(signaturePrefixes);
+
          String sig=Signature.format(p);
       if(!sig.equals(""))
           dest.add(new PrefixValue("SG",sig));
@@ -236,7 +243,36 @@ public class PrefixConverter {
     }
   }
 
-  static PrefixConfig prefixConfig;
+    private static List<PrefixValue> getSignaturePrefixes(Primerak p) {
+        return getSignaturePrefixes(p.getSigFormat(), p.getSigPodlokacija(), p.getSigIntOznaka(),
+                p.getSigDublet(), p.getSigNumerusCurens(), p.getSigUDK());
+    }
+
+    private static List<PrefixValue> getSignaturePrefixes(Godina g) {
+        return getSignaturePrefixes(g.getSigFormat(), g.getSigPodlokacija(), g.getSigIntOznaka(),
+                g.getSigDublet(), g.getSigNumerusCurens(), g.getSigUDK());
+    }
+
+    private static List<PrefixValue> getSignaturePrefixes(String sigFormat, String sigPodlokacija,
+                                                          String sigIntOznaka, String sigDublet, String sigNumerusCurens, String sigUDK) {
+        List<PrefixValue> retVal = new ArrayList<>();
+        if (sigFormat != null && sigFormat.trim().length() > 0)
+            retVal.add(new PrefixValue("SF", sigFormat.trim()));
+        if (sigPodlokacija != null && sigPodlokacija.trim().length() > 0)
+            retVal.add(new PrefixValue("SL", sigPodlokacija.trim()));
+        if (sigIntOznaka != null && sigIntOznaka.trim().length() > 0)
+            retVal.add(new PrefixValue("SW", sigIntOznaka.trim()));
+        if (sigDublet != null && sigDublet.trim().length() > 0)
+            retVal.add(new PrefixValue("SX", sigDublet.trim()));
+        if (sigNumerusCurens != null && sigNumerusCurens.trim().length() > 0)
+            retVal.add(new PrefixValue("SY", sigNumerusCurens.trim()));
+        if (sigUDK != null && sigUDK.trim().length() > 0)
+            retVal.add(new PrefixValue("SZ", sigUDK.trim()));
+        return retVal;
+    }
+
+
+    static PrefixConfig prefixConfig;
 
   static PrefixHandler prefixHandler;
 
