@@ -84,9 +84,14 @@ public class ElasticUtility {
             if(text.startsWith("~") && text.length() > 1)
                 qb = QueryBuilders.matchPhrasePrefixQuery("prefixes." + prefix, text.substring(1)).analyzer("standard").maxExpansions(0);
             //ako trazi kraj teksta, obelezeno sa 0end0
-            else if(text.endsWith("~") && text.length() > 1)
-                qb = QueryBuilders.matchQuery("prefixes." + prefix, text.substring(0,text.length() - 1)
-                                                + PrefixConverter.endPhraseFlag).analyzer("standard").maxExpansions(0);
+            else if(text.endsWith("~") && text.length() > 1) {
+//                qb = QueryBuilders.matchQuery("prefixes." + prefix, text.substring(0, text.length() - 1)
+//                        + PrefixConverter.endPhraseFlag).analyzer("standard").maxExpansions(0);
+                qb = QueryBuilders.queryStringQuery("*" + LatCyrUtils.toLatinUnaccented(text) + PrefixConverter.endPhraseFlag);
+                ((QueryStringQueryBuilder)qb).defaultField("prefixes." + prefix);
+                ((QueryStringQueryBuilder)qb).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+                ((QueryStringQueryBuilder)qb).autoGeneratePhraseQueries(true);
+            }
             else {
                 qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccented(text));
                 ((QueryStringQueryBuilder)qb).defaultField("prefixes." + prefix);
