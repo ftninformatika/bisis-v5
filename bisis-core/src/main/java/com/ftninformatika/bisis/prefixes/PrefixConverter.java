@@ -18,12 +18,13 @@ public class PrefixConverter {
 //    }
 //    return retVal;
 //  }
+  public static String endPhraseFlag = " 0end0";
 
   public static Map<String, List<String>> toMap(Record rec, String stRashod) {
     HashMap<String, List<String>> retVal = new HashMap<>();
     List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
     for (PrefixValue pv: prefixes) {
-      String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value);
+      String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value) + endPhraseFlag;
       if (retVal.containsKey(pv.prefName)){
         List list = retVal.get(pv.prefName);
         if (!list.contains(valueUnaccented)) {
@@ -168,8 +169,6 @@ public class PrefixConverter {
       if (s.getDatumStatusa() != null)
             dest.add(new PrefixValue("DS", dateFormat.format(s.getDatumStatusa())));
     }
-
-
   }
 
   public static List getPrefixValues(Record rec, String prefName) {

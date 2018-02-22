@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
+import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
@@ -42,13 +43,11 @@ public class ExpandPrefixController {
 
         for (ElasticPrefixEntity ep: ii) {
             for (String ss: ep.getPrefixes().get(prefix)) {
+                ss = ss.replace(PrefixConverter.endPhraseFlag, "");
                 if (!retVal.contains(ss) && ss.toLowerCase().startsWith(text.toLowerCase()))
                     retVal.add(ss);
             }
         }
         return new ResponseEntity<List<String>>(retVal, HttpStatus.OK);
     }
-
-
-
 }
