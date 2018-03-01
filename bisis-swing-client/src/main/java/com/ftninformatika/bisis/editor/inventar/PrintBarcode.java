@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.barcode.epl2.*;
 import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.utils.string.Signature;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -21,43 +24,26 @@ public class PrintBarcode {
   static private String pageCode;
   static private String optionName;
   static private String port;
-  //static private boolean remote;
+  static private boolean remote;
   static private HashMap<String, List<String>> printers;
   static private List<String> socket;
   static private int printersNo = 0;
   private static Log log = LogFactory.getLog(PrintBarcode.class.getName());
 
   static {
-   /* optionName = BisisApp.getINIFile().getString("barcode", "optionName");
-    labelWidth = BisisApp.getINIFile().getInt("barcode", "labelWidth");
-    labelHeight = BisisApp.getINIFile().getInt("barcode", "labelHeight");
-    labelResolution = BisisApp.getINIFile().getInt("barcode", "labelResolution");
-    pageCode = BisisApp.getINIFile().getString("barcode", "pageCode");
-    wrap = BisisApp.getINIFile().getString("barcode", "wrap");
-    widebar = BisisApp.getINIFile().getInt("barcode", "widebar");
-    narrowbar = BisisApp.getINIFile().getInt("barcode", "narrowbar");
-    barwidth = BisisApp.getINIFile().getInt("barcode", "barwidth");
-    sigfont = BisisApp.getINIFile().getInt("barcode", "sigfont");
-    labelfont = BisisApp.getINIFile().getInt("barcode", "labelfont");
-    port = BisisApp.getINIFile().getString("barcode", "port");*/
-    //remote = BisisApp.getINIFile().getBoolean("barcode", "remote");
-//    if (remote) {
-//      printers = new HashMap<String, List<String>>();
-//      int i = 1;
-//      while (BisisApp.getINIFile().getString("barcode", "remoteName" + Integer.toString(i)) != null) {
-//        socket = new ArrayList<String>();
-//        socket.add(BisisApp.getINIFile().getString("barcode", "remoteAddress" + Integer.toString(i)));
-//        socket.add(BisisApp.getINIFile().getString("barcode", "remotePort" + Integer.toString(i)));
-//        printers.put(BisisApp.getINIFile().getString("barcode", "remoteName" + Integer.toString(i)), socket);
-//        i++;
-//      }
-//      printersNo = i - 1;
-//    }
+    optionName = BisisApp.appConfig.getClientConfig().getBarcodeOptionName();
+    labelWidth = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeLabelWidth());
+    labelHeight = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeLabelHeight());;
+    labelResolution = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeLabelResolution());;
+    pageCode = BisisApp.appConfig.getClientConfig().getBarcodePageCode();;
+    wrap = BisisApp.appConfig.getClientConfig().getBarcodeWrap();;
+    widebar = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeWidebar());;
+    narrowbar = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeNarrowbar());;
+    barwidth = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeBarwidth());;
+    sigfont = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeSigfont());
+    labelfont = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeLabelfont());
+    port = BisisApp.appConfig.getClientConfig().getBarcodePort();
   }
-
-//  public static boolean multiplePrinters() {
-//    return (remote && (printersNo > 1));
-//  }
 
   public static List<String> getPrinters() {
     List<String> list = new ArrayList<String>();
@@ -66,30 +52,16 @@ public class PrintBarcode {
   }
 
   public static void printBarcodeForPrimerak(Primerak p, String printerName) {
-   /* IPrinter printer;
+    IPrinter printer;
     //novi nacin za stampanje bar koda
     printer = Printer2.getInstance();
-
-//    if (remote && (printersNo > 1)) {
-//      socket = printers.get(printerName);
-//      printer = new RemotePrinter(socket.get(0), socket.get(1));
-//      log.info("Printing barcode: " + printerName + ", " + socket.get(0) + ":" + socket.get(1));
-//    } else if (remote && (printersNo == 1)) {
-//      String name = printers.keySet().iterator().next();
-//      socket = printers.get(name);
-//      printer = new RemotePrinter(socket.get(0), socket.get(1));
-//      log.info("Printing barcode: " + name + ", " + socket.get(0) + ":" + socket.get(1));
-//    } else {
-//      printer = Printer.getDefaultPrinter(port);
-//      log.info("Printing barcode: local printer");
-//    }
 
     Label label = new Label(labelWidth, labelHeight, labelResolution, widebar, narrowbar, barwidth, pageCode);
     String[] library = optionName.split(",");
     String[] wrapparts = wrap.split(",");
     String libName, ogr, libraryName;
     for (int i = 0; i < library.length; i++) {
-      libName = BisisApp.getINIFile().getString("barcode", library[i]);
+      libName = BisisApp.appConfig.getClientConfig().getLibraryName();
       int crta = libName.indexOf("-");
       if (crta != -1) {
         ogr = libName.substring(0, crta);
@@ -124,14 +96,14 @@ public class PrintBarcode {
 
     label.appendBlankLine();
     if (sigfont > 4) {
-      label.appendText(Signature.format(p).toUpperCase().replace("\"", " "), sigfont);
+      label.appendText(Signature.format(p).toUpperCase().replace("\"", " ") + "                       ", sigfont);
       label.appendBlankLine();
     } else {
-      label.appendText(Signature.format(p).replace("\"", " "), sigfont);
+      label.appendText(Signature.format(p).replace("\"", " ") + "                       ", sigfont);
     }
     label.appendBlankLine();
     label.appendCode128("P" + p.getInvBroj());
     printer.print(label, pageCode);
-*/
+
   }
 }

@@ -43,8 +43,7 @@ public class Printer2 implements IPrinter {
       return false;
     }
     try {
-      byte[] bytes = label.getCommands().getBytes(codePage);
-      //TODO encoding "cp" + codePage
+      byte[] bytes = label.getCommands().getBytes("cp" + codePage);
       DocPrintJob job = psBarCode.createPrintJob();
       DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
       Doc doc = new SimpleDoc(bytes, flavor, null);

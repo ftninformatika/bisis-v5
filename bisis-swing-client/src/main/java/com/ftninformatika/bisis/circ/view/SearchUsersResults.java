@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.circ.report.SearchReport;
 import com.ftninformatika.utils.Messages;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
@@ -140,8 +141,8 @@ public class SearchUsersResults {
 			btnPrint.setIcon(new ImageIcon(getClass().getResource("/circ-images/print16.png"))); //$NON-NLS-1$
 			btnPrint.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-//					Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(SearchReport.setPrint(getSearchUsersTableModel(),getQuery()));
-//					Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel"); //$NON-NLS-1$
+					Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(SearchReport.setPrint(getSearchUsersTableModel(),getQuery()));
+					Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel"); //$NON-NLS-1$
 				}
 			});
 		}
