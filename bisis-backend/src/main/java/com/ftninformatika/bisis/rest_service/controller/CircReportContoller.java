@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
+import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
@@ -235,6 +236,7 @@ public class CircReportContoller {
                         if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                             ep.getPrefixes().get("IN").forEach(
                                     in -> {
+                                        in = in.replace(PrefixConverter.endPhraseFlag, "");
                                         if(lendingsCtlgNosSet.contains(in)){
                                             primeraka[0] += Collections.frequency(lendingsCtlgNos, in);
                                         }
@@ -264,6 +266,7 @@ public class CircReportContoller {
                         if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                             ep.getPrefixes().get("IN").forEach(
                                     in -> {
+                                        in = in.replace(PrefixConverter.endPhraseFlag, "");
                                         if(retCtlgNosSet.contains(in)){
                                             primeraka[0] += Collections.frequency(returnCtlgNos, in);
                                         }
@@ -437,6 +440,7 @@ public class CircReportContoller {
                     e -> {
                         if (e.getPrefixes().get("IN") != null) {
                             for (String in : e.getPrefixes().get("IN")) {
+                                in = in.replace(PrefixConverter.endPhraseFlag, "");
                                 if(setCtlgNos.contains(in) && !retMap.containsKey(in)){
                                     retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
                                 }
@@ -470,7 +474,7 @@ public class CircReportContoller {
     /*GenderReportCommand*/
     @RequestMapping(value = "get_gender_report")
     public List<Report> getGenderReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
-       return memberRepository.groupMemberByField(DateUtils.getYesterday(DateUtils.getEndOfDay(start)),
+       return memberRepository.groupMemberByField(DateUtils.getStartOfDay(start),
                DateUtils.getEndOfDay(end), location, "gender");
     }
 
@@ -497,7 +501,7 @@ public class CircReportContoller {
     /*MemberTypeReportCommand*/
     @RequestMapping(value = "get_mmbr_type_struct_report")
     public List<Report> getMmbrTypeStructReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location){
-        return memberRepository.groupMemberByField(DateUtils.getYesterday(DateUtils.getEndOfDay(start)),
+        return memberRepository.groupMemberByField(DateUtils.getStartOfDay(start),
                         DateUtils.getEndOfDay(end), location, "membershipType.description");
     }
 
@@ -506,14 +510,14 @@ public class CircReportContoller {
     /*CategoriaReportCommand*/
      @RequestMapping(value = "get_categoria_report")
     public List<Report> getCategoriaReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location){
-        return memberRepository.groupMemberByField(DateUtils.getYesterday(DateUtils.getEndOfDay(start)),
+        return memberRepository.groupMemberByField(DateUtils.getStartOfDay(start),
                 DateUtils.getEndOfDay(end), location, "userCategory.description");
     }
 
         /**
          * izdate i vracene po jeziku
          */
-    /*LendReturnLanguageReportCommand*///TODO-optimizovati, ne valja ovako nikako
+    /*LendReturnLanguageReportCommand*///
     @RequestMapping(value = "get_lend_return_language_report")
     public Map<String, Report> getLendReturnLanguageReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         Map<String, Report> retVal = new HashMap<>();
@@ -528,13 +532,14 @@ public class CircReportContoller {
 
         for (String ctl: lendCtlgnos){
 
-            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl, lRec);
+            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl + PrefixConverter.endPhraseFlag, lRec);
             if (ep == null){
                 System.out.println("Lend problem ctlgno: " + ctl);
                 continue;
             }
             if (ep.getPrefixes().get("101a") != null && ep.getPrefixes().get("101a").size() > 0){
                 for (String lan: ep.getPrefixes().get("101a")){
+                    lan = lan.replace(PrefixConverter.endPhraseFlag, "");
                     if (retVal.containsKey(lan)){
                         Report r = retVal.get(lan);
                         r.setProperty1((Integer.valueOf(r.getProperty1()) + 1 ) + "");
@@ -550,7 +555,7 @@ public class CircReportContoller {
         }
 
         for (String ctl: retCtlgnos){
-            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl, rRec);
+            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl + PrefixConverter.endPhraseFlag, rRec);
             if (ep == null){
                 //TODO -proveriti zasto ovo ne radi kako treba
                 System.out.println("Return problem ctlgno: " + ctl);
@@ -558,6 +563,7 @@ public class CircReportContoller {
             }
             if (ep.getPrefixes().get("101a") != null && ep.getPrefixes().get("101a").size() > 0){
                 for (String lan: ep.getPrefixes().get("101a")){
+                    lan = lan.replace(PrefixConverter.endPhraseFlag, "");
                     if (retVal.containsKey(lan)){
                         Report r = retVal.get(lan);
                         if(r.getProperty2() == null)
@@ -618,10 +624,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
 
         Map<String, Report> reportMap = lendingRepository.getLibrarianStatistic(start, end, location);
-
-
-        Map<String, Integer> signedMap = memberRepository.getLibrarianSignedCount(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), location);
-
+        Map<String, Integer> signedMap = memberRepository.getLibrarianSignedCount(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location);
 
         for (Map.Entry<String, Integer> entry : signedMap.entrySet()){
             if(reportMap.containsKey(entry.getKey())){
@@ -718,7 +721,7 @@ public class CircReportContoller {
     @RequestMapping(value = "get_member_by_group_report")
     public List<Member> getMemberByGroupReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "institution")String institution, @RequestParam(name = "location", required = false)String location) {
         List<Member> retVal = null;
-        retVal = memberRepository.getSignedCorporateMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), institution, location);
+        retVal = memberRepository.getSignedCorporateMembers(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), institution, location);
 
         return retVal;
     }
@@ -754,7 +757,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = memberRepository.getSignedMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), location, "lastName");
+        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location, "lastName");
         members.forEach(
                 m -> {
                     Report r = new Report();
@@ -813,6 +816,8 @@ public class CircReportContoller {
                     retVal.add(r);
                 }
         );
+        //sortirano po userId
+        retVal.sort(Comparator.comparing(Report::getProperty1));
         return retVal;
     }
 
@@ -826,7 +831,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Member> members = null;
 
-        members = memberRepository.getSignedMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(date)), DateUtils.getEndOfDay(date), location, "membershipType.description");
+        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "membershipType.description");
         for (Member m: members){
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -857,7 +862,7 @@ public class CircReportContoller {
         List<Member> members = null;
 
 
-        members = memberRepository.getSignedMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(date)), DateUtils.getEndOfDay(date), location, "userId");
+        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "userId");
         members.sort(Comparator.comparing(m -> m.getSignings().get(0).getLibrarian()));//sortira po bibliotekaru
 
         for (Member m: members){
@@ -934,7 +939,7 @@ public class CircReportContoller {
     @RequestMapping(value = "/get_members_with_categories", method = RequestMethod.GET)
     public List<Report> getMembersWithCategory(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("location") String location) {
         List<Report> reports = new ArrayList<>();
-        List<Member> members = memberRepository.getSignedMembers(DateUtils.getYesterday(DateUtils.getEndOfDay(start)), DateUtils.getEndOfDay(end), location, "userCategory.description");
+        List<Member> members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location, "userCategory.description");
         for (Member m : members) {
             Report r = new Report();
             r.setProperty1(m.getUserId());
