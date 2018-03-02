@@ -16,31 +16,30 @@ public class RecordUtilities {
 	public RecordUtilities(Record record){
 		this.record = record;
 	}
-	
-	/*
-	 * na osnovu primeraka iz zapisa record 
-	 * pravi string kojim je opisana raspodela
-	 * po ograncima u gradskoj biblioteci
-	 * u Novom Sadu
-	 * za sada implementirano samo za monografske 
-	 * publikacije, odnosno gledaju se samo primerci
-	 * 
-	 */
-	
+
 	//vraca broj primeraka odnsotno svezaka za tekuci record
 	public String getBrojPrimerakaSvezakaNS(){
-		StringBuffer retVal = new StringBuffer(); 
-		retVal.append(" = ");	
-		if(record.getPrimerci() != null && record.getPrimerci().size() > 0)
-			retVal.append(record.getPrimerci().size());	
-		else if(record.getGodine() != null){
-			int brSv = 0;
-			for(Godina g: record.getGodine())
-				brSv += g.getSveskeCount();
-			if( brSv > 0)
-				retVal.append(brSv);
-			else
-				return "";
+		StringBuffer retVal = new StringBuffer();
+		retVal.append(" = ");
+		if(record.getPrimerci() != null && record.getPrimerci().size() > 0) {
+			int cnt = 0;
+			for(Primerak p: record.getPrimerci()) {
+				if(p.getStatus().equals("A") || p.getStatus().equals("5"))
+					cnt++;
+			}
+			retVal.append(cnt);
+		}
+
+		else if(record.getGodine() != null && record.getGodine().size() > 0){
+			int cnt = 0;
+			for(Godina g: record.getGodine()) {
+				if(g.getSveske() != null && g.getSveske().size() > 0)
+					for(Sveska s: g.getSveske()) {
+						if(s.getStatus().equals("A") || s.getStatus().equals("5"))
+							cnt++;
+					}
+			}
+			retVal.append(cnt);
 		}
 		retVal.append(Messages.getString("CARDS_PIECES"));
 		
