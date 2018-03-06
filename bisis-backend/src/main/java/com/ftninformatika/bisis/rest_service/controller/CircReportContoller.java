@@ -348,32 +348,31 @@ public class CircReportContoller {
      * zbirna statistika za period
      */
     @RequestMapping(value = "get_zb_statistic_report")
-    public Report getZbStatisticReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+    public Report getZbStatisticReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         Report r = new Report();
+        Integer brUpisanihKorisnika = memberRepository.getUserSignedCount(start, end, location); //upisani clanovi Statistic1ReportCommand
+        Integer brZaduzenihKorisnika = lendingRepository.getLendMemberCountDistinctByDate(start, end, location); //izdato clanova Statistic2ReportCommand
+        Integer brRazduzenihKorisnika = lendingRepository.getReturnMemberCountDistinctByDate(start, end, location); //vraceno clanova Statistic3ReportCommand
+        //aktivne vise ne brojimno
+        //pasivne vise ne brojimo
+        //ukupan broj korisnika je aktivni + pasivni
+        Integer brZaduzenihKnjiga = lendingRepository.getLendingCountBy("lendDate", start, end, location, lib, false);//Statistic7ReportCommand
+        Integer brRazduzenihKnjiga = lendingRepository.getLendingCountBy("returnDate", start, end, location, lib, false);//Statistic8ReportCommand
+        Integer brProduzenihKnjiga = lendingRepository.getLendingCountBy("resumeDate", start, end, location, lib, false);//Statistic9ReportCommand
+        Integer brUslZaduzenihKnjiga = lendingRepository.getLendingCountBy("lendDate", start, end, location, lib, true);//Statistic10ReportCommand
+        Integer brUslRazduzenihKnjiga = lendingRepository.getLendingCountBy("returnDate", start, end, location, lib, true);//Statistic11ReportCommand
+        Integer brUslProduzenihKnjiga = lendingRepository.getLendingCountBy("resumeDate", start, end, location, lib, true);//Statistic12ReportCommand
 
-        Long signedUCount = memberRepository.getUserSignedCount(start,end, location); //upisani clanovi Statistic1ReportCommand
-        Long lendUCount = lendingRepository.getLendCount(start,end,location);  //izdato clanova Statistic2ReportCommand
-        Long returnUCount = lendingRepository.getReturnCount(start, end, location); //vraceno clanova Statistic3ReportCommand
-        Long lendBCount = Long.valueOf(new HashSet<>(lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start),
-                DateUtils.getEndOfDay(end), null, null, location)).size()); //br zaduzenih knjiga Statistic7ReportCommand
-        Long resBCount = Long.valueOf(new HashSet<>(lendingRepository.getResumedLendings(start,end,location)).size());//br produzenih knjiga Statistic8ReportCommand
-        Long returnBCount = Long.valueOf(new HashSet<>(lendingRepository.getLendingsCtlgNo(null, null,
-                DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location)).size()); //br razduzenih knjiga Statistic9ReportCommand
-        Long lendSCount = Long.valueOf(lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start),
-                DateUtils.getEndOfDay(end), null, null, location).size());//br usluga zaduzenja Statistic10ReportCommand
-        Long resSCount = Long.valueOf(lendingRepository.getResumedLendings(start,end,location).size()); //br usluga produzenja Statistic11ReportCommand
-        int retSCount = lendingRepository.getLendingsCtlgNo(null, null,
-                DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location).size();//br usluga razduzenja Statistic12ReportCommand
+        r.setProperty1(String.valueOf(brUpisanihKorisnika));
+        r.setProperty2(String.valueOf(brZaduzenihKorisnika));
+        r.setProperty3(String.valueOf(brRazduzenihKorisnika));
+        r.setProperty4(String.valueOf(brZaduzenihKnjiga));
+        r.setProperty5(String.valueOf(brRazduzenihKnjiga));
+        r.setProperty6(String.valueOf(brProduzenihKnjiga));
+        r.setProperty7(String.valueOf(brUslZaduzenihKnjiga));
+        r.setProperty8(String.valueOf(brUslRazduzenihKnjiga));
+        r.setProperty9(String.valueOf(brUslProduzenihKnjiga));
 
-        r.setProperty1(String.valueOf(signedUCount));
-        r.setProperty2(String.valueOf(lendUCount));
-        r.setProperty3(String.valueOf(returnUCount));
-        r.setProperty4(String.valueOf(lendBCount));
-        r.setProperty5(String.valueOf(resBCount));
-        r.setProperty6(String.valueOf(returnBCount));
-        r.setProperty7(String.valueOf(lendSCount));
-        r.setProperty8(String.valueOf(resSCount));
-        r.setProperty9(String.valueOf(retSCount));
         return r;
     }
 
@@ -426,14 +425,17 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
         List<Object> finalResults = new ArrayList<>();
         HashMap<String, Integer> retMap = new HashMap<>();
-        QueryBuilder pp = null;
+        BoolQueryBuilder pp = QueryBuilders.boolQuery();
         if(udk != null && !udk.equals("")) {
-            pp = QueryBuilders.matchPhrasePrefixQuery("prefixes.DC", udk);
 
-            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
             //svi ctlgNo koji su iznajmljeni u zadatom periodu - iz ove kolekcije brojimo
             List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
             //zbog brzine contains() metode - iz ove kolekcije proveravamo
+
+            pp.filter(QueryBuilders.termsQuery("prefixes.IN",lendResultClgNos));
+            pp.must(QueryBuilders.queryStringQuery(udk+"*").defaultField("prefixes.DC"));
+            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
+
             Set<String> setCtlgNos = new HashSet<>(lendResultClgNos);
             Collections.sort(lendResultClgNos);
             ee.forEach(
@@ -484,7 +486,7 @@ public class CircReportContoller {
          */
     /*UsersNumberReportCommand*/
     @RequestMapping(value = "get_users_number_report")
-    public Long getUsersNumberReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+    public Integer getUsersNumberReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         return memberRepository.getUserSignedCount(start, end, location);
     }
 
@@ -672,7 +674,7 @@ public class CircReportContoller {
         List<Report> retVal = new ArrayList<>();
 
         List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location,
-                                                                "ctlgNo", "lendedCount", "lendedCount", "lendDate", 20);
+                                                                "ctlgNo", "lendedCount", "lendedCount", "lendDate", null);
         if (l != null){
             for(Object o: l){
                 if(o instanceof LinkedHashMap){

@@ -20,6 +20,6 @@ public interface MemberRepositoryCustom {
     public Map<String, Integer> getLibrarianSignedCount(Date start, Date end, String location);
     public List<Member> getBlockedMembers(String location);
     public Long getFreeSigningMembersCount(Date start, Date end, String location);
-    public Long getUserSignedCount(Date start, Date end, String location);
+    public Integer getUserSignedCount(Date start, Date end, String location);
     public Report getPictureBooksReport(Date start, Date end, String location);
 }

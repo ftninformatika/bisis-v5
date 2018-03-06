@@ -71,31 +71,19 @@ public class ZbStatistic {
 		Vector<String> userId = new Vector<String>();
 		Date lend, ret, resum;
 		Row row = report.addNewRow();
-		row.addNewColumn1().setStringValue(l.getProperty1()); //upisani korisnici
-
-		row.addNewColumn2().setStringValue(l.getProperty2()); //zaduzeni korisnici
-
-		row.addNewColumn3().setStringValue(l.getProperty3()); //razduzeni korisnici
-
-
+		row.addNewColumn1().setStringValue(l.getProperty1());
+		row.addNewColumn2().setStringValue(l.getProperty2());
+		row.addNewColumn3().setStringValue(l.getProperty3());
 	//	row.addNewColumn4().setStringValue(active.toString());
-
 	//	row.addNewColumn5().setStringValue(count.toString());
-
-		Long total = Long.valueOf(l.getProperty1()) + Long.valueOf(l.getProperty2()) + Long.valueOf(l.getProperty3());
-		row.addNewColumn6().setStringValue(total.toString());
-
-		row.addNewColumn7().setStringValue(l.getProperty4()); //zad knj
-
-		row.addNewColumn8().setStringValue(l.getProperty6()); //razd knj
-
-		row.addNewColumn9().setStringValue(l.getProperty5()); //prod knj
-
-		row.addNewColumn10().setStringValue(( l.getProperty7())); //usluga zad
-
-		row.addNewColumn11().setStringValue((l.getProperty9())); //usluga razd
-
-		row.addNewColumn13().setStringValue(l.getProperty8()); //usluga prod
+//		Long total = Long.valueOf(l.getProperty1()) + Long.valueOf(l.getProperty2()) + Long.valueOf(l.getProperty3());
+//		row.addNewColumn6().setStringValue(total.toString());
+		row.addNewColumn7().setStringValue(l.getProperty4());
+		row.addNewColumn8().setStringValue(l.getProperty6());
+		row.addNewColumn9().setStringValue(l.getProperty5());
+		row.addNewColumn10().setStringValue(( l.getProperty7()));
+		row.addNewColumn11().setStringValue((l.getProperty9()));
+		row.addNewColumn13().setStringValue(l.getProperty8());
 
 		return report.getDomNode().getOwnerDocument();
 

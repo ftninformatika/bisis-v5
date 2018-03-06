@@ -22,8 +22,12 @@ public interface LendingRepositoryCustom {
     public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField, String byLendReturnResume, Integer listSize);
 
     public Map<String, Report> getLibrarianStatistic(Date start, Date end, String location);
-    public Long getLendCount(Date start, Date end, String location);
-    public Long getReturnCount(Date start, Date end, String location);
+
+    public Integer getLendMemberCountDistinctByDate(Date start, Date end, String location);
+    public Integer getReturnMemberCountDistinctByDate(Date start, Date end, String location);
+
+    public Integer getLendingCountBy(String dateField, Date start, Date end, String location, String library, boolean distinct);
+
     public List<Lending> getResumedLendings(Date start, Date end, String locaiton);
     public List<Lending> getCtlgnoUsrId(Date start, Date end, String location);
 }

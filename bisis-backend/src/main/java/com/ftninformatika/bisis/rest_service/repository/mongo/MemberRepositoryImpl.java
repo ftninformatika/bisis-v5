@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.PictureBook;
 import com.ftninformatika.bisis.circ.pojo.Report;
+import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.utils.date.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,22 +215,32 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
         Query query = new Query();
         query.addCriteria(cr);
+
         Long count = mongoTemplate.count(query, Member.class);
         return count;
     }
 
-    public Long getUserSignedCount(Date start, Date end, String location){
+    public Integer getUserSignedCount(Date start, Date end, String location){
         Criteria cr1;
+        start = DateUtils.getYesterday(DateUtils.getEndOfDay(start));
+        end = DateUtils.getNextDay(DateUtils.getStartOfDay(end));
         if (location!=null && !location.equals("") ) {
-            cr1 =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end)).and("location").is(location));
+            cr1 =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(start).lt(end).and("location").is(location));
 
         }else{
-            cr1 =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end)));
+            cr1 =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(start).lt(end));
         }
         Query query = new Query();
         query.addCriteria(cr1);
-        Long count = mongoTemplate.count(query, Member.class);
-        return count;
+
+        int cnt = 0;
+        List<Member> memberList = mongoTemplate.find(query, Member.class);
+        //ako je nekako isti clan upisan vise puta u zadatom periodu!
+        for(Member m: memberList)
+            for(Signing s: m.getSignings())
+                if(s.getSignDate().after(start) && s.getSignDate().before(end))
+                    cnt++;
+        return cnt;
     }
 
     public List<Report> groupMemberByField(Date startDate, Date endDate, String location, String groupByField){

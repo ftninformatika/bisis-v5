@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.utils.date.DateUtils;
+import com.mongodb.DBCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -113,6 +114,84 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         return retVal;
     }
 
+    /**
+     * distinct broj korisnika se odnosi samo na dane
+     */
+    public Integer getLendMemberCountDistinctByDate(Date start, Date end, String location){
+        Integer retVal = 0;
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+        Criteria cr = new Criteria().orOperator(Criteria.where("lendDate").gte(start).lte(end),
+                Criteria.where("resumeDate").gte(start).lte(end));
+        if (location != null && !location.equals(""))
+            cr = new Criteria().andOperator(cr, Criteria.where("location").is(location));
+
+        Query q = new Query();
+        q.addCriteria(cr);
+        q.fields().include("lendDate").include("resumeDate").include("userId");
+
+        List<Lending> lendingList = mongoTemplate.find(q, Lending.class);
+        retVal = distinctCountByDay(lendingList, 0);
+
+        return retVal;
+    }
+
+    public Integer getReturnMemberCountDistinctByDate(Date start, Date end, String location){
+        Integer retVal = 0;
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+        Criteria cr =Criteria.where("returnDate").gte(start).lte(end).ne(null);
+
+        if (location != null && !location.equals(""))
+            cr = new Criteria().andOperator(cr, Criteria.where("location").is(location));
+
+        Query q = new Query();
+        q.addCriteria(cr);
+        q.fields().include("returnDate").include("userId");
+
+        List<Lending> lendingList = mongoTemplate.find(q, Lending.class);
+        retVal = distinctCountByDay(lendingList, 2);
+
+        return retVal;
+    }
+
+    /**
+     * TODO enumeracija
+     *@param whichDate:
+     *                0 - lendDate
+     *                1 - resumeDate
+     *                2 - returnDate
+     */
+    public static Integer distinctCountByDay(List<Lending> lendingList, Integer whichDate){
+        Integer retVal = 0;
+        Map<Date, List<String>> dateUserIdMap = new HashMap<>();
+        for(Lending l: lendingList){
+            Date d = null;
+            if (whichDate == 0)
+                d = DateUtils.getStartOfDay(l.getLendDate());
+            else if (whichDate == 1)
+                d = DateUtils.getStartOfDay(l.getResumeDate());
+            else if (whichDate == 2)
+                d = DateUtils.getStartOfDay(l.getReturnDate());
+
+
+            if (dateUserIdMap.containsKey(d)){
+                if(!dateUserIdMap.get(d).contains(l.getUserId()))
+                    dateUserIdMap.get(d).add(l.getUserId());
+            }
+            else {
+                dateUserIdMap.put(d, new ArrayList<>());
+                dateUserIdMap.get(d).add(l.getUserId());
+            }
+        }
+
+        for(Map.Entry<Date, List<String>> entry: dateUserIdMap.entrySet()){
+            retVal += entry.getValue().size();
+        }
+        return retVal;
+    }
+
+
     public Long getReturnCount(Date start, Date end, String location){
         Long retVal = null;
         start = DateUtils.getStartOfDay(start);
@@ -131,7 +210,6 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
     }
 
 
-
     public List<String> getLendingsCtlgNo(Date startL, Date endL, Date startR, Date endR, String location){
          Criteria criteria = createCriteria(startL,endL,startR,endR,location);
          if (criteria!=null) {
@@ -142,15 +220,43 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
          }else{
              return null;
          }
-
     }
+
+    public Integer getLendingCountBy(String dateField, Date start, Date end, String location, String library, boolean distinct){
+        Integer retVal = 0;
+        if (dateField == null || dateField.equals(""))
+            throw new RuntimeException("Proslediti validno datumsko polje!");
+
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+        Criteria cr = Criteria.where(dateField).gte(start).lte(end);
+        if(location != null && !location.equals(""))
+            cr = new Criteria().andOperator(cr, Criteria.where("location").is(location));
+        Query query = new Query();
+        query.addCriteria(cr);
+        query.fields().include("ctlgNo");
+        List lendBooks = new ArrayList();
+        if(!distinct)
+            lendBooks = mongoTemplate.getCollection(library.toLowerCase() + "_lendings")
+                                      .distinct("ctlgNo", query.getQueryObject());
+        else
+            lendBooks =mongoTemplate.getCollection(library.toLowerCase() + "_lendings")
+                    .find(query.getQueryObject()).toArray();
+        retVal = lendBooks.size();
+
+        return retVal;
+    }
+
+
 
     public List<Lending> getLenignsWithAnyActivityOnDate(Date start,Date end, String location){
         List<Lending> retVal = null;
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
         Criteria lendDateCriteria, returnDateCriteria, resumeDateCriteria, or, desiredCriteria;
-        lendDateCriteria = Criteria.where("lendDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
-        returnDateCriteria = Criteria.where("returnDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
-        resumeDateCriteria = Criteria.where("resumeDate").gte(DateUtils.getYesterday(DateUtils.getEndOfDay(start))).lte(DateUtils.getEndOfDay(end));
+        lendDateCriteria = Criteria.where("lendDate").gte(start).lte(end);
+        returnDateCriteria = Criteria.where("returnDate").gte(start).lte(end);
+        resumeDateCriteria = Criteria.where("resumeDate").gte(start).lte(end);
         or = new Criteria();
         or.orOperator(lendDateCriteria, returnDateCriteria, resumeDateCriteria);
 
@@ -256,7 +362,7 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         );
         results = mongoTemplate.aggregate(agg, Lending.class, Object.class).getMappedResults();
 
-        if (results != null && results.size() >= 20 && listSize != null)
+        if (results != null && listSize != null && results.size() >= listSize )
             return results.subList(0, listSize);
         else
             return results;
