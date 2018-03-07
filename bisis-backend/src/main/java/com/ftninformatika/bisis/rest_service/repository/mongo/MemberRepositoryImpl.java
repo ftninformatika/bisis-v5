@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
@@ -245,7 +246,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     public List<Report> groupMemberByField(Date startDate, Date endDate, String location, String groupByField){
         Criteria cr=null;
-        if (location!=null&& !location.equals("") ) {
+        if (location!=null && !location.equals("") ) {
             cr =  Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate).and("location").is(location));
 
         }else{
@@ -261,6 +262,43 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         List<Report> result = groupResults.getMappedResults();
 
         return result;
+    }
+
+    public List<String> getVisitorsUserIds(Date start, Date end, String location, String library){
+        List<String> retVal = new ArrayList<>();
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+        //uclanjeni
+        Criteria signedCr = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(start).lte(end));
+        //zaduzili, produzili, razduzili
+        Criteria lendingActionCr = new Criteria().orOperator(
+            Criteria.where("lendDate").gte(start).lte(end),
+            Criteria.where("resumeDate").gte(start).lte(end),
+            Criteria.where("resumeDate").gte(start).lte(end)
+        );
+        if (location != null && !location.equals("")) {
+            signedCr = new Criteria().andOperator(signedCr, Criteria.where("location").is(location));
+            lendingActionCr = new Criteria().andOperator(lendingActionCr, Criteria.where("location").is(location));
+        }
+        Query qSigned = new Query();
+        qSigned.addCriteria(signedCr);
+        qSigned.fields().include("userId");
+
+        Query qLending = new Query();
+        qLending.addCriteria(lendingActionCr);
+        qLending.fields().include("userId");
+
+        String[] signedMembersDistinct = (String[]) mongoTemplate.getCollection(library.toLowerCase() + "_members")
+                                                      .distinct("userId", qSigned.getQueryObject()).toArray(new String[] {});
+        String[] lendingMembersDistinct = (String[]) mongoTemplate.getCollection(library + "_lendings")
+                                                       .distinct("userId", qLending.getQueryObject()).toArray(new String[] {});
+
+        retVal.addAll(Arrays.asList(signedMembersDistinct));
+        retVal.addAll(Arrays.asList(lendingMembersDistinct));
+        retVal = retVal.stream().distinct().collect(Collectors.toList());
+        retVal = retVal.stream().sorted().collect(Collectors.toList());
+
+        return retVal;
     }
 
     private Criteria createCriteria(String prefix,String text, String op, Criteria currentCriteria){
