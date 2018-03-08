@@ -80,7 +80,7 @@ public class Librarian {
 					.fillReport(
 							Librarian.class
 									.getResource(
-											"/jaspers/circ/bibliotekar.jasper")
+											"/cirkulacija/jaspers/bibliotekar.jasper")
 									.openStream(), params, ds);
 
 			return jp;

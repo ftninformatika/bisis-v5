@@ -53,7 +53,7 @@ public class ZbStatistic {
 					.fillReport(
 							Librarian.class
 									.getResource(
-											"/jaspers/circ/zbstatistika.jasper")
+											"/cirkulacija/jaspers/zbstatistika.jasper")
 									.openStream(), params, ds);
 
 			return jp;

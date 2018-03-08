@@ -78,7 +78,7 @@ public class MmbrType {
 					.fillReport(
 							MmbrType.class
 									.getResource(
-											"/jaspers/circ/vrsta.jasper")
+											"/cirkulacija/jaspers/vrsta.jasper")
 									.openStream(), params, ds);
 
 

@@ -168,7 +168,7 @@ public class BestBook {
 			JasperPrint jp = JasperFillManager
 					.fillReport(BestBook.class
 									.getResource(
-											"/jaspers/circ/najcitanije.jasper").openStream(),
+											"/cirkulacija/jaspers/najcitanije.jasper").openStream(),
 											params, ds);
 			
 			

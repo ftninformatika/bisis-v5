@@ -57,25 +57,25 @@ public class VisitorStructure {
 //			JasperReport kategorija = (JasperReport) JRLoader
 //					.loadObject(VisitorStructure.class
 //							.getResource(
-//									"/jaspers/circ/posetiocik.jasper")
+//									"/cirkulacija/jaspers/posetiocik.jasper")
 //							.openStream());
 //
 //			JasperReport kategorijapasivni = (JasperReport) JRLoader
 //					.loadObject(VisitorStructure.class
 //							.getResource(
-//									"/jaspers/circ/posetiocikpasiv.jasper")
+//									"/cirkulacija/jaspers/posetiocikpasiv.jasper")
 //							.openStream());
 //
 			JasperReport uclanjenje = (JasperReport) JRLoader
 					.loadObject(VisitorStructure.class
 							.getResource(
-									"/jaspers/circ/posetiociu.jasper")
+									"/cirkulacija/jaspers/posetiociu.jasper")
 							.openStream());
 
 			JasperReport pol = (JasperReport) JRLoader
 					.loadObject(VisitorStructure.class
 							.getResource(
-									"/jaspers/circ/posetiocip.jasper")
+									"/cirkulacija/jaspers/posetiocip.jasper")
 							.openStream());
 
 			params.put("begdate", Utils.toLocaleDate(start));
@@ -96,7 +96,7 @@ public class VisitorStructure {
 					.fillReport(
 							Structure.class
 									.getResource(
-											"/jaspers/circ/strposetilaca.jasper")
+											"/cirkulacija/jaspers/strposetilaca.jasper")
 									.openStream(), params,
 							new JREmptyDataSource());
 

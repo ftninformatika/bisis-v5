@@ -51,7 +51,7 @@ public class LibrarianStatistic {
 					.fillReport(
 							Librarian.class
 									.getResource(
-											"/jaspers/circ/librarianStatistic.jasper")
+											"/cirkulacija/jaspers/librarianStatistic.jasper")
 									.openStream(), params, ds);
 
 			return jp;

@@ -67,7 +67,7 @@ public class Blocked {
 					.fillReport(
 							Blocked.class
 									.getResource(
-											"/jaspers/circ/blocked.jasper")
+											"/cirkulacija/jaspers/blocked.jasper")
 									.openStream(), params, ds);
 		
 			return jp;

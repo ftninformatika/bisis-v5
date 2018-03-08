@@ -84,7 +84,7 @@ public class BookHistory {
 			JasperReport subreport = (JasperReport) JRLoader
 					.loadObject(BookHistory.class
 							.getResource(
-									"/jaspers/circ/kartica_sub.jasper")
+									"/cirkulacija/jaspers/kartica_sub.jasper")
 							.openStream());
 
 			Map<String, Object> params = new HashMap<String, Object>(5);
@@ -104,7 +104,7 @@ public class BookHistory {
 					.fillReport(
 							BookHistory.class
 									.getResource(
-											"/jaspers/circ/kartica.jasper")
+											"/cirkulacija/jaspers/kartica.jasper")
 									.openStream(), params, ds);
 
 			return jp;

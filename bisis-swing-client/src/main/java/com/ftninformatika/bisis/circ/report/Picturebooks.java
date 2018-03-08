@@ -33,7 +33,7 @@ public class Picturebooks {
 		try {
 
 			JasperPrint jp = JasperFillManager.fillReport(Picturebooks.class.getResource(
-											"/jaspers/circ/picturebooks.jasper")
+											"/cirkulacija/jaspers/picturebooks.jasper")
 									.openStream(), params, new JREmptyDataSource());
 			return jp;
 		} catch (JRException e) {

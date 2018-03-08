@@ -71,7 +71,7 @@ public class CtgrUdk {
 					.fillReport(
 							CtgrUdk.class
 									.getResource(
-											"/jaspers/circ/ctgrudk.jasper")
+											"/cirkulacija/jaspers/ctgrudk.jasper")
 									.openStream(), params, ds);
 
 			return jp;

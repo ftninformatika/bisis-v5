@@ -24,7 +24,7 @@ public class SearchReport {
   		params.put("upit", query);
   		//TODO ovo ne radi zbog lokalizacije, imena kolona se ne poklapaju
   		JasperPrint jp = JasperFillManager.fillReport(SearchReport.class.getResource(
-  					"/jaspers/circ/searchuser.jasper").openStream(),
+  					"/cirkulacija/jaspers/searchuser.jasper").openStream(),
             params, new JRTableModelDataSource(table));
 			return jp;
 		} catch (Exception e) {

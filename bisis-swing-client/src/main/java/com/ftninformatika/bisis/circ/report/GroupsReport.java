@@ -68,7 +68,7 @@ public class GroupsReport {
 					.fillReport(
 							Librarian.class
 									.getResource(
-											"/jaspers/circ/groups.jasper")
+											"/cirkulacija/jaspers/groups.jasper")
 									.openStream(), params, ds);
 		
 

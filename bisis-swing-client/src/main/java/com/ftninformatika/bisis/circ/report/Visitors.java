@@ -79,7 +79,7 @@ public class Visitors {
 					.fillReport(
 							Visitors.class
 									.getResource(
-											"/jaspers/circ/posetioci.jasper")
+											"/cirkulacija/jaspers/posetioci.jasper")
 									.openStream(), params, ds);
 			
 

@@ -41,7 +41,7 @@ public class ReportResults extends JPanel {
 	    try{
 		    JasperPrint jp = JasperFillManager.fillReport(
 		              User.class.getResource(
-		                "/com/gint/app/bisis4/client/circ/jaspers/empty.jasper").openStream(), 
+		                "/cirkulacija/jasper/empty.jasper").openStream(),
 		                null, new JREmptyDataSource());
 		    jr = new JRViewer(jp);
 		    return jr;

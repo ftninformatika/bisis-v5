@@ -81,7 +81,7 @@ public class UserCategSigning {
 					.fillReport(
 							UserCategSigning.class
 									.getResource(
-											"/jaspers/circ/kategorija.jasper")
+											"/cirkulacija/jaspers/kategorija.jasper")
 									.openStream(), params, ds);
 		
 			return jp;

@@ -94,7 +94,7 @@ public class MemberBook {
 			JasperReport subreport = (JasperReport) JRLoader
 					.loadObject(MemberBook.class
 							.getResource(
-									"/jaspers/circ/submemberbook.jasper")
+									"/cirkulacija/jaspers/submemberbook.jasper")
 							.openStream());
 
 
@@ -109,7 +109,7 @@ public class MemberBook {
 					.fillReport(
 							MemberBook.class
 									.getResource(
-											"/jaspers/circ/memberbook.jasper")
+											"/cirkulacija/jaspers/memberbook.jasper")
 									.openStream(), params, ds);
 
 			return jp;

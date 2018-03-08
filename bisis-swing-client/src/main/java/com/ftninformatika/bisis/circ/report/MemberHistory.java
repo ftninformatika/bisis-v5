@@ -75,7 +75,7 @@ public class MemberHistory {
                 JasperReport subreport = (JasperReport) JRLoader
                         .loadObject(MemberHistory.class
                                 .getResource(
-                                        "/jaspers/circ/istorija_sub.jasper")
+                                        "/cirkulacija/jaspers/istorija_sub.jasper")
                                 .openStream());
 
                 Map<String, Object> params = new HashMap<String, Object>(6);
@@ -96,7 +96,7 @@ public class MemberHistory {
                         .fillReport(
                                 MemberHistory.class
                                         .getResource(
-                                                "/jaspers/circ/istorija.jasper")
+                                                "/cirkulacija/jaspers/istorija.jasper")
                                         .openStream(), params, ds);
                 return jp;
             }

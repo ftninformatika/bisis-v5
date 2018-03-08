@@ -58,29 +58,29 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 			JasperReport brojbespl = (JasperReport) JRLoader
 			.loadObject(Structure.class
 					.getResource(
-							"/jaspers/circ/brojbespl.jasper")
+							"/cirkulacija/jaspers/brojbespl.jasper")
 					.openStream());
 			
 			JasperReport clanovi = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
-									"/jaspers/circ/clanovi.jasper")
+									"/cirkulacija/jaspers/clanovi.jasper")
 							.openStream());
 			JasperReport placanje = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
-									"/jaspers/circ/placanje.jasper")
+									"/cirkulacija/jaspers/placanje.jasper")
 							.openStream());
 	
 			JasperReport broj = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
-									"/jaspers/circ/broj.jasper")
+									"/cirkulacija/jaspers/broj.jasper")
 							.openStream());
 			JasperReport pol = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
-									"/jaspers/circ/pol.jasper")
+									"/cirkulacija/jaspers/pol.jasper")
 							.openStream());
 
 			params.put("begdate", Utils.toLocaleDate(start));
@@ -100,7 +100,7 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 					.fillReport(
 							Structure.class
 									.getResource(
-											"/jaspers/circ/struktura.jasper")
+											"/cirkulacija/jaspers/struktura.jasper")
 									.openStream(), params,
 							new JREmptyDataSource());
 

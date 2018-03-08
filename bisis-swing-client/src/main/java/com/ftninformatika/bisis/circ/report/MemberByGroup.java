@@ -67,7 +67,7 @@ public class MemberByGroup {
 					.fillReport(
 							MemberByGroup.class
 									.getResource(
-											"/jaspers/circ/membersbygroup.jasper")
+											"/cirkulacija/jaspers/membersbygroup.jasper")
 									.openStream(), params, ds);
 			
 

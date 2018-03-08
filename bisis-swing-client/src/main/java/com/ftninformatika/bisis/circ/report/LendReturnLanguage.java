@@ -78,7 +78,7 @@ public class LendReturnLanguage {
 					.fillReport(
 							LendReturnLanguage.class
 									.getResource(
-											"/jaspers/circ/izdatovracenojezik.jasper")
+											"/cirkulacija/jaspers/izdatovracenojezik.jasper")
 									.openStream(), params, ds);
 
 			return jp;

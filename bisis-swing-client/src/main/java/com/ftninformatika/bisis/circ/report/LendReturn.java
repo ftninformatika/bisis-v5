@@ -132,7 +132,7 @@ public class LendReturn {
 					.fillReport(
 							LendReturn.class
 									.getResource(
-											"/jaspers/circ/izdatovraceno.jasper")
+											"/cirkulacija/jaspers/izdatovraceno.jasper")
 									.openStream(), params, ds);
 
 			return jp;

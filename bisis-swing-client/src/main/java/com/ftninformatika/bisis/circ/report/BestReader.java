@@ -65,7 +65,7 @@ public class BestReader {
 					.fillReport(
 							BestReader.class
 									.getResource(
-											"/jaspers/circ/najcitaoci.jasper")
+											"/cirkulacija/jaspers/najcitaoci.jasper")
 									.openStream(), params, ds);
 
 			return jp;

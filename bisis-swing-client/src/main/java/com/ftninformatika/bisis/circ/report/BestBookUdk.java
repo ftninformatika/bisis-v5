@@ -58,10 +58,7 @@ public class BestBookUdk {
 			params.put("nazivogr", "");
 		}
 
-
 		List<com.ftninformatika.bisis.circ.pojo.Report> l= BisisApp.bisisService.getBestBookUdk(new PathDate(start), new PathDate(end), udk, loc).execute().body();
-															// inventarnih
-
 
 		JRXmlDataSource ds;
 		try {
@@ -72,7 +69,7 @@ public class BestBookUdk {
 					.fillReport(
 							BestBookUdk.class
 									.getResource(
-											"/jaspers/circ/najcitanijeudk.jasper")
+											"/cirkulacija/jaspers/najcitanijeudk.jasper")
 									.openStream(), params, ds);
 
 			return jp;
