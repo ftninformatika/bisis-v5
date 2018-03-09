@@ -29,26 +29,30 @@ public class LendReturnLanguage {
 	public static Document setXML(Map<String, com.ftninformatika.bisis.circ.pojo.Report> l, Date start, Date end) {
 		ReportDocument reportDoc = ReportDocument.Factory.newInstance();
 		Report report = reportDoc.addNewReport();
-		int izPr = 0;
-		int vrPr = 0;
+		Integer izPr = 0;
+		Integer vrPr = 0;
 		for(Map.Entry<String, com.ftninformatika.bisis.circ.pojo.Report> entry: l.entrySet()) { // idem po listi rezultata upita
 
+			Integer iz = 0;
+			Integer vr = 0;
+			if (entry.getValue().getProperty1() != null)
+				iz = Integer.valueOf(entry.getValue().getProperty1());
+			if (entry.getValue().getProperty2() != null)
+				vr = Integer.valueOf(entry.getValue().getProperty2());
 
 			Row row = report.addNewRow();
 			row.addNewColumn1().setStringValue(entry.getKey());
-			row.addNewColumn2().setStringValue(entry.getValue().getProperty1());
-			row.addNewColumn3().setStringValue(entry.getValue().getProperty2());
+			row.addNewColumn2().setStringValue(String.valueOf(iz));
+			row.addNewColumn3().setStringValue(String.valueOf(vr));
 
-			if (entry.getValue().getProperty1() != null)
-				izPr += Integer.parseInt(entry.getValue().getProperty1());
-			if (entry.getValue().getProperty2() != null)
-				vrPr += Integer.parseInt(entry.getValue().getProperty2());
+			izPr += iz;
+			vrPr += vr;
 
 		}
 		Row row = report.addNewRow();
 		row.addNewColumn1().setStringValue("UKUPNO");
-		row.addNewColumn2().setStringValue(new Integer(izPr).toString());
-		row.addNewColumn3().setStringValue(new Integer(vrPr).toString());
+		row.addNewColumn2().setStringValue(izPr + "");
+		row.addNewColumn3().setStringValue(vrPr + "");
 
 		return report.getDomNode().getOwnerDocument();
 	}

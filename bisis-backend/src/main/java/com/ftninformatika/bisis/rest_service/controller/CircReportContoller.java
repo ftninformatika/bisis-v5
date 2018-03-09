@@ -48,10 +48,8 @@ public class CircReportContoller {
     @Autowired RecordsController recordsController;
 
     /**
-     * Posetioci - korisnici koji su u datom periodu:
-     *      1. Zadruzili, razduzili ili produzili knjigu
-     *      2. Koji su se u datom periodu uclanili
-     *      *ne broji duplikate
+     * Posetioci - svi razliciti korisnici koji su u datom periodu se
+     * uclanili, zaduzivali, produzavali ili razduzivali
      *
      * Struktura posetilaca po: kategoriji, tipu clanstva i polu
      *
@@ -367,53 +365,60 @@ public class CircReportContoller {
          */
     /*BestBookUDKReportCommand, FilterManager.bestBookUDK()*/
     @RequestMapping(value = "get_best_book_udk")
-    public List<Report> getBestBookUdk(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("udk")String udk, @RequestParam(name = "location", required = false)String location) {
+    public List<Report> getBestBookUdk(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("udk")String udk, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
-        List<Object> finalResults = new ArrayList<>();
-        HashMap<String, Integer> retMap = new HashMap<>();
-        BoolQueryBuilder pp = QueryBuilders.boolQuery();
-        if(udk != null && !udk.equals("")) {
+        List<String> allCtlgNos = lendingRepository.getLendActionsCtlgNos(start, end, location, lib);
+        Set<String> uniqueCtlgNos = new HashSet<>(allCtlgNos);
+        BoolQueryBuilder query = QueryBuilders.boolQuery();
+        //query.filter(QueryBuilders.termsQuery("prefixes.IN", uniqueCtlgNos));
+        query.must(QueryBuilders.matchPhrasePrefixQuery("prefixes.DC", udk).operator(MatchQueryBuilder.Operator.AND));
+        query.must(QueryBuilders.wildcardQuery("prefixes.DC",udk + "*"));
+        Iterable<ElasticPrefixEntity> ep = elasticRecordsRepository.search(query);
 
-            //svi ctlgNo koji su iznajmljeni u zadatom periodu - iz ove kolekcije brojimo
-            List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
-            //zbog brzine contains() metode - iz ove kolekcije proveravamo
-
-            pp.filter(QueryBuilders.termsQuery("prefixes.IN",lendResultClgNos));
-            pp.must(QueryBuilders.queryStringQuery(udk+"*").defaultField("prefixes.DC"));
-            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
-
-            Set<String> setCtlgNos = new HashSet<>(lendResultClgNos);
-            Collections.sort(lendResultClgNos);
-            ee.forEach(
-                    e -> {
-                        if (e.getPrefixes().get("IN") != null) {
-                            for (String in : e.getPrefixes().get("IN")) {
-                                in = in.replace(PrefixConverter.endPhraseFlag, "");
-                                if(setCtlgNos.contains(in) && !retMap.containsKey(in)){
-                                    retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
-                                }
-                            }
-                        }
-                    }
-            );
-        }
-        if(retMap.size() > 0){
-            //osakatimo mapu na 20 najcitanijih
-            finalResults = retMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(20).collect(Collectors.toList());
-            for (Object o: finalResults){
-                if(o instanceof HashMap.Entry){
-                    Report r = new Report();
-                    Record rec = recordsRepository.findOne(((HashMap.Entry)o).getKey().toString());
-                    RecordPreview pr = new RecordPreview();
-                    pr.init(rec);
-                    r.setProperty21(Long.parseLong((((HashMap.Entry)o).getValue().toString())));
-                    r.setProperty1(pr.getTitle());
-                    r.setProperty2(pr.getAuthor());
-                    retVal.add(r);
-
-                }
-            }
-        }
+//        HashMap<String, Integer> retMap = new HashMap<>();
+//        BoolQueryBuilder pp = QueryBuilders.boolQuery();
+//        if(udk != null && !udk.equals("")) {
+//
+//            //svi ctlgNo koji su iznajmljeni u zadatom periodu - iz ove kolekcije brojimo
+//            List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
+//            //zbog brzine contains() metode - iz ove kolekcije proveravamo
+//
+//            pp.filter(QueryBuilders.termsQuery("prefixes.IN",lendResultClgNos));
+//            pp.must(QueryBuilders.queryStringQuery(udk+"*").defaultField("prefixes.DC"));
+//            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
+//
+//            Set<String> setCtlgNos = new HashSet<>(lendResultClgNos);
+//            Collections.sort(lendResultClgNos);
+//            ee.forEach(
+//                    e -> {
+//                        if (e.getPrefixes().get("IN") != null) {
+//                            for (String in : e.getPrefixes().get("IN")) {
+//                                in = in.replace(PrefixConverter.endPhraseFlag, "");
+//                                if(setCtlgNos.contains(in) && !retMap.containsKey(in)){
+//                                    retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
+//                                }
+//                            }
+//                        }
+//                    }
+//            );
+//        }
+//        if(retMap.size() > 0){
+//            //osakatimo mapu na 20 najcitanijih
+//            finalResults = retMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(20).collect(Collectors.toList());
+//            for (Object o: finalResults){
+//                if(o instanceof HashMap.Entry){
+//                    Report r = new Report();
+//                    Record rec = recordsRepository.findOne(((HashMap.Entry)o).getKey().toString());
+//                    RecordPreview pr = new RecordPreview();
+//                    pr.init(rec);
+//                    r.setProperty21(Long.parseLong((((HashMap.Entry)o).getValue().toString())));
+//                    r.setProperty1(pr.getTitle());
+//                    r.setProperty2(pr.getAuthor());
+//                    retVal.add(r);
+//
+//                }
+//            }
+//        }
         return retVal;
     }
 
@@ -469,14 +474,15 @@ public class CircReportContoller {
     @RequestMapping(value = "get_lend_return_language_report")
     public Map<String, Report> getLendReturnLanguageReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
         Map<String, Report> retVal = new HashMap<>();
-        BoolQueryBuilder eQuery = QueryBuilders.boolQuery();
+        BoolQueryBuilder lQuery = QueryBuilders.boolQuery();
+        BoolQueryBuilder rQuery = QueryBuilders.boolQuery();
         List<String> lendCtlgnos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end)
                                                                                             , null, null, location);
         List<String> retCtlgnos = lendingRepository.getLendingsCtlgNo(null, null,
                                                                         DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), location);
 
-        Iterable<ElasticPrefixEntity> lRec = elasticRecordsRepository.search(eQuery.filter(QueryBuilders.termsQuery("prefixes.IN", lendCtlgnos)));
-        Iterable<ElasticPrefixEntity> rRec = elasticRecordsRepository.search(eQuery.filter(QueryBuilders.termsQuery("prefixes.IN", retCtlgnos)));
+        Iterable<ElasticPrefixEntity> lRec = elasticRecordsRepository.search(lQuery.filter(QueryBuilders.termsQuery("prefixes.IN", lendCtlgnos)));
+        Iterable<ElasticPrefixEntity> rRec = elasticRecordsRepository.search(rQuery.filter(QueryBuilders.termsQuery("prefixes.IN", retCtlgnos)));
 
         for (String ctl: lendCtlgnos){
 
@@ -498,6 +504,8 @@ public class CircReportContoller {
                         r.setProperty1("1");
                         retVal.put(lan, r);
                     }
+                    //da vrati prvi jezik
+                    break;
                 }
             }
         }
@@ -505,7 +513,6 @@ public class CircReportContoller {
         for (String ctl: retCtlgnos){
             ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl + PrefixConverter.endPhraseFlag, rRec);
             if (ep == null){
-                //TODO -proveriti zasto ovo ne radi kako treba
                 System.out.println("Return problem ctlgno: " + ctl);
                 continue;
             }
@@ -525,6 +532,7 @@ public class CircReportContoller {
                         r.setProperty2("1");
                         retVal.put(lan, r);
                     }
+                    break;
                 }
             }
         }

@@ -3,6 +3,8 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.utils.date.DateUtils;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -80,6 +82,33 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         }
 
         return results;
+    }
+
+    public List<String> getLendActionsCtlgNos(Date start, Date end, String location, String library){
+        List<String> retVal = new ArrayList<>();
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+        Criteria actionCr = new Criteria().orOperator(
+                Criteria.where("lendDate").gte(start).lte(end),
+                Criteria.where("returnDate").gte(start).lte(end),
+                Criteria.where("resumeDate").gte(start).lte(end)
+        );
+        if (location != null && !location.equals(""))
+            actionCr = new Criteria().andOperator(actionCr, Criteria.where("location").is(location));
+
+        Query query = new Query();
+        query.addCriteria(actionCr);
+        query.fields().include("ctlgNo");
+
+
+        //ko munja naspram .find()
+        DBCursor cursor =  mongoTemplate.getCollection(library.toLowerCase() + "_lendings")
+                                         .find(query.getQueryObject());
+        while(cursor.hasNext()){
+            retVal.add(String.valueOf(cursor.next().get("ctlgNo")));
+        }
+
+        return retVal;
     }
 
 
