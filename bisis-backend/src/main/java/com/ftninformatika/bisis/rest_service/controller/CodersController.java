@@ -192,4 +192,15 @@ public class CodersController {
         counterRepository.save(c);
         return c.getCounterValue();
     }
+
+    @RequestMapping(path = "/addWarningType", method = RequestMethod.POST)
+    public Boolean addWarningType(@RequestBody WarningType warningType){
+        try {
+            warnrep.save(warningType);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

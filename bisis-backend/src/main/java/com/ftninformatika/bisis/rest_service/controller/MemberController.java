@@ -2,6 +2,8 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 
 import com.ftninformatika.bisis.circ.Organization;
+import com.ftninformatika.bisis.circ.WarningCounter;
+import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
@@ -29,6 +31,7 @@ public class MemberController {
     @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
+    @Autowired WarningCounterRepository warningCounterRepository;
 
     @RequestMapping( path = "/memberExist", method = RequestMethod.GET)
     public String userExist(@RequestParam (value = "userId") String userId){
@@ -176,16 +179,16 @@ public class MemberController {
         List<String> userIds = overdueLendings.stream().map(l -> l.getUserId()).collect(Collectors.toList());
         Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));
 
-        Map<String, MemberData> map = new HashMap<>();
+        Map<String, MemberData> memberMap = new HashMap<>();
 
         overdueLendings.forEach(
                 l -> {
-                    MemberData memberData = map.get(l.getUserId());
+                    MemberData memberData = memberMap.get(l.getUserId());
                     if (memberData == null) {
                         memberData = new MemberData();
                         memberData.setMember(members.get(l.getUserId()));
                         memberData.setLendings(new ArrayList<>());
-                        map.put(l.getUserId(), memberData);
+                        memberMap.put(l.getUserId(), memberData);
                     }
                     memberData.getLendings().add(l);
                 }
@@ -195,9 +198,28 @@ public class MemberController {
 //                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 //                (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-        TreeMap<String, MemberData> result = new TreeMap<>(map);
+        TreeMap<String, MemberData> result = new TreeMap<>(memberMap);
 
         return result.values().stream().collect(Collectors.toList());
+    }
+
+
+    @RequestMapping(path = "/addWarnings", method = RequestMethod.POST)
+    public boolean addWarnings(@RequestBody WarningsData warningsData){
+        try {
+            if (warningsData.getLendings() != null && !warningsData.getLendings().isEmpty()) {
+                lendingRepository.save(warningsData.getLendings());
+            }
+            if (warningsData.getCounters() != null && !warningsData.getCounters().isEmpty()) {
+                warningCounterRepository.save(warningsData.getCounters());
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+
     }
 
 }
