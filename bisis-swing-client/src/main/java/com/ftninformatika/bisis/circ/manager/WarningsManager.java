@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.warnings.Counters;
 import com.ftninformatika.bisis.circ.warnings.WarningsFrame;
@@ -13,7 +14,9 @@ import com.ftninformatika.bisis.circ.WarningType;
 import com.ftninformatika.bisis.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.utils.PathDate;
 
 
 public class WarningsManager {
@@ -44,13 +47,11 @@ public class WarningsManager {
   }
   
   public Counters getCounters(WarningType warn_type){
-  	//TODO ucitati counters za warn_type
-//  	List data = BisisApp.appConfig.getCodersHelper()
-//            .getWarningCounters().values().stream()
-//            .map(i -> i)
-//            .collect(Collectors.toList());
-//    return new Counters(data, warn_type);
-    return null;
+  	List data = BisisApp.appConfig.getCodersHelper()
+            .getWarningCounters().stream()
+            .map(i -> i)
+            .collect(Collectors.toList());
+    return new Counters(data, warn_type);
   }
   
   public List<MemberData> getUsers(Date startDate, Date endDate, CircLocation loc){
@@ -64,13 +65,14 @@ public class WarningsManager {
       startDate = Utils.setMinDate(startDate);
       endDate = Utils.setMaxDate(endDate);
     }
-//    GetWarnUsersCommand getUsers = new GetWarnUsersCommand(startDate, endDate, loc);
-//    getUsers = (GetWarnUsersCommand)service.executeCommand(getUsers);
-//    if (getUsers == null)
-//    	return null;
-//    return getUsers.getList();
-    //TODO kreirati servis
-    return null;
+
+    List<MemberData> members = null;
+    try {
+      members = BisisApp.bisisService.getWarnMembers(new PathDate(startDate), new PathDate(endDate), loc.getDescription()).execute().body();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return members;
   }
   
   public Record getRecord(String ctlgno){
@@ -83,13 +85,15 @@ public class WarningsManager {
     return record;
   }
   
-  public boolean saveWarnings(List<Warning> warnings, Counters counters){
-//  	SaveWarningsCommand save = new SaveWarningsCommand(warnings, counters.getList());
-//    save = (SaveWarningsCommand)service.executeCommand(save);
-//    return save.isSaved();
-
-    //TODO kreirati servis
-    return false;
+  public boolean saveWarnings(List<Lending> warnings, Counters counters){
+    boolean saved = false;
+    try {
+      WarningsData warningsData = new WarningsData(warnings, counters.getList());
+      saved = BisisApp.bisisService.addWarnings(warningsData).execute().body();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return saved;
   }
   
   public List<Object[]> getHistory(Date startDate, Date endDate, WarningType wtype){
@@ -113,11 +117,13 @@ public class WarningsManager {
   }
   
   public boolean saveWarnTypes(WarningType wtype){
-//  	SaveObjectCommand save = new SaveObjectCommand(wtype);
-//    save = (SaveObjectCommand)service.executeCommand(save);
-//    return save.isSaved();
-    //TODO kreirati servis
-    return false;
+      boolean saved = false;
+      try {
+          saved = BisisApp.bisisService.addWarningType(wtype).execute().body();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+      return saved;
   }
 
 }
