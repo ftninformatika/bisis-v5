@@ -26,7 +26,6 @@ spring:
       repositories:
         enabled: true
 
-
   mail:
     host: smtp.gmail.com
     port: 587

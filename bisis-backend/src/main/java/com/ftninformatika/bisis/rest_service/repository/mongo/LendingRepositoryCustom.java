@@ -31,4 +31,6 @@ public interface LendingRepositoryCustom {
     public List<String> getLendActionsCtlgNos(Date start, Date end, String location, String library);
     public List<Lending> getResumedLendings(Date start, Date end, String locaiton);
     public List<Lending> getCtlgnoUsrId(Date start, Date end, String location);
+
+    public List<Lending> getOverdueLendings(Date deadlineStart, Date deadlineEnd, String location);
 }

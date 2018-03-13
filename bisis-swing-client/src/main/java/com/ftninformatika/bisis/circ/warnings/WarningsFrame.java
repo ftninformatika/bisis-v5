@@ -701,10 +701,10 @@ public class WarningsFrame extends JInternalFrame {
         doc.save(sw,xmlOptions);
         JasperReport subreport = (JasperReport)JRLoader.loadObject(
             WarningsFrame.class.getResource(
-              "/com/gint/app/bisis4/client/circ/warnings/jaspers/details.jasper").openStream());
+              "/cirkulacija/jaspers/warnings/jaspers/details.jasper").openStream());
          JasperReport warning = (JasperReport)JRLoader.loadObject(
               WarningsFrame.class.getResource(
-                "/com/gint/app/bisis4/client/circ/warnings/jaspers/warning.jasper").openStream());
+                "/cirkulacija/jaspers/warnings/jaspers/warning.jasper").openStream());
   		   Map params = new HashMap(2);
   		   params.put("sub", subreport);
   		   params.put("warning", warning);
@@ -824,7 +824,7 @@ public class WarningsFrame extends JInternalFrame {
 
 	    JasperReport subreport = (JasperReport)JRLoader.loadObject(
 	            WarningsFrame.class.getResource(
-	              "/com/gint/app/bisis4/client/circ/warnings/jaspers/subHistoryList.jasper").openStream());
+	              "/cirkulacija/jaspers/warnings/jaspers/subHistoryList.jasper").openStream());
 	    paramslist.put("subreport", subreport);
 	    
  	    JRXmlDataSource dslist = new JRXmlDataSource(XMLUtils
@@ -832,7 +832,7 @@ public class WarningsFrame extends JInternalFrame {
  	    
         JasperPrint jplist = JasperFillManager.fillReport(
                 WarningsFrame.class.getResource(
-                    "/com/gint/app/bisis4/client/circ/warnings/jaspers/historyList.jasper").openStream(), 
+                    "/cirkulacija/jaspers/warnings/jaspers/historyList.jasper").openStream(),
                     paramslist, dslist);           
         JRViewer jrlist = new JRViewer(jplist);
         getReportListPanel().add(jrlist, java.awt.BorderLayout.CENTER);

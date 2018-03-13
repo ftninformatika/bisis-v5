@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.utils.PathDate;
 
 
 public class WarningsManager {
@@ -44,13 +45,11 @@ public class WarningsManager {
   }
   
   public Counters getCounters(WarningType warn_type){
-  	//TODO ucitati counters za warn_type
-//  	List data = BisisApp.appConfig.getCodersHelper()
-//            .getWarningCounters().values().stream()
-//            .map(i -> i)
-//            .collect(Collectors.toList());
-//    return new Counters(data, warn_type);
-    return null;
+  	List data = BisisApp.appConfig.getCodersHelper()
+            .getWarningCounters().stream()
+            .map(i -> i)
+            .collect(Collectors.toList());
+    return new Counters(data, warn_type);
   }
   
   public List<MemberData> getUsers(Date startDate, Date endDate, CircLocation loc){
@@ -64,13 +63,14 @@ public class WarningsManager {
       startDate = Utils.setMinDate(startDate);
       endDate = Utils.setMaxDate(endDate);
     }
-//    GetWarnUsersCommand getUsers = new GetWarnUsersCommand(startDate, endDate, loc);
-//    getUsers = (GetWarnUsersCommand)service.executeCommand(getUsers);
-//    if (getUsers == null)
-//    	return null;
-//    return getUsers.getList();
-    //TODO kreirati servis
-    return null;
+
+    List<MemberData> members = null;
+    try {
+      members = BisisApp.bisisService.getWarnMembers(new PathDate(startDate), new PathDate(endDate), loc.getDescription()).execute().body();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return members;
   }
   
   public Record getRecord(String ctlgno){
