@@ -17,6 +17,7 @@ import com.ftninformatika.bisis.circ.validator.Validate;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
@@ -27,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -312,10 +314,11 @@ public class User extends JPanel {
   
   private JPanel getRevers(){
     try {
-      Map<String, Object> params = new HashMap<String, Object>(3);
+      Map<String, Object> params = new HashMap<String, Object>(9);
       params.put("korisnik", lending.getUser()); //$NON-NLS-1$
       params.put("korisnik-adresa", userData.getAddressRevers()); //$NON-NLS-1$
       params.put("broj-indeksa", userData.getIndexNoRevers());
+      params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
       params.put("biblioteka", Cirkulacija.getApp().getEnvironment().getReversLibraryName()); //$NON-NLS-1$
       params.put("adresa", Cirkulacija.getApp().getEnvironment().getReversLibraryAddress()); //$NON-NLS-1$
       params.put("bibliotekar", Cirkulacija.getApp().getLibrarian().getIme()+" "+Cirkulacija.getApp().getLibrarian().getPrezime()); //$NON-NLS-1$ //$NON-NLS-2$

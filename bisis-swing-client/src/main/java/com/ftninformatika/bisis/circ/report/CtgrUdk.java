@@ -10,8 +10,10 @@ import java.util.Map;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
@@ -47,9 +49,10 @@ public class CtgrUdk {
 	public static JasperPrint setPrint(Date start, Date end, Object branch)
 			throws IOException {
 
-		Map<String, Object> params = new HashMap<String, Object>(3);
+		Map<String, Object> params = new HashMap<String, Object>(4);
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate", Utils.toLocaleDate(end));
+		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 		String loc = "";
 
 		if (branch instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {

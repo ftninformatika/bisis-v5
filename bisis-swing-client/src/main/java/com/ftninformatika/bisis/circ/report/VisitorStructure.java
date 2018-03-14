@@ -12,12 +12,9 @@ import java.util.Vector;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRLoader;
 import noNamespace.ReportDocument;
 import noNamespace.ReportDocument.Report;
@@ -35,8 +32,8 @@ public class VisitorStructure {
 
 
 
-			Map<String, Object> params = new HashMap<String, Object>(11);
-
+			Map<String, Object> params = new HashMap<String, Object>(12);
+			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 			String loc = "";
 			if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
 				params.put("nazivogr", "odeljenje: "

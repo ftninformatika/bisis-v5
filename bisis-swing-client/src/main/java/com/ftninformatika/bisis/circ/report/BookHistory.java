@@ -12,11 +12,9 @@ import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import noNamespace.ReportDocument;
@@ -87,14 +85,14 @@ public class BookHistory {
 									"/cirkulacija/jaspers/kartica_sub.jasper")
 							.openStream());
 
-			Map<String, Object> params = new HashMap<String, Object>(5);
+			Map<String, Object> params = new HashMap<String, Object>(6);
 			if (branch instanceof Location) {
 				params.put("nazivogr", "odeljenje: "
 						+ ((Location) branch).getDescription());
 			} else {
 				params.put("nazivogr", "");
 			}
-
+			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 			params.put("begdate", Utils.toLocaleDate(start));
 			params.put("enddate", Utils.toLocaleDate(end));
 			params.put("subreport", subreport);

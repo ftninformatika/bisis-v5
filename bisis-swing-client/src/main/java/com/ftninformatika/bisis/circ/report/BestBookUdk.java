@@ -10,8 +10,10 @@ import java.util.Map;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
@@ -45,7 +47,8 @@ public class BestBookUdk {
 			String udk) throws IOException {
 
 
-		Map<String, Object> params = new HashMap<String, Object>(4);
+		Map<String, Object> params = new HashMap<String, Object>(5);
+		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate", Utils.toLocaleDate(end));
 		params.put("udk", udk + "*");

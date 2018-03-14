@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ctgrudk" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="757" leftMargin="40" rightMargin="43" topMargin="43" bottomMargin="43">
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ctgrudk" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="757" leftMargin="40" rightMargin="43" topMargin="43" bottomMargin="43" uuid="ba9a8dff-7a69-4265-9680-160ac6650fa5">
 	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
 	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
 	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
@@ -13,7 +14,7 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-	<reportFont name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 	<parameter name="begdate" class="java.lang.String"/>
 	<parameter name="enddate" class="java.lang.String"/>
 	<parameter name="nazivogr" class="java.lang.String"/>
@@ -58,40 +59,40 @@
 		<groupFooter>
 			<band height="20" splitType="Stretch">
 				<line>
-					<reportElement key="line" positionType="Float" x="0" y="0" width="757" height="1"/>
+					<reportElement key="line" positionType="Float" x="0" y="0" width="757" height="1" uuid="4b7c12f9-c577-49bc-a9bd-800bc5db66d3"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="105" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="105" y="0" width="1" height="19" uuid="28126aaa-2138-4d44-8695-25bd779f8fea"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="170" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="170" y="0" width="1" height="19" uuid="ad96fcf5-f1ed-444e-8b9c-b0f658671e00"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="235" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="235" y="0" width="1" height="19" uuid="a66db801-1ffc-465d-81db-4dcc36407064"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="300" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="300" y="0" width="1" height="19" uuid="31cb2a00-85a4-42c6-9fea-067a48d2c8d3"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="366" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="366" y="0" width="1" height="19" uuid="a6a92aa9-a552-41a3-b975-dbea0d712611"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="431" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="431" y="0" width="1" height="19" uuid="64f701df-ea42-458c-a941-c05be231e9e1"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="496" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="496" y="0" width="1" height="19" uuid="cf1d8318-9ab7-4596-994b-511a262eb4a2"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="561" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="561" y="0" width="1" height="19" uuid="16231a5e-a4f7-45ed-8fe3-fbf076b28210"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="626" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="626" y="0" width="1" height="19" uuid="4c2e6c18-e8ee-4d15-8cea-deab1d41ed4c"/>
 				</line>
 				<line>
-					<reportElement key="line" positionType="Float" x="692" y="0" width="1" height="19"/>
+					<reportElement key="line" positionType="Float" x="692" y="0" width="1" height="19" uuid="acfb3f7d-8e97-4d7a-a58e-91398320adb8"/>
 				</line>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement key="textField" positionType="Float" x="1" y="2" width="103" height="18" isPrintWhenDetailOverflows="true"/>
+					<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="1" y="2" width="103" height="18" isPrintWhenDetailOverflows="true" uuid="a277f3e9-c40b-4106-bd2f-49881308bc2b"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -99,12 +100,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center">
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{CtgrName}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{CtgrName}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField" x="117" y="2" width="46" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="117" y="2" width="46" height="18" uuid="ed1674b7-e04f-4121-84bb-88e097cdd5b6"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -112,12 +113,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Udk0}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Udk0}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField" x="176" y="2" width="50" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="176" y="2" width="50" height="18" uuid="54e976cb-d337-49de-8aab-55f1e78f1009"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -125,12 +126,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk1}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk1}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField" x="239" y="2" width="55" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="239" y="2" width="55" height="18" uuid="f2855251-0b28-42ce-ba5c-71a5ab93fc52"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -138,12 +139,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk2}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk2}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
-					<reportElement key="textField" x="310" y="2" width="46" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="310" y="2" width="46" height="18" uuid="d6237cc0-efa0-4d20-a1bc-272c05ee76d3"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -151,12 +152,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk3}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk3}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
-					<reportElement key="textField" x="370" y="2" width="51" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="370" y="2" width="51" height="18" uuid="791f9d28-c288-4f06-8af2-9a6a53b01856"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -164,12 +165,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk4}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk4}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
-					<reportElement key="textField" x="437" y="2" width="52" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="437" y="2" width="52" height="18" uuid="70799cf0-c074-41f9-9f0e-27aed8ae2710"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -177,12 +178,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk5}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk5}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
-					<reportElement key="textField" x="499" y="2" width="49" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="499" y="2" width="49" height="18" uuid="44b55dc5-b819-4127-90ac-d10479f0d416"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -190,12 +191,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk6}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk6}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField" x="564" y="2" width="55" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="564" y="2" width="55" height="18" uuid="c72cd9b7-fe6f-4172-a3bd-a37abee99afb"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -203,12 +204,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk7}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk7}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
-					<reportElement key="textField" x="636" y="2" width="45" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="636" y="2" width="45" height="18" uuid="c93a5f22-b69c-447e-801f-52aab5017e52"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -216,12 +217,12 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk8}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk8}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
-					<reportElement key="textField" x="698" y="2" width="56" height="18"/>
+					<reportElement key="textField" style="DejaVu Sans" x="698" y="2" width="56" height="18" uuid="937966ab-30a5-4015-931e-37e413f50522"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -229,9 +230,9 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+						<font fontName="DejaVu Sans"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{udk9}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{udk9}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -241,35 +242,8 @@
 	</background>
 	<title>
 		<band height="78" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="251" y="2" width="266" height="28"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans" size="12"/>
-				</textElement>
-				<text><![CDATA[Izveštaj o pozajmljenim knjigama
-po kategorijama korisnika]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="283" y="62" width="52" height="14"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[period: od]]></text>
-			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="334" y="62" width="81" height="14"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="334" y="62" width="81" height="14" uuid="97c0fee2-7a03-459f-ac65-4ee9c81ee82f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -277,25 +251,12 @@ po kategorijama korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{begdate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="402" y="62" width="16" height="14"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[do]]></text>
-			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="418" y="62" width="63" height="14"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="418" y="62" width="63" height="14" uuid="0268194e-5452-47e0-a153-85f8b77b6554"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -303,12 +264,12 @@ po kategorijama korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{enddate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{enddate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="241" y="37" width="286" height="20"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="241" y="37" width="286" height="20" uuid="0c1c38b8-09f1-48cb-80d5-ac25f47ca0bb"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -316,9 +277,48 @@ po kategorijama korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans" size="11"/>
+					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{nazivogr}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{nazivogr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="251" y="2" width="266" height="28" uuid="79e0dcf9-4b4d-418b-b24c-9330d744430b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("CTGRUDK_TITLE")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="283" y="62" width="52" height="14" uuid="83674d49-ac30-4968-9041-4cd2c2dc88de"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("CTGRUDK_PERIOD_FROM")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="402" y="62" width="16" height="14" uuid="bd7919f4-a63c-43ee-9a3d-25955931cd89"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("CTGRUDK_TO")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -328,10 +328,37 @@ po kategorijama korisnika]]></text>
 	<columnHeader>
 		<band height="43" splitType="Stretch">
 			<line>
-				<reportElement key="line" positionType="Float" x="0" y="40" width="757" height="1"/>
+				<reportElement key="line" positionType="Float" x="0" y="40" width="757" height="1" uuid="f567b903-703a-4533-b271-817844222ef9"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="105" y="20" width="1" height="20" uuid="90070484-7b4a-4c75-a1e9-d466305e8ad0"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="170" y="20" width="1" height="20" uuid="38b3ecd2-57a4-416b-8d9d-d49f1b101e14"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="235" y="20" width="1" height="20" uuid="8f532400-1dc0-4ff2-b1e6-2c53042f7eea"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="300" y="20" width="1" height="20" uuid="f2ea2d97-cdef-4148-ae08-87659df12e24"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="366" y="20" width="1" height="20" uuid="a4865796-ffb3-4dcc-a736-d4db050e34a1"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="431" y="20" width="1" height="20" uuid="3b7cf002-f426-4009-bd30-86c08c0fc4c6"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="496" y="20" width="1" height="20" uuid="22a0b445-52ab-421c-8dab-954b082d5566"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="561" y="20" width="1" height="20" uuid="3fa60e31-7ea0-4c33-8ea1-dd807a9c1110"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="626" y="20" width="1" height="20" uuid="4b956a13-1c93-4112-a7b8-9be1ee97075e"/>
 			</line>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="10" y="11" width="83" height="24"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="131" y="24" width="14" height="13" uuid="3d297112-56b0-48c3-91b4-1467032f0437"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -339,53 +366,12 @@ po kategorijama korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Kategorija
-korisnika]]></text>
-			</staticText>
-			<line>
-				<reportElement key="line" positionType="Float" x="105" y="20" width="1" height="20"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="170" y="20" width="1" height="20"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="235" y="20" width="1" height="20"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="300" y="20" width="1" height="20"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="366" y="20" width="1" height="20"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="431" y="20" width="1" height="20"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="496" y="20" width="1" height="20"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="561" y="20" width="1" height="20"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="626" y="20" width="1" height="20"/>
-			</line>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="131" y="24" width="14" height="13"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[0]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="199" y="24" width="16" height="15"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="199" y="24" width="16" height="15" uuid="49a8ad87-8289-4d9f-93d9-64ab67f97c22"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -393,12 +379,12 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="262" y="24" width="12" height="16"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="262" y="24" width="12" height="16" uuid="6f63d41b-e5a5-4140-afb1-5de7af1b9634"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -406,12 +392,12 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[2]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="325" y="24" width="19" height="17"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="325" y="24" width="19" height="17" uuid="a8b75044-38e8-44c6-bde1-f41cc5b5abca"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -419,15 +405,15 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[3]]></text>
 			</staticText>
 			<line>
-				<reportElement key="line" positionType="Float" x="692" y="20" width="1" height="20"/>
+				<reportElement key="line" positionType="Float" x="692" y="20" width="1" height="20" uuid="0cb63de0-c09d-45b6-9b07-cc1ad91a7679"/>
 			</line>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="394" y="24" width="13" height="15"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="394" y="24" width="13" height="15" uuid="44c5abd8-e655-429f-a6b1-3dca7ce0c9e8"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -435,12 +421,12 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[4]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="459" y="24" width="13" height="15"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="459" y="24" width="13" height="15" uuid="c8731f87-bdaf-493a-aa7f-bebf479fa410"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -448,12 +434,12 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[5]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="523" y="24" width="16" height="19"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="523" y="24" width="16" height="19" uuid="5e77adda-ffe7-4f86-ba40-9059e6b78aeb"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -461,12 +447,12 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[6]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="587" y="24" width="14" height="14"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="587" y="24" width="14" height="14" uuid="0b5f9f48-32ba-40b1-90cf-79007612fc98"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -474,12 +460,12 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[7]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="653" y="24" width="17" height="15"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="653" y="24" width="17" height="15" uuid="7f4a623e-e684-4204-8b66-a617f9e5602a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -487,12 +473,12 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[8]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="718" y="24" width="15" height="16"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="718" y="24" width="15" height="16" uuid="17c2e3f8-d67a-4767-b71f-c71681705a8a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -500,21 +486,21 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[9]]></text>
 			</staticText>
 			<line>
-				<reportElement key="line" positionType="Float" x="0" y="42" width="757" height="1"/>
+				<reportElement key="line" positionType="Float" x="0" y="42" width="757" height="1" uuid="d6614090-2edb-4266-87dc-cd49ab0d7145"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="105" y="20" width="652" height="1"/>
+				<reportElement key="line" positionType="Float" x="105" y="20" width="652" height="1" uuid="ef548346-28fd-4725-9eac-0ed32f2f0a60"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="105" y="9" width="1" height="11"/>
+				<reportElement key="line" positionType="Float" x="105" y="9" width="1" height="11" uuid="70b44ee3-3a04-403b-b2df-6c5352430875"/>
 			</line>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="343" y="6" width="165" height="14"/>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="10" y="11" width="83" height="24" uuid="7ab917c4-1d0c-45e0-b04e-3a13713df793"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -522,10 +508,23 @@ korisnika]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<text><![CDATA[Broj primeraka po UDK]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[str("CTGRUDK_USER_CATEGORY")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="343" y="6" width="165" height="14" uuid="b90e19b7-a80a-4836-b0eb-7d508b45d047"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("CTGRUDK_ITEMS_NO")]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
@@ -540,7 +539,7 @@ korisnika]]></text>
 	<summary>
 		<band height="10" splitType="Stretch">
 			<line>
-				<reportElement key="line" positionType="Float" x="0" y="0" width="757" height="1"/>
+				<reportElement key="line" positionType="Float" x="0" y="0" width="757" height="1" uuid="92cceb81-60f2-42ce-9260-de2a6abd7741"/>
 			</line>
 		</band>
 	</summary>

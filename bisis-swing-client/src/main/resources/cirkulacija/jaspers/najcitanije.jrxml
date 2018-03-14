@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="najcitanije" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="510" leftMargin="43" rightMargin="42" topMargin="43" bottomMargin="43">
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="najcitanije" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="510" leftMargin="43" rightMargin="42" topMargin="43" bottomMargin="43" uuid="f105e364-3146-431f-91da-2fa4932fbc58">
 	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
 	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
 	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
@@ -13,9 +14,8 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-	<reportFont name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
-	
-		<parameter name="begdate" class="java.lang.String"/>
+	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<parameter name="begdate" class="java.lang.String"/>
 	<parameter name="enddate" class="java.lang.String"/>
 	<parameter name="nazivogr" class="java.lang.String"/>
 	<field name="Autor" class="java.lang.String">
@@ -35,34 +35,8 @@
 	</background>
 	<title>
 		<band height="80" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="137" y="5" width="247" height="20"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans" size="14"/>
-				</textElement>
-				<text><![CDATA[Najčitanije knjige]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="137" y="27" width="53" height="16"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans" size="12"/>
-				</textElement>
-				<text><![CDATA[period: od]]></text>
-			</staticText>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" positionType="Float" x="190" y="27" width="94" height="15"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="190" y="27" width="94" height="15" uuid="a7fe97bc-b26f-480e-a77d-8c04b6053e3b"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -70,25 +44,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans" size="12"/>
+					<font fontName="DejaVu Sans" size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{begdate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="282" y="27" width="19" height="17"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font reportFont="DejaVu Sans" size="12"/>
-				</textElement>
-				<text><![CDATA[do]]></text>
-			</staticText>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" positionType="Float" x="304" y="27" width="92" height="17"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="304" y="27" width="92" height="17" uuid="d9f276b7-b51f-4898-8d8d-dda02c3970ae"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -96,12 +57,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans" size="12"/>
+					<font fontName="DejaVu Sans" size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{enddate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{enddate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="100" y="49" width="306" height="20"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="100" y="49" width="306" height="20" uuid="74716eeb-63e4-416e-97d5-cc1ebda41130"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -109,9 +70,48 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans" size="11"/>
+					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{nazivogr}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{nazivogr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="137" y="5" width="247" height="20" uuid="f44c746c-6b54-4d03-aef1-66e2530ed2c4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("NAJCITANIJE_TITLE")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="137" y="27" width="53" height="16" uuid="9da23749-2f52-49c1-8530-6cd94d1becf9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Sans" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("NAJCITANIJE_PERIOD")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="282" y="27" width="19" height="17" uuid="6c82edd2-98de-4d38-af2a-ca0fc898db7d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("NAJCITANIJE_TO")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -121,69 +121,67 @@
 	<columnHeader>
 		<band height="28" splitType="Stretch">
 			<line>
-				<reportElement key="line" positionType="Float" x="0" y="27" width="510" height="1"/>
+				<reportElement key="line" positionType="Float" x="0" y="27" width="510" height="1" uuid="0ea721be-c08e-4c3c-9444-5f7f14cec81e"/>
 			</line>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="4" y="7" width="41" height="16"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Red. br.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="58" y="7" width="40" height="15"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Autor]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="205" y="7" width="50" height="15"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Naslov]]></text>
-			</staticText>
 			<line>
-				<reportElement key="line" positionType="Float" x="0" y="25" width="510" height="1"/>
+				<reportElement key="line" positionType="Float" x="0" y="25" width="510" height="1" uuid="86414dae-efbe-47da-98cc-ad002a966ae2"/>
 			</line>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="427" y="1" width="83" height="24"/>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="4" y="7" width="41" height="16" uuid="ead04709-0da4-430a-90a4-00f677c6861f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<text><![CDATA[Broj iznajmljivanja]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[str("NAJCITANIJE_RB")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="58" y="7" width="40" height="15" uuid="7c20594d-b82f-4894-899c-7354eafa1703"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("NAJCITANIJE_AUTHOR")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="205" y="7" width="50" height="15" uuid="9baf0d97-4b6f-4d61-8732-0f315ecf8e43"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("NAJCITANIJE_BOOK_TITLE")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="427" y="1" width="83" height="24" uuid="26d0436e-5c99-4dcc-96ee-1bf19bed0282"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[str("NAJCITANIJE_LEND_COUNT")]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="29" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" positionType="Float" x="5" y="6" width="40" height="20"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="5" y="6" width="40" height="20" uuid="d5ad30d8-36fd-4a54-8277-cd560c9a667b"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -191,12 +189,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{redbr}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{redbr}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="47" y="6" width="145" height="20"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="47" y="6" width="145" height="20" uuid="49056f5d-e63a-44e3-b8d3-ca1933a5ef17"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -204,12 +202,12 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Autor}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Autor}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="191" y="6" width="237" height="20"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="191" y="6" width="237" height="20" uuid="ede2a38a-e0ce-428a-8917-6cdd6742255a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -217,15 +215,15 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Naslov}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Naslov}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line" positionType="Float" x="0" y="28" width="510" height="1"/>
+				<reportElement key="line" positionType="Float" x="0" y="28" width="510" height="1" uuid="0e8fbd96-69a8-4d17-9814-a75f58aee93b"/>
 			</line>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="434" y="7" width="73" height="20"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="434" y="7" width="73" height="20" uuid="54be4048-55bf-4863-ab5c-e775a9404a6d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -233,9 +231,9 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font reportFont="DejaVu Sans" fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Iznajmljivanje}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Iznajmljivanje}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

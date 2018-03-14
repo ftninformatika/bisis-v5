@@ -44,10 +44,10 @@ public class ReportUtils {
 					.getResource(reportSpec.getSubjasper()));
     		params.put("subjasper", subreport);
     	}
-    	//params.put("library",reportSpec.getLibrary());
+    	params.put("library",reportSpec.getLibrary());
         params.put("period", report.getPeriod());
-        //params.put("title",reportSpec.getReportTitle());
-//        params.put(JRParameter.REPORT_LOCALE,new Locale(BisisApp.appConfig.getClientConfig().getLocale()));
+        params.put("title",reportSpec.getReportTitle());
+        params.put(JRParameter.REPORT_LOCALE,new Locale(BisisApp.appConfig.getClientConfig().getLocale()));
         JRXmlDataSource dataSource = new JRXmlDataSource(XMLUtils.getDocumentFromString(report.getContent()), "/report/item");
         JasperPrint jp = JasperFillManager.fillReport(Report.class.getResource(reportSpec.getJasper()).openStream(), params, dataSource);
         BisisApp.getMainFrame().addReportFrame(report.getReportName(), jp);
