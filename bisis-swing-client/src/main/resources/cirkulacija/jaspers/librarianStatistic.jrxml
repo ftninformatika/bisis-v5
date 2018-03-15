@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="librarianStatistic" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="librarianStatistic" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9993e4cd-ce55-4e12-a59d-e4b8f6454cb5">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
 	<property name="ireport.zoom" value="1.0"/>
@@ -49,8 +50,41 @@
 	</background>
 	<title>
 		<band height="82" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText" x="201" y="19" width="185" height="20"/>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="191" y="62" width="195" height="20" uuid="e272ab36-e716-4cf2-8e8d-000b273ae907"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{location}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="210" y="39" width="84" height="20" uuid="91601a67-cd31-416d-aada-a1170790d583"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="315" y="39" width="100" height="20" uuid="bda9848f-2900-4127-b0f9-d20c0928c9d1"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{enddate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="201" y="19" width="185" height="20" uuid="ce24b14e-ad8c-4a33-8eba-aa83848bdf89"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -60,43 +94,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Statistika po bibliotekaru]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" x="160" y="39" width="50" height="20"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[period od:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" x="294" y="39" width="21" height="20"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[do]]></text>
-			</staticText>
-			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="191" y="62" width="195" height="20"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{location}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[str("LIBRARIANST_TITLE")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="210" y="39" width="84" height="20"/>
+			<textField>
+				<reportElement key="staticText" x="160" y="39" width="50" height="20" uuid="3f04f065-81e7-4aba-ac80-4e9b3e80db55"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -104,10 +105,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{begdate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[str("LIBRARIANST_PERIOD")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="315" y="39" width="100" height="20"/>
+			<textField>
+				<reportElement key="staticText" x="294" y="39" width="21" height="20" uuid="d46bfd51-f654-4b5c-a15f-63fea83c66c9"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -115,7 +116,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{enddate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[str("LIBRARIANST_TO")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -124,8 +125,35 @@
 	</pageHeader>
 	<columnHeader>
 		<band height="28" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText" x="3" y="0" width="109" height="24"/>
+			<line>
+				<reportElement key="line" x="0" y="0" width="1" height="27" uuid="3ed0a731-b2d6-4017-95a4-b550736fee8d"/>
+			</line>
+			<line>
+				<reportElement key="line" x="1" y="1" width="543" height="1" uuid="1050a656-5c0d-4819-84fa-10e220519179"/>
+			</line>
+			<line>
+				<reportElement key="line" x="113" y="1" width="1" height="27" uuid="1846ba72-2047-4de1-b6f9-187c16fa4e4e"/>
+			</line>
+			<line>
+				<reportElement key="line" x="197" y="1" width="1" height="27" uuid="a984fe86-dc3a-485f-8b7d-c2170739ab65"/>
+			</line>
+			<line>
+				<reportElement key="line" x="446" y="0" width="1" height="27" uuid="4a7624d4-3f13-4686-8d79-637538776fb1"/>
+			</line>
+			<line>
+				<reportElement key="line" x="360" y="2" width="1" height="25" uuid="8f4fd3e1-043b-4823-80f0-980a053745a1"/>
+			</line>
+			<line>
+				<reportElement key="line" x="277" y="2" width="1" height="25" uuid="fd9b1bfe-d19f-48c3-a85a-1d9162be18ee"/>
+			</line>
+			<line>
+				<reportElement key="line" x="543" y="1" width="1" height="26" uuid="fa2a273a-50fd-4875-bf06-c7f6ec7534d9"/>
+			</line>
+			<line>
+				<reportElement key="line" x="1" y="27" width="543" height="1" uuid="d38082d2-3a26-45fe-89c5-7aaa0e6e0410"/>
+			</line>
+			<textField>
+				<reportElement key="staticText" x="3" y="0" width="109" height="24" uuid="07fe38d6-fd65-4e56-8aaf-a78c8346aad8"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -135,10 +163,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Biblitekar]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" x="116" y="1" width="81" height="25"/>
+				<textFieldExpression><![CDATA[str("LIBRARIANST_LIBRARIAN")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="116" y="1" width="81" height="25" uuid="8f466b60-e2c4-4cfa-9b9d-6da6cb330ce0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -148,10 +176,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Broj učlanjenja]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" x="201" y="1" width="73" height="25"/>
+				<textFieldExpression><![CDATA[str("LIBRARIANST_SIGNO")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="201" y="1" width="73" height="25" uuid="692887d8-2e5e-4185-bb46-5cba86c9aeb3"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -161,10 +189,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Broj zaduženja]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" x="279" y="1" width="82" height="25"/>
+				<textFieldExpression><![CDATA[str("LIBRARIANST_LENDNO")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="279" y="1" width="82" height="25" uuid="b243754f-d1e4-4710-a84a-825090e12f88"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -174,10 +202,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Broj razduženja]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" x="363" y="1" width="79" height="25"/>
+				<textFieldExpression><![CDATA[str("LIBRARIANST_RETNO")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="363" y="1" width="79" height="25" uuid="d2d943bf-f3cc-447c-9584-49b389539339"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -187,10 +215,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Broj produženja]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" x="447" y="1" width="84" height="23"/>
+				<textFieldExpression><![CDATA[str("LIBRARIANST_RESNO")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="447" y="1" width="84" height="23" uuid="edcc3aae-a667-42f0-b0c4-265a49b76fb6"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -200,65 +228,38 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Ukupno]]></text>
-			</staticText>
-			<line>
-				<reportElement key="line" x="0" y="0" width="1" height="27"/>
-			</line>
-			<line>
-				<reportElement key="line" x="1" y="1" width="543" height="1"/>
-			</line>
-			<line>
-				<reportElement key="line" x="113" y="1" width="1" height="27"/>
-			</line>
-			<line>
-				<reportElement key="line" x="197" y="1" width="1" height="27"/>
-			</line>
-			<line>
-				<reportElement key="line" x="446" y="0" width="1" height="27"/>
-			</line>
-			<line>
-				<reportElement key="line" x="360" y="2" width="1" height="25"/>
-			</line>
-			<line>
-				<reportElement key="line" x="277" y="2" width="1" height="25"/>
-			</line>
-			<line>
-				<reportElement key="line" x="543" y="1" width="1" height="26"/>
-			</line>
-			<line>
-				<reportElement key="line" x="1" y="27" width="543" height="1"/>
-			</line>
+				<textFieldExpression><![CDATA[str("LIBRARUIANST_TOTAL")]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="27" splitType="Stretch">
 			<line>
-				<reportElement key="line" x="0" y="0" width="1" height="26"/>
+				<reportElement key="line" x="0" y="0" width="1" height="26" uuid="3df117d7-bbf4-42da-9c98-8c54dd36146a"/>
 			</line>
 			<line>
-				<reportElement key="line" x="360" y="0" width="1" height="26"/>
+				<reportElement key="line" x="360" y="0" width="1" height="26" uuid="413a9812-0963-4494-9127-2bbf0888a931"/>
 			</line>
 			<line>
-				<reportElement key="line" x="446" y="0" width="1" height="26"/>
+				<reportElement key="line" x="446" y="0" width="1" height="26" uuid="56dc4a4e-6f30-4498-8bd8-ee603b6edaaf"/>
 			</line>
 			<line>
-				<reportElement key="line" x="277" y="0" width="1" height="26"/>
+				<reportElement key="line" x="277" y="0" width="1" height="26" uuid="75edcee1-42d7-4d00-abc9-b5ec052d4423"/>
 			</line>
 			<line>
-				<reportElement key="line" x="197" y="1" width="1" height="25"/>
+				<reportElement key="line" x="197" y="1" width="1" height="25" uuid="edc67303-e1b4-4270-b1e8-23c3692687c5"/>
 			</line>
 			<line>
-				<reportElement key="line" x="113" y="0" width="1" height="27"/>
+				<reportElement key="line" x="113" y="0" width="1" height="27" uuid="ecaf183c-b3ee-4d12-8042-a51171ce1343"/>
 			</line>
 			<line>
-				<reportElement key="line" x="2" y="26" width="541" height="1"/>
+				<reportElement key="line" x="2" y="26" width="541" height="1" uuid="cf634d0b-1fe0-40c9-9ceb-87161ba0bdac"/>
 			</line>
 			<line>
-				<reportElement key="line" x="543" y="0" width="1" height="27"/>
+				<reportElement key="line" x="543" y="0" width="1" height="27" uuid="c96502fb-08d6-4fc6-a364-60cafe40bdc2"/>
 			</line>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="116" y="1" width="81" height="24"/>
+				<reportElement key="textField" x="116" y="1" width="81" height="24" uuid="448806f5-9ca8-4038-bcdb-a6b4636e91e1"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -266,10 +267,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{uclanio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{uclanio}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="366" y="1" width="76" height="24"/>
+				<reportElement key="textField" x="366" y="1" width="76" height="24" uuid="32088a95-3e44-4bbc-9374-2dcef29679f6"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -277,10 +278,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{produzio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produzio}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="279" y="1" width="78" height="24"/>
+				<reportElement key="textField" x="279" y="1" width="78" height="24" uuid="3b7e9199-6d30-42c6-adb5-f14ff93a2f59"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -288,10 +289,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{razduzio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{razduzio}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="199" y="1" width="75" height="23"/>
+				<reportElement key="textField" x="199" y="1" width="75" height="23" uuid="3abb6c6b-a349-4807-880c-e873f20164c1"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -299,10 +300,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{zaduzio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{zaduzio}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="3" y="3" width="106" height="24"/>
+				<reportElement key="textField" x="3" y="3" width="106" height="24" uuid="5e0e66b9-8d12-47b5-b5f8-f703b9896ad1"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -310,10 +311,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{bibliotekar}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{bibliotekar}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="447" y="3" width="84" height="20"/>
+				<reportElement key="textField" x="447" y="3" width="84" height="20" uuid="423d1f1a-edbf-4a27-9d30-79e76e86a2ce"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -321,7 +322,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{ukupnoBib}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{ukupnoBib}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -334,28 +335,28 @@
 	<summary>
 		<band height="32" splitType="Stretch">
 			<line>
-				<reportElement key="line" x="0" y="0" width="1" height="30"/>
+				<reportElement key="line" x="0" y="0" width="1" height="30" uuid="e3da59de-aa8f-495d-b062-64da1e4afac7"/>
 			</line>
 			<line>
-				<reportElement key="line" x="113" y="0" width="1" height="29"/>
+				<reportElement key="line" x="113" y="0" width="1" height="29" uuid="f52ed958-5e1b-4ba5-a389-83d32477c0cc"/>
 			</line>
 			<line>
-				<reportElement key="line" x="197" y="0" width="1" height="30"/>
+				<reportElement key="line" x="197" y="0" width="1" height="30" uuid="dd2817fd-b602-4378-bc99-2f0e1b000448"/>
 			</line>
 			<line>
-				<reportElement key="line" x="277" y="0" width="1" height="29"/>
+				<reportElement key="line" x="277" y="0" width="1" height="29" uuid="2d26a136-859e-40b3-9d1d-093ddf045a47"/>
 			</line>
 			<line>
-				<reportElement key="line" x="360" y="0" width="1" height="30"/>
+				<reportElement key="line" x="360" y="0" width="1" height="30" uuid="13e8f9ad-896b-4580-a5a1-c0b4c5752798"/>
 			</line>
 			<line>
-				<reportElement key="line" x="446" y="0" width="1" height="30"/>
+				<reportElement key="line" x="446" y="0" width="1" height="30" uuid="80ef6887-816c-4d20-9706-b3da84703531"/>
 			</line>
 			<line>
-				<reportElement key="line" x="543" y="0" width="1" height="30"/>
+				<reportElement key="line" x="543" y="0" width="1" height="30" uuid="381f6dde-6e6d-4f62-af40-056c1408f21f"/>
 			</line>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="363" y="0" width="79" height="29"/>
+				<reportElement key="textField" x="363" y="0" width="79" height="29" uuid="e52f0624-c2e3-4816-ac6b-3571a6bdf085"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -363,13 +364,13 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{produzio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{produzio}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line" x="1" y="29" width="542" height="1"/>
+				<reportElement key="line" x="1" y="29" width="542" height="1" uuid="a469e20d-6e75-48e8-8a16-6245bac87453"/>
 			</line>
 			<staticText>
-				<reportElement key="staticText" x="2" y="1" width="107" height="28"/>
+				<reportElement key="staticText" x="2" y="1" width="107" height="28" uuid="23706a5c-d5cf-4bc4-8bd1-6a23c85fe6f5"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -382,7 +383,7 @@
 				<text><![CDATA[UKUPNO]]></text>
 			</staticText>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="446" y="2" width="85" height="28"/>
+				<reportElement key="textField" x="446" y="2" width="85" height="28" uuid="773b5d58-c86d-4840-9721-152066b39d65"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -390,10 +391,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{ukupno}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{ukupno}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="116" y="1" width="81" height="28"/>
+				<reportElement key="textField" x="116" y="1" width="81" height="28" uuid="11200562-6f53-49a7-a7dd-df542dca120f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -401,10 +402,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{uclanio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{uclanio}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="199" y="1" width="75" height="28"/>
+				<reportElement key="textField" x="199" y="1" width="75" height="28" uuid="7bd66762-f07b-41a7-a892-c81524ee909f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -412,10 +413,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{zaduzio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{zaduzio}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="279" y="1" width="81" height="28"/>
+				<reportElement key="textField" x="279" y="1" width="81" height="28" uuid="8311d33d-4d7c-4f41-80fd-e4a7bc1f98aa"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -423,7 +424,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{razduzio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{razduzio}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

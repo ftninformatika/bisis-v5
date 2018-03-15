@@ -4,11 +4,9 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.pojo.CircLocation;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import noNamespace.ReportDocument;
@@ -78,7 +76,8 @@ public class MemberHistory {
                                         "/cirkulacija/jaspers/istorija_sub.jasper")
                                 .openStream());
 
-                Map<String, Object> params = new HashMap<String, Object>(6);
+                Map<String, Object> params = new HashMap<String, Object>(7);
+                params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
                 if (!branch.equals("")) {
                     params.put("nazivogr", "odeljenje: " + branch);
                 } else {

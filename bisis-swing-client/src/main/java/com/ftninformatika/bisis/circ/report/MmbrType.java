@@ -9,8 +9,10 @@ import java.util.Map;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
@@ -56,8 +58,8 @@ public class MmbrType {
 	public static JasperPrint setPrint(Date date, Object branch)
 			throws IOException {
 		String loc = "";
-		Map<String, Object> params = new HashMap<String, Object>(2);
-
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 		if (branch instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
 			params.put("nazivogr", "odeljenje: "
 					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) branch).getDescription());

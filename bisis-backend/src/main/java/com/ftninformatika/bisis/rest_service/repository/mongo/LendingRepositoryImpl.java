@@ -111,6 +111,19 @@ public class  LendingRepositoryImpl implements LendingRepositoryCustom{
         return retVal;
     }
 
+    @Override
+    public List<Lending> getOverdueLendings(Date deadlineStart, Date deadlineEnd, String location) {
+        Criteria cr = Criteria.where("deadline").gte(deadlineStart).lte(deadlineEnd);
+        cr = new Criteria().andOperator(cr, Criteria.where("returnDate").is(null));
+        if (location != null && !location.equals("")) {
+            cr = new Criteria().andOperator(cr, Criteria.where("location").is(location));
+        }
+        Query q = new Query();
+        q.addCriteria(cr);
+        List<Lending> retVal = mongoTemplate.find(q, Lending.class);
+        return retVal;
+    }
+
 
     public List<Lending> getResumedLendings(Date start, Date end, String locaiton){
         List<Lending> retVal = null;

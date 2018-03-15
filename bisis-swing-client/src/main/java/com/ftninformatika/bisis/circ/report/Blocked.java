@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.utils.Messages;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
@@ -46,7 +48,8 @@ public class Blocked {
 
 	public static JasperPrint setPrint(Object branch)
 			throws IOException {
-		Map<String, Object> params = new HashMap<String, Object>(1);
+		Map<String, Object> params = new HashMap<String, Object>(2);
+		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 
 		String loc = "";
 		if (branch instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {

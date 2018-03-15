@@ -1,44 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"  ?>
-<!-- Created with iReport - A designer for JasperReports -->
-<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-<jasperReport
-		 name="posetiocikpasiv"
-		 columnCount="1"
-		 printOrder="Vertical"
-		 orientation="Portrait"
-		 pageWidth="482"
-		 pageHeight="283"
-		 columnWidth="482"
-		 columnSpacing="0"
-		 leftMargin="0"
-		 rightMargin="0"
-		 topMargin="0"
-		 bottomMargin="0"
-		 whenNoDataType="AllSectionsNoDetail"
-		 isTitleNewPage="false"
-		 isSummaryNewPage="false">
-	<property name="com.jasperassistant.designer.GridWidth" value="12" />
-	<property name="com.jasperassistant.designer.GridHeight" value="12" />
-	<property name="com.jasperassistant.designer.DataSource" value="bisiski" />
-	<property name="com.jasperassistant.designer.SnapToGrid" value="false" />
-	<property name="com.jasperassistant.designer.Units" value="Centimeters" />
-	<property name="com.jasperassistant.designer.Grid" value="false" />
-	<property name="ireport.scriptlethandling" value="0" />
-	<property name="ireport.encoding" value="UTF-8" />
-	<import value="java.util.*" />
-	<import value="net.sf.jasperreports.engine.*" />
-	<import value="net.sf.jasperreports.engine.data.*" />
-	<reportFont name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
-
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="posetiocikpasiv" pageWidth="482" pageHeight="283" whenNoDataType="AllSectionsNoDetail" columnWidth="482" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="43a2b35f-15d7-4be1-8a70-e4f9eb95dcfd">
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
+	<property name="com.jasperassistant.designer.DataSource" value="bisiski"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
+	<property name="com.jasperassistant.designer.Units" value="Centimeters"/>
+	<property name="com.jasperassistant.designer.Grid" value="false"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 	<field name="NAME" class="java.lang.String">
 		<fieldDescription><![CDATA[column2]]></fieldDescription>
 	</field>
 	<field name="SINGLE_ID" class="java.lang.String">
 		<fieldDescription><![CDATA[column1]]></fieldDescription>
 	</field>
-
-	<variable name="sum" class="java.lang.Integer" resetType="Report" calculation="Count">
+	<variable name="sum" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$F{SINGLE_ID}]]></variableExpression>
 		<initialValueExpression><![CDATA[new java.lang.Integer(0)]]></initialValueExpression>
 	</variable>
@@ -46,174 +27,115 @@
 		<variableExpression><![CDATA[$F{SINGLE_ID}]]></variableExpression>
 		<initialValueExpression><![CDATA[new java.lang.Integer(0)]]></initialValueExpression>
 	</variable>
-
-		<group  name="ctgr" >
-			<groupExpression><![CDATA[$F{NAME}]]></groupExpression>
-			<groupHeader>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="20"  isSplitAllowed="true" >
+	<group name="ctgr">
+		<groupExpression><![CDATA[$F{NAME}]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="20" splitType="Stretch">
 				<staticText>
-					<reportElement
-						x="220"
-						y="1"
-						width="6"
-						height="18"
-						key="staticText"
-						positionType="Float"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="220" y="1" width="6" height="18" uuid="f067a212-e195-4ec9-9e59-0ef6c4c3f017"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="36" y="1" width="182" height="17" uuid="11cd9456-584d-4ef7-a79c-61d503f7f4bd"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="228" y="1" width="156" height="17" uuid="ce9dd889-d8fa-48e0-8468-4f5da45eb7d5"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textFieldExpression><![CDATA[$V{grup}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="209" y="7" width="57" height="16" uuid="5f5b36e4-3aef-495f-9c8a-a515279eb3d9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement>
-						<font reportFont="DejaVu Sans"/>
-					</textElement>
+				</box>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("POSETIOCIKPASIV_TITLE")]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="27" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="228" y="6" width="80" height="15" uuid="ad4685df-3f6b-4bdb-b2c4-d46531e6e53d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$V{sum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="220" y="6" width="6" height="18" uuid="b4fa7290-456c-46ee-a3f4-1a1475bcb610"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<text><![CDATA[:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="36"
-						y="1"
-						width="182"
-						height="17"
-						key="textField"
-						positionType="Float"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</staticText>
+			<textField>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="108" y="6" width="110" height="15" uuid="05ef784a-454e-45d7-9c40-a0cda93052c9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement textAlignment="Right">
-						<font reportFont="DejaVu Sans"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NAME}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="228"
-						y="1"
-						width="156"
-						height="17"
-						key="textField"
-						positionType="Float"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement>
-						<font reportFont="DejaVu Sans"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{grup}]]></textFieldExpression>
-				</textField>
-			</band>
-			</groupFooter>
-		</group>
-		<background>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</background>
-		<title>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</title>
-		<pageHeader>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</pageHeader>
-		<columnHeader>
-			<band height="23"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="209"
-						y="7"
-						width="57"
-						height="16"
-						key="staticText"
-						positionType="Float"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement>
-						<font reportFont="DejaVu Sans" size="11"/>
-					</textElement>
-				<text><![CDATA[pasivni:]]></text>
-				</staticText>
-			</band>
-		</columnHeader>
-		<detail>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</detail>
-		<columnFooter>
-			<band height="27"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="108"
-						y="6"
-						width="110"
-						height="15"
-						key="staticText"
-						positionType="Float"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement textAlignment="Right">
-						<font reportFont="DejaVu Sans"/>
-					</textElement>
-				<text><![CDATA[UKUPNO]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="228"
-						y="6"
-						width="80"
-						height="15"
-						key="textField"
-						positionType="Float"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement>
-						<font reportFont="DejaVu Sans"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{sum}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="220"
-						y="6"
-						width="6"
-						height="18"
-						key="staticText"
-						positionType="Float"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement>
-						<font reportFont="DejaVu Sans"/>
-					</textElement>
-				<text><![CDATA[:]]></text>
-				</staticText>
-			</band>
-		</columnFooter>
-		<pageFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</pageFooter>
-		<summary>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</summary>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[str("POSETIOCIKPASIV_TOTAL")]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
 </jasperReport>

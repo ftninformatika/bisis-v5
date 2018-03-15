@@ -2,6 +2,8 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 
 import com.ftninformatika.bisis.circ.Organization;
+import com.ftninformatika.bisis.circ.WarningCounter;
+import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
@@ -11,9 +13,11 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by dboberic on 28/07/2017.
@@ -27,6 +31,7 @@ public class MemberController {
     @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
+    @Autowired WarningCounterRepository warningCounterRepository;
 
     @RequestMapping( path = "/memberExist", method = RequestMethod.GET)
     public String userExist(@RequestParam (value = "userId") String userId){
@@ -166,6 +171,55 @@ public class MemberController {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @RequestMapping( path = "/getWarnMembers" )
+    public List<MemberData> getWarnMembers(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location){
+        List<Lending> overdueLendings = lendingRepository.getOverdueLendings(start, end, location);
+        List<String> userIds = overdueLendings.stream().map(l -> l.getUserId()).collect(Collectors.toList());
+        Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));
+
+        Map<String, MemberData> memberMap = new HashMap<>();
+
+        overdueLendings.forEach(
+                l -> {
+                    MemberData memberData = memberMap.get(l.getUserId());
+                    if (memberData == null) {
+                        memberData = new MemberData();
+                        memberData.setMember(members.get(l.getUserId()));
+                        memberData.setLendings(new ArrayList<>());
+                        memberMap.put(l.getUserId(), memberData);
+                    }
+                    memberData.getLendings().add(l);
+                }
+        );
+
+//        Map<String, MemberData> result = map.entrySet().stream().sorted(Map.Entry.comparingByKey())
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+//                (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+        TreeMap<String, MemberData> result = new TreeMap<>(memberMap);
+
+        return result.values().stream().collect(Collectors.toList());
+    }
+
+
+    @RequestMapping(path = "/addWarnings", method = RequestMethod.POST)
+    public boolean addWarnings(@RequestBody WarningsData warningsData){
+        try {
+            if (warningsData.getLendings() != null && !warningsData.getLendings().isEmpty()) {
+                lendingRepository.save(warningsData.getLendings());
+            }
+            if (warningsData.getCounters() != null && !warningsData.getCounters().isEmpty()) {
+                warningCounterRepository.save(warningsData.getCounters());
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+
     }
 
 }

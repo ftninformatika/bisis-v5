@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="submemberbook" pageWidth="525" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="525" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="submemberbook" pageWidth="525" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="525" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3ebfaab2-f8ec-4948-8b7e-475f17d3f5a7">
 	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
 	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
 	<property name="com.jasperassistant.designer.DataSource" value="bisisbg2"/>
@@ -45,18 +46,17 @@
 		<groupFooter>
 			<band height="20" splitType="Stretch">
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField" positionType="Float" x="55" y="4" width="257" height="16"/>
+					<reportElement key="textField" positionType="Float" x="55" y="4" width="257" height="16" uuid="c0a56eaa-88c9-4183-99a9-651bfb6b8005"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
-					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{NAME}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField" positionType="Float" x="404" y="4" width="80" height="16"/>
+					<reportElement key="textField" positionType="Float" x="404" y="4" width="80" height="16" uuid="32f1cbcc-84ca-42c6-add0-b133f7159aae"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -64,13 +64,13 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Double"><![CDATA[$V{cost}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{cost}]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement key="line" positionType="Float" x="0" y="19" width="525" height="1"/>
+					<reportElement key="line" positionType="Float" x="0" y="19" width="525" height="1" uuid="ebe59723-ed8a-4c9b-a754-73b76a147fa1"/>
 				</line>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField" positionType="Float" x="315" y="4" width="80" height="16"/>
+					<reportElement key="textField" positionType="Float" x="315" y="4" width="80" height="16" uuid="ebd1ad04-7349-4398-87de-66982328d7d3"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -78,7 +78,7 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{brkor}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{brkor}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -88,19 +88,14 @@
 	</background>
 	<title>
 		<band height="25" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="55" y="4" width="259" height="20"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[Vrsta plaćanja]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="315" y="4" width="80" height="20"/>
+			<line>
+				<reportElement key="line" positionType="Float" x="0" y="24" width="525" height="1" uuid="237b0cf3-8eb7-4ec4-84c8-ee852cba46f8"/>
+			</line>
+			<line>
+				<reportElement key="line" positionType="Float" x="0" y="22" width="525" height="1" uuid="a545fb1f-fc3d-41c6-aa8f-5f42bf1b172e"/>
+			</line>
+			<textField>
+				<reportElement key="staticText" positionType="Float" x="315" y="4" width="80" height="20" uuid="634b256f-24a2-4acc-bfff-d4a0112d4816"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -108,10 +103,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<text><![CDATA[Broj korisnika]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="404" y="4" width="80" height="20"/>
+				<textFieldExpression><![CDATA[str("SUBMEMBERBOOK_BRC")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" positionType="Float" x="404" y="4" width="80" height="20" uuid="c9ec7960-1a91-406a-9633-662a32986b55"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -119,14 +114,18 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<text><![CDATA[Cena]]></text>
-			</staticText>
-			<line>
-				<reportElement key="line" positionType="Float" x="0" y="24" width="525" height="1"/>
-			</line>
-			<line>
-				<reportElement key="line" positionType="Float" x="0" y="22" width="525" height="1"/>
-			</line>
+				<textFieldExpression><![CDATA[str("SUBMEMBERBOOK_PRICE")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" positionType="Float" x="55" y="4" width="259" height="20" uuid="cc62e7c4-de25-4f74-97ed-7104d046b5dc"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[str("SUBMEMBERBOOK_PAYMENT_TYPE")]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -147,7 +146,7 @@
 	<summary>
 		<band height="25" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="315" y="6" width="80" height="17"/>
+				<reportElement key="textField" positionType="Float" x="315" y="6" width="80" height="17" uuid="0a6a095a-edcb-41a8-821e-ff5c65870869"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -157,10 +156,10 @@
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{brukupno}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{brukupno}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" positionType="Float" x="404" y="6" width="80" height="17"/>
+				<reportElement key="textField" positionType="Float" x="404" y="6" width="80" height="17" uuid="8b001414-25a4-4b1c-8425-4f5e323b5743"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -170,10 +169,13 @@
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costukupno}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{costukupno}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement key="staticText" positionType="Float" x="55" y="6" width="252" height="17"/>
+			<line>
+				<reportElement key="line" positionType="Float" x="0" y="1" width="525" height="1" uuid="3d6d9c1b-ba84-47d6-87a5-04c2709b1da4"/>
+			</line>
+			<textField>
+				<reportElement key="staticText" positionType="Float" x="55" y="6" width="252" height="17" uuid="08e8af91-3be1-4a16-8123-f430823cb0c8"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -183,11 +185,8 @@
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Ukupno]]></text>
-			</staticText>
-			<line>
-				<reportElement key="line" positionType="Float" x="0" y="1" width="525" height="1"/>
-			</line>
+				<textFieldExpression><![CDATA[str("SUBMEMBERBOOK_TOTAL")]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

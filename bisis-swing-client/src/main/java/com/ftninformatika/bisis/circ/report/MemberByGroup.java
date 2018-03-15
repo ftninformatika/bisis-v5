@@ -11,7 +11,9 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.CorporateMember;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
+import net.sf.jasperreports.engine.JRParameter;
 import org.w3c.dom.Document;
 
 import net.sf.jasperreports.engine.JRException;
@@ -43,7 +45,8 @@ public class MemberByGroup {
 				
 
 		String loc = "";
-		Map<String, Object> params = new HashMap<String, Object>(4);
+		Map<String, Object> params = new HashMap<String, Object>(5);
+		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate", Utils.toLocaleDate(end));
 		if (group instanceof com.ftninformatika.bisis.circ.pojo.CorporateMember)

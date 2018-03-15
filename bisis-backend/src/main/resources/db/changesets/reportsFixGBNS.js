@@ -3,7 +3,7 @@
 
 //changeset danijela:ChangeSet-records
 
-db.configs.update({ _id: ObjectId("5a2a820d03c19d0c3c8af69f") }, {
+db.configs.update({ _id: ObjectId("5a40bf737b754f0c10f5714c") }, {
     $set: {
 
         "reports": [

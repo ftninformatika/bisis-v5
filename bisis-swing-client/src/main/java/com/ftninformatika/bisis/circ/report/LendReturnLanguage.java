@@ -13,7 +13,9 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
+import net.sf.jasperreports.engine.JRParameter;
 import org.w3c.dom.Document;
 
 import net.sf.jasperreports.engine.JRException;
@@ -60,7 +62,8 @@ public class LendReturnLanguage {
 	public static JasperPrint setPrint(Date start, Date end, Object location)
 			throws IOException {
 
-		Map<String, Object> params = new HashMap<String, Object>(3);
+		Map<String, Object> params = new HashMap<String, Object>(4);
+		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate", Utils.toLocaleDate(end));
 		String loc = "";

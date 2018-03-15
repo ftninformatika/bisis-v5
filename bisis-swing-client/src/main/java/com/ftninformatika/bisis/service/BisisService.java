@@ -7,6 +7,7 @@ package com.ftninformatika.bisis.service;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
@@ -393,5 +394,12 @@ public interface BisisService {
     @GET ("circ_report/get_zb_statistic_report")
     Call<Report> getZbStatisticReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
+    @GET ("members/getWarnMembers")
+    Call<List<MemberData>> getWarnMembers(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
+    @POST("members/addWarnings")
+    Call<Boolean> addWarnings(@Body WarningsData warningsData);
+
+    @POST("coders/addWarningType")
+    Call<Boolean> addWarningType(@Body WarningType warningType);
 }

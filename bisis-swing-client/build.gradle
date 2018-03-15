@@ -95,9 +95,9 @@ jnlp {
 
 task compileJasperJava(dependsOn: 'compileJava') {
     doLast {
-        def jasperSourceDir = file('src/main/resources/jaspers')
-        def jasperTargetDir = file('build/resources/main/jaspers')
-        def jasperTargetDirSrc = file('src/main/resources/jaspers')
+        def jasperSourceDir = file('src/main/resources')
+        def jasperTargetDir = file('build/resources/main')
+        def jasperTargetDirSrc = file('src/main/resources')
         ant {
             taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: sourceSets.main.compileClasspath.asPath)
             jasperTargetDir.mkdirs()

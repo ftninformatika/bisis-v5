@@ -13,8 +13,10 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
@@ -51,7 +53,7 @@ public class BestBook {
 
 	public static JasperPrint setPrint(Date start,Date end,Object location)throws IOException {
 
-		Map<String, Object> params = new HashMap<String, Object>(3);
+		Map<String, Object> params = new HashMap<String, Object>(4);
 		String loc = "";
 		if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
 			params.put("nazivogr", "odeljenje: "
@@ -60,7 +62,7 @@ public class BestBook {
 		} else {
 			params.put("nazivogr", "");
 		}
-
+		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 		List<com.ftninformatika.bisis.circ.pojo.Report> l= BisisApp.bisisService.getBestBookReport(new PathDate(start), new PathDate(end), loc).execute().body();
 		List <Record> records=new ArrayList<Record>();;
 		int recId;
