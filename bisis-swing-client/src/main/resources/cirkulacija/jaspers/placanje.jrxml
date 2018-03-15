@@ -133,6 +133,9 @@ group by mt.name]]>
 				<subreportParameter name="ogranak">
 					<subreportParameterExpression><![CDATA[$P{ogranak}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="enddate">
 					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
 				</subreportParameter>

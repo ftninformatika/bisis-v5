@@ -216,6 +216,9 @@
 		<band height="27" splitType="Stretch">
 			<subreport isUsingCache="true">
 				<reportElement key="subreport" positionType="Float" x="0" y="0" width="535" height="24" uuid="d7fbf7df-381b-4c3d-8f25-067fb5302242"/>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{doc}, "/report/row")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{subreport}]]></subreportExpression>
 			</subreport>

@@ -144,6 +144,9 @@
 				<subreportParameter name="begdate">
 					<subreportParameterExpression><![CDATA[$P{begdate}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{dom1}, "/report/row")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{clanovi}]]></subreportExpression>
 			</subreport>
@@ -151,6 +154,9 @@
 				<reportElement key="subreport" positionType="Float" x="46" y="47" width="140" height="20" uuid="4ac634c9-6e51-42fa-8ff1-65ac94741e3f"/>
 				<subreportParameter name="enddate">
 					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="ogranak">
 					<subreportParameterExpression><![CDATA[$P{ogranak}]]></subreportParameterExpression>
@@ -172,6 +178,9 @@
 				<subreportParameter name="ogranak">
 					<subreportParameterExpression><![CDATA[$P{ogranak}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="enddate">
 					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -185,6 +194,9 @@
 				<reportElement key="subreport" positionType="FixRelativeToBottom" x="264" y="124" width="123" height="20" uuid="4c48e3c8-4bd9-4a64-9d24-ef5807ec98de"/>
 				<subreportParameter name="enddate">
 					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="ogranak">
 					<subreportParameterExpression><![CDATA[$P{ogranak}]]></subreportParameterExpression>

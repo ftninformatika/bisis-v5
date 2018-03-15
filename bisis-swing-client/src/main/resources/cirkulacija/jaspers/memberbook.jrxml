@@ -61,6 +61,9 @@
 			<band height="47" splitType="Stretch">
 				<subreport isUsingCache="true">
 					<reportElement key="subreport" positionType="Float" x="1" y="23" width="526" height="20" uuid="116402e3-172e-4762-b304-810322d6a34c"/>
+					<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+					</subreportParameter>
 					<subreportParameter name="ogranak">
 						<subreportParameterExpression><![CDATA[$P{ogranak}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -186,7 +189,7 @@
 				<reportElement key="line" positionType="Float" x="0" y="27" width="525" height="1" uuid="6c4c9e29-254b-4c9e-bb4e-87f8f60c8400"/>
 			</line>
 			<textField>
-				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="4" y="2" width="26" height="25" uuid="d7cf5cf6-7f77-428d-8c69-25a4e761e8ff"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="4" y="9" width="26" height="18" uuid="d7cf5cf6-7f77-428d-8c69-25a4e761e8ff"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

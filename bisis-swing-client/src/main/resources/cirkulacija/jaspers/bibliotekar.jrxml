@@ -92,7 +92,7 @@
 					<reportElement key="line" positionType="Float" x="0" y="56" width="555" height="1" uuid="3f42f60f-3a9c-459c-a532-1d03a035d67e"/>
 				</line>
 				<textField isBlankWhenNull="true">
-					<reportElement key="textField" style="DejaVu Sans" x="62" y="10" width="100" height="18" uuid="ffea5b86-e61f-492b-af4f-454adbad6b8b"/>
+					<reportElement key="textField" style="DejaVu Sans" x="80" y="10" width="100" height="18" uuid="ffea5b86-e61f-492b-af4f-454adbad6b8b"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -102,7 +102,7 @@
 					<textFieldExpression><![CDATA[$F{OPIS_BIBL}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="0" y="11" width="56" height="16" uuid="cb6a4671-ed71-4d92-a00d-4a4511b4ee94"/>
+					<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="0" y="11" width="70" height="16" uuid="cb6a4671-ed71-4d92-a00d-4a4511b4ee94"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -122,7 +122,7 @@
 					<textFieldExpression><![CDATA[str("BIBLIOTEKAR_RBR")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="30" y="28" width="71" height="27" uuid="46b45aa9-7f16-4017-aa4b-a58103c2d371"/>
+					<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="30" y="42" width="71" height="13" uuid="46b45aa9-7f16-4017-aa4b-a58103c2d371"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -165,7 +165,7 @@
 					<textFieldExpression><![CDATA[str("BIBLIOTEKAR_DOCUMENT")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="354" y="32" width="79" height="23" uuid="da1c91bb-dbd1-4297-9232-1056e7aa3264"/>
+					<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="354" y="42" width="79" height="13" uuid="da1c91bb-dbd1-4297-9232-1056e7aa3264"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -195,6 +195,10 @@
 					</box>
 					<textFieldExpression><![CDATA[str("BIBLIOTEKAR_PRICE")]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="70" y="10" width="4" height="18" uuid="baba7cd5-b2a8-40b9-a92c-2e9d0ace8f8a"/>
+					<text><![CDATA[:]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -256,7 +260,7 @@
 				<textFieldExpression><![CDATA[$P{nazivogr}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="DejaVu Sans" x="55" y="38" width="66" height="12" uuid="7e068701-0963-4314-8574-8fa665d2086b"/>
+				<reportElement key="textField" style="DejaVu Sans" x="60" y="39" width="66" height="12" uuid="7e068701-0963-4314-8574-8fa665d2086b"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -288,6 +292,10 @@
 				</box>
 				<textFieldExpression><![CDATA[str("BIBLIOTEKAR_DATE")]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="49" y="35" width="4" height="18" uuid="87ca84f8-b11f-452f-9ed0-2f53b40558bf"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

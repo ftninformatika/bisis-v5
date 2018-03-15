@@ -59,6 +59,9 @@
 			</textField>
 			<subreport isUsingCache="true">
 				<reportElement key="subreport" positionType="Float" x="3" y="49" width="507" height="20" uuid="132d8302-5a79-4fd9-a22e-12d892c92f9e"/>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{doc}, "/report/row")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{subreport}]]></subreportExpression>
 			</subreport>
