@@ -1,0 +1,14 @@
+{
+  "record": {
+    "properties": {
+      "prefixes": {
+        "properties": {
+          "DCX": {
+            "type": "string",
+            "index": "not_analyzed"
+          }
+        }
+      }
+    }
+  }
+}
