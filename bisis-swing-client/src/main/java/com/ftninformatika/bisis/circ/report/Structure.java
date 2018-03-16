@@ -25,7 +25,6 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 	try {
 
 			Map<String, Object> params = new HashMap<String, Object>(12);
-			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 				String loc = "";
 			if (branch instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
 				params.put("nazivogr", "odeljenje: "
@@ -49,21 +48,23 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 			Document dom5 = Gender.setXML(l5);
 			
 
-		
 
-			
-			
+
+
+
 			JasperReport brojbespl = (JasperReport) JRLoader
 			.loadObject(Structure.class
 					.getResource(
 							"/cirkulacija/jaspers/brojbespl.jasper")
 					.openStream());
-			
+
+
 			JasperReport clanovi = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
 									"/cirkulacija/jaspers/clanovi.jasper")
 							.openStream());
+
 			JasperReport placanje = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
@@ -81,6 +82,7 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 									"/cirkulacija/jaspers/pol.jasper")
 							.openStream());
 
+			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 			params.put("begdate", Utils.toLocaleDate(start));
 			params.put("enddate", Utils.toLocaleDate(end));
 			params.put("clanovi", clanovi);

@@ -90,13 +90,14 @@ public class MemberBook {
 			Document dom = setXML(results);
 			Document dom1 = setSubXML(results);
 			ds = new JRXmlDataSource(dom, "/report/row");
+
 			JasperReport subreport = (JasperReport) JRLoader
 					.loadObject(MemberBook.class
 							.getResource(
 									"/cirkulacija/jaspers/submemberbook.jasper")
 							.openStream());
 
-
+			JasperFillManager.fillReport(subreport, params);
 
 
 			params.put("start", Utils.toLocaleDate(start));

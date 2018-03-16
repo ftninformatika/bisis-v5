@@ -369,19 +369,6 @@
 			<line>
 				<reportElement key="line" x="1" y="29" width="542" height="1" uuid="a469e20d-6e75-48e8-8a16-6245bac87453"/>
 			</line>
-			<staticText>
-				<reportElement key="staticText" x="2" y="1" width="107" height="28" uuid="23706a5c-d5cf-4bc4-8bd1-6a23c85fe6f5"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[UKUPNO]]></text>
-			</staticText>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" x="446" y="2" width="85" height="28" uuid="773b5d58-c86d-4840-9721-152066b39d65"/>
 				<box>
@@ -425,6 +412,19 @@
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{razduzio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="2" y="1" width="107" height="28" uuid="bbc6803f-0d1d-4be2-9c62-155a1e7dced7"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("LIBRARUIANST_TOTAL")]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

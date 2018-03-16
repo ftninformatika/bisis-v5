@@ -16,16 +16,15 @@
 	<field name="NAME" class="java.lang.String">
 		<fieldDescription><![CDATA[column2]]></fieldDescription>
 	</field>
-	<field name="SINGLE_ID" class="java.lang.String">
-		<fieldDescription><![CDATA[column1]]></fieldDescription>
+	<field name="EXPRESSION1" class="java.lang.Long">
+		<fieldDescription><![CDATA[column15]]></fieldDescription>
 	</field>
-	<variable name="sum" class="java.lang.Integer" calculation="Count">
-		<variableExpression><![CDATA[$F{SINGLE_ID}]]></variableExpression>
-		<initialValueExpression><![CDATA[new java.lang.Integer(0)]]></initialValueExpression>
+	<variable name="sum" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{EXPRESSION1}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Long(0)]]></initialValueExpression>
 	</variable>
-	<variable name="grup" class="java.lang.Integer" resetType="Group" resetGroup="mmbr" calculation="Count">
-		<variableExpression><![CDATA[$F{SINGLE_ID}]]></variableExpression>
-		<initialValueExpression><![CDATA[new java.lang.Integer(0)]]></initialValueExpression>
+	<variable name="grup" class="java.lang.Long">
+		<variableExpression><![CDATA[$F{EXPRESSION1}]]></variableExpression>
 	</variable>
 	<group name="mmbr">
 		<groupExpression><![CDATA[$F{NAME}]]></groupExpression>
@@ -128,7 +127,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[str("POSETIOCIU_TITLE")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[str("POSETIOCIU_TOTAL")]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
