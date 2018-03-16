@@ -68,9 +68,6 @@ spring:
       cluster-nodes: localhost:9300
       repositories:
         enabled: true
-      properties:
-        path:
-          data: /opt/es
 
   mail:
     host: smtp.gmail.com
