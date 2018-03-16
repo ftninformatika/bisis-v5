@@ -20,6 +20,15 @@ public class Messages {
     private static ResourceBundle bundle;
     private static String locale = null;
 
+    static  {
+        try {
+            Reader reader = reader = new InputStreamReader(Messages.class.getClassLoader().getResourceAsStream(BUNDLE_PATH + "messages_sr_CYRL_RS.properties"), "UTF-8");
+            bundle = new PropertyResourceBundle(reader);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public static void setLocale(String loc){
         locale = loc;
             try {
@@ -45,14 +54,11 @@ public class Messages {
 
     private Messages() {
     }
-    static  {
-        try {
-            Reader reader = reader = new InputStreamReader(Messages.class.getClassLoader().getResourceAsStream(BUNDLE_PATH + "messages_sr_CYRL_RS.properties"), "UTF-8");
-            bundle = new PropertyResourceBundle(reader);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
+    public static ResourceBundle getBundle(){
+        return bundle;
     }
+
 
     public static String getString(String key) {
         try {

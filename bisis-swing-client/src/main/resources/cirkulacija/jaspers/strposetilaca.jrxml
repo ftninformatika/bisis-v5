@@ -9,9 +9,9 @@
 	<property name="com.jasperassistant.designer.Grid" value="false"/>
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
-	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
+	<import value="net.sf.jasperreports.engine.*"/>
 	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 	<parameter name="begdate" class="java.lang.String"/>
 	<parameter name="enddate" class="java.lang.String"/>
@@ -129,23 +129,27 @@
 		<band height="140" splitType="Stretch">
 			<subreport isUsingCache="true">
 				<reportElement key="subreport" positionType="Float" x="31" y="13" width="142" height="20" uuid="e67939ab-ad71-4713-9cdb-b70624c7bfd2"/>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{dom1}, "/report/row")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{kategorija}]]></subreportExpression>
 			</subreport>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="Float" x="32" y="71" width="140" height="20" uuid="bc1c4744-dd4b-4e61-9697-8ef0d7c62442"/>
+				<reportElement key="subreport" positionType="Float" x="30" y="60" width="140" height="20" uuid="bc1c4744-dd4b-4e61-9697-8ef0d7c62442"/>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{dom4}, "/report/row")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{uclanjenje}]]></subreportExpression>
 			</subreport>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="Float" x="33" y="104" width="141" height="20" uuid="30f13cae-5234-4cc6-b025-f892c4cf6d12"/>
+				<reportElement key="subreport" positionType="Float" x="30" y="100" width="141" height="20" uuid="30f13cae-5234-4cc6-b025-f892c4cf6d12"/>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{dom3}, "/report/row")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{pol}]]></subreportExpression>
-			</subreport>
-			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="Float" x="31" y="41" width="142" height="20" uuid="a8b4d042-a264-415f-af8b-b3b43730ee05"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{dom2}, "/report/row")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{kategorijapasivni}]]></subreportExpression>
 			</subreport>
 		</band>
 	</summary>

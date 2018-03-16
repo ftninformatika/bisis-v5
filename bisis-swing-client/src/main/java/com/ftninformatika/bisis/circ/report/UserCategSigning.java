@@ -57,7 +57,7 @@ public class UserCategSigning {
 	public static JasperPrint setPrint(Date date, String branch)
 			throws IOException {
 		
-		Map<String, Object> params = new HashMap<String, Object>(3);
+		Map<String, Object> params = new HashMap<String, Object>(4);
 		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 		params.put("date", Utils.toLocaleDate(date));
 		if(branch == null)

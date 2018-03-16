@@ -5,7 +5,7 @@ logging:
 
 spring:
   profiles:
-    active: production
+    active: development
 
 security:
   token:
@@ -22,9 +22,7 @@ spring:
       port: 27017
       database: bisis
     elasticsearch:
-      properties:
-        path:
-          data: D:\\opt\\elasticsearch_storage
+      cluster-nodes: localhost:9300
       repositories:
         enabled: true
 
@@ -44,10 +42,6 @@ logging:
   level:
     com.ftninformatika: INFO
 
-#mongeez:
-#  location: db/mongeez.xml
-#  database: bisisdev
-
 ---
 
 spring:
@@ -56,7 +50,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: 10_11_bisis
+      database: bisis
   main:
     web-environment: false
 
@@ -68,18 +62,12 @@ spring:
     mongodb:
       host: localhost
       port: 27017
- #     username: bisis
       database: bisis
-      #uri: mongodb://bisis:bisis@94.130.24.103:27017/bisisdev
-#      password: bisis
 
     elasticsearch:
       cluster-nodes: localhost:9300
       repositories:
         enabled: true
-      properties:
-        path:
-          data: D:\\opt\\elasticsearch_storage
 
   mail:
     host: smtp.gmail.com
