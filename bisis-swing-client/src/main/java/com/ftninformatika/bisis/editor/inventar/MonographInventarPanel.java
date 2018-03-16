@@ -50,9 +50,9 @@ public class MonographInventarPanel extends InventarPanel {
   
 	
 	public MonographInventarPanel() {
-		super();    
+		super();
 		layoutPanels();	
-		initializeForm();	
+		initializeForm();
 	}
   
 	protected void handleListSelectionChanged() {
@@ -499,6 +499,7 @@ public class MonographInventarPanel extends InventarPanel {
   private void createPrimerciTable(){  	
   	primerciTableModel = new PrimerciTableModel();
     primerciTable = new JTable(primerciTableModel);
+    primerciTable.putClientProperty("Quaqua.Table.style", "striped");
     primerciTable.setRowSorter(new TableRowSorter<PrimerciTableModel>(primerciTableModel));
   	
   	primerciScrollPane = new JScrollPane(primerciTable);		
