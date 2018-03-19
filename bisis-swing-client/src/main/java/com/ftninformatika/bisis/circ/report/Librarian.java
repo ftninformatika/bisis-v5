@@ -70,7 +70,6 @@ public class Librarian {
 			JRXmlDataSource ds;
 
 			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
-			params.put(JRParameter.REPORT_LOCALE,new Locale(BisisApp.appConfig.getClientConfig().getLocale()));
 			List<com.ftninformatika.bisis.circ.pojo.Report> results = null;
 			results = BisisApp.bisisService.getLibrarianReport(new PathDate(date), loc).execute().body();
 
