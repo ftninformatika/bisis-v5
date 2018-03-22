@@ -122,6 +122,7 @@ public class SerialInventarPanel extends InventarPanel {
   private void createGodineTable(){
     godineTableModel = new GodineTableModel();
     godineTable = new JTable(godineTableModel);
+    godineTable.putClientProperty("Quaqua.Table.style", "striped");
     godineTable.setRowSorter(new TableRowSorter<GodineTableModel>(godineTableModel));    
     godineScrollPane = new JScrollPane(godineTable);
     adjustInventarColumnWidth();

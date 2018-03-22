@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis;
 
+import ch.randelshofer.quaqua.QuaquaManager;
+import ch.randelshofer.quaqua.leopard.Quaqua15LeopardCrossPlatformLookAndFeel;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.login.*;
@@ -11,7 +13,6 @@ import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.service.RecordManager;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.RetrofitUtils;
-import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import retrofit2.Call;
@@ -20,13 +21,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 public class BisisApp {
 
   public static void main(String[] args) {
-
-
 
     Properties props = new Properties();
     String profile = null;
@@ -44,21 +45,19 @@ public class BisisApp {
       appConfig = ConfigFactory.getConfig(ConfigType.DEVELOPMENT);
     }
 
-    UIManager.put("swing.boldMetal", Boolean.FALSE);
-
-
+    //Swing komponente koje zelimo iz default teme (zbog editora)
+    Set exc = new HashSet();
+//    exc.add("Component");
+    exc.add("Tree");
+    exc.add("SidebarTreeModel");
+    QuaquaManager.setExcludedUIs(exc);
     try {
-      UIManager.installLookAndFeel("seaglass", "com.seaglasslookandfeel.SeaGlassLookAndFeel");
-      UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+      UIManager.setLookAndFeel(new Quaqua15LeopardCrossPlatformLookAndFeel());
 
-      //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
       return;
     }
-    //JDialog.setDefaultLookAndFeelDecorated(true);
-
-
     Font f = new Font("sans-serif", Font.PLAIN, 15);
     UIManager.put("Menu.font", f);
 

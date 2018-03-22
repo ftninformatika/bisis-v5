@@ -46,7 +46,7 @@ public class Report {
 	private ComboBoxRenderer cmbRenderer = null;
 	private List<String> listReports = new Vector<String>();
 
-	
+
 	public Report() {
 		makePanel();
 	}
@@ -82,27 +82,27 @@ public class Report {
 		return pb.getPanel();
 	}
 	private List init() {
-		listReports.add("Knjiga upisa po bibliotekaru");
-		listReports.add("Knjiga upisa po kategoriji");
-		listReports.add("Knjiga upisa po vrsti u\u010dlanjenja");
-		listReports.add("Struktura upisanih \u010dlanova");
-		listReports.add("Struktura posetilaca");
-		listReports.add("Posetioci");
-		listReports.add("Zbirni izve\u0161taj");
-		listReports.add("\u010citaoci sa najvi\u0161e pro\u010ditanih knjiga");
-		listReports.add("Korisnici sa blokiranim karticama");
-		listReports.add("Kolektivni \u010dlanovi");
-		listReports.add("Knjiga upisanih");
-		listReports.add("Individualni \u010dlanovi upisani preko kolektivnog \u010dlana");
-		listReports.add("Istorija \u010dlana");
-		listReports.add("Kartica knjige");
-		listReports.add("Pozajmljene po UDK");
-		listReports.add("Naj\u010ditanije knjige");
-		listReports.add("Naj\u010ditanije knjige iz UDK");
-		listReports.add("Izdate/Vra\u0107ene knjige po UDK");
-		listReports.add("Izdate/Vra\u0107ene knjige po jeziku");
-		listReports.add("Slikovnice");
-		listReports.add("Statistika po bibliotekarima");
+		listReports.add(Messages.getString("circulation.librarianbook"));
+		listReports.add(Messages.getString("circulation.catbook"));
+		listReports.add(Messages.getString("circulation.signtypebook"));
+		listReports.add(Messages.getString("circulation.structsignedmembers"));
+		listReports.add(Messages.getString("circulation.visitorsstructure"));
+		listReports.add(Messages.getString("circulation.visitors"));
+		listReports.add(Messages.getString("circulation.zbreport"));
+		listReports.add(Messages.getString("circulation.bestreaders"));
+		listReports.add(Messages.getString("circulation.blockedmembers"));
+		listReports.add(Messages.getString("circulation.colectivemembers"));
+		listReports.add(Messages.getString("circulation.signedbook"));
+		listReports.add(Messages.getString("circulation.individualbycollective"));
+		listReports.add(Messages.getString("circulation.memberhistory"));
+		listReports.add(Messages.getString("circulation.bookcard"));
+		listReports.add(Messages.getString("circulation.lendbyudc"));
+		listReports.add(Messages.getString("circulation.bestbooks"));
+		listReports.add(Messages.getString("circulation.besbooksudc"));
+		listReports.add(Messages.getString("circulation.lendreturnudc"));
+		listReports.add(Messages.getString("circulation.lendreturnlan"));
+		listReports.add(Messages.getString("circulation.picturebooksreport"));
+		listReports.add(Messages.getString("circulation.librarianstatistic"));
 		return listReports;
 	}
 	private JComboBox getCmbReport() {
@@ -124,7 +124,7 @@ public class Report {
 		int value = cmbReport.getSelectedIndex();
 		switch (value) {
 			case 1 :
-				getLName().setText("Dnevni izve\u0161taj upisanih \u010dlanova sa bilansom");
+				getLName().setText(Messages.getString("circulation.case1"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(false);
@@ -133,7 +133,7 @@ public class Report {
 				break;
 
 			case 2 :
-				getLName().setText("Dnevni izve\u0161taj upisanih \u010dlanova po kategoriji korisnika sa bilansom");
+				getLName().setText(Messages.getString("circulation.case2"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(false);
@@ -142,7 +142,7 @@ public class Report {
 				break;
 
 			case 3 :
-				getLName().setText("Dnevni izve\u0161taj upisanih \u010dlanova po vrsti u\u010dlanjenja sa bilansom");
+				getLName().setText(Messages.getString("circulation.case3"));
 				getTfStartDate().setVisible(true);
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(false);
@@ -151,7 +151,7 @@ public class Report {
 				break;
 				
 			case 4 :
-				getLName().setText("Struktura upisanih \u010dlanova");
+				getLName().setText(Messages.getString("circulation.case4"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(true);
@@ -160,7 +160,7 @@ public class Report {
 				break;
 				
 			case 5 :
-				getLName().setText("Struktura posetilaca");
+				getLName().setText(Messages.getString("circulation.case5"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(true);
@@ -169,7 +169,7 @@ public class Report {
 				break;
 			
 			case 6 :
-				getLName().setText("Posetioci");
+				getLName().setText(Messages.getString("circulation.case6"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(false);
@@ -178,7 +178,7 @@ public class Report {
 				break;
 				
 			case 7 :
-				getLName().setText("Zbirni izve\u0161taj korisnika i zadu\u017eenja");
+				getLName().setText(Messages.getString("circulation.case7"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(true);
@@ -187,7 +187,7 @@ public class Report {
 				break;
 			
 			case 8 :
-				getLName().setText("Najbolji \u010ditaoci");
+				getLName().setText(Messages.getString("circulation.case8"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(true);
@@ -196,7 +196,7 @@ public class Report {
 				break;
 				
 			case 9 :
-				getLName().setText("Korisnici sa blokiranom karticom");
+				getLName().setText(Messages.getString("circulation.case9"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(false);
 				getTfStartDate().setVisible(false);
@@ -204,7 +204,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				break;
 			case 10 :
-				getLName().setText("Kolektivni \u010dlanovi");
+				getLName().setText(Messages.getString("circulation.case10"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(false);
 				getTfStartDate().setVisible(false);
@@ -212,7 +212,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				break;
 			case 11 :
-				getLName().setText("Knjiga upisanih");
+				getLName().setText(Messages.getString("circulation.case11"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
@@ -220,37 +220,37 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				break;
 			case 12 :
-				getLName().setText("Individualni \u010dlanovi upisani preko kolektivnog \u010dlana");
+				getLName().setText(Messages.getString("circulation.case12"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
-				getLTfCmb().setText("Grupa");
+				getLTfCmb().setText(Messages.getString("circulation.group"));
 				getLTfCmb().setVisible(true);
 				setCmbModel();
 		        getCmbGroup().setVisible(true);
 				break;
 			case 13 :
-				getLName().setText("Istorija zadu\u017eenja \u010dlana");
+				getLName().setText(Messages.getString("circulation.case13"));
 				getTfNumber().setText("");
 				getTfNumber().setVisible(true);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
-				getLTfCmb().setText("Broj \u010dlana");
+				getLTfCmb().setText(Messages.getString("circulation.membernum"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
 				break;
 			case 14 :
-				getLName().setText("Kartica knjige");
+				getLName().setText(Messages.getString("circulation.case14"));
 				getTfNumber().setText("");
 				getTfNumber().setVisible(true);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
-				getLTfCmb().setText("Inventarni broj");
+				getLTfCmb().setText(Messages.getString("circulation.invnum"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
 				break;
 			case 15 :
-				getLName().setText("Izve\u0161taj o pozajmljenim knjigama po kategorijama korisnika");
+				getLName().setText(Messages.getString("circulation.case15"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
@@ -259,7 +259,7 @@ public class Report {
 				break;
 				
 			case 16:
-				getLName().setText("Naj\u010ditanije knjige");
+				getLName().setText(Messages.getString("circulation.case16"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
@@ -267,17 +267,17 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				break;
 			case 17:
-				getLName().setText("Naj\u010ditanije knjige iz UDK");
+				getLName().setText(Messages.getString("circulation.case17"));
 				getTfNumber().setText("");
 				getTfNumber().setVisible(true);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
-				getLTfCmb().setText("UDK");
+				getLTfCmb().setText(Messages.getString("circulation.udc"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
 				break;
 			case 18:
-				getLName().setText("Izdate/Vra\u0107ene knjige po UDK");
+				getLName().setText(Messages.getString("circulation.case18"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
@@ -285,7 +285,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				break;
 			case 19:
-				getLName().setText("Izdate/Vra\u0107ene knjige po jeziku");
+				getLName().setText(Messages.getString("circulation.case19"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
@@ -293,7 +293,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				break;
 			case 20:
-				getLName().setText("Slikovnice");
+				getLName().setText(Messages.getString("circulation.case20"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
@@ -301,7 +301,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				break;
 			case 21:
-				getLName().setText("Statistika po bibliotekarima");
+				getLName().setText(Messages.getString("circulation.case21"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
@@ -383,7 +383,7 @@ public class Report {
 	private JButton getBtnSearch() {
 		if (btnSearch == null) {
 			btnSearch = new JButton();
-			btnSearch.setText("Pretra\u017ei");
+			btnSearch.setText(Messages.getString("circulation.search"));
 			btnSearch.setIcon(new ImageIcon(getClass().getResource(
 					"/circ-images/find16.png")));
 			btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -447,11 +447,11 @@ public class Report {
 										Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(jp);
 										Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									} else {
-										JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), "Nepostoje\u0107i korisnik", "Greska", JOptionPane.ERROR_MESSAGE,
+										JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), Messages.getString("circulation.memberdoesntexist"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
 												new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 									}
 								}else{
-									JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), "Broj korisnika nije validan", "Greska", JOptionPane.ERROR_MESSAGE,
+									JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame().getReport().getPanel(), Messages.getString("circulation.membernuminvalid"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
 											new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 								}
 			            break;
@@ -461,7 +461,7 @@ public class Report {
 									  Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BookHistory.setPrint(ctlgno,getTfStartDate().getDate(),getTfEndDate().getDate(),getCmbLocation().getSelectedItem()));
 									  Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 								}else {
-									JOptionPane.showMessageDialog(getPanel(), "Inventarni broj nije validan!", "Greska", JOptionPane.ERROR_MESSAGE,
+									JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.invnumnotvalid"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
 								new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 											}
 						break;
@@ -493,8 +493,8 @@ public class Report {
 				          Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LibrarianStatistic.setPrint(getTfStartDate().getDate(),getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
 				          Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 				          break;
-						default : JOptionPane.showMessageDialog(null, "Niste uneli podatke!",
-					             "Greska", JOptionPane.ERROR_MESSAGE);
+						default : JOptionPane.showMessageDialog(null, Messages.getString("circulation.nodataentered"),
+								Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
 
 					}
 					//clear();
@@ -502,7 +502,7 @@ public class Report {
 				  }
 				  catch(Exception exc1){
 				  	exc1.printStackTrace();
-				  	JOptionPane.showMessageDialog(null, "Greska!", "Greska",JOptionPane.ERROR_MESSAGE);
+				  	JOptionPane.showMessageDialog(null, Messages.getString("circulation.error"), Messages.getString("circulation.error"),JOptionPane.ERROR_MESSAGE);
 				  }
 				}
 			});
@@ -514,7 +514,7 @@ public class Report {
 	private JButton getBtnCancel() {
 		if (btnCancel == null) {
 			btnCancel = new JButton();
-			btnCancel.setText("Odustani");
+			btnCancel.setText(Messages.getString("circulation.cancel"));
 			btnCancel.setIcon(new ImageIcon(getClass().getResource(
 					"/circ-images/Delete16.png")));
 			btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -542,7 +542,7 @@ public class Report {
 		if (lName == null) {
 			lName = new JLabel();
 			lName.setForeground(Color.blue);
-			lName.setText("Pun naziv izvestaja");
+			lName.setText(Messages.getString("circulation.fullreportname"));
 		}
 		return lName;
 	}
@@ -550,7 +550,7 @@ public class Report {
 	private JLabel getLTfCmb() {
 		if (lTfCmb == null) {
 			lTfCmb = new JLabel();
-			lTfCmb.setText("Broj");
+			lTfCmb.setText(Messages.getString("circulation.partnumber"));
 		}
 		return lTfCmb;
 	}
