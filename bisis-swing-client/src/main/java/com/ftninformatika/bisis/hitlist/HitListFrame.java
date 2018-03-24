@@ -37,8 +37,6 @@ import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
-import com.seaglasslookandfeel.ui.SeaGlassListUI;
-import com.seaglasslookandfeel.ui.SeaGlassTableUI;
 import net.miginfocom.swing.MigLayout;
 
 public class HitListFrame extends JInternalFrame {
@@ -62,7 +60,6 @@ public class HitListFrame extends JInternalFrame {
     btnAnalitika.setIcon(new ImageIcon(EditorFrame.class.getResource("/icons/doc_rich16.png")));
     
     lbHitList.setModel(hitListModel);
-    lbHitList.setUI(new SeaGlassListUI());
     lbHitList.setCellRenderer(renderer);
     spHitList.setViewportView(lbHitList);    
     //spHitList.setPreferredSize(new Dimension(500, 500));
@@ -81,6 +78,7 @@ public class HitListFrame extends JInternalFrame {
 			inventarTable.setModel(inventarTableModel);
 			inventarTable.setAutoCreateRowSorter(true);
 			inventarTable.setCellSelectionEnabled(true);
+			inventarTable.putClientProperty("Quaqua.Table.style", "striped");
 			//inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
             //inventarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			adjustInventarColumnWidth();

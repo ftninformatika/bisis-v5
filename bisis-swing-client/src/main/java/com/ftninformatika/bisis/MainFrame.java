@@ -34,9 +34,6 @@ public class MainFrame extends JFrame {
         add(getStatusnaLinija(), BorderLayout.SOUTH);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        if (UIManager.getLookAndFeel().getName().equals("SeaGlass"))
-            fixFullScreen();
-
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 shutdown();
