@@ -213,7 +213,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="12" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" size="12" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Финансијски извештај]]></text>
 			</staticText>
@@ -226,7 +226,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{period}]]></textFieldExpression>
 			</textField>
@@ -239,7 +239,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[Библиотека града Београда]]></text>
 			</staticText>
@@ -262,7 +262,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[Сигла]]></text>
 			</staticText>
@@ -275,7 +275,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[Огранак]]></text>
 			</staticText>
@@ -291,7 +291,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[укупно ]]></text>
@@ -305,7 +305,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[ОП НБС]]></text>
@@ -319,7 +319,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[маркетинг]]></text>
 			</staticText>
@@ -332,7 +332,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[поклон]]></text>
@@ -346,7 +346,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[издање БгБ]]></text>
@@ -360,7 +360,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[куповина]]></text>
@@ -410,7 +410,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[затечено]]></text>
@@ -427,7 +427,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[откуп РС]]></text>
@@ -441,7 +441,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[поклон издавача]]></text>
@@ -458,7 +458,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[неразврстано]]></text>
@@ -472,7 +472,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[замена]]></text>
@@ -486,7 +486,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[откуп СГ]]></text>
@@ -503,7 +503,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -517,7 +517,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -531,7 +531,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -545,7 +545,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -559,7 +559,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -573,7 +573,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -587,7 +587,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -601,7 +601,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -615,7 +615,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -629,7 +629,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -643,7 +643,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -657,7 +657,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -674,7 +674,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -688,7 +688,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -702,7 +702,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -716,7 +716,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -730,7 +730,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -744,7 +744,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -758,7 +758,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -772,7 +772,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -786,7 +786,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -800,7 +800,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -814,7 +814,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -828,7 +828,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -842,7 +842,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -856,7 +856,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -873,7 +873,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[размена]]></text>
@@ -929,7 +929,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Н]]></text>
@@ -974,7 +974,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ogranak}]]></textFieldExpression>
 			</textField>
@@ -987,7 +987,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sigla}]]></textFieldExpression>
 			</textField>
@@ -1054,84 +1054,84 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 			<textField>
 				<reportElement x="209" y="0" width="21" height="65" uuid="92ee8c93-32b8-4063-a8a6-3d07748203d5"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{razmenaP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="299" y="0" width="21" height="65" uuid="ac4c1ecd-b66e-48ac-9914-2383877d1f3f"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kupovinaP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="344" y="0" width="22" height="65" uuid="b9ccb774-29bd-422e-b6c4-54231899d81d"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{poklonIP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="476" y="0" width="23" height="65" uuid="ce601dff-2d6f-45db-b711-ecbe87e89bf8"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{opsgP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="564" y="0" width="22" height="65" uuid="9b201fc5-a27c-4922-b374-b12de61c2e6d"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{oprsP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="252" y="0" width="23" height="65" uuid="5a24bf68-93b2-4a8e-8e0c-fcfab8f743c0"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{izdanjeBGBP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="387" y="0" width="21" height="65" uuid="b0bdb5ca-6070-49bf-8bf2-61d94240bf67"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{markP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="432" y="0" width="21" height="65" uuid="fce093e0-e447-405a-9f6b-b31b59abec2b"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{opnbsP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="520" y="0" width="22" height="65" uuid="972f50a2-9b06-4155-87ba-3d2bd95f273b"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{poklonP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="651" y="0" width="18" height="65" uuid="44a5afce-bd34-46e4-86ba-43b8a33334e2"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zamP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="689" y="0" width="20" height="65" uuid="89e69e33-b8c1-49db-b7fd-09647511fff7"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nerP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="608" y="0" width="20" height="65" uuid="376afa83-fbb3-43e8-b5ce-2884e1939547"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zatP}]]></textFieldExpression>
 			</textField>
@@ -1144,105 +1144,105 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 			<textField>
 				<reportElement x="728" y="0" width="15" height="65" uuid="2a0ed01c-4652-4cf3-b45a-e90a1a99d510"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ukupnoNas}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="276" y="0" width="21" height="65" uuid="d14ead5b-f6f1-4cc1-99b8-275faa572677"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{izdanjeBGBC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="321" y="0" width="23" height="65" uuid="18f9bcc4-7207-4867-8ac0-1d08dd12d77b"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kupovinaC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="366" y="0" width="22" height="65" uuid="927b71b1-2d0c-42cf-a26d-b51c6468eb68"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{poklonIC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="409" y="0" width="22" height="65" uuid="b818eae1-fe4a-488d-98e8-5eb4053a1c77"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{markC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="454" y="0" width="21" height="65" uuid="20e0b86b-d558-4bc8-b014-136315d31164"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{opnbsC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="499" y="0" width="21" height="65" uuid="4dea6ebb-9570-4594-9eb9-e88ecc62b3fe"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{opsgC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="542" y="0" width="21" height="65" uuid="914fee06-b143-4187-8c04-3ef8b504a7b0"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{poklonC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="710" y="0" width="18" height="65" uuid="37d15b9c-3841-40b1-bf90-0817a61c4cdc"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nerC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="671" y="0" width="16" height="65" uuid="5bf4cc41-5e0b-4c63-94a2-bdf143aaf5ef"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zamC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="587" y="0" width="20" height="65" uuid="45eb8ae9-669d-4ca5-8d12-7e1572a453f0"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{oprsC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="629" y="0" width="21" height="65" uuid="bae92a40-8941-4506-9a5d-e5e26ecdf4c6"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zatC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="745" y="0" width="17" height="65" uuid="b24a1bbd-8178-4a26-8630-31366f65c4ad"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{ukupnoP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="762" y="0" width="16" height="65" uuid="4b991690-86e4-44a2-b3a7-0a02bbc25974"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{ukupnoC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="230" y="0" width="22" height="65" uuid="9174ca4e-37fc-4ac7-a916-3cb3ce5776fc"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{razmenaC}]]></textFieldExpression>
 			</textField>
@@ -1277,7 +1277,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[УКУПНО]]></text>
 			</staticText>
@@ -1311,7 +1311,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Ц]]></text>
@@ -1325,7 +1325,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Н]]></text>
@@ -1339,7 +1339,7 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[П]]></text>
@@ -1407,189 +1407,189 @@ Double.parseDouble($F{zatC}))]]></variableExpression>
 			<textField>
 				<reportElement x="209" y="0" width="20" height="65" uuid="0848d989-bb73-4551-99b0-07174c40b165"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{razmenaP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="253" y="0" width="22" height="65" uuid="df510935-28de-49b7-a7fe-ba96c9cacf2a"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{izdBGBP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="299" y="0" width="21" height="65" uuid="c47ad52c-325a-41f3-92da-639b4d9d0174"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{kupovinaP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="344" y="0" width="21" height="65" uuid="c91dad70-51db-4b1f-ba1e-e541dc47d67e"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{poklonIP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="388" y="0" width="20" height="65" uuid="c7720175-34cb-4d13-8f1d-cea9b0e271a4"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{markP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="432" y="0" width="21" height="65" uuid="e87c6beb-eaf5-4b9e-b057-28a3c1357bf0"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{opnbsP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="476" y="0" width="22" height="65" uuid="30e74100-eb55-4850-8cd2-2b2fb2440b1f"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{opsgP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="521" y="0" width="20" height="65" uuid="1f4d2668-45f7-4acc-92a5-af412403362c"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{pokolnP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="564" y="0" width="22" height="65" uuid="e1a37f40-b646-43e9-8621-0ed297eb9257"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{oprsP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="607" y="0" width="22" height="65" uuid="83a1613e-7262-4282-a11d-55a42bdb5e9f"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{zatP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="651" y="0" width="18" height="65" uuid="ef78e670-8b4a-46fd-bb1b-c237ee485998"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{zamP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="689" y="0" width="20" height="65" uuid="33ea878b-1953-485d-ac56-e7e21bebc3ef"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{nerP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="745" y="0" width="14" height="65" uuid="0f90195a-e0e1-45ea-b01c-fe73231cc491"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sveP}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="761" y="0" width="16" height="65" uuid="2786220a-9bbd-4cf9-87f8-2015dae0aa8f"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sveC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="454" y="0" width="21" height="65" uuid="45cbeb6d-aa99-45a8-83ff-b98a8e7b9e2d"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{opnbsC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="499" y="0" width="21" height="65" uuid="d522f066-b15b-4379-8ef2-3e637a2f8bfd"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{opsgC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="542" y="0" width="21" height="65" uuid="2fe8b770-fd95-41c3-96ed-434e3512538a"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{poklonC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="586" y="0" width="21" height="65" uuid="f39865c4-c67c-406a-9eba-f9b81f195f8c"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{oprsC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="629" y="0" width="21" height="65" uuid="5a7b1a46-a532-49f6-8da7-4b21383f2c23"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{zatC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="669" y="0" width="18" height="65" uuid="0d7fdf0d-35b6-48f7-bee7-82db94c15dc1"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{zamC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="728" y="0" width="16" height="65" uuid="202cd23d-8815-417d-b746-27b8a6d9f5a9"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{brojNaslova}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="710" y="0" width="18" height="65" uuid="d97c71de-1c54-446e-bf3f-bcc920a89cfa"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{nerC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="409" y="0" width="22" height="65" uuid="8a037a32-45c8-42d7-9e68-c5928c38ec1d"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{markC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="366" y="0" width="21" height="65" uuid="d52246d5-6024-4b95-8deb-ab953e671294"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{pokolnIC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="321" y="0" width="21" height="65" uuid="5d5fc5e8-1e35-4a98-9e43-71d95c17b5ef"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{kupovinaC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="276" y="0" width="21" height="65" uuid="70deb6e5-3981-425b-8cbe-33de0f2de5bf"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{izdbgbC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="230" y="0" width="23" height="65" uuid="01c1a4e8-261a-40de-88a4-feffcfad958d"/>
 				<textElement verticalAlignment="Middle" rotation="Left">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{razmenaC}]]></textFieldExpression>
 			</textField>
