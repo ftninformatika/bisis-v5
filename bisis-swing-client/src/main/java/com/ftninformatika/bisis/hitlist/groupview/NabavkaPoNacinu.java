@@ -51,7 +51,7 @@ public class NabavkaPoNacinu {
 					.fillReport(
 							NabavkaPoNacinu.class
 									.getResource(
-											"/com/gint/app/bisis4/client/hitlist/groupview/NabavkaPoNacinu.jasper")
+											"/jaspers/groupview/NabavkaPoNacinu.jasper")
 									.openStream(), param, dataSource);
 			return jp;
 
