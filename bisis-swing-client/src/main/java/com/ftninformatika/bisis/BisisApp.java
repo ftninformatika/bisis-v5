@@ -15,6 +15,7 @@ import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.RetrofitUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.LoggerFactory;
 import retrofit2.Call;
 
 import javax.swing.*;
@@ -31,8 +32,11 @@ public class BisisApp {
     PropertyConfigurator.configure(BisisApp.class.getResourceAsStream("/log4j.properties"));
     Logger.getLogger(BisisApp.class).info("BISIS5 se pokrece");
 
-    Properties props = new Properties();
+    ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(
+        ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+    root.setLevel(ch.qos.logback.classic.Level.INFO);
 
+    Properties props = new Properties();
     String profile = null;
     try (final InputStream stream = BisisApp.class.getResourceAsStream("/config.properties")) {
       props.load(stream);
