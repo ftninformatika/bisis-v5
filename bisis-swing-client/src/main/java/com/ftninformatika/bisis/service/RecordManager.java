@@ -55,8 +55,8 @@ public class RecordManager {
         return BisisApp.bisisService.createRecord(rec).execute().body() != null;
     }
 
-    public Record update(Record rec) {
-        return null;
+    public Record update(Record rec) throws IOException {
+        return BisisApp.bisisService.updateRecord(rec).execute().body();
     }
 
     public boolean delete(String _id) throws IOException {

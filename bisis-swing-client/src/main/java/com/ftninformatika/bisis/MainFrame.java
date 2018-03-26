@@ -14,14 +14,12 @@ import com.ftninformatika.bisis.report.ReportFrame;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import net.sf.jasperreports.engine.JasperPrint;
-import sun.java2d.SunGraphicsEnvironment;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.text.MessageFormat;
-import java.util.List;
 import javax.swing.*;
 
 

@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.editor.inventar;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 
 import java.text.SimpleDateFormat;
 
@@ -31,8 +30,8 @@ public class InventarConstraints {
 		defaultPrimerakInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultPrimerakInvKnj();
 		defaultGodinaInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultGodinaInvKnj();
 		defaultSveskaInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultSveskaInvKnj();
-		if(HoldingsDataCoders.getCoder(HoldingsDataCoders.ODELJENJE_CODER).size()==1){
-			defaultOdeljenje = HoldingsDataCoders.getCoder(HoldingsDataCoders.ODELJENJE_CODER).get(0).getCode();
+		if(BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER).size()==1){
+			defaultOdeljenje = BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER).get(0).getCode();
 		}
 		
 		

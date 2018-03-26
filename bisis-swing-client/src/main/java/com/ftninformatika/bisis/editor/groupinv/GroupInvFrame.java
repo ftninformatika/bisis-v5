@@ -189,7 +189,7 @@ public class GroupInvFrame extends JInternalFrame {
 			for(String invBroj:invBrojevi){				
 				tableModel.addItem(invBroj.trim());			
 			}
-			*/		
+			*/
 			for(String invBroj:tableModel.getNeispravni()){
 				GroupInvFileUtils.errwriter.append(invBroj+"\n");
 			}

@@ -231,9 +231,10 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 			USubfield usf = (USubfield)currElement;
 			if(usf.getOwner().getName().equalsIgnoreCase("992")){ //cita sifarnik iz baze
 				if (usf.getName()=='b'){
-					ccd=new TableCodeChoiceDialog(usf,HoldingsDataCoders._992b_CODER,BisisApp.getMainFrame());
+					//TODO
+					ccd=new TableCodeChoiceDialog(usf,BisisApp.appConfig.getCodersHelper()._992b_CODER,BisisApp.getMainFrame());
 				}else if(usf.getName()=='f'){
-					ccd=new TableCodeChoiceDialog(usf,HoldingsDataCoders.LIBRARIAN_CODER,BisisApp.getMainFrame());
+					ccd=new TableCodeChoiceDialog(usf,BisisApp.appConfig.getCodersHelper().LIBRARIAN_CODER,BisisApp.getMainFrame());
 				}else{ //ostala sifrirana polja 992 ne cita iz baze
 					ccd = new SubfieldCodeChoiceDialog(usf,BisisApp.getMainFrame());
 				}

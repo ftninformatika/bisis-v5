@@ -27,7 +27,6 @@ import javax.swing.table.TableColumn;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.Obrada;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.string.Signature;
@@ -53,8 +52,8 @@ public class SveskePanel extends JPanel {
   
   public SveskePanel(SerialInventarPanel parent){
     sveskeTableModel = new SveskeTableModel(null);    
-    invKnjPanel = new CodedValuePanel(HoldingsDataCoders.INVENTARNAKNJIGA_CODER,this);
-    statusPanel = new CodedValuePanel(HoldingsDataCoders.STATUS_CODER,this);
+    invKnjPanel = new CodedValuePanel(BisisApp.appConfig.getCodersHelper().INVENTARNAKNJIGA_CODER,this);
+    statusPanel = new CodedValuePanel(BisisApp.appConfig.getCodersHelper().STATUS_CODER,this);
     invBrojPanel = new InventarniBrojPanel();   
     this.parent = parent;
     cenaTxtFld = new JTextField(10);
