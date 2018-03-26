@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -29,7 +30,9 @@ public class ReportApplication {
         ReportApplication.class.getResourceAsStream("/log4j.properties"));
     Logger.getLogger(ReportApplication.class).info("BISIS5 Report generator starting...");
 
-    System.setProperty("logging.pattern.console", "");
+
+    ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+    root.setLevel(ch.qos.logback.classic.Level.INFO);
 
     AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
     ctx.getEnvironment().setActiveProfiles("reporting");
