@@ -22,8 +22,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.swing.JRViewer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -46,7 +45,7 @@ public class User extends JPanel {
 	private Picturebooks picturebooks = null;
 	private JPanel pPrint = null;
 	private Warnings pWarnings = null;
-	private static Log log = LogFactory.getLog(User.class.getName());
+	private static Logger log = Logger.getLogger(User.class);
 	private boolean dirty = false;
 
 

@@ -14,8 +14,6 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.options.OptionsFrame;
 import com.ftninformatika.bisis.circ.view.User;
 import com.ftninformatika.utils.Messages;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.apache.commons.validator.Field;
 import org.apache.commons.validator.Form;
@@ -24,6 +22,7 @@ import org.apache.commons.validator.ValidatorAction;
 import org.apache.commons.validator.ValidatorResources;
 import org.apache.commons.validator.ValidatorResult;
 import org.apache.commons.validator.ValidatorResults;
+import org.apache.log4j.Logger;
 
 
 public class Validate {
@@ -31,7 +30,7 @@ public class Validate {
 	//private static ResourceBundle res = ResourceBundle.getBundle("circ_validator.validatorResources");
 	private static ResourceBundle res;
 	private static final String BUNDLE_NAME = "circ_validator/validatorResources.properties";
-    private static Log log = LogFactory.getLog(Validate.class.getName());
+	private static Logger log = Logger.getLogger(Validate.class);
 
 
 	static  {
