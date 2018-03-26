@@ -10,8 +10,7 @@ import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.string.Signature;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 /**
  * @author Bojana
@@ -54,7 +53,7 @@ public class InventarTabTableModel extends AbstractTableModel {
   private int primerciColumnCount;
   private int godineColumnCount;
   
-  private static Log log = LogFactory.getLog(InventarTabTableModel.class.getName());
+  private static Logger log = Logger.getLogger(InventarTabTableModel.class);
   
 	public InventarTabTableModel(){
 		super();

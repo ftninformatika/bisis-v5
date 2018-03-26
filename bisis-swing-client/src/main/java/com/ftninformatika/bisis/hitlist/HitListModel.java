@@ -4,10 +4,7 @@ import javax.swing.AbstractListModel;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.service.BisisService;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -69,5 +66,5 @@ public class HitListModel extends AbstractListModel {
 
   private Record[] records; //promenjeno u drugi models radi testiranja hitlist frame-a
   
-  private static Log log = LogFactory.getLog(HitListModel.class);
+  private static Logger log = Logger.getLogger(HitListModel.class);
 }

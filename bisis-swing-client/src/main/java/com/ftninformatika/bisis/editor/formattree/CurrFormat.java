@@ -12,8 +12,7 @@ import com.ftninformatika.bisis.format.UFormat;
 import com.ftninformatika.bisis.format.USubfield;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class CurrFormat {
@@ -24,7 +23,7 @@ public class CurrFormat {
   private static int pubType = 1;
   private static List<USubfield> mandatorySubfields = null;
   
-  private static Log log = LogFactory.getLog(CurrFormat.class.getName());
+  private static Logger log = Logger.getLogger(CurrFormat.class);
   
 //lista polja iz bloka 4 koja sadrze sekundarna polja
   public static List<String> block4 = new ArrayList<String>();
@@ -247,7 +246,7 @@ public class CurrFormat {
 		return format.getField(ownerName).getSubfield(sfName).getCoder()!=null;
 	}
   
-  public static Log getLog(){
+  public static Logger getLog(){
     return log;
   }
   
