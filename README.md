@@ -26,7 +26,7 @@ gradle war
 cd ..
 
 cd bisis-swing-client
-gradle createWebStartDir
+gradle createWebstartDir
 cd .. 
 ```
 
