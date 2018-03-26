@@ -50,7 +50,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans" size="10" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" size="10" pdfEncoding="Cp1251"/>
 				</textElement>
 				<text><![CDATA[Библиотека шабачка]]></text>
 			</staticText>
@@ -63,7 +63,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1251"/>
 				</textElement>
 				<text><![CDATA[Статистика базе за збирне записе]]></text>
 			</staticText>
@@ -76,7 +76,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{period}]]></textFieldExpression>
 			</textField>
@@ -96,7 +96,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<text><![CDATA[рекаталогизовани]]></text>
 			</staticText>
@@ -109,7 +109,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<text><![CDATA[новонабављени]]></text>
 			</staticText>
@@ -122,7 +122,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<text><![CDATA[одељење]]></text>
 			</staticText>
@@ -135,7 +135,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<text><![CDATA[рекаталогизовани]]></text>
 			</staticText>
@@ -148,7 +148,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<text><![CDATA[новонабављени]]></text>
 			</staticText>
@@ -160,7 +160,7 @@
 			<staticText>
 				<reportElement x="280" y="2" width="210" height="15"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[Плакати]]></text>
 			</staticText>
@@ -186,7 +186,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{odeljenje}]]></textFieldExpression>
 			</textField>
@@ -199,7 +199,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{rekatalog}]]></textFieldExpression>
 			</textField>
@@ -212,7 +212,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{rekatPl}]]></textFieldExpression>
 			</textField>
@@ -225,7 +225,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{novoPl}]]></textFieldExpression>
 			</textField>
@@ -244,7 +244,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1251"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1251"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{novo}]]></textFieldExpression>
 			</textField>
@@ -273,7 +273,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[УКУПНО]]></text>
 			</staticText>
@@ -286,7 +286,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{novoPl}]]></textFieldExpression>
 			</textField>
@@ -299,7 +299,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{rekatPl}]]></textFieldExpression>
 			</textField>
@@ -312,7 +312,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{novo}]]></textFieldExpression>
 			</textField>
@@ -325,7 +325,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{usmeravanje}]]></textFieldExpression>
 			</textField>
