@@ -6,8 +6,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.ftninformatika.utils.NetUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -58,7 +57,7 @@ public class Environment extends DefaultHandler{
   	private InputSource xmlsource;
   	private String mac;
   	private String xml;
-  	private static Log log = LogFactory.getLog(Environment.class.getName());
+  	private static Logger log = Logger.getLogger(Environment.class);
 	
 	
 	public Environment(String xml){
