@@ -6,8 +6,7 @@ import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import java.text.NumberFormat;
 import java.util.*;
@@ -459,9 +458,9 @@ public class JeziciPoOgrancima extends Report {
 
 	}
 
-	private static Log log = LogFactory.getLog(JeziciPoOgrancima.class);
+	private static Logger log = Logger.getLogger(JeziciPoOgrancima.class);
 
-	private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
+	private Map<String, List<Item>> itemMap = new HashMap<>();
 
 	NumberFormat nf;
 

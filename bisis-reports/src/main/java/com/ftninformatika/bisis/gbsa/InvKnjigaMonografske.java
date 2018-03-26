@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.gbsa;
 
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,8 +19,7 @@ import com.ftninformatika.bisis.reports.ReportsUtils;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class InvKnjigaMonografske extends Report {
@@ -251,8 +249,8 @@ public class InvKnjigaMonografske extends Report {
 
   SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
   private Pattern pattern;
-  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-  private static Log log = LogFactory.getLog(InvKnjigaMonografske.class);
+  private Map<String, List<Item>> itemMap = new HashMap<>();
+  private static Logger log = Logger.getLogger(InvKnjigaMonografske.class);
   
 //@Override
 public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom

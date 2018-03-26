@@ -1,10 +1,7 @@
 package com.ftninformatika.bisis.bgb;
 
-import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,9 +15,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.apache.log4j.Logger;
 
 
 public class OpstinskeStvarnoStanjeFonda extends Report {
@@ -570,7 +565,7 @@ public class OpstinskeStvarnoStanjeFonda extends Report {
  
   
   private Map<String, List<Ogranak>> itemMap = new HashMap<String, List<Ogranak>>();
-  private static Log log = LogFactory.getLog(OpstinskeStvarnoStanjeFonda.class);
+  private static Logger log = Logger.getLogger(OpstinskeStvarnoStanjeFonda.class);
   NumberFormat nf;
 //  private Set ukupnoNaslova = new HashSet();
 //  private Set ukupnoNerashodovanihNaslova = new HashSet();

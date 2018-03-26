@@ -18,8 +18,7 @@ import com.ftninformatika.bisis.reports.Period;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 public class InvKnjigaKartografskaGradja extends Report {
 	public class Item implements Comparable {
@@ -320,7 +319,7 @@ public class InvKnjigaKartografskaGradja extends Report {
   private Pattern pattern;
   private List<Item> items = new ArrayList<Item>();
   private String name;
-  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-  private static Log log = LogFactory.getLog(InvKnjigaKartografskaGradja.class);
+  private Map<String, List<Item>> itemMap = new HashMap<>();
+  private static Logger log = Logger.getLogger(InvKnjigaKartografskaGradja.class);
 
 }

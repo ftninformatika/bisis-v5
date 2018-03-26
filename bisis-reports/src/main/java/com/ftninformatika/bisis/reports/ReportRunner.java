@@ -1,74 +1,69 @@
 package com.ftninformatika.bisis.reports;
 
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.controller.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-
 public class ReportRunner {
 
-	public ReportRunner(ReportCollection reportCollection, RecordsRepository recrep) {
-		this.reportCollection = reportCollection;
-		this.recrep=recrep;
-	}
+  public ReportRunner(ReportCollection reportCollection, RecordsRepository recrep) {
+    this.reportCollection = reportCollection;
+    this.recrep = recrep;
+  }
 
+  public void run() {
+    int page = 0;
+    Pageable p = new PageRequest(page, 1000);
+    Page<Record> records = recrep.findAll(p);
 
-
-	public void run() {
-	    int page=0;
-		Pageable p = new PageRequest(page, 1000);
-		Page<Record> records=recrep.findAll(p);
-
-		int count = 0;
+    int count = 0;
+    for (Report r : reportCollection.getReports()) {
+      try {
+        r.init();
+      } catch (Exception e) {
+        log.warn("greska pri inicijalizacije izvestaja");
+      }
+    }
+    do {
+      for (Record rec : records) {
+        count++;
         for (Report r : reportCollection.getReports()) {
-            try {
-                r.init();
-            }catch(Exception e){
-                log.warn("greska pri inicijalizacije izvestaja");
-            }
+          try {
+            r.handleRecord(rec);
+          } catch (Exception ex) {
+            ex.printStackTrace();
+            log.warn("Problem with record ID: " + rec.getRecordID());
+            log.warn("Report: " + r.getReportSettings().getReportName());
+            log.warn(ex);
+          }
+          if (count % 1000 == 0) {
+            System.out.println("Records processed: " + count);
+          }
         }
-            do  {
-                for (Record rec : records) {
-                    count++;
-                    for (Report r : reportCollection.getReports()) {
-                        try {
-                            r.handleRecord(rec);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                            log.warn("Problem with record ID: " + rec.getRecordID());
-                            log.warn("Report: " + r.getReportSettings().getReportName());
-                            log.warn(ex);
-                        }
-                        if (count % 1000 == 0) {
-                            System.out.println("Records processed: " + count);
-                        }
-                    }
-                }
-                //break;
-                records = recrep.findAll(records.nextPageable());
-            }while (records.hasNext());
+      }
+      //break;
+      records = recrep.findAll(records.nextPageable());
+    } while (records.hasNext());
 
-			log.info("Finishing reports");
-			for (Report r : reportCollection.getReports()) {
-				try {
-					r.finish();
+    log.info("Finishing reports");
+    for (Report r : reportCollection.getReports()) {
+      try {
+        r.finish();
 
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					log.fatal(ex);
-				}
-			}
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        log.fatal(ex);
+      }
+    }
 
-			log.info("Done reporting with " + count + " records.");
+    log.info("Done reporting with " + count + " records.");
 
-		}
+  }
 
-	//za generisanje online izvestaja
+  //za generisanje online izvestaja
 	/*public JasperPrint run(String odInvBr, String doInvBr, String reportName) {
 		JasperPrint jp = null;
 		try {
@@ -179,8 +174,8 @@ public class ReportRunner {
 		}
 	}*/
 
-	private static ReportCollection reportCollection;
-	private static RecordsRepository recrep;
-	private static Log log = LogFactory.getLog(ReportRunner.class);
+  private static ReportCollection reportCollection;
+  private static RecordsRepository recrep;
+  private static Logger log = Logger.getLogger(ReportRunner.class);
 
 }

@@ -8,8 +8,7 @@ import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -351,9 +350,9 @@ public class KnjigaInventaraSerijske extends Report {
   SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
   private Period period;
   private Pattern pattern;
-  private List<Item> items = new ArrayList<Item>();
+  private List<Item> items = new ArrayList<>();
   private String name;
-  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-  private static Log log = LogFactory.getLog(KnjigaInventaraSerijske.class);
+  private Map<String, List<Item>> itemMap = new HashMap<>();
+  private static Logger log = Logger.getLogger(KnjigaInventaraSerijske.class);
 
 }

@@ -5,17 +5,16 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
+
 public class StanjeFondaSerijske extends Report {
-  
- 
+
 	 @Override
 	  public void init() {
 			nf = NumberFormat.getInstance(Locale.GERMANY);
@@ -161,8 +160,8 @@ public class StanjeFondaSerijske extends Report {
 	  SimpleDateFormat intern = new SimpleDateFormat("yyyy");
 
 	  private Pattern pattern;
-	  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-	  private static Log log = LogFactory.getLog(RashodovaneMonografske.class);
+	  private Map<String, List<Item>> itemMap = new HashMap<>();
+	  private static Logger log = Logger.getLogger(RashodovaneMonografske.class);
 	  NumberFormat nf;
 
 	}

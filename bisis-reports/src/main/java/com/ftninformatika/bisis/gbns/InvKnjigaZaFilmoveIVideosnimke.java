@@ -20,9 +20,7 @@ import com.ftninformatika.bisis.reports.Period;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.apache.log4j.Logger;
 
 
 public class InvKnjigaZaFilmoveIVideosnimke extends Report {
@@ -337,9 +335,9 @@ public class InvKnjigaZaFilmoveIVideosnimke extends Report {
   SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
   private Period period;
   private Pattern pattern;
-  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
+  private Map<String, List<Item>> itemMap = new HashMap<>();
 
   private String name;
-  private static Log log = LogFactory.getLog(InvKnjigaZaFilmoveIVideosnimke.class);
+  private static Logger log = Logger.getLogger(InvKnjigaZaFilmoveIVideosnimke.class);
 
 }

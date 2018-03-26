@@ -7,19 +7,17 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.util.HashMap;
 
-
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 public class SabacFix {
 
 	private static Connection conn;
-	private static Log log = LogFactory.getLog(SabacFix.class);
-	static HashMap <String,String> bibliotekari=new HashMap<String,String>();
+	private static Logger log = Logger.getLogger(SabacFix.class);
+	static HashMap <String,String> bibliotekari=new HashMap<>();
 	public static void main(String[] args) {
 		if(args.length != 3){
 			System.out.println("backup: <address/database>  <user> <password> ");
