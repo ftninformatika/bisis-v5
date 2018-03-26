@@ -69,7 +69,7 @@ jar {
 
 // koristi se ovako: gradle createWebstartDir
 jnlp {
-    useVersions = true
+    useVersions = false
     usePack200 = false
     withXml {
         information {

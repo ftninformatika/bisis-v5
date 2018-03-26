@@ -12,7 +12,7 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<style name="SansSerif" isDefault="true" fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 	<field name="EXPRESSION1" class="java.lang.Long">
 		<fieldDescription><![CDATA[column15]]></fieldDescription>
 	</field>
@@ -34,7 +34,7 @@
 	<columnHeader>
 		<band height="35" splitType="Stretch">
 			<textField>
-				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="57" y="7" width="311" height="16" uuid="782d6edd-6634-4d5d-870f-805b22c78a0f"/>
+				<reportElement key="staticText" style="SansSerif" positionType="Float" x="57" y="7" width="311" height="16" uuid="782d6edd-6634-4d5d-870f-805b22c78a0f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -51,7 +51,7 @@
 	<detail>
 		<band height="19" splitType="Stretch">
 			<staticText>
-				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="220" y="1" width="6" height="18" uuid="6fca4485-afe5-4089-be1f-5216f7a00312"/>
+				<reportElement key="staticText" style="SansSerif" positionType="Float" x="220" y="1" width="6" height="18" uuid="6fca4485-afe5-4089-be1f-5216f7a00312"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -61,7 +61,7 @@
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="36" y="1" width="182" height="17" uuid="f8b6828b-94f4-452b-b567-a89c71654d1f"/>
+				<reportElement key="textField" style="SansSerif" positionType="Float" x="36" y="1" width="182" height="17" uuid="f8b6828b-94f4-452b-b567-a89c71654d1f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -72,7 +72,7 @@
 				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="228" y="1" width="156" height="17" uuid="f974181f-0960-4bd1-a4be-7cc48cc09820"/>
+				<reportElement key="textField" style="SansSerif" positionType="Float" x="228" y="1" width="156" height="17" uuid="f974181f-0960-4bd1-a4be-7cc48cc09820"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -86,7 +86,7 @@
 	<columnFooter>
 		<band height="27" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="228" y="6" width="80" height="15" uuid="4f1ec2ad-f87a-40b1-8c30-96245f9c648c"/>
+				<reportElement key="textField" style="SansSerif" positionType="Float" x="228" y="6" width="80" height="15" uuid="4f1ec2ad-f87a-40b1-8c30-96245f9c648c"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -96,7 +96,7 @@
 				<textFieldExpression><![CDATA[$V{sum}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="220" y="6" width="6" height="18" uuid="22d95db9-c177-4e3e-80f3-4ec4b359eb9d"/>
+				<reportElement key="staticText" style="SansSerif" positionType="Float" x="220" y="6" width="6" height="18" uuid="22d95db9-c177-4e3e-80f3-4ec4b359eb9d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -106,7 +106,7 @@
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
-				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="108" y="6" width="110" height="15" uuid="865b11df-eb58-45e4-bc60-a7fc56c66fa0"/>
+				<reportElement key="staticText" style="SansSerif" positionType="Float" x="108" y="6" width="110" height="15" uuid="865b11df-eb58-45e4-bc60-a7fc56c66fa0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

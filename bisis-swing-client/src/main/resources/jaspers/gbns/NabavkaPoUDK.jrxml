@@ -208,7 +208,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Набављене књиге по УДК]]></text>
 			</staticText>
@@ -221,7 +221,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left">
-					<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{period}]]></textFieldExpression>
 			</textField>
@@ -234,7 +234,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[Градска библиотека Нови Сад]]></text>
 			</staticText>
@@ -254,7 +254,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[За одрасле кориснике]]></text>
 			</staticText>
@@ -270,7 +270,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[1]]></text>
 			</staticText>
@@ -283,7 +283,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[2]]></text>
 			</staticText>
@@ -296,7 +296,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[3]]></text>
 			</staticText>
@@ -309,7 +309,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[5]]></text>
 			</staticText>
@@ -322,7 +322,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[6]]></text>
 			</staticText>
@@ -335,7 +335,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[7]]></text>
 			</staticText>
@@ -348,7 +348,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[8]]></text>
 			</staticText>
@@ -361,7 +361,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[9]]></text>
 			</staticText>
@@ -374,7 +374,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<text><![CDATA[одрасли укупно]]></text>
 			</staticText>
@@ -387,7 +387,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[0]]></text>
 			</staticText>
@@ -400,7 +400,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[1]]></text>
 			</staticText>
@@ -413,7 +413,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[2]]></text>
 			</staticText>
@@ -426,7 +426,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[3]]></text>
 			</staticText>
@@ -439,7 +439,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[5]]></text>
 			</staticText>
@@ -452,7 +452,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[6]]></text>
 			</staticText>
@@ -465,7 +465,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[7]]></text>
 			</staticText>
@@ -478,7 +478,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[8]]></text>
 			</staticText>
@@ -491,7 +491,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[9]]></text>
 			</staticText>
@@ -504,7 +504,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[087.5]]></text>
 			</staticText>
@@ -517,7 +517,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<text><![CDATA[деца укупно]]></text>
 			</staticText>
@@ -530,7 +530,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<text><![CDATA[одрасли и деца]]></text>
 			</staticText>
@@ -549,7 +549,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Огранак]]></text>
 			</staticText>
@@ -562,7 +562,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[За децу]]></text>
 			</staticText>
@@ -579,7 +579,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<text><![CDATA[укупно]]></text>
 			</staticText>
@@ -652,7 +652,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[0]]></text>
 			</staticText>
@@ -757,7 +757,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a0}]]></textFieldExpression>
 			</textField>
@@ -770,7 +770,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a1}]]></textFieldExpression>
 			</textField>
@@ -783,7 +783,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a2}]]></textFieldExpression>
 			</textField>
@@ -796,7 +796,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a3}]]></textFieldExpression>
 			</textField>
@@ -809,7 +809,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a5}]]></textFieldExpression>
 			</textField>
@@ -822,7 +822,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a6}]]></textFieldExpression>
 			</textField>
@@ -835,7 +835,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a7}]]></textFieldExpression>
 			</textField>
@@ -848,7 +848,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a8}]]></textFieldExpression>
 			</textField>
@@ -861,7 +861,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{a9}]]></textFieldExpression>
 			</textField>
@@ -874,7 +874,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ta}]]></textFieldExpression>
 			</textField>
@@ -887,7 +887,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c0}]]></textFieldExpression>
 			</textField>
@@ -900,7 +900,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c1}]]></textFieldExpression>
 			</textField>
@@ -913,7 +913,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c2}]]></textFieldExpression>
 			</textField>
@@ -926,7 +926,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c3}]]></textFieldExpression>
 			</textField>
@@ -939,7 +939,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c5}]]></textFieldExpression>
 			</textField>
@@ -952,7 +952,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c6}]]></textFieldExpression>
 			</textField>
@@ -965,7 +965,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c7}]]></textFieldExpression>
 			</textField>
@@ -978,7 +978,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c8}]]></textFieldExpression>
 			</textField>
@@ -991,7 +991,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c9}]]></textFieldExpression>
 			</textField>
@@ -1004,7 +1004,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{sl}]]></textFieldExpression>
 			</textField>
@@ -1017,7 +1017,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{tc}]]></textFieldExpression>
 			</textField>
@@ -1030,7 +1030,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="6"/>
+					<font fontName="SansSerif" size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{tot}]]></textFieldExpression>
 			</textField>
@@ -1053,7 +1053,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[УКУПНО:]]></text>
 			</staticText>
@@ -1141,7 +1141,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a0}]]></textFieldExpression>
 			</textField>
@@ -1154,7 +1154,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a1}]]></textFieldExpression>
 			</textField>
@@ -1167,7 +1167,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a2}]]></textFieldExpression>
 			</textField>
@@ -1180,7 +1180,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a3}]]></textFieldExpression>
 			</textField>
@@ -1193,7 +1193,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a5}]]></textFieldExpression>
 			</textField>
@@ -1206,7 +1206,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a6}]]></textFieldExpression>
 			</textField>
@@ -1219,7 +1219,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a7}]]></textFieldExpression>
 			</textField>
@@ -1232,7 +1232,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a8}]]></textFieldExpression>
 			</textField>
@@ -1245,7 +1245,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a9}]]></textFieldExpression>
 			</textField>
@@ -1258,7 +1258,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{ta}]]></textFieldExpression>
 			</textField>
@@ -1271,7 +1271,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c0}]]></textFieldExpression>
 			</textField>
@@ -1284,7 +1284,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c1}]]></textFieldExpression>
 			</textField>
@@ -1297,7 +1297,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c2}]]></textFieldExpression>
 			</textField>
@@ -1310,7 +1310,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c3}]]></textFieldExpression>
 			</textField>
@@ -1323,7 +1323,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c5}]]></textFieldExpression>
 			</textField>
@@ -1336,7 +1336,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c6}]]></textFieldExpression>
 			</textField>
@@ -1349,7 +1349,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c7}]]></textFieldExpression>
 			</textField>
@@ -1362,7 +1362,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c8}]]></textFieldExpression>
 			</textField>
@@ -1375,7 +1375,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{c9}]]></textFieldExpression>
 			</textField>
@@ -1388,7 +1388,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{sl}]]></textFieldExpression>
 			</textField>
@@ -1401,7 +1401,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{tc}]]></textFieldExpression>
 			</textField>
@@ -1414,7 +1414,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{tot}]]></textFieldExpression>
 			</textField>
@@ -1429,7 +1429,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Напомена: Број примерака без УДК:]]></text>
 			</staticText>
@@ -1444,7 +1444,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{xxx}]]></textFieldExpression>
 			</textField>
@@ -1459,7 +1459,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{ukupnoSve}]]></textFieldExpression>
 			</textField>
@@ -1474,7 +1474,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Укупно]]></text>
 			</staticText>

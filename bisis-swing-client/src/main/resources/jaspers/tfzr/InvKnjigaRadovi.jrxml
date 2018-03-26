@@ -401,7 +401,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{rbr}]]></textFieldExpression>
@@ -418,7 +418,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{datum}]]></textFieldExpression>
@@ -433,7 +433,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="10"/>
+					<font fontName="SansSerif" size="10"/>
 					<paragraph lineSpacingSize="1.0" leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{opis}]]></textFieldExpression>
@@ -448,7 +448,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{povez}]]></textFieldExpression>
@@ -465,7 +465,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dim}]]></textFieldExpression>
@@ -484,7 +484,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nabavka}]]></textFieldExpression>
@@ -501,7 +501,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cena}]]></textFieldExpression>
@@ -518,7 +518,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{signatura}]]></textFieldExpression>
@@ -535,7 +535,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{napomena}]]></textFieldExpression>
@@ -552,7 +552,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vrsta}]]></textFieldExpression>
