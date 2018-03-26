@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import com.ftninformatika.utils.file.FileUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -41,8 +40,8 @@ public class PubTypes {
   private static Map pubTypes = new HashMap();
   /** unimarc format definition */
   private static UFormat format;
-  
-  private static Log log = LogFactory.getLog(PubTypes.class.getName());
+
+  private static Logger log = Logger.getLogger(PubTypes.class);
 
   
   static {

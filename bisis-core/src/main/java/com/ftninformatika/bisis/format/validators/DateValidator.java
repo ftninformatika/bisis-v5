@@ -5,8 +5,7 @@ import java.util.List;
 
 import com.ftninformatika.bisis.format.UValidator;
 import com.ftninformatika.bisis.format.UValidatorException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class DateValidator implements UValidator {
@@ -64,6 +63,6 @@ public class DateValidator implements UValidator {
 	}
 	
 	private List targets;
-  private static Log log = LogFactory.getLog(DateValidator.class.getName());
+  private static Logger log = Logger.getLogger(DateValidator.class);
 
 }
