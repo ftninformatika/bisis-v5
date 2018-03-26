@@ -268,6 +268,31 @@ public class CodersHelper {
 
     }
 
+    private String getValueFromList(List<UItem> sif_list,String code){
+        for(UItem ui:sif_list){
+            if(ui.getCode().equals(code)) return ui.getValue();
+        }
+        return null;
+    }
+
+    public  String getValue(int coder_ref, String code){
+        switch(coder_ref){
+            case ODELJENJE_CODER: return getValueFromList(this.getCoder(ODELJENJE_CODER), code);
+            case FORMAT_CODER: return getValueFromList(this.getCoder(FORMAT_CODER), code);
+            case STATUS_CODER: return getValueFromList(this.getCoder(STATUS_CODER), code);
+            case POVEZ_CODER: return getValueFromList(this.getCoder(POVEZ_CODER), code);
+            case PODLOKACIJA_CODER: return getValueFromList(this.getCoder(PODLOKACIJA_CODER), code);
+            case NACINNABAVKE_CODER: return getValueFromList(this.getCoder(NACINNABAVKE_CODER), code);
+            case INTERNAOZNAKA_CODER: return getValueFromList(this.getCoder(INTERNAOZNAKA_CODER), code);
+            case INVENTARNAKNJIGA_CODER: return getValueFromList(this.getCoder(INVENTARNAKNJIGA_CODER), code);
+            case DOSTUPNOST_CODER: return getValueFromList(this.getCoder(DOSTUPNOST_CODER), code);
+            case _992b_CODER: return getValueFromList(this.getCoder(_992b_CODER), code);
+            case LIBRARIAN_CODER: return getValueFromList(this.getCoder(LIBRARIAN_CODER), code);
+        }
+        return null;
+
+    }
+
     public ArrayList<UItem> getCoder(int coderCode){
         List<UItem> retVal = null;
         switch (coderCode){

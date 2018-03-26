@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.hitlist.groupview.GrupniPrikazFrame;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
@@ -13,14 +14,12 @@ import com.ftninformatika.bisis.report.ReportFrame;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import net.sf.jasperreports.engine.JasperPrint;
-import sun.java2d.SunGraphicsEnvironment;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.text.MessageFormat;
-import java.util.List;
 import javax.swing.*;
 
 
@@ -42,14 +41,7 @@ public class MainFrame extends JFrame {
         desktop.add(searchFrame);
     }
 
-    private void fixFullScreen(){
-        GraphicsConfiguration config = this.getGraphicsConfiguration();
-        Rectangle usableBounds = SunGraphicsEnvironment.getUsableBounds(config.getDevice());
-        setMaximizedBounds(usableBounds);
-        setExtendedState(MAXIMIZED_BOTH);
-    }
-
-    public void initialize(Librarian lib){
+      public void initialize(Librarian lib){
         statusnaLinija.setText(MessageFormat.format(Messages.getString("MAIN_LIBRARIAN.0"), BisisApp.appConfig.getLibrarian().getUsername()));
         if (lib.isAdministracija()){
             desktop.add(getIntOznFrame());
@@ -110,10 +102,10 @@ public class MainFrame extends JFrame {
             }
             hlf.setVisible(true);
         }
-        public void addBranchesFrame(String query/*, int[] hits*/) {
-           /* brf = new GrupniPrikazFrame(query, hits);
+        public void addBranchesFrame(String query, String[] hits) {
+            brf = new GrupniPrikazFrame(query, hits);
             desktop.add(brf);
-            brf.setVisible(true);*/
+            brf.setVisible(true);
         }
 /*
         public NetHitListFrame addNetHitListFrame(String query, String convId, boolean compress,LibraryServerDesc lib, Vector<BriefInfoModel> hits) {
@@ -254,8 +246,8 @@ public class MainFrame extends JFrame {
     private JDesktopPane desktop = new JDesktopPane();
     private SearchFrame searchFrame = new SearchFrame();
     private HitListFrame hlf = null;
-  /*  private GrupniPrikazFrame brf=null;
-    private BackupDlg backupDlg = null;*/
+    private GrupniPrikazFrame brf=null;
+//    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
 
     private CoderFrame intOznFrame = null;

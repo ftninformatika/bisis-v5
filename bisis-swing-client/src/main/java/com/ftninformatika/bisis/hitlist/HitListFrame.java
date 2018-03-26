@@ -500,7 +500,7 @@ public class HitListFrame extends JInternalFrame {
   //private void handleTab
   
   private void handleBranches(){
-	  BisisApp.mf.addBranchesFrame(query/*, queryResult.getRecords()*/);
+	  BisisApp.mf.addBranchesFrame(query, queryResult.getRecords());
   }
   
 	/*

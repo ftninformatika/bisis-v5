@@ -168,7 +168,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 	}
 
 	public void setEditorWidth(int width){
-  	editorDimension = new Dimension(width-45,50);		
+  	editorDimension = new Dimension(width-45,50);
   }
 
   public boolean isCellEditable(EventObject event) {		

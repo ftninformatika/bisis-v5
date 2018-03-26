@@ -30,6 +30,7 @@ public class BisisApp {
   public static void main(String[] args) {
 
     Properties props = new Properties();
+
     String profile = null;
     try (final InputStream stream = BisisApp.class.getResourceAsStream("/config.properties")) {
       props.load(stream);
@@ -150,6 +151,9 @@ public class BisisApp {
   public static SplashScreen splashScreen;
 
 
+  public static RecordManager getRecordManager(){
+    return recMgr;
+  }
 
   public static SplashScreen getSplash(){
     return splashScreen;

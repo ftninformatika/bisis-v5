@@ -18,8 +18,6 @@ public class FullFormatter implements RecordFormatter {
   }
 
   public String toHTML(Record record, String locale) {
-    if (UIManager.getLookAndFeel().getName().equals("SeaGlass"))
-      return "<code><font size=\"4\">" + RecordFactory.toFullFormat(0, record, true) + "</font></code>";
     return "<code>" + RecordFactory.toFullFormat(0, record, true) + "</code>";
   }
 
