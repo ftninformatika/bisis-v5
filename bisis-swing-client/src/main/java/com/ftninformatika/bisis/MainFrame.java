@@ -14,12 +14,14 @@ import com.ftninformatika.bisis.report.ReportFrame;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import net.sf.jasperreports.engine.JasperPrint;
+import sun.java2d.SunGraphicsEnvironment;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.text.MessageFormat;
+import java.util.List;
 import javax.swing.*;
 
 
@@ -41,7 +43,7 @@ public class MainFrame extends JFrame {
         desktop.add(searchFrame);
     }
 
-      public void initialize(Librarian lib){
+    public void initialize(Librarian lib){
         statusnaLinija.setText(MessageFormat.format(Messages.getString("MAIN_LIBRARIAN.0"), BisisApp.appConfig.getLibrarian().getUsername()));
         if (lib.isAdministracija()){
             desktop.add(getIntOznFrame());
@@ -63,28 +65,24 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void showSearchFrame() {
+    public void showFrame(JInternalFrame frame) {
         try {
-            if (!searchFrame.isVisible())
-                searchFrame.setVisible(true);
-            if (searchFrame.isIcon())
-                searchFrame.setIcon(false);
-            if (!searchFrame.isSelected())
-                searchFrame.setSelected(true);
+            if (!frame.isVisible())
+                frame.setVisible(true);
+            if (frame.isIcon())
+                frame.setIcon(false);
+            if (!frame.isSelected())
+                frame.setSelected(true);
         } catch (Exception ex) {
         }
     }
 
+    public void showSearchFrame() {
+        showFrame(searchFrame);
+    }
+
     public void showHitlistFrame() {
-        try {
-            if (!hlf.isVisible())
-                hlf.setVisible(true);
-            if (hlf.isIcon())
-                hlf.setIcon(false);
-            if (!hlf.isSelected())
-                hlf.setSelected(true);
-        } catch (Exception ex) {
-        }
+        showFrame(hlf);
     }
 
         public void addHitListFrame(Result queryResults, String sQuery) {
