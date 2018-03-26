@@ -35,7 +35,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.utils.Messages;
@@ -89,18 +88,16 @@ public class RaspodelaFrame extends JInternalFrame {
 				.getResource("/icons/Check16.png")));
 		preostaloTxtFld.setEditable(false);
 		preostaloTxtFld.setFocusable(false);    
-		odeljenjePanel = new CodedValuePanel(HoldingsDataCoders.ODELJENJE_CODER,null);
+		odeljenjePanel = new CodedValuePanel(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER,null);
 		odeljenjePanel.setDefaultOdeljenje();
-		invKnjPanel = new CodedValuePanel(HoldingsDataCoders.INVENTARNAKNJIGA_CODER,null);
-		podlokacijaPanel = new CodedValuePanel(HoldingsDataCoders.PODLOKACIJA_CODER, null);
+		invKnjPanel = new CodedValuePanel(BisisApp.appConfig.getCodersHelper().INVENTARNAKNJIGA_CODER,null);
+		podlokacijaPanel = new CodedValuePanel(BisisApp.appConfig.getCodersHelper().PODLOKACIJA_CODER, null);
 		raspodelaSpinner = new JSpinner();		
 		raspodelaSpinner.setValue(new Integer(1));
 		SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0,0,1000,1);
 		raspodelaSpinner.setModel(spinnerModel);
 		raspodelaSpinner.setPreferredSize(new Dimension(40,20));
-		
-		//raspodelaSpinner.set
-		
+
 		
 		raspodelaTableModel = new RaspodelaTableModel(this);
 		raspodelaTable.setModel(raspodelaTableModel);		

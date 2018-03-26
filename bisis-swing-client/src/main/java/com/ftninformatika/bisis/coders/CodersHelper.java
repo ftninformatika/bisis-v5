@@ -19,6 +19,8 @@ public class CodersHelper {
         else return true;
     }
 
+
+
     public boolean isValidFormat(String code){
         return this.formats.containsKey(code);
     }
@@ -47,13 +49,15 @@ public class CodersHelper {
         return availabilities.containsKey(code);
     }
 
-  /*  public boolean isValid992b(String code){
-        itemStatuses.containsKey(code);
+    public boolean isValid992b(String code){
+//        itemStatuses.containsKey(code); TODO hardcoded
+        return false;
     }
-*/
-    /*public boolean isValidLibrarian(String code){
-        itemStatuses.containsKey(code);
-    }*/
+
+    public boolean isValidLibrarian(String code){
+//        itemStatuses.containsKey(code); TODO hardcoded
+        return itemStatuses.containsKey(code);
+    }
 
 
 

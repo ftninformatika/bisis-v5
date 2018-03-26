@@ -36,7 +36,6 @@ import javax.swing.tree.TreeSelectionModel;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.Report;
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;

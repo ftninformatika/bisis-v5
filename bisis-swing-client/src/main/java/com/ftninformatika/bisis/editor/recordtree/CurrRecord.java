@@ -275,11 +275,11 @@ public class CurrRecord {
 	    if (us.getCoder()!=null){
 	      if (us.getOwner().getName().equalsIgnoreCase("992")&&(us.getName()=='b')){
 	    	  //validira nad podacima iz tabele
-	    	  if (!HoldingsDataCoders.isValid992b(newContent))
+	    	  if (!BisisApp.appConfig.getCodersHelper().isValid992b(newContent))
 	    		  throw new UValidatorException
 		           (MessageFormat.format(Messages.getString("CHOSEN_CODE_NOT_DEFINED_FOR_FIELD.0.1"), us.getName(), us.getDescription()));
 	      }else if (us.getOwner().getName().equalsIgnoreCase("992")&&(us.getName()=='f')){
-	    	  if (!HoldingsDataCoders.isValidLibrarian(newContent))
+	    	  if (!BisisApp.appConfig.getCodersHelper().isValidLibrarian(newContent))
 	    		  throw new UValidatorException
 		          (MessageFormat.format(Messages.getString("CHOSEN_CODE_NOT_DEFINED_FOR_SUBFIELD.n.0.1"), us.getName(), us.getDescription()));
 	      }else{

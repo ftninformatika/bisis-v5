@@ -3,7 +3,7 @@
  */
 package com.ftninformatika.bisis.search;
 
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.format.USubfield;
@@ -31,11 +31,11 @@ public class CodedPrefUtils {
     if (pref.equals("AM") || pref.equals("ST") || pref.equals("LI")) {
       // prefiksi za lokacijske podatke
       if (pref.equals("AM"))
-        return HoldingsDataCoders.getCoder(HoldingsDataCoders.NACINNABAVKE_CODER);
+        return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().NACINNABAVKE_CODER);
       if (pref.equals("ST"))
-        return HoldingsDataCoders.getCoder(HoldingsDataCoders.STATUS_CODER);
+        return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().STATUS_CODER);
       if (pref.equals("LI"))
-        return HoldingsDataCoders.getCoder(HoldingsDataCoders.DOSTUPNOST_CODER);
+        return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().DOSTUPNOST_CODER);
 
     }
 

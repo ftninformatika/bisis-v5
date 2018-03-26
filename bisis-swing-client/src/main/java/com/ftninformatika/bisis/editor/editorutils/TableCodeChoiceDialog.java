@@ -2,7 +2,6 @@ package com.ftninformatika.bisis.editor.editorutils;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.utils.Messages;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.USubfield;
 
 import java.awt.Frame;
