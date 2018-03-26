@@ -8,8 +8,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.barcode.epl2.*;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.utils.string.Signature;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class PrintBarcode {
@@ -28,7 +27,7 @@ public class PrintBarcode {
   static private HashMap<String, List<String>> printers;
   static private List<String> socket;
   static private int printersNo = 0;
-  private static Log log = LogFactory.getLog(PrintBarcode.class.getName());
+  private static Logger log = Logger.getLogger(PrintBarcode.class);
 
   static {
     optionName = BisisApp.appConfig.getClientConfig().getBarcodeOptionName();

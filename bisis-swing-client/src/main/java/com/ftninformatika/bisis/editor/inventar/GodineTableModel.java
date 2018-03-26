@@ -8,8 +8,7 @@ import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.string.Signature;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class GodineTableModel extends AbstractTableModel {
@@ -18,7 +17,7 @@ public class GodineTableModel extends AbstractTableModel {
   private String[] columns;
   private String[] columnSet;
   
-  private static Log log = LogFactory.getLog(GodineTableModel.class.getName());
+  private static Logger log = Logger.getLogger(GodineTableModel.class);
   
   public GodineTableModel(){
     super();

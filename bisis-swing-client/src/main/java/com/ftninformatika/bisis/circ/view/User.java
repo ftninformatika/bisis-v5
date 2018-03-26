@@ -27,8 +27,8 @@ import org.apache.log4j.Logger;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
+
 
 
 public class User extends JPanel {
@@ -45,7 +45,7 @@ public class User extends JPanel {
 	private Picturebooks picturebooks = null;
 	private JPanel pPrint = null;
 	private Warnings pWarnings = null;
-	private static Logger log = Logger.getLogger(User.class);
+	private static Logger log = org.apache.log4j.Logger.getLogger(User.class);
 	private boolean dirty = false;
 
 

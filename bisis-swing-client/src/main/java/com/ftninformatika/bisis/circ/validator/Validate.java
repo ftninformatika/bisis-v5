@@ -30,7 +30,7 @@ public class Validate {
 	//private static ResourceBundle res = ResourceBundle.getBundle("circ_validator.validatorResources");
 	private static ResourceBundle res;
 	private static final String BUNDLE_NAME = "circ_validator/validatorResources.properties";
-	private static Logger log = Logger.getLogger(Validate.class);
+    private static Logger log = Logger.getLogger(Validate.class);
 
 
 	static  {

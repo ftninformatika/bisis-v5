@@ -14,8 +14,7 @@ import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.ProcessTypeBuilder;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -141,5 +140,5 @@ public class LibEnvProxy {
 	}
 		
 	
-	private static Log log = LogFactory.getLog(LibEnvProxy.class);
+	private static Logger log = Logger.getLogger(LibEnvProxy.class);
 }
