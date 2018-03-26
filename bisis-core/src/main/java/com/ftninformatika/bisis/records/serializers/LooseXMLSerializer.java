@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.records.serializers;
 
-import java.io.InputStream;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
@@ -10,8 +9,7 @@ import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.records.Subsubfield;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.xml.sax.InputSource;
 import com.ftninformatika.utils.string.StringUtils;
 import com.ftninformatika.utils.xml.XMLUtils;
@@ -145,8 +143,7 @@ public class LooseXMLSerializer {
  }
   
   static SAXParserFactory factory;
-  static Log log = LogFactory.getLog(
-      "com.gint.app.bisis.common.records.serializers.LooseXMLSerializer");
+  static Logger log = Logger.getLogger(LooseXMLSerializer.class);
   
   static {
     factory = SAXParserFactory.newInstance();

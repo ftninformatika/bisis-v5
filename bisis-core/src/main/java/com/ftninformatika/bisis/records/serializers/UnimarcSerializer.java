@@ -1,13 +1,10 @@
 package com.ftninformatika.bisis.records.serializers;
 
-import java.util.StringTokenizer;
-
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.records.Subsubfield;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -177,5 +174,5 @@ public class UnimarcSerializer {
     }
   }
   
-  private static Log log = LogFactory.getLog(UnimarcSerializer.class.getName());
+  private static Logger log = Logger.getLogger(UnimarcSerializer.class);
 }
