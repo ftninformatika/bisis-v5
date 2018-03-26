@@ -16,9 +16,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.SplashScreen;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticTheme;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.Logger;
 
 public class Cirkulacija {
 
@@ -26,7 +24,7 @@ public class Cirkulacija {
     private SplashScreen splash;
     private MainFrame mf;
     private Librarian lib;
-    private static Log log = LogFactory.getLog(Cirkulacija.class.getName());
+    private static Logger log = Logger.getLogger(Cirkulacija.class);
     private Environment env;
     private RecordsManager recmng;
     private UserManager usermng;
@@ -56,9 +54,7 @@ public class Cirkulacija {
     }
 
     private void init() {
-    PropertyConfigurator.configure(Cirkulacija.class
-        .getResource("/log4j.properties"));
-        log.info("Application startup");
+        Logger.getLogger(Cirkulacija.class).info("Pokretanje cirkulacije");
 
         UIManager.put("swing.boldMetal", Boolean.FALSE);
         UIManager.installLookAndFeel("PlasticLookAndFeel",

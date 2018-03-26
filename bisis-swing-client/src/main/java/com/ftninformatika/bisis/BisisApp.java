@@ -13,8 +13,8 @@ import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.service.RecordManager;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.RetrofitUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import retrofit2.Call;
 
 import javax.swing.*;
@@ -28,6 +28,8 @@ import java.util.Set;
 public class BisisApp {
 
   public static void main(String[] args) {
+    PropertyConfigurator.configure(BisisApp.class.getResourceAsStream("/log4j.properties"));
+    Logger.getLogger(BisisApp.class).info("BISIS5 se pokrece");
 
     Properties props = new Properties();
 
@@ -163,7 +165,7 @@ public class BisisApp {
     return mf;
   }
 
-  public static Log log = LogFactory.getLog(BisisApp.class);
+  public static Logger log = Logger.getLogger(BisisApp.class);
 
   private static String getDomainFromUsername(String username) {
     //mora zbog header interceptora u retrofitu
