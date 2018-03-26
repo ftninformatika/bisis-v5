@@ -84,15 +84,7 @@ public class Obrada {
 	}
 	
 	private static void showEditorFrame() {
-	    try {
-	      if (!editorFrame.isVisible())
-	        editorFrame.setVisible(true);
-	      if (editorFrame.isIcon())
-	        editorFrame.setIcon(false);
-	      if (!editorFrame.isSelected())
-	        editorFrame.setSelected(true);
-	    } catch (Exception ex) {
-	    }
+			BisisApp.getMainFrame().showFrame(editorFrame);
 	  }
 	
 	
@@ -108,16 +100,8 @@ public class Obrada {
     return editorFrame.isVisible();
   }
   
-  public static void openGroupInvFrame(){  	
-  	try {
-      if (!groupInvFrame.isVisible())
-      	groupInvFrame.setVisible(true);
-      if (groupInvFrame.isIcon())
-      	groupInvFrame.setIcon(false);
-      if (!groupInvFrame.isSelected())
-      	groupInvFrame.setSelected(true);
-    } catch (Exception ex) {
-    }
+  public static void openGroupInvFrame(){
+		BisisApp.getMainFrame().showFrame(groupInvFrame);
   }
   
   public static void openInvHolesFrame(){

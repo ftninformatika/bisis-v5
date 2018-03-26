@@ -2,15 +2,12 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.records.DocFile;
 import com.ftninformatika.bisis.rest_service.repository.mongo.DocFileRepository;
-import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSFile;
-import com.mongodb.gridfs.GridFSInputFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.Request;
 
 import java.io.IOException;
 import java.util.Date;

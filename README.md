@@ -12,4 +12,22 @@
 
 ## Pakovanje projekta
 
+```
+cd bisis-backend
+gradle war
+cd ..
+
+cd bisis-reports
+gradle jar
+cd ..
+
+cd bisis-angular-client
+gradle war
+cd ..
+
+cd bisis-swing-client
+gradle createWebStartDir
+cd .. 
+```
+
 ##
