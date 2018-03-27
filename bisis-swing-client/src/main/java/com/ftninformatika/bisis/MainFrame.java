@@ -27,7 +27,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle(MessageFormat.format(Messages.getString("MAIN_BISIS.0"), BisisApp.appVersion));
-        ImageIcon icon = new ImageIcon(getClass().getResource("/icons/appicon_old.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/icons/appicon.png"));
         setIconImage(icon.getImage());
         add(desktop, BorderLayout.CENTER);
         add(getStatusnaLinija(), BorderLayout.SOUTH);

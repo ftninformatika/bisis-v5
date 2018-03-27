@@ -246,7 +246,7 @@ public class MmbrshipCoder extends JInternalFrame {
     if (btnDelete == null) {
       btnDelete = new JButton();
       btnDelete.setText(Messages.getString("circulation.delete"));
-      btnDelete.setIcon(new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/Delete16.png")));
+      btnDelete.setIcon(new ImageIcon(getClass().getResource("/circ-images/Delete16.png")));
       btnDelete.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent e) {
           if (getJTable().getSelectedRow() != -1){

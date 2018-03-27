@@ -51,7 +51,7 @@ public class RecordsController {
   public boolean deleteRecord(@PathVariable("mongoID") String mongoID){
     recordsRepository.delete(mongoID);
     elasticRecordsRepository.delete(mongoID);
-    return true;
+    return (recordsRepository.findOne(mongoID) == null && elasticRecordsRepository.findOne(mongoID) == null);
   }
 
     @RequestMapping(value = "/getRecord")
@@ -339,7 +339,7 @@ public class RecordsController {
 
       Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
       retVal = StreamSupport.stream(ii.spliterator(), false)
-                            .map(i -> i.getId())
+                            .map(i -> i.getId().replace(PrefixConverter.endPhraseFlag, ""))
                             .collect(Collectors.toList());
 
       return  new ResponseEntity<>(retVal, HttpStatus.OK);
@@ -356,7 +356,11 @@ public class RecordsController {
                 r -> {
                     ids.add(r.getId());
                     if(r.getPrefixes().get("IN") != null && r.getPrefixes().get("IN").size() > 0)
-                        ctlgnos.addAll(r.getPrefixes().get("IN"));
+                    {
+                        for(String s: r.getPrefixes().get("IN"))
+                            ctlgnos.add(s.replace(PrefixConverter.endPhraseFlag, ""));
+//                        ctlgnos.addAll(r.getPrefixes().get("IN"));
+                    }
                 }
         );
 

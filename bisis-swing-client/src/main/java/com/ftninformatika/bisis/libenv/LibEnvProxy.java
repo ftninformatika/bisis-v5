@@ -4,10 +4,12 @@
 package com.ftninformatika.bisis.libenv;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.ProcessType;
@@ -61,6 +63,7 @@ public class LibEnvProxy {
 		String napomena = lib.getNapomena().replace("'", "").replace("\"", "");
 		lib.setNapomena(napomena);
 		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
+		librarianDTO.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
 		try {
 			 BisisApp.bisisService.createLibrarian(librarianDTO).execute();
 			 return true;
@@ -79,6 +82,7 @@ public class LibEnvProxy {
 			napomena = lib.getNapomena().replace("'", "").replace("\"", "");
 		lib.setNapomena(napomena);
 		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
+		librarianDTO.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
 		try {
 			BisisApp.bisisService.updateLibrarian(librarianDTO).execute().body();
 			return true;

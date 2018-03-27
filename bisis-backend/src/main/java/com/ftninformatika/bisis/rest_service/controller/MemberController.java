@@ -69,7 +69,15 @@ public class MemberController {
                 memberRep.save(memberData.getMember());
             }
             if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
-                lendingRepository.save(memberData.getLendings());
+
+
+//                lendingRepository.save(memberData.getLendings());
+                for (Lending l: memberData.getLendings()){
+                    if(l.get_id() == null && lendingRepository
+                            .findByLendDateIsAndCtlgNoIsAndUserIdIs(l.getLendDate(),l.getCtlgNo(),l.getUserId()) == null){
+                        lendingRepository.insert(l);
+                    }
+                }
                 itemAvailabilityRepository.save(memberData.getBooks());
             }
             return true;
