@@ -63,27 +63,19 @@ public class MemberController {
     }
 
     @RequestMapping( path = "/addUpdateMemberData", method = RequestMethod.POST)
-    public boolean addUpdateMemberData(@RequestBody MemberData memberData){
+    public MemberData addUpdateMemberData(@RequestBody MemberData memberData){
         try {
             if (memberData.getMember() != null){
-                memberRep.save(memberData.getMember());
+                memberData.setMember(memberRep.save(memberData.getMember()));
             }
             if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
-
-
-//                lendingRepository.save(memberData.getLendings());
-                for (Lending l: memberData.getLendings()){
-                    if(l.get_id() == null && lendingRepository
-                            .findByLendDateIsAndCtlgNoIsAndUserIdIs(l.getLendDate(),l.getCtlgNo(),l.getUserId()) == null){
-                        lendingRepository.insert(l);
-                    }
-                }
-                itemAvailabilityRepository.save(memberData.getBooks());
+                memberData.setLendings(lendingRepository.save(memberData.getLendings()));
+                memberData.setBooks(itemAvailabilityRepository.save(memberData.getBooks()));
             }
-            return true;
+            return memberData;
         }catch (Exception e){
             e.printStackTrace();
-            return false;
+            return null;
         }
 
 
