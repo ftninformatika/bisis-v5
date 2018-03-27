@@ -69,27 +69,27 @@ public class UserManager {
                 memberData.setLendings(lendings);
                 memberData.setBooks(Cirkulacija.getApp().getRecordsManager().getListOfItems());
             }
-            boolean saved = false;
+
             try {
-                saved = BisisApp.bisisService.addUpdateMemberData(memberData).execute().body();
+                memberData = BisisApp.bisisService.addUpdateMemberData(memberData).execute().body();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if (saved) {
+            if (memberData != null) {
 //                try {
 //                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
-//                    member = memberData.getMember();
-//                    lendings = memberData.getLendings();
-//
+                    member = memberData.getMember();
+                    lendings = memberData.getLendings();
+
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
 
-                //if (member != null){
-                Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
-                //loadUser(user, member, lendings);
-                //}
+                if (member != null){
+                    Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
+                    loadUser(user, member, lendings);
+                }
                 return "ok";
             } else {
                 return "Gre\u0161ka u konekciji s bazom podataka!";
