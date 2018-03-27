@@ -139,7 +139,7 @@ public class ReportUtils {
 		
 	}
   private static String reportServletUrl;
-  private static Log log = LogFactory.getLog(ReportUtils.class);
+  private static Logger log = Logger.getLogger(ReportUtils.class);
 /*  static {
     INIFile iniFile = BisisApp.getINIFile();
     if (iniFile == null)

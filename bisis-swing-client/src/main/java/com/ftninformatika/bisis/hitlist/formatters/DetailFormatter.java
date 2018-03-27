@@ -12,8 +12,7 @@ import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.prefixes.PrefixValue;
 import com.ftninformatika.bisis.records.Record;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -109,6 +108,6 @@ public class DetailFormatter implements RecordFormatter {
 
   private List prefList;
   
-  private static Log log = LogFactory.getLog(
+  private static Logger log = Logger.getLogger(
       "com.gint.app.bisis.web.formatters.DetailFormatter");
 }

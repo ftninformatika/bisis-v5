@@ -17,8 +17,7 @@ import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class InventarniBrojPanel extends JPanel {
@@ -30,7 +29,7 @@ public class InventarniBrojPanel extends JPanel {
 	private boolean changeInvBr = false; //dodato zbog provere duplih inventarnih brojeva pri promeni postojeceg invetarnog broja
 	
 	  
-  private static Log log = LogFactory.getLog(InventarniBrojPanel.class.getName());
+  private static Logger log = Logger.getLogger(InventarniBrojPanel.class);
 
 	
 

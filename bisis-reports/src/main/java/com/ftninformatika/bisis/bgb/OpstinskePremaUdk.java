@@ -1,7 +1,5 @@
 package com.ftninformatika.bisis.bgb;
 
-
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,10 +18,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-
+import org.apache.log4j.Logger;
 
 
 public class OpstinskePremaUdk extends Report {
@@ -645,8 +640,8 @@ public List<Ogranak> getList(String key) {
   NumberFormat nf;
   private Set ukupnoNaslova = new HashSet();
   private Set ukupnoSlikovnica = new HashSet();
-  private Map<String, List<Ogranak>> itemMap = new HashMap<String, List<Ogranak>>();
-  private static Log log = LogFactory.getLog(OpstinskePremaUdk.class);
+  private Map<String, List<Ogranak>> itemMap = new HashMap<>();
+  private static Logger log = Logger.getLogger(OpstinskePremaUdk.class);
   private Pattern pDecje1 = Pattern.compile(".*\\(.*\\.053\\.2\\).*");
   private Pattern pDecje2 = Pattern.compile(".*\\(.*\\.053\\.6\\).*");
   private Pattern pDecje3 = Pattern.compile(".*-93");

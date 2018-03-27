@@ -6,8 +6,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 public class NetUtils {
 
@@ -31,7 +30,7 @@ public class NetUtils {
   private static String ipv4Address;
   private static String ipv6Address;
   private static String macAddress;
-  private static Log log = LogFactory.getLog(NetUtils.class);
+  private static Logger log = Logger.getLogger(NetUtils.class);
  
   static {
     try {
@@ -52,7 +51,7 @@ public class NetUtils {
       	macAddress = MAC2String(macAddr);
       	Enumeration<InetAddress> inetAddresses = nif.getInetAddresses();
       	while (inetAddresses.hasMoreElements()) {
-      		 InetAddress inetAddr = inetAddresses.nextElement(); 
+      		 InetAddress inetAddr = inetAddresses.nextElement();
       		 if (inetAddr instanceof Inet4Address){
       			ipv4Address = inetAddr.getHostAddress();
       		 } else if (inetAddr instanceof Inet6Address){
@@ -60,11 +59,13 @@ public class NetUtils {
       		 } 
       		 hostName = inetAddr.getHostName();  
       	}
-    	}  
+    	}
     } catch (Exception ex) {
       log.fatal(ex);
     }
-    
+    log.info("MAC adresa: " + macAddress);
+    log.info("IPv4 adresa: " + ipv4Address);
+    log.info("IPv6 adresa: " + ipv6Address);
   }
   
   public static void main(String[] args) throws Exception {

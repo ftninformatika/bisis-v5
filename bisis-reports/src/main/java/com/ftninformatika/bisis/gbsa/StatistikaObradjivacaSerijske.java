@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.gbsa;
 
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,8 +15,7 @@ import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 public class StatistikaObradjivacaSerijske extends Report {
   @Override
@@ -222,9 +220,9 @@ public class StatistikaObradjivacaSerijske extends Report {
   }
 
   SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
-  private Map<String, Map<String, Item>> itemMap = new HashMap<String, Map<String, Item>>();
+  private Map<String, Map<String, Item>> itemMap = new HashMap<>();
   SimpleDateFormat intern = new SimpleDateFormat("yyyyMMdd");
-  private static Log log = LogFactory.getLog(StatistikaObradjivacaSerijske.class);
+  private static Logger log = Logger.getLogger(StatistikaObradjivacaSerijske.class);
   private Pattern pattern;
 
 }

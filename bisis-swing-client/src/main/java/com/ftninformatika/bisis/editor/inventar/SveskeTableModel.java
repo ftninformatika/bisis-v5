@@ -9,8 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.Messages;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class SveskeTableModel extends AbstractTableModel {
@@ -22,7 +21,7 @@ public class SveskeTableModel extends AbstractTableModel {
   private String[] columns; 
   
   
-  private static Log log = LogFactory.getLog(SveskeTableModel.class.getName());
+  private static Logger log = Logger.getLogger(SveskeTableModel.class);
 
   public SveskeTableModel(List<Sveska> sveske) {
     this.sveske = sveske;

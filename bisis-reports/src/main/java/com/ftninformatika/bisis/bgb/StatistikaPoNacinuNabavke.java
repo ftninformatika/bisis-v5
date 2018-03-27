@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.bgb;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,8 +15,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 public class StatistikaPoNacinuNabavke extends Report {
   
@@ -246,8 +244,8 @@ public class StatistikaPoNacinuNabavke extends Report {
   SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
   SimpleDateFormat intern = new SimpleDateFormat("yyyyMMdd");
   SimpleDateFormat intern2 = new SimpleDateFormat("ddMMyy");
-  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-  private static Log log = LogFactory.getLog(StatistikaPoNacinuNabavke.class);
+  private Map<String, List<Item>> itemMap = new HashMap<>();
+  private static Logger log = Logger.getLogger(StatistikaPoNacinuNabavke.class);
   NumberFormat nf;
 
 }

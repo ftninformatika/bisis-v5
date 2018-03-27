@@ -18,19 +18,14 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 public class ReportConfig extends AbstractMongoConfiguration {
 
+  @Override
+  protected String getDatabaseName() {
+    return "bisis";
+  }
 
-
-   @Override
-    protected String getDatabaseName() {
-        return "bisis";
-    }
-
-    @Override
-    public Mongo mongo() throws Exception {
-
-          MongoClient mongoClient = new MongoClient();
-        return mongoClient;
-    }
-
-
+  @Override
+  public Mongo mongo() throws Exception {
+    MongoClient mongoClient = new MongoClient();
+    return mongoClient;
+  }
 }

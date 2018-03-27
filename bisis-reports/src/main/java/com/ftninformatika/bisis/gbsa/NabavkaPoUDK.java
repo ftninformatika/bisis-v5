@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.gbsa;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,8 +17,7 @@ import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.bisis.reports.ReportsUtils;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class NabavkaPoUDK extends Report {
@@ -335,8 +333,8 @@ public class NabavkaPoUDK extends Report {
 	  }
   SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
   private Pattern pattern;
-  private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
-  private static Log log = LogFactory.getLog(NabavkaPoUDK.class);
+  private Map<String, List<Item>> itemMap = new HashMap<>();
+  private static Logger log = Logger.getLogger(NabavkaPoUDK.class);
   NumberFormat nf;
 //@Override
 public void finishOnline(StringBuffer buff) {

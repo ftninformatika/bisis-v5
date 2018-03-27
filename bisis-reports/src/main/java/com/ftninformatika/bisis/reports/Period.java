@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.reports;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -188,5 +187,5 @@ public class Period {
   private Date endDate;
   private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
   private SimpleDateFormat sdf1 = new SimpleDateFormat("dd.MM.yyyy");
-  private static Log log = LogFactory.getLog(Period.class);
+  private static Logger log = Logger.getLogger(Period.class);
 }
