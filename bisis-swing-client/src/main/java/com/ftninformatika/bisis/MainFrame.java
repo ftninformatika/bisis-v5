@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.hitlist.groupview.GrupniPrikazFrame;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
@@ -13,14 +14,12 @@ import com.ftninformatika.bisis.report.ReportFrame;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import net.sf.jasperreports.engine.JasperPrint;
-import sun.java2d.SunGraphicsEnvironment;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.text.MessageFormat;
-import java.util.List;
 import javax.swing.*;
 
 
@@ -28,14 +27,11 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle(MessageFormat.format(Messages.getString("MAIN_BISIS.0"), BisisApp.appVersion));
-        ImageIcon icon = new ImageIcon(getClass().getResource("/icons/appicon_old.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/icons/appicon.png"));
         setIconImage(icon.getImage());
         add(desktop, BorderLayout.CENTER);
         add(getStatusnaLinija(), BorderLayout.SOUTH);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        if (UIManager.getLookAndFeel().getName().equals("SeaGlass"))
-            fixFullScreen();
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -43,13 +39,6 @@ public class MainFrame extends JFrame {
             }
         });
         desktop.add(searchFrame);
-    }
-
-    private void fixFullScreen(){
-        GraphicsConfiguration config = this.getGraphicsConfiguration();
-        Rectangle usableBounds = SunGraphicsEnvironment.getUsableBounds(config.getDevice());
-        setMaximizedBounds(usableBounds);
-        setExtendedState(MAXIMIZED_BOTH);
     }
 
     public void initialize(Librarian lib){
@@ -74,28 +63,24 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void showSearchFrame() {
+    public void showFrame(JInternalFrame frame) {
         try {
-            if (!searchFrame.isVisible())
-                searchFrame.setVisible(true);
-            if (searchFrame.isIcon())
-                searchFrame.setIcon(false);
-            if (!searchFrame.isSelected())
-                searchFrame.setSelected(true);
+            if (!frame.isVisible())
+                frame.setVisible(true);
+            if (frame.isIcon())
+                frame.setIcon(false);
+            if (!frame.isSelected())
+                frame.setSelected(true);
         } catch (Exception ex) {
         }
     }
 
+    public void showSearchFrame() {
+        showFrame(searchFrame);
+    }
+
     public void showHitlistFrame() {
-        try {
-            if (!hlf.isVisible())
-                hlf.setVisible(true);
-            if (hlf.isIcon())
-                hlf.setIcon(false);
-            if (!hlf.isSelected())
-                hlf.setSelected(true);
-        } catch (Exception ex) {
-        }
+        showFrame(hlf);
     }
 
         public void addHitListFrame(Result queryResults, String sQuery) {
@@ -113,10 +98,10 @@ public class MainFrame extends JFrame {
             }
             hlf.setVisible(true);
         }
-        public void addBranchesFrame(String query/*, int[] hits*/) {
-           /* brf = new GrupniPrikazFrame(query, hits);
+        public void addBranchesFrame(String query, String[] hits) {
+            brf = new GrupniPrikazFrame(query, hits);
             desktop.add(brf);
-            brf.setVisible(true);*/
+            brf.setVisible(true);
         }
 /*
         public NetHitListFrame addNetHitListFrame(String query, String convId, boolean compress,LibraryServerDesc lib, Vector<BriefInfoModel> hits) {
@@ -257,8 +242,8 @@ public class MainFrame extends JFrame {
     private JDesktopPane desktop = new JDesktopPane();
     private SearchFrame searchFrame = new SearchFrame();
     private HitListFrame hlf = null;
-  /*  private GrupniPrikazFrame brf=null;
-    private BackupDlg backupDlg = null;*/
+    private GrupniPrikazFrame brf=null;
+//    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
 
     private CoderFrame intOznFrame = null;

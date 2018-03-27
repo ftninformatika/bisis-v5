@@ -43,13 +43,10 @@ import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
-
-
-public class EditorFrame extends JInternalFrame {	
+public class EditorFrame extends JInternalFrame {
 	
 	private ZapisPanel zapisPanel = null;
 	private JPanel panel;
@@ -69,7 +66,7 @@ public class EditorFrame extends JInternalFrame {
   private CardLayout cardLayout; 
 	
   private boolean recordUpdated = false; 
-  private static Log log = LogFactory.getLog(EditorFrame.class.getName());
+  private static Logger log = Logger.getLogger(EditorFrame.class);
   
 	/**
 	 * This is the default constructor

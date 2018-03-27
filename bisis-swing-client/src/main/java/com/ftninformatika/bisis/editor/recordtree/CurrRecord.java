@@ -15,8 +15,7 @@ import com.ftninformatika.bisis.format.*;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 import com.ftninformatika.utils.Messages;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 public class CurrRecord {  
@@ -28,7 +27,7 @@ public class CurrRecord {
   public static boolean update = false;  
   public static boolean savedOnce = false;  
   private static boolean valid = false;  
-  private static Log log = LogFactory.getLog(CurrRecord.class.getName());
+  private static Logger log = Logger.getLogger(CurrRecord.class);
   
   public static void recordInitialize(Record rec){  
     int pubType = 0;
@@ -275,11 +274,11 @@ public class CurrRecord {
 	    if (us.getCoder()!=null){
 	      if (us.getOwner().getName().equalsIgnoreCase("992")&&(us.getName()=='b')){
 	    	  //validira nad podacima iz tabele
-	    	  if (!HoldingsDataCoders.isValid992b(newContent))
+	    	  if (!BisisApp.appConfig.getCodersHelper().isValid992b(newContent))
 	    		  throw new UValidatorException
 		           (MessageFormat.format(Messages.getString("CHOSEN_CODE_NOT_DEFINED_FOR_FIELD.0.1"), us.getName(), us.getDescription()));
 	      }else if (us.getOwner().getName().equalsIgnoreCase("992")&&(us.getName()=='f')){
-	    	  if (!HoldingsDataCoders.isValidLibrarian(newContent))
+	    	  if (!BisisApp.appConfig.getCodersHelper().isValidLibrarian(newContent))
 	    		  throw new UValidatorException
 		          (MessageFormat.format(Messages.getString("CHOSEN_CODE_NOT_DEFINED_FOR_SUBFIELD.n.0.1"), us.getName(), us.getDescription()));
 	      }else{

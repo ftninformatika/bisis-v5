@@ -44,7 +44,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[Библиотека града Београда]]></text>
 			</staticText>
@@ -57,14 +57,14 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[Број инвентарисаних јединица према фондовима ]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="147" y="33" width="242" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{period}]]></textFieldExpression>
 			</textField>
@@ -90,7 +90,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[број наслова]]></text>
 			</staticText>
@@ -103,7 +103,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[број примерака]]></text>
 			</staticText>
@@ -132,7 +132,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{inv}]]></textFieldExpression>
 			</textField>
@@ -145,7 +145,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[new Integer (Integer.parseInt($F{brNas}))]]></textFieldExpression>
 			</textField>
@@ -158,7 +158,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[new Integer (Integer.parseInt($F{brPr}))]]></textFieldExpression>
 			</textField>

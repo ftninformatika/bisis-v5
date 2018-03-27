@@ -12,9 +12,8 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import com.ftninformatika.utils.xml.XMLUtils;
+import org.apache.log4j.Logger;
 
 /**
  * Class FormatFactory comment.
@@ -297,5 +296,5 @@ public class FormatFactory {
   }
   
   static SAXParserFactory factory = SAXParserFactory.newInstance();
-  static Log log = LogFactory.getLog(FormatFactory.class.getName());
+  static Logger log = Logger.getLogger(FormatFactory.class);
 }

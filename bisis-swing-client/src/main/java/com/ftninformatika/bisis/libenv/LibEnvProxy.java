@@ -4,18 +4,19 @@
 package com.ftninformatika.bisis.libenv;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.ProcessTypeBuilder;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -61,6 +62,7 @@ public class LibEnvProxy {
 		String napomena = lib.getNapomena().replace("'", "").replace("\"", "");
 		lib.setNapomena(napomena);
 		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
+		librarianDTO.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
 		try {
 			 BisisApp.bisisService.createLibrarian(librarianDTO).execute();
 			 return true;
@@ -79,6 +81,7 @@ public class LibEnvProxy {
 			napomena = lib.getNapomena().replace("'", "").replace("\"", "");
 		lib.setNapomena(napomena);
 		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
+		librarianDTO.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
 		try {
 			BisisApp.bisisService.updateLibrarian(librarianDTO).execute().body();
 			return true;
@@ -141,5 +144,5 @@ public class LibEnvProxy {
 	}
 		
 	
-	private static Log log = LogFactory.getLog(LibEnvProxy.class);
+	private static Logger log = Logger.getLogger(LibEnvProxy.class);
 }

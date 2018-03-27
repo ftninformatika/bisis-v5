@@ -13,8 +13,9 @@ import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.service.RecordManager;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.RetrofitUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.LoggerFactory;
 import retrofit2.Call;
 
 import javax.swing.*;
@@ -28,6 +29,12 @@ import java.util.Set;
 public class BisisApp {
 
   public static void main(String[] args) {
+    PropertyConfigurator.configure(BisisApp.class.getResourceAsStream("/log4j.properties"));
+    Logger.getLogger(BisisApp.class).info("BISIS5 se pokrece");
+
+    ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(
+        ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+    root.setLevel(ch.qos.logback.classic.Level.INFO);
 
     Properties props = new Properties();
     String profile = null;
@@ -150,6 +157,9 @@ public class BisisApp {
   public static SplashScreen splashScreen;
 
 
+  public static RecordManager getRecordManager(){
+    return recMgr;
+  }
 
   public static SplashScreen getSplash(){
     return splashScreen;
@@ -159,7 +169,7 @@ public class BisisApp {
     return mf;
   }
 
-  public static Log log = LogFactory.getLog(BisisApp.class);
+  public static Logger log = Logger.getLogger(BisisApp.class);
 
   private static String getDomainFromUsername(String username) {
     //mora zbog header interceptora u retrofitu

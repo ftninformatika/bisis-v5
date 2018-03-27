@@ -3,11 +3,11 @@
  */
 package com.ftninformatika.bisis.editor.inventar;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.records.Primerak;
 
@@ -66,9 +66,9 @@ public class RaspodelaTableModel extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Primerak p = (Primerak)raspodela.get(rowIndex)[0];
 		switch(columnIndex){
-		case 0: return p.getOdeljenje()+"-"+ HoldingsDataCoders.getValue(HoldingsDataCoders.ODELJENJE_CODER, p.getOdeljenje());
+		case 0: return p.getOdeljenje()+"-"+ BisisApp.appConfig.getCodersHelper().getValue(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER, p.getOdeljenje());
 		case 1: return p.getInvBroj().substring(2,4);
-		case 2: return p.getSigPodlokacija()==null ? "" : p.getSigPodlokacija()+"-"+HoldingsDataCoders.getValue(HoldingsDataCoders.PODLOKACIJA_CODER, p.getSigPodlokacija());
+		case 2: return p.getSigPodlokacija()==null ? "" : p.getSigPodlokacija()+"-"+BisisApp.appConfig.getCodersHelper().getValue(BisisApp.appConfig.getCodersHelper().PODLOKACIJA_CODER, p.getSigPodlokacija());
 		case 3: return raspodela.get(rowIndex)[1];		
 		}
 		
@@ -80,6 +80,7 @@ public class RaspodelaTableModel extends AbstractTableModel {
 	}	
 	
 	public void updatePrimerak(Primerak p, Integer brPrimeraka) throws RaspodelaException {
+
 		String odeljenje = p.getOdeljenje();
 		String invKnj = p.getInvBroj().substring(2,4);
 		String podlokacija = p.getSigPodlokacija();
@@ -147,8 +148,8 @@ public class RaspodelaTableModel extends AbstractTableModel {
 				else
 					pocetak = brojac;				
 				for(int j=0;j<brPrimeraka;j++){            
-					broj = //BisisApp.getRecordManager().getNewID(brojac); TODO-hardcoded
-							0;
+					broj = BisisApp.getRecordManager().getNewID(brojac);
+
           String prefiks = pocetak+"000000000".substring(0,InventarConstraints.duzinaInventarnogBroja-pocetak.length()-String.valueOf(broj).length());
           String invBroj = prefiks+broj; 
           if(InventarValidation.isDuplicatedInvBroj(invBroj))

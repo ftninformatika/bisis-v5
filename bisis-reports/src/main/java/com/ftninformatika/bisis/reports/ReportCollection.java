@@ -5,8 +5,7 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +51,5 @@ public class ReportCollection {
 
 
   private List<Report> reports;
-  private Log log = LogFactory.getLog(ReportCollection.class);
+  private Logger log = Logger.getLogger(ReportCollection.class);
 }

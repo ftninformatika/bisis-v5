@@ -13,9 +13,7 @@ import java.util.Date;
 import javax.swing.table.AbstractTableModel;
 
 import com.ftninformatika.bisis.BisisApp;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.apache.log4j.Logger;
 
 
 public class CoderTableModel extends AbstractTableModel {
@@ -477,5 +475,5 @@ public class CoderTableModel extends AbstractTableModel {
   
   private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
   
-  private static Log log = LogFactory.getLog(CoderTableModel.class);
+  private static Logger log = Logger.getLogger(CoderTableModel.class);
 }

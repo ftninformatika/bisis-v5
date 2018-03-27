@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.ftninformatika.utils.file.FileUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -22,8 +23,7 @@ public class ValidatorFactory {
   
   private static Map validators = new HashMap();
 
-  private static Log log = LogFactory.getLog(
-			"test.com.gint.app.bisis.common.format.ValidatorFactory");
+  private static Logger log = Logger.getLogger(ValidatorFactory.class);
 
   static {
     try {

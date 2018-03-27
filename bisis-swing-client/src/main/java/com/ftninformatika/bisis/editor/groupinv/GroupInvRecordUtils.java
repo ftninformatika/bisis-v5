@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.editor.groupinv;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,23 +19,25 @@ public class GroupInvRecordUtils {
 	private static List<String> titles = new ArrayList<String>();
 	
 	public static Record getRecordForInv(String invBroj){
-		List<String> invList = new ArrayList<String>();
-		invList.add(invBroj);
-		/*CachingWrapperFilter filter = new CachingWrapperFilter(new BisisFilter(invList));
-    int[] recordIds = BisisApp.getRecordManager().select3(new MatchAllDocsQuery(),filter, null);
-    if(recordIds.length==0) return null;
-    return BisisApp.getRecordManager().getRecord(recordIds[0]);	*/
-		return null; //TODO-hardcoded
+		Record retVal = null;
+		try {
+			retVal = BisisApp.bisisService.getRecordByCtlgNo(invBroj).execute().body();
+		} catch (IOException e) {
+			e.printStackTrace();
+			retVal = null;
+		}
+		return retVal;
 	}
 	
 	public static List<Record> getRecordsForInvs(List<String> invList){
-		/*CachingWrapperFilter filter = new CachingWrapperFilter(new BisisFilter(invList));
-    int[] recordIds = BisisApp.getRecordManager().select3(new MatchAllDocsQuery(),filter, null);
-    List<Record> recList = new ArrayList<Record>(); 
-    for(Record rec: BisisApp.getRecordManager().getRecords(recordIds))
-    	recList.add(rec);    
-    return recList;		*/
-		return null;
+		List<Record> retVal = new ArrayList<>();
+
+		for(String in: invList){
+			Record r = getRecordForInv(in);
+			retVal.add(r);
+		}
+
+		return retVal;
 	}
 	
 

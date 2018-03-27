@@ -25,6 +25,7 @@ public class CoderFrame extends JInternalFrame {
   public CoderFrame(Table table) {
     super(table.getCaption(), true, true, true, true);
     setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+
     this.table = table;
     tblModel = new CoderTableModel(table);
     tblData.setModel(tblModel);

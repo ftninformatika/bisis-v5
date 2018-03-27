@@ -93,9 +93,6 @@ public class CodedValuePanel extends JPanel {
 		valueTxtFld = new JTextField(18);
 		valueTxtFld.setEditable(false);
 
-		if (UIManager.getLookAndFeel().getName().equals("SeaGlass"))
-			valueTxtFld.setBackground( new Color(193, 229, 242));
-
 		valueTxtFld.setCaretPosition(0);
 		coderButton = new JButton(new ImageIcon(getClass().getResource(
         	"/icons/coder.gif")));

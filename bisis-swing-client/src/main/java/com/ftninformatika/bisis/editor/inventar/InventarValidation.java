@@ -3,8 +3,7 @@ package com.ftninformatika.bisis.editor.inventar;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.validators.DateValidator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -13,7 +12,7 @@ import java.text.MessageFormat;
 public class InventarValidation {
 	
   private static String codeMessagePref = Messages.getString("WRONG_CODE_FOR_FIELD:");
-  private static Log log = LogFactory.getLog(InventarValidation.class.getName());
+  private static Logger log = Logger.getLogger(InventarValidation.class);
 	
   public static String validateInventarPanelData(InventarPanel panel, boolean all){
     StringBuffer messageBuff = new StringBuffer();

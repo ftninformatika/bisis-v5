@@ -12,6 +12,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import freemarker.template.*;
+import org.apache.log4j.Logger;
+
 import java.io.*;
 
 
@@ -46,7 +48,7 @@ public class Report {
 	  static int brmax; 
 	  static int bkmax;
 
-	  private static Log log = LogFactory.getLog(Report.class.getName());
+	  private static Logger log = Logger.getLogger(Report.class.getName());
 	  private static Record record=null;
     
     

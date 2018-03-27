@@ -32,10 +32,7 @@ import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-
+import org.apache.log4j.Logger;
 
 
 /**
@@ -50,7 +47,7 @@ public class RecordTree extends JTree {
 	
 	private JPopupMenu popupMenu;
   
-  private static Log log = LogFactory.getLog(RecordTree.class.getName()); 
+  private static Logger log = Logger.getLogger(RecordTree.class);
 
 	
 	public RecordTree(){

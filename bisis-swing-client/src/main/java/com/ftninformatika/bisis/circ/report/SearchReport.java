@@ -6,18 +6,17 @@ import java.util.Map;
 import com.ftninformatika.bisis.circ.view.SearchUsersTableModel;
 import com.ftninformatika.utils.Messages;
 import net.sf.jasperreports.engine.JRParameter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import org.apache.log4j.Logger;
 
 
 public class SearchReport {
   
-  private static Log log = LogFactory.getLog(SearchReport.class.getName());
+  private static Logger log = Logger.getLogger(SearchReport.class);
 
 	public static JasperPrint setPrint(SearchUsersTableModel table, String query){
 

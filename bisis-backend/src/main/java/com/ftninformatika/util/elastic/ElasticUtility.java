@@ -5,10 +5,6 @@ import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.queryparser.xml.FilterBuilder;
-import org.apache.lucene.queryparser.xml.FilterBuilderFactory;
-import org.apache.lucene.search.Filter;
 import org.elasticsearch.index.query.*;
 
 import java.util.List;

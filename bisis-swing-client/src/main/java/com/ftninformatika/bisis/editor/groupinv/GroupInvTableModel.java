@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.editor.groupinv;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.inventar.InventarConstraints;
-import com.ftninformatika.bisis.format.HoldingsDataCoders;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.Signature;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 import java.util.ArrayList;
@@ -125,9 +126,9 @@ public class GroupInvTableModel extends AbstractTableModel {
 	
 	public List<UItem> getCodes(int column){
 		if(columns[column].equals(Messages.getString("STATUS")))
-			return HoldingsDataCoders.getCoder(HoldingsDataCoders.STATUS_CODER);
+			return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().STATUS_CODER);
 		else if(columns[column].equals(Messages.getString("LOCATION")))
-			return HoldingsDataCoders.getCoder(HoldingsDataCoders.ODELJENJE_CODER);
+			return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER);
 		return null;		
 	}
 	
@@ -257,10 +258,13 @@ public class GroupInvTableModel extends AbstractTableModel {
 	
 	
 	
-	for(Record record:records){		
-		//Record r = BisisApp.getRecordManager().update(record);
-		//if(r==null)
-			return false; //TODO-hardcoded
+	for(Record record:records){
+		try {
+			BisisApp.getRecordManager().update(record);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	return ok;
