@@ -93,7 +93,7 @@ public interface BisisService {
     Call<MemberData> getMemberDataById(@Query("userId") String userId);
 
     @POST("members/addUpdateMemberData")
-    Call<Boolean> addUpdateMemberData(@Body MemberData memberData);
+    Call<MemberData> addUpdateMemberData(@Body MemberData memberData);
 
 //librarians------------------------------------------------------------
 
