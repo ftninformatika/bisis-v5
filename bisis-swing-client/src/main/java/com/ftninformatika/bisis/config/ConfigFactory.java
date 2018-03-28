@@ -13,7 +13,7 @@ public class ConfigFactory {
 
   static {
     configMap.put(ConfigType.DEVELOPMENT, new DevelopmentConfig());
-    configMap.put(ConfigType.TEST, null);
+    configMap.put(ConfigType.TEST, new TestConfig());
     configMap.put(ConfigType.STAGING, null);
     configMap.put(ConfigType.PRODUCTION, new ProductionConfig());
   }
