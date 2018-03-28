@@ -36,19 +36,6 @@
 	<title>
 		<band height="80" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="190" y="27" width="94" height="15" uuid="a7fe97bc-b26f-480e-a77d-8c04b6053e3b"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="false">
 				<reportElement key="textField" style="SansSerif" positionType="Float" x="304" y="27" width="92" height="17" uuid="d9f276b7-b51f-4898-8d8d-dda02c3970ae"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -88,7 +75,7 @@
 				<textFieldExpression><![CDATA[str("NAJCITANIJE_TITLE")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="137" y="27" width="53" height="16" uuid="9da23749-2f52-49c1-8530-6cd94d1becf9"/>
+				<reportElement key="staticText" style="SansSerif" positionType="Float" x="120" y="28" width="53" height="16" uuid="9da23749-2f52-49c1-8530-6cd94d1becf9"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -112,6 +99,19 @@
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("NAJCITANIJE_TO")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" style="SansSerif" positionType="Float" x="184" y="28" width="92" height="17" uuid="a2e9045f-4d7a-42b8-85ce-3c57fc1d3ddb"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
