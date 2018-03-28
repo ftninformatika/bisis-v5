@@ -27,10 +27,9 @@ public class UserManager {
     private List warnings = null;
     private String env = null;
     private String validator = null;
-    private List lendings = null;
+    private List lendings =  new ArrayList();
 
     public UserManager() {
-        lendings = new ArrayList();
     }
 
     public String saveUser(User user) {
@@ -80,8 +79,7 @@ public class UserManager {
 //                try {
 //                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
                     member = memberData.getMember();
-                    lendings = memberData.getLendings();
-
+                    lendings = memberData.getLendings() != null ? memberData.getLendings() : new ArrayList();
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
