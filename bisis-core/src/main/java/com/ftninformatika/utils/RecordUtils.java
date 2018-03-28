@@ -23,7 +23,7 @@ public class RecordUtils {
      */
     public static List<ItemAvailability> getItemAvailabilityNewDelta(Record freshRecord, Record storedRecord){
         List<ItemAvailability> retVal = new ArrayList<>();
-        if (freshRecord.getPrimerci() != null && storedRecord.getPrimerci() != null && freshRecord.getPrimerci().size() > 0 && storedRecord.getPrimerci().size() > 0){
+        if (freshRecord.getPrimerci() != null && storedRecord.getPrimerci() != null && freshRecord.getPrimerci().size() > 0){
             for (Primerak p: freshRecord.getPrimerci())
                 if (!storedRecord.getPrimerci().stream().map(e -> e.getInvBroj()).collect(Collectors.toList()).contains(p.getInvBroj())){
                     ItemAvailability ia = new ItemAvailability();
@@ -35,7 +35,7 @@ public class RecordUtils {
                 }
         }
 
-        if (freshRecord.getGodine() != null && storedRecord.getGodine() != null && freshRecord.getGodine().size() > 0 && storedRecord.getGodine().size() > 0){
+        if (freshRecord.getGodine() != null && storedRecord.getGodine() != null && freshRecord.getGodine().size() > 0){
             for (Godina p: freshRecord.getGodine())
                 if (!storedRecord.getGodine().stream().map(e -> e.getInvBroj()).collect(Collectors.toList()).contains(p.getInvBroj())){
                     ItemAvailability ia = new ItemAvailability();
