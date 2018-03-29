@@ -1,26 +1,26 @@
 package com.ftninformatika.bisis;
 
-import com.ftninformatika.bisis.hitlist.groupview.GrupniPrikazFrame;
-import com.ftninformatika.bisis.search.Result;
-import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
+import com.ftninformatika.bisis.hitlist.groupview.GrupniPrikazFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.report.ReportChooserDlg;
 import com.ftninformatika.bisis.report.ReportFrame;
+import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
+import com.ftninformatika.utils.Messages;
 import net.sf.jasperreports.engine.JasperPrint;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.text.MessageFormat;
-import javax.swing.*;
 
 
 public class MainFrame extends JFrame {
@@ -189,7 +189,7 @@ public class MainFrame extends JFrame {
 
     public CoderFrame get992bFrame(){
         if (_992bFrame == null){
-            _992bFrame = new CoderFrame(TableCatalog.getTable("Sifarnik_992b"));
+            _992bFrame = new CoderFrame(TableCatalog.getTable("Task"));
         }
         return _992bFrame;
     }

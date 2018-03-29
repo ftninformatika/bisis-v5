@@ -212,6 +212,14 @@ public class CodersHelper {
                 retVal.add(l);
             }
         }
+        if (coderName.equals("Task")){
+            for(Task i: tasks.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
 
         return retVal;
     }

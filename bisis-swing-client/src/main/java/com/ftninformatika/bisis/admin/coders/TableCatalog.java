@@ -92,8 +92,8 @@ public class TableCatalog {
                 new Column("warn_year", Messages.getString("year"), Types.INTEGER, 0, 0, false),
                 new Column("wtype", Messages.getString("remindertype"), Types.INTEGER, 0, 0, false),
                 new Column("last_no", Messages.getString("lastnum"), Types.INTEGER, 0, 0, false)}));
-    tables.put("Sifarnik_992b", 
-            new Table("Sifarnik_992b", Messages.getString("actions"), new Column[] {
+    tables.put("Task",
+            new Table("Task", Messages.getString("actions"), new Column[] {
                 new Column("id", Messages.getString("Code"), Types.VARCHAR, 20, 0, true),
                 new Column("naziv", Messages.getString("title"), Types.VARCHAR, 120, 0, false)}));
     
