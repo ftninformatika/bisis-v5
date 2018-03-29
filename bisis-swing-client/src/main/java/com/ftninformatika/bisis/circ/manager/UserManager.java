@@ -73,6 +73,7 @@ public class UserManager {
                 memberData = BisisApp.bisisService.addUpdateMemberData(memberData).execute().body();
             } catch (Exception e) {
                 e.printStackTrace();
+                return "Gre\u0161ka u konekciji s bazom podataka!";
             }
 
             if (memberData != null) {
@@ -178,7 +179,7 @@ public class UserManager {
         } else {
             Cirkulacija.getApp().getMainFrame().getUserPanel().getLending().lendBook(ctlgno);
             Cirkulacija.getApp().getMainFrame().previousTwoPanels();
-            Cirkulacija.getApp().getMainFrame().showPanel("userPanel");
+            //Cirkulacija.getApp().getMainFrame().showPanel("userPanel");
         }
     }
 
