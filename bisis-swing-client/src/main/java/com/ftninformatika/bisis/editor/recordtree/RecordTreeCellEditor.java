@@ -1,45 +1,26 @@
 package com.ftninformatika.bisis.editor.recordtree;
 
-import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.IndicatorCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.SubfieldCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.TableCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.*;
 import com.ftninformatika.bisis.records.Subfield;
-import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.utils.CharacterLookup;
+import com.ftninformatika.utils.Messages;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.EventObject;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.EventObject;
 
 
 public class RecordTreeCellEditor extends DefaultTreeCellEditor{
@@ -232,7 +213,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 			if(usf.getOwner().getName().equalsIgnoreCase("992")){ //cita sifarnik iz baze
 				if (usf.getName()=='b'){
 					//TODO
-					ccd=new TableCodeChoiceDialog(usf,BisisApp.appConfig.getCodersHelper()._992b_CODER,BisisApp.getMainFrame());
+					ccd=new TableCodeChoiceDialog(usf,BisisApp.appConfig.getCodersHelper().TASK_CODER,BisisApp.getMainFrame());
 				}else if(usf.getName()=='f'){
 					ccd=new TableCodeChoiceDialog(usf,BisisApp.appConfig.getCodersHelper().LIBRARIAN_CODER,BisisApp.getMainFrame());
 				}else{ //ostala sifrirana polja 992 ne cita iz baze
