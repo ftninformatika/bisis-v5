@@ -1,12 +1,7 @@
 package com.ftninformatika.bisis.rest_service.config;
 
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.node.NodeBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 /**
@@ -17,18 +12,18 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @ComponentScan(basePackages = {"com.ftninformatika"})
 public class ElasticSearchConfiguration {
 
-    @Bean
+   /* @Bean
     public NodeBuilder nodeBuilder() {
         return new NodeBuilder();
-    }
+    }*/
 
-    @Bean
+ /*   @Bean
     public ElasticsearchOperations elasticsearchTemplate() {
         Settings.Builder elasticsearchSettings =
                 Settings.settingsBuilder()
                         .put("http.enabled", "false") // 1
-                        .put("path.data", /*tmpDir.toAbsolutePath().toString()*/"/elastic/storage") // 2
-                        .put("path.home", "PATH_TO_YOUR_ELASTICSEARCH_DIRECTORY"); // 3
+                        .put("path.data", /*tmpDir.toAbsolutePath().toString()*///"/elastic/storage") // 2
+     /*                   .put("path.home", "PATH_TO_YOUR_ELASTICSEARCH_DIRECTORY"); // 3
 
         //logger.debug(tmpDir.toAbsolutePath().toString());
         return new ElasticsearchTemplate(nodeBuilder()
@@ -36,6 +31,6 @@ public class ElasticSearchConfiguration {
                 .settings(elasticsearchSettings.build())
                 .node()
                 .client());
-    }
+    }*/
 
 }

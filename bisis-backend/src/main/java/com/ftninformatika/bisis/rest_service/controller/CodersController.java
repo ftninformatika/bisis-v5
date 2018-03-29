@@ -35,6 +35,8 @@ public class CodersController {
 
     @Autowired SublocationRepository sublocrep;
 
+    @Autowired TaskRepository taskrep;
+
     @Autowired EducationLvlRepository edurep;
 
     @Autowired LanguageRepository langrep;
@@ -123,6 +125,11 @@ public class CodersController {
     @RequestMapping(path = "sublocation")
     public List<Sublocation> getSublocations(String libName){
         return sublocrep.getCoders(libName);
+    }
+
+    @RequestMapping(path = "tasks")
+    public List<Sublocation> getTasks(String libName){
+        return taskrep.getCoders(libName);
     }
 
     //coders from circ------------------------------------

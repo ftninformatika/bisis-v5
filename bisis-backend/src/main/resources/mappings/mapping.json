@@ -1,0 +1,14 @@
+{
+  "record": {
+    "properties": {
+      "prefixes": {
+        "properties": {
+          "DC": {
+            "type": "string",
+            "index": "not_analyzed"
+          }
+        }
+      }
+    }
+  }
+}

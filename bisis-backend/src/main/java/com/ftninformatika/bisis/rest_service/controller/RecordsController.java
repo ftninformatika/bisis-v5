@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
@@ -11,7 +10,6 @@ import com.ftninformatika.bisis.records.RecordResponseWrapper;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.Result;
@@ -20,19 +18,19 @@ import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.RecordUtils;
-import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.collections.IteratorUtils;
-import org.apache.lucene.search.WildcardQuery;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -285,7 +283,7 @@ public class RecordsController {
             ee.setPrefixes(prefixes);
             elasticRecordsRepository.save(ee);
             elasticRecordsRepository.index(ee);
-            return new ResponseEntity<>(record, HttpStatus.OK);
+            return new ResponseEntity<>(savedRecord, HttpStatus.OK);
 
         } catch (Exception et) {
             et.printStackTrace();

@@ -1,12 +1,17 @@
 package com.ftninformatika.bisis.coders;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.circ.*;
+import com.ftninformatika.bisis.format.UItem;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
@@ -50,13 +55,12 @@ public class CodersHelper {
     }
 
     public boolean isValid992b(String code){
-//        itemStatuses.containsKey(code); TODO hardcoded
-        return false;
+       return tasks.containsKey(code);
+
     }
 
     public boolean isValidLibrarian(String code){
-//        itemStatuses.containsKey(code); TODO hardcoded
-        return itemStatuses.containsKey(code);
+        return librarians.containsKey(code);
     }
 
 
@@ -208,6 +212,14 @@ public class CodersHelper {
                 retVal.add(l);
             }
         }
+        if (coderName.equals("Task")){
+            for(Task i: tasks.values()){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getCoder_id());
+                l.add(i.getDescription());
+                retVal.add(l);
+            }
+        }
 
         return retVal;
     }
@@ -227,6 +239,8 @@ public class CodersHelper {
             List<Sublocation> sublocCoders=BisisApp.bisisService.getSubLocations(BisisApp.appConfig.getLibrary()).execute().body();
             List<Location> locCoders=BisisApp.bisisService.getLocations(BisisApp.appConfig.getLibrary()).execute().body();
             List<Counter> countersCoders = BisisApp.bisisService.getCounters(BisisApp.appConfig.getLibrary()).execute().body();
+            List<Task> tasksCoders = BisisApp.bisisService.getTasks(BisisApp.appConfig.getLibrary()).execute().body();
+            List<LibrarianDTO> librariansCoders = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
 
             accessionRegs = accRegCoders.stream().collect(Collectors.toMap(AccessionRegister::getCoder_id, i -> i));
             acquisitionTypes = acqCoders.stream().collect(Collectors.toMap(Acquisition::getCoder_id, i -> i));
@@ -238,6 +252,8 @@ public class CodersHelper {
             locations = locCoders.stream().collect(Collectors.toMap(Location::getCoder_id, i -> i));
             sublocations = sublocCoders.stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
             counters = countersCoders.stream().collect(Collectors.toMap(Counter::getCounterName, i -> i));
+            tasks = tasksCoders.stream().collect(Collectors.toMap(Task::getCoder_id, i -> i));
+            librarians = librariansCoders.stream().collect(Collectors.toMap(LibrarianDTO::getUsername, i -> i));
 
             //circkulacija
             /*List<CircLocation> circLocationList =*/
@@ -290,7 +306,7 @@ public class CodersHelper {
             case INTERNAOZNAKA_CODER: return getValueFromList(this.getCoder(INTERNAOZNAKA_CODER), code);
             case INVENTARNAKNJIGA_CODER: return getValueFromList(this.getCoder(INVENTARNAKNJIGA_CODER), code);
             case DOSTUPNOST_CODER: return getValueFromList(this.getCoder(DOSTUPNOST_CODER), code);
-            case _992b_CODER: return getValueFromList(this.getCoder(_992b_CODER), code);
+            case TASK_CODER: return getValueFromList(this.getCoder(TASK_CODER), code);
             case LIBRARIAN_CODER: return getValueFromList(this.getCoder(LIBRARIAN_CODER), code);
         }
         return null;
@@ -309,10 +325,10 @@ public class CodersHelper {
             case INTERNAOZNAKA_CODER: retVal = new ArrayList<InternalMark>(internalMarks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
             case INVENTARNAKNJIGA_CODER: retVal = new ArrayList<AccessionRegister>(accessionRegs.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
             case DOSTUPNOST_CODER: retVal = new ArrayList<Availability>(availabilities.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
-            case _992b_CODER: retVal = //new ArrayList<InternalMark>(internalMarks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());
-                                        new ArrayList<UItem>(Arrays.asList(new UItem("0", "hardcoded value"))); break; //TODO-hardcoded
-            case LIBRARIAN_CODER: retVal = //new ArrayList<InternalMark>(internalMarks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());
-                                            new ArrayList<UItem>(Arrays.asList(new UItem("0", "hardcoded value"))); break;
+            case TASK_CODER: retVal = new ArrayList<Task>(tasks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
+
+           case LIBRARIAN_CODER: retVal = new ArrayList<LibrarianDTO>(librarians.values()).stream().map(i -> new UItem(i.getUsername(), i.getIme()+" "+i.getPrezime())).collect(Collectors.toList());
+
         }
 
         return (ArrayList<UItem>) retVal;
@@ -328,6 +344,8 @@ public class CodersHelper {
     private Map<String, Sublocation> sublocations = new HashMap<>();
     private Map<String, Location> locations = new HashMap<>();
     private Map<String, Counter> counters = new HashMap<>();
+    private Map<String, Task> tasks = new HashMap<>();
+    private Map<String, LibrarianDTO> librarians = new HashMap<>();
 
     //circkulacija-----------------
     private List<CircLocation> circLocations = new ArrayList<>();
@@ -351,6 +369,6 @@ public class CodersHelper {
     public static final int INTERNAOZNAKA_CODER =   	    6;
     public static final int INVENTARNAKNJIGA_CODER =	    7;
     public static final int DOSTUPNOST_CODER =     		    8;
-    public static final int _992b_CODER =     		        9; //ovo je patch i treba drugacije da se resi
+    public static final int TASK_CODER =     		        9; //ovo je patch i treba drugacije da se resi
     public static final int LIBRARIAN_CODER =     		    10;
 }

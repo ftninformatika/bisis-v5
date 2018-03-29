@@ -215,7 +215,11 @@ public interface BisisService {
     @GET("coders/increment_counter")
     Call<Integer> incrementCounter(@Query("counterKey")String counterKey);
 
+    @GET("coders/tasks")
+    Call<List<Task>> getTasks(@Query("libName")String libName);
+
 //coders circulation----------------------------------------------------------
+
 
     @GET("coders/circlocation")
     Call<List<CircLocation>> getCircLocations(@Query("libName")String libName);
