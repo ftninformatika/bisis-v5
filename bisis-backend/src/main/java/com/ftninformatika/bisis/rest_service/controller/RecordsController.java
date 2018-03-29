@@ -283,7 +283,7 @@ public class RecordsController {
             ee.setPrefixes(prefixes);
             elasticRecordsRepository.save(ee);
             elasticRecordsRepository.index(ee);
-            return new ResponseEntity<>(record, HttpStatus.OK);
+            return new ResponseEntity<>(savedRecord, HttpStatus.OK);
 
         } catch (Exception et) {
             et.printStackTrace();
