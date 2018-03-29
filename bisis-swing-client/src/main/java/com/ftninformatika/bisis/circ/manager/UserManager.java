@@ -16,6 +16,7 @@ import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.search.SearchModelMember;
+import org.apache.log4j.Logger;
 import org.elasticsearch.monitor.os.OsStats;
 
 public class UserManager {
@@ -28,32 +29,42 @@ public class UserManager {
     private String env = null;
     private String validator = null;
     private List lendings =  new ArrayList();
+    private static Logger log = Logger.getLogger(UserManager.class);
 
     public UserManager() {
+    }
+
+    public Member getMember() {
+        return member;
     }
 
     public String saveUser(User user) {
         if (user.getDirty()) {
             String memberExists;
-            if (user.getDirty()) {
-                try {
-                    memberExists = BisisApp.bisisService.memberExist(user.getMmbrship().getUserID()).execute().body();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return "Gre\u0161ka u konekciji s bazom podataka!";
-                }
+            log.info("Cuvanje korisnika: " + (member == null? "novi " + user.getMmbrship().getUserID() : member.getUserId()));
 
-                if (member == null) {
-                    if (memberExists != null && !memberExists.equals(""))
-                        return "Broj korisnika vec postoji!";
-                    member = new Member();
-                } else {
-                    if (memberExists != null && !memberExists.equals("") && !memberExists.equals(member.get_id())) {
-                        return "Broj korisnika vec postoji!";
-                    }
-                }
-                member = toObjectModel(user, member);
+            try {
+                memberExists = BisisApp.bisisService.memberExist(user.getMmbrship().getUserID()).execute().body();
+            } catch (Exception e) {
+                log.error(e);
+                e.printStackTrace();
+                return "Gre\u0161ka u konekciji s bazom podataka!";
             }
+
+            if (member == null) {
+                if (memberExists != null && !memberExists.equals("")) {
+                    log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
+                    return "Broj korisnika vec postoji!";
+                }
+                member = new Member();
+            } else {
+                if (memberExists != null && !memberExists.equals("") && !memberExists.equals(member.get_id())) {
+                    log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
+                    return "Broj korisnika vec postoji!";
+                }
+            }
+            member = toObjectModel(user, member);
+
 
             if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("true") && (member.getPin() == null || member.getPin().equals(""))) {
                 String pin = Utils.generatePin();
@@ -73,10 +84,16 @@ public class UserManager {
                 memberData = BisisApp.bisisService.addUpdateMemberData(memberData).execute().body();
             } catch (Exception e) {
                 e.printStackTrace();
+                log.error("Greska pri cuvanju korisnika: " + user.getMmbrship().getUserID());
+                log.error(e);
                 return "Gre\u0161ka u konekciji s bazom podataka!";
             }
 
+
+
             if (memberData != null) {
+
+                log.info("Korisnik sacuvan: " + user.getMmbrship().getUserID());
 //                try {
 //                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
                     member = memberData.getMember();
@@ -91,6 +108,7 @@ public class UserManager {
                 }
                 return "ok";
             } else {
+                log.error("Greska pri cuvanju podataka: " + user.getMmbrship().getUserID());
                 return "Gre\u0161ka u konekciji s bazom podataka!";
             }
         } else {
@@ -100,9 +118,11 @@ public class UserManager {
 
     public void releaseUser() {
         if (member != null) {
+            log.info("Otkljucavanje korisnika: " + member.getUserId());
             try {
                 Boolean released = BisisApp.bisisService.releaseMemberById(member.getUserId()).execute().body();
             } catch (Exception e) {
+                log.error(e);
                 e.printStackTrace();
             }
         }
@@ -226,8 +246,10 @@ public class UserManager {
         int found = 0;
 
         try {
+            log.info("Otvaranje korisnika: " + userID);
             MemberData memberData = BisisApp.bisisService.getAndLockMemberById(userID, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
             if (memberData != null) {
+                log.info("Pronadjen individualni korisnik: " + userID);
                 if (memberData.getInUseBy() == null) {
                     member = memberData.getMember();
                     lendings = memberData.getLendings();
@@ -238,6 +260,7 @@ public class UserManager {
                         return found;
                     }
                 } else {
+                    log.info("Zakljucan korisnik: " + userID);
                     found = 3;
                     return found;
                 }
@@ -253,6 +276,7 @@ public class UserManager {
             e.printStackTrace();
         }
         if (corporateMember != null) {
+            log.info("Pronadjen kolektivni korisnik: " + userID);
             group.loadGroup(corporateMember.getUserId(), corporateMember.getInstName(), corporateMember.getSignDate(), corporateMember.getAddress(), corporateMember.getCity(), Utils.getString(corporateMember.getZip()),
                     corporateMember.getPhone(), corporateMember.getEmail(), corporateMember.getFax(), corporateMember.getSecAddress(), Utils.getString(corporateMember.getSecZip()), corporateMember.getSecCity(),
                     corporateMember.getSecPhone(), corporateMember.getContFirstName(), corporateMember.getContLastName(), corporateMember.getContEmail());

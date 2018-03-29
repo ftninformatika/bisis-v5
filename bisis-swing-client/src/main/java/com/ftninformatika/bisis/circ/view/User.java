@@ -124,7 +124,7 @@ public class User extends JPanel {
 								getTpMain().setEnabledAt(3, true);
 							dirty = false;
 						}else{
-							JOptionPane.showMessageDialog(null, Messages.getString("circulation.saveerror") + message, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+							JOptionPane.showMessageDialog(null, Messages.getString("circulation.saveerror") + " " + message, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
 									new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 						}
 					}

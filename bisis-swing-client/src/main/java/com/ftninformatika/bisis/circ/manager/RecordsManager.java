@@ -8,6 +8,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class RecordsManager {
     private Sveska sveska;
     private ItemAvailability itemAvailability;
     private List<ItemAvailability> listOfItems;
+    private static Logger log = Logger.getLogger(RecordsManager.class);
 
 
     public RecordsManager(){
@@ -29,12 +31,14 @@ public class RecordsManager {
     }
 
     public Record lendBook(String ctlgno){
+        log.info("Zaduzivanje primerka: " + ctlgno);
         boolean zaduziv = false;
         Record record = null;
 
         try {
             primerak = BisisApp.bisisService.getPrimerakByInvNum(ctlgno).execute().body();
         } catch (IOException e) {
+            log.error(e);
             e.printStackTrace();
         }
 
@@ -47,6 +51,7 @@ public class RecordsManager {
             try {
                 itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
             } catch (IOException e) {
+                log.error(e);
                 e.printStackTrace();
             }
         } else {
@@ -91,15 +96,18 @@ public class RecordsManager {
     }
 
     public void returnBook(String ctlgno){
+        log.info("Razduzivanje primerka: " + ctlgno);
         try {
             primerak = BisisApp.bisisService.getPrimerakByInvNum(ctlgno).execute().body();
         } catch (IOException e) {
+            log.error(e);
             e.printStackTrace();
         }
         if (primerak != null){
             try {
                 itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
             } catch (IOException e) {
+                log.error(e);
                 e.printStackTrace();
             }
             listContainsItem(itemAvailability);
@@ -111,12 +119,14 @@ public class RecordsManager {
             try {
                 sveska = BisisApp.bisisService.getSveskaByInvNum(ctlgno).execute().body();
             } catch (IOException e) {
+                log.error(e);
                 e.printStackTrace();
             }
             if (sveska != null){
                 try {
                     itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgno).execute().body();
                 } catch (IOException e) {
+                    log.error(e);
                     e.printStackTrace();
                 }
                 listContainsItem(itemAvailability);

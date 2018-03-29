@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.actions.*;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.validator.Validator;
+import org.apache.log4j.Logger;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -61,6 +62,7 @@ public class MainFrame extends JInternalFrame {
 	private int requestedPanel;
 	private boolean blank = true;
 	private HashMap<String, JPanel> panels = null;
+	private static Logger log = Logger.getLogger(MainFrame.class);
 	
 	public MainFrame() {
 		super(Messages.getString("circulation.circulation"), true, true, true, true); //$NON-NLS-1$
@@ -112,10 +114,11 @@ public class MainFrame extends JInternalFrame {
 			userIDOK = new ActionListener(){	
 				public void actionPerformed(ActionEvent e){
 					String userid = Validator.convertUserId2DB(getUserIDPanel().getValue());
+					log.info("Pretraga korisnika: " + userid);
 					if (!userid.equals("")){ //$NON-NLS-1$
 						int found = Cirkulacija.getApp().getUserManager().getUser(getUserPanel(), getGroupPanel(), userid);
-
 						if (found == 1){
+							log.info("Pronadjen individualni korisnik: " + userid);
 							getUserIDPanel().clear();
 							getUserIDPanel().setVisible(false);
 							switch (requestedPanel ){
@@ -126,17 +129,21 @@ public class MainFrame extends JInternalFrame {
 							}
 							showPanel("userPanel"); //$NON-NLS-1$
 						} else if (found == 2){
+							log.info("Pronadjen kolektivni korisnik: " + userid);
 							getUserIDPanel().clear();
 							getUserIDPanel().setVisible(false);
 							showPanel("groupPanel"); //$NON-NLS-1$
 						} else if (found == 3) {
+							log.info("Zakljucan korisnik: " + userid);
 							JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.userinuse"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
 									new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 						} else {
+							log.info("Pronadjen individualni korisnik: " + userid);
 							JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.userdontexists"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
 									new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 						}
 					} else {
+						log.info("Broj korisnika nije validan: " + getUserIDPanel().getValue());
 						JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.usernumberisnotvalid"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
 								new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
 					}
@@ -149,7 +156,8 @@ public class MainFrame extends JInternalFrame {
 	private ActionListener getUserIDCancel(){
 		if (userIDCancel == null){
 			userIDCancel = new ActionListener(){
-				public void actionPerformed(ActionEvent e){ 
+				public void actionPerformed(ActionEvent e){
+					log.info("Korisnik otkljucan: " + Cirkulacija.getApp().getUserManager().getMember().getUserId() );
 			        getUserIDPanel().clear();
 			        getUserIDPanel().setVisible(false);
 			        Cirkulacija.getApp().getUserManager().releaseUser();
@@ -187,7 +195,7 @@ public class MainFrame extends JInternalFrame {
 	private JToolBar getToolBar() {
 		if (toolBar == null) {
 			toolBar = new JToolBar();
-			toolBar.addSeparator(new Dimension(20, 0));
+			//toolBar.addSeparator(new Dimension(20, 0));
 			toolBar.add(getBtnNew());
 			toolBar.add(getBtnUser());
 			toolBar.add(getBtnSearchUser());
