@@ -32,6 +32,8 @@ dependencies {
     compile group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile group: 'xalan', name: 'xalan', version: '2.7.2'
     compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
     compileOnly('org.projectlombok:lombok:1.16.16')
