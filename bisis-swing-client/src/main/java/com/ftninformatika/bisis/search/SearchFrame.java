@@ -28,6 +28,7 @@ import javax.swing.text.JTextComponent;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
+import com.ftninformatika.bisis.libenv.LibEnvProxy;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
 import com.ftninformatika.utils.CharacterLookup;
@@ -261,6 +262,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 			lib.getContext().setPref3(btnPref3.getText());
 			lib.getContext().setPref4(btnPref4.getText());
 			lib.getContext().setPref5(btnPref5.getText());
+			LibEnvProxy.updateLibrarian(lib);
 		}
 		setVisible(false);
 	}  
