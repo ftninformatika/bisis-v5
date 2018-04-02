@@ -227,7 +227,5 @@ public class Subfield implements Serializable {
   /** the list of subsubfields */
   private List<Subsubfield> subsubfields;
   /** a secondary field contained by this subfield */
-  @JsonIgnore
-  @Transient
   private Field secField;
 }

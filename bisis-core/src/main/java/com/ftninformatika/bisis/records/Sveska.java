@@ -20,8 +20,6 @@ public class Sveska implements Serializable{
   private String brojSveske;
   private String knjiga;
   private String inventator;
-  @JsonIgnore
-  @Transient
   private Godina parent;  
   private int version;
 
