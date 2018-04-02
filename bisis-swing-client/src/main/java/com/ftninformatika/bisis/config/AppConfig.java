@@ -9,6 +9,8 @@ import com.ftninformatika.utils.RetrofitUtils;
 import lombok.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
+import org.apache.log4j.Logger;
 import retrofit2.Retrofit;
 //import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -29,6 +31,7 @@ public abstract class AppConfig {
   private Retrofit retrofit;
   private LibraryConfiguration clientConfig;
   private CodersHelper codersHelper;
+  private static Logger log = Logger.getLogger(AppConfig.class);
 
   public AppConfig(String serverUrl, Librarian librarian, String library, String token) {
     this.serverUrl = serverUrl;
@@ -79,6 +82,17 @@ public abstract class AppConfig {
           .header("Library", domain);
       return chain.proceed(newRequest.build());
     });
+
+      HttpLoggingInterceptor.Logger fileLogger = new HttpLoggingInterceptor.Logger() {
+          @Override
+          public void log(String s) {
+              log.info(s);
+          }
+      };
+
+    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(fileLogger);
+    interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    okHttpClient.addInterceptor(interceptor);
 
 
     ObjectMapper jacksonMapper = new ObjectMapper();

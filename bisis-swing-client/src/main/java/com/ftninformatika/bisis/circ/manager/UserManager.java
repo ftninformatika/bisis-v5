@@ -267,12 +267,14 @@ public class UserManager {
             }
 
         } catch (Exception e) {
+            log.error(e);
             e.printStackTrace();
         }
 
         try {
             corporateMember = BisisApp.bisisService.getCorporateMemberById(userID).execute().body();
         } catch (Exception e) {
+            log.error(e);
             e.printStackTrace();
         }
         if (corporateMember != null) {
