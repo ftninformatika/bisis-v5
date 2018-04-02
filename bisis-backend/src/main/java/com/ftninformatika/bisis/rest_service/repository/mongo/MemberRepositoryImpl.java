@@ -202,16 +202,10 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     public Long getFreeSigningMembersCount(Date start, Date end, String location) {
-        Criteria cr, cr1, cr2;
+        Criteria cr = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(DateUtils.getStartOfDay(start)).lte(DateUtils.getEndOfDay(end)).and("cost").is(0));
         if (location != null && !location.equals("")) {
-            cr1 = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(DateUtils.getStartOfDay(start))).lte(DateUtils.getEndOfDay(end)).and("location").is(location);
-
-        } else {
-            cr1 = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(DateUtils.getStartOfDay(start)).lte(DateUtils.getEndOfDay(end)));
+            cr = new Criteria().andOperator(cr, Criteria.where("location").is(location));
         }
-        cr2 = Criteria.where("signings.cost").is(0);
-        cr = new Criteria().andOperator(cr1, cr2);
-
         Query query = new Query();
         query.addCriteria(cr);
 
