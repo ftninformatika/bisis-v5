@@ -7,6 +7,8 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -103,10 +105,13 @@ public class MemberController {
         Member m = memberRep.getMemberByUserId(userId);
         LibrarianDTO l = librarianRepository.findOne(librarianId);
 
-        if (m == null || l == null) //nema tog clana (ili nekim cudom bibliotekara)
+        if (m == null || l == null) { //nema tog clana (ili nekim cudom bibliotekara)
+            log.info("(getAndLockMemberById) nije pronadjen korisnik ID: " + userId + " ili bibliotekar ID: " + librarianId);
             return null;
+        }
 
         if (m.getInUseBy() != null) {            // ako je zakljucan
+            log.info("(getAndLockMemberById) vec je zakljucan korisnik ID: " + userId);
             retVal.setInUseBy(m.getInUseBy());
             return retVal;
         }
@@ -115,7 +120,7 @@ public class MemberController {
         List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(userId);
         retVal.setMember(m);
         retVal.setLendings(lendings);
-
+        log.info("(getAndLockByMemberId) zakljucan i vracen korisnik ID: " + userId);
         return retVal;
     }
 
@@ -127,12 +132,13 @@ public class MemberController {
     @RequestMapping(path = "/releaseById")
     public boolean unlockMemberById(@RequestParam("userId") String userId) {
         Member m = memberRep.getMemberByUserId(userId);
-
-        if (m == null)
+        if (m == null) {
+            log.info("(unlockMemberById) Nije pronadjen user ID: " + userId);
             return false;
-
+        }
         m.setInUseBy(null);
         memberRep.save(m);
+        log.info("(unlockMemberById) Otkljucan user ID: " + userId);
         return true;
 
     }
@@ -215,5 +221,7 @@ public class MemberController {
 
 
     }
+
+    private Logger log = Logger.getLogger(MemberController.class);
 
 }

@@ -141,8 +141,6 @@ public interface BisisService {
     @POST("records/multiple_ids")
     Call<List<Record>> getRecordsByIds(@Body List<String> idList);
 
-
-
     @GET("expand_prefix_controller")
     Call<List<String>> getExpand(@Query("prefix") String prefix, @Query("text") String text);
 
@@ -173,7 +171,7 @@ public interface BisisService {
     @GET("records/unlock")
     Call<String> unlockRecord(@Query("recId") String recId);
 
-    @HTTP(method = "DELETE", path = "/records/{mongoID}")
+    @GET("records/delete/{mongoID}")
     Call<Boolean> deleteRecord(@Path("mongoID") String mongoID);
 
     @GET("records/getRecord")

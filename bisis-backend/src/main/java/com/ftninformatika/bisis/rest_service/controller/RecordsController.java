@@ -19,6 +19,7 @@ import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.RecordUtils;
 import org.apache.commons.collections.IteratorUtils;
+import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
@@ -39,39 +40,44 @@ import java.util.stream.StreamSupport;
 @RequestMapping("/records")
 public class RecordsController {
 
-  @Autowired RecordsRepository recordsRepository;
-  @Autowired ElasticRecordsRepository elasticRecordsRepository;
-  @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
-  @Autowired LocationRepository locationRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
+    @Autowired
+    ElasticRecordsRepository elasticRecordsRepository;
+    @Autowired
+    ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired
+    LocationRepository locationRepository;
+    private Logger log = Logger.getLogger(MemberController.class);
 
+    @RequestMapping(value = "/delete/{mongoID}")
+    public boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
+        recordsRepository.delete(mongoID);
+        elasticRecordsRepository.delete(mongoID);
+        return (recordsRepository.findOne(mongoID) == null && elasticRecordsRepository.findOne(mongoID) == null);
+    }
 
-  @RequestMapping(value = "/{mongoID}", method = RequestMethod.DELETE)
-  public boolean deleteRecord(@PathVariable("mongoID") String mongoID){
-    recordsRepository.delete(mongoID);
-    elasticRecordsRepository.delete(mongoID);
-    return (recordsRepository.findOne(mongoID) == null && elasticRecordsRepository.findOne(mongoID) == null);
-  }
 
     @RequestMapping(value = "/getRecord")
-    public Record getRecordForCtlgNum(@RequestParam (value = "ctlgno")String ctlgno){
+    public Record getRecordForCtlgNum(@RequestParam(value = "ctlgno") String ctlgno) {
         Record retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
-        if ( retVal == null )
+        if (retVal == null)
             retVal = recordsRepository.getRecordBySveskaInvNum(ctlgno);
         return retVal;
     }
 
     @RequestMapping(value = "/getWrapperRecord")
-    public RecordResponseWrapper getWrapperRecordForCtlgNum(@RequestParam (value = "ctlgno")String ctlgno){
+    public RecordResponseWrapper getWrapperRecordForCtlgNum(@RequestParam(value = "ctlgno") String ctlgno) {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
 
         Record r = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
 
-        if ( r == null ){
+        if (r == null) {
             r = recordsRepository.getRecordBySveskaInvNum(ctlgno);
             retVal.setFullRecord(r);
         }
 
-        if ( r != null ) {
+        if (r != null) {
             retVal.setFullRecord(r);
             //retVal.setPrefixEntity(elasticRecordsRepository.findOne(r.get_id()));
             String recId = Integer.toString(r.getRecordID());
@@ -82,68 +88,68 @@ public class RecordsController {
     }
 
 
-  @RequestMapping(value = "/getRecordForPrimerak")
-  public Record getRecordForPrimerak(@RequestParam (value = "ctlgno")String ctlgno){
-      Record retVal = null;
+    @RequestMapping(value = "/getRecordForPrimerak")
+    public Record getRecordForPrimerak(@RequestParam(value = "ctlgno") String ctlgno) {
+        Record retVal = null;
 
-      retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
+        retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
 
-      return retVal;
-  }
-
-
-  @ExceptionHandler(LockException.class)
-  @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
-  public Record getAndLock(@RequestParam (value = "recId") String recId, @RequestParam (value = "librarianId") String librarianId){
-      Record retVal = recordsRepository.findOne(recId);
-      if(retVal.getInUseBy() != null)
-          throw new LockException(recId);
-      retVal.setInUseBy(librarianId);
-      recordsRepository.save(retVal);
-      return retVal;
-  }
+        return retVal;
+    }
 
 
-  @RequestMapping(value = "/lock", method = RequestMethod.GET)
-  public String lock(@RequestParam (value = "recId") String recId, @RequestParam (value = "librarianId") String librarianId){
-      Record r = recordsRepository.findOne(recId);
-      r.setInUseBy(librarianId);
-      recordsRepository.save(r);
-      return "Locked record with ID: " + r.get_id();
-  }
+    @ExceptionHandler(LockException.class)
+    @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
+    public Record getAndLock(@RequestParam(value = "recId") String recId, @RequestParam(value = "librarianId") String librarianId) {
+        Record retVal = recordsRepository.findOne(recId);
+        if (retVal.getInUseBy() != null)
+            throw new LockException(recId);
+        retVal.setInUseBy(librarianId);
+        recordsRepository.save(retVal);
+        return retVal;
+    }
 
-  @RequestMapping(value = "/unlock", method = RequestMethod.GET)
-  public boolean unlock(@RequestParam (value = "recId") String recId){
-      Record r = recordsRepository.findOne(recId);
-      r.setInUseBy(null);
-      recordsRepository.save(r);
-      return  true;
-  }
+
+    @RequestMapping(value = "/lock", method = RequestMethod.GET)
+    public String lock(@RequestParam(value = "recId") String recId, @RequestParam(value = "librarianId") String librarianId) {
+        Record r = recordsRepository.findOne(recId);
+        r.setInUseBy(librarianId);
+        recordsRepository.save(r);
+        return "Locked record with ID: " + r.get_id();
+    }
+
+    @RequestMapping(value = "/unlock", method = RequestMethod.GET)
+    public boolean unlock(@RequestParam(value = "recId") String recId) {
+        Record r = recordsRepository.findOne(recId);
+        r.setInUseBy(null);
+        recordsRepository.save(r);
+        return true;
+    }
 
     @RequestMapping(value = "/unimarc/{recordId}", method = RequestMethod.GET)
     public String getRecordUnimarc(@PathVariable String recordId) {
-      String retVal = "";
+        String retVal = "";
         try {
             Record rec = recordsRepository.findOne(recordId);
             if (rec == null)
                 throw new RecordNotFoundException(recordId);
-            return UnimarcSerializer.toUNIMARC(rec.getPubType(), rec,false);
+            return UnimarcSerializer.toUNIMARC(rec.getPubType(), rec, false);
         } catch (Exception ex) {
             throw new RecordNotFoundException(recordId);
         }
     }
 
-  @RequestMapping(value = "/{recordId}", method = RequestMethod.GET)
-  public Record getRecord(@PathVariable String recordId) {
-    try {
-      Record rec = recordsRepository.findOne(recordId);
-        if (rec == null)
-        throw new RecordNotFoundException(recordId);
-      return rec;
-    } catch (Exception ex) {
-      throw new RecordNotFoundException(recordId);
+    @RequestMapping(value = "/{recordId}", method = RequestMethod.GET)
+    public Record getRecord(@PathVariable String recordId) {
+        try {
+            Record rec = recordsRepository.findOne(recordId);
+            if (rec == null)
+                throw new RecordNotFoundException(recordId);
+            return rec;
+        } catch (Exception ex) {
+            throw new RecordNotFoundException(recordId);
+        }
     }
-  }
 
     @RequestMapping(value = "/wrapperrec/{recordId}", method = RequestMethod.GET)
     public RecordResponseWrapper getFullWrapperRecord(@PathVariable String recordId) {
@@ -178,15 +184,14 @@ public class RecordsController {
 
     @RequestMapping(value = "/wrapperrec/universal", method = RequestMethod.POST)
     public Page<RecordResponseWrapper> getRecordsUniversalWrapper(@RequestBody UniversalSearchModel universalSearchModel, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
-            , @RequestParam(value = "pageSize", required = false) final Integer pageSize){
-
+            , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
 
         List<RecordResponseWrapper> retVal = new ArrayList<>();
 
         BoolQueryBuilder query = ElasticUtility.searchUniversalQuery(universalSearchModel);
-        int page=0;
-        int pSize =20;
+        int page = 0;
+        int pSize = 20;
 
         if (pageNumber != null)
             page = pageNumber;
@@ -210,60 +215,59 @@ public class RecordsController {
                 }
         );
 
-        Page<RecordResponseWrapper> rr = new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>)iRecs).getTotalElements());
+        Page<RecordResponseWrapper> rr = new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) iRecs).getTotalElements());
         return rr;
     }
 
 
     @RequestMapping(value = "/wrapperrec/universal/page/{text}", method = RequestMethod.GET)
-    public Page<ElasticPrefixEntity> getRecordsUniversalPages(@PathVariable String text){
+    public Page<ElasticPrefixEntity> getRecordsUniversalPages(@PathVariable String text) {
         List<RecordResponseWrapper> retVal = new ArrayList<>();
         SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
-        int page=0;
+        int page = 0;
         Pageable p = new PageRequest(page, 100);
-        Page<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query,p);
+        Page<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query, p);
 
 
         return iRecs;
     }
 
-    @RequestMapping( method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public Page<Record> getRecords() {
 
 
-            long ukupno = recordsRepository.count();
-            PageRequest p = new PageRequest(1,5);
-            Page<Record> recordPage = recordsRepository.findAll(p);
+        long ukupno = recordsRepository.count();
+        PageRequest p = new PageRequest(1, 5);
+        Page<Record> recordPage = recordsRepository.findAll(p);
 
-            if (recordPage == null)
-                throw new NullPointerException("Nema zapisa!");
-            return recordPage;
+        if (recordPage == null)
+            throw new NullPointerException("Nema zapisa!");
+        return recordPage;
 
     }
 
-    @RequestMapping( value = "/ep", method = RequestMethod.GET)
-    public List<ElasticPrefixEntity> getRecordsEP(){
-      Iterable<ElasticPrefixEntity> s = elasticRecordsRepository.findAll();
-      return IteratorUtils.toList(s.iterator());
+    @RequestMapping(value = "/ep", method = RequestMethod.GET)
+    public List<ElasticPrefixEntity> getRecordsEP() {
+        Iterable<ElasticPrefixEntity> s = elasticRecordsRepository.findAll();
+        return IteratorUtils.toList(s.iterator());
     }
 
-  //dodavanje novog ili izmena postojeceg zapisa
-  @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<Record> addOrUpdate(@RequestHeader("Library") String lib, @RequestBody Record record) {
+    //dodavanje novog ili izmena postojeceg zapisa
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Record> addOrUpdate(@RequestHeader("Library") String lib, @RequestBody Record record) {
 
         try {
 
-            if(record.get_id() == null){                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
+            if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
                 record.setLastModifiedDate(new Date());
                 record.setCreationDate(new Date());
-            }
-            else {
+            } else {
                 record.setLastModifiedDate(new Date());
                 Record storedRec = recordsRepository.findOne(record.get_id());
                 List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, storedRec); //novi primerci - pretabani u ItemAvailability
                 if (newItems.size() > 0) {
                     List<Location> locs = locationRepository.getCoders(lib);
-                    for(ItemAvailability i: newItems) {
+                    for (ItemAvailability i : newItems) {
                         Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
                         i.setLibDepartment(locDesc.get().getDescription());
                         itemAvailabilityRepository.save(i);
@@ -287,33 +291,33 @@ public class RecordsController {
 
         } catch (Exception et) {
             et.printStackTrace();
-            return new ResponseEntity<>(  HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-  }
+    }
 
-  @RequestMapping(value = "/query", method = RequestMethod.POST )
-  public ResponseEntity<List<Record>> search(@RequestBody SearchModel search ,  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
-          ,@RequestParam(value = "pageSize", required = false) final Integer pageSize){
-      ArrayList<Record> retVal = new ArrayList<>();
+    @RequestMapping(value = "/query", method = RequestMethod.POST)
+    public ResponseEntity<List<Record>> search(@RequestBody SearchModel search, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
+            , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+        ArrayList<Record> retVal = new ArrayList<>();
 
-      Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
-      Iterable<String> ids = ElasticUtility.getIdsFromElasticIterable(ii);
-      retVal = (ArrayList<Record>) recordsRepository.findAll(ids);
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
+        Iterable<String> ids = ElasticUtility.getIdsFromElasticIterable(ii);
+        retVal = (ArrayList<Record>) recordsRepository.findAll(ids);
 
-      return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
-  }
+        return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
+    }
 
-    @RequestMapping(value = "/query/full", method = RequestMethod.POST )
-    public Page<RecordResponseWrapper> searchFull(@RequestBody SearchModel search,  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
-            ,@RequestParam(value = "pageSize", required = false) final Integer pageSize){
+    @RequestMapping(value = "/query/full", method = RequestMethod.POST)
+    public Page<RecordResponseWrapper> searchFull(@RequestBody SearchModel search, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
+            , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
         ArrayList<RecordResponseWrapper> retVal = new ArrayList<>();
 
-        int page=0;
-        int pSize=20;
+        int page = 0;
+        int pSize = 20;
 
-        if(pageNumber != null)
+        if (pageNumber != null)
             page = pageNumber;
-        if(pageSize != null)
+        if (pageSize != null)
             pSize = pageSize;
 
         Pageable p = new PageRequest(page, pSize);
@@ -321,31 +325,31 @@ public class RecordsController {
         ii.forEach(
                 rec -> {
                     Record r = recordsRepository.findOne(rec.getId());
-                    List<ItemAvailability> ia = itemAvailabilityRepository.findByRecordID(r.getRecordID()+"");
+                    List<ItemAvailability> ia = itemAvailabilityRepository.findByRecordID(r.getRecordID() + "");
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
                     if (r != null)
-                        retVal.add( new RecordResponseWrapper(/*rec,*/ r ,pr, ia));
+                        retVal.add(new RecordResponseWrapper(/*rec,*/ r, pr, ia));
                 }
         );
-        return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>)ii).getTotalElements());
+        return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
-  @RequestMapping( value = "/search_ids", method = RequestMethod.POST )
-  public ResponseEntity<List<String>> searchIds(@RequestBody SearchModel search){
-      List<String> retVal = null;
+    @RequestMapping(value = "/search_ids", method = RequestMethod.POST)
+    public ResponseEntity<List<String>> searchIds(@RequestBody SearchModel search) {
+        List<String> retVal = null;
 
-      Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
-      retVal = StreamSupport.stream(ii.spliterator(), false)
-                            .map(i -> i.getId().replace(PrefixConverter.endPhraseFlag, ""))
-                            .collect(Collectors.toList());
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
+        retVal = StreamSupport.stream(ii.spliterator(), false)
+                .map(i -> i.getId().replace(PrefixConverter.endPhraseFlag, ""))
+                .collect(Collectors.toList());
 
-      return  new ResponseEntity<>(retVal, HttpStatus.OK);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
 
-  }
+    }
 
-    @RequestMapping( value = "/search_ids_result", method = RequestMethod.POST )
-    public ResponseEntity<Result> searchIdsResult(@RequestBody SearchModel search){
+    @RequestMapping(value = "/search_ids_result", method = RequestMethod.POST)
+    public ResponseEntity<Result> searchIdsResult(@RequestBody SearchModel search) {
         Result retVal = new Result();
         ArrayList<String> ids = new ArrayList<>();
         ArrayList<String> ctlgnos = new ArrayList<>();
@@ -353,9 +357,8 @@ public class RecordsController {
         ii.forEach(
                 r -> {
                     ids.add(r.getId());
-                    if(r.getPrefixes().get("IN") != null && r.getPrefixes().get("IN").size() > 0)
-                    {
-                        for(String s: r.getPrefixes().get("IN"))
+                    if (r.getPrefixes().get("IN") != null && r.getPrefixes().get("IN").size() > 0) {
+                        for (String s : r.getPrefixes().get("IN"))
                             ctlgnos.add(s.replace(PrefixConverter.endPhraseFlag, ""));
 //                        ctlgnos.addAll(r.getPrefixes().get("IN"));
                     }
@@ -364,12 +367,12 @@ public class RecordsController {
 
         retVal.setRecords(ids.toArray(new String[ids.size()]));
         retVal.setInvs(ctlgnos);
-        return  new ResponseEntity<>(retVal, HttpStatus.OK);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
 
     }
 
-    @RequestMapping( value = "/search_ids_circ", method = RequestMethod.POST )
-    public ResponseEntity<List<String>> searchIdsCirc(@RequestBody SearchModelCirc search){
+    @RequestMapping(value = "/search_ids_circ", method = RequestMethod.POST)
+    public ResponseEntity<List<String>> searchIdsCirc(@RequestBody SearchModelCirc search) {
         List<String> retVal = null;
 
         Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
@@ -377,34 +380,34 @@ public class RecordsController {
                 .map(i -> i.getId())
                 .collect(Collectors.toList());
 
-        return  new ResponseEntity<>(retVal, HttpStatus.OK);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
 
     }
 
-  @RequestMapping( value = "/search_records_ep_format", method = RequestMethod.POST)
-  public ResponseEntity<List<ElasticPrefixEntity>> searchRecordsElasticPrefixFormat(@RequestBody SearchModel search){
-      return null;
-  }
+    @RequestMapping(value = "/search_records_ep_format", method = RequestMethod.POST)
+    public ResponseEntity<List<ElasticPrefixEntity>> searchRecordsElasticPrefixFormat(@RequestBody SearchModel search) {
+        return null;
+    }
 
-  @RequestMapping( value = "/multiple_ids", method = RequestMethod.POST )
-  public ResponseEntity<List<Record>> getMultipleRecordsByIds(@RequestBody List<String> ids){
-      List<Record> retVal = (List<Record>) recordsRepository.findAll(ids);
-      retVal.sort(Comparator.comparingDouble(r->ids.indexOf(r.get_id())));
-      if (retVal != null)
-        return new ResponseEntity<>( retVal, HttpStatus.OK);
-      else
-        return new ResponseEntity<>( retVal, HttpStatus.NO_CONTENT);
-  }
+    @RequestMapping(value = "/multiple_ids", method = RequestMethod.POST)
+    public ResponseEntity<List<Record>> getMultipleRecordsByIds(@RequestBody List<String> ids) {
+        List<Record> retVal = (List<Record>) recordsRepository.findAll(ids);
+        retVal.sort(Comparator.comparingDouble(r -> ids.indexOf(r.get_id())));
+        if (retVal != null)
+            return new ResponseEntity<>(retVal, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(retVal, HttpStatus.NO_CONTENT);
+    }
 
-    @RequestMapping( value = "/multiple_ids_wrapper", method = RequestMethod.POST )
-    public List<RecordResponseWrapper> getRecordsAllDataByIds(@RequestBody List<String> idList){
+    @RequestMapping(value = "/multiple_ids_wrapper", method = RequestMethod.POST)
+    public List<RecordResponseWrapper> getRecordsAllDataByIds(@RequestBody List<String> idList) {
         List<RecordResponseWrapper> retVal = new ArrayList<>();
-        Iterable<Record> recs =  recordsRepository.findAll(idList);
+        Iterable<Record> recs = recordsRepository.findAll(idList);
         recs.forEach(
                 record -> {
                     RecordResponseWrapper wrapper = new RecordResponseWrapper();
                     wrapper.setFullRecord(record);
-                    List<ItemAvailability> items = itemAvailabilityRepository.findByRecordID(""+record.getRecordID());
+                    List<ItemAvailability> items = itemAvailabilityRepository.findByRecordID("" + record.getRecordID());
                     wrapper.setListOfItems(items);
                     retVal.add(wrapper);
                 }
@@ -412,37 +415,36 @@ public class RecordsController {
         return retVal;
     }
 
-  //za testiranje!!!!
-  @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
-  public ResponseEntity<Boolean> clearElastic(){
-      try{
-          elasticRecordsRepository.deleteAll();
-          return new ResponseEntity<>(true, HttpStatus.OK);
-      }
-      catch (Exception e){
-          e.printStackTrace();
-          return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
-      }
+    //za testiranje!!!!
+    @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
+    public ResponseEntity<Boolean> clearElastic() {
+        try {
+            elasticRecordsRepository.deleteAll();
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
+        }
 
-  }
+    }
 
     //za testiranje
     @RequestMapping(value = "/refill_elastic", method = RequestMethod.GET)
-    public ResponseEntity<Boolean> fillElastic(){
+    public ResponseEntity<Boolean> fillElastic() {
 
-        try{
+        try {
             long num = recordsRepository.count();
             int count = 0;
             Pageable p = new PageRequest(0, 1000);
             Page<Record> lr = recordsRepository.findAll(p);
 
-            while (lr.hasNext() ){
+            while (lr.hasNext()) {
                 List<ElasticPrefixEntity> ep = new ArrayList<>();
-                for (Record rec: lr){
+                for (Record rec : lr) {
                     Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
                     ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
                     ep.add(ee);
-               }
+                }
                 elasticRecordsRepository.save(ep);
                 count += 1000;
                 System.out.println("Processed " + count + " of " + num + " records!");
@@ -451,7 +453,7 @@ public class RecordsController {
 
             // resto
             List<ElasticPrefixEntity> ep = new ArrayList<>();
-            for (Record rec: lr){
+            for (Record rec : lr) {
                 Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
                 ep.add(ee);
@@ -461,12 +463,11 @@ public class RecordsController {
 
 
             return new ResponseEntity<>(true, HttpStatus.OK);
-            }
-            catch (Exception e){
-                    e.printStackTrace();
-                    return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
-                }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
+        }
 
-            }
+    }
 
 }
