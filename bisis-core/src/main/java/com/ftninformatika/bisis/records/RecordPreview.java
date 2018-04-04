@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftninformatika.bisis.prefixes.def.DefaultPrefixMap;
 import com.ftninformatika.utils.string.Signature;
 import lombok.AllArgsConstructor;
@@ -19,14 +20,16 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ * Class for web preview of record
+ */
 public class RecordPreview {
 
-    List fields1;
-    List fields2;
-    List fields3;
-    String text = "";
-    String empty = "";
-
+    @JsonIgnore List fields1;
+    @JsonIgnore List fields2;
+    @JsonIgnore List fields3;
+    @JsonIgnore String text = "";
+    @JsonIgnore String empty = "";
 
     private String author;
     private String title;

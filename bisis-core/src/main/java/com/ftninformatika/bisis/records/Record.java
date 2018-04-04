@@ -483,7 +483,9 @@ public class Record implements Serializable {
   /** last modification date */
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm'Z'")
   private Date lastModifiedDate;
-
+  /** list of modifications */
+  private List<RecordModification> recordModifications = new ArrayList<>();
+  /** if record is being edited by someone in this moment*/
   private String inUseBy;
 
 
