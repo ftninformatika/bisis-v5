@@ -74,7 +74,7 @@ public class GroupInvCodeDialog extends CenteredDialog {
 		okButton.setSize(new java.awt.Dimension(88,26));
 		okButton.setText(Messages.getString("EDITOR_BUTTONACCEPT"));
 		okButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/ok.gif")));		
+        "/icons/ok.gif")));
 		okButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){				
 				handleOk();
@@ -87,7 +87,7 @@ public class GroupInvCodeDialog extends CenteredDialog {
     });		
 		cancelButton = new JButton(Messages.getString("EDITOR_BUTTONCANCEL"));
 		cancelButton.setIcon(new ImageIcon(getClass().getResource(
-        "/com/gint/app/bisis4/client/images/remove.gif")));		
+        "/icons/remove.gif")));
 		buttonsPanel = new JPanel();
 		buttonsPanel.add(okButton);
 		buttonsPanel.add(cancelButton);

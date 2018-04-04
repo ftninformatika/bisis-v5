@@ -25,7 +25,7 @@ public class SearchUsersResults {
 	private PanelBuilder pb = null;
 	private JPanel buttonPanel = null;
 	private SearchUsersTableModel  suser = null;
-  private String query;
+  	private String query;
 
 	public SearchUsersResults() {
 		makePanel();
@@ -61,6 +61,8 @@ public class SearchUsersResults {
 		if (tblResults == null) {
 			tblResults = new JTable(getSearchUsersTableModel());
       tblResults.setAutoCreateRowSorter(true);
+
+	  tblResults.putClientProperty("Quaqua.Table.style", "striped");
       tblResults.addMouseListener(new MouseAdapter(){
       	public void mouseClicked(MouseEvent e) {
           if(e.getClickCount()==2){
