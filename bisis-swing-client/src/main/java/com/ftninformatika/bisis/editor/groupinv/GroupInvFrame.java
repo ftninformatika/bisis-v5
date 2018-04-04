@@ -32,8 +32,9 @@ public class GroupInvFrame extends JInternalFrame {
         super(Messages.getString("GROUP_INV"), true, true, true, true);
 //        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        setResizable(true);
+//        setResizable(true);
         setPreferredSize(new Dimension(700, 310));
+        pack();
         createTable();
 
         saveChangesButton.setIcon(new ImageIcon(getClass().getResource(

@@ -36,7 +36,6 @@ public class GroupInvRecordUtils {
 			Record r = getRecordForInv(in);
 			retVal.add(r);
 		}
-
 		return retVal;
 	}
 	

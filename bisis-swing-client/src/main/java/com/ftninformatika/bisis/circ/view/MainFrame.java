@@ -157,8 +157,7 @@ public class MainFrame extends JInternalFrame {
 		if (userIDCancel == null){
 			userIDCancel = new ActionListener(){
 				public void actionPerformed(ActionEvent e){
-					log.info("Korisnik otkljucan: " + Cirkulacija.getApp().getUserManager().getMember().getUserId() );
-			        getUserIDPanel().clear();
+					getUserIDPanel().clear();
 			        getUserIDPanel().setVisible(false);
 			        Cirkulacija.getApp().getUserManager().releaseUser();
 				}
