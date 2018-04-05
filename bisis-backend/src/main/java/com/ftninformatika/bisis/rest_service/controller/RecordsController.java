@@ -1,15 +1,15 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
-import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.RecordPreview;
-import com.ftninformatika.bisis.records.RecordResponseWrapper;
+import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.Result;
@@ -40,14 +40,11 @@ import java.util.stream.StreamSupport;
 @RequestMapping("/records")
 public class RecordsController {
 
-    @Autowired
-    RecordsRepository recordsRepository;
-    @Autowired
-    ElasticRecordsRepository elasticRecordsRepository;
-    @Autowired
-    ItemAvailabilityRepository itemAvailabilityRepository;
-    @Autowired
-    LocationRepository locationRepository;
+    @Autowired RecordsRepository recordsRepository;
+    @Autowired ElasticRecordsRepository elasticRecordsRepository;
+    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired LocationRepository locationRepository;
+    @Autowired LibrarianRepository librarianRepository;
     private Logger log = Logger.getLogger(MemberController.class);
 
     @RequestMapping(value = "/delete/{mongoID}")
@@ -277,6 +274,11 @@ public class RecordsController {
                 if (deletedInvs.size() > 0)
                     itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
             }
+            //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
+            LibrarianDTO modificator = librarianRepository.findOne(record.getInUseBy());
+            if (modificator != null)
+                record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
+
             record.pack();
             //insert record in mongodb via MongoRepository
             Record savedRecord = recordsRepository.save(record);
@@ -329,7 +331,7 @@ public class RecordsController {
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
                     if (r != null)
-                        retVal.add(new RecordResponseWrapper(/*rec,*/ r, pr, ia));
+                        retVal.add(new RecordResponseWrapper( r, pr, ia));
                 }
         );
         return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
