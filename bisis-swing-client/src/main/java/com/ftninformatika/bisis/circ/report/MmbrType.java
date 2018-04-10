@@ -60,6 +60,7 @@ public class MmbrType {
 		String loc = "";
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
+		params.put("datum", Utils.toLocaleDate(date));
 		if (branch instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
 			params.put("nazivogr", "odeljenje: "
 					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) branch).getDescription());
