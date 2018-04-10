@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.hitlist;
 
+import com.ftninformatika.bisis.records.RecordModification;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.utils.Messages;
 
@@ -509,8 +510,23 @@ public class HitListFrame extends JInternalFrame {
         cardPane.setCaretPosition(0);
     }
 
+    private void createModificationList(Record rec){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        DefaultListModel model = new DefaultListModel();
+        JList list = new JList(model);
+        list.putClientProperty("Quaqua.List.style", "striped");
+        modificationScrollPane.setViewportView(list);
+        int cnt = 0;
+        for (RecordModification r: rec.getRecordModifications()){
+            String s = (cnt + 1) + ".  " + sdf.format(r.getDateOfModification()) + " - " + r.getLibrarianUsername() + "   ";
+            model.add(cnt, s);
+            cnt++;
+        }
+    }
+
+
     private void createMetaDataPanel() {
-        metaDataPanel.setLayout(new MigLayout("", "", "[]10[]20[]10[]"));
+        metaDataPanel.setLayout(new MigLayout("", "", "[]10[]20[]10[]20[]"));
         metaDataPanel.add(new JLabel(Messages.getString("HITLIST_CREATED_BY_HTML")));
         metaDataPanel.add(recCreatorLabel, "wrap");
 
@@ -522,6 +538,10 @@ public class HitListFrame extends JInternalFrame {
 
         metaDataPanel.add(new JLabel(Messages.getString("HITLIST_CHANGED_DATE_HTML")));
         metaDataPanel.add(recModificationDateLabel, "wrap");
+
+        metaDataPanel.add(new JLabel("<html><b>Листа модификација записа:</b></html>"), "wrap");
+        metaDataPanel.add(modificationScrollPane, "wrap");
+
     }
 
     private void loadMetaData(Record rec) {
@@ -545,6 +565,19 @@ public class HitListFrame extends JInternalFrame {
             recModificationDateLabel.setText(sdf.format(rec.getLastModifiedDate()));
         else
             recModificationDateLabel.setText("");
+        //ako ima modifikacija od kada su ubacene
+        if (rec.getRecordModifications().size() > 0) {
+            createModificationList(rec);
+            modificationScrollPane.setOpaque(true);
+            modificationScrollPane.setEnabled(false);
+        }
+        else {
+            JLabel noModification = new JLabel("Запис није модификован од 10.04.2018!");
+            noModification.setOpaque(true);
+            modificationScrollPane.setViewportView(noModification);
+            modificationScrollPane.setOpaque(true);
+
+        }
     }
 
     private void loadUploadedFiles(Record rec) {
@@ -664,6 +697,7 @@ public class HitListFrame extends JInternalFrame {
     private JLabel recModifierLabel = new JLabel("");
     private JLabel recCreationDateLabel = new JLabel("");
     private JLabel recModificationDateLabel = new JLabel("");
+    private JScrollPane modificationScrollPane = new JScrollPane();
 
     private JTable inventarTable = new JTable();
     private InventarTabTableModel inventarTableModel = new InventarTabTableModel();
