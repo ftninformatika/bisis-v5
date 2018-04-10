@@ -258,7 +258,7 @@ public class RecordsController {
             if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
                 record.setLastModifiedDate(new Date());
                 record.setCreationDate(new Date());
-            } else {
+            } else {// ovo znaci da je update
                 record.setLastModifiedDate(new Date());
                 Record storedRec = recordsRepository.findOne(record.get_id());
                 List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, storedRec); //novi primerci - pretabani u ItemAvailability
@@ -273,11 +273,14 @@ public class RecordsController {
                 List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
                 if (deletedInvs.size() > 0)
                     itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
+
+                //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
+                LibrarianDTO modificator = librarianRepository.findOne(record.getInUseBy());
+                if (modificator != null)
+                    record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
+
             }
-            //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
-            LibrarianDTO modificator = librarianRepository.findOne(record.getInUseBy());
-            if (modificator != null)
-                record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
+
 
             record.pack();
             //insert record in mongodb via MongoRepository
