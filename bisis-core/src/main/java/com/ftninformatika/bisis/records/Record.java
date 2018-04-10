@@ -36,6 +36,7 @@ public class Record implements Serializable {
   public Record() {
     recordID = 0;
     pubType = 0;
+    rn = 0;
     fields = new ArrayList<>();
     primerci = new ArrayList<>();
     godine = new ArrayList<>();
@@ -50,6 +51,7 @@ public class Record implements Serializable {
   public Record(int recordID) {
     this.recordID = recordID;
     pubType = 0;
+    rn = 0;
     fields = new ArrayList<>();
     primerci = new ArrayList<>();
     godine = new ArrayList<>();
@@ -65,6 +67,7 @@ public class Record implements Serializable {
       List<Godina> godine) {
     this.recordID = recordID;
     pubType = 0;
+    rn = 0;
     this.fields = fields;
     this.primerci = primerci;
     this.godine = godine;
@@ -300,7 +303,6 @@ public class Record implements Serializable {
     return PrimerakSerializer.metapodaciUPolje000(this);
   }
 
-  @JsonIgnore
   public int getRN(){  	
   	try{
   		return Integer.parseInt(getSubfieldContent("001e"));
@@ -323,9 +325,11 @@ public class Record implements Serializable {
   		f001.add(sfRN);
   	}else
   		sfRN = f001.getSubfield('e');
-  	sfRN.setContent(String.valueOf(rn));	
+  	sfRN.setContent(String.valueOf(rn));
+  	this.rn = rn;
   }
-  @JsonIgnore
+
+
   // get master record number
   public int getMR(){
   	try{
@@ -392,6 +396,7 @@ public class Record implements Serializable {
   		rec.getGodine().add(g.copy());
   	return rec;
   }
+
 @JsonIgnore
   public Set<String> getDepartments(){
       List<String> retVal = new ArrayList<>();
@@ -487,6 +492,8 @@ public class Record implements Serializable {
   private List<RecordModification> recordModifications = new ArrayList<>();
   /** if record is being edited by someone in this moment*/
   private String inUseBy;
+  /** rn */
+  private int rn;
 
 
 }
