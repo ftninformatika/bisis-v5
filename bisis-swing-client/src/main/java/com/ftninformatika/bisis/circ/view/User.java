@@ -157,16 +157,22 @@ public class User extends JPanel {
 			            } 
 			          }
 			          if (!dirty){
-			  			Cirkulacija.getApp().getMainFrame().previousPanel();
-			            getTpMain().remove(getPMain4());
-			            getTpMain().remove(getPMain5());
-			            if (!getTpMain().isEnabledAt(3))
-			            	getTpMain().setEnabledAt(3, true);
-			            //clearPanels();
-			           if (picturebooks != null){
-			      		  getPicturebooks().setPinRequired(false);
-			      	  	}
-			            getLending().setPinRequired(false);
+			          	boolean released = Cirkulacija.getApp().getUserManager().releaseUser();
+			          	if (released) {
+                            Cirkulacija.getApp().getMainFrame().previousPanel();
+                            getTpMain().remove(getPMain4());
+                            getTpMain().remove(getPMain5());
+                            if (!getTpMain().isEnabledAt(3))
+                                getTpMain().setEnabledAt(3, true);
+                            //clearPanels();
+                            if (picturebooks != null) {
+                                getPicturebooks().setPinRequired(false);
+                            }
+                            getLending().setPinRequired(false);
+                        } else {
+                            JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.releaseerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                    new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+                        }
 			          }
 				}
 			});

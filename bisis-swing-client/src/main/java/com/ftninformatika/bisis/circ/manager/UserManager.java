@@ -116,21 +116,29 @@ public class UserManager {
         }
     }
 
-    public void releaseUser() {
+    public boolean releaseUser() {
+        Boolean released = true;
         if (member != null) {
+            released = false;
             log.info("Otkljucavanje korisnika: " + member.getUserId());
             try {
-                Boolean released = BisisApp.bisisService.releaseMemberById(member.getUserId()).execute().body();
+                released = BisisApp.bisisService.releaseMemberById(member.getUserId()).execute().body();
             } catch (Exception e) {
                 log.error(e);
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
-        member = null;
-        lendings = null;
-        chargeBook = "";
-        Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
-
+        if (released) {
+            member = null;
+            lendings = null;
+            chargeBook = "";
+            Cirkulacija.getApp().getRecordsManager().releaseListOfItems();
+            Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
+            log.info("Otkljucan korisnik");
+        } else {
+            log.info("Otkljucavanje nije uspelo");
+        }
+        return released;
     }
 
     public boolean gotUser() {
