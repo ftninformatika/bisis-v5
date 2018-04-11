@@ -24,7 +24,7 @@ public class RecordUtilities {
 		if(record.getPrimerci() != null && record.getPrimerci().size() > 0) {
 			int cnt = 0;
 			for(Primerak p: record.getPrimerci()) {
-				if(p.getStatus().equals("A") || p.getStatus().equals("5"))
+				if(p.getStatus() != null && (p.getStatus().equals("A") || p.getStatus().equals("5")))
 					cnt++;
 			}
 			retVal.append(cnt);
@@ -35,7 +35,7 @@ public class RecordUtilities {
 			for(Godina g: record.getGodine()) {
 				if(g.getSveske() != null && g.getSveske().size() > 0)
 					for(Sveska s: g.getSveske()) {
-						if(s.getStatus().equals("A") || s.getStatus().equals("5"))
+						if(s.getStatus() != null && (s.getStatus().equals("A") || s.getStatus().equals("5")))
 							cnt++;
 					}
 			}

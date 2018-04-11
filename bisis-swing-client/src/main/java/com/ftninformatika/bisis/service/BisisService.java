@@ -396,6 +396,10 @@ public interface BisisService {
     @GET ("circ_report/get_zb_statistic_report")
     Call<Report> getZbStatisticReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
+    @GET("circ_report/get_total_signed_from_start_of_year")
+    Call<Integer> getTotalSignedMembersFromStartOfYear(@Query("locaton") String location);
+
+
     @GET ("members/getWarnMembers")
     Call<List<MemberData>> getWarnMembers(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
@@ -404,4 +408,5 @@ public interface BisisService {
 
     @POST("coders/addWarningType")
     Call<Boolean> addWarningType(@Body WarningType warningType);
+
 }

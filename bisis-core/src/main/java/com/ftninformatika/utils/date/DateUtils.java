@@ -1,7 +1,9 @@
+/***
+ *  @author Petar
+ *  ***/
 package com.ftninformatika.utils.date;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,7 +19,15 @@ public class DateUtils {
     return df.format(date);
   }
 
-  public static  Date getStartOfDay(Date date) {
+  public static Date getYearStartFromDate(Date date){
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    int year = calendar.get(Calendar.YEAR);
+    calendar.set(year, 0, 0, 0, 0, 0);
+    return calendar.getTime();
+  }
+
+  public static Date getStartOfDay(Date date) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
     int year = calendar.get(Calendar.YEAR);

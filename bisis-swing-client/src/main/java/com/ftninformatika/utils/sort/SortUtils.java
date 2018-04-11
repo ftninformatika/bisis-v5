@@ -147,11 +147,18 @@ public class SortUtils {
 	  }
 	  Sorter.qsort(niz);
 	  int [] hitsSort=new int [niz.length];
+	  Record[] retVal = new Record [niz.length];
 	  for(int m=0;m<niz.length;m++){
+	  	  int recordID = niz[m].getID();
 		  hitsSort[m]=niz[m].getID();
+		  for (Record r: records)
+		  	if(r.getRecordID() == recordID) {
+				retVal[m] = r;
+				break;
+		  }
+
 	  }
-	  //return BisisApp.getRecordManager().getRecords(hitsSort);
-	  return null; //TODO-hardcoded
+	  return retVal;
   }
   /**
    * 
