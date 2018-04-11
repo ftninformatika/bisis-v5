@@ -1,0 +1,18 @@
+{
+  "record": {
+    "_all": {
+      "index_analyzer": "whitespace_analyzer",
+      "search_analyzer": "whitespace_analyzer"
+    },
+    "properties": {
+      "prefixes": {
+        "properties": {
+          "DC": {
+            "type": "string",
+            "index": "not_analyzed"
+          }
+        }
+      }
+    }
+  }
+}

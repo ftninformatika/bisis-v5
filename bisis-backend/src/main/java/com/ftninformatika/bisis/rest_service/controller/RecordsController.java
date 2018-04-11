@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
@@ -28,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +45,8 @@ public class RecordsController {
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired LocationRepository locationRepository;
     @Autowired LibrarianRepository librarianRepository;
+    @Autowired ElasticsearchTemplate elasticsearchTemplate;
+
     private Logger log = Logger.getLogger(MemberController.class);
 
     @RequestMapping(value = "/delete/{mongoID}")
@@ -436,7 +438,9 @@ public class RecordsController {
     //za testiranje
     @RequestMapping(value = "/refill_elastic", method = RequestMethod.GET)
     public ResponseEntity<Boolean> fillElastic() {
-
+        elasticsearchTemplate.deleteIndex(ElasticPrefixEntity.class);
+        elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
+        elasticsearchTemplate.putMapping(ElasticPrefixEntity.class);
         try {
             long num = recordsRepository.count();
             int count = 0;
