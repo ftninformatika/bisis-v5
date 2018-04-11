@@ -47,6 +47,18 @@ public class CircReportContoller {
 
     @Autowired RecordsController recordsController;
 
+
+    /**
+     *
+     * ukupan broj korisnika uclanjenih od pocetka godine do sada
+     */
+    @RequestMapping(value = "get_total_signed_from_start_of_year")
+    public Integer getTotalSignedMembersFromStartOfYear( @RequestParam(name = "location", required = false)String location) {
+        Date today = DateUtils.getEndOfDay(new Date());
+        Date yearStart = DateUtils.getYearStartFromDate(today);
+        return memberRepository.getUserSignedCount(yearStart, today,  location);
+    }
+
     /**
      * Posetioci - svi razliciti korisnici koji su u datom periodu se
      * uclanili, zaduzivali, produzavali ili razduzivali

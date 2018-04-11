@@ -23,6 +23,7 @@
 	<parameter name="brojbespl" class="net.sf.jasperreports.engine.JasperReport"/>
 	<parameter name="broj" class="net.sf.jasperreports.engine.JasperReport"/>
 	<parameter name="ogranak" class="java.lang.Integer"/>
+	<parameter name="broj_od_pocetka" class="java.lang.Integer"/>
 	<parameter name="nazivogr" class="java.lang.String"/>
 	<parameter name="pol" class="net.sf.jasperreports.engine.JasperReport"/>
 	<parameter name="dom1" class="org.w3c.dom.Document"/>
@@ -32,7 +33,7 @@
 	<parameter name="dom3" class="org.w3c.dom.Document" isForPrompting="false"/>
 	<field name="field1" class="java.lang.String"/>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="84" splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="59" splitType="Stretch">
@@ -128,13 +129,28 @@
 	<columnFooter>
 		<band splitType="Stretch"/>
 	</columnFooter>
-	<pageFooter>
-		<band splitType="Stretch"/>
-	</pageFooter>
+	<lastPageFooter>
+		<band height="50">
+			<textField>
+				<reportElement x="280" y="10" width="110" height="21" uuid="b3869260-ab94-40fa-8474-5a2cc9eb1a61"/>
+				<textFieldExpression><![CDATA[$P{broj_od_pocetka}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" style="SansSerif" positionType="FixRelativeToBottom" x="56" y="10" width="212" height="21" uuid="dfdbe684-9f0d-46c9-b21d-787dc13f0eca"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[str("STRUKTURA_TOTAL_TEXT")]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
 	<summary>
-		<band height="157" splitType="Stretch">
+		<band height="190" splitType="Stretch">
 			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="Float" x="44" y="12" width="142" height="20" uuid="39d2c5ec-2c6b-48be-985b-d6d02ae09a24"/>
+				<reportElement key="subreport" positionType="Float" x="60" y="10" width="142" height="20" uuid="39d2c5ec-2c6b-48be-985b-d6d02ae09a24"/>
 				<subreportParameter name="enddate">
 					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -151,7 +167,7 @@
 				<subreportExpression><![CDATA[$P{clanovi}]]></subreportExpression>
 			</subreport>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="Float" x="46" y="47" width="140" height="20" uuid="4ac634c9-6e51-42fa-8ff1-65ac94741e3f"/>
+				<reportElement key="subreport" positionType="Float" x="56" y="70" width="140" height="20" uuid="4ac634c9-6e51-42fa-8ff1-65ac94741e3f"/>
 				<subreportParameter name="enddate">
 					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -174,7 +190,7 @@
 				<subreportExpression><![CDATA[$P{placanje}]]></subreportExpression>
 			</subreport>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="Float" x="46" y="82" width="141" height="20" uuid="f6f921c7-5426-4930-b3b2-f5a306f0748c"/>
+				<reportElement key="subreport" positionType="Float" x="60" y="120" width="141" height="20" uuid="f6f921c7-5426-4930-b3b2-f5a306f0748c"/>
 				<subreportParameter name="ogranak">
 					<subreportParameterExpression><![CDATA[$P{ogranak}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -190,30 +206,6 @@
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{dom5}, "/report/row")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{pol}]]></subreportExpression>
 			</subreport>
-			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="FixRelativeToBottom" x="264" y="124" width="123" height="20" uuid="4c48e3c8-4bd9-4a64-9d24-ef5807ec98de"/>
-				<subreportParameter name="enddate">
-					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
-					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="ogranak">
-					<subreportParameterExpression><![CDATA[$P{ogranak}]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource($P{dom4}, "/report/row")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{broj}]]></subreportExpression>
-			</subreport>
-			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="FixRelativeToBottom" x="46" y="124" width="212" height="21" uuid="dfdbe684-9f0d-46c9-b21d-787dc13f0eca"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textFieldExpression><![CDATA[str("STRUKTURA_TOTAL_TEXT")]]></textFieldExpression>
-			</textField>
 		</band>
 	</summary>
 </jasperReport>

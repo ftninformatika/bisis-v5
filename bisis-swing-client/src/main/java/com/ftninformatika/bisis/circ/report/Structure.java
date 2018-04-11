@@ -40,15 +40,13 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 			Long numFree = BisisApp.bisisService.getFreeSigningReport(new PathDate(start),new PathDate(end), loc).execute().body();
 			Long numUsers = BisisApp.bisisService.getUsersNumberReport(new PathDate(start),new PathDate(end), loc).execute().body();
 			List<com.ftninformatika.bisis.circ.pojo.Report>  l5= BisisApp.bisisService.getGenderReport(new PathDate(start),new PathDate(end), loc).execute().body();
-          
+			Integer totalFromYearStart = BisisApp.bisisService.getTotalSignedMembersFromStartOfYear(loc).execute().body();
+
 			Document dom1 = CategoriSigning.setXML(l1);
 			Document dom2 = MmbrTypeSigning.setXML(l2);
 			Document dom3 = FreeMmbrShip.setXML(numFree);
 			Document dom4 = UsersNumber.setXML(numUsers);
 			Document dom5 = Gender.setXML(l5);
-			
-
-
 
 
 
@@ -95,6 +93,7 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 			params.put("dom4", dom4);
 			params.put("pol", pol);
 			params.put("dom5", dom5);
+			params.put("broj_od_pocetka", totalFromYearStart);
 
 			JasperPrint jp = JasperFillManager
 					.fillReport(
