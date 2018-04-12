@@ -1270,7 +1270,7 @@
 ></#list
 ></#if    
 ><#assign val=val469
-><#if val469!="" & val423!=""
+><#if val469!="" && val423!=""
       ><#assign val=val+"<BR>"
 ></#if   
 ><#assign val=val+val423

@@ -1,4 +1,4 @@
-<#include "_base_gbsa.ftl"
+<#include "_base_bs.ftl"
 ><@getPredmetni/><#if lp!=""
      ><#assign lp=lp+"__________________________________________________________________________________________"
 ></#if 

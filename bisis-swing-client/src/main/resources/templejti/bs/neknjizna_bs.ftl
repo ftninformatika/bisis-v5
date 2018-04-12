@@ -1,4 +1,4 @@
-<#include "_base_gbsa.ftl"
+<#include "_base_bs.ftl"
 ><#assign brID=""
 ><#if f001?exists 
          ><#list f001 as field             

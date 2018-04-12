@@ -1,6 +1,6 @@
-	<#include "_base_gbsa.ftl"
-><#include "_koncept_gbsa.ftl"
-><#include "_polja_gbsa.ftl"
+	<#include "_base_bs.ftl"
+><#include "_koncept_bs.ftl"
+><#include "_polja_bs.ftl"
 ><#assign noTes=false
 ><#assign glavni=false
 ><#assign serijskaF=true

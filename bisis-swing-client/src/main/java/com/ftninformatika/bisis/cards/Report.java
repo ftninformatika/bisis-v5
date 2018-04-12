@@ -270,7 +270,6 @@ public class Report {
 		
 		try{
 			ResourceBundle rb = PropertyResourceBundle.getBundle(
-			//Report.class.getPackage().getName()+".templejti."+locale+"."+typeCode,new Locale(locale));//TODO-hardcoded
 					"templejti." + locale + "." + typeCode,new Locale(locale));
 			
 			
@@ -328,7 +327,7 @@ public class Report {
         }  
     
     String dodatak="";
-    if(locale.equals("gbsa"))
+    if(locale.equals("bs"))
     	dodatak=RecordUtilities.getGodineSabac(rec);   
      
     return izlaz+dodatak;

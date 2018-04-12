@@ -1,4 +1,4 @@
-<#include "_base_gbsa.ftl"
+<#include "_base_bs.ftl"
 ><#assign lm=""
 ><#assign inv=""
 ><#assign out=""

@@ -1,6 +1,4 @@
-<#-- kopiran templejt glavni, bitno je da se zove monografski -->
-
-<#include "_base_gbsa.ftl"
+<#include "_base_bs.ftl"
 ><#assign brUDC=""
 ><#assign out=""
 ><#assign outB=""
