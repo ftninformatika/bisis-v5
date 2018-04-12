@@ -118,7 +118,7 @@ public class UserManager {
 
     public boolean releaseUser() {
         Boolean released = true;
-        if (member != null) {
+        if (member != null && member.get_id() != null) {
             released = false;
             log.info("Otkljucavanje korisnika: " + member.getUserId());
             try {
