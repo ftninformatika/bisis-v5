@@ -397,8 +397,7 @@ public interface BisisService {
     Call<Report> getZbStatisticReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
     @GET("circ_report/get_total_signed_from_start_of_year")
-    Call<Integer> getTotalSignedMembersFromStartOfYear(@Query("locaton") String location);
-
+    Call<Integer> getTotalSignedMembersFromStartOfYear(@Query("location") String location);
 
     @GET ("members/getWarnMembers")
     Call<List<MemberData>> getWarnMembers(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
