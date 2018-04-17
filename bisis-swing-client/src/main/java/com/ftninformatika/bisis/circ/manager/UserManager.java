@@ -66,7 +66,7 @@ public class UserManager {
             member = toObjectModel(user, member);
 
 
-            if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("true") && (member.getPin() == null || member.getPin().equals(""))) {
+            if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("yes") && (member.getPin() == null || member.getPin().equals(""))) {
                 String pin = Utils.generatePin();
                 member.setPin(pin);
                 user.getUserData().setPinCode(pin);
@@ -662,7 +662,7 @@ public class UserManager {
     public String getUserId(String location) {
         String loc = location;
         if (loc.equals(""))
-            loc = "0";
+            loc = "00";
         //loc = String.valueOf(Integer.parseInt(loc));
 
         Integer last = null;
