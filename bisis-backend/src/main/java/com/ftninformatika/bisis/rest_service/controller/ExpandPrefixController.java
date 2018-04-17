@@ -5,12 +5,8 @@ import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.metrics.percentiles.hdr.InternalHDRPercentiles;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,19 +24,18 @@ import java.util.List;
 @RequestMapping("/expand_prefix_controller")
 public class ExpandPrefixController {
 
-    @Autowired
-    RecordsRepository recordsRepository;
+    @Autowired RecordsRepository recordsRepository;
 
-    @Autowired
-    ElasticRecordsRepository elasticsearchRepository;
+    @Autowired ElasticRecordsRepository elasticsearchRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getExpandPrefix(@Param("prefix") String prefix, @Param("text") String text) {
 
+        text = LatCyrUtils.toLatinUnaccented(text);
         ArrayList<String> retVal = new ArrayList<String>();
 
-        Iterable<ElasticPrefixEntity> ii = elasticsearchRepository.search(ElasticUtility.makeExpandQuery(prefix,text));
-
+        Iterable<ElasticPrefixEntity> ii =
+                elasticsearchRepository.search(ElasticUtility.makeExpandQuery(prefix,text));
         for (ElasticPrefixEntity ep: ii) {
             for (String ss: ep.getPrefixes().get(prefix)) {
                 ss = ss.replace(PrefixConverter.endPhraseFlag, "");
