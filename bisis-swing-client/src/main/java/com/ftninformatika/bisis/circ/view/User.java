@@ -346,12 +346,12 @@ public class User extends JPanel {
   
   private JPanel getPinCard(){
     try {
-      Map<String, Object> params = new HashMap<String, Object>(3);
+      Map<String, Object> params = new HashMap<String, Object>(4);
       params.put("library", BisisApp.appConfig.getClientConfig().getPincodeLibrary());
       params.put("userid", mmbrship.getUserID()); //$NON-NLS-1$
       params.put("name", userData.getFirstName() + " " + userData.getLastName());//$NON-NLS-1$
       params.put("pincode", userData.getPinCode()); //$NON-NLS-1$
-      
+	  params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
       
      JasperPrint jp = JasperFillManager.fillReport(Thread.currentThread().getContextClassLoader()
 					 .getResourceAsStream("cirkulacija/jaspers/pincode.jasper"),  //$NON-NLS-1$
