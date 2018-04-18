@@ -72,6 +72,14 @@ public class BisisApp {
         while (!correct) {
             if (login.isConfirmed()) {
 
+                if (!LibraryList.isValidUsername(login.getUsername())){
+                    JOptionPane.showMessageDialog(null, "Молимо вас унесите валидан формат корисничког имена.\n<име>@<библиотека>",
+                            Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
+                    login.setVis(true);
+                    continue;
+                }
+
+
                 splashScreen = new SplashScreen();
                 splashScreen.setImage("/icons/book-big.png");
                 splashScreen.setVisible(true);
@@ -129,6 +137,7 @@ public class BisisApp {
                             Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
                     login.setVis(true);
                 }
+
             } else {
                 System.exit(0);
             }
