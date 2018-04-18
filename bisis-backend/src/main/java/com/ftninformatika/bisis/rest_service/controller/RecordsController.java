@@ -260,6 +260,17 @@ public class RecordsController {
             if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
                 record.setLastModifiedDate(new Date());
                 record.setCreationDate(new Date());
+
+                List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, new Record());
+                if (newItems.size() > 0) {
+                    List<Location> locs = locationRepository.getCoders(lib);
+                    for (ItemAvailability i : newItems) {
+                        Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
+                        i.setLibDepartment(locDesc.get().getDescription());
+                        itemAvailabilityRepository.save(i);
+                    }
+                }
+
             } else {// ovo znaci da je update
                 record.setLastModifiedDate(new Date());
                 Record storedRec = recordsRepository.findOne(record.get_id());
@@ -422,25 +433,25 @@ public class RecordsController {
         return retVal;
     }
 
-    //za testiranje!!!!
-    @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
-    public ResponseEntity<Boolean> clearElastic() {
-        try {
-            elasticRecordsRepository.deleteAll();
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
-        }
-
-    }
+//    //za testiranje!!!!
+//    @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
+//    public ResponseEntity<Boolean> clearElastic() {
+//        try {
+//            elasticRecordsRepository.deleteAll();
+//            return new ResponseEntity<>(true, HttpStatus.OK);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
+//        }
+//
+//    }
 
     //za testiranje
     @RequestMapping(value = "/refill_elastic", method = RequestMethod.GET)
     public ResponseEntity<Boolean> fillElastic() {
         elasticsearchTemplate.deleteIndex(ElasticPrefixEntity.class);
         elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
-        elasticsearchTemplate.putMapping(ElasticPrefixEntity.class);
+        //elasticsearchTemplate.putMapping(ElasticPrefixEntity.class);
         try {
             long num = recordsRepository.count();
             int count = 0;
