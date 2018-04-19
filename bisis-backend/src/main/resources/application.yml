@@ -57,6 +57,22 @@ spring:
 ---
 
 spring:
+  profiles: index
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: bisis
+    elasticsearch:
+          cluster-nodes: localhost:9300
+          repositories:
+            enabled: true
+  main:
+    web-environment: false
+
+---
+
+spring:
   profiles: production
   data:
     mongodb:

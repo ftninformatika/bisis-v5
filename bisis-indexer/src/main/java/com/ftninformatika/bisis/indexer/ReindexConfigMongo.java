@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Profile("index")
 @Configuration
 @EnableMongoRepositories("com.ftninformatika")
-public class ReindexConfig extends AbstractMongoConfiguration {
+public class ReindexConfigMongo extends AbstractMongoConfiguration {
 
     @Override
     protected String getDatabaseName() {

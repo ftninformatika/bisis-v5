@@ -97,7 +97,6 @@ public class RecordsController {
     }
 
 
-    @ExceptionHandler(LockException.class)
     @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
     public Record getAndLock(@RequestParam(value = "recId") String recId, @RequestParam(value = "librarianId") String librarianId) {
         Record retVal = recordsRepository.findOne(recId);
@@ -347,7 +346,7 @@ public class RecordsController {
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
                     if (r != null)
-                        retVal.add(new RecordResponseWrapper( r, pr, ia));
+                        retVal.add(new RecordResponseWrapper(r, pr, ia));
                 }
         );
         return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
@@ -431,63 +430,6 @@ public class RecordsController {
                 }
         );
         return retVal;
-    }
-
-//    //za testiranje!!!!
-//    @RequestMapping(value = "/clear_elastic", method = RequestMethod.GET)
-//    public ResponseEntity<Boolean> clearElastic() {
-//        try {
-//            elasticRecordsRepository.deleteAll();
-//            return new ResponseEntity<>(true, HttpStatus.OK);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
-//        }
-//
-//    }
-
-    //za testiranje
-    @RequestMapping(value = "/refill_elastic", method = RequestMethod.GET)
-    public ResponseEntity<Boolean> fillElastic() {
-        elasticsearchTemplate.deleteIndex(ElasticPrefixEntity.class);
-        elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
-        //elasticsearchTemplate.putMapping(ElasticPrefixEntity.class);
-        try {
-            long num = recordsRepository.count();
-            int count = 0;
-            Pageable p = new PageRequest(0, 1000);
-            Page<Record> lr = recordsRepository.findAll(p);
-
-            while (lr.hasNext()) {
-                List<ElasticPrefixEntity> ep = new ArrayList<>();
-                for (Record rec : lr) {
-                    Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
-                    ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
-                    ep.add(ee);
-                }
-                elasticRecordsRepository.save(ep);
-                count += 1000;
-                System.out.println("Processed " + count + " of " + num + " records!");
-                lr = recordsRepository.findAll(lr.nextPageable());
-            }
-
-            // resto
-            List<ElasticPrefixEntity> ep = new ArrayList<>();
-            for (Record rec : lr) {
-                Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
-                ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id().toString(), prefixes);
-                ep.add(ee);
-            }
-            elasticRecordsRepository.save(ep);
-            System.out.println("Processed " + num + " of " + num + " records!");
-
-
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
-        }
-
     }
 
 }
