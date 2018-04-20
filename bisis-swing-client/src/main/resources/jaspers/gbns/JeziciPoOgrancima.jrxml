@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-06-01T12:10:41 -->
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JeziciPoOgrancima" pageWidth="900" pageHeight="595" orientation="Landscape" columnWidth="872" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="741c4b5f-5c86-4592-b16a-663a8c26a030">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -262,7 +261,7 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="73" splitType="Stretch">
+		<band height="75" splitType="Stretch">
 			<staticText>
 				<reportElement key="staticText-4" x="0" y="1" width="16" height="70" uuid="210c82ec-5832-49a4-b4fa-352c947b9c7a"/>
 				<box>
@@ -508,7 +507,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Bottom" rotation="Left">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<text><![CDATA[21-Н.Станеску]]></text>
+				<text><![CDATA[21-А.С.Ребац]]></text>
 			</staticText>
 			<staticText>
 				<reportElement key="staticText-23" x="551" y="1" width="25" height="70" uuid="c58ceafe-2153-4acb-88c5-ef4f85ddcca0"/>
@@ -628,13 +627,13 @@
 				<text><![CDATA[17-Ј.Ј.Змај]]></text>
 			</staticText>
 			<line>
-				<reportElement key="line-1" x="0" y="72" width="861" height="1" uuid="3df2d1ca-3c6c-489d-b2f7-9a3538facf7d"/>
+				<reportElement key="line-1" x="0" y="71" width="881" height="1" uuid="3df2d1ca-3c6c-489d-b2f7-9a3538facf7d"/>
 			</line>
 			<line>
 				<reportElement key="line-2" x="0" y="1" width="1" height="71" uuid="ee78fd58-6a2a-4030-ac04-87a331d61d26"/>
 			</line>
 			<line>
-				<reportElement key="line-3" x="1" y="-1" width="860" height="2" uuid="85e729e4-79dd-4881-b3c4-9038c8221a88"/>
+				<reportElement key="line-3" x="1" y="-1" width="879" height="1" uuid="85e729e4-79dd-4881-b3c4-9038c8221a88"/>
 			</line>
 			<line>
 				<reportElement key="line-4" x="16" y="1" width="1" height="71" uuid="a893d78a-2a2d-4192-8295-7e909282e7a3"/>
@@ -718,7 +717,7 @@
 				<reportElement key="line-31" x="763" y="1" width="1" height="71" uuid="38bfec8b-43b8-47f9-a8c0-8d4f0d2fc140"/>
 			</line>
 			<line>
-				<reportElement key="line-32" x="862" y="0" width="1" height="71" uuid="d92ce97c-8cd8-43a6-997d-35ccfcbe109b"/>
+				<reportElement key="line-32" x="880" y="0" width="1" height="75" uuid="d92ce97c-8cd8-43a6-997d-35ccfcbe109b"/>
 			</line>
 			<line>
 				<reportElement key="line-94" x="159" y="1" width="1" height="71" uuid="8afe5746-808a-405e-9752-0c8afaf6e5ce"/>
@@ -969,7 +968,7 @@
 				<textFieldExpression><![CDATA[$F{odeljenje16}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line-20" x="0" y="14" width="862" height="2" uuid="e105df9e-bccf-4b27-af53-60db6e40064d"/>
+				<reportElement key="line-20" x="0" y="14" width="880" height="2" uuid="e105df9e-bccf-4b27-af53-60db6e40064d"/>
 			</line>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-14" x="411" y="1" width="25" height="15" uuid="67297503-c0b0-4ad1-a878-a54c3d8f74e7"/>
@@ -1225,7 +1224,7 @@
 				<reportElement key="line-60" x="794" y="0" width="1" height="15" uuid="6ffb2f45-4516-46fb-b9a1-7051333fa393"/>
 			</line>
 			<line>
-				<reportElement key="line-61" x="862" y="-1" width="1" height="15" uuid="65449784-cfda-4932-b7ac-46929a09bdff"/>
+				<reportElement key="line-61" x="880" y="-2" width="1" height="18" uuid="65449784-cfda-4932-b7ac-46929a09bdff"/>
 			</line>
 			<line>
 				<reportElement key="line-92" x="100" y="0" width="1" height="15" uuid="65f160a4-0537-4c78-8e9c-dbcace02c3b0"/>
@@ -1274,7 +1273,7 @@
 	<summary>
 		<band height="72" splitType="Stretch">
 			<line>
-				<reportElement key="line-62" x="0" y="15" width="863" height="1" uuid="b9a88385-76e9-4221-b7fd-59798715a702"/>
+				<reportElement key="line-62" x="0" y="15" width="880" height="1" uuid="b9a88385-76e9-4221-b7fd-59798715a702"/>
 			</line>
 			<line>
 				<reportElement key="line-63" x="0" y="0" width="1" height="15" uuid="55e9846e-9e21-4899-91b3-1ac7f1a69c53"/>
@@ -1563,7 +1562,7 @@
 				<reportElement key="line-90" x="633" y="-1" width="1" height="15" uuid="3964bc61-456e-4d37-a0cc-b95134476dfd"/>
 			</line>
 			<line>
-				<reportElement key="line-91" x="862" y="-1" width="1" height="18" uuid="60e10286-36f7-4180-8f70-b247f081bca7"/>
+				<reportElement key="line-91" x="880" y="-1" width="1" height="16" uuid="60e10286-36f7-4180-8f70-b247f081bca7"/>
 			</line>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField-27" x="382" y="0" width="25" height="15" uuid="edd14f01-89a3-4a6b-9810-3a2a42672783"/>
@@ -1814,7 +1813,7 @@
 				<reportElement key="line-86" x="763" y="0" width="1" height="15" uuid="60c66a5b-7bf7-4909-bcb5-b03d68fa9e8f"/>
 			</line>
 			<line>
-				<reportElement key="line-86" x="831" y="-3" width="1" height="18" uuid="28fcdedb-2554-4b20-b300-db874864ed3b"/>
+				<reportElement key="line-86" x="830" y="-3" width="1" height="18" uuid="28fcdedb-2554-4b20-b300-db874864ed3b"/>
 			</line>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="800" y="1" width="25" height="12" uuid="ce8e2f73-7e2b-4125-8281-3552d2f6f09e"/>

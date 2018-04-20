@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 @ComponentScan("com.ftninformatika")
 public class ReportApplication {
 
+
   public static void main(String[] args) {
 
     PropertyConfigurator.configure(

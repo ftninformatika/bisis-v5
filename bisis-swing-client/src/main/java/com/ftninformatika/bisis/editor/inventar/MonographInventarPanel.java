@@ -1,9 +1,7 @@
 package com.ftninformatika.bisis.editor.inventar;
 
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -14,19 +12,12 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;import java.text.ParseException;
 import java.util.Date;
 
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.DefaultEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.Obrada;
@@ -501,7 +492,7 @@ public class MonographInventarPanel extends InventarPanel {
     primerciTable = new JTable(primerciTableModel);
     primerciTable.putClientProperty("Quaqua.Table.style", "striped");
     primerciTable.setRowSorter(new TableRowSorter<PrimerciTableModel>(primerciTableModel));
-  	
+  	primerciTable.setTransferHandler(null);
   	primerciScrollPane = new JScrollPane(primerciTable);		
   	listSelModel = primerciTable.getSelectionModel();
   	adjustInventarColumnWidth();

@@ -165,16 +165,18 @@ public class MainFrame extends JInternalFrame {
         if (userIDCancel == null) {
             userIDCancel = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    boolean released = Cirkulacija.getApp().getUserManager().releaseUser();
-                    if (released) {
-                        log.info("Otkljucan korisnik: " + getUserIDPanel().getValue());
-                        getUserIDPanel().clear();
-                        getUserIDPanel().setVisible(false);
-                    } else {
-                        log.info("Otkljucavanje nije uspelo: " + getUserIDPanel().getValue());
-                        JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.releaseerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-                                new ImageIcon(getClass().getResource("/circ-images/x32.png")));
-                    }
+                    getUserIDPanel().clear();
+                    getUserIDPanel().setVisible(false);
+//                    boolean released = Cirkulacija.getApp().getUserManager().releaseUser();
+//                    if (released) {
+//                        log.info("Otkljucan korisnik: " + getUserIDPanel().getValue());
+//                        getUserIDPanel().clear();
+//                        getUserIDPanel().setVisible(false);
+//                    } else {
+//                        log.info("Otkljucavanje nije uspelo: " + getUserIDPanel().getValue());
+//                        JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.releaseerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+//                                new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+//                    }
 
                 }
             };

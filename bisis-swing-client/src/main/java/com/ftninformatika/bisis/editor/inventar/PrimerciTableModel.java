@@ -50,8 +50,9 @@ public class PrimerciTableModel extends AbstractTableModel {
     columnSet = columnSetStr.split(" ");
     columns = new String[columnSet.length];
     for(int i=0;i<columnSet.length;i++){
-      columns[i] = primerakAll[Integer.parseInt(columnSet[i])];      
-    }    
+      columns[i] = primerakAll[Integer.parseInt(columnSet[i])];
+    }
+
 	}
 
 	
