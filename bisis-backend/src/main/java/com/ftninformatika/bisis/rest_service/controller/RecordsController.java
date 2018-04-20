@@ -287,7 +287,10 @@ public class RecordsController {
                     itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
 
                 //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
-                LibrarianDTO modificator = librarianRepository.findOne(record.getInUseBy());
+                LibrarianDTO modificator = null;
+                //null ce biti iz grupnog inventarisanja, zato ova provera
+                if(record.getInUseBy() != null)
+                    modificator = librarianRepository.findOne(record.getInUseBy());
                 if (modificator != null)
                     record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
 
