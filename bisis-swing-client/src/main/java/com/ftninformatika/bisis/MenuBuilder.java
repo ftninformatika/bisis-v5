@@ -18,11 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 
 public class MenuBuilder extends JMenuBar {
@@ -101,6 +97,7 @@ public class MenuBuilder extends JMenuBar {
     private JMenuItem mi992b = null;
     private JMenuItem miMmbrship = null;
     private JMenuItem miWarnings = null;
+    private JMenuItem miUnlock = null;
     private CoderFrame userCategsFrame = null;
     private CoderFrame mmbrTypesFrame = null;
     private CoderFrame eduLvlFrame = null;
@@ -109,6 +106,7 @@ public class MenuBuilder extends JMenuBar {
     private CoderFrame organizationFrame = null;
     private CoderFrame placesFrame = null;
     private CoderFrame warnCountersFrame = null;
+    private JFrame unlockFrame = null;
     private MmbrshipCoder mmbrshipFrame = null;
     private WarningsFrame warningsFrame = null;
     private OptionsMainFrame optionsFrame = null;
@@ -211,6 +209,7 @@ public class MenuBuilder extends JMenuBar {
         return mNewGroup;
     }
 
+
     private JMenu getMUser() {
         if (mUser == null) {
             mUser = new JMenu();
@@ -288,6 +287,19 @@ public class MenuBuilder extends JMenuBar {
         return mReport;
     }
 
+    private JMenuItem getMUnlock(){
+        if (miUnlock == null){
+            miUnlock = new JMenuItem("Откњучавање записа/корисника");
+            miUnlock.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    BisisApp.getMainFrame().getUnlockFrame().setVisible(true);
+                }
+            });
+        }
+        return miUnlock;
+    }
+
+
     private JMenu getMObradaReport() {
         if (mIzvestaji == null) {
             mIzvestaji = new JMenu(Messages.getString("MENU_REPORTS"));
@@ -336,9 +348,11 @@ public class MenuBuilder extends JMenuBar {
             mAdministration.add(getMiWarnings());
             mAdministration.addSeparator();
             mAdministration.add(getMiBrojaci());
+            mAdministration.add(getMUnlock());
         }
         return mAdministration;
     }
+
 
     private JMenu getMSistem() {
         if (mSistem == null) {

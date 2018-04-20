@@ -107,6 +107,21 @@ public class RecordsController {
         return retVal;
     }
 
+    @RequestMapping(value = "/get_by_rn", method = RequestMethod.GET)
+    public Record getRecordByRN(@RequestParam("rn") String rn){
+        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn+PrefixConverter.endPhraseFlag));
+        List<String> ids = new ArrayList<>();
+        e.forEach(
+                er -> {
+                    ids.add(er.getId());
+                }
+        );
+        if (ids.size() == 1)
+            return recordsRepository.findOne(ids.get(0));
+        else
+            return null;
+    }
+
 
     @RequestMapping(value = "/lock", method = RequestMethod.GET)
     public String lock(@RequestParam(value = "recId") String recId, @RequestParam(value = "librarianId") String librarianId) {
@@ -122,6 +137,25 @@ public class RecordsController {
         r.setInUseBy(null);
         recordsRepository.save(r);
         return true;
+    }
+
+    @RequestMapping(value = "/unlock_by_rn", method = RequestMethod.GET)
+    public boolean unlockByRN(@RequestParam(value = "rn") String rn) {
+        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn+PrefixConverter.endPhraseFlag));
+        List<String> ids = new ArrayList<>();
+        e.forEach(
+                er -> {
+                    ids.add(er.getId());
+                }
+        );
+        if (ids.size() == 1) {
+            Record r =  recordsRepository.findOne(ids.get(0));
+            r.setInUseBy(null);
+            recordsRepository.save(r);
+            return true;
+        }
+        else
+            return false;
     }
 
     @RequestMapping(value = "/unimarc/{recordId}", method = RequestMethod.GET)

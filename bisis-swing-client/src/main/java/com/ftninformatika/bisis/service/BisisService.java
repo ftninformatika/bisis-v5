@@ -168,8 +168,14 @@ public interface BisisService {
     @GET("records/lock")
     Call<String> lockRecord(@Query("recId") String recId, @Query("lirbrarianId") String librarianId);
 
+    @GET("records/get_by_rn")
+    Call<Record> getRecordByRN(@Query("rn") String rn);
+
     @GET("records/unlock")
     Call<String> unlockRecord(@Query("recId") String recId);
+
+    @GET("records/unlock_by_rn")
+    Call<Boolean> unlockByRN(@Query("rn") String rn);
 
     @GET("records/delete/{mongoID}")
     Call<Boolean> deleteRecord(@Path("mongoID") String mongoID);

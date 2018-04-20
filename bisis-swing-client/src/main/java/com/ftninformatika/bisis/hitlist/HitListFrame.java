@@ -255,7 +255,7 @@ public class HitListFrame extends JInternalFrame {
         btnEdit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 try {
-                    String recordId = ((Record) lbHitList.getSelectedValue()).getRN()+"";
+                    String recordId = ((Record) lbHitList.getSelectedValue()).get_id();
                     Record rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
 
                     if (rec == null) {
@@ -264,7 +264,10 @@ public class HitListFrame extends JInternalFrame {
                         ta.setLineWrap(true);
                         ta.setCaretPosition(0);
                         ta.setEditable(false);
-                        ta.setText(MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), "" + recordId + "\n"));
+                        String rn = "";
+                        if(selectedRecord.getRN() != 0)
+                            rn = selectedRecord.getRN() + "";
+                        ta.setText(MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), "" + rn + "\n"));
                         JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                                 new JScrollPane(ta),
                                 Messages.getString("RECORD_LOCKED"), JOptionPane.INFORMATION_MESSAGE);

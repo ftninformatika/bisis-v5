@@ -2,6 +2,7 @@ package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
+import com.ftninformatika.bisis.admin.unlock.UnlockPanel;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
@@ -235,6 +236,18 @@ public class MainFrame extends JFrame {
         return statusnaLinija;
     }
 
+    public JFrame getUnlockFrame(){
+        if(unlockFrame == null){
+            unlockFrame = new JFrame();
+            unlockFrame.setType(javax.swing.JFrame.Type.UTILITY);
+            unlockFrame.setTitle("Откњучавање записа/корисника");
+            unlockFrame.setSize(280, 200);
+            unlockFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            unlockFrame.getContentPane().add(new UnlockPanel());
+        }
+        return unlockFrame;
+    }
+
     public void selectNextInternalFrame(){
         desktop.selectFrame(true);
     }
@@ -245,7 +258,7 @@ public class MainFrame extends JFrame {
     private GrupniPrikazFrame brf=null;
 //    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
-
+    private JFrame unlockFrame = null;
     private CoderFrame intOznFrame = null;
     private CoderFrame nacinFrame = null;
     private CoderFrame odeljenjeFrame = null;
