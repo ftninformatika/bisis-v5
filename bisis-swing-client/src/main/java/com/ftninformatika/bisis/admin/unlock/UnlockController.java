@@ -20,7 +20,14 @@ public class UnlockController {
 
     //Try to unlock member
     public void clkMember() {
-        String userId = Validator.convertUserId2DB(unlockId.getText());
+        String userId = "";
+               try {
+                   userId = Validator.convertUserId2DB(unlockId.getText());
+               }
+               catch (NullPointerException e){
+                   DialogUtils.showInfoDialog("Упозорење", "Неисправан формат корисника", "Проверите да ли сте исправно унели ID!");
+                   return;
+               }
         MemberData m = null;
 
         try {

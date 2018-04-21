@@ -239,9 +239,10 @@ public class MainFrame extends JFrame {
     public JFrame getUnlockFrame(){
         if(unlockFrame == null){
             unlockFrame = new JFrame();
-            unlockFrame.setType(javax.swing.JFrame.Type.UTILITY);
+            //unlockFrame.setType(javax.swing.JFrame.Type.UTILITY);
             unlockFrame.setTitle("Откњучавање записа/корисника");
-            unlockFrame.setSize(280, 200);
+            unlockFrame.setResizable(false);
+            unlockFrame.setSize(420, 250);
             unlockFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             unlockFrame.getContentPane().add(new UnlockPanel());
         }

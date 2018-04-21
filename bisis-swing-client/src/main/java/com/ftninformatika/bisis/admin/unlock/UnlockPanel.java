@@ -4,7 +4,6 @@ import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 
 import javax.swing.*;
@@ -34,7 +33,6 @@ public class UnlockPanel extends JPanel {
         // The Scene needs to be created on "FX user thread", NOT on the
         // AWT Event Thread
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(UnlockPanel.class.getClass().getResource("/fx/unlock/UnlockFrame.fxml"));
 //        PlatformImpl.startup(
 //                new Runnable() {
 //                    public void run() {
@@ -51,7 +49,9 @@ public class UnlockPanel extends JPanel {
         Platform.setImplicitExit(false);
         PlatformImpl.runLater(() -> {
             try {
-                Scene scene = new Scene(fxmlLoader.load());
+                Scene scene = new Scene(fxmlLoader.load(getClass().getResourceAsStream("/fx/unlock/unlockFrame.fxml")));
+                scene.getStylesheets().add
+                        (getClass().getResource("/fx/unlock/css/unlockFrame.css").toExternalForm());
                 jfxPanel.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();

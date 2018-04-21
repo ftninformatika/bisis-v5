@@ -1,7 +1,5 @@
 package com.ftninformatika.utils.fx.JFXInternalFrame;
 
-import com.ftninformatika.bisis.admin.unlock.UnlockController;
-import com.ftninformatika.bisis.admin.unlock.UnlockPanel;
 import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -82,7 +80,7 @@ public class JFXInternalFrame extends JInternalFrame{
         frame.setMinimumSize(new Dimension(640, 480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Proba jfxinternalframe");
-        JFXInternalFrame jfxInternalFrame = new JFXInternalFrame("Proba", "/fx/unlock/UnlockFrame.fxml", null);
+        JFXInternalFrame jfxInternalFrame = new JFXInternalFrame("Proba", "/fx/unlock/unlockFrame.fxml", null);
         frame.add(jfxInternalFrame);
         frame.setVisible(true);
     }
