@@ -18,7 +18,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="unlockMember" layoutX="231.0" layoutY="148.0" mnemonicParsing="false" onAction="#clkMember" prefHeight="40.0" prefWidth="156.0" text="Откључај члана">
+      <Button fx:id="unlockMember" layoutX="240.0" layoutY="148.0" mnemonicParsing="false" onAction="#clkMember" prefHeight="40.0" prefWidth="147.0" text="Откључај члана">
          <graphic>
             <ImageView fitHeight="32" fitWidth="32" pickOnBounds="true" preserveRatio="true">
                <image>

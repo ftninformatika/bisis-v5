@@ -289,7 +289,7 @@ public class MenuBuilder extends JMenuBar {
 
     private JMenuItem getMUnlock(){
         if (miUnlock == null){
-            miUnlock = new JMenuItem("Откњучавање записа/корисника");
+            miUnlock = new JMenuItem(Messages.getString("MENUBUILDER_UNLOCK"));
             miUnlock.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     BisisApp.getMainFrame().getUnlockFrame().setVisible(true);
