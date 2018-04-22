@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.utils.DialogUtils;
+import com.ftninformatika.utils.Messages;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -25,7 +26,7 @@ public class UnlockController {
                    userId = Validator.convertUserId2DB(unlockId.getText());
                }
                catch (NullPointerException e){
-                   DialogUtils.showInfoDialog("Упозорење", "Неисправан формат корисника", "Проверите да ли сте исправно унели ID!");
+                   DialogUtils.showInfoDialog(Messages.getString("UNLOCK_CONTROLLER_WARNING"), Messages.getString("UNLOCK_CONTROLLER_INVALID_FORMAT_USER_ID"),  Messages.getString("UNLOCK_CONTROLLER_CHECK_ID"));
                    return;
                }
         MemberData m = null;
@@ -36,12 +37,12 @@ public class UnlockController {
             e.printStackTrace();
         }
         if (m == null){
-            DialogUtils.showInfoDialog("Упозорење", "Корисник није пронађен", "Проверите да ли сте исправно унели ID!");
+            DialogUtils.showInfoDialog(Messages.getString("UNLOCK_CONTROLLER_WARNING"), Messages.getString("UNLOCK_CONTROLLER_USER_NOT_FOUND"),  Messages.getString("UNLOCK_CONTROLLER_CHECK_ID"));
             return;
         }
         else {
             if(m.getMember().getInUseBy() == null){
-                DialogUtils.showInfoDialog("Упозорење", "Корисник је већ откључан", "Проверите да ли сте исправно унели ID!");
+                DialogUtils.showInfoDialog(Messages.getString("UNLOCK_CONTROLLER_WARNING"), Messages.getString("UNLOCK_CONTROLLER_USER_ALREDY_UNLOCKED"), Messages.getString("UNLOCK_CONTROLLER_CHECK_ID"));
             }
             else {
                 boolean otkljucao = false;
@@ -51,10 +52,10 @@ public class UnlockController {
                     e.printStackTrace();
                 }
                                 if (otkljucao) {
-                    DialogUtils.showInfoDialog("Успешно", "Успешно сте откључали korisnika:", m.getMember().getUserId() + "\n" + m.getMember().getFirstName() + " " + m.getMember().getLastName());
+                    DialogUtils.showInfoDialog(Messages.getString("UNLOCK_CONTROLLER_SUCCESS"),  Messages.getString("UNLOCK_CONTROLLER_USER_SUCCESFULLY_UNLOCKED"), m.getMember().getUserId() + "\n" + m.getMember().getFirstName() + " " + m.getMember().getLastName());
                 }
                 else {
-                    DialogUtils.showInfoDialog("Грешка", "Грешка при откључавању корисника","");
+                    DialogUtils.showInfoDialog(Messages.getString("UNLOCK_CONTROLLER_ERROR"), Messages.getString("UNLOCK_CONTROLLER_ERROR_UNLOCKING"),"");
                 }
             }
         }
@@ -69,12 +70,12 @@ public class UnlockController {
             e.printStackTrace();
         }
         if (r == null){
-            DialogUtils.showInfoDialog("Упозорење", "Запис није пронађен", "Проверите да ли сте исправно унели RN!");
+            DialogUtils.showInfoDialog( Messages.getString("UNLOCK_CONTROLLER_WARNING"),  Messages.getString("UNLOCK_CONTROLLER_RECORD_NOT_FOUND"),  Messages.getString("UNLOCK_CONTROLLER_CHECK_RN"));
             return;
         }
         else {
             if(r.getInUseBy() == null)
-                DialogUtils.showInfoDialog("Упозорење", "Запис је већ откључан", "Проверите да ли сте исправно унели RN!");
+                DialogUtils.showInfoDialog( Messages.getString("UNLOCK_CONTROLLER_WARNING"),  Messages.getString("UNLOCK_CONTROLLER_RECORD_ALREDY_UNLOCKED"), Messages.getString("UNLOCK_CONTROLLER_CHECK_RN"));
             else {
                 boolean otkljucao = false;
                 try {
@@ -85,10 +86,10 @@ public class UnlockController {
                 RecordPreview pr = new RecordPreview();
                 pr.init(r);
                 if (otkljucao) {
-                    DialogUtils.showInfoDialog("Успешно", "Успешно сте откључали запис:", pr.getTitle());
+                    DialogUtils.showInfoDialog(Messages.getString("UNLOCK_CONTROLLER_SUCCESS"), Messages.getString("UNLOCK_CONTROLLER_RECORD_SUCESSFULLY_UNLOCKED"), pr.getTitle());
                 }
                 else {
-                    DialogUtils.showInfoDialog("Грешка", "Грешка при откључавању записа","");
+                    DialogUtils.showInfoDialog(Messages.getString("UNLOCK_CONTROLLER_ERROR"), Messages.getString("UNLOCK_CONTROLLER_RECORD_ERROR"),"");
                 }
             }
         }

@@ -73,7 +73,7 @@ public class BisisApp {
             if (login.isConfirmed()) {
 
                 if (!LibraryList.isValidUsername(login.getUsername())){
-                    JOptionPane.showMessageDialog(null, "Молимо вас унесите валидан формат корисничког имена.\n<име>@<библиотека>",
+                    JOptionPane.showMessageDialog(null, Messages.getString("VALID_USERNAME_INFO"),
                             Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
                     login.setVis(true);
                     continue;

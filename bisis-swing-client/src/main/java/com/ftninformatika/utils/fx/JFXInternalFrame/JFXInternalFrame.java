@@ -51,14 +51,14 @@ public class JFXInternalFrame extends JInternalFrame implements Initializable {
 
     private void createScene(String fxmlPath, String cssPath, Class controllerClass) throws InterruptedException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(JFXInternalFrame.class.getClass().getResource(fxmlPath));
         final CountDownLatch done = new CountDownLatch(0);
         Platform.setImplicitExit(false);
         PlatformImpl.runAndWait(() -> {
             try {
-                Scene scene = new Scene(fxmlLoader.load());
+                Scene scene = new Scene(fxmlLoader.load(getClass().getResourceAsStream(fxmlPath)));
                 if (cssPath != null)
-                    scene.getStylesheets().add(cssPath);
+                    scene.getStylesheets().add
+                            (getClass().getResource(cssPath).toExternalForm());
                 jfxPanel.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -75,7 +75,7 @@ public class JFXInternalFrame extends JInternalFrame implements Initializable {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            fxmlLoader.setController(controllerClass);
+            fxmlLoader.setController(controller);
         }
 
     }
