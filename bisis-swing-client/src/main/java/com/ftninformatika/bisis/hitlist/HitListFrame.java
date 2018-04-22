@@ -550,7 +550,7 @@ public class HitListFrame extends JInternalFrame {
         metaDataPanel.add(new JLabel(Messages.getString("HITLIST_CHANGED_DATE_HTML")));
         metaDataPanel.add(recModificationDateLabel, "wrap");
 
-        metaDataPanel.add(new JLabel("<html><b>Листа модификација записа:</b></html>"), "wrap");
+        metaDataPanel.add(new JLabel(Messages.getString("HITLIST_NOT_MODIFIED_SINCE_HTML")), "wrap");
         metaDataPanel.add(modificationScrollPane, "wrap");
 
     }
@@ -583,7 +583,7 @@ public class HitListFrame extends JInternalFrame {
             modificationScrollPane.setEnabled(false);
         }
         else {
-            JLabel noModification = new JLabel("Запис није модификован од 10.04.2018!");
+            JLabel noModification = new JLabel(Messages.getString("HITLIST_NOT_MODIFIED_SINCE_HTML2"));
             noModification.setOpaque(true);
             modificationScrollPane.setViewportView(noModification);
             modificationScrollPane.setOpaque(true);

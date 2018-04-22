@@ -26,19 +26,20 @@ public class JFXInternalFrame extends JInternalFrame implements Initializable {
      *
      * @param title Title of internal JFrame
      * @param fxmlPath Path to .fxml file
+     * @param cssPath Path to .css file, pass null if no css
      * @param controllerClass Controller for .fxml, if specified in .fxml pass null!
      */
-    public JFXInternalFrame(String title, String fxmlPath, Class controllerClass){
+    public JFXInternalFrame(String title, String fxmlPath, String cssPath,  Class controllerClass){
         super(title, true, true, true, true);
-        //initialize(fxmlPath, controllerClass);
+        initializeM(fxmlPath, cssPath, controllerClass);
     }
 
-    private void initializeM(String fxmlPath, Class controllerClass){
+    private void initializeM(String fxmlPath, String cssPath,  Class controllerClass){
 
         jfxPanel = new JFXPanel();
 
         try {
-            createScene(fxmlPath,controllerClass);
+            createScene(fxmlPath, cssPath, controllerClass);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -48,14 +49,16 @@ public class JFXInternalFrame extends JInternalFrame implements Initializable {
         pack();
     }
 
-    private void createScene(String fxmlPath, Class controllerClass) throws InterruptedException {
+    private void createScene(String fxmlPath, String cssPath, Class controllerClass) throws InterruptedException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(JFXInternalFrame.class.getClass().getResource(fxmlPath));
-        final CountDownLatch done = new CountDownLatch(1);
+        final CountDownLatch done = new CountDownLatch(0);
         Platform.setImplicitExit(false);
-        PlatformImpl.runLater(() -> {
+        PlatformImpl.runAndWait(() -> {
             try {
                 Scene scene = new Scene(fxmlLoader.load());
+                if (cssPath != null)
+                    scene.getStylesheets().add(cssPath);
                 jfxPanel.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -78,18 +81,22 @@ public class JFXInternalFrame extends JInternalFrame implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeM(location.toString(), null);
+      //  initializeM(location.toString(), null);
     }
     public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
+    //    SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame();
             frame.setMinimumSize(new Dimension(640, 480));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setTitle("Proba jfxinternalframe");
-            JFXPanel jfxPanel = new JFXPanel();
-            jfxPanel.setToolTipText("nesto");
+            JFXInternalFrame jfxInternalFrame = new JFXInternalFrame("naslcv",
+                    "/fx/unlock/unlockFrame.fxml",
+                    "/fx/unlock/css/unlockFrame.css",null);
+            JInternalFrame jInternalFrame = new JInternalFrame("frejm2");
+            frame.add(jfxInternalFrame);
+            jfxInternalFrame.setVisible(true);
             frame.setVisible(true);
-//        });
+    //    });
     }
 
 

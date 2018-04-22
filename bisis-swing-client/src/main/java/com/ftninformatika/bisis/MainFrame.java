@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
 import javafx.embed.swing.JFXPanel;
 import net.sf.jasperreports.engine.JasperPrint;
 
@@ -55,6 +56,7 @@ public class MainFrame extends JFrame {
             desktop.add(get992bFrame());
             desktop.add(getStatusFrame());
             desktop.add(getFormatFrame());
+            desktop.add(getUnlockFrame());
             desktop.add(getCountersFrame());
             desktop.add(getSearchAdvancedFrame());
         }
@@ -237,18 +239,15 @@ public class MainFrame extends JFrame {
         return statusnaLinija;
     }
 
-    public JDialog getUnlockFrame(){
+    public JInternalFrame getUnlockFrame(){
         if(unlockFrame == null){
-            unlockFrame = new JDialog(BisisApp.getMainFrame(),
-                    Messages.getString("MAINFRAME_UNLOCK_TITLE") );
-            //unlockFrame.setType(javax.swing.JFrame.Type.UTILITY);
-            unlockFrame.setTitle(Messages.getString("MAINFRAME_UNLOCK_TITLE"));
+            unlockFrame =  new JFXInternalFrame(Messages.getString("MAINFRAME_UNLOCK_TITLE"),
+                    "/fx/unlock/unlockFrame.fxml",
+                    "/fx/unlock/css/unlockFrame.css",null);
             unlockFrame.setResizable(false);
-            unlockFrame.setTransferHandler(null);
+            unlockFrame.setMaximizable(false);
             unlockFrame.setSize(420, 250);
             unlockFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            unlockFrame.getContentPane().add(new UnlockPanel());
-
         }
         return unlockFrame;
     }
@@ -263,7 +262,7 @@ public class MainFrame extends JFrame {
     private GrupniPrikazFrame brf=null;
 //    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
-    private JDialog unlockFrame = null;
+    private JInternalFrame unlockFrame = null;
     private CoderFrame intOznFrame = null;
     private CoderFrame nacinFrame = null;
     private CoderFrame odeljenjeFrame = null;
