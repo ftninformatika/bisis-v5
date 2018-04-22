@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
+import javafx.embed.swing.JFXPanel;
 import net.sf.jasperreports.engine.JasperPrint;
 
 import javax.swing.*;
@@ -236,15 +237,18 @@ public class MainFrame extends JFrame {
         return statusnaLinija;
     }
 
-    public JFrame getUnlockFrame(){
+    public JDialog getUnlockFrame(){
         if(unlockFrame == null){
-            unlockFrame = new JFrame();
+            unlockFrame = new JDialog(BisisApp.getMainFrame(),
+                    Messages.getString("MAINFRAME_UNLOCK_TITLE") );
             //unlockFrame.setType(javax.swing.JFrame.Type.UTILITY);
             unlockFrame.setTitle(Messages.getString("MAINFRAME_UNLOCK_TITLE"));
             unlockFrame.setResizable(false);
+            unlockFrame.setTransferHandler(null);
             unlockFrame.setSize(420, 250);
             unlockFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             unlockFrame.getContentPane().add(new UnlockPanel());
+
         }
         return unlockFrame;
     }
@@ -259,7 +263,7 @@ public class MainFrame extends JFrame {
     private GrupniPrikazFrame brf=null;
 //    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
-    private JFrame unlockFrame = null;
+    private JDialog unlockFrame = null;
     private CoderFrame intOznFrame = null;
     private CoderFrame nacinFrame = null;
     private CoderFrame odeljenjeFrame = null;

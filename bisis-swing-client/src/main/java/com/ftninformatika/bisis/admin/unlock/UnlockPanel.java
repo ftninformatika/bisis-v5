@@ -33,19 +33,6 @@ public class UnlockPanel extends JPanel {
         // The Scene needs to be created on "FX user thread", NOT on the
         // AWT Event Thread
         FXMLLoader fxmlLoader = new FXMLLoader();
-//        PlatformImpl.startup(
-//                new Runnable() {
-//                    public void run() {
-//                        Group root = null;
-//                        try {
-//                            root = fxmlLoader.load();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        Scene scene = new Scene(root);
-//                        jfxPanel.setScene(scene);
-//                    }
-//                });
         Platform.setImplicitExit(false);
         PlatformImpl.runLater(() -> {
             try {

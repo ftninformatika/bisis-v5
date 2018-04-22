@@ -1,9 +1,11 @@
 package com.ftninformatika.utils.fx.JFXInternalFrame;
 
+import com.ftninformatika.utils.fx.swingMediaplayer.SwingMediaPlayer;
 import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 /**
  * @author Petar
@@ -11,11 +13,14 @@ import javafx.scene.Scene;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
-public class JFXInternalFrame extends JInternalFrame{
-    JPanel panel;
+public class JFXInternalFrame extends JInternalFrame implements Initializable {
     JFXPanel jfxPanel;
+    private String fxmlPath;
+    private Class controllerClas = null;
 
     /**
      *
@@ -25,12 +30,11 @@ public class JFXInternalFrame extends JInternalFrame{
      */
     public JFXInternalFrame(String title, String fxmlPath, Class controllerClass){
         super(title, true, true, true, true);
-        initialize(fxmlPath, controllerClass);
+        //initialize(fxmlPath, controllerClass);
     }
 
-    private void initialize(String fxmlPath, Class controllerClass){
+    private void initializeM(String fxmlPath, Class controllerClass){
 
-        panel = new JPanel();
         jfxPanel = new JFXPanel();
 
         try {
@@ -39,10 +43,8 @@ public class JFXInternalFrame extends JInternalFrame{
             e.printStackTrace();
         }
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        panel.setLayout(new BorderLayout());
-        panel.add(jfxPanel, BorderLayout.CENTER);
         setLayout(new BorderLayout());
-        getContentPane().add(panel, BorderLayout.CENTER);
+        getContentPane().add(jfxPanel, BorderLayout.CENTER);
         pack();
     }
 
@@ -74,14 +76,21 @@ public class JFXInternalFrame extends JInternalFrame{
         }
 
     }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setMinimumSize(new Dimension(640, 480));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Proba jfxinternalframe");
-        JFXInternalFrame jfxInternalFrame = new JFXInternalFrame("Proba", "/fx/unlock/unlockFrame.fxml", null);
-        frame.add(jfxInternalFrame);
-        frame.setVisible(true);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initializeM(location.toString(), null);
     }
+    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setMinimumSize(new Dimension(640, 480));
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Proba jfxinternalframe");
+            JFXPanel jfxPanel = new JFXPanel();
+            jfxPanel.setToolTipText("nesto");
+            frame.setVisible(true);
+//        });
+    }
+
+
 }
