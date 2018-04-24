@@ -58,6 +58,7 @@ public class BisisApp {
         Set exc = new HashSet();
         exc.add("Tree");
         exc.add("SidebarTreeModel");
+        exc.add("TextArea");
         QuaquaManager.setExcludedUIs(exc);
         try {
             UIManager.setLookAndFeel(new Quaqua15LeopardCrossPlatformLookAndFeel());
@@ -66,7 +67,7 @@ public class BisisApp {
             System.err.println(ex.getMessage());
             return;
         }
-
+        UIManager.getLookAndFeel().getDefaults().getPropertyChangeListeners();
         LoginFrame login = new LoginFrame();
         boolean correct = false;
         while (!correct) {

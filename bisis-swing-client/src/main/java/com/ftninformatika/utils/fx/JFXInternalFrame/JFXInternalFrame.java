@@ -1,6 +1,5 @@
 package com.ftninformatika.utils.fx.JFXInternalFrame;
 
-import com.ftninformatika.utils.fx.swingMediaplayer.SwingMediaPlayer;
 import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -19,8 +18,6 @@ import java.util.concurrent.CountDownLatch;
 
 public class JFXInternalFrame extends JInternalFrame implements Initializable {
     JFXPanel jfxPanel;
-    private String fxmlPath;
-    private Class controllerClas = null;
 
     /**
      *
@@ -81,8 +78,9 @@ public class JFXInternalFrame extends JInternalFrame implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-      //  initializeM(location.toString(), null);
     }
+
+
     public static void main(String[] args) {
     //    SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame();
