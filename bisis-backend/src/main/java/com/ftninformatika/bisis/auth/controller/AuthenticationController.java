@@ -3,7 +3,6 @@ package com.ftninformatika.bisis.auth.controller;
 import com.ftninformatika.bisis.auth.dto.LoginDTO;
 import com.ftninformatika.bisis.auth.dto.TokenDTO;
 import com.ftninformatika.bisis.auth.security.service.TokenService;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.controller.MemberController;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class AuthenticationController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         catch (NullPointerException e){
-            log.warn("Neuspesno logovanje za korisnika: " + dto.getUsername() != null ? dto.getUsername() : "null" + " biblioteka: " + LibraryPrefixProvider.getLibPrefix());
+            log.warn("Neuspesno logovanje za korisnika: " + dto.getUsername() != null ? dto.getUsername() : "null");
             return new ResponseEntity<>("Authentication failed", HttpStatus.BAD_REQUEST);
         }
     }
