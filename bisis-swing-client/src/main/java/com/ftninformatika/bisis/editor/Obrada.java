@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.editor;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.groupinv.GroupInvFrame;
+import com.ftninformatika.bisis.editor.merge.MergeRecordsFrame;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Record;
@@ -15,8 +16,8 @@ public class Obrada {
 
     public static EditorFrame editorFrame = new EditorFrame();
     public static GroupInvFrame groupInvFrame = new GroupInvFrame();
-	/*public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();
-	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();*/
+	/*public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();*/
+	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();
 
     public static void newRecord(Record rec) {
         boolean editorClosed = true;
@@ -116,7 +117,7 @@ public class Obrada {
     }
 
     public static void openMergeRecordsFrame() {
-  	/*try {
+  	try {
       if (!mergeRecFrame.isVisible())
       	mergeRecFrame.setVisible(true);
       if (mergeRecFrame.isIcon())
@@ -124,7 +125,7 @@ public class Obrada {
       if (!mergeRecFrame.isSelected())
       	mergeRecFrame.setSelected(true);
     } catch (Exception ex) {
-    }  	*/
+    }
     }
 
 
@@ -132,7 +133,7 @@ public class Obrada {
         BisisApp.getMainFrame().insertFrame(editorFrame);
         BisisApp.getMainFrame().insertFrame(groupInvFrame);
         //BisisApp.getMainFrame().insertFrame(invHolesFrame);
-        //BisisApp.getMainFrame().insertFrame(mergeRecFrame);
+        BisisApp.getMainFrame().insertFrame(mergeRecFrame);
         try {
             editorFrame.setMaximum(true);
             groupInvFrame.setMaximum(true);
