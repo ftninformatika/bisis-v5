@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.hitlist;
 
 import com.ftninformatika.bisis.records.RecordModification;
 import com.ftninformatika.bisis.search.Result;
+import com.ftninformatika.utils.CCPUtil;
 import com.ftninformatika.utils.Messages;
 
 import java.awt.*;

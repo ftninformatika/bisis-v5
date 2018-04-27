@@ -56,6 +56,16 @@ public class MergeController {
         });
     }
 
+    public void cancel(){
+        osnovniRn.setText(null);
+        drugiRn.setText(null);
+        listaZapisa.getItems().setAll(new ArrayList());
+        osnovniOpis.setText("Није одабран основни запис");
+        osnovni = null;
+        ostali = new ArrayList<>();
+    }
+
+
     public void dodajOsnovni(){
 
         if(osnovniRn.getText() != null && !osnovniRn.getText().equals("")){
