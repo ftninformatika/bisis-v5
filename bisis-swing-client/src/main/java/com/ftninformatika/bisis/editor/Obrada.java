@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.editor.merge.MergeRecordsFrame;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -17,7 +18,11 @@ public class Obrada {
     public static EditorFrame editorFrame = new EditorFrame();
     public static GroupInvFrame groupInvFrame = new GroupInvFrame();
 	/*public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();*/
-	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();
+//	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();
+
+    public static JFXInternalFrame mergeRecFrame = new JFXInternalFrame("Merge",
+            "/fx/merge/mergeFrame.fxml",
+            "/fx/merge/css/mergeFrame.css",null);
 
     public static void newRecord(Record rec) {
         boolean editorClosed = true;
@@ -137,6 +142,9 @@ public class Obrada {
         try {
             editorFrame.setMaximum(true);
             groupInvFrame.setMaximum(true);
+            mergeRecFrame.setSize(600, 500);
+            mergeRecFrame.setResizable(false);
+            mergeRecFrame.setMaximizable(false);
             // invHolesFrame.setMaximum(true);
         } catch (PropertyVetoException e) {
         }

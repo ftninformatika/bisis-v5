@@ -88,8 +88,8 @@ public class JFXInternalFrame extends JInternalFrame implements Initializable {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setTitle("Proba jfxinternalframe");
             JFXInternalFrame jfxInternalFrame = new JFXInternalFrame("naslcv",
-                    "/fx/unlock/unlockFrame.fxml",
-                    "/fx/unlock/css/unlockFrame.css",null);
+                    "/fx/merge/mergeFrame.fxml",
+                    null,null);
             JInternalFrame jInternalFrame = new JInternalFrame("frejm2");
             frame.add(jfxInternalFrame);
             jfxInternalFrame.setVisible(true);

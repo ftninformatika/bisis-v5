@@ -8,6 +8,7 @@ import com.ftninformatika.bisis.editor.editorutils.TableCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
 import com.ftninformatika.bisis.format.*;
 import com.ftninformatika.bisis.records.Subfield;
+import com.ftninformatika.utils.CCPUtil;
 import com.ftninformatika.utils.CharacterLookup;
 import com.ftninformatika.utils.Messages;
 
@@ -50,6 +51,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 	public RecordTreeCellEditor(RecordTree tree,DefaultTreeCellRenderer renderer) {
 		super(tree,renderer);		
 		cellEditor = new JTextArea();
+		cellEditor.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
 		codedCellEditor = new JTextField();
 		label = new JLabel();	
 		coder = new JButton(new ImageIcon(getClass().getResource(
@@ -66,6 +68,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 				handleOpenCoder();				
 			}			
 		});
+
 	}	
 	
 	private Component createEditor(){		
