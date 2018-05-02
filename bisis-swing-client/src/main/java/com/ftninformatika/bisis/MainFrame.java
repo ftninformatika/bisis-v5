@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.fx.JFXInternalFrame.JFXCoderFrame;
 import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
 import javafx.embed.swing.JFXPanel;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -156,9 +157,9 @@ public class MainFrame extends JFrame {
         return reportChooserDlg;
     }
 
-    public CoderFrame getOdeljenjeFrame(){
+    public JFXCoderFrame getOdeljenjeFrame(){
         if (odeljenjeFrame == null){
-            odeljenjeFrame = new CoderFrame(TableCatalog.getTable("Odeljenje"));
+            odeljenjeFrame = new JFXCoderFrame(1, "Odeljenje");
         }
         return odeljenjeFrame;
     }
@@ -265,7 +266,7 @@ public class MainFrame extends JFrame {
     private JInternalFrame unlockFrame = null;
     private CoderFrame intOznFrame = null;
     private CoderFrame nacinFrame = null;
-    private CoderFrame odeljenjeFrame = null;
+    private JFXCoderFrame odeljenjeFrame = null;
     private CoderFrame podlokacijaFrame = null;
     private CoderFrame povezFrame = null;
     private CoderFrame _992bFrame = null;

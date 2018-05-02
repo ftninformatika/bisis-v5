@@ -46,7 +46,7 @@ public class JFXInternalFrame extends JInternalFrame implements Initializable {
         pack();
     }
 
-    private void createScene(String fxmlPath, String cssPath, Class controllerClass) throws InterruptedException {
+    protected void createScene(String fxmlPath, String cssPath, Class controllerClass) throws InterruptedException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         final CountDownLatch done = new CountDownLatch(0);
         Platform.setImplicitExit(false);
