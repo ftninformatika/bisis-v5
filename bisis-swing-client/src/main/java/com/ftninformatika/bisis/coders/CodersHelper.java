@@ -330,8 +330,28 @@ public class CodersHelper {
            case LIBRARIAN_CODER: retVal = new ArrayList<LibrarianDTO>(librarians.values()).stream().map(i -> new UItem(i.getUsername(), i.getIme()+" "+i.getPrezime())).collect(Collectors.toList());
 
         }
-
         return (ArrayList<UItem>) retVal;
+    }
+
+    public static String getLocaleCoderName(int coderCode){
+        String locale = BisisApp.appConfig.getClientConfig().getLocale();
+        String retVal = "";
+        if(locale == null || locale.equals(""))
+            locale = "rs_CYRL_SR";
+        switch (coderCode){
+            case ODELJENJE_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Одељење": "Odeljenje"; break;
+            case FORMAT_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Формат": "Format"; break;
+            case STATUS_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Статус": "Status"; break;
+            case POVEZ_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Повез": "Povez"; break;
+            case PODLOKACIJA_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Подлокација": "Podlokacija"; break;
+            case NACINNABAVKE_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Начин набавке": "Način nabavke"; break;
+            case INTERNAOZNAKA_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Интерна ознака": "Interna oznaka"; break;
+            case INVENTARNAKNJIGA_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Инвентарна књига": "Inventarna knjiga"; break;
+            case DOSTUPNOST_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Доступност": "Dostupnost"; break;
+            case TASK_CODER: retVal = locale.equals("rs_CYRL_SR") ? "992 Задатак": "992 Zadatak"; break;
+            case LIBRARIAN_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Библиотекар": "Bibliotekar"; break;
+        }
+        return retVal;
     }
 
     private Map<String, AccessionRegister> accessionRegs = new HashMap<>();
