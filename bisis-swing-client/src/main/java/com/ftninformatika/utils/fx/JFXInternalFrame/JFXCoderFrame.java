@@ -1,5 +1,7 @@
 package com.ftninformatika.utils.fx.JFXInternalFrame;
 
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.coders.JfxCoderFrameController;
 import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
@@ -26,8 +28,8 @@ public class JFXCoderFrame extends JInternalFrame implements Initializable {
     private static final String fxmlPath = "/fx/coder/jfxCoderFrame.fxml";
     private static final String cssPath = null;//"/fx/coder/jfxCoderFrame.fxml";
 
-    public JFXCoderFrame(int code, String title){
-        super(title, true, true, true, true);
+    public JFXCoderFrame(int code){
+        super(CodersHelper.getLocaleCoderName(code), true, true, true, true);
         this.code = code;
         initializeM();
     }
@@ -74,7 +76,7 @@ public class JFXCoderFrame extends JInternalFrame implements Initializable {
         frame.setMinimumSize(new Dimension(640, 480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Proba jfxinternalframe");
-        JFXCoderFrame jfxInternalFrame = new JFXCoderFrame(1,"koder");
+        JFXCoderFrame jfxInternalFrame = new JFXCoderFrame(1);
         frame.add(jfxInternalFrame);
         jfxInternalFrame.setVisible(true);
         frame.setVisible(true);
