@@ -22,12 +22,15 @@ import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +38,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 @RestController
 @RequestMapping("/records")
@@ -407,6 +412,9 @@ public class RecordsController {
         Result retVal = new Result();
         ArrayList<String> ids = new ArrayList<>();
         ArrayList<String> ctlgnos = new ArrayList<>();
+//        NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery());
+//        searchQuery.withQuery(ElasticUtility.makeQuery(search));
+//        searchQuery.withSort(SortBuilders.fieldSort("prefixes.AU").order(SortOrder.ASC));
         Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
         ii.forEach(
                 r -> {

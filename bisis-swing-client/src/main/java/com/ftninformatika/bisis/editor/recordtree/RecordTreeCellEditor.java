@@ -6,6 +6,8 @@ import com.ftninformatika.bisis.editor.editorutils.IndicatorCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.SubfieldCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.editorutils.TableCodeChoiceDialog;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
+import com.ftninformatika.bisis.editor.registries.RegistryDlg;
+import com.ftninformatika.bisis.editor.registries.RegistryUtils;
 import com.ftninformatika.bisis.format.*;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.utils.CCPUtil;
@@ -46,7 +48,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 	//pomocne sitnice
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	
-	//RegistryDlg regDlg;
+	RegistryDlg regDlg;
 	
 	public RecordTreeCellEditor(RecordTree tree,DefaultTreeCellRenderer renderer) {
 		super(tree,renderer);		
@@ -59,7 +61,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 		lookup = new CharacterLookup(BisisApp.getMainFrame());
 		editingContainer = new Container();
 		this.ownerTree = tree;
-		//regDlg = new RegistryDlg(BisisApp.getMainFrame());
+		regDlg = new RegistryDlg(BisisApp.getMainFrame());
 		codedCellEditor.addKeyListener(new CellEditorKeyListener());			
 		cellEditor.addKeyListener(new CellEditorKeyListener());
 		coder.addKeyListener(new CellEditorKeyListener());
@@ -259,7 +261,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 	// bgb
 	
 	private void handleRegistries(){	
-		/*if(RegistryUtils.registriesAvailable()){
+		if(RegistryUtils.registriesAvailable()){
 			regDlg.setVisible(true);
 			if(regDlg.getValue()!=null){
 				if(cellEditor.getText().equals(""))
@@ -270,7 +272,7 @@ public class RecordTreeCellEditor extends DefaultTreeCellEditor{
 			}else{
 				JOptionPane.showMessageDialog(null, "Registri nisu instalirani!", "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
 			}
-				*/
+
 	}
 	
 	CharacterLookup lookup;
