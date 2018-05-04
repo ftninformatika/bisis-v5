@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.editor.registries;
 
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.LibraryList;
 import com.ftninformatika.utils.WindowUtils;
 
 import java.awt.BorderLayout;
@@ -28,6 +30,14 @@ public class RegistryDlg extends JDialog {
   public RegistryDlg(Frame parent) {
     super(parent, "Registri", true);
     this.parent = parent;
+
+    tPredOdr.putClientProperty("Quaqua.Table.style", "striped");
+    tPredPododr.putClientProperty("Quaqua.Table.style", "striped");
+    tAutOdr.putClientProperty("Quaqua.Table.style", "striped");
+    tKolOdr.putClientProperty("Quaqua.Table.style", "striped");
+    tZbirke.putClientProperty("Quaqua.Table.style", "striped");
+    tUDK.putClientProperty("Quaqua.Table.style", "striped");
+
     editDlg = new EditItemDlg(parent);
     setSize(700, 400);
     getContentPane().setLayout(new BorderLayout());
@@ -42,6 +52,16 @@ public class RegistryDlg extends JDialog {
     btnRemove.setFocusable(false);
     btnSearch.setToolTipText("Prona\u0111i stavku");
     btnSearch.setFocusable(false);
+
+    if (!LibraryList.isRegistryEnabled(BisisApp.appConfig.getLibrary())){
+      btnAdd.setEnabled(false);
+      btnAdd.setToolTipText("Nije dozvoljeno!");
+      btnModify.setEnabled(false);
+      btnRemove.setToolTipText("Nije dozvoljeno!");
+      btnRemove.setEnabled(false);
+      btnSearch.setToolTipText("Nije dozvoljeno!");
+    }
+
     Box north = Box.createHorizontalBox();
     north.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     //north.add(btnCyr);
@@ -661,7 +681,7 @@ public class RegistryDlg extends JDialog {
   JPanel pChoose = new JPanel();
   
   JTabbedPane tabbedPane = new JTabbedPane(
-      JTabbedPane.LEFT, JTabbedPane.WRAP_TAB_LAYOUT);
+      JTabbedPane.NORTH, JTabbedPane.SCROLL_TAB_LAYOUT);
   
   JToggleButton btnCyr = new JToggleButton("\u0430\u0437\u0431\u0443\u0447\u043d\u043e");
   JToggleButton btnLat = new JToggleButton("abecedno");

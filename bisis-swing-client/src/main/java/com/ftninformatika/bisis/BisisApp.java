@@ -67,6 +67,11 @@ public class BisisApp {
             System.err.println(ex.getMessage());
             return;
         }
+        System.setProperty(
+
+                "Quaqua.tabLayoutPolicy", "wrap"
+
+        );
         UIManager.getLookAndFeel().getDefaults().getPropertyChangeListeners();
         LoginFrame login = new LoginFrame();
         boolean correct = false;

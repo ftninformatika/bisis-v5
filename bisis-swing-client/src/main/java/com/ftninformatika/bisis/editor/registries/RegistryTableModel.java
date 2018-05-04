@@ -100,10 +100,6 @@ public class RegistryTableModel extends AbstractTableModel {
             ((RegUDKSubgroup) toUpdate).setGrupa(item.getText1());
             ((RegUDKSubgroup) toUpdate).setOpis(item.getText2());
         }
-        if (this.registryType == Registries.AUTORI) {
-            ((RegAutOdr) toUpdate).setAutor(item.getText1());
-            ((RegAutOdr) toUpdate).setOriginal(item.getText2());
-        }
         try {
             RegistryManager.updateRegistry(toUpdate);
         } catch (IOException e) {
