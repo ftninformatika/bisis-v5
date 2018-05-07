@@ -4,11 +4,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.registry.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import javax.swing.table.AbstractTableModel;
 
 
@@ -74,6 +70,7 @@ public class RegistryTableModel extends AbstractTableModel {
             e.printStackTrace();
         }
         rows.add(item);
+        fireTableDataChanged();
     }
 
     public void deleteRow(int index) {
@@ -82,6 +79,7 @@ public class RegistryTableModel extends AbstractTableModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        results.remove(index);
         rows.remove(index);
     }
 
@@ -90,17 +88,22 @@ public class RegistryTableModel extends AbstractTableModel {
 
         if (this.registryType == Registries.ODREDNICE)
             ((RegPrOd) toUpdate).setPojam(item.getText1());
-        if (this.registryType == Registries.PODODREDNICE)
-            ((RegPrPod) toUpdate).setPojam(item.getText1());
-        if (this.registryType == Registries.KOLEKTIVNI)
-            ((RegKolOdr) toUpdate).setKolektivac(item.getText1());
-        if (this.registryType == Registries.ZBIRKE)
+        else
+            if (this.registryType == Registries.PODODREDNICE)
+                ((RegPrPod) toUpdate).setPojam(item.getText1());
+        else
+            if (this.registryType == Registries.KOLEKTIVNI)
+                ((RegKolOdr) toUpdate).setKolektivac(item.getText1());
+        else
+            if (this.registryType == Registries.ZBIRKE)
             ((RegZbirke) toUpdate).setNaziv(item.getText1());
-        if (this.registryType == Registries.UDK) {
+        else
+            if (this.registryType == Registries.UDK) {
             ((RegUDKSubgroup) toUpdate).setGrupa(item.getText1());
             ((RegUDKSubgroup) toUpdate).setOpis(item.getText2());
         }
-        if (this.registryType == Registries.AUTORI) {
+        else
+            if (this.registryType == Registries.AUTORI) {
             ((RegAutOdr) toUpdate).setAutor(item.getText1());
             ((RegAutOdr) toUpdate).setOriginal(item.getText2());
         }
@@ -152,33 +155,35 @@ public class RegistryTableModel extends AbstractTableModel {
             dlg.progressBar.setVisible(true);
 
             initResults(dlg.getCurrentType());
-            for (int i = 0; i < results.size(); i++) {
+            int i = 0;
+            for (Registry val : results) {
                 dlg.progressBar.setValue(i + 1);
                 RegistryItem item = new RegistryItem();
                 item.setIndex(i);
 
                 if (results.get(i) instanceof RegPrOd) {
                     item.setText1(((RegPrOd) results.get(i)).getPojam());
-                }
+                } else
                 if (results.get(i) instanceof RegPrPod) {
                     item.setText1(((RegPrPod) results.get(i)).getPojam());
-                }
+                } else
                 if (results.get(i) instanceof RegKolOdr) {
                     item.setText1(((RegKolOdr) results.get(i)).getKolektivac());
-                }
+                } else
                 if (results.get(i) instanceof RegZbirke) {
                     item.setText1(((RegZbirke) results.get(i)).getNaziv());
-                }
+                } else
                 if (results.get(i) instanceof RegUDKSubgroup) {
                     item.setText1(((RegUDKSubgroup) results.get(i)).getGrupa());
                     item.setText2(((RegUDKSubgroup) results.get(i)).getOpis());
-                }
+                } else
                 if (results.get(i) instanceof RegAutOdr) {
                     item.setText1(((RegAutOdr) results.get(i)).getAutor());
                     item.setText2(((RegAutOdr) results.get(i)).getOriginal());
                 }
 
                 rows.add(item);
+                i++;
             }
             dlg.progressBar.setString("sortiram");
             //Vec vracamo sortirane vrednosti sa bekenda
@@ -202,7 +207,7 @@ public class RegistryTableModel extends AbstractTableModel {
                 return;
             for (RegPrOd r : response)
                 results.add(r);
-        }
+        } else
 
         if (registryType == Registries.PODODREDNICE) {
             List<RegPrPod> response = null;
@@ -215,7 +220,7 @@ public class RegistryTableModel extends AbstractTableModel {
                 return;
             for (RegPrPod r : response)
                 results.add(r);
-        }
+        } else
 
         if (registryType == Registries.KOLEKTIVNI) {
             List<RegKolOdr> response = null;
@@ -228,7 +233,7 @@ public class RegistryTableModel extends AbstractTableModel {
                 return;
             for (RegKolOdr r : response)
                 results.add(r);
-        }
+        } else
 
         if (registryType == Registries.ZBIRKE) {
             List<RegZbirke> response = null;
@@ -241,7 +246,7 @@ public class RegistryTableModel extends AbstractTableModel {
                 return;
             for (RegZbirke r : response)
                 results.add(r);
-        }
+        } else
 
         if (registryType == Registries.UDK) {
             List<RegUDKSubgroup> response = null;
@@ -254,7 +259,7 @@ public class RegistryTableModel extends AbstractTableModel {
                 return;
             for (RegUDKSubgroup r : response)
                 results.add(r);
-        }
+        } else
 
         if (registryType == Registries.AUTORI) {
             List<RegAutOdr> response = null;
@@ -267,11 +272,10 @@ public class RegistryTableModel extends AbstractTableModel {
                 return;
             for (RegAutOdr r : response)
                 results.add(r);
-        }
+        } else
 
         if (registryType == Registries.NEPOZNAT) {
-            List<RegAutOdr> response = new ArrayList<>();
-
+            results = new ArrayList<>();
         }
     }
 

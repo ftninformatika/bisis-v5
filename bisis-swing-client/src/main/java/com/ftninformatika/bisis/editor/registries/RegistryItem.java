@@ -61,6 +61,14 @@ public class RegistryItem implements Comparable {
         return false;
     return true;
   }
+
+  public String get_id(){
+    return _id;
+  }
+
+  public void set_id(String _id){
+    this._id = _id;
+  }
   
   public String toString() {
     return "[" + index + "]" + text1 + "|" + text2;
@@ -69,4 +77,5 @@ public class RegistryItem implements Comparable {
   private int index;
   private String text1;
   private String text2;
+  private String _id;
 }

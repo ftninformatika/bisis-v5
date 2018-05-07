@@ -69,6 +69,7 @@ public class RegistryDlg extends JDialog {
     grpSortOrder.add(btnCyr);
     grpSortOrder.add(btnLat);
     btnLat.setSelected(true);
+
     north.add(Box.createHorizontalGlue());
     north.add(btnAdd);
     north.add(btnModify);
