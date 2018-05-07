@@ -100,6 +100,10 @@ public class RegistryTableModel extends AbstractTableModel {
             ((RegUDKSubgroup) toUpdate).setGrupa(item.getText1());
             ((RegUDKSubgroup) toUpdate).setOpis(item.getText2());
         }
+        if (this.registryType == Registries.AUTORI) {
+            ((RegAutOdr) toUpdate).setAutor(item.getText1());
+            ((RegAutOdr) toUpdate).setOriginal(item.getText2());
+        }
         try {
             RegistryManager.updateRegistry(toUpdate);
         } catch (IOException e) {
@@ -121,7 +125,7 @@ public class RegistryTableModel extends AbstractTableModel {
     }
 
     public void sort(Comparator comparator) {
-        Collections.sort(rows, comparator);
+        //Collections.sort(rows, comparator);
         fireTableDataChanged();
     }
 
@@ -177,6 +181,7 @@ public class RegistryTableModel extends AbstractTableModel {
                 rows.add(item);
             }
             dlg.progressBar.setString("sortiram");
+            //Vec vracamo sortirane vrednosti sa bekenda
             sort(RegistryUtils.getLatComparator());
             dlg.progressBar.setVisible(false);
             dlg.getGlassPane().setVisible(false);
@@ -262,6 +267,11 @@ public class RegistryTableModel extends AbstractTableModel {
                 return;
             for (RegAutOdr r : response)
                 results.add(r);
+        }
+
+        if (registryType == Registries.NEPOZNAT) {
+            List<RegAutOdr> response = new ArrayList<>();
+
         }
     }
 

@@ -6,7 +6,9 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.registries.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/registries")
@@ -21,7 +23,10 @@ public class RegistriesController {
     //---Predmedtna odrednica-----------------------
     @RequestMapping( path = "po" )
     public List<RegPrOd> getRegProD() {
-        return odrednicaRepo.findAll();
+        List<RegPrOd> retVal = odrednicaRepo.findAll();
+        retVal = retVal.stream().sorted(Comparator.comparing(RegPrOd::getPojam))
+                .collect(Collectors.toList());
+        return retVal;
     }
 
     @RequestMapping( path = "po/count" )
@@ -44,7 +49,10 @@ public class RegistriesController {
     //---Predmetna pododrednica---------------------
     @RequestMapping( path = "pod" )
     public List<RegPrPod> getRegPrPod() {
-        return pododrednicaRepo.findAll();
+        List<RegPrPod> retVal = pododrednicaRepo.findAll();
+        retVal = retVal.stream().sorted(Comparator.comparing(RegPrPod::getPojam))
+                .collect(Collectors.toList());
+        return retVal;
     }
 
     @RequestMapping( path = "pod/count" )
@@ -53,8 +61,8 @@ public class RegistriesController {
     }
 
     @RequestMapping( path = "pod/delete", method = RequestMethod.POST)
-    public Boolean deleteRegPrPod(@RequestBody RegPrOd obj) {
-        odrednicaRepo.delete(obj);
+    public Boolean deleteRegPrPod(@RequestBody RegPrPod obj) {
+        pododrednicaRepo.delete(obj);
         return pododrednicaRepo.findOne(obj.get_id()) == null;
     }
 
@@ -67,7 +75,10 @@ public class RegistriesController {
     //---Kolektivna odrednica---------------
     @RequestMapping( path = "ko" )
     public List<RegKolOdr> getRegKolOdr() {
-        return kolektivnaOdrRepo.findAll();
+        List<RegKolOdr> retVal = kolektivnaOdrRepo.findAll();
+        retVal = retVal.stream().sorted(Comparator.comparing(RegKolOdr::getKolektivac))
+                                .collect(Collectors.toList());
+        return retVal;
     }
 
     @RequestMapping( path = "ko/count" )
@@ -90,7 +101,10 @@ public class RegistriesController {
     //---Zbirke odrednica---------------
     @RequestMapping( path = "zb" )
     public List<RegZbirke> getRegZbirke() {
-        return regZbirkeRepo.findAll();
+        List<RegZbirke> retVal = regZbirkeRepo.findAll();
+        retVal = retVal.stream().sorted(Comparator.comparing(RegZbirke::getNaziv))
+                        .collect(Collectors.toList());
+        return retVal;
     }
 
     @RequestMapping( path = "zb/count" )
@@ -113,7 +127,10 @@ public class RegistriesController {
     //---UDK podgrupa---------------
     @RequestMapping( path = "udksub" )
     public List<RegUDKSubgroup> getRegUDKS() {
-        return udkPodgrupaRepo.findAll();
+        List<RegUDKSubgroup> retVal = udkPodgrupaRepo.findAll();
+        retVal = retVal.stream().sorted(Comparator.comparing(RegUDKSubgroup::getGrupa))
+                        .collect(Collectors.toList());
+        return retVal;
     }
 
     @RequestMapping( path = "udksub/count" )
@@ -136,7 +153,10 @@ public class RegistriesController {
     //---UDK autor---------------
     @RequestMapping( path = "author" )
     public List<RegAutOdr> getRegAuthor() {
-        return autorRepo.findAll();
+        List<RegAutOdr> retVal = autorRepo.findAll();
+        retVal = retVal.stream().sorted(Comparator.comparing(RegAutOdr::getAutor))
+                                .collect(Collectors.toList());
+        return retVal;
     }
 
     @RequestMapping( path = "author/count" )

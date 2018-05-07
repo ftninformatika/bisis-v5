@@ -57,9 +57,9 @@ public class RegistryDlg extends JDialog {
       btnAdd.setEnabled(false);
       btnAdd.setToolTipText("Nije dozvoljeno!");
       btnModify.setEnabled(false);
+      btnModify.setToolTipText("Nije dozvoljeno!");
       btnRemove.setToolTipText("Nije dozvoljeno!");
       btnRemove.setEnabled(false);
-      btnSearch.setToolTipText("Nije dozvoljeno!");
     }
 
     Box north = Box.createHorizontalBox();

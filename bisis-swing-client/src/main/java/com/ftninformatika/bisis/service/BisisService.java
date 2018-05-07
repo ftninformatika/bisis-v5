@@ -426,7 +426,7 @@ public interface BisisService {
     @GET("registries/po/count")
     Call<Integer> countRegProD();
 
-    @POST("registries/pod")
+    @POST("registries/po")
     Call<RegPrOd> addUpdateRegPrOd(@Body RegPrOd obj);
 
     //--PODODREDNICE
