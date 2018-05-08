@@ -74,8 +74,9 @@ public class RegistryTableModel extends AbstractTableModel {
     }
 
     public void deleteRow(int index) {
+        Registry reg =(Registry) getRegByRowIndex(index).get();
         try {
-            RegistryManager.deleteRegistry(results.get(index));
+            RegistryManager.deleteRegistry(reg);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,31 +85,33 @@ public class RegistryTableModel extends AbstractTableModel {
     }
 
     public void updateRow(int index, RegistryItem item) {
-        Registry toUpdate = results.get(index);
+        //Registry toUpdate = results.get(index);
+        Optional toUpdate = getRegByRowIndex(index);
 
-        if (this.registryType == Registries.ODREDNICE)
-            ((RegPrOd) toUpdate).setPojam(item.getText1());
+        if (this.registryType == Registries.ODREDNICE) {
+            ((RegPrOd) toUpdate.get()).setPojam(item.getText1());
+        }
         else
             if (this.registryType == Registries.PODODREDNICE)
-                ((RegPrPod) toUpdate).setPojam(item.getText1());
+                ((RegPrPod) toUpdate.get()).setPojam(item.getText1());
         else
             if (this.registryType == Registries.KOLEKTIVNI)
-                ((RegKolOdr) toUpdate).setKolektivac(item.getText1());
+                ((RegKolOdr) toUpdate.get()).setKolektivac(item.getText1());
         else
             if (this.registryType == Registries.ZBIRKE)
-            ((RegZbirke) toUpdate).setNaziv(item.getText1());
+            ((RegZbirke) toUpdate.get()).setNaziv(item.getText1());
         else
             if (this.registryType == Registries.UDK) {
-            ((RegUDKSubgroup) toUpdate).setGrupa(item.getText1());
-            ((RegUDKSubgroup) toUpdate).setOpis(item.getText2());
+            ((RegUDKSubgroup) toUpdate.get()).setGrupa(item.getText1());
+            ((RegUDKSubgroup) toUpdate.get()).setOpis(item.getText2());
         }
         else
             if (this.registryType == Registries.AUTORI) {
-            ((RegAutOdr) toUpdate).setAutor(item.getText1());
-            ((RegAutOdr) toUpdate).setOriginal(item.getText2());
+            ((RegAutOdr) toUpdate.get()).setAutor(item.getText1());
+            ((RegAutOdr) toUpdate.get()).setOriginal(item.getText2());
         }
         try {
-            RegistryManager.updateRegistry(toUpdate);
+            RegistryManager.updateRegistry((Registry)toUpdate.get());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,6 +119,49 @@ public class RegistryTableModel extends AbstractTableModel {
         rows.set(index, item);
         fireTableRowsUpdated(index, index);
 
+    }
+
+    public Optional<? extends Registry> getRegByRowIndex(int index){
+        String id = ((RegistryItem)rows.get(index)).get_id();
+        switch (registryType) {
+            case Registries.ODREDNICE: {
+                return
+                        castCollection(results, RegPrOd.class).stream()
+                                .filter(o -> o.get_id().equals(id)).findFirst();
+
+            }
+            case Registries.PODODREDNICE: {
+                return
+                        castCollection(results, RegPrPod.class).stream()
+                                .filter(o -> o.get_id().equals(id)).findFirst();
+
+            }
+            case Registries.AUTORI: {
+                return
+                        castCollection(results, RegAutOdr.class).stream()
+                                .filter(o -> o.get_id().equals(id)).findFirst();
+
+            }
+            case Registries.KOLEKTIVNI: {
+                return
+                        castCollection(results, RegKolOdr.class).stream()
+                                .filter(o -> o.get_id().equals(id)).findFirst();
+
+            }
+            case Registries.UDK: {
+                return
+                        castCollection(results, RegUDKSubgroup.class).stream()
+                                .filter(o -> o.get_id().equals(id)).findFirst();
+
+            }
+            case Registries.ZBIRKE: {
+                return
+                        castCollection(results, RegZbirke.class).stream()
+                                .filter(o -> o.get_id().equals(id)).findFirst();
+
+            }
+        }
+        return null;
     }
 
     public int searchRow(RegistryItem item) {
@@ -128,7 +174,7 @@ public class RegistryTableModel extends AbstractTableModel {
     }
 
     public void sort(Comparator comparator) {
-        //Collections.sort(rows, comparator);
+        Collections.sort(rows, comparator);
         fireTableDataChanged();
     }
 
@@ -145,48 +191,59 @@ public class RegistryTableModel extends AbstractTableModel {
         return retVal;
     }
 
+    public <T>List<T> castCollection(List srcList, Class<T> clas){
+        List<T> list =new ArrayList<T>();
+        for (Object obj : srcList) {
+            if(obj!=null && clas.isAssignableFrom(obj.getClass()))
+                list.add(clas.cast(obj));
+        }
+        return list;
+    }
+
 
     public class InitTask {
         public InitTask(RegistryTableModel model, RegistryDlg dlg) {
 
             dlg.progressBar.setMinimum(0);
             dlg.progressBar.setMaximum(100);
-            dlg.progressBar.setString("u\u010ditavam podatke");
+            dlg.progressBar.setString("учитавам податке");
             dlg.progressBar.setVisible(true);
 
             initResults(dlg.getCurrentType());
-            int i = 0;
-            for (Registry val : results) {
+            for (int i = 0; i < results.size(); i++) {
                 dlg.progressBar.setValue(i + 1);
                 RegistryItem item = new RegistryItem();
                 item.setIndex(i);
 
                 if (results.get(i) instanceof RegPrOd) {
                     item.setText1(((RegPrOd) results.get(i)).getPojam());
+                    item.set_id(((RegPrOd) results.get(i)).get_id());
                 } else
                 if (results.get(i) instanceof RegPrPod) {
                     item.setText1(((RegPrPod) results.get(i)).getPojam());
+                    item.set_id(((RegPrPod) results.get(i)).get_id());
                 } else
                 if (results.get(i) instanceof RegKolOdr) {
                     item.setText1(((RegKolOdr) results.get(i)).getKolektivac());
+                    item.set_id(((RegKolOdr) results.get(i)).get_id());
                 } else
                 if (results.get(i) instanceof RegZbirke) {
                     item.setText1(((RegZbirke) results.get(i)).getNaziv());
+                    item.set_id(((RegZbirke) results.get(i)).get_id());
                 } else
                 if (results.get(i) instanceof RegUDKSubgroup) {
                     item.setText1(((RegUDKSubgroup) results.get(i)).getGrupa());
                     item.setText2(((RegUDKSubgroup) results.get(i)).getOpis());
+                    item.set_id(((RegUDKSubgroup) results.get(i)).get_id());
                 } else
                 if (results.get(i) instanceof RegAutOdr) {
                     item.setText1(((RegAutOdr) results.get(i)).getAutor());
                     item.setText2(((RegAutOdr) results.get(i)).getOriginal());
+                    item.set_id(((RegAutOdr) results.get(i)).get_id());
                 }
-
                 rows.add(item);
-                i++;
             }
-            dlg.progressBar.setString("sortiram");
-            //Vec vracamo sortirane vrednosti sa bekenda
+            dlg.progressBar.setString("сортирам");
             sort(RegistryUtils.getLatComparator());
             dlg.progressBar.setVisible(false);
             dlg.getGlassPane().setVisible(false);

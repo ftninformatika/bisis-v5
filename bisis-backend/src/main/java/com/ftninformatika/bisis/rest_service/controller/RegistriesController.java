@@ -23,10 +23,7 @@ public class RegistriesController {
     //---Predmedtna odrednica-----------------------
     @RequestMapping( path = "po" )
     public List<RegPrOd> getRegProD() {
-        List<RegPrOd> retVal = odrednicaRepo.findAll();
-        retVal = retVal.stream().sorted(Comparator.comparing(RegPrOd::getPojam))
-                .collect(Collectors.toList());
-        return retVal;
+        return odrednicaRepo.findAll();
     }
 
     @RequestMapping( path = "po/count" )
@@ -49,10 +46,7 @@ public class RegistriesController {
     //---Predmetna pododrednica---------------------
     @RequestMapping( path = "pod" )
     public List<RegPrPod> getRegPrPod() {
-        List<RegPrPod> retVal = pododrednicaRepo.findAll();
-        retVal = retVal.stream().sorted(Comparator.comparing(RegPrPod::getPojam))
-                .collect(Collectors.toList());
-        return retVal;
+        return pododrednicaRepo.findAll();
     }
 
     @RequestMapping( path = "pod/count" )
@@ -75,10 +69,7 @@ public class RegistriesController {
     //---Kolektivna odrednica---------------
     @RequestMapping( path = "ko" )
     public List<RegKolOdr> getRegKolOdr() {
-        List<RegKolOdr> retVal = kolektivnaOdrRepo.findAll();
-        retVal = retVal.stream().sorted(Comparator.comparing(RegKolOdr::getKolektivac))
-                                .collect(Collectors.toList());
-        return retVal;
+        return  kolektivnaOdrRepo.findAll();
     }
 
     @RequestMapping( path = "ko/count" )
@@ -101,10 +92,7 @@ public class RegistriesController {
     //---Zbirke odrednica---------------
     @RequestMapping( path = "zb" )
     public List<RegZbirke> getRegZbirke() {
-        List<RegZbirke> retVal = regZbirkeRepo.findAll();
-        retVal = retVal.stream().sorted(Comparator.comparing(RegZbirke::getNaziv))
-                        .collect(Collectors.toList());
-        return retVal;
+        return regZbirkeRepo.findAll();
     }
 
     @RequestMapping( path = "zb/count" )
@@ -127,10 +115,7 @@ public class RegistriesController {
     //---UDK podgrupa---------------
     @RequestMapping( path = "udksub" )
     public List<RegUDKSubgroup> getRegUDKS() {
-        List<RegUDKSubgroup> retVal = udkPodgrupaRepo.findAll();
-        retVal = retVal.stream().sorted(Comparator.comparing(RegUDKSubgroup::getGrupa))
-                        .collect(Collectors.toList());
-        return retVal;
+        return udkPodgrupaRepo.findAll();
     }
 
     @RequestMapping( path = "udksub/count" )
@@ -153,10 +138,7 @@ public class RegistriesController {
     //---UDK autor---------------
     @RequestMapping( path = "author" )
     public List<RegAutOdr> getRegAuthor() {
-        List<RegAutOdr> retVal = autorRepo.findAll();
-        retVal = retVal.stream().sorted(Comparator.comparing(RegAutOdr::getAutor))
-                                .collect(Collectors.toList());
-        return retVal;
+        return autorRepo.findAll();
     }
 
     @RequestMapping( path = "author/count" )

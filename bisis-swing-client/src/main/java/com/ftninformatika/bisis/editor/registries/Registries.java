@@ -13,17 +13,17 @@ public class Registries {
   public static String getShortName(int registryType) {
     switch (registryType) {
       case AUTORI:
-        return "Autorske odr.";
+        return "Ауторске одр.";
       case ODREDNICE:
-        return "Predmetne odr.";
+        return "Предметне одр.";
       case PODODREDNICE:
-        return "Predmetne pododr.";
+        return "Предметне пододр.";
       case ZBIRKE:
-        return "Zbirke";
+        return "Збирке";
       case UDK:
-        return "UDK podgrupe";
+        return "UDK подгрупе";
       case KOLEKTIVNI:
-        return "Kolektivne odr.";
+        return "Колективне одр.";
       default:
         return "";
     }
@@ -32,17 +32,17 @@ public class Registries {
   public static String getLongName(int registryType) {
     switch (registryType) {
       case AUTORI:
-        return "Autorske odrednice";
+        return "Ауторске одреднице";
       case ODREDNICE:
-        return "Predmetne odrednice";
+        return "Предметне одреднице";
       case PODODREDNICE:
-        return "Predmetne pododrednice";
+        return "Предметне пододреднице";
       case ZBIRKE:
-        return "Zbirke";
+        return "Збирке";
       case UDK:
-        return "UDK podgrupe";
+        return "UDK подгрупе";
       case KOLEKTIVNI:
-        return "Kolektivne odrednice";
+        return "Колективне одреднице";
       default:
         return "";
     }
@@ -51,17 +51,17 @@ public class Registries {
   public static String getLabel1(int registryType) {
     switch (registryType) {
       case AUTORI:
-        return "Autor";
+        return "Аутор";
       case ODREDNICE:
-        return "Pojam";
+        return "Појам";
       case PODODREDNICE:
-        return "Pojam";
+        return "Појам";
       case ZBIRKE:
-        return "Naziv";
+        return "Назив";
       case UDK:
-        return "Grupa";
+        return "Група";
       case KOLEKTIVNI:
-        return "Kolektivac";
+        return "Колективац";
       default:
         return "";
     }
@@ -70,7 +70,7 @@ public class Registries {
   public static String getLabel2(int registryType) {
     switch (registryType) {
       case AUTORI:
-        return "Original";
+        return "Оригинал";
       case ODREDNICE:
         return "";
       case PODODREDNICE:
@@ -78,7 +78,7 @@ public class Registries {
       case ZBIRKE:
         return "";
       case UDK:
-        return "Opis";
+        return "Опис";
       case KOLEKTIVNI:
         return "";
       default:

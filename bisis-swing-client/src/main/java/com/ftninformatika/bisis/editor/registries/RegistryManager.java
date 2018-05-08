@@ -49,30 +49,40 @@ public class RegistryManager {
     public static void deleteRegistry(Registry reg) throws IOException {
         if (reg instanceof RegPrOd)
             BisisApp.bisisService.deleteRegProD((RegPrOd) reg).execute().body();
-        if (reg instanceof RegPrPod)
-            BisisApp.bisisService.deleteRegPrPod((RegPrPod) reg).execute().body();
-        if (reg instanceof RegKolOdr)
-            BisisApp.bisisService.deleteRegKolOdr((RegKolOdr) reg).execute().body();
-        if (reg instanceof RegZbirke)
-            BisisApp.bisisService.deleteRegZbirke((RegZbirke) reg).execute().body();
-        if (reg instanceof RegUDKSubgroup)
+        else
+            if (reg instanceof RegPrPod)
+                BisisApp.bisisService.deleteRegPrPod((RegPrPod) reg).execute().body();
+        else
+            if (reg instanceof RegKolOdr)
+                BisisApp.bisisService.deleteRegKolOdr((RegKolOdr) reg).execute().body();
+        else
+            if (reg instanceof RegZbirke)
+                BisisApp.bisisService.deleteRegZbirke((RegZbirke) reg).execute().body();
+        else
+            if (reg instanceof RegUDKSubgroup)
             BisisApp.bisisService.deleteRegUDKS((RegUDKSubgroup) reg).execute().body();
-        if (reg instanceof RegAutOdr)
+        else
+            if (reg instanceof RegAutOdr)
             BisisApp.bisisService.deleteRegAuthor((RegAutOdr) reg).execute().body();
     }
 
     public static void updateRegistry(Registry reg) throws IOException {
         if (reg instanceof RegPrOd)
             BisisApp.bisisService.addUpdateRegPrOd((RegPrOd) reg).execute().body();
-        if (reg instanceof RegPrPod)
+        else
+            if (reg instanceof RegPrPod)
             BisisApp.bisisService.addUpdateRegPrPod((RegPrPod)reg).execute();
-        if (reg instanceof RegKolOdr)
+        else
+            if (reg instanceof RegKolOdr)
             BisisApp.bisisService.addRegKolOdr((RegKolOdr)reg).execute();
-        if (reg instanceof RegZbirke)
+        else
+            if (reg instanceof RegZbirke)
             BisisApp.bisisService.addRegZbirke((RegZbirke)reg).execute();
-        if (reg instanceof RegUDKSubgroup)
+        else
+            if (reg instanceof RegUDKSubgroup)
             BisisApp.bisisService.addRegUDKS((RegUDKSubgroup)reg).execute();
-        if (reg instanceof RegAutOdr)
+        else
+            if (reg instanceof RegAutOdr)
             BisisApp.bisisService.addRegAuthor((RegAutOdr)reg).execute();
     }
 }

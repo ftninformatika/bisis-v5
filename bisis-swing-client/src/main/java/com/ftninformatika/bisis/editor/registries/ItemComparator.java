@@ -26,6 +26,8 @@ public class ItemComparator implements Comparator {
   }
   
   private String cleanString(String str){
+    if (str == null)
+      return "";
   	str = str.replace(",", "").replace("(", "").replace(")", "").replace("/", ""); 
   	return str;
   	

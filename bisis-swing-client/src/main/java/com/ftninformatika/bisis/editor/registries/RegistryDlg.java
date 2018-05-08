@@ -28,7 +28,7 @@ public class RegistryDlg extends JDialog {
    * @param parent
    */
   public RegistryDlg(Frame parent) {
-    super(parent, "Registri", true);
+    super(parent, "Регистри", true);
     this.parent = parent;
 
     tPredOdr.putClientProperty("Quaqua.Table.style", "striped");
@@ -39,26 +39,26 @@ public class RegistryDlg extends JDialog {
     tUDK.putClientProperty("Quaqua.Table.style", "striped");
 
     editDlg = new EditItemDlg(parent);
-    setSize(700, 400);
+    setSize(800, 450);
     getContentPane().setLayout(new BorderLayout());
 
     btnLat.setFocusable(false);
     btnCyr.setFocusable(false);
-    btnAdd.setToolTipText("Dodaj stavku");
+    btnAdd.setToolTipText("Додај ставку");
     btnAdd.setFocusable(false);
-    btnModify.setToolTipText("Izmeni stavku");
+    btnModify.setToolTipText("Измени ставку");
     btnModify.setFocusable(false);
-    btnRemove.setToolTipText("Obri\u0161i stavku");
+    btnRemove.setToolTipText("Обриши ставку");
     btnRemove.setFocusable(false);
-    btnSearch.setToolTipText("Prona\u0111i stavku");
+    btnSearch.setToolTipText("Пронађи ставку");
     btnSearch.setFocusable(false);
 
     if (!LibraryList.isRegistryEnabled(BisisApp.appConfig.getLibrary())){
       btnAdd.setEnabled(false);
-      btnAdd.setToolTipText("Nije dozvoljeno!");
+      btnAdd.setToolTipText("Немате привилегије!");
       btnModify.setEnabled(false);
-      btnModify.setToolTipText("Nije dozvoljeno!");
-      btnRemove.setToolTipText("Nije dozvoljeno!");
+      btnModify.setToolTipText("Немате привилегије!");
+      btnRemove.setToolTipText("Немате привилегије!");
       btnRemove.setEnabled(false);
     }
 
@@ -111,7 +111,7 @@ public class RegistryDlg extends JDialog {
       public void stateChanged(ChangeEvent ev) {
         if (" ".equals(tabbedPane.getTitleAt(0))) {
           tabbedPane.removeTabAt(0);
-          tabbedPane.setSelectedIndex(tabbedPane.getSelectedIndex() - 1);
+          tabbedPane.setSelectedIndex(tabbedPane.getSelectedIndex());
           return;
         }
         switch(getCurrentType()) {
@@ -145,7 +145,7 @@ public class RegistryDlg extends JDialog {
       }
     });
     
-    JLabel lChoose = new JLabel("Izaberite registar");
+    JLabel lChoose = new JLabel("Изаберите регистар");
     Font font = lChoose.getFont();
     Font font2 = font.deriveFont(14.0f);
     lChoose.setFont(font2);
@@ -298,6 +298,8 @@ public class RegistryDlg extends JDialog {
       }
     });
     setGlassPane(new MyGlassPane());
+    tabbedPane.setSelectedIndex(0);
+
   }
   
   public int getCurrentType() {
@@ -444,7 +446,7 @@ public class RegistryDlg extends JDialog {
   
   public void handleRemove() {
     int answer = JOptionPane.showConfirmDialog(parent, 
-        "Da li ste sigurni da \u017eelite da obri\u0161ete stavku?", "Potvrda", 
+        "Да ли сте сигурни да желите да обришете ставку?", "Потврда",
         JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
     if (answer != JOptionPane.YES_OPTION)
       return;
@@ -617,7 +619,7 @@ public class RegistryDlg extends JDialog {
           ChangeListener[] listeners = tabbedPane.getChangeListeners();
           for (int i = 0; i < listeners.length; i++)
             tabbedPane.removeChangeListener(listeners[i]);
-          tabbedPane.insertTab(" ", null, pChoose, "Izaberite registar", 0);
+          tabbedPane.insertTab(" ", null, pChoose, "Изаберите регистар", 0);
           tabbedPane.setSelectedIndex(0);
           for (int i = 0; i < listeners.length; i++)
             tabbedPane.addChangeListener(listeners[i]);
@@ -685,7 +687,7 @@ public class RegistryDlg extends JDialog {
       JTabbedPane.NORTH, JTabbedPane.SCROLL_TAB_LAYOUT);
   
   JToggleButton btnCyr = new JToggleButton("\u0430\u0437\u0431\u0443\u0447\u043d\u043e");
-  JToggleButton btnLat = new JToggleButton("abecedno");
+  JToggleButton btnLat = new JToggleButton("абецедно");
   
   JButton btnAdd = new JButton(new ImageIcon(RegistryDlg.class.getResource(
     "/icons/add.png")));
@@ -696,8 +698,8 @@ public class RegistryDlg extends JDialog {
   JButton btnSearch = new JButton(new ImageIcon(RegistryDlg.class.getResource(
     "/icons/search.png")));
 
-  JButton btnCancel = new JButton("Zatvori");
-  JButton btnOK = new JButton("Preuzmi");
+  JButton btnCancel = new JButton("Затвори");
+  JButton btnOK = new JButton("Преузми");
   JProgressBar progressBar = new JProgressBar();
   ButtonGroup grpSortOrder = new ButtonGroup();
   
@@ -714,7 +716,7 @@ public class RegistryDlg extends JDialog {
   public class SortTask {
     public SortTask(Comparator comparator) {
       RegistryDlg.this.progressBar.setVisible(true);
-      RegistryDlg.this.progressBar.setString("sortiram");
+      RegistryDlg.this.progressBar.setString("сортирам");
       RegistryDlg.this.tmPredOdr.sort(comparator);
       RegistryDlg.this.tmPredPododr.sort(comparator);
       RegistryDlg.this.tmAutOdr.sort(comparator);
