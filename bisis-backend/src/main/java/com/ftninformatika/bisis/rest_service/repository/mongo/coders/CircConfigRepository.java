@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.repository.mongo;
+package com.ftninformatika.bisis.rest_service.repository.mongo.coders;
 
 import com.ftninformatika.bisis.circ.CircConfig;
 import org.springframework.data.mongodb.repository.MongoRepository;
