@@ -219,8 +219,14 @@ public class Godina implements Serializable{
     this.napomene = napomene;
   }
 
-  public String getOdeljenje() {
-    return odeljenje;
+  public String getOdeljenje(){
+    if (odeljenje != null)
+      return odeljenje;
+    else
+    if(invBroj != null && invBroj.substring(0,2) != null)
+      return invBroj.substring(0,2);
+    else
+      return null;
   }
 
   public void setOdeljenje(String odeljenje) {

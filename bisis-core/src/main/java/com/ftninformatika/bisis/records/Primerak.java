@@ -57,6 +57,17 @@ public class Primerak implements Serializable {
 //    version = 0;
 //  }
 //
+
+  public String getOdeljenje(){
+    if (odeljenje != null)
+      return odeljenje;
+    else
+      if(invBroj != null && invBroj.substring(0,2) != null)
+        return invBroj.substring(0,2);
+    else
+        return null;
+  }
+
   public Primerak(int primerakID, String invBroj, Date datumRacuna,
       String brojRacuna, String dobavljac, BigDecimal cena, String finansijer,
       String usmeravanje, Date datumInventarisanja, String sigFormat,
