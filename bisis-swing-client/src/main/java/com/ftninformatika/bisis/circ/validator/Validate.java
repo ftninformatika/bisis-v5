@@ -122,7 +122,7 @@ public class Validate {
 
 	public static String validateOptions(OptionsFrame bean){
 		try{
-			InputStream xmlStream = bean.getClass().getResourceAsStream("/com/gint/app/bisis4/client/circ/validator/options-validator.xml");
+			InputStream xmlStream = bean.getClass().getResourceAsStream("/circ_validator/options-validator.xml");
 			ValidatorResources resources = new ValidatorResources(xmlStream);
 			return validate(bean, resources, "options");
 		}catch(Exception e){
