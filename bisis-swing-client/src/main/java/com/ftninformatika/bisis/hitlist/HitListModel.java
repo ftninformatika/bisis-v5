@@ -5,11 +5,8 @@ import javax.swing.AbstractListModel;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.records.Record;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class HitListModel extends AbstractListModel {
@@ -47,6 +44,8 @@ public class HitListModel extends AbstractListModel {
     }
 
   }
+
+
   
   public void refresh() {
     fireContentsChanged(this, 0, records.length - 1);
