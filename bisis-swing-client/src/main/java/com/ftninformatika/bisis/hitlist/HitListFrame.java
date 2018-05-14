@@ -79,25 +79,26 @@ public class HitListFrame extends JInternalFrame {
         JScrollPane cardPaneScroll = new JScrollPane(cardPane);
         //cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         JScrollPane fullFormatPaneScroll = new JScrollPane(fullFormatPane);
-
-        RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
-            public boolean include(Entry entry) {
-                String locCol = (String) entry.getValue(4);
-                String invStart = ((String) entry.getValue(0)).substring(0,2);
-
-                if (SearchFrame.locId != null){
-                    if(locCol != null && !locCol.equals(SearchFrame.locId))
-                        return false;
-                    else if (!invStart.equals(SearchFrame.locId))
-                        return false;
-                }
-                return true;
-            }
-        };
-        TableRowSorter<InventarTabTableModel> sorter = new TableRowSorter<InventarTabTableModel>(inventarTableModel);
-        sorter.setRowFilter(filter);
         inventarTable.setModel(inventarTableModel);
-        inventarTable.setRowSorter(sorter);
+        if(SearchFrame.locId != null) {
+            RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+                public boolean include(Entry entry) {
+                    String locCol = (String) entry.getValue(4);
+                    String invStart = ((String) entry.getValue(0)).substring(0, 2);
+
+                    if (SearchFrame.locId != null) {
+                        if (locCol != null && !locCol.equals(SearchFrame.locId))
+                            return false;
+                        else if (!invStart.equals(SearchFrame.locId))
+                            return false;
+                    }
+                    return true;
+                }
+            };
+            TableRowSorter<InventarTabTableModel> sorter = new TableRowSorter<InventarTabTableModel>(inventarTableModel);
+            sorter.setRowFilter(filter);
+            inventarTable.setRowSorter(sorter);
+        }
         //inventarTable.setAutoCreateRowSorter(true);
         inventarTable.setCellSelectionEnabled(true);
         inventarTable.putClientProperty("Quaqua.Table.style", "striped");

@@ -492,25 +492,27 @@ public class MonographInventarPanel extends InventarPanel {
 
   private void createPrimerciTable(){  	
   	primerciTableModel = new PrimerciTableModel();
-	  RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
-		  public boolean include(Entry entry) {
-			  String locCol = (String) entry.getValue(7);
-			  String invStart = ((String) entry.getValue(0)).substring(0,2);
-
-			  if (SearchFrame.locId != null){
-			  	if(locCol != null && !locCol.equals(SearchFrame.locId))
-			  		return false;
-			  	else if (!invStart.equals(SearchFrame.locId))
-			  		return false;
-			  }
-			  return true;
-		  }
-	  };
-	TableRowSorter<PrimerciTableModel> sorter = new TableRowSorter<PrimerciTableModel>(primerciTableModel);
-	sorter.setRowFilter(filter);
     primerciTable = new JTable(primerciTableModel);
-    primerciTable.putClientProperty("Quaqua.Table.style", "striped");
-    primerciTable.setRowSorter(sorter);
+	  primerciTable.putClientProperty("Quaqua.Table.style", "striped");
+	  if(SearchFrame.locId != null) {
+		  RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+			  public boolean include(Entry entry) {
+				  String locCol = (String) entry.getValue(7);
+				  String invStart = ((String) entry.getValue(0)).substring(0, 2);
+
+				  if (SearchFrame.locId != null) {
+					  if (locCol != null && !locCol.equals(SearchFrame.locId))
+						  return false;
+					  else if (!invStart.equals(SearchFrame.locId))
+						  return false;
+				  }
+				  return true;
+			  }
+		  };
+		  TableRowSorter<PrimerciTableModel> sorter = new TableRowSorter<PrimerciTableModel>(primerciTableModel);
+		  sorter.setRowFilter(filter);
+		  primerciTable.setRowSorter(sorter);
+	  }
   	primerciTable.setTransferHandler(null);
   	primerciScrollPane = new JScrollPane(primerciTable);		
   	listSelModel = primerciTable.getSelectionModel();

@@ -114,26 +114,28 @@ public class SerialInventarPanel extends InventarPanel {
 
   private void createGodineTable(){
     godineTableModel = new GodineTableModel();
-    RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
-      public boolean include(Entry entry) {
-        //index kolone odeljenja
-        String locCol = (String) entry.getValue(3);
-        String invStart = ((String) entry.getValue(0)).substring(0,2);
-
-        if (SearchFrame.locId != null){
-          if(locCol != null && !locCol.equals(SearchFrame.locId))
-            return false;
-          else if (!invStart.equals(SearchFrame.locId))
-            return false;
-        }
-        return true;
-      }
-    };
-    TableRowSorter<GodineTableModel> sorter = new TableRowSorter<GodineTableModel>(godineTableModel);
-    sorter.setRowFilter(filter);
     godineTable = new JTable(godineTableModel);
-    godineTable.putClientProperty("Quaqua.Table.style", "striped");
-    godineTable.setRowSorter(new TableRowSorter<GodineTableModel>(godineTableModel));    
+      godineTable.putClientProperty("Quaqua.Table.style", "striped");
+      if(SearchFrame.locId != null) {
+          RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+              public boolean include(Entry entry) {
+                  //index kolone odeljenja
+                  String locCol = (String) entry.getValue(3);
+                  String invStart = ((String) entry.getValue(0)).substring(0,2);
+
+                  if (SearchFrame.locId != null){
+                      if(locCol != null && !locCol.equals(SearchFrame.locId))
+                          return false;
+                      else if (!invStart.equals(SearchFrame.locId))
+                          return false;
+                  }
+                  return true;
+              }
+          };
+          TableRowSorter<GodineTableModel> sorter = new TableRowSorter<GodineTableModel>(godineTableModel);
+          sorter.setRowFilter(filter);
+          godineTable.setRowSorter(sorter);
+      }
     godineScrollPane = new JScrollPane(godineTable);
     adjustInventarColumnWidth();
     listSelModel = godineTable.getSelectionModel();
