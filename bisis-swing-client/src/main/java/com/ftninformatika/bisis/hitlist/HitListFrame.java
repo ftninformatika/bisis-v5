@@ -80,10 +80,11 @@ public class HitListFrame extends JInternalFrame {
         //cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         JScrollPane fullFormatPaneScroll = new JScrollPane(fullFormatPane);
         inventarTable.setModel(inventarTableModel);
+        inventarTable.setAutoCreateRowSorter(true);
         if(SearchFrame.locId != null) {
             RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
                 public boolean include(Entry entry) {
-                    String locCol = (String) entry.getValue(4);
+                    String locCol = (String) entry.getValue(7);
                     String invStart = ((String) entry.getValue(0)).substring(0, 2);
 
                     if (SearchFrame.locId != null) {
@@ -99,7 +100,6 @@ public class HitListFrame extends JInternalFrame {
             sorter.setRowFilter(filter);
             inventarTable.setRowSorter(sorter);
         }
-        //inventarTable.setAutoCreateRowSorter(true);
         inventarTable.setCellSelectionEnabled(true);
         inventarTable.putClientProperty("Quaqua.Table.style", "striped");
         //inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
