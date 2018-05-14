@@ -1,7 +1,9 @@
 package com.ftninformatika.bisis.hitlist;
 
+import com.ftninformatika.bisis.editor.inventar.PrimerciTableModel;
 import com.ftninformatika.bisis.records.RecordModification;
 import com.ftninformatika.bisis.search.Result;
+import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.CCPUtil;
 import com.ftninformatika.utils.Messages;
 
@@ -29,6 +31,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.html.HTMLEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
@@ -76,8 +79,26 @@ public class HitListFrame extends JInternalFrame {
         JScrollPane cardPaneScroll = new JScrollPane(cardPane);
         //cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         JScrollPane fullFormatPaneScroll = new JScrollPane(fullFormatPane);
+
+        RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+            public boolean include(Entry entry) {
+                String locCol = (String) entry.getValue(4);
+                String invStart = ((String) entry.getValue(0)).substring(0,2);
+
+                if (SearchFrame.locId != null){
+                    if(locCol != null && !locCol.equals(SearchFrame.locId))
+                        return false;
+                    else if (!invStart.equals(SearchFrame.locId))
+                        return false;
+                }
+                return true;
+            }
+        };
+        TableRowSorter<InventarTabTableModel> sorter = new TableRowSorter<InventarTabTableModel>(inventarTableModel);
+        sorter.setRowFilter(filter);
         inventarTable.setModel(inventarTableModel);
-        inventarTable.setAutoCreateRowSorter(true);
+        inventarTable.setRowSorter(sorter);
+        //inventarTable.setAutoCreateRowSorter(true);
         inventarTable.setCellSelectionEnabled(true);
         inventarTable.putClientProperty("Quaqua.Table.style", "striped");
         //inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);

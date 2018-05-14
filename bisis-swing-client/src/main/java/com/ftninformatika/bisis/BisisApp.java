@@ -59,6 +59,9 @@ public class BisisApp {
         exc.add("Tree");
         exc.add("SidebarTreeModel");
         exc.add("TextArea");
+        exc.add("TextField");
+        exc.add("PasswordField");
+//        exc.add("TabbedPane");
         QuaquaManager.setExcludedUIs(exc);
         try {
             UIManager.setLookAndFeel(new Quaqua15LeopardCrossPlatformLookAndFeel());

@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.editor.inventar;
 
+import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,15 +15,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;import java.text.ParseException;
 import java.util.Date;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -121,6 +114,23 @@ public class SerialInventarPanel extends InventarPanel {
 
   private void createGodineTable(){
     godineTableModel = new GodineTableModel();
+    RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+      public boolean include(Entry entry) {
+        //index kolone odeljenja
+        String locCol = (String) entry.getValue(3);
+        String invStart = ((String) entry.getValue(0)).substring(0,2);
+
+        if (SearchFrame.locId != null){
+          if(locCol != null && !locCol.equals(SearchFrame.locId))
+            return false;
+          else if (!invStart.equals(SearchFrame.locId))
+            return false;
+        }
+        return true;
+      }
+    };
+    TableRowSorter<GodineTableModel> sorter = new TableRowSorter<GodineTableModel>(godineTableModel);
+    sorter.setRowFilter(filter);
     godineTable = new JTable(godineTableModel);
     godineTable.putClientProperty("Quaqua.Table.style", "striped");
     godineTable.setRowSorter(new TableRowSorter<GodineTableModel>(godineTableModel));    

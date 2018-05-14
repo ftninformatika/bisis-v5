@@ -2,7 +2,10 @@ package com.ftninformatika.bisis.editor.registries;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.LibraryList;
+import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
+import com.ftninformatika.bisis.registry.Registry;
 import com.ftninformatika.utils.WindowUtils;
+import com.ftninformatika.utils.string.LatCyrUtils;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -555,6 +558,10 @@ public class RegistryDlg extends JDialog {
     RegistryItem selection = getSelection();
     if (selection != null)
       value = selection.getText1().trim();
+
+    if (getCurrentType() == Registries.ODREDNICE || getCurrentType() == Registries.PODODREDNICE)
+      if (CurrRecord.isCyrRecord())
+        value = LatCyrUtils.toCyrillic(value);
   }
   
   public void handleCancel() {

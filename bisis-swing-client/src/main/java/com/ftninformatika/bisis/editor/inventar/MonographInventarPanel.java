@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.DefaultEditorKit;
 
@@ -23,6 +24,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
@@ -401,7 +403,8 @@ public class MonographInventarPanel extends InventarPanel {
     ostaloPanel.add(drugiPanel,"wrap");
   }
 	
-	private void loadPrimerak(Primerak p){		
+	private void loadPrimerak(Primerak p){
+
 		if(p.getNacinNabavke()!=null) nacinNabavkePanel.setCode(p.getNacinNabavke());
 		else nacinNabavkePanel.setCode("");
 		if(p.getPovez()!=null) povezPanel.setCode(p.getPovez());
@@ -489,9 +492,25 @@ public class MonographInventarPanel extends InventarPanel {
 
   private void createPrimerciTable(){  	
   	primerciTableModel = new PrimerciTableModel();
+	  RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+		  public boolean include(Entry entry) {
+			  String locCol = (String) entry.getValue(7);
+			  String invStart = ((String) entry.getValue(0)).substring(0,2);
+
+			  if (SearchFrame.locId != null){
+			  	if(locCol != null && !locCol.equals(SearchFrame.locId))
+			  		return false;
+			  	else if (!invStart.equals(SearchFrame.locId))
+			  		return false;
+			  }
+			  return true;
+		  }
+	  };
+	TableRowSorter<PrimerciTableModel> sorter = new TableRowSorter<PrimerciTableModel>(primerciTableModel);
+	sorter.setRowFilter(filter);
     primerciTable = new JTable(primerciTableModel);
     primerciTable.putClientProperty("Quaqua.Table.style", "striped");
-    primerciTable.setRowSorter(new TableRowSorter<PrimerciTableModel>(primerciTableModel));
+    primerciTable.setRowSorter(sorter);
   	primerciTable.setTransferHandler(null);
   	primerciScrollPane = new JScrollPane(primerciTable);		
   	listSelModel = primerciTable.getSelectionModel();
