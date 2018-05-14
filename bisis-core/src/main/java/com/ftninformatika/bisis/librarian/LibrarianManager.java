@@ -26,6 +26,7 @@ public class LibrarianManager {
         retVal.setBiblioteka(librarianDTO.getBiblioteka());
         retVal.setCurentProcessType(ProcessTypeBuilder.buildProcessTypeFromDTO(librarianDTO.getCurentProcessType()));
         retVal.setContext(initializeContextFromDTO(librarianDTO.getContext()));
+        retVal.setDefaultDepartment(librarianDTO.getDefaultDepartment());
 
         return retVal;
     }
@@ -46,6 +47,7 @@ public class LibrarianManager {
         retVal.setBiblioteka(lib.getBiblioteka());
         retVal.setCurentProcessType(ProcessTypeBuilder.buildDTOFromProcessType(lib.getCurentProcessType()));
         retVal.setContext(initializeDTOFromContext(lib.getContext()));
+        retVal.setDefaultDepartment(lib.getDefaultDepartment());
 
         return retVal;
     }

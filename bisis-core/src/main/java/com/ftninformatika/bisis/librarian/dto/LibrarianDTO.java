@@ -39,4 +39,6 @@ public class LibrarianDTO {
     private String biblioteka;
     private ProcessTypeDTO curentProcessType;
 
+    //samo za bgb, ostali null
+    private String defaultDepartment;
 }
