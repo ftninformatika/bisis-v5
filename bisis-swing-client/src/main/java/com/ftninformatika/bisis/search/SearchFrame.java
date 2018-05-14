@@ -132,7 +132,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
             cbOdlj.addItem(location.getDescription());
         }
         add(new JLabel("Одељење    "), "span 5, split 3");
-        add(cbOdlj, "span 1 3, growx");
+        add(cbOdlj, "");
 
         if (BisisApp.appConfig.getLibrarian().getDefaultDepartment() != null)
             cbOdlj.setSelectedItem(BisisApp.appConfig.getLibrarian().getDefaultDepartment());
