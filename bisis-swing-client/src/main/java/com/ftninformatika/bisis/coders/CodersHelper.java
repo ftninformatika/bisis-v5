@@ -64,7 +64,13 @@ public class CodersHelper {
     }
 
 
-
+    public String getLocationCodeByName(String locName){
+        for (Map.Entry<String, Location> l: locations.entrySet()){
+            if (l.getValue().getDescription().equals(locName))
+                return l.getKey();
+        }
+        return null;
+    }
 
     //za koder frejmove
     public ArrayList<ArrayList<Object>> getCoderTableModelList(String coderName){

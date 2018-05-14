@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.search;
 import com.ftninformatika.bisis.BisisApp;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -39,7 +40,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 					String pref3, String oper3, String text3,
 					String pref4, String oper4, String text4,
 					String pref5,  String text5, String sort,
-					SearchStatusDlg statusDlg) {
+					SearchStatusDlg statusDlg, String locId) {
 	  this.statusDlg=statusDlg;
 	  this.pref1=pref1;
 	  this.pref2=pref2;
@@ -57,7 +58,12 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	  this.text5=text5;
 	  this.sort=sort;
 
-	  this.searchModel = new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,sort, null);
+	  List<String> departments = null;
+	  if (locId != null) {
+	      departments = new ArrayList<>();
+          departments.add(locId);
+      }
+	  this.searchModel = new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,sort,  departments);
   }
   public SearchTask(String queryString, SearchStatusDlg statusDlg){
 	  this.statusDlg=statusDlg;
