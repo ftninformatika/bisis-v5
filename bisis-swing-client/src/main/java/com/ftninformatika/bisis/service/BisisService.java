@@ -13,6 +13,7 @@ import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.*;
+import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchModel;
@@ -168,8 +169,14 @@ public interface BisisService {
     @GET("records/lock")
     Call<String> lockRecord(@Query("recId") String recId, @Query("lirbrarianId") String librarianId);
 
+    @GET("records/get_by_rn")
+    Call<Record> getRecordByRN(@Query("rn") String rn);
+
     @GET("records/unlock")
     Call<String> unlockRecord(@Query("recId") String recId);
+
+    @GET("records/unlock_by_rn")
+    Call<Boolean> unlockByRN(@Query("rn") String rn);
 
     @GET("records/delete/{mongoID}")
     Call<Boolean> deleteRecord(@Path("mongoID") String mongoID);
@@ -397,8 +404,7 @@ public interface BisisService {
     Call<Report> getZbStatisticReport(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
 
     @GET("circ_report/get_total_signed_from_start_of_year")
-    Call<Integer> getTotalSignedMembersFromStartOfYear(@Query("locaton") String location);
-
+    Call<Integer> getTotalSignedMembersFromStartOfYear(@Query("location") String location);
 
     @GET ("members/getWarnMembers")
     Call<List<MemberData>> getWarnMembers(@Query("start") PathDate start, @Query("end") PathDate end, @Query("location") String location);
@@ -409,4 +415,82 @@ public interface BisisService {
     @POST("coders/addWarningType")
     Call<Boolean> addWarningType(@Body WarningType warningType);
 
+    //------registries
+    //--ODREDNICE
+    @GET("registries/po")
+    Call<List<RegPrOd>> getRegPrOd();
+
+    @POST("registries/po/delete")
+    Call<Boolean> deleteRegProD(@Body RegPrOd obj);
+
+    @GET("registries/po/count")
+    Call<Integer> countRegProD();
+
+    @POST("registries/po")
+    Call<RegPrOd> addUpdateRegPrOd(@Body RegPrOd obj);
+
+    //--PODODREDNICE
+    @GET("registries/pod")
+    Call<List<RegPrPod>> getRegPrPod();
+
+    @POST("registries/pod/delete")
+    Call<Boolean> deleteRegPrPod(@Body RegPrPod obj);
+
+    @GET("registries/pod/count")
+    Call<Integer> countRegPrPod();
+
+    @POST("registries/pod")
+    Call<RegPrPod> addUpdateRegPrPod(@Body RegPrPod obj);
+
+    //--KOLEKTIVNE ODREDNICE
+    @GET("registries/ko")
+    Call<List<RegKolOdr>> getRegKolOdr();
+
+    @POST("registries/ko/delete")
+    Call<Boolean> deleteRegKolOdr(@Body RegKolOdr obj);
+
+    @GET("registries/ko/count")
+    Call<Integer> countRegKolOdr();
+
+    @POST("registries/ko")
+    Call<RegKolOdr> addRegKolOdr(@Body RegKolOdr obj);
+
+    //--ZBIRNE ODREDNICE
+    @GET("registries/zb")
+    Call<List<RegZbirke>> getRegZbirke();
+
+    @POST("registries/zb/delete")
+    Call<Boolean> deleteRegZbirke(@Body RegZbirke obj);
+
+    @GET("registries/zb/count")
+    Call<Integer> countRegZbirke();
+
+    @POST("registries/udksub")
+    Call<RegZbirke> addRegZbirke(@Body RegZbirke obj);
+
+    //--UDK PODGRUPA
+    @GET("registries/udksub")
+    Call<List<RegUDKSubgroup>> getRegUDKS();
+
+    @POST("registries/udksub/delete")
+    Call<Boolean> deleteRegUDKS(@Body RegUDKSubgroup obj);
+
+    @GET("registries/udksub/count")
+    Call<Integer> countRegUDKS();
+
+    @POST("registries/udksub")
+    Call<RegUDKSubgroup> addRegUDKS(@Body RegUDKSubgroup obj);
+
+    //--AUTOR PODODREDNICA
+    @GET("registries/author")
+    Call<List<RegAutOdr>> getRegAuthor();
+
+    @POST("registries/author/delete")
+    Call<Boolean> deleteRegAuthor(@Body RegAutOdr obj);
+
+    @GET("registries/author/count")
+    Call<Integer> countRegAuthor();
+
+    @POST("registries/author")
+    Call<RegAutOdr> addRegAuthor(@Body RegAutOdr obj);
 }

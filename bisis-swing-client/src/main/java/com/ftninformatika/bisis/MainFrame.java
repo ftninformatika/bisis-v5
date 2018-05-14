@@ -2,7 +2,9 @@ package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
+import com.ftninformatika.bisis.admin.unlock.UnlockPanel;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.coders.CodersHelper;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.hitlist.groupview.GrupniPrikazFrame;
@@ -13,6 +15,9 @@ import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.fx.JFXInternalFrame.JFXCoderFrame;
+import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
+import javafx.embed.swing.JFXPanel;
 import net.sf.jasperreports.engine.JasperPrint;
 
 import javax.swing.*;
@@ -53,6 +58,7 @@ public class MainFrame extends JFrame {
             desktop.add(get992bFrame());
             desktop.add(getStatusFrame());
             desktop.add(getFormatFrame());
+            desktop.add(getUnlockFrame());
             desktop.add(getCountersFrame());
             desktop.add(getSearchAdvancedFrame());
         }
@@ -152,65 +158,83 @@ public class MainFrame extends JFrame {
         return reportChooserDlg;
     }
 
-    public CoderFrame getOdeljenjeFrame(){
+    public JFXCoderFrame getOdeljenjeFrame(){
         if (odeljenjeFrame == null){
-            odeljenjeFrame = new CoderFrame(TableCatalog.getTable("Odeljenje"));
+            odeljenjeFrame = new JFXCoderFrame(CodersHelper.ODELJENJE_CODER);
+            odeljenjeFrame.setResizable(false);
+            odeljenjeFrame.setMaximizable(false);
         }
         return odeljenjeFrame;
     }
 
-    public CoderFrame getIntOznFrame(){
+    public JFXCoderFrame getIntOznFrame(){
         if (intOznFrame == null){
-            intOznFrame = new CoderFrame(TableCatalog.getTable("Interna_oznaka"));
+            intOznFrame = new JFXCoderFrame(CodersHelper.INTERNAOZNAKA_CODER);
+            intOznFrame.setMaximizable(false);
+            intOznFrame.setResizable(false);
         }
         return intOznFrame;
     }
 
-    public CoderFrame getNacinFrame(){
+    public JFXCoderFrame getNacinFrame(){
         if (nacinFrame == null){
-            nacinFrame = new CoderFrame(TableCatalog.getTable("Nacin_nabavke"));
+            nacinFrame = new JFXCoderFrame(CodersHelper.NACINNABAVKE_CODER);
+            nacinFrame.setResizable(false);
+            nacinFrame.setMaximizable(false);
         }
         return nacinFrame;
     }
 
-    public CoderFrame getPodlokacijaFrame(){
+    public JFXCoderFrame getPodlokacijaFrame(){
         if (podlokacijaFrame == null){
-            podlokacijaFrame = new CoderFrame(TableCatalog.getTable("Podlokacija"));
+            podlokacijaFrame = new JFXCoderFrame(CodersHelper.PODLOKACIJA_CODER);
+            podlokacijaFrame.setMaximizable(false);
+            podlokacijaFrame.setResizable(false);
         }
         return podlokacijaFrame;
     }
 
-    public CoderFrame getPovezFrame(){
+    public JFXCoderFrame getPovezFrame(){
         if (povezFrame == null){
-            povezFrame = new CoderFrame(TableCatalog.getTable("Povez"));
+            povezFrame = new JFXCoderFrame(CodersHelper.POVEZ_CODER);
+            povezFrame.setResizable(false);
+            povezFrame.setMaximizable(false);
         }
         return povezFrame;
     }
 
-    public CoderFrame get992bFrame(){
+    public JFXCoderFrame get992bFrame(){
         if (_992bFrame == null){
-            _992bFrame = new CoderFrame(TableCatalog.getTable("Task"));
+            _992bFrame = new JFXCoderFrame(CodersHelper.TASK_CODER);
+            _992bFrame.setMaximizable(false);
+            _992bFrame.setResizable(false);
         }
         return _992bFrame;
     }
 
-    public CoderFrame getFormatFrame(){
+    public JFXCoderFrame getFormatFrame(){
         if (formatFrame == null){
-            formatFrame = new CoderFrame(TableCatalog.getTable("SigFormat"));
+            formatFrame = new JFXCoderFrame(CodersHelper.FORMAT_CODER);
+            formatFrame.setResizable(false);
+            formatFrame.setMaximizable(false);
         }
         return formatFrame;
     }
 
-    public CoderFrame getStatusFrame(){
+    public JFXCoderFrame getStatusFrame(){
         if (statusFrame == null){
-            statusFrame = new CoderFrame(TableCatalog.getTable("Status_Primerka"));
+            statusFrame = new JFXCoderFrame(CodersHelper.STATUS_CODER);
+            statusFrame.setMaximizable(false);
+            statusFrame.setResizable(false);
         }
         return statusFrame;
     }
 
-    public CoderFrame getInvknjFrame(){
+    public JFXCoderFrame getInvknjFrame(){
         if (invknjFrame == null){
-            invknjFrame = new CoderFrame(TableCatalog.getTable("Invknj"));
+            invknjFrame = new JFXCoderFrame(CodersHelper.INVENTARNAKNJIGA_CODER);
+            invknjFrame.setResizable(false);
+            invknjFrame.setMaximizable(false);
         }
         return invknjFrame;
     }
@@ -235,6 +259,19 @@ public class MainFrame extends JFrame {
         return statusnaLinija;
     }
 
+    public JInternalFrame getUnlockFrame(){
+        if(unlockFrame == null){
+            unlockFrame =  new JFXInternalFrame(Messages.getString("MAINFRAME_UNLOCK_TITLE"),
+                    "/fx/unlock/unlockFrame.fxml",
+                    "/fx/unlock/css/unlockFrame.css",null);
+            unlockFrame.setResizable(false);
+            unlockFrame.setMaximizable(false);
+            unlockFrame.setSize(420, 250);
+            unlockFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        }
+        return unlockFrame;
+    }
+
     public void selectNextInternalFrame(){
         desktop.selectFrame(true);
     }
@@ -245,16 +282,16 @@ public class MainFrame extends JFrame {
     private GrupniPrikazFrame brf=null;
 //    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
-
-    private CoderFrame intOznFrame = null;
-    private CoderFrame nacinFrame = null;
-    private CoderFrame odeljenjeFrame = null;
-    private CoderFrame podlokacijaFrame = null;
-    private CoderFrame povezFrame = null;
-    private CoderFrame _992bFrame = null;
-    private CoderFrame formatFrame = null;
-    private CoderFrame statusFrame = null;
-    private CoderFrame invknjFrame = null;
+    private JInternalFrame unlockFrame = null;
+    private JFXCoderFrame intOznFrame = null;
+    private JFXCoderFrame nacinFrame = null;
+    private JFXCoderFrame odeljenjeFrame = null;
+    private JFXCoderFrame podlokacijaFrame = null;
+    private JFXCoderFrame povezFrame = null;
+    private JFXCoderFrame _992bFrame = null;
+    private JFXCoderFrame formatFrame = null;
+    private JFXCoderFrame statusFrame = null;
+    private JFXCoderFrame invknjFrame = null;
     private CoderFrame countersFrame = null;
     private SearchAdvancedFrame searchAdvancedFrame= null;
     private JTextField statusnaLinija = null;

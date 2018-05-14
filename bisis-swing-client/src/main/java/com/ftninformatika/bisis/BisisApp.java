@@ -58,6 +58,10 @@ public class BisisApp {
         Set exc = new HashSet();
         exc.add("Tree");
         exc.add("SidebarTreeModel");
+        exc.add("TextArea");
+        exc.add("TextField");
+        exc.add("PasswordField");
+//        exc.add("TabbedPane");
         QuaquaManager.setExcludedUIs(exc);
         try {
             UIManager.setLookAndFeel(new Quaqua15LeopardCrossPlatformLookAndFeel());
@@ -66,11 +70,24 @@ public class BisisApp {
             System.err.println(ex.getMessage());
             return;
         }
+        System.setProperty(
 
+                "Quaqua.tabLayoutPolicy", "wrap"
+
+        );
+        UIManager.getLookAndFeel().getDefaults().getPropertyChangeListeners();
         LoginFrame login = new LoginFrame();
         boolean correct = false;
         while (!correct) {
             if (login.isConfirmed()) {
+
+                if (!LibraryList.isValidUsername(login.getUsername())){
+                    JOptionPane.showMessageDialog(null, Messages.getString("VALID_USERNAME_INFO"),
+                            Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
+                    login.setVis(true);
+                    continue;
+                }
+
 
                 splashScreen = new SplashScreen();
                 splashScreen.setImage("/icons/book-big.png");
@@ -129,6 +146,7 @@ public class BisisApp {
                             Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
                     login.setVis(true);
                 }
+
             } else {
                 System.exit(0);
             }

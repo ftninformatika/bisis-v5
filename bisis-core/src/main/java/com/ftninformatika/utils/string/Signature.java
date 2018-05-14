@@ -247,11 +247,11 @@ public class Signature {
         return retVal;
     }
 
-    public static void main(String[] args) {
-        if (args.length < 1) {
-            System.out.println("Usage: Signature <signatura>");
-            return;
-        }
-        System.out.println(userDisplay(args[0]));
-    }
+//    public static void main(String[] args) {
+//        if (args.length < 1) {
+//            System.out.println("Usage: Signature <signatura>");
+//            return;
+//        }
+//        System.out.println(userDisplay(args[0]));
+//    }
 }

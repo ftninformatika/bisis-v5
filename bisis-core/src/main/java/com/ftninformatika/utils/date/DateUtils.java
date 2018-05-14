@@ -3,15 +3,20 @@
  *  ***/
 package com.ftninformatika.utils.date;
 
+import org.joda.time.Days;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
 
-  private static final String dateRegExString = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$";
+  private static final String DATE_REG_EX = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$";
+  private static final long MAX_DATE_RANGE_DAYS = 367;
 
   public static String toGMTstring(Date date) {
     DateFormat df = new SimpleDateFormat("dd MMM yyyy kk:mm:ss z");
@@ -71,9 +76,15 @@ public class DateUtils {
     return sameDay;
   }
 
+  public static boolean inCircReportDateRange(Date d1, Date d2){
+    long delta = d2.getTime() - d1.getTime();
+    long days = TimeUnit.DAYS.convert(delta, TimeUnit.MILLISECONDS);
+    return delta > 0 && days < MAX_DATE_RANGE_DAYS;
+  }
+
   public static String getFormatedStringFromStringDate(String date){
     String retVal = "";
-    if(date.matches(dateRegExString)){
+    if(date.matches(DATE_REG_EX)){
         String[] parts = date.split("-");
         retVal = parts[2] + "." + parts[1] + "." + parts[0];
     }

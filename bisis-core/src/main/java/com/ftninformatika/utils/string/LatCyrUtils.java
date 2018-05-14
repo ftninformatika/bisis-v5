@@ -61,6 +61,17 @@ public class LatCyrUtils {
     String cleaned = normalized.replaceAll("\\p{M}", "");
     return cleaned;
   }
+
+
+  public static String toLatinUnaccentedWithoutStopSigns(String s){
+    String retVal = toLatinUnaccented(s);
+    retVal = StringUtils.clearDelimiters(retVal, "<>=:;.-/\\\"`~()&#^!_+-[]");
+    return retVal;
+  }
+
+//  public static void main(String[] args) {
+//    System.out.println(toLatinUnaccentedWithoutStopSigns("Би*/тек[са]ч._ж=Aasd/978sad"));
+//  }
   
   private static char[] cyr = { '\u0410', '\u0411', '\u0412', '\u0413', 
       '\u0414', '\u0402', '\u0415', '\u0416', '\u0417', '\u0418', '\u0408',
@@ -78,3 +89,4 @@ public class LatCyrUtils {
       '\u0111', 'e', '\u017e', 'z', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r',
       's', 't', '\u0107', 'u', 'f', 'h', 'c', '\u010d', '\u0161'};
 }
+

@@ -11,13 +11,12 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.UserCategRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.IterableUtils;
 import com.ftninformatika.utils.date.DateUtils;
-import org.apache.lucene.search.Collector;
-import org.elasticsearch.common.recycler.Recycler;
 import org.elasticsearch.index.query.*;
-import org.elasticsearch.search.aggregations.metrics.percentiles.hdr.InternalHDRPercentiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -30,30 +29,19 @@ import java.util.stream.Collectors;
 public class CircReportContoller {
 
     @Autowired MemberRepository memberRepository;
-
     @Autowired LendingRepository lendingRepository;
-
     @Autowired RecordsRepository recordsRepository;
-
     @Autowired CorporateMemberRepository corporateMemberRepository;
-
     @Autowired LocationRepository locationRepository;
-
     @Autowired LibrarianRepository librarianRepository;
-
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
-
     @Autowired UserCategRepository userCategRepository;
-
-    @Autowired RecordsController recordsController;
-
-
     /**
      *
      * ukupan broj korisnika uclanjenih od pocetka godine do sada
      */
     @RequestMapping(value = "get_total_signed_from_start_of_year")
-    public Integer getTotalSignedMembersFromStartOfYear( @RequestParam(name = "location", required = false)String location) {
+    public Integer getTotalSignedMembersFromStartOfYear( @RequestParam("location")String location) {
         Date today = DateUtils.getEndOfDay(new Date());
         Date yearStart = DateUtils.getYearStartFromDate(today);
         return memberRepository.getUserSignedCount(yearStart, today,  location);

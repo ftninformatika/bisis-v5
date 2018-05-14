@@ -298,8 +298,13 @@ public class CurrRecord {
         if (newValue.equals("") || ui.getValue(newValue) == null)
             throw new UValidatorException
                     (Messages.getString("CODE_NOT_DEFINED_FOR_INDICATOR"));
+    }
 
-
+    //da li je zapis na cirilicnom pismu
+    public static boolean isCyrRecord(){
+        if (record.getSubfieldContent("100h") != null && record.getSubfieldContent("100h").equals("scc"))
+            return true;
+        return false;
     }
 
     public static String validateRecord() {

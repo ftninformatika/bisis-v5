@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.registry.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
@@ -28,6 +29,12 @@ public class ExposeEntityIdRestConfiguration extends RepositoryRestConfigurerAda
               .exposeIdsFor(ProcessTypeDTO.class)
               .exposeIdsFor(ElasticPrefixEntity.class)
               .exposeIdsFor(CircConfig.class)
-              .exposeIdsFor(Organization.class);
+              .exposeIdsFor(Organization.class)
+              .exposeIdsFor(RegAutOdr.class)
+              .exposeIdsFor(RegUDKSubgroup.class)
+              .exposeIdsFor(RegZbirke.class)
+              .exposeIdsFor(RegKolOdr.class)
+              .exposeIdsFor(RegPrPod.class)
+              .exposeIdsFor(RegPrOd.class);
     }
 }

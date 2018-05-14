@@ -16,13 +16,19 @@ import java.util.Map;
 @Getter
 @Setter
 @Document(indexName = "#{libraryPrefixProvider.getLibPrefix()}_library_domain", type = "record")
-@Mapping(mappingPath = "/elasticsearch/keyword_analyzer.json")
+@Mapping(mappingPath = "/mappings/mapping.json")
 public class ElasticPrefixEntity {
 
     @Id
     String id;
+  /*  @Field(
+            type = FieldType.String,
+            index = FieldIndex.not_analyzed,
+            searchAnalyzer = "standard",
+            store = true
+    )
+    private String operationName="testing";*/
     private Map<String, List<String>> prefixes;
-
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();

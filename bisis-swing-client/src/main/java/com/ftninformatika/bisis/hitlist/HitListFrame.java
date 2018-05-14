@@ -1,7 +1,10 @@
 package com.ftninformatika.bisis.hitlist;
 
+import com.ftninformatika.bisis.editor.inventar.PrimerciTableModel;
 import com.ftninformatika.bisis.records.RecordModification;
 import com.ftninformatika.bisis.search.Result;
+import com.ftninformatika.bisis.search.SearchFrame;
+import com.ftninformatika.utils.CCPUtil;
 import com.ftninformatika.utils.Messages;
 
 import java.awt.*;
@@ -28,6 +31,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.html.HTMLEditorKit;
 
 import com.ftninformatika.bisis.BisisApp;
@@ -76,7 +80,26 @@ public class HitListFrame extends JInternalFrame {
         //cardPaneScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         JScrollPane fullFormatPaneScroll = new JScrollPane(fullFormatPane);
         inventarTable.setModel(inventarTableModel);
-        inventarTable.setAutoCreateRowSorter(true);
+        if(SearchFrame.locId != null) {
+            RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+                public boolean include(Entry entry) {
+                    String locCol = (String) entry.getValue(4);
+                    String invStart = ((String) entry.getValue(0)).substring(0, 2);
+
+                    if (SearchFrame.locId != null) {
+                        if (locCol != null && !locCol.equals(SearchFrame.locId))
+                            return false;
+                        else if (!invStart.equals(SearchFrame.locId))
+                            return false;
+                    }
+                    return true;
+                }
+            };
+            TableRowSorter<InventarTabTableModel> sorter = new TableRowSorter<InventarTabTableModel>(inventarTableModel);
+            sorter.setRowFilter(filter);
+            inventarTable.setRowSorter(sorter);
+        }
+        //inventarTable.setAutoCreateRowSorter(true);
         inventarTable.setCellSelectionEnabled(true);
         inventarTable.putClientProperty("Quaqua.Table.style", "striped");
         //inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
@@ -259,7 +282,18 @@ public class HitListFrame extends JInternalFrame {
                     Record rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
 
                     if (rec == null) {
-                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(), MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), recordId), Messages.getString("RECORD_LOCKED"), JOptionPane.INFORMATION_MESSAGE);
+                        JTextArea ta = new JTextArea(4, 10);
+                        ta.setWrapStyleWord(true);
+                        ta.setLineWrap(true);
+                        ta.setCaretPosition(0);
+                        ta.setEditable(false);
+                        String rn = "";
+                        if(selectedRecord.getRN() != 0)
+                            rn = selectedRecord.getRN() + "";
+                        ta.setText(MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), "" + rn + "\n"));
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
+                                new JScrollPane(ta),
+                                Messages.getString("RECORD_LOCKED"), JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
 
@@ -539,7 +573,7 @@ public class HitListFrame extends JInternalFrame {
         metaDataPanel.add(new JLabel(Messages.getString("HITLIST_CHANGED_DATE_HTML")));
         metaDataPanel.add(recModificationDateLabel, "wrap");
 
-        metaDataPanel.add(new JLabel("<html><b>Листа модификација записа:</b></html>"), "wrap");
+        metaDataPanel.add(new JLabel(Messages.getString("HITLIST_NOT_MODIFIED_SINCE_HTML")), "wrap");
         metaDataPanel.add(modificationScrollPane, "wrap");
 
     }
@@ -572,7 +606,7 @@ public class HitListFrame extends JInternalFrame {
             modificationScrollPane.setEnabled(false);
         }
         else {
-            JLabel noModification = new JLabel("Запис није модификован од 10.04.2018!");
+            JLabel noModification = new JLabel(Messages.getString("HITLIST_NOT_MODIFIED_SINCE_HTML2"));
             noModification.setOpaque(true);
             modificationScrollPane.setViewportView(noModification);
             modificationScrollPane.setOpaque(true);

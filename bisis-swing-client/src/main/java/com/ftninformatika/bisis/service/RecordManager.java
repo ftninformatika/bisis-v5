@@ -30,6 +30,10 @@ public class RecordManager {
         return BisisApp.bisisService.getOneRecord(recID).execute().body();
     }
 
+    public Record getRecordByRN(int rn) throws IOException {
+        return BisisApp.bisisService.getRecordByRN(rn+"").execute().body();
+    }
+
     public Record[] getRecords(List<String> recIDs) throws IOException {
         Record[] retVal = new Record[recIDs.size()];
         return  BisisApp.bisisService.getRecordsByIds(recIDs).execute().body().toArray(retVal);

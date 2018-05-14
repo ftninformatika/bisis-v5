@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +18,17 @@ import java.util.List;
 @RequestMapping("/coders")
 public class CodersController {
 
-    @Autowired AcquisitionRepository acqrep;
+    @Autowired
+    AcquisitionRepository acqrep;
 
-    @Autowired AvailabilityRepository availrep;
+    @Autowired
+    AvailabilityRepository availrep;
 
-    @Autowired AccessionRegisterRepository accregrep;
+    @Autowired
+    AccessionRegisterRepository accregrep;
 
-    @Autowired BindingRepository bindrep;
+    @Autowired
+    BindingRepository bindrep;
 
     @Autowired FormatRepository formrep;
 
@@ -57,7 +62,8 @@ public class CodersController {
 
     @Autowired ProcessTypeRepository processTypeRepository;
 
-    @Autowired CircLocationRepository circLocationRepository;
+    @Autowired
+    CircLocationRepository circLocationRepository;
 
     @Autowired CorporateMemberRepository corporateMemberRepository;
 

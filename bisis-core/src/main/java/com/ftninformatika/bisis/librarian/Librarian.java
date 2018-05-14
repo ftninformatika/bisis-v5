@@ -29,6 +29,8 @@ public class Librarian {
   private LibrarianContext context = new LibrarianContext();
   private String biblioteka;
   private ProcessType curentProcessType;
+  //samo za bgb, ostali null
+  private String defaultDepartment;
 
   public Librarian(String username, String password) {
     this.username = username;

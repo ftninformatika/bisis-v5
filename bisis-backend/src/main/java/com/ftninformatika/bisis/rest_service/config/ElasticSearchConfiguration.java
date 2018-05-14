@@ -1,8 +1,17 @@
 package com.ftninformatika.bisis.rest_service.config;
 
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+
+import java.net.InetAddress;
 
 /**
  * Created by Petar on 7/5/2017.
@@ -12,25 +21,23 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @ComponentScan(basePackages = {"com.ftninformatika"})
 public class ElasticSearchConfiguration {
 
-   /* @Bean
-    public NodeBuilder nodeBuilder() {
-        return new NodeBuilder();
-    }*/
+    @Bean
+    public Client client() throws Exception {
 
- /*   @Bean
-    public ElasticsearchOperations elasticsearchTemplate() {
-        Settings.Builder elasticsearchSettings =
-                Settings.settingsBuilder()
-                        .put("http.enabled", "false") // 1
-                        .put("path.data", /*tmpDir.toAbsolutePath().toString()*///"/elastic/storage") // 2
-     /*                   .put("path.home", "PATH_TO_YOUR_ELASTICSEARCH_DIRECTORY"); // 3
+        Settings esSettings = Settings.settingsBuilder().build();
+     //   CreateIndexRequest indexRequest = new CreateIndexRequest("gbns_library_domain", esSettings);
 
-        //logger.debug(tmpDir.toAbsolutePath().toString());
-        return new ElasticsearchTemplate(nodeBuilder()
-                .local(true)
-                .settings(elasticsearchSettings.build())
-                .node()
-                .client());
-    }*/
+         Client client =TransportClient.builder()
+                // .settings(esSettings)
+                .build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+
+      //  client.admin().indices().create(indexRequest).actionGet();
+        return client;
+    }
+
+    @Bean
+    public ElasticsearchOperations elasticsearchTemplate() throws Exception {
+        return new ElasticsearchTemplate(client());
+    }
 
 }

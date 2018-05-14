@@ -540,9 +540,9 @@ public class StringUtils {
     javaEscapes.put("\\t", "\t");
   }
   
-  public static void main(String[] args) {
-//    System.out.println(replace("\"<Filip Visnjic\">", "<", ""));
-//    System.out.println(replace("\"<Filip Visnjic\">", ">", ""));
-      System.out.println(LatCyrUtils.toCyrillic("Bibliotekari"));
-  }
+//  public static void main(String[] args) {
+////    System.out.println(replace("\"<Filip Visnjic\">", "<", ""));
+////    System.out.println(replace("\"<Filip Visnjic\">", ">", ""));
+//      System.out.println(LatCyrUtils.toCyrillic("Bibliotekari"));
+//  }
 }

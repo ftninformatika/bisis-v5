@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.circ.CircConfig;
-import com.ftninformatika.bisis.rest_service.repository.mongo.CircConfigRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

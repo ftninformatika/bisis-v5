@@ -15,6 +15,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
+import com.ftninformatika.utils.date.DateUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -24,6 +25,9 @@ import noNamespace.ReportDocument;
 import noNamespace.ReportDocument.Report;
 import noNamespace.ReportDocument.Report.Row;
 import org.w3c.dom.Document;
+
+import javax.swing.*;
+
 public class BestBook {
 
 	public static Document setXML(List<com.ftninformatika.bisis.circ.pojo.Report> l) {
@@ -41,6 +45,7 @@ public class BestBook {
 	}
 
 	public static JasperPrint setPrint(Date start,Date end,Object location)throws IOException {
+
 
 		Map<String, Object> params = new HashMap<String, Object>(4);
 		String loc = "";
@@ -68,12 +73,11 @@ public class BestBook {
 									.getResource(
 											"/cirkulacija/jaspers/najcitanije.jasper").openStream(),
 											params, ds);
-			
-			
 			return jp;
 		} catch (JRException e) {
 			e.printStackTrace();
 			return null;
 		}
+
 	}
 }

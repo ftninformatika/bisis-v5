@@ -11,6 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.MessageFormat;import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.*;
@@ -52,38 +53,47 @@ public class CodedValuePanel extends JPanel {
 			case(CodersHelper.NACINNABAVKE_CODER):
 				labelStr = Messages.getString("EDITOR_ACQ_TYPE");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.NACINNABAVKE_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case(CodersHelper.POVEZ_CODER):
 				labelStr = Messages.getString("BINDING");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.POVEZ_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case(CodersHelper.PODLOKACIJA_CODER):
 				labelStr = Messages.getString("SUBLOCATION");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.PODLOKACIJA_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case(CodersHelper.FORMAT_CODER):
 				labelStr = Messages.getString("FORMAT");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.FORMAT_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case(CodersHelper.INTERNAOZNAKA_CODER):
 				labelStr = Messages.getString("INTERNAL_MARK");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INTERNAOZNAKA_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case(CodersHelper.ODELJENJE_CODER):
 				labelStr = Messages.getString("LOCATION");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.ODELJENJE_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case(CodersHelper.STATUS_CODER):
 				labelStr = Messages.getString("STATUS");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.STATUS_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case(CodersHelper.INVENTARNAKNJIGA_CODER):
 				labelStr = Messages.getString("INV_BOOK");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INVENTARNAKNJIGA_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
         break;
       case(CodersHelper.DOSTUPNOST_CODER):
         labelStr = Messages.getString("AVAILABILITY");
       codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.DOSTUPNOST_CODER);
+		  codesList.sort(Comparator.comparing(c -> c.getCode()));
 		}		
 		create();    
 	}

@@ -150,7 +150,7 @@
 	<summary>
 		<band height="190" splitType="Stretch">
 			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="Float" x="60" y="10" width="142" height="20" uuid="39d2c5ec-2c6b-48be-985b-d6d02ae09a24"/>
+				<reportElement key="subreport" positionType="Float" x="59" y="20" width="142" height="20" uuid="39d2c5ec-2c6b-48be-985b-d6d02ae09a24"/>
 				<subreportParameter name="enddate">
 					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -167,7 +167,7 @@
 				<subreportExpression><![CDATA[$P{clanovi}]]></subreportExpression>
 			</subreport>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport" positionType="Float" x="56" y="70" width="140" height="20" uuid="4ac634c9-6e51-42fa-8ff1-65ac94741e3f"/>
+				<reportElement key="subreport" positionType="Float" x="60" y="70" width="140" height="20" uuid="4ac634c9-6e51-42fa-8ff1-65ac94741e3f"/>
 				<subreportParameter name="enddate">
 					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
 				</subreportParameter>

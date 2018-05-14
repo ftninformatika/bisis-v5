@@ -7,8 +7,8 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,8 @@ public class MemberController {
     @Autowired MemberRepository memberRep;
     @Autowired LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
-    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired
+    ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
     @Autowired WarningCounterRepository warningCounterRepository;
 

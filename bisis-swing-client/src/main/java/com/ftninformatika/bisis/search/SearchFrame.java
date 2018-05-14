@@ -26,6 +26,8 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.text.JTextComponent;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.coders.CodersHelper;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.libenv.LibEnvProxy;
@@ -71,6 +73,8 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private JRadioButton rbZipNetSearch = new JRadioButton(Messages.getString("SEARCH_USE_COMPRESSION"));
 
   private JComboBox cbSort = new JComboBox();
+
+  private JComboBox cbOdlj = new JComboBox();
 
 
   public SearchFrame() {
@@ -121,6 +125,20 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     add(btnPref5, "growx");
     add(tfPref5, "growx");
     add(btnCoder5, "wrap");
+
+    if (BisisApp.appConfig.getLibrary().equals("bgb")) {
+
+        for (Location location: BisisApp.appConfig.getCodersHelper().getLocations().values()){
+            cbOdlj.addItem(location.getDescription());
+        }
+        add(new JLabel("Одељење    "), "span 5, split 3");
+        add(cbOdlj, "span 1 3, growx");
+
+        if (BisisApp.appConfig.getLibrarian().getDefaultDepartment() != null)
+            cbOdlj.setSelectedItem(BisisApp.appConfig.getLibrarian().getDefaultDepartment());
+
+    }
+
     add(new JLabel(" "), "span 5, split 3, growx");
     add(new JLabel(Messages.getString("SEARCH_SORT_BY")), "");
     add(cbSort, "wrap");
@@ -416,12 +434,16 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   	    
   	 	String sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
   	    SearchStatusDlg statusDlg = new SearchStatusDlg();
-    	
+  	    if(BisisApp.appConfig.getLibrary().equals("bgb")){
+  	        this.locId = BisisApp.appConfig.getCodersHelper().getLocationCodeByName(cbOdlj.getSelectedItem().toString());
+        }
+
   	 	SearchTask task = new SearchTask( btnPref1.getText(), cbOper1.getSelectedItem().toString(), text1,
                                           btnPref2.getText(), cbOper2.getSelectedItem().toString(), text2,
                                           btnPref3.getText(), cbOper3.getSelectedItem().toString(), text3,
                                           btnPref4.getText(), cbOper4.getSelectedItem().toString(), text4,
-                                          btnPref5.getText(), text5, sortPrefix, statusDlg);
+                                          btnPref5.getText(), text5, sortPrefix, statusDlg, locId);
+
   	 	statusDlg.addActionListener(task);
   	 	task.execute();
   	 	statusDlg.setVisible(true);
@@ -537,7 +559,8 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   //added by Miroslav Zaric -  required for NetSearch
   //private ThreadDispatcher td;
   //private LinkedHashMap<String, NetHitListFrame> netSearchResultFrames=new LinkedHashMap<String, NetHitListFrame>();
-  
+  //Filter za odeljenja bgb
+  public static String locId = null;
   private static final Dimension textPanelDim = new Dimension(200,20);
   private static final Dimension prefButtonDim = new Dimension(70,20);
   private static String delims = ", ;:\"()[]{}-+!\t\r\n\f";
