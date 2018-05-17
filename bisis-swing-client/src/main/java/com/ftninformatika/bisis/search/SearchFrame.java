@@ -33,6 +33,7 @@ import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.libenv.LibEnvProxy;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
+import com.ftninformatika.utils.CCPUtil;
 import com.ftninformatika.utils.CharacterLookup;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.StringUtils;
@@ -125,6 +126,12 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     add(btnPref5, "growx");
     add(tfPref5, "growx");
     add(btnCoder5, "wrap");
+
+    tfPref1.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
+    tfPref2.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
+    tfPref3.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
+    tfPref4.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
+    tfPref5.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
 
     if (BisisApp.appConfig.getLibrary().equals("bgb")) {
 
