@@ -28,6 +28,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -282,6 +283,12 @@ public class RecordsController {
     public List<ElasticPrefixEntity> getRecordsEP() {
         Iterable<ElasticPrefixEntity> s = elasticRecordsRepository.findAll();
         return IteratorUtils.toList(s.iterator());
+    }
+
+    @RequestMapping(value = "/checkInv/{invNum}")
+    public Boolean checkInv(@PathVariable("invNum") String invNum) {
+        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(ElasticUtility.idExistsQuery(invNum));
+        return IteratorUtils.toList(e.iterator()).size() != 0;
     }
 
     //dodavanje novog ili izmena postojeceg zapisa

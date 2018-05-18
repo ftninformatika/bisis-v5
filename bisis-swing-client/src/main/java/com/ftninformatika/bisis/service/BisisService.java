@@ -181,6 +181,9 @@ public interface BisisService {
     @GET("records/delete/{mongoID}")
     Call<Boolean> deleteRecord(@Path("mongoID") String mongoID);
 
+    @GET("records/checkInv/{invNum}")
+    Call<Boolean> checkInv(@Path("invNum") String invNum);
+
     @GET("records/getRecord")
     Call<Record> getRecordByCtlgNo(@Query("ctlgno") String ctlgno);
     // full record

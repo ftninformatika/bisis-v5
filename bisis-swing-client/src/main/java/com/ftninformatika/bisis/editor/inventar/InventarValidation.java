@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.format.validators.DateValidator;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
@@ -56,15 +57,17 @@ public class InventarValidation {
 	// proverava da li inventarni broj vec postoji
   // pretrazujemo indeks
   public static boolean isDuplicatedInvBroj(String broj){  
-  	/*int[] hits;
-			Term t = new Term("IN",broj);
-			TermQuery tq = new TermQuery(t);
-			if(BisisApp.isStandalone())
-				hits = BisisApp.getRecordManager().select2(tq, null);
-			else
-				hits = BisisApp.getRecordManager().select2x(SerializationUtils.serialize(tq), null);
-			return hits!=null && hits.length!=0; 	 */
-  	return false; //TODO-hardcoded
+  	Boolean retVal = null;
+
+	  try {
+		  retVal = BisisApp.bisisService.checkInv(broj).execute().body();
+	  } catch (IOException e) {
+		  e.printStackTrace();
+	  }
+	  if (retVal == null)
+	  	return true;
+
+	  return retVal;
   }
   
 /*  public static boolean isDuplicatedInvBrojDB(String broj){

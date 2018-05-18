@@ -5,11 +5,21 @@ import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.search.MatchQuery;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 /**
  * Created by Petar on 7/17/2017.
@@ -42,6 +52,10 @@ public class ElasticUtility {
         return retVal[0];
     }
 
+    public static MatchQueryBuilder idExistsQuery(String inv) {
+        MatchQueryBuilder query = QueryBuilders.matchQuery("prefixes.IN", inv);
+        return query;
+    }
 
     public static BoolQueryBuilder searchUniversalQuery(UniversalSearchModel universalSearchModel) {
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
@@ -181,6 +195,8 @@ public class ElasticUtility {
                     retVal.must(QueryBuilders.matchQuery("prefixes.OD", dep));
                 }
             }
+
+
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

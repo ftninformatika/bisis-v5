@@ -61,8 +61,14 @@ public class Counters {
 			Set set = counters.keySet();
 			Iterator it = set.iterator();
 			while (it.hasNext()){
-				Integer key = (Integer)it.next();
-				list.add((WarningCounter)counters.get(key));
+				Object cnt = it.next();
+				Integer key = null;
+				if(cnt instanceof Integer)
+					key = (Integer)cnt;
+				else if (cnt instanceof String)
+					key = Integer.parseInt(cnt.toString());
+				if (key != null)
+					list.add((WarningCounter)counters.get(key));
       }
       return list;
   }
