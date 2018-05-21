@@ -244,16 +244,16 @@ public class PrefixConverter {
 
     private static List<PrefixValue> getSignaturePrefixes(Primerak p) {
         return getSignaturePrefixes(p.getSigFormat(), p.getSigPodlokacija(), p.getSigIntOznaka(),
-                p.getSigDublet(), p.getSigNumerusCurens(), p.getSigUDK());
+                p.getSigDublet(), p.getSigNumerusCurens(), p.getSigUDK(), null);
     }
 
     private static List<PrefixValue> getSignaturePrefixes(Godina g) {
         return getSignaturePrefixes(g.getSigFormat(), g.getSigPodlokacija(), g.getSigIntOznaka(),
-                g.getSigDublet(), g.getSigNumerusCurens(), g.getSigUDK());
+                g.getSigDublet(), g.getSigNumerusCurens(), g.getSigUDK(), g.getSigNumeracija());
     }
 
     private static List<PrefixValue> getSignaturePrefixes(String sigFormat, String sigPodlokacija,
-                                                          String sigIntOznaka, String sigDublet, String sigNumerusCurens, String sigUDK) {
+                                                          String sigIntOznaka, String sigDublet, String sigNumerusCurens, String sigUDK, String sigNumeracija) {
         List<PrefixValue> retVal = new ArrayList<>();
         if (sigFormat != null && sigFormat.trim().length() > 0)
             retVal.add(new PrefixValue("SF", sigFormat.trim()));
@@ -267,6 +267,8 @@ public class PrefixConverter {
             retVal.add(new PrefixValue("SY", sigNumerusCurens.trim()));
         if (sigUDK != null && sigUDK.trim().length() > 0)
             retVal.add(new PrefixValue("SZ", sigUDK.trim()));
+      if (sigNumeracija != null && sigNumeracija.trim().length() > 0)
+            retVal.add(new PrefixValue("SQ", sigNumeracija.trim()));
         return retVal;
     }
 
