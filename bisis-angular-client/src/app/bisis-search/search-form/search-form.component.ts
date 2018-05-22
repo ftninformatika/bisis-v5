@@ -52,7 +52,6 @@ export class SearchFormComponent implements OnInit {
     if (pref.isCoder) { // If prefix is coder
       this.getCoder.getCoderData(pref.code).subscribe(
           response => {
-            //console.log(response);
             arrayify(response[pref.code].codes).forEach(
                 d => {
                   this.coderValues[fieldNum].push({"label": d.value, "value": d.code});

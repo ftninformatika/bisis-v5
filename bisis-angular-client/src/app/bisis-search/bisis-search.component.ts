@@ -38,9 +38,9 @@ export class BisisSearchComponent implements OnInit {
     this.departmentList = [];
     this.libList = [];
     this.libList.push({label: 'Одаберите библиотеку', value: null});
-    this.libList.push({label:'Градска библиотека у Новом Саду', value:'gbns'});
-    this.libList.push({label:'Библиотека шабачка', value:'bs'});
-    this.libList.push({label:'Библиотека Града Београда', value:'bgb'});
+    this.libList.push({label: 'Градска библиотека у Новом Саду', value: 'gbns'});
+    this.libList.push({label: 'Библиотека шабачка', value: 'bs'});
+    this.libList.push({label: 'Библиотека Града Београда', value: 'bgb'});
   }
 
   ngOnInit() {
@@ -103,7 +103,6 @@ export class BisisSearchComponent implements OnInit {
               });
         }
     );
-
   }
 
   setRecords(event) {
