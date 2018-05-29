@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.registry.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
 
 
@@ -74,7 +75,7 @@ public class RegistryTableModel extends AbstractTableModel {
     }
 
     public void deleteRow(int index) {
-        Registry reg =(Registry) getRegByRowIndex(index).get();
+        GenericRegistry reg = getRegByRowIndex(index);
         try {
             RegistryManager.deleteRegistry(reg);
         } catch (IOException e) {
@@ -86,32 +87,15 @@ public class RegistryTableModel extends AbstractTableModel {
 
     public void updateRow(int index, RegistryItem item) {
         //Registry toUpdate = results.get(index);
-        Optional toUpdate = getRegByRowIndex(index);
+        GenericRegistry toUpdate = getRegByRowIndex(index);
+        toUpdate.setField1(item.getText1());
 
-        if (this.registryType == Registries.ODREDNICE) {
-            ((RegPrOd) toUpdate.get()).setPojam(item.getText1());
+        if (registryType == Registries.UDK || registryType == Registries.UDK){
+            toUpdate.setField2(item.getText2());
         }
-        else
-            if (this.registryType == Registries.PODODREDNICE)
-                ((RegPrPod) toUpdate.get()).setPojam(item.getText1());
-        else
-            if (this.registryType == Registries.KOLEKTIVNI)
-                ((RegKolOdr) toUpdate.get()).setKolektivac(item.getText1());
-        else
-            if (this.registryType == Registries.ZBIRKE)
-            ((RegZbirke) toUpdate.get()).setNaziv(item.getText1());
-        else
-            if (this.registryType == Registries.UDK) {
-            ((RegUDKSubgroup) toUpdate.get()).setGrupa(item.getText1());
-            ((RegUDKSubgroup) toUpdate.get()).setOpis(item.getText2());
-        }
-        else
-            if (this.registryType == Registries.AUTORI) {
-            ((RegAutOdr) toUpdate.get()).setAutor(item.getText1());
-            ((RegAutOdr) toUpdate.get()).setOriginal(item.getText2());
-        }
+
         try {
-            RegistryManager.updateRegistry((Registry)toUpdate.get());
+            RegistryManager.updateRegistry(toUpdate);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,47 +105,10 @@ public class RegistryTableModel extends AbstractTableModel {
 
     }
 
-    public Optional<? extends Registry> getRegByRowIndex(int index){
+    public GenericRegistry getRegByRowIndex(int index){
         String id = ((RegistryItem)rows.get(index)).get_id();
-        switch (registryType) {
-            case Registries.ODREDNICE: {
-                return
-                        castCollection(results, RegPrOd.class).stream()
-                                .filter(o -> o.get_id().equals(id)).findFirst();
 
-            }
-            case Registries.PODODREDNICE: {
-                return
-                        castCollection(results, RegPrPod.class).stream()
-                                .filter(o -> o.get_id().equals(id)).findFirst();
-
-            }
-            case Registries.AUTORI: {
-                return
-                        castCollection(results, RegAutOdr.class).stream()
-                                .filter(o -> o.get_id().equals(id)).findFirst();
-
-            }
-            case Registries.KOLEKTIVNI: {
-                return
-                        castCollection(results, RegKolOdr.class).stream()
-                                .filter(o -> o.get_id().equals(id)).findFirst();
-
-            }
-            case Registries.UDK: {
-                return
-                        castCollection(results, RegUDKSubgroup.class).stream()
-                                .filter(o -> o.get_id().equals(id)).findFirst();
-
-            }
-            case Registries.ZBIRKE: {
-                return
-                        castCollection(results, RegZbirke.class).stream()
-                                .filter(o -> o.get_id().equals(id)).findFirst();
-
-            }
-        }
-        return null;
+        return results.stream().filter(r -> r.get_id().equals(id)).collect(Collectors.toList()).get(0);
     }
 
     public int searchRow(RegistryItem item) {
@@ -215,32 +162,16 @@ public class RegistryTableModel extends AbstractTableModel {
                 RegistryItem item = new RegistryItem();
                 item.setIndex(i);
 
-                if (results.get(i) instanceof RegPrOd) {
-                    item.setText1(((RegPrOd) results.get(i)).getPojam());
-                    item.set_id(((RegPrOd) results.get(i)).get_id());
-                } else
-                if (results.get(i) instanceof RegPrPod) {
-                    item.setText1(((RegPrPod) results.get(i)).getPojam());
-                    item.set_id(((RegPrPod) results.get(i)).get_id());
-                } else
-                if (results.get(i) instanceof RegKolOdr) {
-                    item.setText1(((RegKolOdr) results.get(i)).getKolektivac());
-                    item.set_id(((RegKolOdr) results.get(i)).get_id());
-                } else
-                if (results.get(i) instanceof RegZbirke) {
-                    item.setText1(((RegZbirke) results.get(i)).getNaziv());
-                    item.set_id(((RegZbirke) results.get(i)).get_id());
-                } else
-                if (results.get(i) instanceof RegUDKSubgroup) {
-                    item.setText1(((RegUDKSubgroup) results.get(i)).getGrupa());
-                    item.setText2(((RegUDKSubgroup) results.get(i)).getOpis());
-                    item.set_id(((RegUDKSubgroup) results.get(i)).get_id());
-                } else
-                if (results.get(i) instanceof RegAutOdr) {
-                    item.setText1(((RegAutOdr) results.get(i)).getAutor());
-                    item.setText2(((RegAutOdr) results.get(i)).getOriginal());
-                    item.set_id(((RegAutOdr) results.get(i)).get_id());
+                if (dlg.getCurrentType() == Registries.AUTORI || dlg.getCurrentType() == Registries.UDK){
+                    item.setText1(results.get(i).getField1());
+                    item.setText2(results.get(i).getField2());
+                    item.set_id(results.get(i).get_id());
                 }
+                else {
+                    item.setText1(results.get(i).getField1());
+                    item.set_id(results.get(i).get_id());
+                }
+
                 rows.add(item);
             }
             dlg.progressBar.setString("сортирам");
@@ -253,92 +184,17 @@ public class RegistryTableModel extends AbstractTableModel {
 
     public void initResults(int registryType) {
         results = new ArrayList<>();
-        if (registryType == Registries.ODREDNICE) {
-            List<RegPrOd> response = null;
-            try {
-                response = BisisApp.bisisService.getRegPrOd().execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(response == null)
-                return;
-            for (RegPrOd r : response)
-                results.add(r);
-        } else
-
-        if (registryType == Registries.PODODREDNICE) {
-            List<RegPrPod> response = null;
-            try {
-                response = BisisApp.bisisService.getRegPrPod().execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(response == null)
-                return;
-            for (RegPrPod r : response)
-                results.add(r);
-        } else
-
-        if (registryType == Registries.KOLEKTIVNI) {
-            List<RegKolOdr> response = null;
-            try {
-                response = BisisApp.bisisService.getRegKolOdr().execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(response == null)
-                return;
-            for (RegKolOdr r : response)
-                results.add(r);
-        } else
-
-        if (registryType == Registries.ZBIRKE) {
-            List<RegZbirke> response = null;
-            try {
-                response = BisisApp.bisisService.getRegZbirke().execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(response == null)
-                return;
-            for (RegZbirke r : response)
-                results.add(r);
-        } else
-
-        if (registryType == Registries.UDK) {
-            List<RegUDKSubgroup> response = null;
-            try {
-                response = BisisApp.bisisService.getRegUDKS().execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(response == null)
-                return;
-            for (RegUDKSubgroup r : response)
-                results.add(r);
-        } else
-
-        if (registryType == Registries.AUTORI) {
-            List<RegAutOdr> response = null;
-            try {
-                response = BisisApp.bisisService.getRegAuthor().execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(response == null)
-                return;
-            for (RegAutOdr r : response)
-                results.add(r);
-        } else
-
-        if (registryType == Registries.NEPOZNAT) {
-            results = new ArrayList<>();
+        try {
+            results = BisisApp.bisisService.getRegistriesForType(registryType).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     private int registryType;
     private int columnCount;
     private Vector rows = new Vector();
-    private List<Registry> results;
+    private List<GenericRegistry> results;
 
 }

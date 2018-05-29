@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.registry;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "registries.zbirke")
-public class RegZbirke extends Registry {
-    @Id String _id;
-    private String naziv;
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_registry_types")
+public class RegistryCoder {
+    @Id private String _id;
+    private String description;
+    private Integer code;
 }

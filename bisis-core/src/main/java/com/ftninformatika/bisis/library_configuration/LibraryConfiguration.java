@@ -42,6 +42,7 @@ public class LibraryConfiguration {
     private String bookcardsTranslateY;
     private String bookcardsFontSize;
     private String bookcardsBrRedova;
+    private String bookcardsLocale;
 
     private String barcodePort;
     private String barcodeOptionName;

@@ -217,7 +217,7 @@ public class Report {
     String type; 
     
     Configuration  cfg = new Configuration();
-    String locale = BisisApp.appConfig.getClientConfig().getLibraryName();
+    String locale = BisisApp.appConfig.getClientConfig().getBookcardsLocale();
 
     cfg.setClassForTemplateLoading(Report.class, "/templejti/" +locale+"/");
     Base Base=new Base(rec);    

@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.registry;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +11,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "registries.udksub")
-public class RegUDKSubgroup extends Registry{
-    @Id String _id;
-    private String grupa;
-    private String opis;
+@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_registries")
+public class GenericRegistry {
+    @Id private String _id;
+    //Registry coder
+    private Integer code;
+    //N fields
+    private String field1;
+    private String field2;
+    private String field3;
 }
