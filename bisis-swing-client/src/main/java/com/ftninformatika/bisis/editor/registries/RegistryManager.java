@@ -30,23 +30,6 @@ public class RegistryManager {
     }
 
     public static void updateRegistry(GenericRegistry reg) throws IOException {
-//        if (reg instanceof RegPrOd)
-//            BisisApp.bisisService.addUpdateRegPrOd((RegPrOd) reg).execute().body();
-//        else
-//            if (reg instanceof RegPrPod)
-//            BisisApp.bisisService.addUpdateRegPrPod((RegPrPod)reg).execute();
-//        else
-//            if (reg instanceof RegKolOdr)
-//            BisisApp.bisisService.addRegKolOdr((RegKolOdr)reg).execute();
-//        else
-//            if (reg instanceof RegZbirke)
-//            BisisApp.bisisService.addRegZbirke((RegZbirke)reg).execute();
-//        else
-//            if (reg instanceof RegUDKSubgroup)
-//            BisisApp.bisisService.addRegUDKS((RegUDKSubgroup)reg).execute();
-//        else
-//            if (reg instanceof RegAutOdr)
-//            BisisApp.bisisService.addRegAuthor((RegAutOdr)reg).execute();
         BisisApp.bisisService.addRegistryForType(reg).execute().body();
     }
 }
