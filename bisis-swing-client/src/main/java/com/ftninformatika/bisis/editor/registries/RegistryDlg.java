@@ -3,7 +3,6 @@ package com.ftninformatika.bisis.editor.registries;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.LibraryList;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
-import com.ftninformatika.bisis.registry.Registry;
 import com.ftninformatika.utils.WindowUtils;
 import com.ftninformatika.utils.string.LatCyrUtils;
 
