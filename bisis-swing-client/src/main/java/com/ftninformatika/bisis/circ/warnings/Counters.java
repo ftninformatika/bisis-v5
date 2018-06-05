@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ.warnings;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.WarningCounter;
 import com.ftninformatika.bisis.circ.WarningType;
 
@@ -27,7 +28,7 @@ public class Counters {
 	}
 	
 	public int getNext(int year){
-	  	Integer key = new Integer(year);
+	  	String key = Integer.toString(year);
 	  	int value = 0;
 	  	if (counters.containsKey(key)){
             WarningCounter wc = (WarningCounter)counters.get(key);
@@ -38,6 +39,7 @@ public class Counters {
             WarningCounter wc = new WarningCounter();
          wc.setWarningType(wt.getDescription());
          wc.setWarnYear(Integer.toString(year));
+         wc.setLibrary(BisisApp.appConfig.getLibrary());
          wc.setLastNo(1);
 	  		 counters.put(key, wc);
 	  		 value = 1;
@@ -62,11 +64,11 @@ public class Counters {
 			Iterator it = set.iterator();
 			while (it.hasNext()){
 				Object cnt = it.next();
-				Integer key = null;
+				String key = null;
 				if(cnt instanceof Integer)
-					key = (Integer)cnt;
+					key = cnt.toString();
 				else if (cnt instanceof String)
-					key = Integer.parseInt(cnt.toString());
+					key = (String)cnt;
 				if (key != null)
 					list.add((WarningCounter)counters.get(key));
       }

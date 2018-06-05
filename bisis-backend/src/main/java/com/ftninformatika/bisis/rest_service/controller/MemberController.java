@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
@@ -221,6 +222,42 @@ public class MemberController {
         }
 
 
+    }
+
+    @RequestMapping(path = "/getWarnHistory")
+    public List<MemberData> getWarnHistory(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "warningType") String warningType, @RequestParam(name = "location", required = false) String location) {
+        List<Lending> lendingsByWarningHistory;
+        if (location == null || location.isEmpty()) {
+            lendingsByWarningHistory = lendingRepository.findLendingsByWarningHistory(start, end, warningType);
+        } else {
+            lendingsByWarningHistory = lendingRepository.findLendingsByWarningHistory(start, end, warningType, location);
+        }
+        List<String> userIds = lendingsByWarningHistory.stream().map(l -> l.getUserId()).collect(Collectors.toList());
+        Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));
+
+        Map<String, MemberData> memberMap = new HashMap<>();
+
+        for (Lending l: lendingsByWarningHistory) {
+            MemberData memberData = memberMap.get(l.getUserId());
+            if (memberData == null) {
+                memberData = new MemberData();
+                memberData.setMember(members.get(l.getUserId()));
+                memberData.setLendings(new ArrayList<>());
+                memberMap.put(l.getUserId(), memberData);
+            }
+            List<Warning> warningList = new ArrayList<>();
+            for (Warning w: l.getWarnings()) {
+                if(w.getDeadline().after(start) && w.getDeadline().before(end) && w.getWarningType().equals(warningType)){
+                    warningList.add(w);
+                }
+            }
+            l.setWarnings(warningList);
+            memberData.getLendings().add(l);
+        }
+
+        TreeMap<String, MemberData> result = new TreeMap<>(memberMap);
+
+        return result.values().stream().collect(Collectors.toList());
     }
 
     private Logger log = Logger.getLogger(MemberController.class);

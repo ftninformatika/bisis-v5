@@ -808,7 +808,7 @@ public class WarningsFrame extends JInternalFrame {
  	 	        curNo2 = doc.getRoot().getOpomenaArray(curNo1).getKnjigaArray().length - 1;
  	 	        doc.getRoot().getOpomenaArray(curNo1).getKnjigaArray(curNo2).setCtlgno((String)getHistoryTableModel().getValueAt(i,6));
  	 	        if (getHistoryTableModel().getValueAt(i,7) != null){
- 	 	        	doc.getRoot().getOpomenaArray(curNo1).getKnjigaArray(curNo2).setDatum(sdf.format(getHistoryTableModel().getValueAt(i,7)));
+ 	 	        	doc.getRoot().getOpomenaArray(curNo1).getKnjigaArray(curNo2).setDatum(getHistoryTableModel().getValueAt(i,7));
  	 	        }
  	 	        if (getHistoryTableModel().getValueAt(i,8) != null){
  	 	        	doc.getRoot().getOpomenaArray(curNo1).getKnjigaArray(curNo2).setNapomena((String)getHistoryTableModel().getValueAt(i,8));
@@ -844,7 +844,8 @@ public class WarningsFrame extends JInternalFrame {
 	
 	private void handleBtnHistory(){
 		if ((getTfBegDate().getDate() != null || getTfEndDate().getDate() != null ) && !getCmbType().getSelectedItem().equals("")){
-			List<Object[]> list = getManager().getHistory(getTfBegDate().getDate(),getTfEndDate().getDate(), (WarningType)getCmbType().getSelectedItem());
+			CircLocation branch = (CircLocation) Utils.getCmbValue(getCmbBranch());
+			List<MemberData> list = getManager().getHistory(getTfBegDate().getDate(),getTfEndDate().getDate(), (WarningType)getCmbType().getSelectedItem(), (branch == null ? null : branch.getDescription()));
 			getHistoryTableModel().setData(list);
 			getBtnNext().setText("Registar");
 			getBtnPrev().setEnabled(true);

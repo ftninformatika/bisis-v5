@@ -23,7 +23,7 @@ public interface MemberRepository extends MongoRepository<Member,String>, Member
 
     Member getMemberByEmail(String email);
 
-    @Query("{'signings':{ $elemMatch: {'signDate':{ $gte :?0,$lte:?1},'location':?3 }}}.count()")
+    @Query("{'signings':{ $elemMatch: {'signDate':{ $gte :?0,$lte:?1},'location':?2 }}}.count()")
     int getNumberOfMembersByPeriod(Date startDate, Date endDate, String location);
 
     @Query("{'signings':{ $elemMatch: {'signDate':{ $gte :?0,$lte:?1} }}}.count()")

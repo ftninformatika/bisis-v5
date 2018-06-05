@@ -96,7 +96,7 @@ public class WarningsManager {
     return saved;
   }
   
-  public List<Object[]> getHistory(Date startDate, Date endDate, WarningType wtype){
+  public List<MemberData> getHistory(Date startDate, Date endDate, WarningType wtype, String location){
   	if (startDate == null) {
       endDate = Utils.setMaxDate(endDate);
       startDate = Utils.setMinDate(endDate);
@@ -107,13 +107,14 @@ public class WarningsManager {
       startDate = Utils.setMinDate(startDate);
       endDate = Utils.setMaxDate(endDate);
     }
-//  	GetWarnHistoryCommand getHistory = new GetWarnHistoryCommand(startDate, endDate, wtype);
-//  	getHistory = (GetWarnHistoryCommand)service.executeCommand(getHistory);
-//  	if (getHistory == null)
-//  		return null;
-//    return getHistory.getList();
-    //TODO kreirati servis
-    return null;
+
+      List<MemberData> members = null;
+      try {
+          members = BisisApp.bisisService.getWarnHistory(new PathDate(startDate), new PathDate(endDate), wtype.getDescription(), location).execute().body();
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+      return members;
   }
   
   public boolean saveWarnTypes(WarningType wtype){
