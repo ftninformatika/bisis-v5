@@ -418,6 +418,9 @@ public interface BisisService {
     @POST("coders/addWarningType")
     Call<Boolean> addWarningType(@Body WarningType warningType);
 
+    @GET ("members/getWarnHistory")
+    Call<List<MemberData>> getWarnHistory(@Query("start") PathDate start, @Query("end") PathDate end, @Query("warningType") String warningType, @Query("location") String location);
+
     //--GENERICKI REGISTRI
     @GET("registries/{regCode}")
     Call<List<GenericRegistry>> getRegistriesForType(@Path("regCode") Integer regCode);
