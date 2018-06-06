@@ -99,7 +99,7 @@ public class CodedValuePanel extends JPanel {
 	}
 
 	private void create() {			
-		codeTxtFld = new JTextField(2);
+		codeTxtFld = new JTextField(3);
 		valueTxtFld = new JTextField(18);
 		valueTxtFld.setEditable(false);
 

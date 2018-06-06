@@ -81,25 +81,7 @@ public class HitListFrame extends JInternalFrame {
         JScrollPane fullFormatPaneScroll = new JScrollPane(fullFormatPane);
         inventarTable.setModel(inventarTableModel);
         inventarTable.setAutoCreateRowSorter(true);
-        if(SearchFrame.locId != null) {
-            RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
-                public boolean include(Entry entry) {
-                    String locCol = (String) entry.getValue(7);
-                    String invStart = ((String) entry.getValue(0)).substring(0, 2);
 
-                    if (SearchFrame.locId != null) {
-                        if (locCol != null && !locCol.equals(SearchFrame.locId))
-                            return false;
-                        else if (!invStart.equals(SearchFrame.locId))
-                            return false;
-                    }
-                    return true;
-                }
-            };
-            TableRowSorter<InventarTabTableModel> sorter = new TableRowSorter<InventarTabTableModel>(inventarTableModel);
-            sorter.setRowFilter(filter);
-            inventarTable.setRowSorter(sorter);
-        }
         inventarTable.setCellSelectionEnabled(true);
         inventarTable.putClientProperty("Quaqua.Table.style", "striped");
         //inventarTable.setDefaultRenderer(inventarTable.getColumnClass(0), inventartTableRenderer);
@@ -408,6 +390,28 @@ public class HitListFrame extends JInternalFrame {
     }
 
     private void displayPage() {
+
+        if(SearchFrame.locId != null) {
+            RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+                public boolean include(Entry entry) {
+                    String locCol = (String) entry.getValue(7);
+                    String invStart = ((String) entry.getValue(0)).substring(0, 2);
+
+                    if (SearchFrame.locId != null) {
+                        if (locCol != null && !locCol.equals(SearchFrame.locId))
+                            return false;
+                        else if (!invStart.equals(SearchFrame.locId))
+                            return false;
+                    }
+                    return true;
+                }
+            };
+            TableRowSorter<InventarTabTableModel> sorter = new TableRowSorter<InventarTabTableModel>(inventarTableModel);
+            sorter.setRowFilter(filter);
+            inventarTable.setRowSorter(sorter);
+        }
+
+
         if (queryResult == null || queryResult.getRecords().length == 0)
             return;
         int count = PAGE_SIZE;

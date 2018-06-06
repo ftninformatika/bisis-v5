@@ -64,7 +64,29 @@ public class CodersHelper {
     }
 
 
+    public List<String> getLocationsList() {
+        List<String> retVal = new ArrayList<>();
+        for (Map.Entry<String, Location> l: locations.entrySet()){
+            String loc = l.getKey() + " - " + l.getValue().getDescription();
+            retVal.add(loc);
+        }
+        retVal.sort((p1, p2) -> p1.compareTo(p2));
+        return retVal;
+    }
+
     public String getLocationCodeByName(String locName){
+        for (Map.Entry<String, Location> l: locations.entrySet()){
+            if (l.getValue().getDescription().equals(locName))
+                return l.getKey();
+        }
+        return null;
+    }
+
+    public String getLocationCodeByNameExtended(String locName){
+        if (locName.trim().equals(""))
+            return null;
+
+        locName = locName.split("-")[1].trim();
         for (Map.Entry<String, Location> l: locations.entrySet()){
             if (l.getValue().getDescription().equals(locName))
                 return l.getKey();

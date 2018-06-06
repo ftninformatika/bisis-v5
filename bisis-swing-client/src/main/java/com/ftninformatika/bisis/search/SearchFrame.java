@@ -135,8 +135,10 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 
     if (BisisApp.appConfig.getLibrary().equals("bgb")) {
 
-        for (Location location: BisisApp.appConfig.getCodersHelper().getLocations().values()){
-            cbOdlj.addItem(location.getDescription());
+
+        cbOdlj.addItem(" ");
+        for (String l :BisisApp.appConfig.getCodersHelper().getLocationsList()){
+            cbOdlj.addItem(l);
         }
         add(new JLabel("Одељење    "), "span 5, split 3");
         add(cbOdlj, "");
@@ -441,8 +443,8 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   	    
   	 	String sortPrefix = ((SortPrefix)cbSort.getSelectedItem()).name;
   	    SearchStatusDlg statusDlg = new SearchStatusDlg();
-  	    if(BisisApp.appConfig.getLibrary().equals("bgb")){
-  	        this.locId = BisisApp.appConfig.getCodersHelper().getLocationCodeByName(cbOdlj.getSelectedItem().toString());
+  	    if(BisisApp.appConfig.getLibrary().equals("bgb") ){
+  	        this.locId = BisisApp.appConfig.getCodersHelper().getLocationCodeByNameExtended(cbOdlj.getSelectedItem().toString());
         }
 
   	 	SearchTask task = new SearchTask( btnPref1.getText(), cbOper1.getSelectedItem().toString(), text1,
