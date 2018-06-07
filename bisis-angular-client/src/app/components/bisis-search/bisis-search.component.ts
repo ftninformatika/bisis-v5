@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SelectItem} from "primeng/primeng";
 import {TranslateService} from "@ngx-translate/core";
-import {MultiSelectModule} from 'primeng/primeng';
 import {arrayify} from "tslint/lib/utils";
 import {MessageService} from "primeng/components/common/messageservice";
 import {RecordsPageModel} from "../../model/RecordsPageModel";

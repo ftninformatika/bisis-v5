@@ -39,12 +39,9 @@ export class BisisSearchService {
             return;
         }
 
-
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
-        //console.log('Searching ' + choice + ':' + text + '\nPage: ' + page + '\nPageSize: ' + size);
-
         var universalSearchModel = {
             "searchText": text,
             "departments": departments
@@ -63,7 +60,6 @@ export class BisisSearchService {
     searchRecordsAdvanced(searchModel, page = 0, size = 20): Observable<RecordsPageModel> {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
-        //console.log(localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
             return this.http.post(config.getEnvironmentVariable('endPoint') + 'records/query/full?pageNumber=' + page + '&pageSize=' + size,searchModel, options)
               .map(response =>  response.json() as RecordsPageModel)

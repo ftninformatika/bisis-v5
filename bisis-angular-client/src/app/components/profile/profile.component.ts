@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit {
           this.userInfo = response;
           this.memberService.getLendings(response.userId).subscribe(
               responseLendings => {
-                //console.log(responseLendings);
                 this.lendings = responseLendings;
               }
           );

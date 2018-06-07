@@ -1,8 +1,28 @@
 <div *ngIf="this.ah.authenticated != undefined && this.ah.authenticated != null && this.ah.authenticated != '' && userInfo != undefined">
+    <h3 class="first customfontcolor">Корисник: </h3>
+    <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+        <div class="ui-g-12 ui-md-3" style="text-align:center">
+            <img src="../../assets/layout/images/reader.png" height="164" width="164">
+        </div>
+        <div class="ui-g-12 ui-md-8">
+            <div class="ui-g">
+                <div class="ui-g-2 ui-sm-6">Име: </div>
+                <div class="ui-g-10 ui-sm-6"><b>{{userInfo.firstName}}</b></div>
 
-<h3 class="first customfontcolor">Корисник: </h3>    {{userInfo.firstName}} {{userInfo.lastName}},
-    {{userInfo.address}} {{userInfo.city}} {{userInfo.zip}}
+                <div class="ui-g-2 ui-sm-6">Презиме: </div>
+                <div class="ui-g-10 ui-sm-6"><b>{{userInfo.lastName}}</b></div>
+
+                <div class="ui-g-2 ui-sm-6">Адреса: </div>
+                <div class="ui-g-10 ui-sm-6"><b>{{userInfo.address}}</b></div>
+
+                <div class="ui-g-2 ui-sm-6">Град: </div>
+                <div class="ui-g-10 ui-sm-6"><b>{{userInfo.city}}</b></div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 <h3 class="first customfontcolor">Историја задужења:</h3>
 
 <p-dataTable [value]="lendings" [rows]="15" [paginator]="true" [pageLinks]="3"
