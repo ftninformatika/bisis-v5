@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import {LazyLoadEvent} from "primeng/primeng";
-import {RecordsPageModel} from "../../../model/RecordsPageModel";
-import {BisisSearchService} from "../../../service/bisis-search.service";
+import {RecordsPageModel} from "../../../../model/RecordsPageModel";
+import {BisisSearchService} from "../../../../service/bisis-search.service";
 
 @Component({
   selector: 'app-table-view',

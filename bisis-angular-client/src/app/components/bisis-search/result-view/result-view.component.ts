@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {MenuItem, SelectItem, TabMenuModule} from 'primeng/primeng';
 import {TranslateService} from "@ngx-translate/core";
-import { RecordsPageModel } from '../../model/RecordsPageModel';
+import {RecordsPageModel} from "../../../model/RecordsPageModel";
 @Component({
   selector: 'app-result-view',
   templateUrl: './result-view.component.html',

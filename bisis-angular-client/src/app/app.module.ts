@@ -92,28 +92,28 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BisisSearchService } from './service/bisis-search.service';
 import {MemberService} from './service/member.service';
 
-import { BisisSearchComponent } from './bisis-search/bisis-search.component';
-import { ResultViewComponent } from './bisis-search/result-view/result-view.component';
-import { SearchFormComponent } from './bisis-search/search-form/search-form.component';
-import { TableViewComponent } from './bisis-search/result-view/table-view/table-view.component';
-import { DataGridViewComponent } from './bisis-search/result-view/data-grid-view/data-grid-view.component';
-import { ScrollerViewComponent } from './bisis-search/result-view/scroller-view/scroller-view.component';
-import { ListViewComponent } from './bisis-search/result-view/list-view/list-view.component';
-import { RecordViewComponent } from './bisis-search/record-view/record-view.component';
-import { AboutViewComponent } from './about-view/about-view.component';
-import { MyBookshelfComponent } from './my-bookshelf/my-bookshelf.component';
-import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { config } from './config/config';
 //import {ProgressBar} from './utils/progressbar';
 
-import { AuthGuard } from './auth/authguard';
-import { AuthModule } from './auth/auth.module';
-import { LoginComponent } from './auth/login/login.component';
-import { ProfileComponent } from './profile/profile.component';
-import { HomeComponent } from './home/home.component';
-import { AuthHelper } from './auth/utilities/authhelper';
 import { LibraryService } from './service/library.service';
 import { GetCoder } from './service/get-local-data.service';
+import {AuthModule} from "./components/auth/auth.module";
+import {BisisSearchComponent} from "./components/bisis-search/bisis-search.component";
+import {TableViewComponent} from "./components/bisis-search/result-view/table-view/table-view.component";
+import {ResultViewComponent} from "./components/bisis-search/result-view/result-view.component";
+import {SearchFormComponent} from "./components/bisis-search/search-form/search-form.component";
+import {ScrollerViewComponent} from "./components/bisis-search/result-view/scroller-view/scroller-view.component";
+import {ListViewComponent} from "./components/bisis-search/result-view/list-view/list-view.component";
+import {DataGridViewComponent} from "./components/bisis-search/result-view/data-grid-view/data-grid-view.component";
+import {AboutViewComponent} from "./components/about-view/about-view.component";
+import {RecordViewComponent} from "./components/bisis-search/record-view/record-view.component";
+import {MyBookshelfComponent} from "./components/my-bookshelf/my-bookshelf.component";
+import {LoginComponent} from "./components/auth/login/login.component";
+import {HomeComponent} from "./components/home/home.component";
+import {PasswordResetComponent} from "./components/auth/password-reset/password-reset.component";
+import {AuthHelper} from "./components/auth/utilities/authhelper";
+import {AuthGuard} from "./components/auth/authguard";
+import {ProfileComponent} from "./components/profile/profile.component";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);

@@ -1,5 +1,5 @@
 import {Component, trigger, state, transition, style, animate} from '@angular/core';
-import {AuthHelper} from "./auth/utilities/authhelper";
+import {AuthHelper} from "./components/auth/utilities/authhelper";
 
 @Component({
     selector: 'app-inline-profile',

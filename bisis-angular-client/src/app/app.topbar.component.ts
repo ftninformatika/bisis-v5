@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {AppComponent} from './app.component';
-import {AuthHelper} from "./auth/utilities/authhelper";
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/components/common/messageservice";
+import {AuthHelper} from "./components/auth/utilities/authhelper";
 
 @Component({
     selector: 'app-topbar',

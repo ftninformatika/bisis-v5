@@ -1,7 +1,7 @@
 import {Component, AfterViewInit, ElementRef, Renderer, ViewChild, OnDestroy} from '@angular/core';
-import {AuthHelper} from "./auth/utilities/authhelper";
 import { TranslateService } from '@ngx-translate/core';
 import {Messages} from "primeng/primeng";
+import {AuthHelper} from "./components/auth/utilities/authhelper";
 
 enum MenuOrientation {
     STATIC,

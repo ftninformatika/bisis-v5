@@ -1,15 +1,14 @@
 import {Routes, RouterModule} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
-import {BisisSearchComponent} from './bisis-search/bisis-search.component';
-import {RecordViewComponent} from './bisis-search/record-view/record-view.component';
-import {AboutViewComponent} from './about-view/about-view.component';
-import {MyBookshelfComponent} from './my-bookshelf/my-bookshelf.component';
-import {LoginComponent} from "./auth/login/login.component";
-import {ProfileComponent} from "./profile/profile.component";
-import {HomeComponent} from "./home/home.component";
-import {PasswordResetComponent} from "./auth/password-reset/password-reset.component";
-import {PasswordResetConfirmationComponent} from "./auth/password-reset-confirmation/password-reset-confirmation.component";
-import {AuthGuard} from "./auth/authguard";
+import {BisisSearchComponent} from "./components/bisis-search/bisis-search.component";
+import {RecordViewComponent} from "./components/bisis-search/record-view/record-view.component";
+import {AboutViewComponent} from "./components/about-view/about-view.component";
+import {AuthGuard} from "./components/auth/authguard";
+import {LoginComponent} from "./components/auth/login/login.component";
+import {MyBookshelfComponent} from "./components/my-bookshelf/my-bookshelf.component";
+import {ProfileComponent} from "./components/profile/profile.component";
+import {PasswordResetComponent} from "./components/auth/password-reset/password-reset.component";
+import {PasswordResetConfirmationComponent} from "./components/auth/password-reset-confirmation/password-reset-confirmation.component";
 
 export const routes: Routes = [
     {path: '', redirectTo: 'bisis-search', pathMatch: 'full'},

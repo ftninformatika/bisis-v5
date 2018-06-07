@@ -3,7 +3,7 @@ import {Message, GrowlModule} from 'primeng/primeng';
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/components/common/messageservice";
-import {config} from "../../config/config";
+import {config} from "../../../config/config";
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.component.html',

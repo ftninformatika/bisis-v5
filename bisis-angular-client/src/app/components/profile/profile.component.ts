@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {SelectItem} from "primeng/primeng";
-import {MemberService} from "../service/member.service";
 import {AuthHelper} from "../auth/utilities/authhelper";
 import {Router} from "@angular/router";
 import {ProgressBarModule} from 'primeng/primeng';
+import {MemberService} from "../../service/member.service";
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',

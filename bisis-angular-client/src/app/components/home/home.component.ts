@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthHelper} from "../auth/utilities/authhelper";
-import {MemberService} from "../service/member.service";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
