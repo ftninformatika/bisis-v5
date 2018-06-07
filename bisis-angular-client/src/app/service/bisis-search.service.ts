@@ -5,7 +5,7 @@ import { RecordsPageModel } from '../model/RecordsPageModel';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {MessageService} from "primeng/components/common/messageservice";
-import {config} from "../../config/config";
+import {config} from "../config/config";
 
 @Injectable()
 export class BisisSearchService {

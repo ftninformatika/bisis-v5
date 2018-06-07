@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SelectItem} from "primeng/primeng";
 import {LibraryService} from "../service/library.service";
 import {TranslateService} from "@ngx-translate/core";
-import { RecordsPageModel } from './model/RecordsPageModel';
+import { RecordsPageModel } from '../model/RecordsPageModel';
 import {MultiSelectModule} from 'primeng/primeng';
 import {arrayify} from "tslint/lib/utils";
 import {MessageService} from "primeng/components/common/messageservice";

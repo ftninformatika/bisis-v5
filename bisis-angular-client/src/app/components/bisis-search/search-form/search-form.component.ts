@@ -1,15 +1,15 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import { BisisSearchService } from '../service/bisis-search.service';
+import { BisisSearchService } from '../../service/bisis-search.service';
 import {SelectItem} from 'primeng/primeng';
 import {LibraryService} from "../../service/library.service";
 import {forEach} from "@angular/router/src/utils/collection";
 import {arrayify} from "tslint/lib/utils";
-import {RecordsPageModel} from "../model/RecordsPageModel";
+import {RecordsPageModel} from "../../model/RecordsPageModel";
 import {MessageService} from "primeng/components/common/messageservice";
-import {GetCoder} from "../service/get-local-data.service";
-import {SelectItemPrefix} from "../model/SelectItemPrefix";
+import {GetCoder} from "../../service/get-local-data.service";
+import {SelectItemPrefix} from "../../model/SelectItemPrefix";
 import {isNullOrUndefined} from "util";
-import {Prefix} from "../model/Prefix";
+import {Prefix} from "../../model/Prefix";
 import {ProgressBarModule} from 'primeng/primeng';
 
 @Component({

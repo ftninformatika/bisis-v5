@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {BisisSearchService} from "../../service/bisis-search.service";
+import {BisisSearchService} from "../../../service/bisis-search.service";
 
-import { RecordsPageModel } from '../../model/RecordsPageModel';
+import { RecordsPageModel } from '../../../model/RecordsPageModel';
 import {MessageService} from "primeng/components/common/messageservice";
 
 @Component({

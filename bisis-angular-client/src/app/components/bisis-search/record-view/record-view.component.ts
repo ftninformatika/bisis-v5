@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BisisSearchService } from '../service/bisis-search.service';
+import { BisisSearchService } from '../../service/bisis-search.service';
 import {SelectItem} from 'primeng/primeng';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthHelper} from "../../auth/utilities/authhelper";

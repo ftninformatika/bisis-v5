@@ -79,20 +79,6 @@ import {AppTopbarComponent} from './app.topbar.component';
 import {AppFooterComponent} from './app.footer.component';
 import {AppRightpanelComponent} from './app.rightpanel.component';
 import {AppInlineProfileComponent} from './app.profile.component';
-import {DashboardDemoComponent} from './demo/view/dashboarddemo.component';
-import {SampleDemoComponent} from './demo/view/sampledemo.component';
-import {FormsDemoComponent} from './demo/view/formsdemo.component';
-import {DataDemoComponent} from './demo/view/datademo.component';
-import {PanelsDemoComponent} from './demo/view/panelsdemo.component';
-import {OverlaysDemoComponent} from './demo/view/overlaysdemo.component';
-import {MenusDemoComponent} from './demo/view/menusdemo.component';
-import {MessagesDemoComponent} from './demo/view/messagesdemo.component';
-import {MiscDemoComponent} from './demo/view/miscdemo.component';
-import {EmptyDemoComponent} from './demo/view/emptydemo.component';
-import {ChartsDemoComponent} from './demo/view/chartsdemo.component';
-import {FileDemoComponent} from './demo/view/filedemo.component';
-import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
-import {DocumentationComponent} from './demo/view/documentation.component';
 
 import {MessageService} from "primeng/components/common/messageservice";
 
@@ -103,11 +89,7 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import {CarService} from './demo/service/carservice';
-import {CountryService} from './demo/service/countryservice';
-import {EventService} from './demo/service/eventservice';
-import {NodeService} from './demo/service/nodeservice';
-import { BisisSearchService } from './bisis-search/service/bisis-search.service';
+import { BisisSearchService } from './service/bisis-search.service';
 import {MemberService} from './service/member.service';
 
 import { BisisSearchComponent } from './bisis-search/bisis-search.component';
@@ -131,7 +113,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { AuthHelper } from './auth/utilities/authhelper';
 import { LibraryService } from './service/library.service';
-import { GetCoder } from './bisis-search/service/get-local-data.service';
+import { GetCoder } from './service/get-local-data.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -228,20 +210,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         AppFooterComponent,
         AppRightpanelComponent,
         AppInlineProfileComponent,
-        DashboardDemoComponent,
-        SampleDemoComponent,
-        FormsDemoComponent,
-        DataDemoComponent,
-        PanelsDemoComponent,
-        OverlaysDemoComponent,
-        MenusDemoComponent,
-        MessagesDemoComponent,
-        MiscDemoComponent,
-        ChartsDemoComponent,
-        EmptyDemoComponent,
-        FileDemoComponent,
-        UtilsDemoComponent,
-        DocumentationComponent,
         BisisSearchComponent,
         ResultViewComponent,
         SearchFormComponent,
@@ -259,8 +227,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CarService, CountryService, EventService, NodeService, BisisSearchService,
-        AuthGuard, AuthHelper, LibraryService, MessageService, GetCoder, MemberService
+        BisisSearchService, AuthGuard, AuthHelper, LibraryService, MessageService, GetCoder, MemberService
     ],
     bootstrap: [AppComponent]
 })
