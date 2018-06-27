@@ -7,10 +7,12 @@ import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.UserCategRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
@@ -36,6 +38,53 @@ public class CircReportContoller {
     @Autowired LibrarianRepository librarianRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired UserCategRepository userCategRepository;
+    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+
+    public List<Record> getRecordsByInvNums(List<String> invNums) {
+        List<Record> retVal = new ArrayList<>();
+
+        for (String inv: invNums) {
+            ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(inv);
+
+            Record r = recordsRepository.getByID(Integer.parseInt(ia.getRecordID()));
+
+            if (!retVal.contains(r))
+                retVal.add(r);
+        }
+
+        return retVal;
+    }
+
+    public Map<String, Integer> getRecIdInvMap(List<String> invNums) {
+        Map<String, Integer> retVal = new HashMap<>();
+
+        for (String inv: invNums) {
+            ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(inv);
+            Record r = recordsRepository.getByID(Integer.parseInt(ia.getRecordID()));
+
+            if (!retVal.containsKey(inv))
+                retVal.put(inv, r.getRecordID());
+        }
+
+        return retVal;
+    }
+
+    public Map<Integer, Integer> getRecCountFromInvNums(List<String> invNums) {
+        Map<Integer, Integer> retVal = new HashMap<>();
+
+        for (String inv: invNums) {
+            ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(inv);
+            Record r = recordsRepository.getByID(Integer.parseInt(ia.getRecordID()));
+
+            if (retVal.containsKey(r.getRecordID()))
+                retVal.put(r.getRecordID(), retVal.get(r.getRecordID()) + 1);
+            else
+                retVal.put(r.getRecordID(), 1);
+        }
+
+        return retVal;
+    }
+
     /**
      *
      * ukupan broj korisnika uclanjenih od pocetka godine do sada
@@ -117,10 +166,10 @@ public class CircReportContoller {
     }
 
 
-        /**
-         * podaci o broju knjiga sortirane po UDK grupam koje su zaduzili korisnici iz odredjenih kategorija
-         * u datom periodu
-         */
+    /**
+     * podaci o broju knjiga sortirane po UDK grupam koje su zaduzili korisnici iz odredjenih kategorija
+     * u datom periodu
+     */
     /*CtgrUdkReportCommand*//*CtgrUdkGroupReportCommand*/
     @RequestMapping(value = "get_ctgr_udk_report")
     public Map<String, Report> getCtgrUdkReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
@@ -133,7 +182,7 @@ public class CircReportContoller {
         for (Lending l: lendings){
             String usrCateg = memberRepository.getMemberByUserId(l.getUserId()).getUserCategory().getDescription();
             if(userCategCtlgnosMap.containsKey(usrCateg)){
-                userCategCtlgnosMap.get(usrCateg).add(l.getUserId());
+                userCategCtlgnosMap.get(usrCateg).add(l.getCtlgNo());
             }
             else{
                 userCategCtlgnosMap.put(usrCateg, new ArrayList<>());
@@ -142,6 +191,7 @@ public class CircReportContoller {
         }
 
         for (Map.Entry<String, List<String>> entry: userCategCtlgnosMap.entrySet()){
+
             Report r = new Report();
             for (int i = 0; i <=9 ; i++){
                 final Integer[] primeraka = {0};
@@ -156,6 +206,7 @@ public class CircReportContoller {
                             if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                                 ep.getPrefixes().get("IN").forEach(
                                         in -> {
+                                            in = in.replace(PrefixConverter.endPhraseFlag, "");
                                             if(entry.getValue().contains(in)){
                                                 primeraka[0] += Collections.frequency(entry.getValue(), in);
                                             }
@@ -164,6 +215,8 @@ public class CircReportContoller {
                             }
                         }
                 );
+
+
                 switch (i) {
                     case 0: r.setProperty10(primeraka[0].toString()); break;
                     case 1: r.setProperty1(primeraka[0].toString()); break;
