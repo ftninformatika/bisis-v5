@@ -107,13 +107,23 @@ public class BooksTreeModel implements Serializable, TreeModel{
     listenerList.remove(TreeModelListener.class, l);
   }
   
-  public void setHits(ArrayList<String> recIDs) {
+  public void setHits(ArrayList<String> recIDs, String library) {
     try {
       records = new ArrayList<Record>();
       itemAvailabilityMap = new HashMap<String, ItemAvailability>();
       List<RecordResponseWrapper> list = BisisApp.recMgr.getRecordsAllData(recIDs);
       for (RecordResponseWrapper wrapper : list){
           if (wrapper.getFullRecord() != null){
+              if (library != null) {
+                  List<Primerak> primerci = new ArrayList();
+                  for (Primerak p : wrapper.getFullRecord().getPrimerci()) {
+                      String invStart = p.getInvBroj().substring(0, 2);
+                      if (invStart.equals(library)) {
+                        primerci.add(p);
+                      }
+                  }
+                  wrapper.getFullRecord().setPrimerci(primerci);
+              }
               records.add(wrapper.getFullRecord());
               List<ItemAvailability> items = wrapper.getListOfItems();
               for (ItemAvailability item : items){

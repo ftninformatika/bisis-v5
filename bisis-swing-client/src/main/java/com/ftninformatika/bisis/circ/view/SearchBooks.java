@@ -74,6 +74,9 @@ public class SearchBooks {
 	private ComboBoxRenderer cmbRenderer = null;
 	private CmbKeySelectionManager cmbKeySelectionManager = null;
 	private boolean dirtyPrefixSet = false;
+	private JLabel lFilter = null;
+	private JComboBox cmbFilter = null;
+	String filter = null;
 	
 	public SearchBooks() {
 		makePanel();
@@ -84,7 +87,7 @@ public class SearchBooks {
 		
 		FormLayout layout = new FormLayout(
 		        "2dlu:grow, right:65dlu, 5dlu, 20dlu, 5dlu, 70dlu, 10dlu, 70dlu, 5dlu, 40dlu, 50dlu, 2dlu:grow",  //$NON-NLS-1$
-		        "20dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 20dlu, pref, 10dlu, pref, 2dlu, pref, 20dlu, pref, 2dlu:grow"); //$NON-NLS-1$
+		        "20dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 20dlu, pref, 10dlu, pref, 2dlu, pref, 10dlu, pref, 20dlu, pref, 2dlu:grow"); //$NON-NLS-1$
 		CellConstraints cc = new CellConstraints();
 		pb = new PanelBuilder(layout);
 		pb.setDefaultDialogBorder();
@@ -127,8 +130,12 @@ public class SearchBooks {
 		pb.addLabel("-", cc.xy(7,16, "center, center")); //$NON-NLS-1$ //$NON-NLS-2$
 		pb.add(getTfEndDateR(), cc.xy(8,16));
 		pb.add(getCmbLocR(), cc.xyw(10,16,2));
-		
-		pb.add(getButtonPanel(), cc.xyw(2,18,10));
+		if (BisisApp.appConfig.getLibrary().equals("bgb")) {
+			pb.addLabel(Messages.getString("circulation.filter"), cc.xyw(2,18,3,"right, center"));
+			pb.add(getCmbFilter(), cc.xyw(6, 18, 3));
+		}
+
+		pb.add(getButtonPanel(), cc.xyw(2,20,10));
 		
 	}
 	
@@ -452,6 +459,16 @@ public class SearchBooks {
 		return cmbLocR;
 	}
 
+	private JComboBox getCmbFilter() {
+		if (cmbFilter == null) {
+			cmbFilter = new JComboBox();
+			//cmbLocR.setFocusable(false);
+			cmbFilter.setRenderer(getCmbRenderer());
+			cmbFilter.setKeySelectionManager(getCmbKeySelectionManager());
+		}
+		return cmbFilter;
+	}
+
 	private JButton getBtnSearch() {
 		if (btnSearch == null) {
 			btnSearch = new JButton();
@@ -517,7 +534,7 @@ public class SearchBooks {
 		}
 		return lPref5;
 	}
-	
+
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
 			FlowLayout flowLayout = new FlowLayout();
@@ -721,6 +738,7 @@ public class SearchBooks {
 		  }else if (Utils.getCmbValue(cmbLocR) != null){
 			  location = ((CircLocation) Utils.getCmbValue(cmbLocR)).getDescription();
 		  }
+
 		  Date startR = null;
 		  Date endR = null;
 		  if (tfStartDateR.getDate() != null){
@@ -729,6 +747,13 @@ public class SearchBooks {
 				  endR = Utils.setMaxDate(tfEndDateR.getDate());
 			  }else{
 				  endR = Utils.setMaxDate(tfStartDateR.getDate());
+			  }
+		  }
+
+		  filter = null;
+		  if (BisisApp.appConfig.getLibrary().equals("bgb")) {
+			  if (!cmbFilter.getSelectedItem().equals(" ")) {
+				  filter = BisisApp.appConfig.getCodersHelper().getLocationCodeByNameExtended(cmbFilter.getSelectedItem().toString());
 			  }
 		  }
 
@@ -752,6 +777,9 @@ public class SearchBooks {
 		  searchModel.setStartDateRet(startR);
 		  searchModel.setEndDateRet(endR);
 		  searchModel.setLocation(location);
+		  if (BisisApp.appConfig.getLibrary().equals("bgb") && filter != null) {
+			  searchModel.getDepartments().add(filter);
+		  }
 
 //		  List list = null;
 //		  if (tfStartDateL.getDate() != null || tfStartDateR.getDate() != null){
@@ -763,7 +791,7 @@ public class SearchBooks {
     //System.out.println(q.toString());
   //    StopWatch clock = new StopWatch();
   //    clock.start();
-      int res = 0; //TODO-hardcoded
+      int res = 0;
       if (searchModel != null){
         res = Cirkulacija.getApp().getRecordsManager().getRecords(searchModel);
       }else{
@@ -785,6 +813,10 @@ public class SearchBooks {
           new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png"))); //$NON-NLS-1$
     }
   }
+
+  public String getFilter() {
+		return filter;
+  }
   
   public void loadCmbLocL(List data){
     Utils.loadCombo(getCmbLocL(), data);
@@ -793,6 +825,12 @@ public class SearchBooks {
   public void loadCmbLocR(List data){
     Utils.loadCombo(getCmbLocR(), data);
   }
+
+	public void loadCmbFilter(List data){
+		Utils.loadCombo(getCmbFilter(), data);
+		if (BisisApp.appConfig.getLibrarian().getDefaultDepartment() != null)
+			getCmbFilter().setSelectedItem(BisisApp.appConfig.getLibrarian().getDefaultDepartment());
+	}
   
   public void updatePrefixes() {
     Librarian lib = Cirkulacija.getApp().getLibrarian();

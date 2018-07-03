@@ -134,21 +134,18 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     tfPref5.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
 
     if (BisisApp.appConfig.getLibrary().equals("bgb")) {
-
-
         cbOdlj.addItem(" ");
         for (String l :BisisApp.appConfig.getCodersHelper().getLocationsList()){
             cbOdlj.addItem(l);
         }
-        add(new JLabel("Одељење    "), "span 5, split 3");
-        add(cbOdlj, "");
+        add(new JLabel(Messages.getString("SEARCH_FILTER_BY")),"growx");
+        add(cbOdlj,"wrap");
 
         if (BisisApp.appConfig.getLibrarian().getDefaultDepartment() != null)
             cbOdlj.setSelectedItem(BisisApp.appConfig.getLibrarian().getDefaultDepartment());
 
     }
-
-    add(new JLabel(" "), "span 5, split 3, growx");
+    //add(new JLabel(" "), "span 3, growx");
     add(new JLabel(Messages.getString("SEARCH_SORT_BY")), "");
     add(cbSort, "wrap");
     add(btnSearch, "span 5, tag ok, growy");

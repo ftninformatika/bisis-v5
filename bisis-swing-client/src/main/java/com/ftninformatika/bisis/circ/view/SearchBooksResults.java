@@ -3,9 +3,7 @@ package com.ftninformatika.bisis.circ.view;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.*;
 
 import javax.swing.JLabel;
 
@@ -77,12 +75,16 @@ public class SearchBooksResults extends JPanel {
     private static final int PAGE_SIZE = 10;
     private Configuration cfg = null;
     private Template template = null;
+    private String library;
 
     public SearchBooksResults() {
         super();
         initialize();
     }
 
+    public void setFilter(String library) {
+        this.library = library;
+    }
     public void setHits(List<String> hits) {
         this.hits = hits;
         this.page = 0;
@@ -611,7 +613,7 @@ public class SearchBooksResults extends JPanel {
         ArrayList<String> recIDs = new ArrayList<>();
         for (int i = 0; i < count; i++)
             recIDs.add(hits.get(page * PAGE_SIZE + i));
-        getBooksTreeModel().setHits(recIDs);
+        getBooksTreeModel().setHits(recIDs, library);
         getLDocidNum().setText("<html>" + Messages.getString("circulation.records") + " <b>" + (page * PAGE_SIZE + 1) + "-" +  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 (page * PAGE_SIZE + count) + "/" + hits.size() + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
         getTree().setSelectionRow(0);

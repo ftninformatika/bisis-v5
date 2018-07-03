@@ -555,6 +555,9 @@ public class UserManager {
 
                 })
                 .collect(Collectors.toList())));
+        searchbooks.loadCmbFilter((BisisApp.appConfig.getCodersHelper()
+                .getLocationsList().stream()
+                .collect(Collectors.toList())));
     }
 
     public void loadCombos(Report report) throws Exception {

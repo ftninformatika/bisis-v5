@@ -239,10 +239,13 @@ public class RecordsManager {
         }else if(recordQueryResultIds.size() == 0){
             return 1;
         }else{
+            if (!searchModel.getDepartments().isEmpty()) {
+                Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setFilter(searchModel.getDepartments().get(0));
+            }
             Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setHits(recordQueryResultIds);
 //            if (resultList != null)
 //                Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setCtlgnoNum(resultList.size());
-            //TODO broj zaduzenih knjiga po tom upitu
+            //TODO broj zaduzenih primeraka po tom upitu
             Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setCtlgnoNum(0);
             Cirkulacija.getApp().getMainFrame().showPanel("searchBooksResultsPanel");
             return 2;
