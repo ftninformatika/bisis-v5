@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.circ.validator.Validator;
 import com.ftninformatika.bisis.circ.view.SearchUsers;
 import com.ftninformatika.bisis.circ.view.UsersPrefixModel;
 import com.ftninformatika.bisis.search.SearchModelMember;
+import com.ftninformatika.utils.Messages;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -190,12 +191,12 @@ public class SearchUsersManager {
 
 	private void initComboList() {
 		comboBoxList = new ArrayList<String>();
-		comboBoxList.add("Nivo obrazovanja");
-		comboBoxList.add("Vrsta u\u010dlanjenja");
-		comboBoxList.add("Kategorija");
-		comboBoxList.add("Organizacija");
-		comboBoxList.add("Jezik");
-		comboBoxList.add("Grupa");
+		comboBoxList.add(Messages.getString("circulation.education"));
+		comboBoxList.add(Messages.getString("circulation.membershiptype"));
+		comboBoxList.add(Messages.getString("circulation.usercategory"));
+		comboBoxList.add(Messages.getString("circulation.organization"));
+		comboBoxList.add(Messages.getString("circulation.language"));
+		comboBoxList.add(Messages.getString("circulation.corporate"));
 
 	}
 
