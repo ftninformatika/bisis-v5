@@ -369,7 +369,7 @@ public class EditorFrame extends JInternalFrame {
             Object[] options = {Messages.getString("EDITOR_YES"), Messages.getString("EDITOR_NO"), Messages.getString("EDITOR_CANCEL")}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             int ret = JOptionPane.showOptionDialog(null, message, Messages.getString("EDITOR_EXITEDITOR"),  //$NON-NLS-1$
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                    null, options, options[2]);
+                    null, options, options[0]);
             switch (ret) {
                 case 0: // da
                     boolean saved = handleSaveRecord();
