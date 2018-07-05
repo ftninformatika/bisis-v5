@@ -214,6 +214,8 @@ export class SearchFormComponent implements OnInit {
     this.allPrefixes.push(new SelectItemPrefix('Број записа', 'RN'));
     this.allPrefixes.push(new SelectItemPrefix('Језик', 'LA',true)); ////Jezik LG, 101c, LO izbaciti (verovatno misli na LA i LO???)
     this.allPrefixes.push(new SelectItemPrefix('Наслов', 'SG')); //signatura
+    this.allPrefixes.push(new SelectItemPrefix('Предметна одредница', 'SB'));
+    this.allPrefixes.push(new SelectItemPrefix('Предметна пододредница', 'SD'));
     this.bondings.push({label: 'AND', value: 'AND'});
     this.bondings.push({label:'OR', value: 'OR'});
     this.bondings.push({label:'NOT', value: 'NOT'});
