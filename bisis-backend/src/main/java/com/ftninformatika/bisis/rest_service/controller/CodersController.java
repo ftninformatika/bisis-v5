@@ -18,17 +18,13 @@ import java.util.List;
 @RequestMapping("/coders")
 public class CodersController {
 
-    @Autowired
-    AcquisitionRepository acqrep;
+    @Autowired AcquisitionRepository acqrep;
 
-    @Autowired
-    AvailabilityRepository availrep;
+    @Autowired AvailabilityRepository availrep;
 
-    @Autowired
-    AccessionRegisterRepository accregrep;
+    @Autowired AccessionRegisterRepository accregrep;
 
-    @Autowired
-    BindingRepository bindrep;
+    @Autowired BindingRepository bindrep;
 
     @Autowired FormatRepository formrep;
 
@@ -62,8 +58,7 @@ public class CodersController {
 
     @Autowired ProcessTypeRepository processTypeRepository;
 
-    @Autowired
-    CircLocationRepository circLocationRepository;
+    @Autowired CircLocationRepository circLocationRepository;
 
     @Autowired CorporateMemberRepository corporateMemberRepository;
 
@@ -73,9 +68,18 @@ public class CodersController {
 
     @RequestMapping( path = "process_types")
     public ProcessTypeDTO addProcessType(@RequestBody ProcessTypeDTO pt){
-        ProcessTypeDTO retVal = null;
-        retVal = processTypeRepository.save(pt);
-        return retVal;
+        ProcessTypeDTO processTypeDTO = processTypeRepository.findByName(pt.getName());
+        //update
+        if(processTypeDTO != null) {
+            processTypeDTO.setInitialFields(pt.getInitialFields());
+            processTypeDTO.setMandatoryFields(pt.getMandatoryFields());
+            processTypeDTO.setLibName(pt.getLibName());
+            processTypeDTO.setPubType(pt.getPubType());
+            return processTypeRepository.save(processTypeDTO);
+        }
+        else
+            return processTypeRepository.save(pt);
+
     }
 
     @RequestMapping(path = "process_types/getByLibrary")

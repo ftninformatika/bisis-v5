@@ -2,6 +2,7 @@ package com.ftninformatika.bisis;
 
 import ch.randelshofer.quaqua.QuaquaManager;
 import ch.randelshofer.quaqua.leopard.Quaqua15LeopardCrossPlatformLookAndFeel;
+import ch.randelshofer.quaqua.tiger.Quaqua15TigerCrossPlatformLookAndFeel;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.login.*;
@@ -64,7 +65,7 @@ public class BisisApp {
 //        exc.add("TabbedPane");
         QuaquaManager.setExcludedUIs(exc);
         try {
-            UIManager.setLookAndFeel(new Quaqua15LeopardCrossPlatformLookAndFeel());
+            UIManager.setLookAndFeel(new Quaqua15TigerCrossPlatformLookAndFeel());
 
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
@@ -125,6 +126,8 @@ public class BisisApp {
                     appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
                     Messages.setLocale(appConfig.getClientConfig().getLocale());
                     appConfig.initCoders();
+
+//                    appConfig.getCodersHelper().filterCodersByDepartment(appConfig.getLibrarian().getDefaultDepartment());
 
                     recMgr = new RecordManager();
 

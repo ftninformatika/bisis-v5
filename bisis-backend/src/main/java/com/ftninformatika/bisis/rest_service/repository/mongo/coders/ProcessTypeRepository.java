@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo.coders;
 
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,5 +15,5 @@ import java.util.List;
 public interface ProcessTypeRepository extends MongoRepository<ProcessTypeDTO, String>{
 
     public List<ProcessTypeDTO> getProcessTypesByLibNameIsNullOrLibName(@Param("libName") String libName);
-
+    public ProcessTypeDTO findByName (String ptName);
 }

@@ -31,6 +31,7 @@ import javax.swing.table.TableColumn;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.pojo.*;
+import com.ftninformatika.utils.DateCellEditor;
 import com.ftninformatika.utils.string.StringUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -326,7 +327,7 @@ public class Membership {
 			comboColumn.setCellEditor(new DefaultCellEditor(getCmbBranch()));
 			comboColumn.setCellRenderer(new CmbTableRenderer());
 			comboColumn.setPreferredWidth(120);
-			tblMmbrship.setDefaultEditor(Date.class, new JDateChooserCellEditor());
+			tblMmbrship.setDefaultEditor(Date.class, new DateCellEditor());
 		}
 		return tblMmbrship;
 	}
@@ -352,7 +353,7 @@ public class Membership {
     comboColumn.setCellEditor(new DefaultCellEditor(getCmbBranch()));
     comboColumn.setCellRenderer(new CmbTableRenderer());
     comboColumn.setPreferredWidth(120);
-    getTblMmbrship().setDefaultEditor(Date.class, new JDateChooserCellEditor());
+    getTblMmbrship().setDefaultEditor(Date.class, new DateCellEditor());
   }
   
   public JLabel getMmbrshipDateLabel() {

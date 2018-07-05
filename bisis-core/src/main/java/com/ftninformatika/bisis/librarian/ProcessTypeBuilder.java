@@ -69,6 +69,7 @@ public class ProcessTypeBuilder extends DefaultHandler {
           return null;
 
       ProcessType retVal = new ProcessType();
+      retVal.set_id(ptDTO.get_id());
       retVal.setPubType(PubTypes.getPubType(ptDTO.getPubType()));
       retVal.setName(ptDTO.getName());
       retVal.setLibName(ptDTO.getLibName());
@@ -93,6 +94,7 @@ public class ProcessTypeBuilder extends DefaultHandler {
           return null;
 
       ProcessTypeDTO retVal = new ProcessTypeDTO();
+      retVal.set_id(pt.get_id());
       retVal.setPubType(pt.getPubType().getPubType());
       retVal.setName(pt.getName());
       retVal.setLibName(pt.getLibName());

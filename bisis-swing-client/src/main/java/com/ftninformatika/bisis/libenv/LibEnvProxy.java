@@ -120,7 +120,6 @@ public class LibEnvProxy {
 	
 	public static boolean updateProcessType(ProcessType pt){
 
-
 		pt.setLibName(BisisApp.appConfig.getLibrary());
 		ProcessTypeDTO processTypeDTO = ProcessTypeBuilder.buildDTOFromProcessType(pt);
 		try {

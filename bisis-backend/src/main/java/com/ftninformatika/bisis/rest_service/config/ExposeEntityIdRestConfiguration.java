@@ -30,6 +30,7 @@ public class ExposeEntityIdRestConfiguration extends RepositoryRestConfigurerAda
               .exposeIdsFor(ElasticPrefixEntity.class)
               .exposeIdsFor(CircConfig.class)
               .exposeIdsFor(Organization.class)
-              .exposeIdsFor(GenericRegistry.class);
+              .exposeIdsFor(GenericRegistry.class)
+              .exposeIdsFor(ProcessTypeDTO.class);
     }
 }
