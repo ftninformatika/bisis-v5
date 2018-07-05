@@ -400,6 +400,8 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("SB", "600a");
     addToMap("SB", "600b");
     addToMap("SB", "601a");
+    addToMap("SB", "601b");
+    addToMap("SB", "601c");
     addToMap("SB", "602a");
     addToMap("SB", "605a");
     addToMap("SB", "606a");
@@ -407,6 +409,8 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("SB", "608a");
     addToMap("SB", "609a");
     addToMap("SB", "610a");
+    addToMap("SB", "960a");
+    addToMap("SB", "969a");
     //predmetne pododrednice
     addToMap("SD", "600w");
     addToMap("SD", "600x");
