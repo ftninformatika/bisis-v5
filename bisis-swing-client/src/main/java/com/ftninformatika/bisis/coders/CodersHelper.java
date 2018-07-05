@@ -252,7 +252,24 @@ public class CodersHelper {
         return retVal;
     }
 
+    public void filterCodersByDepartment(String department) {
 
+            Map<String, Sublocation> newSublocations = new HashMap<>();
+            for (Sublocation s: this.sublocations.values()) {
+                if (s.getDepartment() == null || s.getDepartment().equals(department)) {
+                    newSublocations.put(s.getCoder_id(), s);
+                }
+            }
+            sublocations = newSublocations;
+
+            Map<String, Location> newLocations = new HashMap<>();
+            for (Location l: this.locations.values()) {
+                if (l.getDepartment() == null || l.getDepartment().equals(department)) {
+                    newLocations.put(l.getCoder_id(), l);
+                }
+            }
+            locations = newLocations;
+    }
 
     public void init() {
 
@@ -269,6 +286,8 @@ public class CodersHelper {
             List<Counter> countersCoders = BisisApp.bisisService.getCounters(BisisApp.appConfig.getLibrary()).execute().body();
             List<Task> tasksCoders = BisisApp.bisisService.getTasks(BisisApp.appConfig.getLibrary()).execute().body();
             List<LibrarianDTO> librariansCoders = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
+
+
 
             accessionRegs = accRegCoders.stream().collect(Collectors.toMap(AccessionRegister::getCoder_id, i -> i));
             acquisitionTypes = acqCoders.stream().collect(Collectors.toMap(Acquisition::getCoder_id, i -> i));
