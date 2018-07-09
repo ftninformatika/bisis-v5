@@ -1,16 +1,14 @@
 {
   "record": {
-    "_all": {
-      "index_analyzer": "standard",
-      "search_analyzer": "standard"
-    },
+
     "properties": {
       "prefixes": {
         "properties": {
           "DC": {
             "type": "string",
             "index": "not_analyzed",
-            "search_analyzer": "keyword"
+            "analyzer":"keyword",
+            "search_analyzer":"keyword"
           }
         }
       }
