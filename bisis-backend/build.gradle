@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
 	compile project(":bisis-core")
-	//providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '1.5.7.RELEASE'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.7.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '2.1.0.RELEASE'

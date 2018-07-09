@@ -3,6 +3,9 @@ import {SelectItem} from 'primeng/primeng';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthHelper} from "../../auth/utilities/authhelper";
 import {BisisSearchService} from "../../../service/bisis-search.service";
+import {CodersService} from "../../../service/coders.service";
+import {PresentItemGenerator} from "../../../tools/PresentItemGenerator";
+import {PresentItem} from "../../../model/PresentItem";
 @Component({
   selector: 'app-record-view',
   templateUrl: './record-view.component.html',
@@ -15,9 +18,12 @@ export class RecordViewComponent  {
   selectedViewType: string;
   unimarcRows: any[];
   isPage: boolean;
+  presentItems: PresentItem[];
 
 
-  constructor( private route:ActivatedRoute, public router: Router, public bisisService: BisisSearchService, public ah: AuthHelper ) {
+  constructor( private route:ActivatedRoute, public router: Router,
+               public bisisService: BisisSearchService, public ah: AuthHelper,
+               private codersService: CodersService, private presentItemGenerator: PresentItemGenerator ) {
     this.viewTypes = [];
     this.viewTypes.push({label: 'Основно', value:'general'});
     this.viewTypes.push({label: 'Детаљно', value:'detail'});
@@ -39,6 +45,15 @@ export class RecordViewComponent  {
                     response => {
                       if ( response != null && response != undefined)
                         this.selectedRec = response;
+                        console.log(this.selectedRec);
+                        //ucitaj status kodere za biblioteku
+                        this.codersService.getItemStatusCoders(this.getLibCode()).subscribe(
+                            response2 => {
+                                //generisi prikazne elemente
+                               this.presentItems = this.presentItemGenerator.generatePresentItemsList(response['fullRecord'], response2, response['listOfItems'] );
+                            }
+                        );
+
                         this.isPage = true;
                     },
                     error => {
@@ -48,10 +63,16 @@ export class RecordViewComponent  {
                 }
               }
         );
-      }
-    // else
-    //   console.log("something");
-
+      } else {
+        //ucitaj status kodere za biblioteku
+        this.codersService.getItemStatusCoders(this.getLibCode()).subscribe(
+            response => {
+                //generisi prikazne elemente
+                this.presentItems = this.presentItemGenerator.generatePresentItemsList(this.selectedRec['fullRecord'], response, this.selectedRec['listOfItems'] );
+                console.log(this.presentItems);
+            }
+        );
+    }
   }
 
   makeUnimarc(record: any) {

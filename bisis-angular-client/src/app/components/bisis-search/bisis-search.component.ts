@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SelectItem} from "primeng/primeng";
 import {TranslateService} from "@ngx-translate/core";
@@ -10,7 +10,8 @@ import {LibraryService} from "../../service/library.service";
 @Component({
   selector: 'app-bisis-search',
   templateUrl: './bisis-search.component.html',
-  styleUrls: ['./bisis-search.component.css']
+  styleUrls: ['./bisis-search.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BisisSearchComponent implements OnInit {
 

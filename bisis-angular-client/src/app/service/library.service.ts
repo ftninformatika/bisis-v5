@@ -13,13 +13,6 @@ export class LibraryService {
 
     }
 
-    getLanguageCoders(){
-        return this.http.get(config.getEnvironmentVariable('endPoint') +  'coders/language?libName=gbns')
-            .map(response => response.json() )
-            .catch(this.handleError);
-    }
-
-
     getLibs(){
         return this.http.get(config.getEnvironmentVariable('endPoint') +  'coders/lib_configurations')
             .map(response => response.json().map(

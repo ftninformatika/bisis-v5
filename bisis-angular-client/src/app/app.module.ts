@@ -114,6 +114,8 @@ import {PasswordResetComponent} from "./components/auth/password-reset/password-
 import {AuthHelper} from "./components/auth/utilities/authhelper";
 import {AuthGuard} from "./components/auth/authguard";
 import {ProfileComponent} from "./components/profile/profile.component";
+import {CodersService} from "./service/coders.service";
+import {PresentItemGenerator} from "./tools/PresentItemGenerator";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -227,7 +229,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        BisisSearchService, AuthGuard, AuthHelper, LibraryService, MessageService, GetCoder, MemberService
+        BisisSearchService, AuthGuard, AuthHelper, LibraryService, MessageService, GetCoder, MemberService, CodersService, PresentItemGenerator
     ],
     bootstrap: [AppComponent]
 })
