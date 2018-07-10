@@ -47,7 +47,6 @@ export class RecordViewComponent  {
                     response => {
                       if ( response != null && response != undefined)
                         this.selectedRec = response;
-                        console.log(this.selectedRec);
                         //ucitaj status kodere za biblioteku
                         this.codersService.getItemStatusCoders(this.getLibCode()).subscribe(
                             response2 => {
