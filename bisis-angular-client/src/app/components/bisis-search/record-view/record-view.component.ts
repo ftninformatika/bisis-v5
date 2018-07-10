@@ -143,7 +143,7 @@ export class RecordViewComponent  {
         });
 
       });
-       console.log(el);
+       //console.log(el);
        retVal.push(el);
 
     });
