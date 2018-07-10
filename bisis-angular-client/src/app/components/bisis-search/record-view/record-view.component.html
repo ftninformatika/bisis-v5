@@ -173,6 +173,11 @@
     <div class="ui-grid-col-12" *ngFor="let row of unimarcRows;"><b>{{row.name}}</b>&nbsp;<b>{{row.ind1}}{{row.ind2}}&nbsp;</b>
         <ng-template ngFor let-xb [ngForOf]="row.subfields">
             <b>{{xb.name}}</b>{{xb.content}}&nbsp;
+              <b *ngIf="xb.secField != null">{{</b>
+              <ng-template *ngIf="xb.secField != null" ngFor let-sec [ngForOf]="xb.secField.subfields">
+                  <b>{{sec.name}}</b>&nbsp;{{sec.ind1}}{{sec.ind2}}&nbsp;{{sec.content}}
+              </ng-template>
+            <b *ngIf="xb.secField != null">}}</b>
         </ng-template>
     </div>
 </div>
