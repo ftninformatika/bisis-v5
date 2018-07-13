@@ -53,6 +53,10 @@ public class WarningsManager {
             .collect(Collectors.toList());
     return new Counters(data, warn_type);
   }
+
+  public void refreshWarningCounters() {
+      BisisApp.appConfig.getCodersHelper().refreshWarningCounters();
+  }
   
   public List<MemberData> getUsers(Date startDate, Date endDate, CircLocation loc){
     if (startDate == null) {
