@@ -7,10 +7,10 @@ import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
@@ -28,7 +28,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +53,7 @@ public class RecordsController {
     public boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
         recordsRepository.delete(mongoID);
         elasticRecordsRepository.delete(mongoID);
+
         return (recordsRepository.findOne(mongoID) == null && elasticRecordsRepository.findOne(mongoID) == null);
     }
 
@@ -360,7 +360,6 @@ public class RecordsController {
     public ResponseEntity<List<Record>> search(@RequestBody SearchModel search, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
         ArrayList<Record> retVal = new ArrayList<>();
-
         Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
         Iterable<String> ids = ElasticUtility.getIdsFromElasticIterable(ii);
         retVal = (ArrayList<Record>) recordsRepository.findAll(ids);

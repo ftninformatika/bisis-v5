@@ -60,9 +60,11 @@ public class ReindexRecords {
                 log.info("Deleted index for library: " + lc.getLibraryName());
                 elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
                 log.info("Created index for library: " + lc.getLibraryName());
+                elasticsearchTemplate.putMapping(ElasticPrefixEntity.class);
             }
             catch (IndexNotFoundException e){
                 elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
+                elasticsearchTemplate.putMapping(ElasticPrefixEntity.class);
                 log.info("Created index for library: " + lc.getLibraryName());
             }
 

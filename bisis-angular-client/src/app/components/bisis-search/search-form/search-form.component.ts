@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input, ViewEncapsulation} from '@angular/core';
 import {SelectItem} from 'primeng/primeng';
 import {RecordsPageModel} from "../../../model/RecordsPageModel";
 import {SelectItemPrefix} from "../../../model/SelectItemPrefix";
@@ -12,8 +12,10 @@ import {GetCoder} from "../../../service/get-local-data.service";
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.css']
+  styleUrls: ['./search-form.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
+
 export class SearchFormComponent implements OnInit {
 
   @Input() lib: string;

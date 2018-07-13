@@ -8,10 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -254,21 +251,26 @@ public class CodersHelper {
 
     public void filterCodersByDepartment(String department) {
 
-            Map<String, Sublocation> newSublocations = new HashMap<>();
-            for (Sublocation s: this.sublocations.values()) {
-                if (s.getDepartment() == null || s.getDepartment().equals(department)) {
-                    newSublocations.put(s.getCoder_id(), s);
-                }
-            }
-            sublocations = newSublocations;
+        if (department != null) {
 
-            Map<String, Location> newLocations = new HashMap<>();
-            for (Location l: this.locations.values()) {
-                if (l.getDepartment() == null || l.getDepartment().equals(department)) {
-                    newLocations.put(l.getCoder_id(), l);
-                }
+
+            try {
+                List<Sublocation> sublocCoders = BisisApp.bisisService.getSubLocations(BisisApp.appConfig.getLibrary()).execute().body();
+                List<Location> locCoders = BisisApp.bisisService.getLocations(BisisApp.appConfig.getLibrary()).execute().body();
+
+                sublocations = sublocCoders.stream()
+                        .filter(i -> i.getDepartment() == null || i.getDepartment().equals(department))
+                        .collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
+
+                locations = locCoders.stream()
+                        .filter(i -> i.getDepartment() == null || i.getDepartment().equals(department))
+                        .collect(Collectors.toMap(Location::getCoder_id, i -> i));
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            locations = newLocations;
+
+        }
     }
 
     public void init() {
