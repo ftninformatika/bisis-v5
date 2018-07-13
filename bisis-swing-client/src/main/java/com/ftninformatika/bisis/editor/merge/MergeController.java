@@ -174,12 +174,12 @@ public class MergeController {
             f675 = new Field("675");
             osnovni.add(f675);
         }
-        Subfield sf675a = f675.getSubfield('a');
-        if (sf675a == null) {
-            sf675a = new Subfield('a');
-            f675.add(sf675a);
-        }
-        sf675a.setContent(udk);
+//        Subfield sf675a = f675.getSubfield('a');
+//        if (sf675a == null) {
+//            sf675a = new Subfield('a');
+//            f675.add(sf675a);
+//        }
+//        sf675a.setContent(udk);
 
         checkMergedDialog =
                 new CenteredDialog(BisisApp.getMainFrame());
