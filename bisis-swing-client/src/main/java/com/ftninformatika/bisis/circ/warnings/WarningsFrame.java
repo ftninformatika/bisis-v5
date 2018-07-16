@@ -333,7 +333,7 @@ public class WarningsFrame extends JInternalFrame {
 		if (cmbType == null) {
 			cmbType = new JComboBox();
 			cmbType.setRenderer(getCmbRenderer());
-      cmbType.setKeySelectionManager(getCmbKeySelectionManager());
+      		cmbType.setKeySelectionManager(getCmbKeySelectionManager());
 		}
 		return cmbType;
 	}
@@ -690,13 +690,15 @@ public class WarningsFrame extends JInternalFrame {
         if (getChbSave().isSelected()){
           getManager().saveWarnings(lending_to_save, counters);
         }
-  			boolean cyr = false;
-  			if (doc.getRoot().getCirilica() == 1){
-  				cyr = true;
-  			}
-  			
-  			StringWriter sw = new StringWriter();
-  			XmlOptions xmlOptions = new XmlOptions();
+
+        getManager().refreshWarningCounters();
+		boolean cyr = false;
+		if (doc.getRoot().getCirilica() == 1){
+			cyr = true;
+		}
+
+		StringWriter sw = new StringWriter();
+		XmlOptions xmlOptions = new XmlOptions();
         xmlOptions.setSavePrettyPrint();
         doc.save(sw,xmlOptions);
         JasperReport subreport = (JasperReport)JRLoader.loadObject(

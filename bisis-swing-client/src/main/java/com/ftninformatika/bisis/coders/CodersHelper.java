@@ -403,6 +403,14 @@ public class CodersHelper {
         return retVal;
     }
 
+    public void refreshWarningCounters() {
+        try {
+            warningCounters = BisisApp.bisisService.getWarningCounters(BisisApp.appConfig.getLibrary()).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Map<String, AccessionRegister> accessionRegs = new HashMap<>();
     private Map<String, Acquisition> acquisitionTypes = new HashMap<>();
     private Map<String, Availability> availabilities = new HashMap<>();
