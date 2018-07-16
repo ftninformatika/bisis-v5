@@ -29,6 +29,7 @@ public class DateUtils {
     calendar.setTime(date);
     int year = calendar.get(Calendar.YEAR);
     calendar.set(year, 0, 0, 0, 0, 0);
+    calendar.set(Calendar.MILLISECOND, calendar.getMinimum(Calendar.MILLISECOND));
     return calendar.getTime();
   }
 
