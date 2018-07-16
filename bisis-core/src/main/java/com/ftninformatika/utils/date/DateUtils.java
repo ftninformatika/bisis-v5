@@ -39,6 +39,7 @@ public class DateUtils {
     int month = calendar.get(Calendar.MONTH);
     int day = calendar.get(Calendar.DATE);
     calendar.set(year, month, day, 0, 0, 0);
+    calendar.set(Calendar.MILLISECOND, calendar.getMinimum(Calendar.MILLISECOND));
     return calendar.getTime();
   }
 
@@ -49,6 +50,7 @@ public class DateUtils {
     int month = calendar.get(Calendar.MONTH);
     int day = calendar.get(Calendar.DATE);
     calendar.set(year, month, day, 23, 59, 59);
+    calendar.set(Calendar.MILLISECOND, calendar.getMaximum(Calendar.MILLISECOND));
     return calendar.getTime();
   }
 
