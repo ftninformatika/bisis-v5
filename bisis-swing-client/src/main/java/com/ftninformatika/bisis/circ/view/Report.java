@@ -382,7 +382,7 @@ public class Report {
 	}
 
 	private boolean isValidDateRange(){
-		if (tfStartDate.isVisible() && tfEndDate.isVisible() && cmbReport.getSelectedIndex() != 14) {
+		if (tfStartDate.isVisible() && tfEndDate.isVisible() && cmbReport.getSelectedIndex() != 14 && cmbReport.getSelectedIndex() != 13) {
 			if (!DateUtils.inCircReportDateRange(tfStartDate.getDate(), tfEndDate.getDate())){
 				JOptionPane.showMessageDialog(null,
 						Messages.getString("circulation.wrongdates"),
