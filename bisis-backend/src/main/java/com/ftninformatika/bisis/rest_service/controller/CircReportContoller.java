@@ -260,12 +260,12 @@ public class CircReportContoller {
         for (int i = 0; i <= 9; i++) {
             final Integer[] primeraka = {0};
             BoolQueryBuilder query = QueryBuilders.boolQuery();
-            TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", lendingsCtlgNos);
+            TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", lendingsCtlgNosSet);
             PrefixQueryBuilder pf = QueryBuilders.prefixQuery("prefixes.DC", i + "");
             query.must(tq);
             query.must(pf);
             Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
-            ukupnoNaslova +=IterableUtils.size(ee);
+            ukupnoNaslova += IterableUtils.size(ee);
             lendMapNasl.put(""+i, IterableUtils.size(ee));
             ee.forEach(
                     ep -> {
@@ -290,7 +290,7 @@ public class CircReportContoller {
         for (int i = 0; i <= 9; i++) {
             final Integer[] primeraka = {0};
             BoolQueryBuilder q = QueryBuilders.boolQuery();
-            TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", returnCtlgNos);
+            TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", retCtlgNosSet);
             PrefixQueryBuilder pf = QueryBuilders.prefixQuery("prefixes.DC", i + "");
             q.must(tq);
             q.must(pf);
