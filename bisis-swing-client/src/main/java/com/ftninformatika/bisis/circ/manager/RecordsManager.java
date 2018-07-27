@@ -88,7 +88,7 @@ public class RecordsManager {
         Iterator<ItemAvailability> it = listOfItems.iterator();
         while (it.hasNext()){
             ItemAvailability tmp = it.next();
-            if (tmp.getCtlgNo() == item.getCtlgNo()){
+            if (tmp.getCtlgNo().equals(item.getCtlgNo())){
                 listOfItems.remove(tmp);
                 return;
             }
