@@ -191,6 +191,12 @@ public class MainFrame extends JFrame {
             podlokacijaFrame.setMaximizable(false);
             podlokacijaFrame.setResizable(false);
         }
+        //zbog reload- a sifarnika TODO- staviti na svako mesto gde su sifarnici koji se filtriraju
+        try {
+            podlokacijaFrame.createScene();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return podlokacijaFrame;
     }
 

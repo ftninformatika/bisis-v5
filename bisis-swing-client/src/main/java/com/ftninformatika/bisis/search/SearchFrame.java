@@ -144,6 +144,14 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         if (BisisApp.appConfig.getLibrarian().getDefaultDepartment() != null)
             cbOdlj.setSelectedItem(BisisApp.appConfig.getLibrarian().getDefaultDepartment());
 
+        cbOdlj.addActionListener(new ActionListener () {
+          public void actionPerformed(ActionEvent e) {
+            SearchFrame.locId = BisisApp.appConfig.getCodersHelper().getLocationCodeByNameExtended(cbOdlj.getSelectedItem().toString());
+            SearchFrame.locIdIndex = cbOdlj.getSelectedIndex();
+            BisisApp.appConfig.getCodersHelper().filterCodersByDepartment(locId);
+          }
+        });
+
     }
     //add(new JLabel(" "), "span 3, growx");
     add(new JLabel(Messages.getString("SEARCH_SORT_BY")), "");
@@ -567,6 +575,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   //private LinkedHashMap<String, NetHitListFrame> netSearchResultFrames=new LinkedHashMap<String, NetHitListFrame>();
   //Filter za odeljenja bgb
   public static String locId = null;
+  public static int locIdIndex = 0;
   private static final Dimension textPanelDim = new Dimension(200,20);
   private static final Dimension prefButtonDim = new Dimension(70,20);
   private static String delims = ", ;:\"()[]{}-+!\t\r\n\f";

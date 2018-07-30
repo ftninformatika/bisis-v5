@@ -28,7 +28,7 @@ public class CodedValuePanel extends JPanel {
 	/**
    * bdimic
    */ 
-  private String labelStr;	
+  	private String labelStr;
 	private JTextField codeTxtFld;
 	private JTextField valueTxtFld;
 	private JButton coderButton;	
@@ -46,56 +46,62 @@ public class CodedValuePanel extends JPanel {
   private JPanel parent;
 	
 	public CodedValuePanel(int sifType,JPanel parent) {
-	  this.sifType = sifType;
-    this.parent = parent;
-    allowedSymbols.clear();
-		switch(sifType){
-			case(CodersHelper.NACINNABAVKE_CODER):
+	  	this.sifType = sifType;
+    	this.parent = parent;
+    	allowedSymbols.clear();
+    	initCodesLists();
+		create();    
+	}
+
+	private void initCodesLists() {
+
+		switch(sifType) {
+			case (CodersHelper.NACINNABAVKE_CODER):
 				labelStr = Messages.getString("EDITOR_ACQ_TYPE");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.NACINNABAVKE_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
-			case(CodersHelper.POVEZ_CODER):
+			case (CodersHelper.POVEZ_CODER):
 				labelStr = Messages.getString("BINDING");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.POVEZ_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
-			case(CodersHelper.PODLOKACIJA_CODER):
+			case (CodersHelper.PODLOKACIJA_CODER):
 				labelStr = Messages.getString("SUBLOCATION");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.PODLOKACIJA_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
-			case(CodersHelper.FORMAT_CODER):
+			case (CodersHelper.FORMAT_CODER):
 				labelStr = Messages.getString("FORMAT");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.FORMAT_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
-			case(CodersHelper.INTERNAOZNAKA_CODER):
+			case (CodersHelper.INTERNAOZNAKA_CODER):
 				labelStr = Messages.getString("INTERNAL_MARK");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INTERNAOZNAKA_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
-			case(CodersHelper.ODELJENJE_CODER):
+			case (CodersHelper.ODELJENJE_CODER):
 				labelStr = Messages.getString("LOCATION");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.ODELJENJE_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
-			case(CodersHelper.STATUS_CODER):
+			case (CodersHelper.STATUS_CODER):
 				labelStr = Messages.getString("STATUS");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.STATUS_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
-			case(CodersHelper.INVENTARNAKNJIGA_CODER):
+			case (CodersHelper.INVENTARNAKNJIGA_CODER):
 				labelStr = Messages.getString("INV_BOOK");
 				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INVENTARNAKNJIGA_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
-        break;
-      case(CodersHelper.DOSTUPNOST_CODER):
-        labelStr = Messages.getString("AVAILABILITY");
-      codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.DOSTUPNOST_CODER);
-		  codesList.sort(Comparator.comparing(c -> c.getCode()));
-		}		
-		create();    
+				break;
+			case (CodersHelper.DOSTUPNOST_CODER):
+				labelStr = Messages.getString("AVAILABILITY");
+				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.DOSTUPNOST_CODER);
+				codesList.sort(Comparator.comparing(c -> c.getCode()));
+		}
+
 	}
 
 	private void create() {			
@@ -164,6 +170,7 @@ public class CodedValuePanel extends JPanel {
 	}
 	
 	private void handleOpenCoder(){
+		initCodesLists();
 		InventarCodeChoiceDialog ccd = null;
 		ccd = new InventarCodeChoiceDialog(MessageFormat.format(Messages.getString("0.CODER"), labelStr),codesList);
 		if(ccd!=null){
@@ -227,11 +234,11 @@ public class CodedValuePanel extends JPanel {
 	private void setForInv(String code){		
     if(parent instanceof InventarPanel){
     	if(sifType==CodersHelper.ODELJENJE_CODER)
-       if(((InventarPanel)parent).getInventarniBrojPanel().getOdeljenje().equals("")){
-       		((InventarPanel)parent).getInventarniBrojPanel().setOdeljenje(code);
-       }
+		   if(((InventarPanel)parent).getInventarniBrojPanel().getOdeljenje().equals("")){
+				((InventarPanel)parent).getInventarniBrojPanel().setOdeljenje(code);
+		   }
     	if(sifType==CodersHelper.INVENTARNAKNJIGA_CODER)
-        ((InventarPanel)parent).getInventarniBrojPanel().setInvKnj(code);        
+        	((InventarPanel)parent).getInventarniBrojPanel().setInvKnj(code);
     }else if(parent instanceof SveskePanel){
       if(sifType==CodersHelper.ODELJENJE_CODER)
         ((SveskePanel)parent).getInvBrojPanel().setOdeljenje(code);      
@@ -240,7 +247,7 @@ public class CodedValuePanel extends JPanel {
     }
 	}	
   
-  // vraca true ako nista nije uneto i ako je uneta dobrasifra
+  // vraca true ako nista nije uneto i ako je uneta dobra sifra
   public boolean isValidCode(){
     if(codeTxtFld.getText().equals("")) return true;
     return !getValue(codeTxtFld.getText()).equals("");

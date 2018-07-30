@@ -90,6 +90,7 @@ public class Obrada {
     }
 
     private static void showEditorFrame() {
+        editorFrame.setSelectedLibCmb();
         BisisApp.getMainFrame().showFrame(editorFrame);
     }
 

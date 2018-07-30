@@ -14,16 +14,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.MessageFormat;
 
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.plaf.basic.BasicTreeUI;
@@ -43,6 +34,7 @@ import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
 import org.apache.log4j.Logger;
 
@@ -63,6 +55,9 @@ public class EditorFrame extends JInternalFrame {
     private JToggleButton uploadButton;
     private JButton listiciButton;
     private JButton procTypesButton;
+
+    private JLabel selectLibText = new JLabel(Messages.getString("EDITOR_FILTER_BY"));
+    private JComboBox selectLibCmbBox = new JComboBox();
 
     private CardLayout cardLayout;
 
@@ -164,10 +159,32 @@ public class EditorFrame extends JInternalFrame {
         btnGroup.add(inventarButton);
         btnGroup.add(uploadButton);
         zapisButton.setSelected(true);
+        setUploadEnabled(false);
         toolBar.add(zapisButton);
         toolBar.add(inventarButton);
         toolBar.add(uploadButton);
-        setUploadEnabled(false);
+
+        // bgb slucaj, filtriranje sifarnika
+        if (BisisApp.appConfig.getLibrary().equals("bgb")) {
+            //JLabel selectLibText = new JLabel("Одабери библиотеку:");
+            selectLibCmbBox = new JComboBox();
+            selectLibCmbBox.addItem("");
+            for (String l :BisisApp.appConfig.getCodersHelper().getLocationsList()){
+                selectLibCmbBox.addItem(l);
+            }
+            selectLibCmbBox.setSelectedIndex(SearchFrame.locIdIndex);
+
+            selectLibCmbBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    BisisApp.appConfig.getCodersHelper().filterCodersByDepartment(BisisApp.appConfig.getCodersHelper().getLocationCodeByNameExtended(selectLibCmbBox.getSelectedItem().toString()));
+                }
+            });
+
+            toolBar.addSeparator();
+            toolBar.add(selectLibText);
+            toolBar.add(selectLibCmbBox);
+        }
 
         zapisPanel = new ZapisPanel();
         inventarPanel = new InventarPanel();
@@ -240,6 +257,11 @@ public class EditorFrame extends JInternalFrame {
                 handleOpenProcessTypeDilaog();
             }
         });
+    }
+
+    public void setSelectedLibCmb() {
+        selectLibCmbBox.setSelectedIndex(SearchFrame.locIdIndex);
+
     }
 
     private boolean handleSaveRecord() {

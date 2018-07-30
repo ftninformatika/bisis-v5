@@ -65,7 +65,7 @@ public class BisisApp {
 //        exc.add("TabbedPane");
         QuaquaManager.setExcludedUIs(exc);
         try {
-            UIManager.setLookAndFeel(new Quaqua15TigerCrossPlatformLookAndFeel());
+            UIManager.setLookAndFeel(new Quaqua15LeopardCrossPlatformLookAndFeel());
 
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
@@ -127,7 +127,7 @@ public class BisisApp {
                     Messages.setLocale(appConfig.getClientConfig().getLocale());
                     appConfig.initCoders();
 
-//                    appConfig.getCodersHelper().filterCodersByDepartment(appConfig.getLibrarian().getDefaultDepartment());
+                    //appConfig.getCodersHelper().filterCodersByDepartment("02");
 
                     recMgr = new RecordManager();
 
@@ -176,7 +176,5 @@ public class BisisApp {
     public static RecordManager recMgr;
     public static SplashScreen splashScreen;
     public static Logger log = Logger.getLogger(BisisApp.class);
-
-
 
 }

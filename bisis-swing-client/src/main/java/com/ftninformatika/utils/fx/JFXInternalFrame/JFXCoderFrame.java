@@ -47,7 +47,7 @@ public class JFXCoderFrame extends JInternalFrame implements Initializable {
         pack();
     }
 
-    protected void createScene() throws InterruptedException {
+    public void createScene() throws InterruptedException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         final CountDownLatch done = new CountDownLatch(0);
         Platform.setImplicitExit(false);
