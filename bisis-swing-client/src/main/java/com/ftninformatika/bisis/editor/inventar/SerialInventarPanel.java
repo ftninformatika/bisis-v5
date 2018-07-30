@@ -118,7 +118,6 @@ public class SerialInventarPanel extends InventarPanel {
         //index kolone odeljenja
         String locCol = (String) entry.getValue(3);
         String invStart = ((String) entry.getValue(0)).substring(0,2);
-        System.out.println(department);
         if (department != null && !department.equals("")){
           if(locCol != null && !locCol.equals(department))
             return false;
