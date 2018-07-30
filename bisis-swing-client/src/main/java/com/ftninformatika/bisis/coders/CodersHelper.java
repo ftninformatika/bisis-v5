@@ -253,7 +253,6 @@ public class CodersHelper {
 
         if (department != null) {
 
-
             try {
                 List<Sublocation> sublocCoders = BisisApp.bisisService.getSubLocations(BisisApp.appConfig.getLibrary()).execute().body();
                 List<Location> locCoders = BisisApp.bisisService.getLocations(BisisApp.appConfig.getLibrary()).execute().body();

@@ -165,6 +165,12 @@ public class EditorFrame extends JInternalFrame {
         toolBar.add(uploadButton);
 
         // bgb slucaj, filtriranje sifarnika
+
+        zapisPanel = new ZapisPanel();
+        inventarPanel = new InventarPanel();
+        /*uploadPanel = new UploadPanel();*/
+        layoutPanels();
+
         if (BisisApp.appConfig.getLibrary().equals("bgb")) {
             //JLabel selectLibText = new JLabel("Одабери библиотеку:");
             selectLibCmbBox = new JComboBox();
@@ -178,6 +184,7 @@ public class EditorFrame extends JInternalFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     BisisApp.appConfig.getCodersHelper().filterCodersByDepartment(BisisApp.appConfig.getCodersHelper().getLocationCodeByNameExtended(selectLibCmbBox.getSelectedItem().toString()));
+                    inventarPanel.refreshItemsByDepartment(BisisApp.appConfig.getCodersHelper().getLocationCodeByNameExtended(selectLibCmbBox.getSelectedItem().toString()));
                 }
             });
 
@@ -185,12 +192,6 @@ public class EditorFrame extends JInternalFrame {
             toolBar.add(selectLibText);
             toolBar.add(selectLibCmbBox);
         }
-
-        zapisPanel = new ZapisPanel();
-        inventarPanel = new InventarPanel();
-        /*uploadPanel = new UploadPanel();*/
-        layoutPanels();
-
         // action listeners
 
         addInternalFrameListener(new InternalFrameAdapter() {

@@ -445,6 +445,14 @@ public class InventarPanel extends JPanel{
       break;
     }   
   }
+
+  public void refreshItemsByDepartment(String department) {
+    if (this instanceof MonographInventarPanel) {
+      ((MonographInventarPanel) this).refreshPrimerciByDepartment(department);
+    }
+    else if (this instanceof SerialInventarPanel)
+      ((SerialInventarPanel)this).refreshGodineByDepartment(department);
+  }
   
   public void loadItem(){};
 
