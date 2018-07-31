@@ -494,6 +494,8 @@ public class Record implements Serializable {
   private String inUseBy;
   /** rn */
   private int rn;
+  /** locked by redactor */
+  private String lockedByRedactor;
 
 
 }
