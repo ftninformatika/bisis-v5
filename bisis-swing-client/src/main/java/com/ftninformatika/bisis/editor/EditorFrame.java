@@ -36,6 +36,7 @@ import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.swing.DisabledPanel;
 import org.apache.log4j.Logger;
 
 
@@ -44,6 +45,7 @@ public class EditorFrame extends JInternalFrame {
     private ZapisPanel zapisPanel = null;
     private JPanel panel;
     private InventarPanel inventarPanel = null;
+    private DisabledPanel disabledZapisPanel = null;
     //private UploadPanel uploadPanel = null;
 
     private JToolBar toolBar;
@@ -82,6 +84,7 @@ public class EditorFrame extends JInternalFrame {
             return false;
         }
         zapisPanel.initializeRecordPanel(rec);
+
 			/*if (BisisApp.isFileMgrEnabled())
 				uploadPanel.initializeDocList(rec);*/
         initializeInventarPanel();
@@ -164,15 +167,14 @@ public class EditorFrame extends JInternalFrame {
         toolBar.add(inventarButton);
         toolBar.add(uploadButton);
 
-        // bgb slucaj, filtriranje sifarnika
 
         zapisPanel = new ZapisPanel();
         inventarPanel = new InventarPanel();
         /*uploadPanel = new UploadPanel();*/
         layoutPanels();
 
+        // bgb slucaj, filtriranje sifarnika
         if (BisisApp.appConfig.getLibrary().equals("bgb")) {
-            //JLabel selectLibText = new JLabel("Одабери библиотеку:");
             selectLibCmbBox = new JComboBox();
             selectLibCmbBox.addItem("");
             for (String l :BisisApp.appConfig.getCodersHelper().getLocationsList()){
@@ -353,11 +355,24 @@ public class EditorFrame extends JInternalFrame {
         this.setLayout(cardLayout);
         getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(toolBar, BorderLayout.NORTH);
-        panel.add(zapisPanel, zapisPanel.getName());
+        //panel.add(zapisPanel, zapisPanel.getName());
+        disabledZapisPanel = new DisabledPanel(zapisPanel);
+        panel.add(disabledZapisPanel, zapisPanel.getName());
+        disabledZapisPanel.setEnabled(true);
+        //this.disableZapisPanel();
         panel.add(inventarPanel, inventarPanel.getName());
         //panel.add(uploadPanel,uploadPanel.getName());
         this.getContentPane().add(panel, BorderLayout.CENTER);
     }
+
+    private void disableZapisPanel() {
+        disabledZapisPanel.setEnabled(false);
+    }
+
+    private void enableZapisPanel() {
+        disabledZapisPanel.setEnabled(true);
+    }
+
 
     private void closeEditor() {
         sendFocus();

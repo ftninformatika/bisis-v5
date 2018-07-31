@@ -10,7 +10,7 @@ import com.ftninformatika.bisis.editor.registries.RegistryDlg;
 import com.ftninformatika.bisis.editor.registries.RegistryUtils;
 import com.ftninformatika.bisis.format.*;
 import com.ftninformatika.bisis.records.Subfield;
-import com.ftninformatika.utils.CCPUtil;
+import com.ftninformatika.utils.swing.CCPUtil;
 import com.ftninformatika.utils.CharacterLookup;
 import com.ftninformatika.utils.Messages;
 

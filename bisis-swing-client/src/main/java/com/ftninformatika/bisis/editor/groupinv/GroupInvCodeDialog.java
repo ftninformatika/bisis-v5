@@ -23,7 +23,7 @@ import com.ftninformatika.bisis.editor.editorutils.CodesList;
 import com.ftninformatika.bisis.editor.inventar.InventarConstraints;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.format.validators.DateValidator;
-import com.ftninformatika.utils.CenteredDialog;
+import com.ftninformatika.utils.swing.CenteredDialog;
 import net.miginfocom.swing.MigLayout;
 
 public class GroupInvCodeDialog extends CenteredDialog {

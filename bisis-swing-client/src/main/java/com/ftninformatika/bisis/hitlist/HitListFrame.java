@@ -1,10 +1,8 @@
 package com.ftninformatika.bisis.hitlist;
 
-import com.ftninformatika.bisis.editor.inventar.PrimerciTableModel;
 import com.ftninformatika.bisis.records.RecordModification;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchFrame;
-import com.ftninformatika.utils.CCPUtil;
 import com.ftninformatika.utils.Messages;
 
 import java.awt.*;
@@ -19,8 +17,6 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -29,7 +25,6 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.html.HTMLEditorKit;

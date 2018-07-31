@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.utils.CenteredDialog;
+import com.ftninformatika.utils.swing.CenteredDialog;
 import net.miginfocom.swing.MigLayout;
 
 

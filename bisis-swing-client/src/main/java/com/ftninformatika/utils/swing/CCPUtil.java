@@ -1,4 +1,4 @@
-package com.ftninformatika.utils;
+package com.ftninformatika.utils.swing;
 
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;

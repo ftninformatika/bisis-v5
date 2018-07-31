@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.swing.DisabledPanel;
 
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
@@ -30,11 +31,12 @@ import javax.swing.event.TreeSelectionListener;
 public class ZapisPanel extends JPanel {
   
   private FormatTree formatTree;
-  private RecordTree recordTree; 
+  private RecordTree recordTree;
+
   public ZapisPanel(){
     setName(Messages.getString("EDITOR_TOGGLEBUTTONRECORD")); //$NON-NLS-1$
-    create();
-    addActionListeners();
+      create();
+      addActionListeners();
   }
   
   public FormatTree getFormatTree(){
@@ -148,5 +150,7 @@ public class ZapisPanel extends JPanel {
      JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),Messages.getString("EDITOR_ERROR"),JOptionPane.ERROR_MESSAGE);   //$NON-NLS-1$
    }   
  }
+
+
 
 }

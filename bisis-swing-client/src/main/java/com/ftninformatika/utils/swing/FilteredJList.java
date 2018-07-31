@@ -1,4 +1,4 @@
-package com.ftninformatika.utils;
+package com.ftninformatika.utils.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
