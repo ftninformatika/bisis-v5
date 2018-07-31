@@ -425,8 +425,8 @@ public class LibrarianFrame extends JInternalFrame {
 	private JPanel privilegePanel = new JPanel();
 	private JCheckBox administracijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.ADMINISTRATION")); //$NON-NLS-1$
 	private JCheckBox obradaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CATALOGUING"));	 //$NON-NLS-1$
-	private JCheckBox redaktorCheckBox = new JCheckBox("редактор");	 //$NON-NLS-1$
-	private JCheckBox inventatorCheckBox = new JCheckBox("инвентатор");	 //$NON-NLS-1$
+	private JCheckBox redaktorCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.REDACTOR"));	 //$NON-NLS-1$
+	private JCheckBox inventatorCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.INVENTATOR"));	 //$NON-NLS-1$
 	private JCheckBox cirkulacijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATION")); //$NON-NLS-1$
 	
 	
