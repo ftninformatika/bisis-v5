@@ -1,14 +1,10 @@
 package com.ftninformatika.bisis.librarian;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
@@ -26,6 +22,8 @@ public class Librarian {
   private boolean obrada;
   private boolean cirkulacija;
   private boolean administracija;
+  private boolean redaktor;
+  private boolean inventator;
   private LibrarianContext context = new LibrarianContext();
   private String biblioteka;
   private ProcessType curentProcessType;

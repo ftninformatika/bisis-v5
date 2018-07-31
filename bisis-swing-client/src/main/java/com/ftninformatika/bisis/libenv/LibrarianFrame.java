@@ -9,13 +9,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.text.MessageFormat;import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -55,7 +49,7 @@ public class LibrarianFrame extends JInternalFrame {
 
 	public LibrarianFrame() {
 		super(Messages.getString("LibrarianEnvironment.LIBRARIANS"), false, true, true, true); //$NON-NLS-1$
-		this.setSize(780,550);    
+		this.setSize(780,700);
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		createLibrariansTable();
 		createProcTypeLists();
@@ -102,8 +96,9 @@ public class LibrarianFrame extends JInternalFrame {
 	}
 	private void createLibrariansTable() {
 		librariansTableModel = new LibrarianTableModel();
-		librariansTable = new JTable(librariansTableModel);	
-		librariansScrollPane = new JScrollPane(librariansTable);		
+		librariansTable = new JTable(librariansTableModel);
+		librariansScrollPane = new JScrollPane(librariansTable);
+		librariansTable.putClientProperty("Quaqua.Table.style", "striped");
 		librariansTable.setRowSorter(new TableRowSorter<LibrarianTableModel>(librariansTableModel));
 		
 		listSelModel = librariansTable.getSelectionModel();
@@ -148,6 +143,8 @@ public class LibrarianFrame extends JInternalFrame {
 		administracijaCheckBox.setSelected(lib.isAdministration());
 		obradaCheckBox.setSelected(lib.isCataloguing());
 		cirkulacijaCheckBox.setSelected(lib.isCirculation());
+		redaktorCheckBox.setSelected(lib.isRedaktor());
+		inventatorCheckBox.setSelected(lib.isInventator());
 		if(lib.getIme()!=null) nameTxtFld.setText(lib.getIme());
 		else nameTxtFld.setText(""); //$NON-NLS-1$
 		if(lib.getPrezime()!=null) lastnameTxtFld.setText(lib.getPrezime());
@@ -168,6 +165,8 @@ public class LibrarianFrame extends JInternalFrame {
 		lib.setAdministration(administracijaCheckBox.isSelected());
 		lib.setCataloguing(obradaCheckBox.isSelected());
 		lib.setCirculation(cirkulacijaCheckBox.isSelected());
+		lib.setRedaktor(redaktorCheckBox.isSelected());
+		lib.setInventator(inventatorCheckBox.isSelected());
 		lib.setIme(nameTxtFld.getText());
 		lib.setPrezime(lastnameTxtFld.getText());
 		lib.setEmail(emailTxtFld.getText());
@@ -293,8 +292,8 @@ public class LibrarianFrame extends JInternalFrame {
 		tabbedPane.addTab(Messages.getString("LibrarianEnvironment.BASIC_DATA"), firstTabpanel); //$NON-NLS-1$
 		tabbedPane.addTab(Messages.getString("LibrarianEnvironment.PROCESSING_TYPES"), secondTabpanel); //$NON-NLS-1$
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_O);
-    tabbedPane.setMnemonicAt(1, KeyEvent.VK_T);
-    buttonsPanel.setLayout(new MigLayout("","[right]5[right]","")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    	tabbedPane.setMnemonicAt(1, KeyEvent.VK_T);
+    	buttonsPanel.setLayout(new MigLayout("","[right]5[right]","")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		sacuvajButton.setIcon(new ImageIcon(getClass().getResource(
     "/icons/ok.gif"))); //$NON-NLS-1$
 		ponistiButton.setIcon(new ImageIcon(getClass().getResource(
@@ -309,11 +308,30 @@ public class LibrarianFrame extends JInternalFrame {
 		loginDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.PASSWORD")),"wrap"); //$NON-NLS-1$ //$NON-NLS-2$
 		loginDataPanel.add(passwordTxtFld,"grow"); //$NON-NLS-1$
 		
-		privilegePanel.setLayout(new MigLayout("","","[]10[]10[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		privilegePanel.setLayout(new MigLayout("","","[]10[]10[]10[]10[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		privilegePanel.setBorder(BorderFactory.createTitledBorder(Messages.getString("LibrarianEnvironment.ROLES")));		 //$NON-NLS-1$
 		privilegePanel.add(administracijaCheckBox,"wrap"); //$NON-NLS-1$
 		privilegePanel.add(obradaCheckBox,"wrap"); //$NON-NLS-1$
+		privilegePanel.add(redaktorCheckBox,"wrap"); //$NON-NLS-1$
+		privilegePanel.add(inventatorCheckBox,"wrap"); //$NON-NLS-1$
 		privilegePanel.add(cirkulacijaCheckBox);
+		redaktorCheckBox.setEnabled(false);
+		inventatorCheckBox.setEnabled(false);
+		obradaCheckBox.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (obradaCheckBox.isSelected()) {
+					redaktorCheckBox.setEnabled(true);
+					inventatorCheckBox.setEnabled(true);
+				}
+				else {
+					redaktorCheckBox.setEnabled(false);
+					inventatorCheckBox.setEnabled(false);
+					redaktorCheckBox.setSelected(false);
+					inventatorCheckBox.setSelected(false);
+				}
+			}
+		});
 		
 		additionalDataPanel.setLayout(new MigLayout("","[right]5[]","[]15[]15[]15[top]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		additionalDataPanel.setBorder(BorderFactory.createTitledBorder(Messages.getString("LibrarianEnvironment.ADDITIONAL_DATA"))); //$NON-NLS-1$
@@ -407,6 +425,8 @@ public class LibrarianFrame extends JInternalFrame {
 	private JPanel privilegePanel = new JPanel();
 	private JCheckBox administracijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.ADMINISTRATION")); //$NON-NLS-1$
 	private JCheckBox obradaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CATALOGUING"));	 //$NON-NLS-1$
+	private JCheckBox redaktorCheckBox = new JCheckBox("редактор");	 //$NON-NLS-1$
+	private JCheckBox inventatorCheckBox = new JCheckBox("инвентатор");	 //$NON-NLS-1$
 	private JCheckBox cirkulacijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATION")); //$NON-NLS-1$
 	
 	
