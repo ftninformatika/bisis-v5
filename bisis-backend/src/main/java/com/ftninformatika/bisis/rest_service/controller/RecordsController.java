@@ -452,6 +452,22 @@ public class RecordsController {
         return null;
     }
 
+    @RequestMapping(value = "/lockByRedactor/{recId}", method = RequestMethod.GET)
+    public Boolean lockByRedactor(@PathVariable("recId") String recId) {
+        Record r = recordsRepository.findOne(recId);
+        r.setLockedByRedactor(true);
+        recordsRepository.save(r);
+        return r.isLockedByRedactor();
+    }
+
+    @RequestMapping(value = "/unlockByRedactor/{recId}", method = RequestMethod.GET)
+    public Boolean unlockByRedactor(@PathVariable("recId") String recId) {
+        Record r = recordsRepository.findOne(recId);
+        r.setLockedByRedactor(false);
+        recordsRepository.save(r);
+        return r.isLockedByRedactor();
+    }
+
     @RequestMapping(value = "/multiple_ids", method = RequestMethod.POST)
     public ResponseEntity<List<Record>> getMultipleRecordsByIds(@RequestBody List<String> ids) {
         List<Record> retVal = (List<Record>) recordsRepository.findAll(ids);

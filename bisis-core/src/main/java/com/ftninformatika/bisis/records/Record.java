@@ -495,7 +495,7 @@ public class Record implements Serializable {
   /** rn */
   private int rn;
   /** locked by redactor */
-  private String lockedByRedactor;
+  private boolean lockedByRedactor = false;
 
 
 }

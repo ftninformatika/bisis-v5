@@ -23,6 +23,8 @@ public class LibrarianManager {
         retVal.setObrada(librarianDTO.isObrada());
         retVal.setCirculation(librarianDTO.isCirkulacija());
         retVal.setAdministracija(librarianDTO.isAdministracija());
+        retVal.setInventator(librarianDTO.isInventator());
+        retVal.setRedaktor(librarianDTO.isRedaktor());
         retVal.setBiblioteka(librarianDTO.getBiblioteka());
         retVal.setCurentProcessType(ProcessTypeBuilder.buildProcessTypeFromDTO(librarianDTO.getCurentProcessType()));
         retVal.setContext(initializeContextFromDTO(librarianDTO.getContext()));
@@ -44,6 +46,8 @@ public class LibrarianManager {
         retVal.setObrada(lib.isObrada());
         retVal.setCirkulacija(lib.isCirkulacija());
         retVal.setAdministracija(lib.isAdministracija());
+        retVal.setInventator(lib.isInventator());
+        retVal.setRedaktor(lib.isRedaktor());
         retVal.setBiblioteka(lib.getBiblioteka());
         retVal.setCurentProcessType(ProcessTypeBuilder.buildDTOFromProcessType(lib.getCurentProcessType()));
         retVal.setContext(initializeDTOFromContext(lib.getContext()));

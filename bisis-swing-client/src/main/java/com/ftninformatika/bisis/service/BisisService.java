@@ -190,6 +190,12 @@ public interface BisisService {
 
     @GET("records/getWrapperRecord")
     Call<Record> getWrapperRecordByCtlgNo(@Query("ctlgno") String ctlgno);
+
+    @GET("records/lockByRedactor/{recId}")
+    Call<Boolean> lockByRedactor(@Path("recId") String recId);
+
+    @GET("records/unlockByRedactor/{recId}")
+    Call<Boolean> unlockByRedactor(@Path("recId") String recId);
     // wrappovani
 
     //coders----------------------------------------------

@@ -37,6 +37,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.swing.DisabledPanel;
+import com.ftninformatika.utils.swing.SwingUtils;
 import org.apache.log4j.Logger;
 
 
@@ -263,7 +264,8 @@ public class EditorFrame extends JInternalFrame {
     }
 
     public void setSelectedLibCmb() {
-        selectLibCmbBox.setSelectedIndex(SearchFrame.locIdIndex);
+        if (BisisApp.appConfig.getLibrary().equals("bgb"))
+            selectLibCmbBox.setSelectedIndex(SearchFrame.locIdIndex);
 
     }
 
@@ -365,11 +367,12 @@ public class EditorFrame extends JInternalFrame {
         this.getContentPane().add(panel, BorderLayout.CENTER);
     }
 
-    private void disableZapisPanel() {
+    public void disableZapisPanel() {
         disabledZapisPanel.setEnabled(false);
+        SwingUtils.setToolTipRecursively(disabledZapisPanel, "Запис закључан од стране редактора!");
     }
 
-    private void enableZapisPanel() {
+    public void enableZapisPanel() {
         disabledZapisPanel.setEnabled(true);
     }
 

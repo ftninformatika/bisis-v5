@@ -3,16 +3,11 @@ package com.ftninformatika.bisis.hitlist;
 import com.ftninformatika.bisis.records.RecordModification;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchFrame;
+import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.utils.Messages;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -134,6 +129,18 @@ public class HitListFrame extends JInternalFrame {
         oneResultPanel.add(rnTxtFld, "");
         oneResultPanel.add(pubTypeLabel, "wrap");
         oneResultPanel.add(tabbedPane, "span 4, split 1, wrap, grow");
+        if (BisisApp.appConfig.getLibrarian().isRedaktor()) {
+            oneResultPanel.add(redacatorLock, "");
+            redacatorLock.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (redacatorLock.isSelected())
+                        handleLockRedactorRecord();
+                    else
+                        handleUnlockRedactorRecord();
+                }
+            });
+        }
         oneResultPanel.add(btnAnalitika, "span 5, split 5, right");
         oneResultPanel.add(btnDelete, "");
         oneResultPanel.add(btnInventar, "");
@@ -481,6 +488,11 @@ public class HitListFrame extends JInternalFrame {
         else
             btnAnalitika.setEnabled(true);
         handleLoadTabs();
+
+        if (selectedRecord.isLockedByRedactor())
+            redacatorLock.setSelected(true);
+        else
+            redacatorLock.setSelected(false);
     }
 
     private void handleLoadTabs() {
@@ -622,6 +634,24 @@ public class HitListFrame extends JInternalFrame {
         this.searchModel = s;
     }
 
+    private void handleLockRedactorRecord() {
+        Record rec = (Record) lbHitList.getSelectedValue();
+        try {
+            BisisApp.bisisService.lockByRedactor(rec.get_id()).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleUnlockRedactorRecord() {
+        Record rec = (Record) lbHitList.getSelectedValue();
+        try {
+            BisisApp.bisisService.unlockByRedactor(rec.get_id()).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void handleDeleteRecord() {
         Record rec = (Record) lbHitList.getSelectedValue();
         Object[] options = {Messages.getString("HITLIST_DELETE"), Messages.getString("HITLIST_CANCEL")};
@@ -705,6 +735,7 @@ public class HitListFrame extends JInternalFrame {
     private JButton btnNew = new JButton(Messages.getString("HITLIST_NEW"));
     private JButton btnInventar = new JButton(Messages.getString("HITLIST_INVENTAR"));
     private JButton btnAnalitika = new JButton(Messages.getString("HITLIST_ANALITICS"));
+    private JCheckBox redacatorLock = new JCheckBox("заклључај за обраду");
 
     private JButton btnBranches = new JButton(Messages.getString("HITLIST_GROUPVIEW"));
 

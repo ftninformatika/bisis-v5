@@ -25,6 +25,15 @@ import javax.swing.UIManager;
  */
 public final class SwingUtils {
 
+    public static void setToolTipRecursively(JComponent c, String text) {
+
+        c.setToolTipText(text);
+
+        for (Component cc : c.getComponents())
+            if (cc instanceof JComponent)
+                setToolTipRecursively((JComponent) cc, text);
+    }
+
     private SwingUtils() {
         throw new Error("SwingUtils is just a container for static methods");
     }

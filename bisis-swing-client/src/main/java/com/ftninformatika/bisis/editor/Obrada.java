@@ -53,6 +53,10 @@ public class Obrada {
             showEditorFrame();
             editorFrame.setRecordUpdated(false);
             editorFrame.setUploadEnabled(true);
+            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().isRedaktor())
+                editorFrame.disableZapisPanel();
+            else
+                editorFrame.enableZapisPanel();
         }
     }
 
@@ -86,6 +90,10 @@ public class Obrada {
             editorFrame.editorInitialize(articleRec);
             showEditorFrame();
             editorFrame.setRecordUpdated(false);
+            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().isRedaktor())
+                editorFrame.disableZapisPanel();
+            else
+                editorFrame.enableZapisPanel();
         }
     }
 

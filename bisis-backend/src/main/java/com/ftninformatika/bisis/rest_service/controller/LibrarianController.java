@@ -50,6 +50,8 @@ public class LibrarianController {
         librarian.setObrada(lib.isObrada());
         librarian.setCirkulacija(lib.isCirkulacija());
         librarian.setAdministracija(lib.isAdministracija());
+        librarian.setRedaktor(lib.isRedaktor());
+        librarian.setInventator(lib.isInventator());
         librarian.setBiblioteka(lib.getBiblioteka());
         librarian.setContext(lib.getContext());
         librarian.setCurentProcessType(lib.getCurentProcessType());
