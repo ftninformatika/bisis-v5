@@ -374,6 +374,7 @@ public class EditorFrame extends JInternalFrame {
 
     public void enableZapisPanel() {
         disabledZapisPanel.setEnabled(true);
+        SwingUtils.setToolTipRecursively(disabledZapisPanel, null);
     }
 
 
