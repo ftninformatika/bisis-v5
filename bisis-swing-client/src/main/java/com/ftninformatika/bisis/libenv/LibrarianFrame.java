@@ -12,25 +12,7 @@ import java.awt.Insets;
 import java.awt.event.*;
 import java.text.MessageFormat;import java.util.ArrayList;
 
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
@@ -143,8 +125,8 @@ public class LibrarianFrame extends JInternalFrame {
 		administracijaCheckBox.setSelected(lib.isAdministration());
 		obradaCheckBox.setSelected(lib.isCataloguing());
 		cirkulacijaCheckBox.setSelected(lib.isCirculation());
-		redaktorCheckBox.setSelected(lib.isRedaktor());
-		inventatorCheckBox.setSelected(lib.isInventator());
+		redaktorRadioBtn.setSelected(lib.isRedaktor());
+		inventatorRadioBtn.setSelected(lib.isInventator());
 		if(lib.getIme()!=null) nameTxtFld.setText(lib.getIme());
 		else nameTxtFld.setText(""); //$NON-NLS-1$
 		if(lib.getPrezime()!=null) lastnameTxtFld.setText(lib.getPrezime());
@@ -165,8 +147,8 @@ public class LibrarianFrame extends JInternalFrame {
 		lib.setAdministration(administracijaCheckBox.isSelected());
 		lib.setCataloguing(obradaCheckBox.isSelected());
 		lib.setCirculation(cirkulacijaCheckBox.isSelected());
-		lib.setRedaktor(redaktorCheckBox.isSelected());
-		lib.setInventator(inventatorCheckBox.isSelected());
+		lib.setRedaktor(redaktorRadioBtn.isSelected());
+		lib.setInventator(inventatorRadioBtn.isSelected());
 		lib.setIme(nameTxtFld.getText());
 		lib.setPrezime(lastnameTxtFld.getText());
 		lib.setEmail(emailTxtFld.getText());
@@ -312,26 +294,29 @@ public class LibrarianFrame extends JInternalFrame {
 		privilegePanel.setBorder(BorderFactory.createTitledBorder(Messages.getString("LibrarianEnvironment.ROLES")));		 //$NON-NLS-1$
 		privilegePanel.add(administracijaCheckBox,"wrap"); //$NON-NLS-1$
 		privilegePanel.add(obradaCheckBox,"wrap"); //$NON-NLS-1$
-		privilegePanel.add(redaktorCheckBox,"wrap"); //$NON-NLS-1$
-		privilegePanel.add(inventatorCheckBox,"wrap"); //$NON-NLS-1$
+		invRedGroup.add(inventatorRadioBtn);
+		invRedGroup.add(redaktorRadioBtn);
+		privilegePanel.add(redaktorRadioBtn,"wrap"); //$NON-NLS-1$
+		privilegePanel.add(inventatorRadioBtn,"wrap"); //$NON-NLS-1$
 		privilegePanel.add(cirkulacijaCheckBox);
-		redaktorCheckBox.setEnabled(false);
-		inventatorCheckBox.setEnabled(false);
+		redaktorRadioBtn.setEnabled(false);
+		inventatorRadioBtn.setEnabled(false);
 		obradaCheckBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (obradaCheckBox.isSelected()) {
-					redaktorCheckBox.setEnabled(true);
-					inventatorCheckBox.setEnabled(true);
+					redaktorRadioBtn.setEnabled(true);
+					inventatorRadioBtn.setEnabled(true);
+					//redaktorRadioBtn.setSelected(true);
 				}
 				else {
-					redaktorCheckBox.setEnabled(false);
-					inventatorCheckBox.setEnabled(false);
-					redaktorCheckBox.setSelected(false);
-					inventatorCheckBox.setSelected(false);
+					invRedGroup.clearSelection();
+					redaktorRadioBtn.setEnabled(false);
+					inventatorRadioBtn.setEnabled(false);
 				}
 			}
 		});
+
 		
 		additionalDataPanel.setLayout(new MigLayout("","[right]5[]","[]15[]15[]15[top]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		additionalDataPanel.setBorder(BorderFactory.createTitledBorder(Messages.getString("LibrarianEnvironment.ADDITIONAL_DATA"))); //$NON-NLS-1$
@@ -425,10 +410,10 @@ public class LibrarianFrame extends JInternalFrame {
 	private JPanel privilegePanel = new JPanel();
 	private JCheckBox administracijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.ADMINISTRATION")); //$NON-NLS-1$
 	private JCheckBox obradaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CATALOGUING"));	 //$NON-NLS-1$
-	private JCheckBox redaktorCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.REDACTOR"));	 //$NON-NLS-1$
-	private JCheckBox inventatorCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.INVENTATOR"));	 //$NON-NLS-1$
+	private JRadioButton redaktorRadioBtn = new JRadioButton(Messages.getString("LibrarianEnvironment.REDACTOR"));	 //$NON-NLS-1$
+	private JRadioButton inventatorRadioBtn = new JRadioButton(Messages.getString("LibrarianEnvironment.INVENTATOR"));	 //$NON-NLS-1$
 	private JCheckBox cirkulacijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATION")); //$NON-NLS-1$
-	
+	private ButtonGroup invRedGroup = new ButtonGroup();
 	
 	private JPanel additionalDataPanel= new JPanel();
 	private JTextField nameTxtFld = new JTextField(txtFldLength);
