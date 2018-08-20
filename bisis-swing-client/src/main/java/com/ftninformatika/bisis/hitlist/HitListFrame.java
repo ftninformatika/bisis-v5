@@ -129,18 +129,18 @@ public class HitListFrame extends JInternalFrame {
         oneResultPanel.add(rnTxtFld, "");
         oneResultPanel.add(pubTypeLabel, "wrap");
         oneResultPanel.add(tabbedPane, "span 4, split 1, wrap, grow");
-        if (BisisApp.appConfig.getLibrarian().isRedaktor()) {
-            oneResultPanel.add(redacatorLock, "");
-            redacatorLock.addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    if (redacatorLock.isSelected())
-                        handleLockRedactorRecord();
-                    else
-                        handleUnlockRedactorRecord();
-                }
-            });
-        }
+        oneResultPanel.add(redacatorLock, "");
+        redacatorLock.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (redacatorLock.isSelected())
+                    handleLockRedactorRecord();
+                else
+                    handleUnlockRedactorRecord();
+            }
+        });
+        if (!BisisApp.appConfig.getLibrarian().isRedaktor())
+            redacatorLock.setEnabled(false);
         oneResultPanel.add(btnAnalitika, "span 5, split 5, right");
         oneResultPanel.add(btnDelete, "");
         oneResultPanel.add(btnInventar, "");
@@ -735,7 +735,7 @@ public class HitListFrame extends JInternalFrame {
     private JButton btnNew = new JButton(Messages.getString("HITLIST_NEW"));
     private JButton btnInventar = new JButton(Messages.getString("HITLIST_INVENTAR"));
     private JButton btnAnalitika = new JButton(Messages.getString("HITLIST_ANALITICS"));
-    private JCheckBox redacatorLock = new JCheckBox("заклључај за обраду");
+    private JCheckBox redacatorLock = new JCheckBox(Messages.getString("HITLIST_LOCKED_FOR_EDIT"));
 
     private JButton btnBranches = new JButton(Messages.getString("HITLIST_GROUPVIEW"));
 

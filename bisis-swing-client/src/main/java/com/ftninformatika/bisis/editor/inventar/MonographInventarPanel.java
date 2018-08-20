@@ -514,7 +514,8 @@ public class MonographInventarPanel extends InventarPanel {
   	primerciTableModel = new PrimerciTableModel();
     primerciTable = new JTable(primerciTableModel);
 	primerciTable.putClientProperty("Quaqua.Table.style", "striped");
-	refreshPrimerciByDepartment(SearchFrame.locId);
+	if (BisisApp.appConfig.getLibrary().equals("bgb"))
+		refreshPrimerciByDepartment(SearchFrame.locId);
   	primerciTable.setTransferHandler(null);
   	primerciScrollPane = new JScrollPane(primerciTable);		
   	listSelModel = primerciTable.getSelectionModel();
