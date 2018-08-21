@@ -138,6 +138,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
             if (BisisApp.appConfig.getLibrarian().getDefaultDepartment() != null
                 && BisisApp.appConfig.getCodersHelper().getLocationCodeByNameExtended(l).equals(BisisApp.appConfig.getLibrarian().getDefaultDepartment()))
               cbOdlj.setSelectedItem(l);
+              locIdIndex = cbOdlj.getSelectedIndex();
 
         }
         add(new JLabel(Messages.getString("SEARCH_FILTER_BY")),"growx");
