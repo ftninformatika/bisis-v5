@@ -55,7 +55,7 @@ public class RegistryDlg extends JDialog {
     btnSearch.setToolTipText("Пронађи ставку");
     btnSearch.setFocusable(false);
 
-    if (!LibraryList.isRegistryEnabled(BisisApp.appConfig.getLibrary())){
+    if (!LibraryList.isRegistryEnabled(BisisApp.appConfig.getLibrary()) || !BisisApp.appConfig.getLibrarian().isRedaktor()){
       btnAdd.setEnabled(false);
       btnAdd.setToolTipText("Немате привилегије!");
       btnModify.setEnabled(false);
