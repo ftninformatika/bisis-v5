@@ -1,41 +1,31 @@
 package com.ftninformatika.bisis.search;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
-import java.text.MessageFormat;import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.text.JTextComponent;
-
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.checklist.CheckableItem;
+import com.ftninformatika.bisis.checklist.JCheckList;
 import com.ftninformatika.bisis.editor.editorutils.CodeChoiceDialog;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.libenv.LibEnvProxy;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
-import com.ftninformatika.utils.swing.CCPUtil;
 import com.ftninformatika.utils.CharacterLookup;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.StringUtils;
+import com.ftninformatika.utils.swing.CCPUtil;
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
 
 public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcessor*/ {
 
@@ -469,14 +459,13 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
 
   private void handleNetSearch() {
+    JOptionPane.showMessageDialog(BisisApp.mf,"Pretraga u mreži nije implementirana!","Pretraga u mreži",JOptionPane.INFORMATION_MESSAGE);
 
   }
   
-  
-  //added by Miroslav Zaric
-  private void refreshServerList(/*Vector<LibraryServerDesc> results*/) {
-  /*  if (results.size() > 0) {
-      LinkedHashMap<String, LibraryServerDesc> libServers = MessagingEnvironment.getLibServers();
+  private void refreshServerList(List<LibraryConfiguration> serverList) {
+    if (serverList.size() > 0) {
+     /* LinkedHashMap<String, LibraryServerDesc> libServers = MessagingEnvironment.getLibServers();
       libServers.clear();
       //re-populate master list
       for (int i = 0; i < results.size(); i++) {
@@ -484,15 +473,15 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
         if (MessagingEnvironment.DEBUG == 1)
         	System.out.println("Dodajem server u listu");
         libServers.put(oneLib.getUrlAddress(), oneLib);
-      }
+      }*/
       JPanel pServers=new JPanel();
       pServers.setLayout(new BoxLayout(pServers, BoxLayout.Y_AXIS));
       spServerList.setViewportView(pServers);
       
-      Iterator<LibraryServerDesc> libs=(MessagingEnvironment.getLibServers().values()).iterator();
+      //Iterator<LibraryServerDesc> libs=(MessagingEnvironment.getLibServers().values()).iterator();
       Vector<CheckableItem> items=new Vector<CheckableItem>();
-      while (libs.hasNext()) {
-    	CheckableItem item = new CheckableItem(libs.next());
+      for (LibraryConfiguration lc:serverList) {
+    	CheckableItem item = new CheckableItem(lc);
     	item.setSelected(true);
         items.add(item);
       }
@@ -501,17 +490,22 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       JCheckList list = new JCheckList(arr);
       spServerList.getViewport().setView(list); 
       rbZipNetSearch.setEnabled(true);
-    }*/
+    }
   }
   
   private void populateServerList() {
-	 /* Vector<LibraryServerDesc> receivedList = ServerListReader.prepareServerList();
-	  if (receivedList != null) {
-		  refreshServerList(receivedList);
-	  }else{
-		  JOptionPane.showMessageDialog(BisisApp.mf,
-		          "Lista servera trenutno nedostupna!", "Pretraga", JOptionPane.ERROR_MESSAGE);
-	  }*/
+    try {
+      List<LibraryConfiguration> receivedList = BisisApp.bisisService.getAllConfigurations(BisisApp.appConfig.getLibrary()).execute().body();
+      if (receivedList != null) {
+        refreshServerList(receivedList);
+      }else{
+        JOptionPane.showMessageDialog(BisisApp.mf,Messages.getString("SERVER_LIST_EMPTY"),Messages.getString("SEARCH_SEARCHING"),JOptionPane.ERROR_MESSAGE);
+      }
+    }catch (Exception e){
+      e.printStackTrace();
+      JOptionPane.showMessageDialog(BisisApp.mf,Messages.getString("SERVER_LIST_EMPTY"),Messages.getString("SEARCH_SEARCHING"),JOptionPane.ERROR_MESSAGE);
+    }
+
   }
   
   /**

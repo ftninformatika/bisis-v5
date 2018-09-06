@@ -42,6 +42,9 @@ public interface BisisService {
     @GET("configs/search/getByLibraryName")
     Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
 
+    @GET("library_configuration/findAllByLibraryNameNotLike")
+    Call<List<LibraryConfiguration>> getAllConfigurations(@Query("libName") String libName);
+
     @POST("coders/process_types")
     Call<Void> addProcessType(@Body ProcessTypeDTO processType);
 

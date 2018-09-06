@@ -25,7 +25,7 @@ public class LibraryConfiguration {
     private String _id;
     private String libraryName;
     private String networkServerList;
-    private String libCollectionSufix;
+    private String libraryFullName;
 
     private String cataloguingPrimerciModel;
     private String cataloguingGodineModel;
@@ -74,5 +74,7 @@ public class LibraryConfiguration {
 
     private List<Report> reports;
 
-
+    public String toString(){
+        return libraryFullName;
+    }
 }
