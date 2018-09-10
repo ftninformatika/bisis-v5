@@ -9,6 +9,7 @@ public class Registries {
   public static final int ZBIRKE       = 4;
   public static final int UDK          = 5;
   public static final int KOLEKTIVNI   = 6;
+  public static final int IZDAVACI     = 7;
 
   public static String getShortName(int registryType) {
     switch (registryType) {
@@ -24,6 +25,8 @@ public class Registries {
         return "UDK подгрупе";
       case KOLEKTIVNI:
         return "Колективне одр.";
+      case IZDAVACI:
+        return "Издавачи";
       default:
         return "";
     }
@@ -43,6 +46,8 @@ public class Registries {
         return "UDK подгрупе";
       case KOLEKTIVNI:
         return "Колективне одреднице";
+      case IZDAVACI:
+        return "Издавачи";
       default:
         return "";
     }
@@ -62,6 +67,8 @@ public class Registries {
         return "Група";
       case KOLEKTIVNI:
         return "Колективац";
+      case IZDAVACI:
+        return "Назив";
       default:
         return "";
     }
@@ -81,6 +88,8 @@ public class Registries {
         return "Опис";
       case KOLEKTIVNI:
         return "";
+      case IZDAVACI:
+        return "Објашњење";
       default:
         return "";
     }

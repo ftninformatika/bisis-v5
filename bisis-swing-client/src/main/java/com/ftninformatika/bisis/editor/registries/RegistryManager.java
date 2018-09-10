@@ -10,7 +10,7 @@ public class RegistryManager {
     public static GenericRegistry addRegistry(RegistryItem item, int registryType) throws IOException {
         GenericRegistry retVal = new GenericRegistry();
 
-        if (registryType == Registries.AUTORI || registryType == Registries.UDK) {
+        if (registryType == Registries.AUTORI || registryType == Registries.UDK || registryType == Registries.IZDAVACI) {
             retVal.setCode(registryType);
             retVal.setField1(item.getText1());
             retVal.setField2(item.getText2());

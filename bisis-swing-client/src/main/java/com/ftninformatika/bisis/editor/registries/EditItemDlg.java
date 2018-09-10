@@ -123,7 +123,7 @@ public class EditItemDlg extends JDialog {
   private void setVisibility(int registryType) {
     lValue1.setText(Registries.getLabel1(registryType));
     lValue2.setText(Registries.getLabel2(registryType));
-    if (registryType == Registries.AUTORI || registryType == Registries.UDK) {
+    if (registryType == Registries.AUTORI || registryType == Registries.UDK || registryType == Registries.IZDAVACI) {
       lValue2.setVisible(true);
       tfValue2.setVisible(true);
     } else {

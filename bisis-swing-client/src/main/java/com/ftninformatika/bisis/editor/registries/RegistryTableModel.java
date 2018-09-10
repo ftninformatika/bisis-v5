@@ -13,7 +13,7 @@ public class RegistryTableModel extends AbstractTableModel {
 
     public RegistryTableModel(int registryType) {
         this.registryType = registryType;
-        if (registryType == Registries.AUTORI || registryType == Registries.UDK)
+        if (registryType == Registries.AUTORI || registryType == Registries.UDK || registryType == Registries.IZDAVACI)
             columnCount = 2;
         else
             columnCount = 1;
@@ -90,7 +90,7 @@ public class RegistryTableModel extends AbstractTableModel {
         GenericRegistry toUpdate = getRegByRowIndex(index);
         toUpdate.setField1(item.getText1());
 
-        if (registryType == Registries.UDK || registryType == Registries.UDK){
+        if (registryType == Registries.UDK || registryType == Registries.AUTORI || registryType == Registries.IZDAVACI){
             toUpdate.setField2(item.getText2());
         }
 
@@ -152,7 +152,7 @@ public class RegistryTableModel extends AbstractTableModel {
                 RegistryItem item = new RegistryItem();
                 item.setIndex(i);
 
-                if (dlg.getCurrentType() == Registries.AUTORI || dlg.getCurrentType() == Registries.UDK){
+                if (dlg.getCurrentType() == Registries.AUTORI || dlg.getCurrentType() == Registries.UDK || dlg.getCurrentType() == Registries.IZDAVACI){
                     item.setText1(results.get(i).getField1());
                     item.setText2(results.get(i).getField2());
                     item.set_id(results.get(i).get_id());

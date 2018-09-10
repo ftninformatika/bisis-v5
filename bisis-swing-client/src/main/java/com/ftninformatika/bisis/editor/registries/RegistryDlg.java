@@ -39,6 +39,7 @@ public class RegistryDlg extends JDialog {
     tKolOdr.putClientProperty("Quaqua.Table.style", "striped");
     tZbirke.putClientProperty("Quaqua.Table.style", "striped");
     tUDK.putClientProperty("Quaqua.Table.style", "striped");
+    tIzdavaci.putClientProperty("Quaqua.Table.style", "striped");
 
     editDlg = new EditItemDlg(parent);
     setSize(800, 450);
@@ -108,6 +109,7 @@ public class RegistryDlg extends JDialog {
     tabbedPane.addTab(Registries.getShortName(Registries.KOLEKTIVNI), pKolOdr);
     tabbedPane.addTab(Registries.getShortName(Registries.ZBIRKE), pZbirke);
     tabbedPane.addTab(Registries.getShortName(Registries.UDK), pUDK);
+    tabbedPane.addTab(Registries.getShortName(Registries.IZDAVACI), pIzdavaci);
     getContentPane().add(tabbedPane, BorderLayout.CENTER);
     tabbedPane.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent ev) {
@@ -141,6 +143,9 @@ public class RegistryDlg extends JDialog {
             if (tmUDK.getRowCount() == 0)
               tmUDK.init(RegistryDlg.this);
             break;
+          case Registries.IZDAVACI:
+            if (tmIzdavaci.getRowCount() == 0)
+              tmIzdavaci.init(RegistryDlg.this);
           default:
             break;
         }
@@ -213,6 +218,13 @@ public class RegistryDlg extends JDialog {
     rfUDK = new VisibleRowsRefresher(tUDK, 
         spUDK.getVerticalScrollBar());
 
+    pIzdavaci.setLayout(new BorderLayout());
+    spIzdavaci.getViewport().setView(tIzdavaci);
+    spIzdavaci.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    spIzdavaci.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    pIzdavaci.add(spIzdavaci, BorderLayout.CENTER);
+    rfIzdavaci = new VisibleRowsRefresher(tIzdavaci, spIzdavaci.getVerticalScrollBar());
+
     tPredOdr.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     tPredOdr.getColumnModel().getColumn(0).setHeaderValue(
         Registries.getLabel1(Registries.ODREDNICE));
@@ -258,6 +270,16 @@ public class RegistryDlg extends JDialog {
     tKolOdr.setDoubleBuffered(true);
     tKolOdr.setSurrendersFocusOnKeystroke(false);
     tKolOdr.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    tIzdavaci.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+    tIzdavaci.getColumnModel().getColumn(0).setHeaderValue(
+          Registries.getLabel1(Registries.IZDAVACI));
+    tIzdavaci.getColumnModel().getColumn(1).setHeaderValue(
+          Registries.getLabel2(Registries.IZDAVACI));
+    tIzdavaci.getTableHeader().setResizingAllowed(false);
+    tIzdavaci.getTableHeader().setReorderingAllowed(false);
+    tIzdavaci.setDoubleBuffered(true);
+    tIzdavaci.setSurrendersFocusOnKeystroke(false);
+    tIzdavaci.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     progressBar.setStringPainted(true);
     progressBar.setVisible(false);
@@ -318,6 +340,8 @@ public class RegistryDlg extends JDialog {
         return Registries.ZBIRKE;
       case 5:
         return Registries.UDK;
+      case 6:
+        return Registries.IZDAVACI;
       default:
         return Registries.NEPOZNAT;
     }
@@ -364,6 +388,9 @@ public class RegistryDlg extends JDialog {
           break;
         case Registries.UDK:
           tmUDK.addRow(item);
+          break;
+        case Registries.IZDAVACI:
+          tmIzdavaci.addRow(item);
           break;
         default:
           break;
@@ -412,6 +439,12 @@ public class RegistryDlg extends JDialog {
           return;
         item = tmUDK.getRow(index);
         break;
+      case Registries.IZDAVACI:
+        index = tIzdavaci.getSelectedRow();
+        if (index == -1)
+            return;
+        item = tmIzdavaci.getRow(index);
+        break;
       default:
         break;
     }
@@ -437,6 +470,9 @@ public class RegistryDlg extends JDialog {
           tmZbirke.updateRow(index, item2);
           break;
         case Registries.UDK:
+          tmUDK.updateRow(index, item2);
+          break;
+        case Registries.IZDAVACI:
           tmUDK.updateRow(index, item2);
           break;
         default:
@@ -491,6 +527,12 @@ public class RegistryDlg extends JDialog {
           return;
         tmUDK.deleteRow(index);
         break;
+      case Registries.IZDAVACI:
+         index = tUDK.getSelectedRow();
+         if (index == -1)
+           return;
+         tmIzdavaci.deleteRow(index);
+         break;
       default:
         break;
     }
@@ -545,6 +587,13 @@ public class RegistryDlg extends JDialog {
         if (index != -1) {
           tUDK.setRowSelectionInterval(index, index);
           setScroller(spUDK.getVerticalScrollBar(), tmUDK, index);
+        }
+        break;
+      case Registries.IZDAVACI:
+        index = tmIzdavaci.searchRow(sample);
+        if (index != -1) {
+          tIzdavaci.setRowSelectionInterval(index, index);
+          setScroller(spIzdavaci.getVerticalScrollBar(), tmIzdavaci, index);
         }
         break;
       default:
@@ -606,6 +655,11 @@ public class RegistryDlg extends JDialog {
         if (index != -1)
           retVal = tmUDK.getRow(index);
         break;
+      case Registries.IZDAVACI:
+        index = tIzdavaci.getSelectedRow();
+        if (index != -1)
+           retVal = tmIzdavaci.getRow(index);
+        break;
       default:
         break;
     }
@@ -621,6 +675,7 @@ public class RegistryDlg extends JDialog {
         tmKolOdr.clear();
         tmZbirke.clear();
         tmUDK.clear();
+        tmIzdavaci.clear();
         if (!" ".equals(tabbedPane.getTitleAt(0))) {
           ChangeListener[] listeners = tabbedPane.getChangeListeners();
           for (int i = 0; i < listeners.length; i++)
@@ -686,6 +741,12 @@ public class RegistryDlg extends JDialog {
   JTable tUDK = new JTable(tmUDK);
   JScrollPane spUDK = new JScrollPane();
   VisibleRowsRefresher rfUDK;
+
+  JPanel pIzdavaci = new JPanel();
+  RegistryTableModel tmIzdavaci = new RegistryTableModel(Registries.IZDAVACI);
+  JTable tIzdavaci = new JTable(tmIzdavaci);
+  JScrollPane spIzdavaci = new JScrollPane();
+  VisibleRowsRefresher rfIzdavaci;
   
   JPanel pChoose = new JPanel();
   
@@ -729,6 +790,7 @@ public class RegistryDlg extends JDialog {
       RegistryDlg.this.tmKolOdr.sort(comparator);
       RegistryDlg.this.tmZbirke.sort(comparator);
       RegistryDlg.this.tmUDK.sort(comparator);
+      RegistryDlg.this.tmIzdavaci.sort(comparator);
       RegistryDlg.this.progressBar.setVisible(false);
       //RegistryDlg.this.getGlassPane().setVisible(false);
     }
