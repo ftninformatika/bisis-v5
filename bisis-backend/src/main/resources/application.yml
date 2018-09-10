@@ -19,7 +19,7 @@ spring:
   data:
     mongodb:
       host: localhost
-      port: 27017
+      port: 27018
       database: bisis
     elasticsearch:
       cluster-nodes: localhost:9300
@@ -61,7 +61,7 @@ spring:
   data:
     mongodb:
       host: localhost
-      port: 27017
+      port: 27018
       database: bisis
     elasticsearch:
           cluster-nodes: localhost:9300

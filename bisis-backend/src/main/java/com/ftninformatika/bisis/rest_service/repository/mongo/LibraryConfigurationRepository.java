@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+
 /**
  * Created by Petar on 6/30/2017.
  */
@@ -18,4 +20,10 @@ public interface LibraryConfigurationRepository extends MongoRepository<LibraryC
 
     @Query("{ 'libraryName': ?0 }")
     public LibraryConfiguration getByLibCollectionSufix(@Param("libName") String libName);
+
+
+    @Query("{'libraryName':{$ne :?0}}")
+    public List<LibraryConfiguration> findAllByLibraryNameNotLike(@Param("libName") String libName);
+
+
 }
