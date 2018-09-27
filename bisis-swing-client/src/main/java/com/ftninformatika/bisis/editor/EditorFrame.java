@@ -292,7 +292,7 @@ public class EditorFrame extends JInternalFrame {
                 return true;
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-                        MessageFormat.format(Messages.getString("RECORD_NOT_SAVED.n.0"), ex.getClass()), Messages.getString("EDITOR_ERROR"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+                        MessageFormat.format(Messages.getString("RECORD_NOT_SAVED.n.0"), ex.getMessage()), Messages.getString("EDITOR_ERROR"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
                 log.fatal(ex);
             }
         }
