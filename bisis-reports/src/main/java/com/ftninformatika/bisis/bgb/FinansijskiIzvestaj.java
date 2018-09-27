@@ -1,23 +1,18 @@
 package com.ftninformatika.bisis.bgb;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.log4j.Logger;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FinansijskiIzvestaj extends Report {
 	 @Override
@@ -27,6 +22,7 @@ public class FinansijskiIzvestaj extends Report {
 			nf.setMinimumFractionDigits(2);
 			nf.setMaximumFractionDigits(2);
 			itemMap.clear();
+		 pattern = Pattern.compile(getReportSettings().getInvnumpattern());
 			log.info("Report initialized.");
 	  }
 	  public void finishInv() {
@@ -77,12 +73,14 @@ public class FinansijskiIzvestaj extends Report {
 		      
 		    
 		  for (Primerak p : rec.getPrimerci()) {
-			  
+
 		      String invbr = p.getInvBroj();		      
 		      if (invbr == null || invbr.equals("")) {	        
 		        continue;
-		      } 
-		      
+		      }
+			  Matcher matcher = pattern.matcher(p.getInvBroj());
+			  if (!matcher.matches())
+				  continue;
 		      String nacinNabavke = p.getNacinNabavke();
 		      if (nacinNabavke == null || nacinNabavke.equals("")) {
 		    	  nacinNabavke="x"; 	    	
@@ -116,10 +114,14 @@ public class FinansijskiIzvestaj extends Report {
 		      }else{
 		          cena=0;
 		      }
-		      sigla=p.getOdeljenje();
-		      if (sigla==null && p.getInvBroj().length()>2) {
-		       sigla=p.getInvBroj().substring(0,2);
-		      }else if(sigla==null && p.getInvBroj().length()<2){
+//		      sigla=p.getOdeljenje();
+//		      if (sigla==null && p.getInvBroj().length()>2) {
+//		       sigla=p.getInvBroj().substring(0,2);
+//		      }else if(sigla==null && p.getInvBroj().length()<2){
+//		    	  sigla="nepoznato";
+//		      }
+			  sigla=p.getSigPodlokacija();
+                if(sigla==null){
 		    	  sigla="nepoznato";
 		      }
 		      
@@ -229,8 +231,8 @@ public class SubItem{
 		    public String toString() {
 
 		    	String odeljenje=LatCyrUtils.toCyrillic("nepoznato");//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.ODELJENJE_CODER, sigla);
-		    	if (getCoders().getLocCoders().get(sigla) != null)
-		    		odeljenje = LatCyrUtils.toCyrillic(getCoders().getLocCoders().get(sigla).getDescription());
+		    	if (getCoders().getSublocCoders().get(sigla) != null)
+		    		odeljenje = LatCyrUtils.toCyrillic(getCoders().getSublocCoders().get(sigla).getDescription());
 				DecimalFormat df=new DecimalFormat();
 				df.applyPattern("#.00");
 		    	int zarez;

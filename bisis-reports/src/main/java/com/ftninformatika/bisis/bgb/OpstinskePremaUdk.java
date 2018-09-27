@@ -1,24 +1,16 @@
 package com.ftninformatika.bisis.bgb;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.log4j.Logger;
+
+import java.text.NumberFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class OpstinskePremaUdk extends Report {
@@ -29,6 +21,7 @@ public class OpstinskePremaUdk extends Report {
 		nf.setMinimumFractionDigits(2);
 		nf.setMaximumFractionDigits(2);
 		itemMap.clear();
+      pattern = Pattern.compile(getReportSettings().getInvnumpattern());
 		log.info("Report initialized.");
 		
 	}
@@ -78,6 +71,9 @@ public class OpstinskePremaUdk extends Report {
       return;
     String RN = rec.getSubfieldContent("001e");
     for (Primerak p : rec.getPrimerci()) {
+      Matcher matcher = pattern.matcher(p.getInvBroj());
+      if (!matcher.matches())
+        continue;
         Date datInv = p.getDatumInventarisanja();
         String nacinNabavke = p.getNacinNabavke();
 
@@ -94,11 +90,12 @@ public class OpstinskePremaUdk extends Report {
         log.error("RN: " + RN + " nedostaje inventarni broj\n");
         error = true;
       } 
-      // ogranak
-      String ogranakID=p.getOdeljenje();
-	  if (ogranakID == null || ogranakID.equals("")) {
-			  ogranakID = "\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
-	  }
+
+      // razvrstava primerke po podlokacijama
+      String ogranakID=p.getSigPodlokacija();
+      if(ogranakID==null){
+        ogranakID="\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
+      }
       String udk=p.getSigUDK();
       if (udk == null) {
         log.error("RN: " + RN + " nedostaje 996du za IN=" + invBr + "\n");
@@ -491,17 +488,17 @@ public List<Ogranak> getList(String key) {
     
     public String toString() {
     	String odeljenje;
-    	if (!ogr.equalsIgnoreCase("\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438")){
-    	   odeljenje=LatCyrUtils.toCyrillic("nepoznato");//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.ODELJENJE_CODER, ogr);
-    	  if(getCoders().getLocCoders().get(ogr) != null)
-    	    odeljenje = LatCyrUtils.toCyrillic(getCoders().getLocCoders().get(ogr).getDescription());
-          int zarez=odeljenje.indexOf(",");
-    	  if(zarez!=-1){
-    		odeljenje=odeljenje.substring(0, zarez);
-    	  }
-    	}else{
+//    	if (!ogr.equalsIgnoreCase("\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438")){
+//    	   odeljenje=LatCyrUtils.toCyrillic("nepoznato");//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.ODELJENJE_CODER, ogr);
+//    	  if(getCoders().getSublocCoders().get(ogr) != null)
+//    	    odeljenje = LatCyrUtils.toCyrillic(getCoders().getSublocCoders().get(ogr).getDescription());
+//          int zarez=odeljenje.indexOf(",");
+//    	  if(zarez!=-1){
+//    		odeljenje=odeljenje.substring(0, zarez);
+//    	  }
+//    	}else{
     		odeljenje=ogr;
-    	}
+    //	}
     	StringBuffer buf = new StringBuffer();
         buf.append("\n  <item id=\"");
         buf.append(ogr);
@@ -646,7 +643,7 @@ public List<Ogranak> getList(String key) {
   private Pattern pDecje2 = Pattern.compile(".*\\(.*\\.053\\.6\\).*");
   private Pattern pDecje3 = Pattern.compile(".*-93");
   private Pattern pDecje4 = Pattern.compile(".*-93-.*");
-
+  private Pattern pattern;
 
 
 

@@ -1,22 +1,16 @@
 package com.ftninformatika.bisis.bgb;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.log4j.Logger;
+
+import java.text.NumberFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OpstinskePremaNacinuNabavke extends Report {
 
@@ -27,6 +21,9 @@ public class OpstinskePremaNacinuNabavke extends Report {
     String RN = rec.getSubfieldContent("001e");
 
     for (Primerak p : rec.getPrimerci()) {
+      Matcher matcher = pattern.matcher(p.getInvBroj());
+      if (!matcher.matches())
+        continue;
       Date datInv = p.getDatumInventarisanja();
       boolean error = false;
       // inv. broj
@@ -42,11 +39,12 @@ public class OpstinskePremaNacinuNabavke extends Report {
         log.error("RN: " + RN + " nedostaje na\u010din nabavke za IN=" + invBr + "\n");
         error = true;
       }
-      // ogranak
-      String ogranakID = p.getOdeljenje();
-      if (ogranakID == null || ogranakID.equals("")) {
-        ogranakID = "\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
+      // razvrstava primerke po podlokacijama
+      String ogranakID=p.getSigPodlokacija();
+      if(ogranakID==null){
+        ogranakID="\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
       }
+
 
       if (error)
         continue;
@@ -228,18 +226,17 @@ public class OpstinskePremaNacinuNabavke extends Report {
 
     public String toString() {
       String odeljenje;
-      System.out.println(ogr);
-      if (!ogr.equalsIgnoreCase("\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438")) {
-        odeljenje = LatCyrUtils.toCyrillic("nepoznato");//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.ODELJENJE_CODER, ogr);
-        if (getCoders().getLocCoders().get(ogr) != null)
-          odeljenje = LatCyrUtils.toCyrillic(getCoders().getLocCoders().get(ogr).getDescription());
-        int zarez = odeljenje.indexOf(",");
-        if (zarez != -1) {
-          odeljenje = odeljenje.substring(0, zarez);
-        }
-      } else {
+//      if (!ogr.equalsIgnoreCase("\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438")) {
+//        odeljenje = LatCyrUtils.toCyrillic("nepoznato");//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.ODELJENJE_CODER, ogr);
+//        if (getCoders().getSublocCoders().get(ogr) != null)
+//          odeljenje = LatCyrUtils.toCyrillic(getCoders().getSublocCoders().get(ogr).getDescription());
+//        int zarez = odeljenje.indexOf(",");
+//        if (zarez != -1) {
+//          odeljenje = odeljenje.substring(0, zarez);
+//        }
+//      } else {
         odeljenje = ogr;
-      }
+    //  }
       StringBuffer buf = new StringBuffer();
       buf.append("\n  <item id=\"");
       buf.append(ogr);
@@ -550,6 +547,7 @@ public class OpstinskePremaNacinuNabavke extends Report {
     nf.setMinimumFractionDigits(2);
     nf.setMaximumFractionDigits(2);
     itemMap.clear();
+    pattern = Pattern.compile(getReportSettings().getInvnumpattern());
     log.info("Report initialized.");
   }
 
@@ -590,6 +588,7 @@ public class OpstinskePremaNacinuNabavke extends Report {
 
 
   private Set ukupnoNaslova = new HashSet();
+  private Pattern pattern;
   private Map<String, List<Ogranak>> itemMap = new HashMap<>();
   private static Logger log = Logger.getLogger(OpstinskePremaNacinuNabavke.class);
   NumberFormat nf;

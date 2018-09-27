@@ -465,25 +465,17 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   
   private void refreshServerList(List<LibraryConfiguration> serverList) {
     if (serverList.size() > 0) {
-     /* LinkedHashMap<String, LibraryServerDesc> libServers = MessagingEnvironment.getLibServers();
-      libServers.clear();
-      //re-populate master list
-      for (int i = 0; i < results.size(); i++) {
-        LibraryServerDesc oneLib = results.get(i);
-        if (MessagingEnvironment.DEBUG == 1)
-        	System.out.println("Dodajem server u listu");
-        libServers.put(oneLib.getUrlAddress(), oneLib);
-      }*/
       JPanel pServers=new JPanel();
       pServers.setLayout(new BoxLayout(pServers, BoxLayout.Y_AXIS));
       spServerList.setViewportView(pServers);
-      
-      //Iterator<LibraryServerDesc> libs=(MessagingEnvironment.getLibServers().values()).iterator();
+
       Vector<CheckableItem> items=new Vector<CheckableItem>();
       for (LibraryConfiguration lc:serverList) {
-    	CheckableItem item = new CheckableItem(lc);
-    	item.setSelected(true);
-        items.add(item);
+          if (lc.getLibraryFullName()!=null) {
+              CheckableItem item = new CheckableItem(lc);
+              item.setSelected(true);
+              items.add(item);
+          }
       }
       CheckableItem[] arr=new CheckableItem[items.size()];
       arr=items.toArray(arr);
