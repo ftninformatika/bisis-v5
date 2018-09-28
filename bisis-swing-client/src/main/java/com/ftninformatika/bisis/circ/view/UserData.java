@@ -9,6 +9,7 @@ import com.ftninformatika.utils.Messages;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JDateChooserCellEditor;
 
 import java.awt.event.ActionEvent;
@@ -77,6 +78,8 @@ public class UserData {
     private JLabel lTmpPhone = null;
     private JTextField tfJmbg = null;
     private JLabel lJmbg = null;
+    private JDateChooser tfBirthday = null;
+    private JLabel lBirthday = null;
     private JTextField tfDocNo = null;
     private JLabel lDocNo = null;
     private JTextField tfDocCity = null;
@@ -100,6 +103,8 @@ public class UserData {
     private JLabel lNote = null;
     private JTextField tfInterests = null;
     private JLabel lInterests = null;
+    private JTextField tfOldNumbers = null;
+    private JLabel lOldNumbers = null;
     private JComboBox cmbClass = null;
     private JLabel lClass = null;
     private JComboBox cmbDocID = null;
@@ -143,8 +148,8 @@ public class UserData {
     private void makePMain0() {
         if (pMain0 == null) {
             FormLayout layout = new FormLayout(
-                    "2dlu:grow, right:55dlu, 3dlu, 100dlu, 35dlu, right:40dlu, 3dlu, 30dlu, 7dlu, right:20dlu, 3dlu, 70dlu, 2dlu:grow",  //$NON-NLS-1$
-                    "5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 40dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu:grow"); //$NON-NLS-1$
+                    "2dlu:grow, right:75dlu, 3dlu, 120dlu, 35dlu, right:50dlu, 3dlu, 40dlu, 7dlu, right:30dlu, 3dlu, 80dlu, 2dlu:grow",  //$NON-NLS-1$
+                    "5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 40dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu:grow"); //$NON-NLS-1$
             CellConstraints cc = new CellConstraints();
             pMain0 = new PanelBuilder(layout);
             pMain0.setDefaultDialogBorder();
@@ -179,14 +184,16 @@ public class UserData {
             pMain0.addSeparator("", cc.xyw(2, 12, 3)); //$NON-NLS-1$
             pMain0.add(getJmbgLabel(), cc.xy(2, 14));
             pMain0.add(getTfJmbg(), cc.xy(4, 14));
-            pMain0.addLabel(Messages.getString("circulation.document"), cc.xy(2, 16)); //$NON-NLS-1$
-            pMain0.add(getCmbDocID(), cc.xy(4, 16, "fill, fill")); //$NON-NLS-1$
-            pMain0.add(getDocNoLabel(), cc.xy(2, 18));
-            pMain0.add(getTfDocNo(), cc.xy(4, 18));
-            pMain0.add(getDocCityLabel(), cc.xy(2, 20));
-            pMain0.add(getTfDocCity(), cc.xy(4, 20));
-            pMain0.add(getCountryLabel(), cc.xy(2, 22));
-            pMain0.add(getTfCountry(), cc.xy(4, 22));
+            pMain0.add(getBirthdayLabel(), cc.xy(2, 16));
+            pMain0.add(getTfBirthday(), cc.xy(4, 16));
+            pMain0.addLabel(Messages.getString("circulation.document"), cc.xy(2, 18)); //$NON-NLS-1$
+            pMain0.add(getCmbDocID(), cc.xy(4, 18, "fill, fill")); //$NON-NLS-1$
+            pMain0.add(getDocNoLabel(), cc.xy(2, 20));
+            pMain0.add(getTfDocNo(), cc.xy(4, 20));
+            pMain0.add(getDocCityLabel(), cc.xy(2, 22));
+            pMain0.add(getTfDocCity(), cc.xy(4, 22));
+            pMain0.add(getCountryLabel(), cc.xy(2, 24));
+            pMain0.add(getTfCountry(), cc.xy(4, 24));
 
             pMain0.addSeparator("", cc.xyw(6, 20, 7)); //$NON-NLS-1$
             pMain0.addLabel(Messages.getString("circulation.indicator"), cc.xyw(6, 22, 3)); //$NON-NLS-1$
@@ -467,8 +474,8 @@ public class UserData {
     private void makePMain1() {
         if (pMain1 == null) {
             FormLayout layout = new FormLayout(
-                    "2dlu:grow, right:40dlu, 3dlu, 30dlu, 7dlu, right:25dlu, 3dlu, 70dlu, 35dlu, right:55dlu, 3dlu, 40dlu, 60dlu, 3dlu:grow",  //$NON-NLS-1$
-                    "5dlu, pref, 2dlu, 15dlu, 2dlu, pref, 2dlu, pref, 20dlu, 20dlu, pref, 2dlu, 15dlu, 2dlu, 15dlu, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu:grow"); //$NON-NLS-1$
+                    "2dlu:grow, right:60dlu, 3dlu, 40dlu, 7dlu, right:35dlu, 3dlu, 70dlu, 35dlu, right:65dlu, 3dlu, 40dlu, 60dlu, 3dlu:grow",  //$NON-NLS-1$
+                    "5dlu, pref, 2dlu, 15dlu, 2dlu, pref, 2dlu, pref, 2dlu, pref, 20dlu, 20dlu, pref, 2dlu, 15dlu, 2dlu, 15dlu, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu:grow"); //$NON-NLS-1$
             CellConstraints cc = new CellConstraints();
             pMain1 = new PanelBuilder(layout);
             pMain1.setDefaultDialogBorder();
@@ -482,34 +489,36 @@ public class UserData {
             pMain1.add(getTmpPhoneLabel(), cc.xy(2, 8));
             pMain1.add(getTfTmpPhone(), cc.xyw(4, 8, 5));
 
-            pMain1.addSeparator("", cc.xyw(2, 11, 7)); //$NON-NLS-1$
-            pMain1.add(getOrganizationLabel(), cc.xyw(2, 13, 6));
-            pMain1.add(getCmbOrg(), cc.xyw(4, 13, 5, "fill, fill")); //$NON-NLS-1$
-            pMain1.add(getEduLvlLabel(), cc.xyw(2, 15, 7));
-            pMain1.add(getCmbEduLevel(), cc.xyw(4, 15, 5, "fill, fill")); //$NON-NLS-1$
-            pMain1.add(getOccupationLabel(), cc.xy(2, 17));
-            pMain1.add(getTfOccupation(), cc.xyw(4, 17, 5));
-            pMain1.add(getTitleLabel(), cc.xy(2, 19));
-            pMain1.add(getTfTitle(), cc.xyw(4, 19, 5));
-            pMain1.add(getIndexNoLabel(), cc.xyw(2, 21, 9));
-            pMain1.add(getTfIndexNo(), cc.xyw(4, 21, 4));
-            pMain1.add(getClassNoLabel(), cc.xy(2, 23));
-            pMain1.add(getCmbClass(), cc.xyw(4, 23, 4, "fill, fill")); //$NON-NLS-1$
+            pMain1.addSeparator("", cc.xyw(2, 13, 7)); //$NON-NLS-1$
+            pMain1.add(getOrganizationLabel(), cc.xyw(2, 15, 6));
+            pMain1.add(getCmbOrg(), cc.xyw(4, 15, 5, "fill, fill")); //$NON-NLS-1$
+            pMain1.add(getEduLvlLabel(), cc.xyw(2, 17, 7));
+            pMain1.add(getCmbEduLevel(), cc.xyw(4, 17, 5, "fill, fill")); //$NON-NLS-1$
+            pMain1.add(getOccupationLabel(), cc.xy(2, 19));
+            pMain1.add(getTfOccupation(), cc.xyw(4, 19, 5));
+            pMain1.add(getTitleLabel(), cc.xy(2, 21));
+            pMain1.add(getTfTitle(), cc.xyw(4, 21, 5));
+            pMain1.add(getIndexNoLabel(), cc.xyw(2, 23, 9));
+            pMain1.add(getTfIndexNo(), cc.xyw(4, 23, 4));
+            pMain1.add(getClassNoLabel(), cc.xy(2, 25));
+            pMain1.add(getCmbClass(), cc.xyw(4, 25, 4, "fill, fill")); //$NON-NLS-1$
 
             pMain1.addSeparator("", cc.xyw(10, 2, 4)); //$NON-NLS-1$
             pMain1.add(getLanguagesLabel(), cc.xy(10, 4));
             pMain1.add(getCmbLanguage(), cc.xyw(12, 4, 2, "fill, fill")); //$NON-NLS-1$
             pMain1.add(getInterestsLabel(), cc.xy(10, 6));
             pMain1.add(getTfInterests(), cc.xyw(12, 6, 2));
-            pMain1.add(getNoteLabel(), cc.xy(10, 8));
-            pMain1.add(getScrollTextArea(), cc.xywh(12, 8, 2, 2));
+            pMain1.add(getOldNumberLabel(), cc.xy(10, 8));
+            pMain1.add(getTfOldNumbers(), cc.xyw(12, 8, 2));
+            pMain1.add(getNoteLabel(), cc.xy(10, 10));
+            pMain1.add(getScrollTextArea(), cc.xywh(12, 10, 2, 2));
 
-            pMain1.addSeparator(Messages.getString("circulation.duplicates"), cc.xyw(10, 11, 4)); //$NON-NLS-1$
-            pMain1.add(getPDup(), cc.xywh(10, 13, 4, 7));
-            pMain1.addSeparator("", cc.xyw(10, 21, 4)); //$NON-NLS-1$
-            pMain1.add(getBtnBlock(), cc.xy(10, 23, "fill, center")); //$NON-NLS-1$
+            pMain1.addSeparator(Messages.getString("circulation.duplicates"), cc.xyw(10, 13, 4)); //$NON-NLS-1$
+            pMain1.add(getPDup(), cc.xywh(10, 15, 4, 7));
+            pMain1.addSeparator("", cc.xyw(10, 23, 4)); //$NON-NLS-1$
+            pMain1.add(getBtnBlock(), cc.xy(10, 25, "fill, center")); //$NON-NLS-1$
             if (BisisApp.appConfig.getClientConfig().getPincodeEnabled().equals("yes")) {
-                pMain1.add(getBtnPin(), cc.xy(13, 23, "fill, center")); //$NON-NLS-1$
+                pMain1.add(getBtnPin(), cc.xy(13, 25, "fill, center")); //$NON-NLS-1$
             }
         }
     }
@@ -643,6 +652,29 @@ public class UserData {
             lJmbg = new JLabel(Messages.getString("circulation.umcn")); //$NON-NLS-1$
         }
         return lJmbg;
+    }
+
+    private JDateChooser getTfBirthday() {
+        if (tfBirthday == null) {
+            tfBirthday = new JDateChooser();
+            tfBirthday.addKeyListener(new KeyAdapter() {
+                public void keyTyped(KeyEvent e) {
+                    handleKeyTyped();
+                }
+
+                public void keyReleased(KeyEvent e) {
+                    handleKeys(tfBirthday, e);
+                }
+            });
+        }
+        return tfBirthday;
+    }
+
+    public JLabel getBirthdayLabel() {
+        if (lBirthday == null) {
+            lBirthday = new JLabel(Messages.getString("circulation.birthday")); //$NON-NLS-1$
+        }
+        return lBirthday;
     }
 
     private JTextField getTfDocNo() {
@@ -914,6 +946,29 @@ public class UserData {
             lInterests = new JLabel(Messages.getString("circulation.interests")); //$NON-NLS-1$
         }
         return lInterests;
+    }
+
+    private JTextField getTfOldNumbers() {
+        if (tfOldNumbers == null) {
+            tfOldNumbers = new JTextField();
+            tfOldNumbers.addKeyListener(new KeyAdapter() {
+                public void keyTyped(KeyEvent e) {
+                    handleKeyTyped();
+                }
+
+                public void keyReleased(KeyEvent e) {
+                    handleKeys(tfOldNumbers, e);
+                }
+            });
+        }
+        return tfOldNumbers;
+    }
+
+    public JLabel getOldNumberLabel() {
+        if (lOldNumbers == null) {
+            lOldNumbers = new JLabel(Messages.getString("circulation.oldnumbers")); //$NON-NLS-1$
+        }
+        return lOldNumbers;
     }
 
     private JComboBox getCmbClass() {
@@ -1196,6 +1251,10 @@ public class UserData {
         return getTfJmbg().getText();
     }
 
+    public Date getBirthday() {
+        return getTfBirthday().getDate();
+    }
+
     public String getDocNo() {
         return getTfDocNo().getText();
     }
@@ -1231,6 +1290,10 @@ public class UserData {
 
     public String getNote() {
         return getTfNote().getText();
+    }
+
+    public String getOldNumbers() {
+        return getTfOldNumbers().getText();
     }
 
     public String getInterests() {
@@ -1330,9 +1393,9 @@ public class UserData {
     public void loadUser(String firstName, String lastName, String parentName,
                          String address, String zip, String city, String phone, String email,
                          String gender, String age, String tmpAddress, String tmpCity, String tmpZip,
-                         String tmpPhone, String jmbg, int docId, String docNo, String docCity, String country,
+                         String tmpPhone, String jmbg, Date birthday, int docId, String docNo, String docCity, String country,
                          String title, String occupation, String indexNo, String classNo, Organization org,
-                         String eduLvl, String languages, String note, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode) {
+                         String eduLvl, String languages, String note, String oldNumbers, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode) {
         getTfFirstName().setText(firstName);
         getTfLastName().setText(lastName);
         getTfParentName().setText(parentName);
@@ -1356,6 +1419,7 @@ public class UserData {
         getTfTmpZip().setText(tmpZip);
         getTfTmpPhone().setText(tmpPhone);
         getTfJmbg().setText(jmbg);
+        getTfBirthday().setDate(birthday);
         getCmbDocID().setSelectedIndex(docId);
         getTfDocNo().setText(docNo);
         getTfDocCity().setText(docCity);
@@ -1368,6 +1432,7 @@ public class UserData {
         Utils.setComboItem(getCmbEduLevel(), eduLvl);
         Utils.setComboItem(getCmbLanguage(), languages);
         getTfNote().setText(note);
+        getTfOldNumbers().setText(oldNumbers);
         getTfInterests().setText(interests);
         if (warn == 1) {
             getChkWarning().setSelected(true);
@@ -1457,6 +1522,8 @@ public class UserData {
                 else if (comp == tfParentName)
                     tfJmbg.requestFocusInWindow();
                 else if (comp == tfJmbg)
+                    tfBirthday.requestFocusInWindow();
+                else if (comp == tfBirthday)
                     cmbDocID.requestFocusInWindow();
                 else if (comp == tfDocNo)
                     tfDocCity.requestFocusInWindow();
@@ -1489,6 +1556,8 @@ public class UserData {
                 else if (comp == tfIndexNo)
                     cmbClass.requestFocusInWindow();
                 else if (comp == tfInterests)
+                    tfOldNumbers.requestFocusInWindow();
+                else if (comp == tfOldNumbers)
                     tfNote.requestFocusInWindow();
                 else if (comp == tfNote)
                     tfTmpAddress.requestFocusInWindow();
@@ -1513,6 +1582,10 @@ public class UserData {
                     tfDocNo.requestFocusInWindow();
                 else if (comp == tfDocNo)
                     cmbDocID.requestFocusInWindow();
+                else if (comp == cmbDocID)
+                    tfBirthday.requestFocusInWindow();
+                else if (comp == tfBirthday)
+                    tfJmbg.requestFocusInWindow();
                 else if (comp == tfJmbg)
                     tfParentName.requestFocusInWindow();
                 else if (comp == tfParentName)
@@ -1522,6 +1595,8 @@ public class UserData {
                 else if (comp == tfTmpAddress)
                     tfNote.requestFocusInWindow();
                 else if (comp == tfNote)
+                    tfOldNumbers.requestFocusInWindow();
+                else if (comp == tfOldNumbers)
                     tfInterests.requestFocusInWindow();
                 else if (comp == tfInterests)
                     cmbLanguage.requestFocusInWindow();

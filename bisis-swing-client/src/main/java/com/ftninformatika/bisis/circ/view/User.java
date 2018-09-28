@@ -68,7 +68,7 @@ public class User extends JPanel {
 			FlowLayout flowLayout = new FlowLayout();
 			flowLayout.setHgap(50);
 			pSouth = new JPanel(flowLayout);
-			pSouth.add(Box.createHorizontalStrut(170), null);
+			//pSouth.add(Box.createHorizontalStrut(170), null);
 			pSouth.add(getBtnSave(), null);
 			pSouth.add(getBtnCancel(), null);
 //			if (BisisApp.appConfig.getClientConfig().getBoolean("database-archive", "enabled")){

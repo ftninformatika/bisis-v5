@@ -62,7 +62,7 @@ public class Lending {
 
     private void makePanel() {
         FormLayout layout = new FormLayout(
-                "2dlu:grow, 15dlu, 18dlu, 15dlu, 18dlu, 3dlu, 90dlu, 15dlu, 18dlu, 15dlu, 18dlu, 30dlu, 55dlu, 5dlu, 55dlu, 2dlu:grow", //$NON-NLS-1$
+                "2dlu:grow, 20dlu, 18dlu, 20dlu, 18dlu, 3dlu, 100dlu, 15dlu, 18dlu, 15dlu, 18dlu, 30dlu, 65dlu, 5dlu, 65dlu, 2dlu:grow", //$NON-NLS-1$
                 "5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 20dlu, pref, 2dlu, pref, 5dlu, pref, 5dlu, pref, 2dlu, 80dlu, 2dlu, 18dlu, 2dlu:grow "); //$NON-NLS-1$
         CellConstraints cc = new CellConstraints();
         pb = new PanelBuilder(layout);

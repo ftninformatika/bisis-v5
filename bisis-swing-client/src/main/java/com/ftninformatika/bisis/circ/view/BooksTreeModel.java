@@ -139,7 +139,11 @@ public class BooksTreeModel implements Serializable, TreeModel{
   }
 
   public Boolean isBorrowed(String ctlgno){
+    if (itemAvailabilityMap.get(ctlgno) != null) {
       return itemAvailabilityMap.get(ctlgno).getBorrowed();
+    } else {
+      return false;
+    }
   }
 
   public void setBorrowed(String ctlgno, boolean borrowed){

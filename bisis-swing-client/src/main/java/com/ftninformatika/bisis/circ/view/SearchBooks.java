@@ -86,7 +86,7 @@ public class SearchBooks {
 	private void makePanel() {
 		
 		FormLayout layout = new FormLayout(
-		        "2dlu:grow, right:65dlu, 5dlu, 20dlu, 5dlu, 70dlu, 10dlu, 70dlu, 5dlu, 40dlu, 50dlu, 2dlu:grow",  //$NON-NLS-1$
+		        "2dlu:grow, right:70dlu, 5dlu, 20dlu, 5dlu, 70dlu, 10dlu, 70dlu, 5dlu, 40dlu, 50dlu, 2dlu:grow",  //$NON-NLS-1$
 		        "20dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 20dlu, pref, 10dlu, pref, 2dlu, pref, 10dlu, pref, 20dlu, pref, 2dlu:grow"); //$NON-NLS-1$
 		CellConstraints cc = new CellConstraints();
 		pb = new PanelBuilder(layout);

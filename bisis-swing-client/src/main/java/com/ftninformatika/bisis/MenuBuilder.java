@@ -283,6 +283,7 @@ public class MenuBuilder extends JMenuBar {
             mReport.setText(Messages.getString("MENU_REPORTS"));
             mReport.setMnemonic(KeyEvent.VK_I);
             mReport.add(getMCircReportItem());
+            mReport.add(getMiWarnings());
         }
         return mReport;
     }
@@ -316,6 +317,7 @@ public class MenuBuilder extends JMenuBar {
             mAdminReport.setText(Messages.getString("MENU_REPORTS"));
             mAdminReport.setMnemonic(KeyEvent.VK_I);
             mAdminReport.add(getMCircReportItem());
+            mAdminReport.add(getMiWarnings());
             getMObradaReport().setText(Messages.getString("MENU_PROCESSING"));
             mAdminReport.add(getMObradaReport());
         }
@@ -345,7 +347,7 @@ public class MenuBuilder extends JMenuBar {
             mAdministration.addSeparator();
             mAdministration.add(getMSifCirc());
             mAdministration.add(getMOptions());
-            mAdministration.add(getMiWarnings());
+            //mAdministration.add(getMiWarnings());
             mAdministration.addSeparator();
             mAdministration.add(getMiBrojaci());
             mAdministration.add(getMUnlock());

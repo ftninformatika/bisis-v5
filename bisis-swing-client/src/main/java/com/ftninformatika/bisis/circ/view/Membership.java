@@ -75,7 +75,7 @@ public class Membership {
 
 	private void makePanel() {
 		FormLayout layout = new FormLayout(
-		        "2dlu:grow ,right:50dlu, 3dlu, 15dlu, 2dlu, 45dlu, 8dlu, 40dlu, 35dlu, right:60dlu, 3dlu, 85dlu, 5dlu, 18dlu, 2dlu:grow",  //$NON-NLS-1$
+		        "2dlu:grow ,right:65dlu, 3dlu, 20dlu, 2dlu, 50dlu, 8dlu, 40dlu, 35dlu, right:80dlu, 3dlu, 95dlu, 5dlu, 18dlu, 2dlu:grow",  //$NON-NLS-1$
 		        "5dlu, pref, 2dlu, 15dlu, 2dlu, pref, 35dlu, pref, 2dlu, 15dlu, 30dlu, pref, 2dlu, 5dlu, 18dlu, 6dlu, 18dlu, 6dlu, 18dlu, 5dlu, 2dlu:grow"); //$NON-NLS-1$
 		CellConstraints cc = new CellConstraints();
 		pb = new PanelBuilder(layout);

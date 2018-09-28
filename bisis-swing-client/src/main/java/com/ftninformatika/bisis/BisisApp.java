@@ -62,6 +62,7 @@ public class BisisApp {
         exc.add("TextArea");
         exc.add("TextField");
         exc.add("PasswordField");
+        exc.add("FormattedTextField");
 //        exc.add("TabbedPane");
         QuaquaManager.setExcludedUIs(exc);
         try {

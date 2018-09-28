@@ -113,7 +113,7 @@ public class SearchBooksResults extends JPanel {
             jSplitPane.setLeftComponent(getLeftPanel());
             jSplitPane.setRightComponent(getRightPanel());
             jSplitPane.setOneTouchExpandable(true);
-            jSplitPane.setDividerLocation(350);
+            jSplitPane.setDividerLocation(400);
         }
         return jSplitPane;
     }

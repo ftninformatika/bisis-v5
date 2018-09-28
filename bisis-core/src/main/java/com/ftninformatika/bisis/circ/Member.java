@@ -49,6 +49,7 @@ public class Member implements java.io.Serializable {
 	private String email; // ovo je username za prijavljivanje
 	private String password;
 	private String jmbg;
+	private Date birthday;
 	private Integer docId;
 	private String docNo;
 	private String docCity;
@@ -60,6 +61,7 @@ public class Member implements java.io.Serializable {
 	private String secCity;
 	private String secPhone;
 	private String note;
+	private String oldNumbers;
 	private String interests;
 	private Integer warningInd;
 	private String occupation;

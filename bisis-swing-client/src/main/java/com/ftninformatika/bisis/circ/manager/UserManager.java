@@ -314,10 +314,10 @@ public class UserManager {
         user.getUserData().loadUser(member.getFirstName(), member.getLastName(), member.getParentName(),
                 member.getAddress(), member.getZip(), member.getCity(), member.getPhone(),
                 member.getEmail(), member.getGender(), member.getAge(), member.getSecAddress(),
-                member.getSecCity(), member.getSecZip(), member.getSecPhone(), member.getJmbg(),
+                member.getSecCity(), member.getSecZip(), member.getSecPhone(), member.getJmbg(), member.getBirthday(),
                 member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
                 member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
-                member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(),
+                member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(), member.getOldNumbers(),
                 member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin());
 
         user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), member.getSignings());
@@ -591,9 +591,11 @@ public class UserManager {
         member.setIndexNo(data.getIndexNo().trim());
         member.setInterests(data.getInterests().trim());
         member.setJmbg(data.getJmbg().trim());
+        member.setBirthday(data.getBirthday());
         member.setLanguage(data.getLanguages());
         member.setLastName(data.getLastName().trim());
         member.setNote(data.getNote().trim());
+        member.setOldNumbers(data.getOldNumbers().trim());
         member.setOccupation(data.getOccupation().trim());
         member.setOrganization(data.getOrganization());
         member.setParentName(data.getParentName().trim());
