@@ -657,15 +657,16 @@ public class UserData {
     private JDateChooser getTfBirthday() {
         if (tfBirthday == null) {
             tfBirthday = new JDateChooser();
-            tfBirthday.addKeyListener(new KeyAdapter() {
-                public void keyTyped(KeyEvent e) {
-                    handleKeyTyped();
-                }
+            tfBirthday.getDateEditor().addPropertyChangeListener(
+                    new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent e) {
+                            if ("date".equals(e.getPropertyName())) {
+                                handleKeyTyped();
 
-                public void keyReleased(KeyEvent e) {
-                    handleKeys(tfBirthday, e);
-                }
-            });
+                            }
+                        }
+                    });
         }
         return tfBirthday;
     }
@@ -951,6 +952,7 @@ public class UserData {
     private JTextField getTfOldNumbers() {
         if (tfOldNumbers == null) {
             tfOldNumbers = new JTextField();
+            tfOldNumbers.setEditable(false);
             tfOldNumbers.addKeyListener(new KeyAdapter() {
                 public void keyTyped(KeyEvent e) {
                     handleKeyTyped();

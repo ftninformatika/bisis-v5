@@ -98,7 +98,7 @@ public class UserID extends JDialog {
 	private JPanel getPCenter() {
 		if (pCenter == null) {
 			FormLayout layout = new FormLayout(
-			        "2dlu:grow, right:55dlu, 10dlu, 80dlu, 2dlu:grow",  //$NON-NLS-1$
+			        "2dlu:grow, right:65dlu, 10dlu, 80dlu, 2dlu:grow",  //$NON-NLS-1$
 			        "15dlu, pref, 15dlu, pref, 15dlu:grow"); //$NON-NLS-1$
 			CellConstraints cc = new CellConstraints();
 			pCenter = new PanelBuilder(layout);
