@@ -657,6 +657,7 @@ public class UserData {
     private JDateChooser getTfBirthday() {
         if (tfBirthday == null) {
             tfBirthday = new JDateChooser();
+            tfBirthday.setDateFormatString("dd.MM.yyyy.");
             tfBirthday.getDateEditor().addPropertyChangeListener(
                     new PropertyChangeListener() {
                         @Override
