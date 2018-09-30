@@ -21,6 +21,7 @@ public class Report {
     private String invnumpattern;
     private String menuitem;
     private String type;
+    private String part;
     private String jasper;
     private String subjasper;
     private String reportTitle;
