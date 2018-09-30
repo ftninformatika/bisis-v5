@@ -178,7 +178,11 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	    }
 
 	    public boolean isCellEditable(int row, int column) {
-	        return false;
+			if (column == 6) {
+				return true;
+			} else {
+				return false;
+			}
 	    }
 
 	    public Object getValueAt(int row, int column) {

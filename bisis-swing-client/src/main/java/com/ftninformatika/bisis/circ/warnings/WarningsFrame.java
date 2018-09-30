@@ -914,7 +914,7 @@ public class WarningsFrame extends JInternalFrame {
 	}
 	
 	private void handleBtnEdit(){
-    if (!getCmbType().getSelectedItem().equals("")){
+    if (!getCmbType().getSelectedItem().equals(" ")){
   		getChangeTemplate().setContent((WarningType)getCmbType().getSelectedItem());
   		getBtnNext().setText("Sa\u010duvaj");
   		getBtnPrev().setEnabled(true);

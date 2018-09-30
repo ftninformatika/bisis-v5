@@ -462,17 +462,18 @@ public class UserManager {
                 })
                 .collect(Collectors.toList()));
 
-        user.getMmbrship().loadMmbrType(BisisApp.appConfig.getCodersHelper()
+        List<com.ftninformatika.bisis.circ.pojo.MembershipType> membershipTypes = BisisApp.appConfig.getCodersHelper()
                 .getMembershipTypes().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.MembershipType m = new com.ftninformatika.bisis.circ.pojo.MembershipType();
                     m.setDescription(i.getDescription());
                     m.setPeriod(i.getPeriod());
                     return m;
-                })
-                .collect(Collectors.toList()));
+                }).collect(Collectors.toList());
+        Collections.sort(membershipTypes, new com.ftninformatika.bisis.circ.pojo.MembershipType.MembershiTypeComparator());
+        user.getMmbrship().loadMmbrType(membershipTypes);
 
-        user.getMmbrship().loadUserCateg(BisisApp.appConfig.getCodersHelper()
+        List<com.ftninformatika.bisis.circ.pojo.UserCategory> userCategories = BisisApp.appConfig.getCodersHelper()
                 .getUserCategories().stream()
                 .map(i -> {
                     com.ftninformatika.bisis.circ.pojo.UserCategory u = new com.ftninformatika.bisis.circ.pojo.UserCategory();
@@ -481,8 +482,9 @@ public class UserManager {
                     u.setPeriod(i.getPeriod());
                     u.setTitlesNo(i.getTitlesNo());
                     return u;
-                })
-                .collect(Collectors.toList()));
+                }).collect(Collectors.toList());
+        Collections.sort(userCategories, new com.ftninformatika.bisis.circ.pojo.UserCategory.UserCategoryComparator());
+        user.getMmbrship().loadUserCateg(userCategories);
 
         user.getLending().loadLocation(BisisApp.appConfig.getCodersHelper()
                 .getCircLocations().stream()

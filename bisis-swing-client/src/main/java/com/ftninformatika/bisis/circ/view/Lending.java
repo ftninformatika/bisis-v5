@@ -195,6 +195,8 @@ public class Lending {
 //			tblLending.setDefaultRenderer(Object.class, new CmbTableRenderer());
             tblLending.setAutoCreateRowSorter(true);
             //comboColumnLoc.setPreferredWidth(120);
+            tblLending.setDefaultRenderer(Date.class, new MembershipTableModel.CellRenderer());
+            tblLending.setDefaultEditor(Date.class, new MembershipTableModel.CellEditor());
         }
         return tblLending;
     }
