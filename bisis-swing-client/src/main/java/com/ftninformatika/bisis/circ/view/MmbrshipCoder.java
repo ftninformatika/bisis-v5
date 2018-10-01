@@ -13,6 +13,7 @@ import javax.swing.WindowConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,7 @@ public class MmbrshipCoder extends JInternalFrame {
   }
 
   private void initialize() {
-    this.setSize(500, 500);
+    this.setSize(800, 600);
     this.setContentPane(getJContentPane());
     this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE); 
   }
@@ -106,15 +107,15 @@ public class MmbrshipCoder extends JInternalFrame {
   private JPanel getPanel() {
     if (pb == null) {
       FormLayout layout = new FormLayout(
-          "2dlu:grow, left:120dlu, 15dlu, 30dlu, right:50dlu, 2dlu:grow", 
-          "5dlu, pref, 15dlu, 5dlu, 15dlu, 10dlu, pref, 15dlu, 5dlu, 15dlu, 15dlu, 150dlu, 2dlu:grow");
+          "2dlu:grow, left:200dlu, 15dlu, 30dlu, right:60dlu, 2dlu:grow",
+          "5dlu, pref, 20dlu, 5dlu, 20dlu, 10dlu, pref, 20dlu, 5dlu, 20dlu, 15dlu, 150dlu, 2dlu:grow");
       CellConstraints cc = new CellConstraints();
       pb = new PanelBuilder(layout);
       pb.setDefaultDialogBorder();
       
-      pb.addSeparator(Messages.getString("circulation.user_categ"), cc.xy(2,2));
+      pb.addSeparator(Messages.getString("circulation.member_type"), cc.xy(2,2));
       pb.add(getSpMmbrTypes(), cc.xywh(2,3,1,3,"fill, fill"));
-      pb.addSeparator(Messages.getString("circulation.member_type"), cc.xy(2,7));
+      pb.addSeparator(Messages.getString("circulation.user_categ"), cc.xy(2,7));
       pb.add(getSpUserCateegs(), cc.xywh(2,8,1,3,"fill, fill"));
       
       pb.addSeparator(Messages.getString("circulation.cost"), cc.xyw(4,3,2));
@@ -158,6 +159,7 @@ public class MmbrshipCoder extends JInternalFrame {
                 return u;
               })
               .collect(Collectors.toList());
+      Collections.sort(data, new com.ftninformatika.bisis.circ.pojo.UserCategory.UserCategoryComparator());
       if (data != null){
         for (Object o : data){
           userCategsModel.addElement(o);
@@ -188,6 +190,7 @@ public class MmbrshipCoder extends JInternalFrame {
                 return m;
               })
               .collect(Collectors.toList());
+      Collections.sort(data, new com.ftninformatika.bisis.circ.pojo.MembershipType.MembershiTypeComparator());
       if (data != null){
         for (Object o : data){
           mmbrTypesModel.addElement(o);

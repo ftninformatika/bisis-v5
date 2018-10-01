@@ -27,6 +27,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 public class Lending {
 
@@ -204,11 +206,11 @@ public class Lending {
     public LendingTableModel getTableModel() {
         if (lendingTableModel == null) {
             lendingTableModel = new LendingTableModel();
-//            lendingTableModel.addTableModelListener(new TableModelListener() {
-//                public void tableChanged(TableModelEvent e) {
-//                    handleKeyTyped();
-//                }
-//            });
+            lendingTableModel.addTableModelListener(new TableModelListener() {
+                public void tableChanged(TableModelEvent e) {
+                    handleKeyTyped();
+                }
+            });
         }
         return lendingTableModel;
     }

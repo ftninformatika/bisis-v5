@@ -202,7 +202,13 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	    }
 
 	    public void setValueAt(Object aValue, int row, int column) {
-	        
+            Lending rowData = dataView.get(row);
+            switch (column) {
+                case 6:
+                    rowData.setDeadline((Date) aValue);
+                    break;
+            }
+            fireTableCellUpdated(row, column);
 	    }
 
 	   public Class getColumnClass(int col) {
