@@ -1,13 +1,10 @@
 package com.ftninformatika.bisis.cards;
 
+import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.utils.Messages;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.ftninformatika.bisis.records.*;
-
-
-import jdk.nashorn.internal.objects.NativeSyntaxError;
 
 public class RecordUtilities {
 	
@@ -203,15 +200,24 @@ public class RecordUtilities {
 					if(val.equals(""))
 						val = val + f.getSubfieldContent('b');
 					else 
-						val = val + "&nbsp;"+f.getSubfieldContent('b');
-				if(!val.equals("")){
+						val = val + ",&nbsp;"+f.getSubfieldContent('b');
+				if(f.getSubfield('f')!=null && !f.getSubfieldContent('f').equals("")){
+					val = val + "&nbsp;("+f.getSubfieldContent('f')+")";
+				}
+
+					if(!val.equals("")){
 					if(!prva){
-						buff.append(",&nbsp;");						
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
 					val = val + getPododrednice(f);
 					buff.append(val);		
 				}
+
 			}
 		}
 		String str = "";
@@ -251,13 +257,18 @@ public class RecordUtilities {
 				
 				if(!val.equals("")){
 					if(!prva){				
-						buff.append(",&nbsp;");						
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
 					val = val + getPododrednice(f);
 					buff.append(val);
 				}
 			}
+
 		}
 		
 		if(record.getFields("602").size()>0){
@@ -265,12 +276,19 @@ public class RecordUtilities {
 				str = izvuciPredmetnuOdrednicu(field);
 				if(!str.equals("")){
 					if(!prva){				
-						buff.append(",&nbsp;");						
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
+					str = str + getPododrednice(field);
 					buff.append(str);
 				}
+
 			}
+
 		}
 		
 		if(record.getFields("605").size()>0){
@@ -278,11 +296,18 @@ public class RecordUtilities {
 				str = izvuciPredmetnuOdrednicu(field);
 				if(!str.equals("")){
 					if(!prva){				
-						buff.append(",&nbsp;");						
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
+					str = str + getPododrednice(field);
 					buff.append(str);
+
 				}
+
 			}
 		}
 		
@@ -290,12 +315,18 @@ public class RecordUtilities {
 			for(Field field : record.getFields("606")){
 				str = izvuciPredmetnuOdrednicu(field);
 				if(!str.equals("")){
-					if(!prva){				
-						buff.append(",&nbsp;");						
+					if(!prva){
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
+					str = str + getPododrednice(field);
 					buff.append(str);
 				}
+
 			}
 		}
 	 
@@ -303,12 +334,18 @@ public class RecordUtilities {
 			for(Field field : record.getFields("607")){
 				str = izvuciPredmetnuOdrednicu(field);
 				if(!str.equals("")){
-					if(!prva){				
-						buff.append(",&nbsp;");						
+					if(!prva){
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
+					str = str + getPododrednice(field);
 					buff.append(str);
 				}
+
 			}
 		}
 		
@@ -316,12 +353,18 @@ public class RecordUtilities {
 			for(Field field : record.getFields("608")){
 				str = izvuciPredmetnuOdrednicu(field);
 				if(!str.equals("")){
-					if(!prva){				
-						buff.append(",&nbsp;");						
+					if(!prva){
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
+					str = str + getPododrednice(field);
 					buff.append(str);
 				}
+
 			}
 		}
 		
@@ -329,12 +372,18 @@ public class RecordUtilities {
 			for(Field field : record.getFields("609")){
 				str = izvuciPredmetnuOdrednicu(field);
 				if(!str.equals("")){
-					if(!prva){				
-						buff.append(",&nbsp;");						
+					if(!prva){
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
+					str = str + getPododrednice(field);
 					buff.append(str);
 				}
+
 			}
 		}
 		
@@ -342,12 +391,18 @@ public class RecordUtilities {
 			for(Field field : record.getFields("610")){
 				str = izvuciPredmetnuOdrednicu(field);
 				if(!str.equals("")){
-					if(!prva){				
-						buff.append(",&nbsp;");						
+					if(!prva){
+						buff.append(",&nbsp;");
+						buff.append("<BR>");
+						for (int i=0;i<8;i++){
+							buff.append("&nbsp;");
+						}
 					}
 					prva = false;
+					str = str + getPododrednice(field);
 					buff.append(str);
 				}
+
 			}
 		}	
 		
@@ -376,7 +431,7 @@ public class RecordUtilities {
 		if(f.getSubfield('b')!=null && !f.getSubfieldContent('b').equals("")){
 			val.append(", ");
 			val.append(f.getSubfieldContent('b'));
-			val.append(getPododrednice(f));
+			//val.append(getPododrednice(f));
 		}
 		
 		return val.toString();
@@ -402,14 +457,14 @@ public class RecordUtilities {
 			}
 		}
 		
-		if(f.getSubfields('f').size()>0){
+		/*if(f.getSubfields('f').size()>0){
 			for(Subfield sf:f.getSubfields('f')){				
 					if(!sf.getContent().equals("")){
 						val.append("&nbsp;-&nbsp;");
 						val.append(sf.getContent());
 					}
 			}
-		}
+		}*/
 		
 		if(f.getSubfields('z').size()>0){
 			for(Subfield sf:f.getSubfields('z')){				
