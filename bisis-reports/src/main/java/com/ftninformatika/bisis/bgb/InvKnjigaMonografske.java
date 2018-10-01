@@ -1,18 +1,5 @@
 package com.ftninformatika.bisis.bgb;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
@@ -22,6 +9,12 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
 import org.apache.log4j.Logger;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InvKnjigaMonografske extends Report {
 	public class Item implements Comparable {
@@ -275,7 +268,7 @@ public class InvKnjigaMonografske extends Report {
     	  i.napomena = p.getNapomene();  
       }
       
-      String part="1000";//settings.getParam("part"); TODO-???
+      String part=settings.getPart();
       String type=settings.getType();
       String key;
       if(part==null){
