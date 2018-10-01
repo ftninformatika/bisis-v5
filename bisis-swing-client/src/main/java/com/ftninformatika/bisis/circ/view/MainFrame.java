@@ -70,8 +70,8 @@ public class MainFrame extends JInternalFrame {
     }
 
     private void initialize() {
-        this.setSize(new Dimension(850, 530));
-        this.setPreferredSize(new Dimension(850, 530));
+        this.setSize(new Dimension(950, 560));
+        this.setPreferredSize(new Dimension(950, 560));
         this.setName("mframe"); //$NON-NLS-1$
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addInternalFrameListener(new InternalFrameAdapter() {

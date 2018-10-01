@@ -490,15 +490,15 @@ public class UserData {
             pMain1.add(getTfTmpPhone(), cc.xyw(4, 8, 5));
 
             pMain1.addSeparator("", cc.xyw(2, 13, 7)); //$NON-NLS-1$
-            pMain1.add(getOrganizationLabel(), cc.xyw(2, 15, 6));
+            pMain1.add(getOrganizationLabel(), cc.xy(2, 15));
             pMain1.add(getCmbOrg(), cc.xyw(4, 15, 5, "fill, fill")); //$NON-NLS-1$
-            pMain1.add(getEduLvlLabel(), cc.xyw(2, 17, 7));
+            pMain1.add(getEduLvlLabel(), cc.xy(2, 17));
             pMain1.add(getCmbEduLevel(), cc.xyw(4, 17, 5, "fill, fill")); //$NON-NLS-1$
             pMain1.add(getOccupationLabel(), cc.xy(2, 19));
             pMain1.add(getTfOccupation(), cc.xyw(4, 19, 5));
             pMain1.add(getTitleLabel(), cc.xy(2, 21));
             pMain1.add(getTfTitle(), cc.xyw(4, 21, 5));
-            pMain1.add(getIndexNoLabel(), cc.xyw(2, 23, 9));
+            pMain1.add(getIndexNoLabel(), cc.xy(2, 23));
             pMain1.add(getTfIndexNo(), cc.xyw(4, 23, 4));
             pMain1.add(getClassNoLabel(), cc.xy(2, 25));
             pMain1.add(getCmbClass(), cc.xyw(4, 25, 4, "fill, fill")); //$NON-NLS-1$
