@@ -57,7 +57,7 @@ export class BisisSearchService {
 
 
 
-    searchRecordsAdvanced(searchModel, page = 0, size = 20): Observable<RecordsPageModel> {
+    searchRecordsAdvanced(searchModel, page = 0, size = 1000): Observable<RecordsPageModel> {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
