@@ -1,18 +1,17 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.Membership;
 import com.ftninformatika.bisis.circ.pojo.MembershipType;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
-import com.ftninformatika.bisis.circ.Membership;
+import com.ftninformatika.utils.Messages;
 
+import javax.swing.table.AbstractTableModel;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.swing.table.AbstractTableModel;
 
 
 
@@ -78,7 +77,7 @@ public class MmbrshipCoderTableModel extends AbstractTableModel implements Seria
           Membership m = data.get(rows[i]);
           boolean deleted = false;
             try {
-                deleted = BisisApp.bisisService.deleteMembership(m.get_id()).execute().body();
+                deleted = BisisApp.bisisService.deleteMembership(m).execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -266,7 +266,7 @@ public interface BisisService {
     Call<Membership> addMembership(@Body Membership membership);
 
     @HTTP(method = "DELETE", path = "memberships", hasBody = true)
-    Call<Boolean> deleteMembership(@Body String membershipId);
+    Call<Boolean> deleteMembership(@Body Membership membership);
     //vratice true ako je uspesno obrisan, a ako ga nije pronasao vraca false!
 
     @GET("coders/membership_type")

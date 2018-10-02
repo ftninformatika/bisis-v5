@@ -23,11 +23,11 @@ public class MembershipController {
     }
 
     @RequestMapping( method = RequestMethod.DELETE)
-    public boolean deleteMembership(@RequestBody String membershipId){
-        Membership m = membershipRepository.findOne(membershipId);
+    public boolean deleteMembership(@RequestBody Membership membership){
+        Membership m = membershipRepository.findOne(membership.get_id());
         if ( m == null ) return false;
-        membershipRepository.delete(membershipId);
-        return membershipRepository.findOne(membershipId) == null;
+        membershipRepository.delete(membership.get_id());
+        return membershipRepository.findOne(membership.getLibrary()) == null;
     }
 
 }
