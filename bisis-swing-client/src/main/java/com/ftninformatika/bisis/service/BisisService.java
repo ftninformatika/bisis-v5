@@ -110,14 +110,14 @@ public interface BisisService {
     @GET("librarians/getByLibrary")
     Call<List<LibrarianDTO>> getAllLibrarinasInThisLibrary(@Query("library") String library);
 
-    @POST("mongo_repository_librarians")
-    Call<Void> createLibrarian(@Body LibrarianDTO librarian);
+    @POST("librarians/update")//
+    Call<Boolean> createLibrarian(@Body LibrarianDTO librarian);
 
     @POST("librarians/update")
     Call<Boolean> updateLibrarian(@Body LibrarianDTO librarian);
 
-    @HTTP(method = "DELETE", path = "mongo_repository_librarians", hasBody = true)
-    Call<Void> deleteLibraian(@Body LibrarianDTO librarian);
+    @POST("librarians/delete")//
+    Call<Boolean> deleteLibraian(@Body LibrarianDTO librarian);
 
 //records---------------------------------------------------------------
 

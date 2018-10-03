@@ -35,9 +35,13 @@ public class LibrarianController {
     }
 
     @RequestMapping( value = "/update", method = RequestMethod.POST)
-    public Boolean updateLibrarian(@RequestBody LibrarianDTO lib){
+    public Boolean createUpdateLibrarian(@RequestBody LibrarianDTO lib){
 
         LibrarianDTO librarian = librarianRepository.getByUsername(lib.getUsername());
+
+        // kreira novog
+        if (librarian == null)
+            librarian = new LibrarianDTO();
 
         //rola
         librarian.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
@@ -58,6 +62,18 @@ public class LibrarianController {
 
         librarianRepository.save(librarian);
 
+        return true;
+    }
+
+    @RequestMapping( value = "/delete", method = RequestMethod.POST)
+    public Boolean deleteLibrarian(@RequestBody LibrarianDTO lib){
+
+        LibrarianDTO librarian = librarianRepository.getByUsername(lib.getUsername());
+
+        if (librarian == null)
+            return false;
+
+        librarianRepository.delete(librarian);
         return true;
     }
 
