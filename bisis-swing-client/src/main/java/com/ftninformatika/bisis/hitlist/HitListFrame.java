@@ -434,6 +434,8 @@ public class HitListFrame extends JInternalFrame {
         handleListSelectionChanged();
         lFromTo.setText(MessageFormat.format(Messages.getString("HITLIST_HITS0.1.2_HTML"), page * PAGE_SIZE + 1, page * PAGE_SIZE + count, queryResult.getResultCount()));
         lBrPrimeraka.setText(MessageFormat.format(Messages.getString("HITLIST_ITEMS_NO.0._HTML"), queryResult.getInvs().size()));
+        lbHitList.setSelectionBackground(new Color(148, 184, 255));
+
 
     }
 
