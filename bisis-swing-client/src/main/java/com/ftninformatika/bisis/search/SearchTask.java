@@ -75,7 +75,12 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	  if (this.searchModel != null){
           try {
               this.queryResult = BisisApp.recMgr.searchRecords(searchModel);
-              return this.queryResult.getResultCount();
+              if (queryResult != null) {
+                  return this.queryResult.getResultCount();
+              } else {
+                  this.connError = true;
+                  return -1;
+              }
           } catch (IOException e) {
               e.printStackTrace();
               this.connError = true;
