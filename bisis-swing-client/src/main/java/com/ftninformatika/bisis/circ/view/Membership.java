@@ -508,6 +508,10 @@ public class Membership {
                 }
             }
         }
+        getTfUserID().setEditable(true);
+        getTfBranch().setEditable(true);
+        getCmbBranchID().setEnabled(true);
+        getBtnAuto().setEnabled(true);
     }
 
     public void loadMmbrType(List data) {
@@ -549,6 +553,10 @@ public class Membership {
         } else {
             getTfUserID().setText(userID);
         }
+        getTfUserID().setEditable(false);
+        getTfBranch().setEditable(false);
+        getCmbBranchID().setEnabled(false);
+        getBtnAuto().setEnabled(false);
         Utils.setComboItem(getCmbMmbrType(), mt);
         Utils.setComboItem(getCmbCateg(), uc);
         Utils.setComboItem(getCmbGroups(), group);
