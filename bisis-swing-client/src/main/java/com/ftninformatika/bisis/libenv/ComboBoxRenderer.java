@@ -11,7 +11,7 @@ public class ComboBoxRenderer extends JLabel implements ListCellRenderer, Serial
 
     public ComboBoxRenderer() {
         setOpaque(true);
-        setHorizontalAlignment(CENTER);
+        setHorizontalAlignment(LEFT);
         setVerticalAlignment(CENTER);
     }
 

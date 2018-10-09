@@ -52,6 +52,7 @@ public class LibrarianManager {
         retVal.setCurentProcessType(ProcessTypeBuilder.buildDTOFromProcessType(lib.getCurentProcessType()));
         retVal.setContext(initializeDTOFromContext(lib.getContext()));
         retVal.setDefaultDepartment(lib.getDefaultDepartment());
+        retVal.setCircDepartment(lib.getCircDepartment());
 
         return retVal;
     }

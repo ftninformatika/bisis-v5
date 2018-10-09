@@ -175,7 +175,7 @@ public class Environment extends DefaultHandler{
 		location = value;
 	}
 	
-	public int getLocation(){
+	public Integer getLocation(){
 		return Integer.parseInt(location);
 	}
 	

@@ -264,6 +264,13 @@ public class Lending {
                             modelrows[j] = getTblLending().convertRowIndexToModel(rows[j]);
                         }
                         for (int i = 0; i < modelrows.length; i++) {
+                            if (!getTableModel().getItem(modelrows[i]).getLocation().equals(defaultLocation)) {
+                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.dischargingnotallowed"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                                return;
+                            }
+                        }
+                        for (int i = 0; i < modelrows.length; i++) {
                             Cirkulacija.getApp().getRecordsManager().returnBook((String) getTableModel().getValueAt(modelrows[i], 0));
                         }
                         getTableModel().removeRows(modelrows);
@@ -290,6 +297,13 @@ public class Lending {
                         int[] modelrows = new int[rows.length];
                         for (int j = 0; j < rows.length; j++) {
                             modelrows[j] = getTblLending().convertRowIndexToModel(rows[j]);
+                        }
+                        for (int i = 0; i < modelrows.length; i++) {
+                            if (!getTableModel().getItem(modelrows[i]).getLocation().equals(defaultLocation)) {
+                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.dischargingnotallowed"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                                return;
+                            }
                         }
                         getTableModel().updateRows(modelrows, parent.getMmbrship().getUserCateg());
                         handleKeyTyped();
@@ -414,8 +428,13 @@ public class Lending {
                         int op = JOptionPane.showOptionDialog(getPanel(), Messages.getString("circulation.chargingwarning"), Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION,  //$NON-NLS-1$ //$NON-NLS-2$
                                 JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
                         if (op == JOptionPane.YES_OPTION) {
-                            Cirkulacija.getApp().getUserManager().dischargeUser(ctlgno);
-                            btnLend.doClick();
+                            boolean success = Cirkulacija.getApp().getUserManager().dischargeUser(ctlgno);
+                            if (success) {
+                                btnLend.doClick();
+                            } else {
+                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.dischargingnotallowed"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                            }
                         }
                     } else {
                         JOptionPane.showMessageDialog(getPanel(), Cirkulacija.getApp().getRecordsManager().getErrorMessage(), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
@@ -480,6 +499,7 @@ public class Lending {
                 defaultLocation = ((CircLocation) getCmbLocation().getModel().getElementAt(i)).getDescription();
             }
         }
+        getTableModel().setDefaultLocation(defaultLocation);
     }
 
     public void loadUser(String userID, String firstName, String lastName, Date untilDate, String note, String dupno, String blocked, List lendings, boolean warnings) {

@@ -43,4 +43,5 @@ public class LibrarianDTO {
 
     //samo za bgb, ostali null
     private String defaultDepartment;
+    private String circDepartment;
 }

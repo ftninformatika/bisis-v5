@@ -30,6 +30,7 @@ public class UserManager {
     private String validator = null;
     private List lendings =  new ArrayList();
     private static Logger log = Logger.getLogger(UserManager.class);
+    private String defaultLocation;
 
     public UserManager() {
     }
@@ -736,15 +737,28 @@ public class UserManager {
             e.printStackTrace();
         }
         if (lending != null) {
-            lending.setReturnDate(new Date());
-            lending.setLibrarianReturn(Cirkulacija.getApp().getLibrarian().getUsername());
-            try {
-                done = BisisApp.bisisService.dischargeBook(lending).execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (lending.getLocation().equals(getDefaultLocation())) {
+                lending.setReturnDate(new Date());
+                lending.setLibrarianReturn(Cirkulacija.getApp().getLibrarian().getUsername());
+                try {
+                    done = BisisApp.bisisService.dischargeBook(lending).execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return done;
+    }
+
+    private String getDefaultLocation() {
+        if (defaultLocation == null) {
+            for (CircLocation circLocation : BisisApp.appConfig.getCodersHelper().getCircLocations()) {
+                if (circLocation.getLocationCode().equals(Cirkulacija.getApp().getEnvironment().getLocation().toString())) {
+                    defaultLocation = circLocation.getDescription();
+                }
+            }
+        }
+        return defaultLocation;
     }
 
     public List getWarnings() {

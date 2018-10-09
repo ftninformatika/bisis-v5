@@ -23,6 +23,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
     protected List<String> authors;
     protected List<String> titles;
     protected List<String> signatures;
+    private String defaultLocation;
 
 
     public LendingTableModel() {
@@ -41,6 +42,10 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
       titles = new ArrayList<String>();
       signatures = new ArrayList<String>();
     }
+
+    public void setDefaultLocation(String location) {
+    	defaultLocation = location;
+	}
 
     public void setData(List<Lending> data){
         dataView = new ArrayList<Lending>();
@@ -179,7 +184,12 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 
 	    public boolean isCellEditable(int row, int column) {
 			if (column == 6) {
-				return true;
+				if (dataView.get(row).getLocation().equals(defaultLocation)) {
+					return true;
+				} else {
+					return false;
+				}
+
 			} else {
 				return false;
 			}
@@ -200,6 +210,10 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	        	default: return null;
 	        }
 	    }
+
+	    public Lending getItem(int row) {
+            return dataView.get(row);
+        }
 
 	    public void setValueAt(Object aValue, int row, int column) {
             Lending rowData = dataView.get(row);
