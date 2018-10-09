@@ -5,6 +5,7 @@ import java.io.StringReader;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.utils.NetUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -531,7 +532,11 @@ public class Environment extends DefaultHandler{
         case 8: maximize = new String(buf, offset, len).trim();break;
         case 9: lookAndFeel = new String(buf, offset, len).trim();break;
         case 10: theme = new String(buf, offset, len).trim();break;
-        case 11: location = new String(buf, offset, len).trim();break;
+        case 11: location = new String(buf, offset, len).trim();
+			if (BisisApp.appConfig.getLibrarian().getCircDepartment() != null) {
+				location = BisisApp.appConfig.getLibrarian().getCircDepartment();
+			}
+			break;
         case 12: useridLength = new String(buf, offset, len).trim();break;
         case 13: useridPrefix = new String(buf, offset, len).trim();break;
         case 14: useridPrefixLength = new String(buf, offset, len).trim();break;

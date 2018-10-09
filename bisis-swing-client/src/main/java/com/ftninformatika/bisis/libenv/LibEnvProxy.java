@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.circ.CircLocation;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.ProcessType;
@@ -55,6 +57,27 @@ public class LibEnvProxy {
 		}
 		return processTypeList;
 		}
+
+
+	public static List<Location> getLocations(){
+		List<Location> locations = null;
+		try {
+			locations = BisisApp.bisisService.getLocations(BisisApp.appConfig.getLibrary()).execute().body();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return locations;
+	}
+
+	public static List<CircLocation> getCircLocations(){
+		List<CircLocation> locations = null;
+		try {
+			locations = BisisApp.bisisService.getCircLocations(BisisApp.appConfig.getLibrary()).execute().body();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return locations;
+	}
 
 	
 	public static boolean addLibrarian(Librarian lib){		

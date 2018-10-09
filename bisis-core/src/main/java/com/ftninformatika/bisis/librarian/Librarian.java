@@ -29,6 +29,7 @@ public class Librarian {
   private ProcessType curentProcessType;
   //samo za bgb, ostali null
   private String defaultDepartment;
+  private String circDepartment;
 
   public Librarian(String username, String password) {
     this.username = username;

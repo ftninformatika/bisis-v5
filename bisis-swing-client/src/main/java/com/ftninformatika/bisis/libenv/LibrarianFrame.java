@@ -3,6 +3,7 @@
  */
 package com.ftninformatika.bisis.libenv;
 
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.utils.Messages;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,6 +12,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.*;
 import java.text.MessageFormat;import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -21,6 +24,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.LibrarianContext;
 import com.ftninformatika.bisis.librarian.ProcessType;
+import javafx.scene.control.ComboBox;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -31,7 +35,7 @@ public class LibrarianFrame extends JInternalFrame {
 
 	public LibrarianFrame() {
 		super(Messages.getString("LibrarianEnvironment.LIBRARIANS"), false, true, true, true); //$NON-NLS-1$
-		this.setSize(780,700);
+		this.setSize(800,700);
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		createLibrariansTable();
 		createProcTypeLists();
@@ -75,6 +79,11 @@ public class LibrarianFrame extends JInternalFrame {
 		loadLibrarian(lib);
 		librariansTable.clearSelection();		
 		allProcTypesListModel.setProcTypeList(LibEnvProxy.getAllProcTypes());
+		defaultDepartmentCombo.setRenderer(new ComboBoxRenderer());
+		circDepartmentCombo.setRenderer(new ComboBoxRenderer());
+		LibEnvProxy.getLocations().stream().forEach(i -> defaultDepartmentCombo.addItem(i));
+		LibEnvProxy.getCircLocations().stream().forEach(i -> circDepartmentCombo.addItem(i));
+
 	}
 	private void createLibrariansTable() {
 		librariansTableModel = new LibrarianTableModel();
@@ -318,7 +327,7 @@ public class LibrarianFrame extends JInternalFrame {
 		});
 
 		
-		additionalDataPanel.setLayout(new MigLayout("","[right]5[]","[]15[]15[]15[top]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		additionalDataPanel.setLayout(new MigLayout("","[right]5[]","[]15[]15[]15[]15[]15[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		additionalDataPanel.setBorder(BorderFactory.createTitledBorder(Messages.getString("LibrarianEnvironment.ADDITIONAL_DATA"))); //$NON-NLS-1$
 		additionalDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.FIRST_NAME"))); //$NON-NLS-1$
 		additionalDataPanel.add(nameTxtFld,"wrap, grow"); //$NON-NLS-1$
@@ -327,8 +336,12 @@ public class LibrarianFrame extends JInternalFrame {
 		additionalDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.E-MAIL"))); //$NON-NLS-1$
 		additionalDataPanel.add(emailTxtFld,"wrap, grow"); //$NON-NLS-1$
 		additionalDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.NOTE"))); //$NON-NLS-1$
-		notesScrollPane.setPreferredSize(new Dimension(100,100));
+		notesScrollPane.setPreferredSize(new Dimension(100,50));
 		additionalDataPanel.add(notesScrollPane,"wrap, grow"); //$NON-NLS-1$
+		additionalDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.DEFAULT_DEPARTMENT"))); //$NON-NLS-1$
+		additionalDataPanel.add(defaultDepartmentCombo,"wrap, grow"); //$NON-NLS-1$
+		additionalDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.CIRC_DEPARTMENT"))); //$NON-NLS-1$
+		additionalDataPanel.add(circDepartmentCombo,"wrap, grow"); //$NON-NLS-1$
 		
 		firstTabpanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -421,6 +434,8 @@ public class LibrarianFrame extends JInternalFrame {
 	private JTextField emailTxtFld = new JTextField(txtFldLength);
 	private JTextArea notesTxtArea = new JTextArea();
 	private JScrollPane notesScrollPane = new JScrollPane(notesTxtArea);
+	private JComboBox defaultDepartmentCombo = new JComboBox<>();
+	private JComboBox circDepartmentCombo = new JComboBox<>();
 	
 	/*
 	 * table
