@@ -59,6 +59,8 @@ public class LibrarianController {
         librarian.setBiblioteka(lib.getBiblioteka());
         librarian.setContext(lib.getContext());
         librarian.setCurentProcessType(lib.getCurentProcessType());
+        librarian.setDefaultDepartment(lib.getDefaultDepartment());
+        librarian.setCircDepartment(lib.getCircDepartment());
 
         librarianRepository.save(librarian);
 
