@@ -96,11 +96,23 @@ public class CodersHelper {
         ArrayList<ArrayList<Object>> retVal = new ArrayList<>();
 
 
-        if (coderName.equals("location")){
-            for(Location i: locations.values()){
+
+        if (coderName.equals("places")){
+            for(Place i: places){
                 ArrayList<Object> l = new ArrayList<>();
-                l.add(i.getCoder_id());
+                l.add(i.get_id());
+                l.add(i.getZip());
+                l.add(i.getCity());
+                retVal.add(l);
+            }
+        }
+
+        if (coderName.equals("location")){
+            for(CircLocation i: circLocations){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.getLocationCode());
                 l.add(i.getDescription());
+                l.add(i.getLastUserId());
                 retVal.add(l);
             }
         }
