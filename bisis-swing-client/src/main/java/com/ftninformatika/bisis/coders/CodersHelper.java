@@ -76,6 +76,7 @@ public class CodersHelper {
         for (Map.Entry<String, Location> l : locations.entrySet()) {
             retVal.add(l.getValue());
         }
+        retVal.sort(Comparator.comparing(Coder::getCoder_id));
         return retVal;
     }
 
