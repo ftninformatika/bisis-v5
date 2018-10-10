@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -157,6 +158,24 @@ public class CodersController {
     @RequestMapping(path = "place")
     public List<Place> getPlaces(String libName){
         return placerep.getCoders(libName);
+    }
+
+    @RequestMapping(path = "place/delete")
+    public Boolean deletePlace(@RequestParam("_id") String place_id){
+        placerep.delete(place_id);
+        return placerep.findOne(place_id) == null;
+    }
+
+    @RequestMapping(path = "place", method = RequestMethod.POST)
+    public ArrayList<Object> insertEditPlace(@RequestBody Place newPlace) {
+        ArrayList<Object> retVal = new ArrayList<>();
+
+        Place place = placerep.save(newPlace);
+        retVal.add(0, place.get_id());
+        retVal.add(1, place.getZip());
+        retVal.add(2, place.getCity());
+
+        return retVal;
     }
 
     @RequestMapping(path = "membership")

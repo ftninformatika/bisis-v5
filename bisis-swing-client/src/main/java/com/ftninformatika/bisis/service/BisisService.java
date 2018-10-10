@@ -25,6 +25,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -255,6 +256,12 @@ public interface BisisService {
 
     @GET("coders/place")
     Call<List<Place>> getPlaces(@Query("libName")String libName);
+
+    @POST("coders/place")
+    Call<ArrayList<Object>> insertEditPlace(@Body Place newPlace);
+
+    @GET("coders/place/delete")
+    Call<Boolean> deletePlace(@Query("_id") String _id);
 
     @GET("coders/education")
     Call<List<EducationLvl>> getEducations(@Query("libName")String libName);

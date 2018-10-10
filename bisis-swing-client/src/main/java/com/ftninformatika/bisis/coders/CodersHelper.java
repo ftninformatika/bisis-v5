@@ -96,6 +96,16 @@ public class CodersHelper {
         ArrayList<ArrayList<Object>> retVal = new ArrayList<>();
 
 
+        if (coderName.equals("warn_counters")){
+            for(WarningCounter i: warningCounters){
+                ArrayList<Object> l = new ArrayList<>();
+                l.add(i.get_id());
+                l.add(i.getWarnYear());
+                l.add(i.getWarningType());
+                l.add(i.getLastNo());
+                retVal.add(l);
+            }
+        }
 
         if (coderName.equals("places")){
             for(Place i: places){

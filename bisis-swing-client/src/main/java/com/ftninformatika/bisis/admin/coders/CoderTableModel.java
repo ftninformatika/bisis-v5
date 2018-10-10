@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.admin.coders;
 
+import com.ftninformatika.bisis.circ.Place;
 import com.ftninformatika.utils.Messages;
 import java.math.BigDecimal;
 import java.sql.Array;
@@ -111,7 +112,15 @@ public class CoderTableModel extends AbstractTableModel {
 //    }
 //  }
   
-  public void update(int row) throws Exception{  
+  public void update(int row) throws Exception{
+      ArrayList<Object> rowData = data.get(row);
+      ArrayList<Object> response = CoderManager.updateCoder(rowData, table.getName());
+      if (response.size() > 0) {
+        fireTableDataChanged();
+      }
+      else {
+        throw new Exception("Грешка при покушају измене шифарника!");
+      }
 	  /*ExecuteUpdateCommand command = new ExecuteUpdateCommand();
       command.setSqlString(getUpdate(row));
       command = (ExecuteUpdateCommand)BisisApp.getJdbcService().executeCommand(command);
@@ -198,24 +207,16 @@ public class CoderTableModel extends AbstractTableModel {
         default:
       }
       index++;
+
     }
-	  
-	  /*ExecuteUpdateCommand command = new ExecuteUpdateCommand();
-	  command.setSqlString(getInsert(newRow));
-	  command = (ExecuteUpdateCommand)BisisApp.getJdbcService().executeCommand(command);
-	  if (command != null){
-		  if (command.getRowCount() == 1){
-			  data.add(newRow);
-		      fireTableDataChanged();
-		  } else if (command.getException() instanceof MySQLIntegrityConstraintViolationException){
-			  throw new HoldingsIntegrityViolationException
-				("Uneta \u0161ifra ve\u0107 postoji!");
-		  } else {
-			  throw command.getException();
-		  }
+    ArrayList<Object> response = CoderManager.insertCoder(newRow, table.getName());
+
+	  if (response.size() > 0){
+            data.add(response);
+            fireTableDataChanged();
 	  } else {
-		  throw new Exception ("Gre\u0161ka u konekciji s bazom podataka!");
-	  }*/
+		  throw new Exception ("Шифарник није уписан!");
+	  }
   }
   
 //  public void delete(int row) throws HoldingsIntegrityViolationException {
@@ -242,23 +243,16 @@ public class CoderTableModel extends AbstractTableModel {
 //  }
   
   public void delete(int row) throws Exception {
-      /*ExecuteUpdateCommand command = new ExecuteUpdateCommand();
-      command.setSqlString(getDelete(row));
-      command = (ExecuteUpdateCommand)BisisApp.getJdbcService().executeCommand(command);
-      
-      if (command != null){
-	      if (command.getRowCount() == 1){
-	    	  data.remove(row);
-		      fireTableDataChanged(); 
-	      } else if (command.getException() instanceof MySQLIntegrityConstraintViolationException){
-	    	  throw new HoldingsIntegrityViolationException
-	 			("\u0160ifra ne mo\u017ee biti obrisana!\nPostoje primerci/godine/sveske za koje je uneta selektovana \u0161ifra.");
-	      } else {
-			 throw command.getException();
-	      }
-      } else {
-    	  throw new Exception ("Gre\u0161ka u konekciji s bazom podataka!");
-      }*/
+    ArrayList<Object> rowData = data.get(row);
+    Boolean response = BisisApp.bisisService.deletePlace(String.valueOf(rowData.get(0))).execute().body();
+    // TODO - nekakvo upozorenje za brisanje sifarnika koji je korsicen u podacima???
+    if (response == true){
+        data.remove(row);
+        fireTableDataChanged();
+
+    } else {
+    	  throw new Exception ("Грешка при покушају брисања шифарника!");
+    }
   }
   
 //  private void setValue(PreparedStatement stmt, int type, int index,

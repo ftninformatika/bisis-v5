@@ -63,7 +63,9 @@ public class CoderFrame extends JInternalFrame {
     add(btnUpdate, "");
     add(btnDelete, "");
     add(new JLabel(" "));
-    add(btnRefresh, "wrap");
+//    add(btnRefresh, "wrap"); refresh ucitava sifarnike koji su ucitani na inicijalizaciji app, ne pravo stanje u bazi
+                               // zato je nepotreban
+    add(new JLabel(" "), "wrap");
     add(spData, "span 5, wrap, grow");
     add(btnClose, "span 5, wrap, tag ok");
     pack();
@@ -155,8 +157,13 @@ public class CoderFrame extends JInternalFrame {
   private void handleAdd() {
     ArrayList<String> row = new ArrayList<String>();
     for (Column c : table.getColumns()) {
+      // preskace unos _id (MongoId)
+      if (c.getName().equals("id")) {
+          row.add("0");
+          continue;
+      }
       String svalue = JOptionPane.showInternalInputDialog(
-          this, MessageFormat.format(Messages.getString("inputfield"), c.getCaption()),
+          this, MessageFormat.format(Messages.getString("inputfield") + c.getCaption(), c.getCaption()),
               Messages.getString("newline"), JOptionPane.QUESTION_MESSAGE);
       		if (svalue == null || svalue.equals(""))
       			return;
