@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.utils.Messages;
 import javax.swing.JPanel;
 
@@ -753,7 +754,7 @@ public class SearchBooks {
 		  filter = null;
 		  if (BisisApp.appConfig.getLibrary().equals("bgb")) {
 			  if (!cmbFilter.getSelectedItem().equals(" ")) {
-				  filter = BisisApp.appConfig.getCodersHelper().getLocationCodeByNameExtended(cmbFilter.getSelectedItem().toString());
+			  	filter = ((Location)cmbFilter.getSelectedItem()).getCoder_id();
 			  }
 		  }
 
@@ -828,8 +829,14 @@ public class SearchBooks {
 
 	public void loadCmbFilter(List data){
 		Utils.loadCombo(getCmbFilter(), data);
-		if (BisisApp.appConfig.getLibrarian().getDefaultDepartment() != null)
-			getCmbFilter().setSelectedItem(BisisApp.appConfig.getLibrarian().getDefaultDepartment());
+		if (BisisApp.appConfig.getLibrarian().getDefaultDepartment() != null){
+			for (int i = 1; i < getCmbFilter().getModel().getSize(); i++) {
+				if (((Location)getCmbFilter().getModel().getElementAt(i))
+						.getCoder_id().equals(BisisApp.appConfig.getLibrarian().getDefaultDepartment())) {
+					getCmbFilter().setSelectedIndex(i);
+				}
+			}
+		}
 	}
   
   public void updatePrefixes() {

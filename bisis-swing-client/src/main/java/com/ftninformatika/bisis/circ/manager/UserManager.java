@@ -559,7 +559,7 @@ public class UserManager {
                 })
                 .collect(Collectors.toList())));
         searchbooks.loadCmbFilter((BisisApp.appConfig.getCodersHelper()
-                .getLocationsList().stream()
+                .getLocationsList2().stream()
                 .collect(Collectors.toList())));
     }
 
@@ -753,7 +753,7 @@ public class UserManager {
     private String getDefaultLocation() {
         if (defaultLocation == null) {
             for (CircLocation circLocation : BisisApp.appConfig.getCodersHelper().getCircLocations()) {
-                if (circLocation.getLocationCode().equals(Cirkulacija.getApp().getEnvironment().getLocation().toString())) {
+                if (Integer.parseInt(circLocation.getLocationCode()) == Cirkulacija.getApp().getEnvironment().getLocation()) {
                     defaultLocation = circLocation.getDescription();
                 }
             }

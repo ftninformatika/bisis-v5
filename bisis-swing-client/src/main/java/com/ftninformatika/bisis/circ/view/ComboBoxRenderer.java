@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.WarningType;
 import com.ftninformatika.bisis.circ.pojo.*;
+import com.ftninformatika.bisis.coders.Location;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -65,6 +66,9 @@ public class ComboBoxRenderer extends JLabel implements ListCellRenderer, Serial
 			setText(((UserCategory)value).getDescription());
 		} else if (value instanceof WarningType){
 			setText(((WarningType)value).getDescription());
+		} else if (value instanceof Location){
+			Location l = (Location)value;
+			setText(l.getCoder_id() + " - " + l.getDescription());
 		} else {
 			setText((value == null) ? "" : value.toString());
 		}
