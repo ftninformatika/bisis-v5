@@ -241,6 +241,8 @@ public class RecordsManager {
         }else{
             if (!searchModel.getDepartments().isEmpty()) {
                 Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setFilter(searchModel.getDepartments().get(0));
+            } else {
+                Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setFilter(null);
             }
             Cirkulacija.getApp().getMainFrame().getSearchBooksResults().setHits(recordQueryResultIds);
 //            if (resultList != null)

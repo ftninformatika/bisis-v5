@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.WarningType;
 import com.ftninformatika.bisis.circ.pojo.*;
 import com.ftninformatika.bisis.circ.view.User;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.utils.string.StringUtils;
 import com.toedter.calendar.JDateChooser;
 
