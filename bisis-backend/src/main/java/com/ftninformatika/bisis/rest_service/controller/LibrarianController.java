@@ -2,9 +2,13 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ProcessTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,12 +21,36 @@ import java.util.List;
 public class LibrarianController {
 
     @Autowired private LibrarianRepository librarianRepository;
+    @Autowired
+    private ProcessTypeRepository proctypeRep;
 
     @RequestMapping(value = "/getByUsername")
     public LibrarianDTO getByUsername(@RequestParam (value = "username") String username){
         LibrarianDTO retVal = null;
 
         retVal = librarianRepository.getByUsername(username);
+
+       
+        //Moraju se uzeti tipovi obrade iz sifarnika jer su oni azurirani
+      String libName = retVal.getBiblioteka();
+        if (retVal.getCurentProcessType()!=null){
+          String curentPT = retVal.getCurentProcessType().getName();
+          if (curentPT !=null){
+            retVal.setCurentProcessType(proctypeRep.findByNameAndLibName(curentPT,libName));
+          }
+        }
+
+        String defaultPT = retVal.getContext().getDefaultProcessType().getName();
+        if (defaultPT !=null){
+            retVal.getContext().setDefaultProcessType(proctypeRep.findByNameAndLibName(defaultPT,libName));
+        }
+        List <ProcessTypeDTO> processTypes = retVal.getContext().getProcessTypes();
+        ArrayList <ProcessTypeDTO> newProcTypes = new ArrayList<ProcessTypeDTO>();
+        for(ProcessTypeDTO pt:processTypes){
+            newProcTypes.add(proctypeRep.findByNameAndLibName(pt.getName(),libName));
+        }
+        retVal.getContext().setProcessTypes(newProcTypes);
+
 
         return retVal;
     }

@@ -3,11 +3,6 @@
  */
 package com.ftninformatika.bisis.libenv;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.circ.CircLocation;
@@ -19,6 +14,12 @@ import com.ftninformatika.bisis.librarian.ProcessTypeBuilder;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -46,12 +47,14 @@ public class LibEnvProxy {
 	 }
 	
 	public static List<ProcessType> getAllProcTypes(){
-		List<ProcessType> processTypeList = null;
+		List<ProcessType> processTypeList = new ArrayList<ProcessType>();
 		try {
 			List<ProcessTypeDTO> processTypeListDTO = BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body();
 
-			processTypeList = processTypeListDTO.stream().map(i -> ProcessTypeBuilder.buildProcessTypeFromDTO(i))
-														 .collect(Collectors.toList());
+			for(ProcessTypeDTO ptDTO:processTypeListDTO){
+				processTypeList.add(ProcessTypeBuilder.buildProcessTypeFromDTO(ptDTO));
+			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -142,8 +145,6 @@ public class LibEnvProxy {
 	}
 	
 	public static boolean updateProcessType(ProcessType pt){
-
-		pt.setLibName(BisisApp.appConfig.getLibrary());
 		ProcessTypeDTO processTypeDTO = ProcessTypeBuilder.buildDTOFromProcessType(pt);
 		try {
 			BisisApp.bisisService.addProcessType(processTypeDTO).execute();

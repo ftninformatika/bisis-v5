@@ -69,17 +69,8 @@ public class CodersController {
 
     @RequestMapping( path = "process_types")
     public ProcessTypeDTO addProcessType(@RequestBody ProcessTypeDTO pt){
-        ProcessTypeDTO processTypeDTO = processTypeRepository.findByName(pt.getName());
-        //update
-        if(processTypeDTO != null) {
-            processTypeDTO.setInitialFields(pt.getInitialFields());
-            processTypeDTO.setMandatoryFields(pt.getMandatoryFields());
-            processTypeDTO.setLibName(pt.getLibName());
-            processTypeDTO.setPubType(pt.getPubType());
-            return processTypeRepository.save(processTypeDTO);
-        }
-        else
-            return processTypeRepository.save(pt);
+      //  ProcessTypeDTO processTypeDTO = processTypeRepository.findByNameAndLibName(pt.getName(),pt.getLibName());
+        return processTypeRepository.save(pt);
 
     }
 

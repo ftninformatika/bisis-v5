@@ -3,15 +3,14 @@
  */
 package com.ftninformatika.bisis.libenv;
 
-import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.ProcessType;
+import com.ftninformatika.utils.Messages;
 
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
-import javax.swing.table.AbstractTableModel;
 
 /**
  * @author dimicb
@@ -59,6 +58,7 @@ public class ProcessTypeTableModel extends AbstractTableModel {
 	
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		ProcessType pt = procTypeList.get(rowIndex);
+
 		switch(columnIndex){
 		case 0: return pt.getName();
 		case 1: return pt.getPubType().getName();
@@ -89,7 +89,8 @@ public class ProcessTypeTableModel extends AbstractTableModel {
 			procTypeList.add(pt);
 		}else{
 			//update
-			pt.setId(procTypeList.get(index).getId());
+			pt.set_id(procTypeList.get(index).get_id());
+			pt.setLibName(procTypeList.get(index).getLibName());
 			procTypeList.set(index, pt);
 			successful = LibEnvProxy.updateProcessType(pt);
 		}		

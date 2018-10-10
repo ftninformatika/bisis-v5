@@ -1,43 +1,5 @@
 package com.ftninformatika.bisis.libenv;
 
-import com.ftninformatika.utils.Messages;
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.text.MessageFormat;import java.util.List;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicTreeUI;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
-import javax.swing.tree.TreePath;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.formattree.FormatUtils;
 import com.ftninformatika.bisis.format.PubTypes;
@@ -47,8 +9,22 @@ import com.ftninformatika.bisis.format.USubfield;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.ProcessTypeBuilder;
-
+import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicTreeUI;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.MessageFormat;
+import java.util.List;
 
 
 /**
@@ -187,11 +163,11 @@ public class ProcessTypeFrame extends JInternalFrame {
 	
 	private ProcessType getProcessTypeFromForm(){
 		selectedProcessType = new ProcessType();
-		if(!sourceTxtArea.getText().equals("")){ //$NON-NLS-1$
+	/*	if(!sourceTxtArea.getText().equals("")){ //$NON-NLS-1$
 			ProcessType pt = ProcessTypeBuilder.getProcessType(sourceTxtArea.getText());
 			if(pt!=null)
 				selectedProcessType = pt; 
-		}
+		}*/
 		if(selectedProcessType!=null){
 			selectedProcessType.setInitialSubfields(sfTableModel.getInitialSubfields());
 			selectedProcessType.setMandatorySubfields(sfTableModel.getMandatorySubfields());
@@ -203,8 +179,12 @@ public class ProcessTypeFrame extends JInternalFrame {
 	
 	private void handleSaveProcessType() {		
 		boolean saved = processTypeTableModel.updateProcessType(getProcessTypeFromForm());
-		if(!saved)
-			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"),JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+		if(!saved) {
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+		}else{
+			JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_SUCCESS"), Messages.getString("LIBENV_SUCCESS"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
+
+		}
 	}
 	
 	private void handleUpdatePubTypeTree() {
@@ -359,7 +339,8 @@ public class ProcessTypeFrame extends JInternalFrame {
 		return message.toString();
 	}
 	
-	private void handleLoadTabs(){		
+	private void handleLoadTabs(){
+
 		if(tabbedPane.getSelectedIndex()==0 && !sourceTxtArea.getText().equals("")){			 //$NON-NLS-1$
 			ProcessType pt = ProcessTypeBuilder
 				.getProcessType(sourceTxtArea.getText());
@@ -417,12 +398,12 @@ public class ProcessTypeFrame extends JInternalFrame {
 		ptPanel.add(new JLabel(Messages.getString("ProcessType.NAME_PROCESS_TYPE")),"wrap"); //$NON-NLS-1$ //$NON-NLS-2$
 		ptPanel.add(processTypeNameTxtFld,"wrap, grow"); //$NON-NLS-1$
 		ptPanel.add(sfTableScrollPane,"grow"); //$NON-NLS-1$
-		tabbedPane.addTab("table", ptPanel); //$NON-NLS-1$
+		tabbedPane.addTab(Messages.getString("ProcessType.SETTINGS"), ptPanel); //$NON-NLS-1$
 		
 		JPanel sourcePanel = new JPanel();
 		JScrollPane sourceScrollPane = new JScrollPane(sourceTxtArea);
 		sourcePanel.add(sourceScrollPane);
-		tabbedPane.addTab("source", sourceScrollPane); //$NON-NLS-1$
+		//tabbedPane.addTab("source", sourceScrollPane); //$NON-NLS-1$
 		
 		
 		

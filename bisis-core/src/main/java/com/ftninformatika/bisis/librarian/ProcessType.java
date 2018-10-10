@@ -1,7 +1,5 @@
 package com.ftninformatika.bisis.librarian;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UFormat;
 import com.ftninformatika.bisis.format.UIndicator;
@@ -9,7 +7,6 @@ import com.ftninformatika.bisis.format.USubfield;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -91,11 +88,9 @@ public class ProcessType implements Serializable {
       retVal.append(" <initial-subfield name=\"");
       retVal.append(s.getOwner().getName()+s.getName());      
       retVal.append("\"");
-      if(s.getDefaultValue()!=null){
       	retVal.append(" defaultValue=\"");
-      	retVal.append(s.getDefaultValue());
+      	retVal.append(s.getDefaultValue()==null ? "":s.getDefaultValue());
       	retVal.append("\" ");
-      }      	
       retVal.append("/>\n");
     }
     for (USubfield s : mandatorySubfields) {

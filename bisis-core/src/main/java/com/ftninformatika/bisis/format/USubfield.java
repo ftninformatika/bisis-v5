@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.format;
 
-import com.fasterxml.jackson.annotation.*;
-import com.google.gson.annotations.Expose;
-import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.io.Serializable;
 import java.util.ArrayList;

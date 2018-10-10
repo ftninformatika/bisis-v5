@@ -1,10 +1,6 @@
 package com.ftninformatika.bisis.librarian;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import com.ftninformatika.bisis.format.PubTypes;
-import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.UIndicator;
 import com.ftninformatika.bisis.format.USubfield;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
@@ -13,6 +9,8 @@ import com.ftninformatika.utils.xml.XMLUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.util.stream.Collectors;
 
 
@@ -37,7 +35,6 @@ public class ProcessTypeBuilder extends DefaultHandler {
       pt.setPubType(PubTypes.getPubType(Integer.parseInt(attrs.getValue("pubType"))));
     } else if (qName.equals("initial-subfield")) {
     		USubfield usf = pt.getPubType().getSubfield(attrs.getValue("name"));
-    		if(attrs.getValue("defaultValue")!=null)
     			usf.setDefaultValue(attrs.getValue("defaultValue"));    		
       pt.getInitialSubfields().add(usf);      
     } else if (qName.equals("mandatory-subfield")) {
@@ -74,15 +71,19 @@ public class ProcessTypeBuilder extends DefaultHandler {
       retVal.setName(ptDTO.getName());
       retVal.setLibName(ptDTO.getLibName());
 
-      if (ptDTO.getInitialFields() != null)
-         retVal.setInitialSubfields( ptDTO.getInitialFields().stream().
-                  map(i -> retVal.getPubType().getSubfield(i.getFieldName()+i.getSubfieldName())).
-                  collect(Collectors.toList()) );
+      if (ptDTO.getInitialFields() != null){
+          for (USubfieldDTO subDTO : ptDTO.getInitialFields()){
+              USubfield sub = retVal.getPubType().getSubfield(subDTO.getFieldName()+subDTO.getSubfieldName()).shallowCopy();
+              sub.setDefaultValue(subDTO.getDefaultValue());
+              retVal.getInitialSubfields().add(sub);
+          }
+      }
+
 
 
       if (ptDTO.getMandatoryFields() != null)
           retVal.setMandatorySubfields( ptDTO.getMandatoryFields().stream().
-                  map(i -> retVal.getPubType().getSubfield(i.getFieldName()+i.getSubfieldName())).
+                  map(i -> retVal.getPubType().getSubfield(i.getFieldName()+i.getSubfieldName()).shallowCopy()).
                   collect(Collectors.toList()) );
 
 
@@ -101,13 +102,13 @@ public class ProcessTypeBuilder extends DefaultHandler {
 
       if (pt.getInitialSubfields() != null && pt.getInitialSubfields().size() > 0)
         retVal.setInitialFields(pt.getInitialSubfields().stream()
-                                   .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName()))
+                                   .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName(), i.getDefaultValue()))
                                    .collect(Collectors.toList()));
 
 
       if (pt.getMandatorySubfields() != null && pt.getMandatorySubfields().size() > 0)
           retVal.setMandatoryFields(pt.getMandatorySubfields().stream()
-                  .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName()))
+                  .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName(), i.getDefaultValue()))
                   .collect(Collectors.toList()));
 
     return retVal;

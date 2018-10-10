@@ -16,6 +16,7 @@ public class USubfieldDTO {
 
     private String fieldName;
     private char subfieldName;
+    private String defaultValue;
 
 
 }

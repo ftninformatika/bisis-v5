@@ -3,14 +3,13 @@
  */
 package com.ftninformatika.bisis.libenv;
 
-import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.USubfield;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.ftninformatika.utils.Messages;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dimicb
@@ -23,9 +22,10 @@ public class ProcessTypeSubfieldsTableModel extends AbstractTableModel {
 	String[] columns;
 	
 	public ProcessTypeSubfieldsTableModel(){
-		columns = new String[2];
+		columns = new String[3];
 		columns[0]=Messages.getString("ProcessType.SUBFIELD"); //$NON-NLS-1$
-		columns[1]=Messages.getString("ProcessType.MANDATORY"); //$NON-NLS-1$
+        columns[1]=Messages.getString("ProcessType.DEFAULT"); //$NON-NLS-1$
+		columns[2]=Messages.getString("ProcessType.MANDATORY"); //$NON-NLS-1$
 	}
 	
 	public int getColumnCount() {		
@@ -41,15 +41,16 @@ public class ProcessTypeSubfieldsTableModel extends AbstractTableModel {
 		if(initialSubfields.size()>0){
 			USubfield usf = initialSubfields.get(rowIndex);
 			switch(columnIndex){
-			case 0: return usf;		
-			case 1: return new Boolean(mandatorySubfields.contains(usf));
+			case 0: return usf;
+			case 1: return usf.getDefaultValue()==null ? "": usf.getDefaultValue();
+			case 2: return new Boolean(mandatorySubfields.contains(usf));
 			}
 		}
 		return null;
 	}
 	
 	public boolean isCellEditable(int row, int col){
-		return col==1; 
+		return col==1||col==2;
 	}
 	
 	public String getColumnName(int column){
@@ -64,6 +65,9 @@ public class ProcessTypeSubfieldsTableModel extends AbstractTableModel {
 		if(col==0)
 			initialSubfields.set(row, (USubfield)value);
 		else if(col==1){
+		    initialSubfields.get(row).setDefaultValue((String)value);
+        }
+		else if(col==2){
 			USubfield usf = initialSubfields.get(row);
 			if(value.equals(true)){				
 				if(!mandatorySubfields.contains(usf))
