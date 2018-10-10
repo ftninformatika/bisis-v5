@@ -95,7 +95,7 @@ public class Report {
     record=rec;
     
     Configuration  cfg = new Configuration();
-    String locale = BisisApp.appConfig.getClientConfig().getLibraryName();
+    String locale = BisisApp.appConfig.getClientConfig().getBookcardsLocale();
     cfg.setClassForTemplateLoading(Report.class, "/templejti/" +locale+"/");
 
     Base Base=new Base(docID, rec, typeCode);   
@@ -343,7 +343,7 @@ public class Report {
       translateY = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBookcardsTranslateY());
       fontSize = BisisApp.appConfig.getClientConfig().getBookcardsFontSize();
       brRedova = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBookcardsBrRedova());
-      locale = BisisApp.appConfig.getClientConfig().getLibraryName();
+      locale = BisisApp.appConfig.getClientConfig().getBookcardsLocale();
       nextPage= BisisApp.appConfig.getClientConfig().getBookcardsNextPage();
       currentType = BisisApp.appConfig.getClientConfig().getBookcardsCurrentType();
 

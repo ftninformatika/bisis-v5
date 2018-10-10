@@ -33,6 +33,7 @@ public class CoderFrame extends JInternalFrame {
     tblData.setRowSelectionAllowed(true);
     tblData.setColumnSelectionAllowed(false);
     tblData.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    tblData.putClientProperty("Quaqua.Table.style", "striped");
     spData.setViewportView(tblData);
     spData.setPreferredSize(new Dimension(400, 300));
     btnAdd.setIcon(new ImageIcon(getClass().getResource(
