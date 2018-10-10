@@ -150,6 +150,23 @@ public class CodersController {
         return edurep.getCoders(libName);
     }
 
+    @RequestMapping(path = "education", method = RequestMethod.POST)
+    public ArrayList<Object> insertUpdateEduLvl(@RequestBody EducationLvl educationLvl){
+        ArrayList<Object> retVal = new ArrayList<>();
+
+        EducationLvl el = edurep.save(educationLvl);
+        retVal.add(0, el.get_id());
+        retVal.add(1, el.getDescription());
+
+        return retVal;
+    }
+
+    @RequestMapping(path = "education/delete")
+    public Boolean deleteEduLvl(@RequestParam ("_id") String place_id){
+        edurep.delete(place_id);
+        return edurep.findOne(place_id) == null;
+    }
+
     @RequestMapping(path = "language")
     public List<Language> getLanguages(String libName){
         return langrep.getCoders(libName);

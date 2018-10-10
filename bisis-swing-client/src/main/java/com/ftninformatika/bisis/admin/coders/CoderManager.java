@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.admin.coders;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.EducationLvl;
 import com.ftninformatika.bisis.circ.Organization;
 import com.ftninformatika.bisis.circ.Place;
 
@@ -31,6 +32,13 @@ public class CoderManager {
                     o.setZip(String.valueOf(row.get(4)));
                     retVal = BisisApp.bisisService.insertEditOrganization(o).execute().body();
                 }; break;
+                case "edu_lvl": {
+                    EducationLvl e = new EducationLvl();
+                    e.set_id(null);
+                    e.setDescription(String.valueOf(row.get(1)));
+                    e.setLibrary(BisisApp.appConfig.getLibrary());
+                    retVal = BisisApp.bisisService.insertEditEduLvl(e).execute().body();
+                }; break;
             }
             return retVal;
         }
@@ -57,6 +65,13 @@ public class CoderManager {
                     o.setZip(String.valueOf(row.get(4)));
                     retVal = BisisApp.bisisService.insertEditOrganization(o).execute().body();
                 }; break;
+                case "edu_lvl": {
+                    EducationLvl e = new EducationLvl();
+                    e.set_id(String.valueOf(row.get(0)));
+                    e.setDescription(String.valueOf(row.get(1)));
+                    e.setLibrary(BisisApp.appConfig.getLibrary());
+                    retVal = BisisApp.bisisService.insertEditEduLvl(e).execute().body();
+                }; break;
             }
             return retVal;
         }
@@ -70,6 +85,9 @@ public class CoderManager {
                 }; break;
                 case "organization": {
                     retVal = BisisApp.bisisService.deleteOrganization(_id).execute().body();
+                }; break;
+                case "edu_lvl": {
+                    retVal = BisisApp.bisisService.deleteEduLvl(_id).execute().body();
                 }; break;
             }
             return retVal;

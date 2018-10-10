@@ -251,6 +251,12 @@ public interface BisisService {
     @GET("coders/education")
     Call<List<EducationLvl>> getEducationLvls(@Query("libName")String libName);
 
+    @POST("coders/education")
+    Call<ArrayList<Object>> insertEditEduLvl(@Body EducationLvl educationLvl);
+
+    @GET("coders/education/delete")
+    Call<Boolean> deleteEduLvl(@Query("_id")String _id);
+
     @GET("coders/language")
     Call<List<Language>> getLanguages(@Query("libName")String libName);
 
