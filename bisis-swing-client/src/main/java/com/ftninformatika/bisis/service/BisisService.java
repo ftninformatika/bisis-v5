@@ -291,6 +291,12 @@ public interface BisisService {
     @GET("coders/organization")
     Call<List<Organization>> getOrganizations(@Query("libName")String libName);
 
+    @POST("coders/organization")
+    Call<ArrayList<Object>> insertEditOrganization(@Body Organization organization);
+
+    @GET("coders/organization/delete")
+    Call<Boolean> deleteOrganization(@Query("_id")String _id);
+
     @GET("circ_configs/search/findByLibrary")
     Call<CircConfig> getCircConfigs(@Query("libname") String libName);
 

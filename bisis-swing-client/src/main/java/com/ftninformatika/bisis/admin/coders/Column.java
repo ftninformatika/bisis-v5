@@ -8,6 +8,7 @@ public class Column {
   private int length;
   private int precision;
   private boolean key;
+  private boolean visible;
 
   public Column() {
   }
@@ -20,6 +21,17 @@ public class Column {
     this.length = length;
     this.precision = precision;
     this.key = key;
+  }
+
+  public Column(String name, String caption, int type, int length,
+                int precision, boolean key, boolean visible) {
+    this.name = name;
+    this.caption = caption;
+    this.type = type;
+    this.length = length;
+    this.precision = precision;
+    this.key = key;
+    this.visible = visible;
   }
 
   public String getCaption() {

@@ -202,6 +202,26 @@ public class CodersController {
     @RequestMapping(path = "organization")
     public List<Organization> getOrganizations(String libName){return orgrep.getCoders(libName);}
 
+    @RequestMapping(path = "organization", method = RequestMethod.POST)
+    public ArrayList<Object> insertEditOrganization(@RequestBody Organization organization){
+        ArrayList<Object> retVal = new ArrayList<>();
+
+        Organization org = orgrep.save(organization);
+        retVal.add(0, org.get_id());
+        retVal.add(1, org.getName());
+        retVal.add(2, org.getAddress());
+        retVal.add(3, org.getCity());
+        retVal.add(4, org.getZip());
+
+        return retVal;
+    }
+
+    @RequestMapping(path = "organization/delete")
+    public Boolean deleteOrganization(@RequestParam("_id") String org_id){
+        orgrep.delete(org_id);
+        return orgrep.findOne(org_id) == null;
+    }
+
     @RequestMapping(path = "circlocation")
     public List<CircLocation> getCircLocations(String libName){
         return circLocationRepository.getCoders(libName);
