@@ -248,6 +248,7 @@
         <item code="sl" value="Slovenija"/>
         <item code="sr" value="Srbija"/>
         <item code="vj" value="Vojvodina"/>
+        <item code="rs" value="Republika Srpska"/>
       </coder>
     </subfield>
     <subfield name="c" description="Država izdavanja (nije ISO)" mandatory="false" repeatable="true" length="3">
@@ -2233,8 +2234,8 @@
       <coder external="true" type="1"/>
     </subfield>
   </field>
-  <field name="230" description="Grupa posebne građe: osobine elektronskog izvora" repeatable="true">
-		<subfield name="a" description="Oznaka i opseg datoteke" repeatable="false" length="50"/> 
+  <field name="230" secondary="false" mandatory="false" description="Grupa posebne građe: osobine elektronskog izvora" repeatable="true">
+		<subfield name="a" mandatory="false" description="Oznaka i opseg datoteke" repeatable="false" length="50"/>
 	</field>
   <field name="300" description="GENERAL NOTES" mandatory="false" repeatable="true" secondary="false">
     <indicator index="1" description="Indikator o ispisu u kataloškim jedinicama">
@@ -2249,7 +2250,7 @@
   <field name="302" description="Notes pertaining to coded information" mandatory="false" repeatable="true" secondary="false">
 	 	<subfield name="a" description="Text of Note" mandatory="false" repeatable="false" length="0"/>
   </field>
-  <field name="304" description="Notes pertaining to title and statement od responsibility" mandatory="true for electronic resources, otherwise optional" repeatable="true" secondary="false">
+  <field name="304" description="Notes pertaining to title and statement od responsibility" mandatory="true" repeatable="true" secondary="false">
 		<subfield name="a" description="Text of Note" mandatory="false" repeatable="false" length="0"/>
   </field>
   <field name="305" description="Notes pertaining to edition and bibliographic history" mandatory="false" repeatable="true" secondary="false">
@@ -2744,30 +2745,30 @@
 		<subfield name="y" description="ISBN/ISMN broj" mandatory="false" repeatable="false" length="0"/>
 		<subfield name="z" description="CODEN" mandatory="false" repeatable="false" length="0"/>
 	</field>
-	<field name="482" description="Privezano uz" mandatory="false" repeatable="true" secondary="false">
-	   <indicator index="2" description="Indikator o ispisu polja na kataloškim jedinicama">
-			<item code="0" value="Polje se ne ispisuje"/>
-			<item code="1" value="Polje se ispisuje za potrebe kataloga"/>
-		</indicator>
-		<subfield name="0" description="Identifikatior sloga ID" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="1" description="Broj taga" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="3" description="Broj normativnog zapisa" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="5" description="Institucija na koju se polje odnosi" mandatory="false" repeatable="false" length="0"/>		
-		<subfield name="9" description="Inventarni broj na koji se odnosi polje" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="a" description="Autor" mandatory="false" repeatable="false" length="0"/>s
-		<subfield name="c" description="Mesto izdavanje" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="d" description="Godina izdavanja" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="e" description="Podatak o izdanju" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="h" description="Oznaka dela" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="i" description="stvarni naslov dela" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="p" description="Materijalni opis" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="t" description="Naslov" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="u" description="URL adresa" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="v" description="Numeracija u zbirci" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="x" description="ISSN broj" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="y" description="ISBN/ISMN broj" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="z" description="CODEN" mandatory="false" repeatable="false" length="0"/>
-	</field>
+  <field name="482" description="Privezano uz" mandatory="false" repeatable="true" secondary="false">
+    <indicator index="2" description="Indikator o ispisu polja na kataloškim jedinicama">
+      <item code="0" value="Polje se ne ispisuje"/>
+      <item code="1" value="Polje se ispisuje za potrebe kataloga"/>
+    </indicator>
+    <subfield name="0" description="Identifikatior sloga ID" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="1" description="Broj taga" mandatory="false" repeatable="true" length="0"/>
+    <subfield name="3" description="Broj normativnog zapisa" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="5" description="Institucija na koju se polje odnosi" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="9" description="Inventarni broj na koji se odnosi polje" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="a" description="Autor" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="c" description="Mesto izdavanje" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="d" description="Godina izdavanja" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="e" description="Podatak o izdanju" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="h" description="Oznaka dela" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="i" description="stvarni naslov dela" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="p" description="Materijalni opis" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="t" description="Naslov" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="u" description="URL adresa" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="v" description="Numeracija u zbirci" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="x" description="ISSN broj" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="y" description="ISBN/ISMN broj" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="z" description="CODEN" mandatory="false" repeatable="false" length="0"/>
+  </field>
   <field name="488" description="Na drugi način povezane publikacije" mandatory="false" repeatable="true" secondary="false">
     <indicator index="2" description="Indikator o ispisu polja na kataloškim jedinicama">
       <item code="0" value="Polje se ne ispisuje"/>
@@ -4558,7 +4559,7 @@
 		<item code="sas" value="Sasak"/>
 		<item code="sat" value="Santali"/>
 		<item code="scc" value="Srpski - ćirilica"/>
-		<item code="srp" value="Srpski" version="after 2007"/>
+		<item code="srp" value="Srpski"/>
 		<item code="scn" value="Sicilijanski"/>
 		<item code="sco" value="Škotski"/>
 		<item code="scr" value="Srpski - latinica"/>	

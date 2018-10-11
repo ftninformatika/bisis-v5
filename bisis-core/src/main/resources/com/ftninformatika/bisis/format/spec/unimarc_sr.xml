@@ -259,6 +259,7 @@
 				<item code="sl" value="Slovenija"/>
 				<item code="sr" value="Srbija"/>
 				<item code="vj" value="Vojvodina"/>
+				<item code="rs" value="Republika Srpska"/>
 			</coder>
 		</subfield>
 		<subfield name="c" description="Država izdavanja (nije ISO)" mandatory="false" repeatable="true" length="3">
@@ -4600,7 +4601,7 @@
 		<item code="sas" value="Sasak"/>
 		<item code="sat" value="Santali"/>
 		<item code="scc" value="Srpski - ćirilica"/>
-		<item code="srp" value="Srpski" version="after 2007"/>
+		<item code="srp" value="Srpski"/>
 		<item code="scn" value="Sicilijanski"/>
 		<item code="sco" value="Škotski"/>
 		<item code="scr" value="Srpski - latinica"/>	
