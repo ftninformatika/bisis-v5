@@ -70,6 +70,7 @@ public class OpstinskePremaUdk extends Report {
     if (rec == null)
       return;
     String RN = rec.getSubfieldContent("001e");
+    String udk = rec.getSubfieldContent("675a");
     for (Primerak p : rec.getPrimerci()) {
       Matcher matcher = pattern.matcher(p.getInvBroj());
       if (!matcher.matches())
@@ -96,7 +97,6 @@ public class OpstinskePremaUdk extends Report {
       if(ogranakID==null){
         ogranakID="\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
       }
-      String udk=p.getSigUDK();
       if (udk == null) {
         log.error("RN: " + RN + " nedostaje 996du za IN=" + invBr + "\n");
         error = true;
