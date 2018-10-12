@@ -56,14 +56,14 @@ public class RegistryDlg extends JDialog {
     btnSearch.setToolTipText("Пронађи ставку");
     btnSearch.setFocusable(false);
 
-    if (!LibraryList.isRegistryEnabled(BisisApp.appConfig.getLibrary()) || !BisisApp.appConfig.getLibrarian().isRedaktor()){
-      btnAdd.setEnabled(false);
-      btnAdd.setToolTipText("Немате привилегије!");
-      btnModify.setEnabled(false);
-      btnModify.setToolTipText("Немате привилегије!");
-      btnRemove.setToolTipText("Немате привилегије!");
-      btnRemove.setEnabled(false);
-    }
+//    if (!LibraryList.isRegistryEnabled(BisisApp.appConfig.getLibrary()) || !BisisApp.appConfig.getLibrarian().isRedaktor()){
+//      btnAdd.setEnabled(false);
+//      btnAdd.setToolTipText("Немате привилегије!");
+//      btnModify.setEnabled(false);
+//      btnModify.setToolTipText("Немате привилегије!");
+//      btnRemove.setToolTipText("Немате привилегије!");
+//      btnRemove.setEnabled(false);
+//    }
 
     Box north = Box.createHorizontalBox();
     north.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
