@@ -142,7 +142,12 @@ public class LibrarianFrame extends JInternalFrame {
         administracijaCheckBox.setSelected(lib.isAdministration());
         obradaCheckBox.setSelected(lib.isCataloguing());
         cirkulacijaCheckBox.setSelected(lib.isCirculation());
-        cirkulacijaPlusCheckBox.setSelected(lib.isCirkulacijaPlus());
+        if (lib.isCirkulacija()) {
+            cirkulacijaPlusCheckBox.setEnabled(true);
+            cirkulacijaPlusCheckBox.setSelected(lib.isCirkulacijaPlus());
+        } else {
+            cirkulacijaPlusCheckBox.setEnabled(false);
+        }
         redaktorRadioBtn.setSelected(lib.isRedaktor());
         inventatorRadioBtn.setSelected(lib.isInventator());
         if (lib.getIme() != null) nameTxtFld.setText(lib.getIme());
@@ -345,7 +350,7 @@ public class LibrarianFrame extends JInternalFrame {
         loginDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.PASSWORD")), "wrap"); //$NON-NLS-1$ //$NON-NLS-2$
         loginDataPanel.add(passwordTxtFld, "grow"); //$NON-NLS-1$
 
-        privilegePanel.setLayout(new MigLayout("", "", "[]10[]10[]10[]10[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        privilegePanel.setLayout(new MigLayout("", "", "[]10[]10[]10[]10[]10[]10[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         privilegePanel.setBorder(BorderFactory.createTitledBorder(Messages.getString("LibrarianEnvironment.ROLES")));         //$NON-NLS-1$
         privilegePanel.add(administracijaCheckBox, "wrap"); //$NON-NLS-1$
         privilegePanel.add(obradaCheckBox, "wrap"); //$NON-NLS-1$
@@ -353,7 +358,8 @@ public class LibrarianFrame extends JInternalFrame {
         invRedGroup.add(redaktorRadioBtn);
         privilegePanel.add(redaktorRadioBtn, "wrap"); //$NON-NLS-1$
         privilegePanel.add(inventatorRadioBtn, "wrap"); //$NON-NLS-1$
-        privilegePanel.add(cirkulacijaCheckBox);
+        privilegePanel.add(cirkulacijaCheckBox, "wrap");
+        privilegePanel.add(cirkulacijaPlusCheckBox);
         redaktorRadioBtn.setEnabled(false);
         inventatorRadioBtn.setEnabled(false);
         obradaCheckBox.addItemListener(new ItemListener() {
@@ -370,6 +376,17 @@ public class LibrarianFrame extends JInternalFrame {
                 }
             }
         });
+        cirkulacijaCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (cirkulacijaCheckBox.isSelected()) {
+                    cirkulacijaPlusCheckBox.setEnabled(true);
+                } else {
+                    cirkulacijaPlusCheckBox.setSelected(false);
+                    cirkulacijaPlusCheckBox.setEnabled(false);
+                }
+            }
+        });
 
 
         additionalDataPanel.setLayout(new MigLayout("", "[right]5[]", "[]15[]15[]15[]15[]15[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -381,7 +398,7 @@ public class LibrarianFrame extends JInternalFrame {
         additionalDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.E-MAIL"))); //$NON-NLS-1$
         additionalDataPanel.add(emailTxtFld, "wrap, grow"); //$NON-NLS-1$
         additionalDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.NOTE"))); //$NON-NLS-1$
-        notesScrollPane.setPreferredSize(new Dimension(100, 50));
+        notesScrollPane.setPreferredSize(new Dimension(100, 100));
         additionalDataPanel.add(notesScrollPane, "wrap, grow"); //$NON-NLS-1$
         additionalDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.DEFAULT_DEPARTMENT"))); //$NON-NLS-1$
         additionalDataPanel.add(defaultDepartmentCombo, "wrap, grow"); //$NON-NLS-1$
@@ -390,16 +407,16 @@ public class LibrarianFrame extends JInternalFrame {
 
         firstTabpanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(0, 5, 0, 5);
+        c.insets = new Insets(0, 0, 0, 0);
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 0.3;
         //c.weighty = 0.3;
-        c.insets = new Insets(0, 0, 10, 30);
+        c.insets = new Insets(0, 0, 0, 0);
         c.fill = GridBagConstraints.BOTH;
         firstTabpanel.add(loginDataPanel, c);
         c.gridy = 1;
-        c.insets = new Insets(0, 0, 0, 90);
+        c.insets = new Insets(0, 0, 0, 0);
         firstTabpanel.add(privilegePanel, c);
         c.insets = new Insets(0, 0, 0, 0);
         c.gridx = 1;
