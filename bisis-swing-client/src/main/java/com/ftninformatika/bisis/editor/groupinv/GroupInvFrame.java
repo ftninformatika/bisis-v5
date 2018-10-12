@@ -2,10 +2,7 @@ package com.ftninformatika.bisis.editor.groupinv;
 
 import com.ftninformatika.utils.Messages;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
@@ -22,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import javax.swing.plaf.basic.BasicTreeUI;
 
 import com.ftninformatika.bisis.BisisApp;
 import net.miginfocom.swing.MigLayout;
@@ -130,6 +128,12 @@ public class GroupInvFrame extends JInternalFrame {
                 handleTableSelectionChanged();
             }
         });
+
+        inventarTable.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent arg0) {
+                handleKeys(inventarTable, arg0);
+            }
+        });
     }
 
 
@@ -218,6 +222,12 @@ public class GroupInvFrame extends JInternalFrame {
         else
             JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                     Messages.getString("ERROR_DATA_NOT_SAVED"), Messages.getString("EDITOR_ERROR"), JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void handleKeys(Component comp, KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_DELETE)
+            tableModel.deleteRow(inventarTable.getSelectedRow());
+
     }
 
     private void handleClearList() {
