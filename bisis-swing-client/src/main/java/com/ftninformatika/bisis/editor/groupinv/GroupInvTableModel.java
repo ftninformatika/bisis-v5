@@ -67,6 +67,42 @@ public class GroupInvTableModel extends AbstractTableModel {
             return getValueForColumn(sveske.get(rowIndex - brojPrimeraka - brojGodina), columnIndex);
     }
 
+    public void deleteRow(int rowIndex) {
+        String invNum = String.valueOf(getValueAt(rowIndex, 0));
+        boolean deleted = false;
+
+
+        for (Primerak p: primerci) {
+            if (p.getInvBroj().equals(invNum)){
+                primerci.remove(p);
+                deleted = true;
+                break;
+            }
+        }
+
+        if (!deleted)
+            for (Godina g: godine) {
+                if (g.getInvBroj().equals(invNum)){
+                    godine.remove(g);
+                    deleted = true;
+                    break;
+                }
+            }
+
+        if (!deleted)
+            for (Sveska s: sveske) {
+                if (s.getInvBroj().equals(invNum)){
+                    sveske.remove(s);
+                    deleted = true;
+                    break;
+                }
+            }
+
+        if (deleted) {
+            fireTableRowsDeleted(rowIndex, rowIndex);
+        }
+    }
+
     public Object getValueForColumn(Object o, int column) {
         if (o instanceof Primerak) {
             if (column == 0) return ((Primerak) o).getInvBroj();
