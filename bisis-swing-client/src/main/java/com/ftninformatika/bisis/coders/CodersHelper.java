@@ -335,7 +335,6 @@ public class CodersHelper {
             librarians = librariansCoders.stream().collect(Collectors.toMap(LibrarianDTO::getUsername, i -> i));
 
             //circkulacija
-            /*List<CircLocation> circLocationList =*/
             circLocations = BisisApp.bisisService.getCircLocations(BisisApp.appConfig.getLibrary()).execute().body();
             corporateMembers = BisisApp.bisisService.getCorporateMembers(BisisApp.appConfig.getLibrary()).execute().body();
             educationLevels = BisisApp.bisisService.getEducationLvls(BisisApp.appConfig.getLibrary()).execute().body();
