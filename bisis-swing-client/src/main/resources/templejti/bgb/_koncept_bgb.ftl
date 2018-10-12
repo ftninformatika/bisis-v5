@@ -1,6 +1,51 @@
-<#include "_polja_gbbg.ftl"
+<#include "_polja_bgb.ftl">
+<#macro prilozi
+><#assign firstPril=true
+><#assign pril=""
 
-><#assign odr=""
+><#if f421?exists
+><#list f421 as fieldSec
+    ><#assign val=""
+        ><@field421 fieldSec /><#--
+              --><#if val!=""
+        ><#assign pril=pril+"<BR>--&nbsp;"+val
+            ></#if
+        ></#list
+    ></#if
+><#if f423?exists
+><#list f423 as fieldSec
+    ><#assign val=""
+        ><@field421 fieldSec /><#--
+              --><#if val!=""
+        ><#assign pril=pril+"<BR>--&nbsp;"+val
+            ></#if
+        ></#list
+    ></#if
+><#if f469?exists
+><#list f469 as fieldSec
+    ><#assign val=""
+        ><@field469 fieldSec /><#--
+              --><#if val!=""
+        ><#if firstPril
+            ><#assign pril=pril+"<BR>--&nbsp;"+sadrzaj+"&nbsp;"
+                ><#assign firstPril=false
+                ><#else
+            ><#if fieldSec.ind2="0"
+                ><#assign pril=pril+"&nbsp;;&nbsp;"
+                    ><#elseif fieldSec.ind2="1"
+                ><#assign pril=pril+".&nbsp;"
+                    ><#elseif fieldSec.ind2="2"
+                ><#assign pril=pril+".&nbsp;-&nbsp;"
+                    ><#elseif fieldSec.ind2="3"
+                ><#assign pril=pril+"&nbsp;:&nbsp;"
+                    ></#if
+                ></#if
+            ><#assign pril=pril+val
+            ></#if
+        ></#list
+    ></#if
+></#macro>
+<#assign odr=""
 
 
 ><#macro toRoman
@@ -146,86 +191,61 @@
  ><#assign val=pom
 ></#macro
 
-><#macro glavniOpis
-><#assign opis=""
-><#if f200?exists 
-     ><#list f200 as field            
-            ><#if field.ind1="1"
-                    ><#assign val="" 
-                    ><#assign allSF="@"   
-                    ><@field200 field/><#--
-                    --><#if odr="f200"
-                                ><#assign number=1
-                                ><@upperFirstN/><#--
-                   --></#if
-                   ><#assign opis=opis+"&nbsp;&nbsp;&nbsp;"+val  
-           ><#else
-                    ><#assign val=""
-                    ><#assign allSF="@"
-                    ><@field200 field/><#--
-                    --><#if val!=""
-                            ><#assign val=""
-                            ><#assign allSF="abcdefghiv"
-                            ><@field200 field/><#--
-                            --><#assign opis=opis+"&nbsp;&nbsp;&nbsp;"+val
-                    ></#if
-           ></#if
-           ><#break
-    ></#list
-></#if
-><#if f205?exists  
-  ><#list f205 as field
-      ><#assign val=""
-      ><#assign allSF="adfgb"
-      ><@field205 field/><#--
-      --><#if val!=""
-                ><#if opis?ends_with(".") 
-                      ><#assign opis=opis+"&nbsp;-&nbsp;"
-                ><#else
-                      ><#assign opis=opis+".&nbsp;-&nbsp;"
-                ></#if
-                ><#assign opis=opis+val
-      ></#if    
-      ><#break
-  ></#list
-></#if
-><#if f207?exists    
-  ><#list f207 as field
-           ><#assign val=""
-           ><#assign allSF="a"
-  
-           ><@field207 field/><#-- 
-           --><#if val!=""
-                 ><#if opis?ends_with(".")
-                          ><#assign opis=opis+"&nbsp;-&nbsp;"
-                 ><#else
-                          ><#assign opis=opis+".&nbsp;-&nbsp;"
-                 ></#if
-                 ><#assign opis=opis+val 
-           ></#if
-           ><#break
-  ></#list
-></#if
-><#if f210?exists 
-  ><#list f210 as field
-       ><#assign val=""
-       ><#assign allSF="acdegh"
-       ><@field210 field/><#--
-       --><#if val!=""
-                 ><#if opis?ends_with(".")
-                          ><#assign opis=opis+"&nbsp;-&nbsp;"
-                 ><#else
-                          ><#assign opis=opis+".&nbsp;-&nbsp;"
-                 ></#if
-                 ><#assign opis=opis+val 
-       ></#if 
-       ><#break
-  ></#list 
-></#if
-><#if f215?exists
-  ><#list f215 as field
-          ><#assign val=""
-          ><#assign allSF="acde"  
+><#macro glavniOpis>
+    <#assign opis="">
+     <#if f200?exists>
+         <#list f200 as field>
+             <#if field.ind1="1">
+                 <#assign val="">
+                 <#assign allSF="@">
+                 <@field200 field/><#--
+                    --><#if odr="f200">
+                          <#assign number=1>
+                         <@upperFirstN/><#--
+                   --></#if>
+                      <#assign opis=opis+"&nbsp;&nbsp;&nbsp;"+val>
+                      <#else>
+                          <#assign val="">
+                          <#assign allSF="@">
+                          <@field200 field/><#--
+                    --><#if val!="">
+                          <#assign val="">
+                          <#assign allSF="abcdefghiv">
+                          <@field200 field/><#--
+                            --><#assign opis=opis+"&nbsp;&nbsp;&nbsp;"+val>
+                            </#if>
+                            </#if><#break></#list></#if>
+    <#if f205?exists>
+        <#list f205 as field>
+            <#assign val="">
+            <#assign allSF="adfgb">
+            <@field205 field/><#--
+      --><#if val!=""><#if opis?ends_with(".")><#assign opis=opis+"&nbsp;-&nbsp;">
+        <#else><#assign opis=opis+".&nbsp;-&nbsp;"></#if><#assign opis=opis+val>
+
+        </#if><#break></#list></#if>
+    <#if f207?exists>
+        <#list f207 as field>
+            <#assign val="">
+            <#assign allSF="a">
+            <@field207 field/><#--
+           --><#if val!="">
+            <#if opis?ends_with(".")>
+                <#assign opis=opis+"&nbsp;-&nbsp;">
+            <#else>
+                <#assign opis=opis+".&nbsp;-&nbsp;">
+
+                </#if>
+            <#assign opis=opis+val>
+
+            </#if><#break></#list></#if><#if f210?exists><#list f210 as field>
+        <#assign val=""><#assign allSF="acdegh"><@field210 field/><#--
+       --><#if val!=""><#if opis?ends_with(".")><#assign opis=opis+"&nbsp;-&nbsp;"><#else><#assign opis=opis+".&nbsp;-&nbsp;">
+
+       </#if><#assign opis=opis+val>
+
+       </#if><#break></#list></#if><#if f215?exists><#list f215 as field><#assign val="">
+        <#assign allSF="acde"
           ><@field215 field/><#--
           --><#if val!=""
                  ><#if opis?ends_with(".")
@@ -923,7 +943,7 @@
                   ><#if brUDC!=""                     
                      ><#assign brUDC=brUDC+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign brUDC=brUDC+"\x0423\x0414\x041A:&nbsp;"   
+                     ><#assign brUDC=brUDC+"UDK &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                   ></#if
                   ><#assign brUDC=brUDC+val
               ></#if
@@ -986,7 +1006,7 @@
                   		><#if brUDCostali!=""                     
                      		><#assign brUDCostali=brUDCostali+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                      	><#else
-                     		><#assign brUDCostali=brUDCostali+"\x0423\x0414\x041A:&nbsp;"
+                     		><#assign brUDCostali=brUDCostali+"UDK &nbsp;&nbsp;&nbsp;&nbsp;"
                   		></#if
                   		><#assign brUDCostali=brUDCostali+val
                   ></#if		
@@ -1143,7 +1163,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
                   ><#assign po=po+val
               ></#if
@@ -1159,7 +1179,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
                   ><#assign po=po+val
               ></#if
@@ -1175,7 +1195,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
                   ><#assign po=po+val
               ></#if
@@ -1191,7 +1211,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
               ></#if
       ></#list 
@@ -1207,7 +1227,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
                   ><#assign po=po+val
               ></#if
@@ -1223,7 +1243,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
                   ><#assign po=po+val
               ></#if
@@ -1239,7 +1259,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
                   ><#assign po=po+val
               ></#if
@@ -1255,7 +1275,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
                   ><#assign po=po+val
               ></#if
@@ -1271,7 +1291,7 @@
                   ><#if po!=""                     
                      ><#assign po=po+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign po=po+"\x041F\x041E:&nbsp;"   
+                     ><#assign po=po+"Predmetne odrednice &nbsp;&nbsp;"
                   ></#if
                   ><#assign po=po+val
               ></#if

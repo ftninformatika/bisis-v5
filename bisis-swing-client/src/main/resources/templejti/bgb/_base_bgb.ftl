@@ -1,4 +1,4 @@
-<#include "_koncept_gbbg.ftl"
+<#include "_koncept_bgb.ftl"
 ><#assign udcList=false
 ><#assign arap=false
 ><#assign rim=false

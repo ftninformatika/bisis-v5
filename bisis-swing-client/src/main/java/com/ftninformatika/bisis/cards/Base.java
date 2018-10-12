@@ -955,7 +955,9 @@ public class Base {
 	         }
 	      }	      
 	      int pom=out.indexOf("</BISIS>");
-	      out=out.substring(0,pom);
+	      if(pom !=-1) {
+			  out = out.substring(0, pom);
+		  }
 	      out=out+"<BR>";  //za razdvajanje strana	      
 	      return out;
 	  }

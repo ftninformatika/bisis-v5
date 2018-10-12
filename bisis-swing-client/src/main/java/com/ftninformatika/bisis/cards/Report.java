@@ -1,20 +1,21 @@
 package com.ftninformatika.bisis.cards;
 
-import java.util.*;
-import javax.swing.*;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.service.BisisService;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.file.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import freemarker.template.*;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.apache.log4j.Logger;
 
-import java.io.*;
+import javax.swing.*;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Locale;
+import java.util.Map;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 
 
@@ -95,7 +96,6 @@ public class Report {
     record=rec;
     
     Configuration  cfg = new Configuration();
-    String locale = BisisApp.appConfig.getClientConfig().getBookcardsLocale();
     cfg.setClassForTemplateLoading(Report.class, "/templejti/" +locale+"/");
 
     Base Base=new Base(docID, rec, typeCode);   
@@ -217,7 +217,6 @@ public class Report {
     String type; 
     
     Configuration  cfg = new Configuration();
-    String locale = BisisApp.appConfig.getClientConfig().getBookcardsLocale();
 
     cfg.setClassForTemplateLoading(Report.class, "/templejti/" +locale+"/");
     Base Base=new Base(rec);    
@@ -357,7 +356,6 @@ public class Report {
 
   public final static void loadReportTypes()  {
   	  String str="";
-  	  locale = BisisApp.appConfig.getClientConfig().getLibraryName();
       try {
         String dirName = "/templejti/"+locale;
         String[] files = FileUtils.listFiles(Report.class, dirName);
