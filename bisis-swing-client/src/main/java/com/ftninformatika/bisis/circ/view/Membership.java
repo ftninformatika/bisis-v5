@@ -500,14 +500,14 @@ public class Membership {
     public void loadDefault() {
         getCmbGroups().setSelectedIndex(0);
         getRbGroupN().setSelected(true);
-        if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()) {
-            int loc = Cirkulacija.getApp().getEnvironment().getUseridDefaultPrefix();
+//        if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()) {
+            int loc = Cirkulacija.getApp().getEnvironment().getLocation();
             for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
                 if (Integer.parseInt(((CircLocation) getCmbBranchID().getModel().getElementAt(i)).getLocationCode()) == loc) {
                     getCmbBranchID().setSelectedIndex(i);
                 }
             }
-        }
+//        }
         getTfUserID().setEditable(true);
         getTfBranch().setEditable(true);
         getCmbBranchID().setEnabled(true);
