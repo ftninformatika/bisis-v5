@@ -22,6 +22,7 @@ public class LibrarianManager {
         retVal.setNapomena(librarianDTO.getNapomena());
         retVal.setObrada(librarianDTO.isObrada());
         retVal.setCirculation(librarianDTO.isCirkulacija());
+        retVal.setCirkulacijaPlus(librarianDTO.isCirkulacijaPlus());
         retVal.setAdministracija(librarianDTO.isAdministracija());
         retVal.setInventator(librarianDTO.isInventator());
         retVal.setRedaktor(librarianDTO.isRedaktor());
@@ -46,6 +47,7 @@ public class LibrarianManager {
         retVal.setNapomena(lib.getNapomena());
         retVal.setObrada(lib.isObrada());
         retVal.setCirkulacija(lib.isCirkulacija());
+        retVal.setCirkulacijaPlus(lib.isCirkulacijaPlus());
         retVal.setAdministracija(lib.isAdministracija());
         retVal.setInventator(lib.isInventator());
         retVal.setRedaktor(lib.isRedaktor());

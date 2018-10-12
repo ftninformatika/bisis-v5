@@ -68,7 +68,10 @@ public class Environment extends DefaultHandler{
 		} else {
 			xmlsource = new InputSource(Environment.class.getResourceAsStream("/circ-options.xml"));
 		}
-    mac = NetUtils.getMACAddress();
+		mac = NetUtils.getMACAddress();
+		if (BisisApp.appConfig.getLibrarian().getCircDepartment() != null) {
+			mac = BisisApp.appConfig.getLibrarian().getCircDepartment();
+		}
   }
   
   public void setNonCtlgNo(boolean value){

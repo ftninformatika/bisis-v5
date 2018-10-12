@@ -26,9 +26,9 @@ public class ComboBoxRenderer extends JLabel implements ListCellRenderer, Serial
         }
 
         if (value instanceof Location) {
-            setText(((Location) value).getDescription());
+            setText(((Location) value).getCoder_id() + " - " + ((Location) value).getDescription());
         } else if (value instanceof CircLocation) {
-            setText(((CircLocation) value).getDescription());
+            setText(((CircLocation) value).getLocationCode() + " - " + ((CircLocation) value).getDescription() );
         } else {
             setText((value == null) ? "" : value.toString());
         }

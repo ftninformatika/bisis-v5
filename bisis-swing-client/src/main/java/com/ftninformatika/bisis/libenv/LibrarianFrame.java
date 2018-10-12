@@ -142,6 +142,7 @@ public class LibrarianFrame extends JInternalFrame {
         administracijaCheckBox.setSelected(lib.isAdministration());
         obradaCheckBox.setSelected(lib.isCataloguing());
         cirkulacijaCheckBox.setSelected(lib.isCirculation());
+        cirkulacijaPlusCheckBox.setSelected(lib.isCirkulacijaPlus());
         redaktorRadioBtn.setSelected(lib.isRedaktor());
         inventatorRadioBtn.setSelected(lib.isInventator());
         if (lib.getIme() != null) nameTxtFld.setText(lib.getIme());
@@ -192,6 +193,7 @@ public class LibrarianFrame extends JInternalFrame {
         lib.setAdministration(administracijaCheckBox.isSelected());
         lib.setCataloguing(obradaCheckBox.isSelected());
         lib.setCirculation(cirkulacijaCheckBox.isSelected());
+        lib.setCirkulacijaPlus(cirkulacijaPlusCheckBox.isSelected());
         lib.setRedaktor(redaktorRadioBtn.isSelected());
         lib.setInventator(inventatorRadioBtn.isSelected());
         lib.setIme(nameTxtFld.getText());
@@ -468,6 +470,7 @@ public class LibrarianFrame extends JInternalFrame {
     private JRadioButton redaktorRadioBtn = new JRadioButton(Messages.getString("LibrarianEnvironment.REDACTOR"));     //$NON-NLS-1$
     private JRadioButton inventatorRadioBtn = new JRadioButton(Messages.getString("LibrarianEnvironment.INVENTATOR"));     //$NON-NLS-1$
     private JCheckBox cirkulacijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATION")); //$NON-NLS-1$
+    private JCheckBox cirkulacijaPlusCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATIONPLUS")); //$NON-NLS-1$
     private ButtonGroup invRedGroup = new ButtonGroup();
 
     private JPanel additionalDataPanel = new JPanel();
