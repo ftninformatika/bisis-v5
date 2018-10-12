@@ -58,7 +58,16 @@ public class LatCyrUtils {
   public static String toLatinUnaccented(String s) {
     String latin = toLatin(s);
     String normalized = Normalizer.normalize(latin, Normalizer.Form.NFD);
-    String cleaned = normalized.replaceAll("\\p{M}", "");
+    StringBuilder sb = new StringBuilder(s.length());
+    for (int i = 0; i < normalized.length(); i++) {
+      char c = normalized.charAt(i);
+      if(c=='\u0111' || c=='\u0110' ){ //dodato jer normalizer nije pretvarao
+        sb.append("dj");
+      }else if (Character.getType(c) != Character.NON_SPACING_MARK){
+        sb.append( c );
+      }
+    }
+    String cleaned = sb.toString().replaceAll("\\p{M}", "");
     return cleaned;
   }
 
