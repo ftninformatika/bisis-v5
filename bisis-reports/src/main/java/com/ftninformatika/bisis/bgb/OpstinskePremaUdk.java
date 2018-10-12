@@ -97,9 +97,12 @@ public class OpstinskePremaUdk extends Report {
       if(ogranakID==null){
         ogranakID="\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
       }
-      if (udk == null) {
-        log.error("RN: " + RN + " nedostaje 996du za IN=" + invBr + "\n");
-        error = true;
+      if (udk == null) { //ako nema 675a onda probaj iz signature
+        udk = p.getSigUDK();
+        if (udk == null) {
+          log.error("RN: " + RN + " nedostaje UDK za IN=" + invBr + "\n");
+          error = true;
+        }
       }
       
       if (error)
