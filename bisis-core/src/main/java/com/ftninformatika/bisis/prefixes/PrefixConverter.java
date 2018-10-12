@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.prefixes;
 
 import com.ftninformatika.bisis.records.*;
-import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 
@@ -24,7 +23,8 @@ public class PrefixConverter {
     HashMap<String, List<String>> retVal = new HashMap<>();
     List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
     for (PrefixValue pv: prefixes) {
-      String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value) + endPhraseFlag;
+
+      String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value.toLowerCase()) + endPhraseFlag;
       if (retVal.containsKey(pv.prefName)){
         List list = retVal.get(pv.prefName);
         if (!list.contains(valueUnaccented)) {

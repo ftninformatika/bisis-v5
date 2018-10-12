@@ -84,6 +84,7 @@ public class ElasticUtility {
         if (text != null && !"".equals(text)) {
             //za netokenizirane prefikse posebno se proverava da li se pravi match ili wildcard
             if(nottokenized.contains(prefix)){
+                text = text.toLowerCase();
                 if (!text.contains("*")&& !text.contains("?")) {
                     qb = QueryBuilders.matchQuery("prefixes." + prefix, LatCyrUtils.toLatinUnaccented(text)+PrefixConverter.endPhraseFlag);
                 }else {
