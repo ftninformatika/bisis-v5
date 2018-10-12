@@ -188,7 +188,7 @@ public class RecordUtilities {
 	public String getPredmetneOdrednice(){
 		try{
 		StringBuffer buff = new StringBuffer();
-		buff.append("<BR><BR>P.O.:&nbsp;");
+		buff.append("<BR><BR>Predmetne odrednice:&nbsp;");
 		String val = "";
 		boolean prva = true;	
 		if(record.getFields("600").size()>0){
