@@ -19,12 +19,14 @@ spring:
   data:
     mongodb:
       host: localhost
-      port: 27018
+      port: 27017
       database: bisis
+#      uri: mongodb://192.168.200.1:27017,192.168.200.3:27017,192.168.200.38.27017/bisis
     elasticsearch:
       cluster-nodes: localhost:9300
       repositories:
         enabled: true
+      #cluster-name: bisis5
 
   mail:
     host: smtp.gmail.com
@@ -64,9 +66,11 @@ spring:
       port: 27018
       database: bisis
     elasticsearch:
-          cluster-nodes: localhost:9300
+          cluster-nodes: 192.168.200.171:9300, 192.168.200.5:9300
           repositories:
             enabled: true
+          cluster-name: bisis-cluster
+
   main:
     web-environment: false
 

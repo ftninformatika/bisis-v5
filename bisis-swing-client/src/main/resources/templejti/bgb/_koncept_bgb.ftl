@@ -1,12 +1,56 @@
-<#include "_polja_gbbg.ftl"
+<#include "_polja_bgb.ftl">
+<#assign odr="">
+<#macro prilozi
+><#assign firstPril=true
+    ><#assign pril=""
 
-><#assign odr=""
+    ><#if f421?exists
+    ><#list f421 as fieldSec
+        ><#assign val=""
+            ><@field421 fieldSec /><#--
+              --><#if val!=""
+            ><#assign pril=pril+"<BR>--&nbsp;"+val
+                ></#if
+            ></#list
+        ></#if
+    ><#if f423?exists
+    ><#list f423 as fieldSec
+        ><#assign val=""
+            ><@field421 fieldSec /><#--
+              --><#if val!=""
+            ><#assign pril=pril+"<BR>--&nbsp;"+val
+                ></#if
+            ></#list
+        ></#if
+    ><#if f469?exists
+    ><#list f469 as fieldSec
+        ><#assign val=""
+            ><@field469 fieldSec /><#--
+              --><#if val!=""
+            ><#if firstPril
+                ><#assign pril=pril+"<BR>--&nbsp;"+sadrzaj+"&nbsp;"
+                    ><#assign firstPril=false
+                    ><#else
+                ><#if fieldSec.ind2="0"
+                    ><#assign pril=pril+"&nbsp;;&nbsp;"
+                        ><#elseif fieldSec.ind2="1"
+                    ><#assign pril=pril+".&nbsp;"
+                        ><#elseif fieldSec.ind2="2"
+                    ><#assign pril=pril+".&nbsp;-&nbsp;"
+                        ><#elseif fieldSec.ind2="3"
+                    ><#assign pril=pril+"&nbsp;:&nbsp;"
+                        ></#if
+                    ></#if
+                ><#assign pril=pril+val
+                ></#if
+            ></#list
+        ></#if
+    ></#macro
 
-
-><#macro toRoman
-
-     ><#assign roman=""
-     ><#assign ost10=br % 10
+>
+<#macro toRoman>
+    <#assign roman="">
+    <#assign ost10=br % 10
      ><#if ost10=1
               ><#assign roman=roman+"I"
      ><#elseif ost10=2
@@ -93,7 +137,7 @@
 ></#macro
 
 
-><#macro cutFirstN  
+><#macro cutFirstN
  ><#assign i=1
  ><#assign pom=" "
  ><#list val?split(" ") as x

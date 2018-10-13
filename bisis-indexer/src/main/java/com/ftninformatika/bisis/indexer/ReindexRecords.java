@@ -81,6 +81,7 @@ public class ReindexRecords {
                     ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id(), prefixes);
                     ep.add(ee);
                 }
+                
                 elasticRecordsRepository.save(ep);
                 count += 1000;
                 System.out.println("Processed " + count + " of " + num + " records! Library: " + lc.getLibraryName());

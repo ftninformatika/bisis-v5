@@ -19,9 +19,16 @@ public class ReindexConfigElastic {
 
     @Bean
     public Client client() throws Exception {
-        Settings esSettings = Settings.settingsBuilder().build();
+        Settings esSettings = Settings.settingsBuilder()
+               // .put("cluster.name", "bisis5")
+                .build();
+
         Client client = TransportClient.builder()
-                .build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+                .settings(esSettings).build()
+//                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300))
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+//                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.200.171"), 9300));
+
         return client;
     }
 

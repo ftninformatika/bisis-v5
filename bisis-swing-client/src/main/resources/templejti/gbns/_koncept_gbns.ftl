@@ -852,27 +852,27 @@ koncepti biblioteke iz Kikinde i biblioteke iz Novog Sada razlikuju se po odredn
 ><#assign firstPril=true
 ><#assign pril=""
 
-><#if f421?exists 
+><#if f421?exists
       ><#list f421 as fieldSec
-            ><#assign val=""             
+            ><#assign val=""
               ><@field421 fieldSec /><#--
-              --><#if val!=""                  
-                ><#assign pril=pril+"<BR>--&nbsp;"+val                
-              ></#if              
+              --><#if val!=""
+                ><#assign pril=pril+"<BR>--&nbsp;"+val
+              ></#if
       ></#list
 ></#if
-><#if f423?exists 
+><#if f423?exists
       ><#list f423 as fieldSec
-            ><#assign val=""             
+            ><#assign val=""
               ><@field421 fieldSec /><#--
-              --><#if val!=""                  
-                ><#assign pril=pril+"<BR>--&nbsp;"+val                
-              ></#if              
+              --><#if val!=""
+                ><#assign pril=pril+"<BR>--&nbsp;"+val
+              ></#if
       ></#list
 ></#if
-><#if f469?exists  
-      ><#list f469 as fieldSec 
-            ><#assign val=""             
+><#if f469?exists
+      ><#list f469 as fieldSec
+            ><#assign val=""
               ><@field469 fieldSec /><#--
               --><#if val!=""
                    ><#if firstPril
@@ -889,8 +889,8 @@ koncepti biblioteke iz Kikinde i biblioteke iz Novog Sada razlikuju se po odredn
                           ><#assign pril=pril+"&nbsp;:&nbsp;"
                       ></#if
                    ></#if
-                   ><#assign pril=pril+val                   
-              ></#if             
+                   ><#assign pril=pril+val
+              ></#if
       ></#list
 ></#if
 ></#macro
