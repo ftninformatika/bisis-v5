@@ -943,7 +943,7 @@
                   ><#if brUDC!=""                     
                      ><#assign brUDC=brUDC+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                   ><#else
-                     ><#assign brUDC=brUDC+"UDK &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                     ><#assign brUDC=brUDC+"UDK&nbsp;&nbsp;"
                   ></#if
                   ><#assign brUDC=brUDC+val
               ></#if
