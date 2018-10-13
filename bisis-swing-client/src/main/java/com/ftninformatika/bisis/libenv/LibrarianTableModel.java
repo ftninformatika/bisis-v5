@@ -3,15 +3,14 @@
  */
 package com.ftninformatika.bisis.libenv;
 
-import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.utils.Messages;
 
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
-import javax.swing.table.AbstractTableModel;
 
 
 
@@ -97,6 +96,7 @@ public class LibrarianTableModel extends AbstractTableModel {
 			updateSuccesful = LibEnvProxy.addLibrarian(lib);
 		}else{
 			//update
+			lib.set_id(libList.get(index).get_id());
 			libList.set(index, lib);
 			updateSuccesful = LibEnvProxy.updateLibrarian(lib);
 		}
