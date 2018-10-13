@@ -20,17 +20,6 @@ translateY=30
 fontSize=-2
 brRedova=14
 
-u client-config.ini fajlu za Filozofski Fakultet treba dodati sledeće 
-
-[report]
-locale=ffns
-nextPage=%
-currentType=monografski
-translateX=30
-translateY=30
-fontSize=-2
-brRedova=14
-
 u client-config.ini fajlu za Pančevo treba dodati sledeće
 
 [report]

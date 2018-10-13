@@ -1,39 +1,31 @@
 package com.ftninformatika.bisis.hitlist;
 
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.cards.Report;
+import com.ftninformatika.bisis.editor.EditorFrame;
+import com.ftninformatika.bisis.editor.Obrada;
+import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
+import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
+import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordModification;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchFrame;
-import com.ftninformatika.bisis.service.BisisService;
+import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.utils.Messages;
+import net.miginfocom.swing.MigLayout;
 
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
+import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
-import javax.swing.text.html.HTMLEditorKit;
-
-import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.cards.Report;
-import com.ftninformatika.bisis.editor.EditorFrame;
-import com.ftninformatika.bisis.editor.Obrada;
-import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
-import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
-import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.search.SearchModel;
-import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
-import net.miginfocom.swing.MigLayout;
 
 public class HitListFrame extends JInternalFrame {
 
@@ -100,7 +92,7 @@ public class HitListFrame extends JInternalFrame {
 				tabbedPane.setEnabledAt(3, true);
 			}*/
 
-        tabbedPane.addTab("Мета подаци", metaDataPanel);
+        tabbedPane.addTab(Messages.getString("HITLIST_META"), metaDataPanel);
         pageTxtFld.setPreferredSize(new Dimension(35, 25));
 
         // panel na kom su prikazani svi pogoci

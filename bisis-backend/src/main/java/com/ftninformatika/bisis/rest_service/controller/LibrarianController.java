@@ -64,33 +64,8 @@ public class LibrarianController {
 
     @RequestMapping( value = "/update", method = RequestMethod.POST)
     public Boolean createUpdateLibrarian(@RequestBody LibrarianDTO lib){
-
-        LibrarianDTO librarian = librarianRepository.getByUsername(lib.getUsername());
-
-        // kreira novog
-        if (librarian == null)
-            librarian = new LibrarianDTO();
-
-        //rola
-        librarian.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
-        librarian.setUsername(lib.getUsername());
-        librarian.setPassword(lib.getPassword());
-        librarian.setIme(lib.getIme());
-        librarian.setPrezime(lib.getPrezime());
-        librarian.setEmail(lib.getEmail());
-        librarian.setNapomena(lib.getNapomena());
-        librarian.setObrada(lib.isObrada());
-        librarian.setCirkulacija(lib.isCirkulacija());
-        librarian.setAdministracija(lib.isAdministracija());
-        librarian.setRedaktor(lib.isRedaktor());
-        librarian.setInventator(lib.isInventator());
-        librarian.setBiblioteka(lib.getBiblioteka());
-        librarian.setContext(lib.getContext());
-        librarian.setCurentProcessType(lib.getCurentProcessType());
-        librarian.setDefaultDepartment(lib.getDefaultDepartment());
-        librarian.setCircDepartment(lib.getCircDepartment());
-
-        librarianRepository.save(librarian);
+        lib.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
+        librarianRepository.save(lib);
 
         return true;
     }

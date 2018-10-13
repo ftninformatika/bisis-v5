@@ -441,11 +441,11 @@ public class RecordUtils { //TODO-hardcoded all over the place
 	  	Object[] newPath;
 	  	if(f.getSubfieldCount()==1){
 	  		newPath = new Object[2];
-	  		//newPath[0] = CurrRecord.record;
+	  		newPath[0] = CurrRecord.record;
 	  		newPath[1] = f;
 	  	}else{
 	  		newPath = new Object[3];
-	  		//newPath[0] = CurrRecord.record;
+	  		newPath[0] = CurrRecord.record;
 	  		newPath[1] = f;
 	  		int index = f.getSubfields().indexOf(sf);
 	  		if(index==0)
@@ -461,13 +461,13 @@ public class RecordUtils { //TODO-hardcoded all over the place
   			Object[] newPath;
  	  	if(f.getSubfieldCount()==1){
  	  		newPath = new Object[4]; 	  		
- 	  		//newPath[0] = CurrRecord.record;
+ 	  		newPath[0] = CurrRecord.record;
  	  		newPath[1] = path[1];
  	  		newPath[2] = path[2];
  	  		newPath[3] = f;
  	  	}else{
  	  		newPath = new Object[5];
- 	  		//newPath[0] = CurrRecord.record;
+ 	  		newPath[0] = CurrRecord.record;
  	  		newPath[1] = path[1];
  	  		newPath[2] = path[2];
  	  		newPath[3] = f;

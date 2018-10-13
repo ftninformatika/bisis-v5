@@ -116,6 +116,8 @@ public class MenuBuilder extends JMenuBar {
         super();
         if (lib.isObrada()) {
             this.add(getMObrada());
+        } else if (lib.isCirkulacijaPlus()){
+            this.add(getMObradaPlus());
         } else {
             this.add(getMObradaDefault());
         }
@@ -159,6 +161,12 @@ public class MenuBuilder extends JMenuBar {
         getMObradaDefault().add(new JMenuItem(invHolesAction));
         mergeRecAction = new MergeRecordsAction();
         getMObradaDefault().add(new JMenuItem(mergeRecAction));
+        return getMObradaDefault();
+    }
+
+    private JMenu getMObradaPlus() {
+        groupInventarAction = new GroupInventarAction();
+        getMObradaDefault().add(new JMenuItem(groupInventarAction));
         return getMObradaDefault();
     }
 
