@@ -40,9 +40,11 @@ public class LibrarianController {
           }
         }
 
-        String defaultPT = retVal.getContext().getDefaultProcessType().getName();
-        if (defaultPT !=null){
-            retVal.getContext().setDefaultProcessType(proctypeRep.findByNameAndLibName(defaultPT,libName));
+        if (retVal.getContext().getDefaultProcessType() != null) {
+            String defaultPT = retVal.getContext().getDefaultProcessType().getName();
+            if (defaultPT != null) {
+                retVal.getContext().setDefaultProcessType(proctypeRep.findByNameAndLibName(defaultPT, libName));
+            }
         }
         List <ProcessTypeDTO> processTypes = retVal.getContext().getProcessTypes();
         ArrayList <ProcessTypeDTO> newProcTypes = new ArrayList<ProcessTypeDTO>();
