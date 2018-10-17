@@ -64,7 +64,7 @@ public class Lending {
 
     private void makePanel() {
         FormLayout layout = new FormLayout(
-                "2dlu:grow, 20dlu, 18dlu, 20dlu, 18dlu, 3dlu, 100dlu, 15dlu, 18dlu, 15dlu, 18dlu, 30dlu, 65dlu, 5dlu, 65dlu, 2dlu:grow", //$NON-NLS-1$
+                "2dlu:grow, 20dlu, 18dlu, 20dlu, 18dlu, 3dlu, 120dlu, 15dlu, 18dlu, 15dlu, 18dlu, 50dlu, 70dlu, 5dlu, 70dlu, 2dlu:grow", //$NON-NLS-1$
                 "5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 20dlu, pref, 2dlu, pref, 5dlu, pref, 5dlu, pref, 2dlu, 80dlu, 2dlu, 18dlu, 2dlu:grow "); //$NON-NLS-1$
         CellConstraints cc = new CellConstraints();
         pb = new PanelBuilder(layout);
@@ -265,7 +265,8 @@ public class Lending {
                         }
                         for (int i = 0; i < modelrows.length; i++) {
                             if (!getTableModel().getItem(modelrows[i]).getLocation().equals(defaultLocation)) {
-                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.dischargingnotallowed"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.dischargingnotallowed")+ " " +
+                                                Messages.getString("circulation.lendlocation")+" "+ getTableModel().getItem(modelrows[i]).getLocation(), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                         new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                                 return;
                             }
@@ -300,7 +301,9 @@ public class Lending {
                         }
                         for (int i = 0; i < modelrows.length; i++) {
                             if (!getTableModel().getItem(modelrows[i]).getLocation().equals(defaultLocation)) {
-                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.dischargingnotallowed"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.dischargingnotallowed")+ " " +
+                                                Messages.getString("circulation.lendlocation")+" "+ getTableModel().getItem(modelrows[i]).getLocation(),
+                                        Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                         new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                                 return;
                             }

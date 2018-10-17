@@ -811,7 +811,7 @@ public class SearchBooks {
       }
     }else{
       JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("circulation.acquisitnowarning"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-          new ImageIcon(getClass().getResource("/com/gint/app/bisis4/client/circ/images/x32.png"))); //$NON-NLS-1$
+          new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
     }
   }
 
