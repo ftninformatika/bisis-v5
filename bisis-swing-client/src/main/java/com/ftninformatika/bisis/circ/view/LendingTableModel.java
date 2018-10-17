@@ -36,7 +36,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
       columnIdentifiers.add(Messages.getString("circulation.renewdate")); //$NON-NLS-1$
       columnIdentifiers.add(Messages.getString("circulation.duedate")); //$NON-NLS-1$
       columnIdentifiers.add(Messages.getString("circulation.days")); //$NON-NLS-1$
-      //columnIdentifiers.add("Lokacija");
+      columnIdentifiers.add(Messages.getString("circulation.location"));
       dataView = new ArrayList<Lending>();
       authors = new ArrayList<String>();
       titles = new ArrayList<String>();
@@ -206,7 +206,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	        	case 5: return rowData.getResumeDate();
 	        	case 6: return rowData.getDeadline();
 	        	case 7: return computeDays(rowData.getDeadline());
-            //case 7: return rowData.getLocation();
+            	case 8: return rowData.getLocation();
 	        	default: return null;
 	        }
 	    }
@@ -234,7 +234,8 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 			 case 4: return Date.class;
 			 case 5: return Date.class;
 			 case 6: return Date.class;
-       //case 7: return Location.class;
+			 case 7: return String.class;
+			 case 8: return String.class;
 			 default: return String.class;
 			}
 	   }
