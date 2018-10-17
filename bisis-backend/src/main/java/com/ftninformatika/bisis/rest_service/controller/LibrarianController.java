@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
@@ -49,7 +50,16 @@ public class LibrarianController {
         List <ProcessTypeDTO> processTypes = retVal.getContext().getProcessTypes();
         ArrayList <ProcessTypeDTO> newProcTypes = new ArrayList<ProcessTypeDTO>();
         for(ProcessTypeDTO pt:processTypes){
-            newProcTypes.add(proctypeRep.findByNameAndLibName(pt.getName(),libName));
+            ProcessTypeDTO processTypeDTO = null;
+            try{
+                processTypeDTO = proctypeRep.findByNameAndLibName(pt.getName(),libName);
+            }
+            catch (Exception e) {
+                processTypeDTO = null;
+                e.printStackTrace();
+            }
+            if (processTypeDTO != null)
+                newProcTypes.add(processTypeDTO);
         }
         retVal.getContext().setProcessTypes(newProcTypes);
 
