@@ -17,9 +17,9 @@ export class LoginComponent implements OnInit {
 
   login(event, username, password) {
     username = 'jiricekova31@gmail.com';
-    //password = 'member1';
+    // password = 'member1';
     event.preventDefault();
-    let body = JSON.stringify({ username, password });
+    const body = JSON.stringify({ username, password });
     this.messageService.clear();
     this.http.post(config.getEnvironmentVariable('endPoint') + '/memauth', body, { headers: contentHeaders })
       .subscribe(

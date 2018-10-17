@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class AuthHelper {
@@ -12,7 +12,7 @@ export class AuthHelper {
     }
 
     public logout() {
-        var libCode = localStorage.getItem('libCode');
+        const libCode = localStorage.getItem('libCode');
         localStorage.clear();
         localStorage.setItem('libCode', libCode);
 

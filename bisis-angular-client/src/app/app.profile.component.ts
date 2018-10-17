@@ -1,10 +1,9 @@
 import {Component, trigger, state, transition, style, animate} from '@angular/core';
-import {AuthHelper} from "./components/auth/utilities/authhelper";
+import {AuthHelper} from './components/auth/utilities/authhelper';
 
 @Component({
     selector: 'app-inline-profile',
-    template: `
-        
+    template: `        
         <ul class="ultima-menu profile-menu " *ngIf="(this.ah.authenticated)" >
             <li  role="menuitem">
                 <a href="#/profile" class="ripplelink" >
@@ -37,7 +36,6 @@ import {AuthHelper} from "./components/auth/utilities/authhelper";
                 </a>
             </li-->
         </ul>
-        
         <!-- Disabled buttons, kada korisnik nije ulogovan -->
          <ul class="ultima-menu profile-menu fc-state-disabled" *ngIf="!(this.ah.authenticated)" 
             pTooltip="{{ 'loginTooltip' | translate }}" >

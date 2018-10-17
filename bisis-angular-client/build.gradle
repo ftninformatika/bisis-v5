@@ -17,7 +17,8 @@ war {
 }
 
 node {
-    version = '10.1.0'
+    version = '10.11.0'
+    npmVersion = '6.4.1'
     download = true
     //nodeModulesDir = file("src/main/client")
 }

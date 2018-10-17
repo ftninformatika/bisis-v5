@@ -80,7 +80,7 @@ import {AppFooterComponent} from './app.footer.component';
 import {AppRightpanelComponent} from './app.rightpanel.component';
 import {AppInlineProfileComponent} from './app.profile.component';
 
-import {MessageService} from "primeng/components/common/messageservice";
+import {MessageService} from 'primeng/components/common/messageservice';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
@@ -93,29 +93,30 @@ import { BisisSearchService } from './service/bisis-search.service';
 import {MemberService} from './service/member.service';
 
 import { config } from './config/config';
-//import {ProgressBar} from './utils/progressbar';
 
 import { LibraryService } from './service/library.service';
 import { GetCoder } from './service/get-local-data.service';
-import {AuthModule} from "./components/auth/auth.module";
-import {BisisSearchComponent} from "./components/bisis-search/bisis-search.component";
-import {TableViewComponent} from "./components/bisis-search/result-view/table-view/table-view.component";
-import {ResultViewComponent} from "./components/bisis-search/result-view/result-view.component";
-import {SearchFormComponent} from "./components/bisis-search/search-form/search-form.component";
-import {ScrollerViewComponent} from "./components/bisis-search/result-view/scroller-view/scroller-view.component";
-import {ListViewComponent} from "./components/bisis-search/result-view/list-view/list-view.component";
-import {DataGridViewComponent} from "./components/bisis-search/result-view/data-grid-view/data-grid-view.component";
-import {AboutViewComponent} from "./components/about-view/about-view.component";
-import {RecordViewComponent} from "./components/bisis-search/record-view/record-view.component";
-import {MyBookshelfComponent} from "./components/my-bookshelf/my-bookshelf.component";
-import {LoginComponent} from "./components/auth/login/login.component";
-import {HomeComponent} from "./components/home/home.component";
-import {PasswordResetComponent} from "./components/auth/password-reset/password-reset.component";
-import {AuthHelper} from "./components/auth/utilities/authhelper";
-import {AuthGuard} from "./components/auth/authguard";
-import {ProfileComponent} from "./components/profile/profile.component";
-import {CodersService} from "./service/coders.service";
-import {PresentItemGenerator} from "./tools/PresentItemGenerator";
+import {AuthModule} from './components/auth/auth.module';
+import {BisisSearchComponent} from './components/bisis-search/bisis-search.component';
+import {TableViewComponent} from './components/bisis-search/result-view/table-view/table-view.component';
+import {ResultViewComponent} from './components/bisis-search/result-view/result-view.component';
+import {SearchFormComponent} from './components/bisis-search/search-form/search-form.component';
+import {ScrollerViewComponent} from './components/bisis-search/result-view/scroller-view/scroller-view.component';
+import {ListViewComponent} from './components/bisis-search/result-view/list-view/list-view.component';
+import {DataGridViewComponent} from './components/bisis-search/result-view/data-grid-view/data-grid-view.component';
+import {AboutViewComponent} from './components/about-view/about-view.component';
+import {RecordViewComponent} from './components/bisis-search/record-view/record-view.component';
+import {MyBookshelfComponent} from './components/my-bookshelf/my-bookshelf.component';
+import {LoginComponent} from './components/auth/login/login.component';
+import {HomeComponent} from './components/home/home.component';
+import {PasswordResetComponent} from './components/auth/password-reset/password-reset.component';
+import {AuthHelper} from './components/auth/utilities/authhelper';
+import {AuthGuard} from './components/auth/authguard';
+import {ProfileComponent} from './components/profile/profile.component';
+import {CodersService} from './service/coders.service';
+import {PresentItemGenerator} from './tools/PresentItemGenerator';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -201,7 +202,8 @@ export function HttpLoaderFactory(http: HttpClient) {
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        })
+        }),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     exports: [BrowserModule, HttpModule, TranslateModule],
     declarations: [
@@ -229,7 +231,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        BisisSearchService, AuthGuard, AuthHelper, LibraryService, MessageService, GetCoder, MemberService, CodersService, PresentItemGenerator
+        BisisSearchService, AuthGuard, AuthHelper, LibraryService, MessageService,
+        GetCoder, MemberService, CodersService, PresentItemGenerator
     ],
     bootstrap: [AppComponent]
 })
