@@ -1,5 +1,4 @@
 <div class="layout-wrapper" [ngClass]="{'layout-compact':layoutCompact}" (click)="onLayoutClick()">
-    <p-messages [(value)]="msgs"></p-messages>
     <div #layoutContainer class="layout-container"
          [ngClass]="{'menu-layout-static': !isOverlay(),
             'menu-layout-overlay': isOverlay(),
@@ -23,6 +22,7 @@
         <div class="layout-main">
             <!--<app-breadcrumb></app-breadcrumb>-->
             <div class="layout-content">
+                <p-messages [(value)]="msgs"></p-messages>
                 <router-outlet></router-outlet>
 
                 <app-footer></app-footer>

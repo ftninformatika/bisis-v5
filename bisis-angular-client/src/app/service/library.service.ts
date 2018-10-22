@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {config} from "../config/config";
+import {config} from '../config/config';
 
 @Injectable()
 export class LibraryService {
@@ -13,7 +13,7 @@ export class LibraryService {
 
     }
 
-    getLibs(){
+    getLibs() {
         return this.http.get(config.getEnvironmentVariable('endPoint') +  'coders/lib_configurations')
             .map(response => response.json().map(
                 item => item.libraryName
@@ -21,14 +21,13 @@ export class LibraryService {
             .catch(this.handleError);
     }
 
-    getDepartmentsForLib(libName){
+    getDepartmentsForLib(libName) {
 
         return this.http.get(config.getEnvironmentVariable('endPoint') + 'coders/location?libName=' + libName)
             .map( response => response.json())
             .catch(this.handleError);
 
     }
-
 
 
     private handleError (error: Response | any) {

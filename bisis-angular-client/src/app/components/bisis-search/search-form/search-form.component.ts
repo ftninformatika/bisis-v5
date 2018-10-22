@@ -1,13 +1,14 @@
 import {Component, OnInit, Output, EventEmitter, Input, ViewEncapsulation} from '@angular/core';
 import {SelectItem} from 'primeng/primeng';
-import {RecordsPageModel} from "../../../model/RecordsPageModel";
-import {SelectItemPrefix} from "../../../model/SelectItemPrefix";
-import {Prefix} from "../../../model/Prefix";
-import {BisisSearchService} from "../../../service/bisis-search.service";
-import {LibraryService} from "../../../service/library.service";
-import {arrayify} from "tslint/lib/utils";
-import {MessageService} from "primeng/components/common/messageservice";
-import {GetCoder} from "../../../service/get-local-data.service";
+import {RecordsPageModel} from '../../../model/RecordsPageModel';
+import {SelectItemPrefix} from '../../../model/SelectItemPrefix';
+import {Prefix} from '../../../model/Prefix';
+import {BisisSearchService} from '../../../service/bisis-search.service';
+import {LibraryService} from '../../../service/library.service';
+import {arrayify} from 'tslint/lib/utils';
+import {MessageService} from 'primeng/components/common/messageservice';
+import {GetCoder} from '../../../service/get-local-data.service';
+
 
 @Component({
   selector: 'app-search-form',
@@ -23,7 +24,7 @@ export class SearchFormComponent implements OnInit {
   @Input() selectedDeps: string[];
   @Output() serviceCallResult: EventEmitter<RecordsPageModel> = new EventEmitter();
 
-  //loading bar
+  // loading bar
   displayDialog = false;
   value = 0;
   interval: any;
@@ -45,15 +46,15 @@ export class SearchFormComponent implements OnInit {
   coderValues: SelectItem[][];
 
 
-  changed(pref, fieldNum){
-    this.text[fieldNum] = "";
+  changed(pref, fieldNum) {
+    this.text[fieldNum] = '';
 
     if (pref.isCoder) { // If prefix is coder
       this.getCoder.getCoderData(pref.code).subscribe(
           response => {
             arrayify(response[pref.code].codes).forEach(
                 d => {
-                  this.coderValues[fieldNum].push({"label": d.value, "value": d.code});
+                  this.coderValues[fieldNum].push({'label': d.value, 'value': d.code});
                 });
           });
       }
@@ -64,7 +65,7 @@ export class SearchFormComponent implements OnInit {
 
   }
   searchBy( text) {
-    if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary == '') {
+    if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary === '') {
       this.messageService.clear();
       this.messageService.add({
         severity: 'warning',
@@ -74,15 +75,15 @@ export class SearchFormComponent implements OnInit {
       return;
     }
 
-    var choice = 'universal';
-    if (localStorage.getItem('libCode') == undefined)
-      return;
+    const choice = 'universal';
+    if (localStorage.getItem('libCode') === undefined) {
+        return;
+    }
 
     if (!this.validateQuery(choice, text)) {
       return;
     }
     this.displayDialog = true;
-    this.runProgressBar();
     this.bisisService.searchRecordsByEP(choice, text, this.selectedDeps)
     .subscribe(    // ovo postoji zbog paginga i sortiga u drugim komponentama
       response => {
@@ -98,28 +99,15 @@ export class SearchFormComponent implements OnInit {
     );
   }
 
-  runProgressBar(){
-    this.value = 0;
-    this.interval = setInterval(() => {
-      this.value = this.value + Math.floor(Math.random() * 10) + 1;
-      if (this.value >= 100) {
-        this.value = 100;
-        clearInterval(this.interval);
-        this.interval = null;
-      }
-    }, 33);
-  }
-
-
   setLib(lib) {
     this.selectedLibrary = lib.value;
     localStorage.setItem('libCode', lib.value);
-    //console.log(this.lib, this.selectedLibrary);
+    // console.log(this.lib, this.selectedLibrary);
   }
 
   private validateQuery(choice, text): boolean {
-    if (text === '' || text === undefined || text === null || (choice != 'universal'
-        && choice != 'author' && choice != 'title' && choice != 'keyword' )) {
+    if (text === '' || text === undefined || text === null || (choice !== 'universal'
+        && choice !== 'author' && choice !== 'title' && choice !== 'keyword' )) {
       this.messageService.clear();
       this.messageService.add({
         severity: 'warning',
@@ -134,9 +122,10 @@ export class SearchFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  searchAdvanced(text1,text2,text3,text4,text5,prefix1,prefix2,prefix3,prefix4,prefix5,bonding1,bonding2,bonding3,bonding4, selectedDeps = null) {
+  searchAdvanced(text1, text2, text3, text4, text5,
+                 prefix1, prefix2, prefix3, prefix4, prefix5, bonding1, bonding2, bonding3, bonding4, selectedDeps = null) {
 
-    if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary == '') {
+    if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary === '') {
       this.messageService.clear();
       this.messageService.add({
         severity: 'warning',
@@ -144,9 +133,8 @@ export class SearchFormComponent implements OnInit {
         detail: 'Одаберите библиотеку!'
       });
       return;
-    }
-    else {
-      var searchModel = {
+    } else {
+      const searchModel = {
         pref1: prefix1.code,
         pref2: prefix2.code,
         pref3: prefix3.code,
@@ -164,38 +152,38 @@ export class SearchFormComponent implements OnInit {
         departments: this.selectedDeps
       };
       this.displayDialog = true;
-      this.runProgressBar();
       this.bisisService.searchRecordsAdvanced(searchModel)
           .subscribe(
               response => {
                 response['searchModel'] = searchModel;
                 this.displayDialog = false;
-                this.serviceCallResult.emit(response)
+                this.serviceCallResult.emit(response);
               },
               error => console.log(error)
           );
-      //console.log(searchModel);
+      // console.log(searchModel);
     }
   }
 
-  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService, public messageService: MessageService, public getCoder: GetCoder) {
+  constructor( public bisisService: BisisSearchService, public libraryService: LibraryService,
+               public messageService: MessageService, public getCoder: GetCoder) {
       this.populateAdvancedFormCombos();
   }
 
-  private populateAdvancedFormCombos(){
+  private populateAdvancedFormCombos() {
     this.text = [];
-    this.prefix1 = new Prefix('AU', false)
+    this.prefix1 = new Prefix('AU', false);
     this.prefix2 = new Prefix('TI', false);
-    this.prefix3 = new Prefix("KW", false);
-    this.prefix4 = new Prefix("PU", false);
-    this.prefix5 = new Prefix("PY", false);
-    this.bonding1 = "AND";
-    this.bonding2 = "AND";
-    this.bonding3 = "AND";
-    this.bonding4 = "AND";
+    this.prefix3 = new Prefix('KW', false);
+    this.prefix4 = new Prefix('PU', false);
+    this.prefix5 = new Prefix('PY', false);
+    this.bonding1 = 'AND';
+    this.bonding2 = 'AND';
+    this.bonding3 = 'AND';
+    this.bonding4 = 'AND';
     this.allPrefixes = [];
     this.bondings = [];
-    //TODO - staviti ovo ucitavanje prefiksa sa nekog drugog mesta
+    // TODO - staviti ovo ucitavanje prefiksa sa nekog drugog mesta
     this.allPrefixes.push(new SelectItemPrefix('Аутор',  'AU'));
     this.allPrefixes.push(new SelectItemPrefix('Наслов', 'TI'));
     this.allPrefixes.push(new SelectItemPrefix('Кључне речи', 'KW'));
@@ -206,25 +194,25 @@ export class SearchFormComponent implements OnInit {
     this.allPrefixes.push(new SelectItemPrefix('UDK', 'DC'));
     this.allPrefixes.push(new SelectItemPrefix('ISBN', 'BN'));
     this.allPrefixes.push(new SelectItemPrefix('ISSN',  'SP'));
-    this.allPrefixes.push(new SelectItemPrefix('Код за врсту записа', 'RT', true)); //coder
-    this.allPrefixes.push(new SelectItemPrefix('Код за врсту садржаја','CC', true)); //coder //kod za vrstu sadrzaja dodati 105
+    this.allPrefixes.push(new SelectItemPrefix('Код за врсту записа', 'RT', true)); // coder
+    this.allPrefixes.push(new SelectItemPrefix('Код за врсту садржаја', 'CC', true)); // coder //kod za vrstu sadrzaja dodati 105
     this.allPrefixes.push(new SelectItemPrefix('Збирка',  'CL'));
-    //korporativno telo ako izbacimo onda АУ treba da pretrazuje 71x i 91x
-    //predmetne odrednice - sve (da li sve u jedan prefiks ili sve vrste p o ubaciti?)
+    // korporativno telo ako izbacimo onda АУ treba da pretrazuje 71x i 91x
+    // predmetne odrednice - sve (da li sve u jedan prefiks ili sve vrste p o ubaciti?)
     this.allPrefixes.push(new SelectItemPrefix('Инвентарни број', 'IN'));
     this.allPrefixes.push(new SelectItemPrefix('Место издавања', 'PP'));
     this.allPrefixes.push(new SelectItemPrefix('Број записа', 'RN'));
-    this.allPrefixes.push(new SelectItemPrefix('Језик', 'LA',true)); ////Jezik LG, 101c, LO izbaciti (verovatno misli na LA i LO???)
-    this.allPrefixes.push(new SelectItemPrefix('Наслов', 'SG')); //signatura
+    this.allPrefixes.push(new SelectItemPrefix('Језик', 'LA', true)); //// Jezik LG, 101c, LO izbaciti (verovatno misli na LA i LO???)
+    this.allPrefixes.push(new SelectItemPrefix('Наслов', 'SG')); // signatura
     this.allPrefixes.push(new SelectItemPrefix('Предметна одредница', 'SB'));
     this.allPrefixes.push(new SelectItemPrefix('Предметна пододредница', 'SD'));
     this.bondings.push({label: 'AND', value: 'AND'});
-    this.bondings.push({label:'OR', value: 'OR'});
-    this.bondings.push({label:'NOT', value: 'NOT'});
+    this.bondings.push({label: 'OR', value: 'OR'});
+    this.bondings.push({label: 'NOT', value: 'NOT'});
 
     this.coderValues = [];
 
-    for(var i: number = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
       this.coderValues[i] = [];
 
     }

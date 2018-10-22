@@ -1,7 +1,7 @@
 import {Component, AfterViewInit, ElementRef, Renderer, ViewChild, OnDestroy} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import {Messages} from "primeng/primeng";
-import {AuthHelper} from "./components/auth/utilities/authhelper";
+import {Messages} from 'primeng/primeng';
+import {AuthHelper} from './components/auth/utilities/authhelper';
 
 enum MenuOrientation {
     STATIC,
@@ -70,12 +70,11 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     }
 
-    ngOnInit(){
-        if (this.ah.authenticated == undefined){
+    ngOnInit() {
+        if (this.ah.authenticated == undefined) {
             this.staticMenuDesktopInactive = true;
             this.staticMenuMobileActive = true;
-        }
-        else{
+        } else {
             this.staticMenuDesktopInactive = false;
             this.staticMenuMobileActive = false;
         }
