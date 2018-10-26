@@ -1,7 +1,9 @@
 /* Common */
-/* Layout */
-/* Theme */
 /* Compact */
+/* Layout */
+/* Topbar */
+/* Menus */
+/* Add your customizations of layout here */
 /* roboto-300 - latin */
 @font-face {
   font-family: 'Roboto';
@@ -1076,6 +1078,8 @@ body {
     .layout-container .layout-menu .ui-scrollpanel .ui-scrollpanel-hidden {
       display: block;
       visibility: hidden; }
+    .layout-container .layout-menu .ui-scrollpanel .ui-scrollpanel-content {
+      overflow-x: hidden; }
     .layout-container .layout-menu .ui-scrollpanel .layout-menu {
       padding-bottom: 120px; }
   .layout-container .layout-menu .profile {
@@ -1526,7 +1530,8 @@ body {
       .layout-container.menu-layout-horizontal .layout-menu .ui-scrollpanel .ui-scrollpanel-wrapper {
         overflow: visible; }
         .layout-container.menu-layout-horizontal .layout-menu .ui-scrollpanel .ui-scrollpanel-wrapper .ui-scrollpanel-content {
-          overflow: visible; }
+          overflow: visible;
+          padding: 0; }
     .layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu {
       width: 100%; }
       .layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu.ultima-main-menu {
@@ -1651,7 +1656,10 @@ body {
       .layout-container.menu-layout-slim .layout-menu .ui-scrollpanel .ui-scrollpanel-wrapper {
         overflow: visible; }
         .layout-container.menu-layout-slim .layout-menu .ui-scrollpanel .ui-scrollpanel-wrapper .ui-scrollpanel-content {
-          overflow: visible; }
+          overflow: visible;
+          padding: 0; }
+      .layout-container.menu-layout-slim .layout-menu .ui-scrollpanel .ui-scrollpanel-bar {
+        display: none; }
     .layout-container.menu-layout-slim .layout-menu .ultima-menu {
       padding: 0;
       width: calc(100% - 18px); }
