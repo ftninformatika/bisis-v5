@@ -96,27 +96,29 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         Object[] signDates = (Object[]) searchModel.getValueForPrefix("signings.signDate");
         Object[] untilDates = (Object[]) searchModel.getValueForPrefix("signings.untilDate");
         if (signDates != null) {
-            Criteria signDate = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(signDates[0]).lte(signDates[1]));
-            if (signDates[2] != null && signDates[2].equals("")) {
-                signDate = signDate.and("location").is("location");
+           Criteria signDate = Criteria.where("signDate").gte(signDates[0]).lte(signDates[1]);
+            Criteria signingCriteria = Criteria.where("signings").elemMatch(signDate);
+            if (signDates[2] != null && !signDates[2].equals("")) {
+                signingCriteria = Criteria.where("signings").elemMatch(new Criteria().andOperator(signDate,Criteria.where("location").is(signDates[2])));
             }
             if (currentCriteria != null) {
-                currentCriteria = new Criteria().andOperator(currentCriteria, signDate);
+                currentCriteria = new Criteria().andOperator(currentCriteria, signingCriteria);
             } else {
-                currentCriteria = signDate;
+                currentCriteria = signingCriteria;
             }
 
         }
 
         if (untilDates != null) {
-            Criteria untilDate = Criteria.where("signings").elemMatch(Criteria.where("untilDate").gte(untilDates[0]).lte(untilDates[1]));
-            if (untilDates[2] != null && untilDates[2].equals("")) {
-                untilDate = untilDate.and("location").is(untilDates[2]);
+            Criteria untilDate = Criteria.where("untilDate").gte(untilDates[0]).lte(untilDates[1]);
+            Criteria signingCriteria = Criteria.where("signings").elemMatch(untilDate);
+            if (untilDates[2] != null && !untilDates[2].equals("")) {
+                signingCriteria = Criteria.where("signings").elemMatch(new Criteria().andOperator(untilDate,Criteria.where("location").is(untilDates[2])));
             }
             if (currentCriteria != null) {
-                currentCriteria = new Criteria().andOperator(currentCriteria, untilDate);
+                currentCriteria = new Criteria().andOperator(currentCriteria, signingCriteria);
             } else {
-                currentCriteria = untilDate;
+                currentCriteria = signingCriteria;
             }
 
 
