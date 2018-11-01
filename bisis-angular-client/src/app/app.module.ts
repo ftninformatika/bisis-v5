@@ -80,6 +80,7 @@ import {AppTopbarComponent} from './app.topbar.component';
 import {AppFooterComponent} from './app.footer.component';
 import {AppRightpanelComponent} from './app.rightpanel.component';
 import {AppInlineProfileComponent} from './app.profile.component';
+import {ToastModule} from 'primeng/toast';
 
 import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -196,6 +197,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         TooltipModule,
         TreeModule,
         TreeTableModule,
+        ToastModule,
         HttpClientModule,
         TranslateModule.forRoot({
             loader: {
