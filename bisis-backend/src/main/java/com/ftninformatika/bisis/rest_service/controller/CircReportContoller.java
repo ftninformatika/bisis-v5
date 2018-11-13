@@ -439,8 +439,12 @@ public class CircReportContoller {
             List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
             //zbog brzine contains() metode - iz ove kolekcije proveravamo
 
+            QueryBuilder pf = QueryBuilders.queryStringQuery(udk + "*");
+            ((QueryStringQueryBuilder) pf).defaultField("prefixes.DC");
+            ((QueryStringQueryBuilder) pf).autoGeneratePhraseQueries(true);
+            ((QueryStringQueryBuilder) pf).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+            pp.must(pf);
             pp.filter(QueryBuilders.termsQuery("prefixes.IN",lendResultClgNos));
-            //pp.must(QueryBuilders.queryStringQuery(udk+"*").defaultField("prefixes.DC"));
             Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
 
             Set<String> setCtlgNos = new HashSet<>(lendResultClgNos);
@@ -450,12 +454,12 @@ public class CircReportContoller {
                         if (e.getPrefixes().get("IN") != null && e.getPrefixes().get("DC") != null) {
                             for (String in : e.getPrefixes().get("IN")) {
                                 in = in.replace(PrefixConverter.endPhraseFlag, "");
-                                for(String dc: e.getPrefixes().get("DC")) {
-                                    //privremeno resenje dok ne sredimo elastik
-                                    boolean startsWithUDK  = dc.startsWith(udk);
-                                    if (startsWithUDK && setCtlgNos.contains(in) && !retMap.containsKey(in)) {
-                                        retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
-                                    }
+                                if ( setCtlgNos.contains(in) && !retMap.containsKey(in)) {
+                                    retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
+                                }
+                                else if ( setCtlgNos.contains(in) && retMap.containsKey(in)) {
+                                    int count = retMap.get(e.getId()) + Collections.frequency(lendResultClgNos, in);
+                                    retMap.put(e.getId(), count);
                                 }
                             }
                         }
