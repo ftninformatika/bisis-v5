@@ -16,7 +16,7 @@ import java.util.List;
 @ToString
 public class UniversalSearchModel {
     private List<String> departments = new ArrayList<>();
+    private List<String> branches = new ArrayList<>();
     private String searchText;
-
 
 }

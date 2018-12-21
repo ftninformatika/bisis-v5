@@ -51,6 +51,7 @@ export class RecordViewComponent implements OnInit{
                         this.codersService.getItemStatusCoders(this.getLibCode()).subscribe(
                             response2 => {
                                 // generisi prikazne elemente
+                                console.log(response2);
                                this.presentItems = this.presentItemGenerator.generatePresentItemsList(response['fullRecord'],
                                    response2, response['listOfItems'] );
                             }

@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {Http, Response} from "@angular/http";
-import {config} from "../config/config";
-import {Observable} from "rxjs/Observable";
-import {ItemStatus} from "../model/coders/ItemStatus";
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {config} from '../config/config';
+import {Observable} from 'rxjs/Observable';
+import {ItemStatus} from '../model/coders/ItemStatus';
 
 @Injectable()
 export class CodersService {

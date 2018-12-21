@@ -22,11 +22,16 @@ export class LibraryService {
     }
 
     getDepartmentsForLib(libName) {
-
         return this.http.get(config.getEnvironmentVariable('endPoint') + 'coders/location?libName=' + libName)
             .map( response => response.json())
             .catch(this.handleError);
+    }
 
+    getSublocationForDepartment(libname, location) {
+        return this.http.get(config.getEnvironmentVariable('endPoint')
+            + 'coders/sublocation/get_by_location?lib=' + libname + '&loc=' + location)
+            .map( response => response.json())
+            .catch(this.handleError);
     }
 
 
