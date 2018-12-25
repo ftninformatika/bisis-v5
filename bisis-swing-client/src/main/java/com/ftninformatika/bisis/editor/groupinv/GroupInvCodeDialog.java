@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,8 @@ public class GroupInvCodeDialog extends CenteredDialog {
 		super(BisisApp.getMainFrame(),true);
 		this.items = items;
 		this.name = name;
-		this.setSize(280, 300);		
+		this.setSize(280, 300);
+		items.sort(Comparator.comparing(UItem::getCode));
 		setTitle(MessageFormat.format(Messages.getString("CHANGE_VALUE_FOR.0"), name));
 		isStatus = name.equals(Messages.getString("STATUS"));
 		initialize();

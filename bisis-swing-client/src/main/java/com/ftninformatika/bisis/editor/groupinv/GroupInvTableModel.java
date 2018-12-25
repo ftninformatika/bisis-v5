@@ -33,7 +33,7 @@ public class GroupInvTableModel extends AbstractTableModel {
 
     public GroupInvTableModel() {
         super();
-        columns = new String[7];
+        columns = new String[10];
         columns[0] = Messages.getString("INV_NUM");
         columns[1] = Messages.getString("SIGNATURE");
         columns[2] = Messages.getString("LOCATION");
@@ -41,6 +41,9 @@ public class GroupInvTableModel extends AbstractTableModel {
         columns[4] = Messages.getString("NOTE");
         columns[5] = Messages.getString("UNIT_TYPE");
         columns[6] = Messages.getString("TITLE");
+        columns[7] = Messages.getString("SUBLOCATION");
+        columns[8] = Messages.getString("UDK");
+        columns[9] = Messages.getString("INTERNAL_MARK");
     }
 
     public int getColumnCount() {
@@ -111,6 +114,9 @@ public class GroupInvTableModel extends AbstractTableModel {
             if (column == 3) return ((Primerak) o).getStatus();
             if (column == 4) return ((Primerak) o).getNapomene();
             if (column == 5) return Messages.getString("ITEM_996");
+            if (column == 7) return ((Primerak) o).getSigPodlokacija();
+            if (column == 8) return ((Primerak) o).getSigUDK();
+            if (column == 9) return ((Primerak) o).getSigIntOznaka();
         }
         if (o instanceof Godina) {
             if (column == 0) return ((Godina) o).getInvBroj();
@@ -119,6 +125,9 @@ public class GroupInvTableModel extends AbstractTableModel {
             if (column == 3) return "";
             if (column == 4) return ((Godina) o).getNapomene();
             if (column == 5) return Messages.getString("YEAR_997");
+            if (column == 7) return ((Godina) o).getSigPodlokacija();
+            if (column == 8) return ((Godina) o).getSigUDK();
+            if (column == 9) return ((Godina) o).getSigIntOznaka();
         }
         if (o instanceof Sveska) {
             if (column == 0) return ((Sveska) o).getInvBroj();
@@ -127,6 +136,7 @@ public class GroupInvTableModel extends AbstractTableModel {
             if (column == 3) return ((Sveska) o).getStatus();
             if (column == 4) return "";
             if (column == 5) return Messages.getString("NOTEBOOK_COLUMN");
+            if (column == 7) return "";
         }
         return null;
     }
@@ -165,6 +175,10 @@ public class GroupInvTableModel extends AbstractTableModel {
             return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().STATUS_CODER);
         else if (columns[column].equals(Messages.getString("LOCATION")))
             return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER);
+        else if (columns[column].equals(Messages.getString("SUBLOCATION")))
+            return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().PODLOKACIJA_CODER);
+        else if (columns[column].equals(Messages.getString("INTERNAL_MARK")))
+            return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().INTERNAOZNAKA_CODER);
         return null;
     }
 
@@ -192,6 +206,19 @@ public class GroupInvTableModel extends AbstractTableModel {
                 p.setOdeljenje(newCode);
             for (Godina g : godine)
                 g.setOdeljenje(newCode);
+
+        }
+        if (columns[selectedColumn].equals(Messages.getString("SUBLOCATION"))) {
+            for (Primerak p : primerci)
+                p.setSigPodlokacija(newCode);
+            for (Godina g : godine)
+                g.setSigPodlokacija(newCode);
+        }
+        if (columns[selectedColumn].equals(Messages.getString("INTERNAL_MARK"))) {
+            for (Primerak p : primerci)
+                p.setSigIntOznaka(newCode);
+            for (Godina g : godine)
+                g.setSigIntOznaka(newCode);
         }
         fireTableDataChanged();
     }
@@ -203,6 +230,13 @@ public class GroupInvTableModel extends AbstractTableModel {
             }
             for (Godina g : godine)
                 g.setNapomene(newText);
+        }
+        if (columns[selectedColumn].equals(Messages.getString("UDK"))){
+            for (Primerak p : primerci) {
+                p.setSigUDK(newText);
+            }
+            for (Godina g : godine)
+                g.setSigUDK(newText);
         }
         fireTableDataChanged();
     }
@@ -217,7 +251,11 @@ public class GroupInvTableModel extends AbstractTableModel {
 
     public boolean columnCanBeSelected(int column) {
         return columns[column].equals(Messages.getString("STATUS")) ||
-                columns[column].equals(Messages.getString("LOCATION")) || columns[column].equals(Messages.getString("NOTE"));
+                columns[column].equals(Messages.getString("LOCATION")) ||
+                columns[column].equals(Messages.getString("SUBLOCATION")) ||
+                columns[column].equals(Messages.getString("UDK")) ||
+                columns[column].equals(Messages.getString("INTERNAL_MARK")) ||
+                columns[column].equals(Messages.getString("NOTE"));
 
     }
 
@@ -312,7 +350,7 @@ public class GroupInvTableModel extends AbstractTableModel {
     }
 
     public boolean isCodedColimn(int col) {
-        if (col == 2 || col == 3) return true;
+        if (col == 2 || col == 3 || col == 7 || col == 9) return true;
         return false;
     }
 
