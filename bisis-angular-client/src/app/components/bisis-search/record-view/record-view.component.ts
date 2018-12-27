@@ -92,12 +92,12 @@ export class RecordViewComponent implements OnInit{
       const el = {} ;
       el['name'] =  element.name ;
 
-      if (element.ind1 == undefined || element.ind1 == null || element.ind1 == ' ' || element.ind1 == '' ) {
+      if (element.ind1 === undefined || element.ind1 == null || element.ind1 === ' ' || element.ind1 === '' ) {
         el['ind1'] = '#';
       } else {
         el['ind1'] = element.ind1;
       }
-        if (element.ind2 == undefined || element.ind2 == null || element.ind2 == ' ' || element.ind2 == '' ) {
+        if (element.ind2 === undefined || element.ind2 == null || element.ind2 === ' ' || element.ind2 === '' ) {
             el['ind2'] = '#';
         } else {
             el['ind2'] = element.ind2;
@@ -114,15 +114,15 @@ export class RecordViewComponent implements OnInit{
         );
 
         let secField = null;
-        if (e.secField != null && e.secField != undefined && e.secField != '' && e.secField != ' ') {
+        if (e.secField != null && e.secField !== undefined && e.secField !== '' && e.secField !== ' ') {
           secField = {};
           secField['name'] = e.secField['name'];
-          if (e.secField.ind1 == undefined || e.secField.ind1 == null || e.secField.ind1 == ' ' || e.secField.ind1 == '' ) {
+          if (e.secField.ind1 === undefined || e.secField.ind1 == null || e.secField.ind1 === ' ' || e.secField.ind1 == '' ) {
               secField['ind1'] = '#';
           } else {
               secField['ind1'] = element.ind1;
           }
-          if (e.secField.ind2 == undefined || e.secField.ind2 == null || e.secField.ind2 == ' ' || e.secField.ind2 == '' ) {
+          if (e.secField.ind2 === undefined || e.secField.ind2 == null || e.secField.ind2 === ' ' || e.secField.ind2 === '' ) {
               secField['ind2'] = '#';
           } else {
               secField['ind2'] = element.ind2;

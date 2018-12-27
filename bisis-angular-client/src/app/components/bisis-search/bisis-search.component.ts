@@ -30,6 +30,7 @@ export class BisisSearchComponent implements OnInit {
   selectedBranches: string[];
   selectedLibrary: string;
   libHeader: string;
+  convert = require('latin-to-serbian-cyrillic');
 
 
 
@@ -58,13 +59,18 @@ export class BisisSearchComponent implements OnInit {
                     this.selectedLibrary = params['lib'];
                     this.libHeader = this.getLibName(this.selectedLibrary);
                     this.libService.getDepartmentsForLib(this.selectedLibrary).subscribe(
-                          response => {
+                          responseDeps => {
                               this.departmentList = [];
                               this.selectedDepartments = [];
-                              arrayify(response).forEach(
+                              arrayify(responseDeps).forEach(
                                   d => {
-                                      this.departmentList.push({'label': d.description, 'value': d.coder_id});
+                                      const labelDesc = (this.selectedLibrary === 'bgb' ) ? this.convert(d.description) : d.description;
+                                      this.departmentList.push({'label': labelDesc, 'value': d.coder_id});
                                   });
+                              if (this.selectedLibrary === 'bgb') {
+                                  this.selectedDepartments[0] = response[0]['coder_id'];
+                                  this.selectionChangedBranch({'value': responseDeps[0]['coder_id']});
+                              }
                           }
                       );
                   } else {
@@ -92,9 +98,10 @@ export class BisisSearchComponent implements OnInit {
         response => {
             arrayify(response).forEach(
                 d => {
-                    this.branchesList.push({'label': d.description, 'value': d.coder_id});
+                    const labelDesc = (this.selectedLibrary === 'bgb' ) ? this.convert(d.description) : d.description;
+                    this.branchesList.push({'label': labelDesc, 'value': d.coder_id});
                 });
-        }
+            }
       );
   }
 
@@ -122,12 +129,13 @@ export class BisisSearchComponent implements OnInit {
             response => {
                 arrayify(response).forEach(
                     d => {
-                        this.departmentList.push({'label': d.description, 'value': d.coder_id});
+                        const labelDesc = (this.selectedLibrary === 'bgb' ) ? this.convert(d.description) : d.description;
+                        this.departmentList.push({'label': labelDesc, 'value': d.coder_id});
                     });
                 if (this.selectedLibrary === 'bgb') {
-                    this.selectedDepartments[0] = response[0]['coder_id']
+                    this.selectedDepartments[0] = response[0]['coder_id'];
                     this.selectionChangedBranch({'value': response[0]['coder_id']});
-                }
+                    }
                 }
             );
     }

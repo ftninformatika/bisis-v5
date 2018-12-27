@@ -34,6 +34,7 @@
     "fullcalendar": "3.9.0",
     "intl": "1.2.5",
     "jquery": "3.3.1",
+    "latin-to-serbian-cyrillic": "^1.0.2",
     "moment": "^2.22.2",
     "nanoscroller": "0.8.7",
     "primeng": "6.1.2",

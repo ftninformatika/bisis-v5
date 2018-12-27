@@ -5,6 +5,7 @@ import {PresentItem} from '../model/PresentItem';
 
 @Injectable()
 export class PresentItemGenerator {
+    convert = require('latin-to-serbian-cyrillic');
 
     public generatePresentItems(free: string[], lended: string[], notLendable: string[],
                                 itemAvailabilities: ItemAvailability[]): PresentItem[] {
@@ -14,21 +15,24 @@ export class PresentItemGenerator {
             if (free.includes(itemAvailabilities[i].ctlgNo)) {
               retVal.push({
                   invBroj: itemAvailabilities[i].ctlgNo,
-                  libDepartment: itemAvailabilities[i].libDepartment,
+                  libDepartment: (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
+                                                                                  : itemAvailabilities[i].libDepartment,
                   presentation: 'слободан',
                   presentationId: 1
               });
             } else if (lended.includes(itemAvailabilities[i].ctlgNo)) {
                 retVal.push({
                     invBroj: itemAvailabilities[i].ctlgNo,
-                    libDepartment: itemAvailabilities[i].libDepartment,
+                    libDepartment: (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
+                                                                                    : itemAvailabilities[i].libDepartment,
                     presentation: 'заузет',
                     presentationId: 2
                 });
             } else if (notLendable.includes(itemAvailabilities[i].ctlgNo)) {
                 retVal.push({
                     invBroj: itemAvailabilities[i].ctlgNo,
-                    libDepartment: itemAvailabilities[i].libDepartment,
+                    libDepartment: (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
+                                                                                    : itemAvailabilities[i].libDepartment,
                     presentation: 'незадужив',
                     presentationId: 3
                 });

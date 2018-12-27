@@ -65,7 +65,7 @@ public class ElasticUtility {
             retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PP", LatCyrUtils.toLatinUnaccentedWithoutStopSigns(universalSearchModel.getSearchText())));
             retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PU", LatCyrUtils.toLatinUnaccentedWithoutStopSigns(universalSearchModel.getSearchText())));
 
-            retVal.minimumNumberShouldMatch(universalSearchModel.getSearchText().split(" ").length);
+            retVal.minimumNumberShouldMatch(1);
 
 
         }
