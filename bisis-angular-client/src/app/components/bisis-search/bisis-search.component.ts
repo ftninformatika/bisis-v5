@@ -68,7 +68,7 @@ export class BisisSearchComponent implements OnInit {
                                       this.departmentList.push({'label': labelDesc, 'value': d.coder_id});
                                   });
                               if (this.selectedLibrary === 'bgb') {
-                                  this.selectedDepartments[0] = response[0]['coder_id'];
+                                  this.selectedDepartments[0] = responseDeps[0]['coder_id'];
                                   this.selectionChangedBranch({'value': responseDeps[0]['coder_id']});
                               }
                           }
