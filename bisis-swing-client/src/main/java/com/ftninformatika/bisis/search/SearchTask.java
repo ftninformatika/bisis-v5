@@ -63,7 +63,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	      departments = new ArrayList<>();
           departments.add(locId);
       }
-	  this.searchModel = new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,sort,  departments);
+	  this.searchModel = new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,sort, departments, null);
   }
   public SearchTask(String queryString, SearchStatusDlg statusDlg){
 	  this.statusDlg=statusDlg;

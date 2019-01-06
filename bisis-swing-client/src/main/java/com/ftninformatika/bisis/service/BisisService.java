@@ -7,6 +7,7 @@ package com.ftninformatika.bisis.service;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
@@ -355,6 +356,9 @@ public interface BisisService {
 
     @POST ("members/dischargeBook")
     Call<Boolean> dischargeBook(@Body Lending lending);
+
+    @POST ("members/merge")
+    Call<Boolean> merge(@Body MergeData mergeData);
 
 
     //circ reports
