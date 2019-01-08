@@ -6,7 +6,6 @@ import com.ftninformatika.bisis.circ.view.RecordBean;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
-import freemarker.core.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -86,11 +85,7 @@ public class MergeUsersTableModel extends AbstractTableModel implements Serializ
     private String getInfo(Member member) {
         Writer out = new StringWriter();
         try {
-            //getTemplate().process(member, out);
-            //Writer w = new OutputStreamWriter(out, outputCharset);
-            Environment env = getTemplate().createProcessingEnvironment(member, out);
-            env.setOutputEncoding("UTF-8");
-            env.process();
+            getTemplate().process(member, out);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TemplateException e) {
