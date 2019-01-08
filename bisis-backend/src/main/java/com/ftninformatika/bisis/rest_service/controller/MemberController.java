@@ -265,7 +265,6 @@ public class MemberController {
     @RequestMapping(path = "/merge", method = RequestMethod.POST)
     public boolean merge(@RequestBody MergeData mergeData) {
         Member mainMember = memberRep.getMemberByUserId(mergeData.getUser());
-        mainMember.setUserId(mergeData.getUserId());
         for (String userId : mergeData.getUserList()) {
             if (!userId.equals(mergeData.getUser())) {
                 Member m = memberRep.getMemberByUserId(userId);
@@ -283,6 +282,9 @@ public class MemberController {
                 }
             }
         }
+        mainMember.setUserId(mergeData.getUserId());
+        mainMember.setInUseBy(null);
+        memberRep.save(mainMember);
         log.info("Spojen korisnik: " + mergeData.getUser());
         return true;
 

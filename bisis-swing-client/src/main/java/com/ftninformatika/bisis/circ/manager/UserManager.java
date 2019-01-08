@@ -1,24 +1,21 @@
 package com.ftninformatika.bisis.circ.manager;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Membership;
+import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.pojo.Warning;
+import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
-import com.ftninformatika.bisis.search.SearchModelMember;
 import org.apache.log4j.Logger;
-import org.elasticsearch.monitor.os.OsStats;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UserManager {
 
@@ -791,11 +788,11 @@ public class UserManager {
         mergeData.setUser(user);
         mergeData.setUserId(userId);
         mergeData.setUserList(userList);
-//        try {
-//            done = BisisApp.bisisService.merge(mergeData).execute().body();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+           done = BisisApp.bisisService.merge(mergeData).execute().body();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
         return done;
     }
 

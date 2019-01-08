@@ -95,6 +95,7 @@ public class MergeFrame extends JInternalFrame {
                         if (done){
                             JOptionPane.showMessageDialog(MergeFrame.this, Messages.getString("circulation.saved"), Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE,
                                     new ImageIcon(getClass().getResource("/circ-images/hand32.png")));
+                            MergeFrame.this.dispose();
                         }else{
                             JOptionPane.showMessageDialog(MergeFrame.this, Messages.getString("circulation.saveerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
                                     new ImageIcon(getClass().getResource("/circ-images/x32.png")));
