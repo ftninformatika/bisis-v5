@@ -84,7 +84,7 @@ public class ElasticUtility {
         return retVal;
     }
 
-    private static QueryBuilder buildQbForField(String text, String prefix) {
+    public static QueryBuilder buildQbForField(String text, String prefix) {
         QueryBuilder qb = null;
         if (text != null && !"".equals(text)) {
             //za netokenizirane prefikse posebno se proverava da li se pravi match ili wildcard

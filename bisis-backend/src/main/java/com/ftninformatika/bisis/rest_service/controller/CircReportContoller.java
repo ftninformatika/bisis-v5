@@ -425,67 +425,67 @@ public class CircReportContoller {
          * najcitanije knjige po UDK
          */
     /*BestBookUDKReportCommand, FilterManager.bestBookUDK()*/
-    @RequestMapping(value = "get_best_book_udk")
-    public List<Report> getBestBookUdk(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("udk")String udk, @RequestParam(name = "location", required = false)String location) {
-        List<Report> retVal = new ArrayList<>();
-        List<String> allCtlgNos = lendingRepository.getLendActionsCtlgNos(start, end, location, lib);
-        Set<String> uniqueCtlgNos = new HashSet<>(allCtlgNos);
-
-        Map<String, Integer> retMap = new HashMap<>();
-        BoolQueryBuilder pp = QueryBuilders.boolQuery();
-        if(udk != null && !udk.equals("")) {
-
-            //svi ctlgNo koji su iznajmljeni u zadatom periodu - iz ove kolekcije brojimo
-            List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
-            //zbog brzine contains() metode - iz ove kolekcije proveravamo
-
-            QueryBuilder pf = QueryBuilders.queryStringQuery(udk + "*");
-            ((QueryStringQueryBuilder) pf).defaultField("prefixes.DC");
-            ((QueryStringQueryBuilder) pf).autoGeneratePhraseQueries(true);
-            ((QueryStringQueryBuilder) pf).defaultOperator(QueryStringQueryBuilder.Operator.AND);
-            pp.must(pf);
-            pp.filter(QueryBuilders.termsQuery("prefixes.IN",lendResultClgNos));
-            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
-
-            Set<String> setCtlgNos = new HashSet<>(lendResultClgNos);
-            Collections.sort(lendResultClgNos);
-            ee.forEach(
-                    e -> {
-                        if (e.getPrefixes().get("IN") != null && e.getPrefixes().get("DC") != null) {
-                            for (String in : e.getPrefixes().get("IN")) {
-                                in = in.replace(PrefixConverter.endPhraseFlag, "");
-                                if ( setCtlgNos.contains(in) && !retMap.containsKey(in)) {
-                                    retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
-                                }
-                                else if ( setCtlgNos.contains(in) && retMap.containsKey(in)) {
-                                    int count = retMap.get(e.getId()) + Collections.frequency(lendResultClgNos, in);
-                                    retMap.put(e.getId(), count);
-                                }
-                            }
-                        }
-                    }
-            );
-        }
-        List<Map.Entry<String, Integer>> finalResults = new ArrayList<>();
-        if(retMap.size() > 0){
-            //osakatimo mapu na 20 najcitanijih
-            finalResults = retMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(20).collect(Collectors.toList());
-            for (Object o: finalResults){
-                if(o instanceof HashMap.Entry){
-                    Report r = new Report();
-                    Record rec = recordsRepository.findOne(((HashMap.Entry)o).getKey().toString());
-                    RecordPreview pr = new RecordPreview();
-                    pr.init(rec);
-                    r.setProperty21(Long.parseLong((((HashMap.Entry)o).getValue().toString())));
-                    r.setProperty1(pr.getTitle());
-                    r.setProperty2(pr.getAuthor());
-                    retVal.add(r);
-
-                }
-            }
-        }
-        return retVal;
-    }
+//    @RequestMapping(value = "get_best_book_udk")
+//    public List<Report> getBestBookUdk(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("udk")String udk, @RequestParam(name = "location", required = false)String location) {
+//        List<Report> retVal = new ArrayList<>();
+//        List<String> allCtlgNos = lendingRepository.getLendActionsCtlgNos(start, end, location, lib);
+//        Set<String> uniqueCtlgNos = new HashSet<>(allCtlgNos);
+//
+//        Map<String, Integer> retMap = new HashMap<>();
+//        BoolQueryBuilder pp = QueryBuilders.boolQuery();
+//        if(udk != null && !udk.equals("")) {
+//
+//            //svi ctlgNo koji su iznajmljeni u zadatom periodu - iz ove kolekcije brojimo
+//            List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
+//            //zbog brzine contains() metode - iz ove kolekcije proveravamo
+//
+//            QueryBuilder pf = QueryBuilders.queryStringQuery(udk + "*");
+//            ((QueryStringQueryBuilder) pf).defaultField("prefixes.DC");
+//            ((QueryStringQueryBuilder) pf).autoGeneratePhraseQueries(true);
+//            ((QueryStringQueryBuilder) pf).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+//            pp.must(pf);
+//            pp.filter(QueryBuilders.termsQuery("prefixes.IN",lendResultClgNos));
+//            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
+//
+//            Set<String> setCtlgNos = new HashSet<>(lendResultClgNos);
+//            Collections.sort(lendResultClgNos);
+//            ee.forEach(
+//                    e -> {
+//                        if (e.getPrefixes().get("IN") != null && e.getPrefixes().get("DC") != null) {
+//                            for (String in : e.getPrefixes().get("IN")) {
+//                                in = in.replace(PrefixConverter.endPhraseFlag, "");
+//                                if ( setCtlgNos.contains(in) && !retMap.containsKey(in)) {
+//                                    retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
+//                                }
+//                                else if ( setCtlgNos.contains(in) && retMap.containsKey(in)) {
+//                                    int count = retMap.get(e.getId()) + Collections.frequency(lendResultClgNos, in);
+//                                    retMap.put(e.getId(), count);
+//                                }
+//                            }
+//                        }
+//                    }
+//            );
+//        }
+//        List<Map.Entry<String, Integer>> finalResults = new ArrayList<>();
+//        if(retMap.size() > 0){
+//            //osakatimo mapu na 20 najcitanijih
+//            finalResults = retMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(20).collect(Collectors.toList());
+//            for (Object o: finalResults){
+//                if(o instanceof HashMap.Entry){
+//                    Report r = new Report();
+//                    Record rec = recordsRepository.findOne(((HashMap.Entry)o).getKey().toString());
+//                    RecordPreview pr = new RecordPreview();
+//                    pr.init(rec);
+//                    r.setProperty21(Long.parseLong((((HashMap.Entry)o).getValue().toString())));
+//                    r.setProperty1(pr.getTitle());
+//                    r.setProperty2(pr.getAuthor());
+//                    retVal.add(r);
+//
+//                }
+//            }
+//        }
+//        return retVal;
+//    }
 
     /** broj korisnika po polu koji su se uclanili u datom periodu
      */
@@ -690,11 +690,14 @@ public class CircReportContoller {
     /*BestBookReportCommand*/
     @RequestMapping(value = "get_best_book_report")
     public List<Report> getBestBookReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false)String location) {
+        return getBestBookUdkReport(lib, start, end, null, location);
+    }
+
+    @RequestMapping(value = "get_best_book_udk")
+    public List<Report> getBestBookUdkReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("udk")String udk, @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
 
-        List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location,
-
-                                                              "ctlgNo", "lendedCount", "lendedCount", "lendDate", null);
+        List<Object> l = lendingRepository.getGroupByForLendingsBetweenDate(start, end, location, "ctlgNo", "lendedCount", "lendedCount", "lendDate", null);
         //ctlgno:broj
         Map<String, Integer> allLendings = new HashMap<>();
         if (l != null){
@@ -710,10 +713,21 @@ public class CircReportContoller {
         //mongoId(record):broj
         Map<String, Integer> resultMap = new HashMap<>();
 
-        Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(QueryBuilders.termsQuery("prefixes.IN", allLendings.keySet()));
+        BoolQueryBuilder pp = QueryBuilders.boolQuery();
+        QueryBuilder query;
+        if (udk != null) {
+            QueryBuilder pf = ElasticUtility.buildQbForField(udk, "DC");
+            pp.must(pf);
+            pp.filter(QueryBuilders.termsQuery("prefixes.IN",allLendings.keySet()));
+            query = pp;
+        } else {
+            query = QueryBuilders.termsQuery("prefixes.IN", allLendings.keySet());
+        }
+
+        Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
         ee.forEach(
                 ep -> {
-                    if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
+                    if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0 && (udk == null || (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("DC") != null))){
                         for (String in: ep.getPrefixes().get("IN")){
                             in = in.replace(PrefixConverter.endPhraseFlag, "");
                             if (allLendings.keySet().contains(in)){
@@ -729,8 +743,8 @@ public class CircReportContoller {
                 }
         );
         List<Map.Entry<String, Integer>> sortedResults  = resultMap.entrySet().stream()
-                                                          .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                                                          .collect(Collectors.toList());
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .collect(Collectors.toList());
 
         if (sortedResults != null && sortedResults.size() >= 20)
             sortedResults = sortedResults.subList(0,20);
