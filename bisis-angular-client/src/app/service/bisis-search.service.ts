@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { RecordsPageModel } from '../model/RecordsPageModel';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {MessageService} from "primeng/components/common/messageservice";
-import {config} from "../config/config";
+import {MessageService} from 'primeng/components/common/messageservice';
+import {config} from '../config/config';
 
 @Injectable()
 export class BisisSearchService {
@@ -20,16 +20,15 @@ export class BisisSearchService {
         const headers = new Headers();
         headers.append('Library', libCode);
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(config.getEnvironmentVariable('endPoint') + 'records/wrapperrec/' + recId, options)
+        return this.http.get(config.getEnvironmentVariable('endPoint') + 'records/opac_wrapperrec/' + recId, options)
             .map(response => response.json())
             .catch(this.handleError);
     }
 
 
-    searchRecordsByEP(choice: string, text: string, departments: string[], page = 0, size = 1000) {
-
-        //console.log("odabrana bilioteka " + localStorage.getItem('libCode'));
-        if (localStorage.getItem('libCode') == undefined || localStorage.getItem('libCode') == null || localStorage.getItem('libCode') == ''){
+    searchUniversal(choice: string, text: string, departments: string[], branches: string[], page = 0, size = 1000) {
+        if (localStorage.getItem('libCode') === undefined ||
+            localStorage.getItem('libCode') == null || localStorage.getItem('libCode') === '') {
             this.messageService.clear();
             this.messageService.add({
                 severity: 'error',
@@ -42,14 +41,15 @@ export class BisisSearchService {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
-        var universalSearchModel = {
-            "searchText": text,
-            "departments": departments
+        const universalSearchModel = {
+            'searchText': text,
+            'departments': departments,
+            'branches': branches
 
         };
 
-
-        return this.http.post(config.getEnvironmentVariable('endPoint') + 'records/wrapperrec/universal?pageNumber=' + page + '&pageSize=' + size, universalSearchModel , options)
+        return this.http.post(config.getEnvironmentVariable('endPoint') + 'records/wrapperrec/opac_universal?pageNumber='
+            + page + '&pageSize=' + size, universalSearchModel , options)
             .map(response => response.json() as RecordsPageModel)
             .catch(this.handleError);
 
@@ -61,12 +61,11 @@ export class BisisSearchService {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
-            return this.http.post(config.getEnvironmentVariable('endPoint') + 'records/query/full?pageNumber=' + page + '&pageSize=' + size,searchModel, options)
+            return this.http.post(config.getEnvironmentVariable('endPoint') + 'records/query/opac_full?pageNumber='
+                + page + '&pageSize=' + size, searchModel, options)
               .map(response =>  response.json() as RecordsPageModel)
               .catch(this.handleError);
     }
-
-    getRecordsEP(){}
 
 
     private handleError (error: Response | any) {

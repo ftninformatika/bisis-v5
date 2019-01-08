@@ -2,13 +2,28 @@
 <h1 *ngIf="lib" class="customfontcolor" align="center">{{libHeader}}</h1>
 <div class="card card-w-title">
  <div *ngIf="lib" class="customfontcolor">
-   <!--Библиотека: {{libHeader}}-->
      <div class="ui-grid-row" *ngIf="departmentList.length > 0"> <br>
+         <div *ngIf="selectedLibrary == 'bgb'" class="ui-grid-col-4 customfontcolor"  align="left" >
+             <b >Одаберите општинску библиотеку:</b>
+         </div>
+         <div *ngIf="selectedLibrary == 'bgb'" class="ui-grid-col-8" align="left">
+             <p-dropdown  [options]="departmentList" [(ngModel)]="selectedDepartments[0]" (onChange)="selectionChangedBranch($event)"></p-dropdown>
+         </div>
+         <!-- Ostale biblioteke -->
+         <div *ngIf="selectedLibrary != 'bgb'" class="ui-grid-col-4 customfontcolor"  align="left" >
+             <b >Одаберите огранак:</b>
+         </div>
+         <div *ngIf="selectedLibrary != 'bgb'" class="ui-grid-col-8" align="left">
+             <p-multiSelect  [selectedItemsLabel]="'{0} одабраних огранака'" [defaultLabel]="'Било који огранак'"  [options]="departmentList" [(ngModel)]="selectedDepartments"></p-multiSelect>
+         </div>
+     </div>
+     <br>
+     <div class="ui-grid-row" *ngIf="departmentList.length > 0 && selectedLibrary == 'bgb'">
          <div class="ui-grid-col-4 customfontcolor"  align="left">
              <b>Одаберите огранке:</b>
          </div>
          <div class="ui-grid-col-8" align="left">
-             <p-multiSelect  [selectedItemsLabel]="'{0} одабраних огранака'" [defaultLabel]="'Било који огранак'"  [options]="departmentList" [(ngModel)]="selectedDepartments"></p-multiSelect>
+             <p-multiSelect  [selectedItemsLabel]="'{0} одабраних огранака'" [defaultLabel]="'Било који огранак'"  [options]="branchesList" [(ngModel)]="selectedBranches"></p-multiSelect>
          </div>
      </div>
  </div>
@@ -18,19 +33,36 @@
               <b>Библиотека: </b>
           </div>
           <div class="ui-grid-col-8"  align="left">
-            <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event); selectionChanged()"></p-dropdown>
+            <p-dropdown [options]="libList" [(ngModel)]="selectedLibrary" (onChange)="bisisSearchForm.setLib($event); selectionChangedLibrary()"></p-dropdown>
           </div>
       </div><br>
       <div class="ui-grid-row" *ngIf="departmentList.length > 0">
+          <!-- Specijalni slucaj za bgb -->
+          <div *ngIf="selectedLibrary == 'bgb'" class="ui-grid-col-4 customfontcolor"  align="left" >
+              <b >Одаберите општинску библиотеку:</b>
+          </div>
+          <div *ngIf="selectedLibrary == 'bgb'" class="ui-grid-col-8" align="left">
+              <p-dropdown  [options]="departmentList" [(ngModel)]="selectedDepartments[0]" (onChange)="selectionChangedBranch($event)"></p-dropdown>
+          </div>
+          <!-- Ostale biblioteke -->
+          <div *ngIf="selectedLibrary != 'bgb'" class="ui-grid-col-4 customfontcolor"  align="left" >
+              <b >Одаберите огранак:</b>
+          </div>
+          <div *ngIf="selectedLibrary != 'bgb'" class="ui-grid-col-8" align="left">
+              <p-multiSelect  [selectedItemsLabel]="'{0} одабраних огранака'" [defaultLabel]="'Било који огранак'"  [options]="departmentList" [(ngModel)]="selectedDepartments"></p-multiSelect>
+          </div>
+      </div>
+      <br>
+      <div class="ui-grid-row" *ngIf="departmentList.length > 0 && selectedLibrary == 'bgb'">
           <div class="ui-grid-col-4 customfontcolor"  align="left">
               <b>Одаберите огранке:</b>
           </div>
           <div class="ui-grid-col-8" align="left">
-              <p-multiSelect  [selectedItemsLabel]="'{0} одабраних огранака'" [defaultLabel]="'Било који огранак'"  [options]="departmentList" [(ngModel)]="selectedDepartments"></p-multiSelect>
+              <p-multiSelect  [selectedItemsLabel]="'{0} одабраних огранака'" [defaultLabel]="'Било који огранак'"  [options]="branchesList" [(ngModel)]="selectedBranches"></p-multiSelect>
           </div>
       </div>
   </div>
 </div>
 <app-search-form #bisisSearchForm (serviceCallResult)='setRecords($event)'
-                 [lib]=lib [selectedLibrary]=selectedLibrary [selectedDeps]=selectedDepartments ></app-search-form>
+                 [lib]=lib [selectedLibrary]=selectedLibrary [selectedDeps]=selectedDepartments [selectedBranches]="selectedBranches"></app-search-form>
 <app-result-view [data]=searchResults ></app-result-view>

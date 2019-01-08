@@ -15,6 +15,7 @@ import com.ftninformatika.bisis.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import org.apache.log4j.Logger;
 import org.elasticsearch.monitor.os.OsStats;
@@ -747,6 +748,54 @@ public class UserManager {
                 }
             }
         }
+        return done;
+    }
+
+
+    public List<MemberData> getUsers(List<String> userIDs) {
+        List<MemberData> memberDataList = new ArrayList<>();
+        try {
+            for (String userId: userIDs) {
+                MemberData memberData = BisisApp.bisisService.getAndLockMemberById(userId, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
+                if (memberData != null) {
+                    memberDataList.add(memberData);
+                }
+            }
+        } catch (Exception e) {
+            log.error(e);
+            e.printStackTrace();
+        }
+        return memberDataList;
+    }
+
+    public boolean releaseUsers(List<MemberData> memberDataList) {
+        Boolean released = true;
+        for (MemberData memberData: memberDataList) {
+            if (memberData.getMember() != null) {
+                try {
+                    released = BisisApp.bisisService.releaseMemberById(memberData.getMember().getUserId()).execute().body();
+                    if (!released) {
+                        return released;
+                    }
+                } catch (Exception e) {
+                    log.error(e);
+                }
+            }
+        }
+        return released;
+    }
+
+    public boolean mergeUsers(String user, String userId, List<String> userList) {
+        boolean done = false;
+        MergeData mergeData = new MergeData();
+        mergeData.setUser(user);
+        mergeData.setUserId(userId);
+        mergeData.setUserList(userList);
+//        try {
+//            done = BisisApp.bisisService.merge(mergeData).execute().body();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return done;
     }
 

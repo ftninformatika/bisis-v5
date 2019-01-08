@@ -22,6 +22,7 @@ export class SearchFormComponent implements OnInit {
   @Input() lib: string;
   @Input() selectedLibrary: string;
   @Input() selectedDeps: string[];
+  @Input() selectedBranches: string[];
   @Output() serviceCallResult: EventEmitter<RecordsPageModel> = new EventEmitter();
 
   // loading bar
@@ -60,10 +61,6 @@ export class SearchFormComponent implements OnInit {
       }
     }
 
-  search() {
-    this.bisisService.getRecordsEP();
-
-  }
   searchBy( text) {
     if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary === '') {
       this.messageService.clear();
@@ -84,7 +81,7 @@ export class SearchFormComponent implements OnInit {
       return;
     }
     this.displayDialog = true;
-    this.bisisService.searchRecordsByEP(choice, text, this.selectedDeps)
+    this.bisisService.searchUniversal(choice, text, this.selectedDeps, this.selectedBranches)
     .subscribe(    // ovo postoji zbog paginga i sortiga u drugim komponentama
       response => {
         response['query'] = text;
@@ -102,7 +99,6 @@ export class SearchFormComponent implements OnInit {
   setLib(lib) {
     this.selectedLibrary = lib.value;
     localStorage.setItem('libCode', lib.value);
-    // console.log(this.lib, this.selectedLibrary);
   }
 
   private validateQuery(choice, text): boolean {
@@ -123,7 +119,8 @@ export class SearchFormComponent implements OnInit {
   }
 
   searchAdvanced(text1, text2, text3, text4, text5,
-                 prefix1, prefix2, prefix3, prefix4, prefix5, bonding1, bonding2, bonding3, bonding4, selectedDeps = null) {
+                 prefix1, prefix2, prefix3, prefix4, prefix5, bonding1, bonding2, bonding3, bonding4
+                 , selectedDeps = null, selectedBranches = null) {
 
     if ( localStorage.getItem('libCode') == null || this.selectedLibrary == null || this.selectedLibrary === '') {
       this.messageService.clear();
@@ -149,7 +146,8 @@ export class SearchFormComponent implements OnInit {
         oper2: bonding2,
         oper3: bonding3,
         oper4: bonding4,
-        departments: this.selectedDeps
+        departments: this.selectedDeps,
+        branches: this.selectedBranches
       };
       this.displayDialog = true;
       this.bisisService.searchRecordsAdvanced(searchModel)
@@ -161,7 +159,6 @@ export class SearchFormComponent implements OnInit {
               },
               error => console.log(error)
           );
-      // console.log(searchModel);
     }
   }
 

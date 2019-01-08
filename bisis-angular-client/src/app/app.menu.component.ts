@@ -2,17 +2,15 @@ import {Component, Input, OnInit} from '@angular/core';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from './app.component';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-menu',
     template: `
-        <ul app-submenu [item]="model" root="true" class="ultima-menu ultima-main-menu clearfix" [reset]="reset" visible="true"></ul>
-         <!--<button (click)="switchLanguage('srb-cyr')">Cirilica</button>
-                    <button (click)="switchLanguage('srb-lat')">Latinica</button>
-                    <button (click)="switchLanguage('en')">Engleski</button>-->
-   `
+        <ul app-submenu [item]="model" root="true" class="ultima-menu ultima-main-menu clearfix"
+            [reset]="reset" visible="true" parentActive="true"></ul>`
 })
+
 export class AppMenuComponent implements OnInit {
 
     @Input() reset: boolean;
@@ -32,27 +30,31 @@ export class AppMenuComponent implements OnInit {
 
     }
 
-    setTexts(){
-        this.translate.get('sideMenuHome').subscribe(
-            res => {
-                this.homeText = res;
-                this.translate.get('sideMenuSearch').subscribe(
-                    res2 => {
-                        this.searchText = res2;
-                        this.translate.get('sideMenuAbout').subscribe(
-                            res3 => {
-                                this.aboutText = res3;
-                                this.model = [
-                                    {label: this.homeText, icon: 'home', routerLink: ['/bisis-search']},
-                                    {label: this.aboutText, icon: 'info', routerLink: ['/about-view']}
-
-                                ];
-                            }
-                        );
-                    }
-                );
-            }
-        );
+    setTexts() {
+        // this.translate.get('sideMenuHome').subscribe(
+        //     res => {
+        //         this.homeText = res;
+        //         this.translate.get('sideMenuSearch').subscribe(
+        //             res2 => {
+        //                 this.searchText = res2;
+        //                 this.translate.get('sideMenuAbout').subscribe(
+        //                     res3 => {
+        //                         this.aboutText = res3;
+        //                         this.model = [
+        //                             {label: this.homeText, icon: 'home', routerLink: ['/bisis-search']},
+        //                             {label: this.aboutText, icon: 'info', routerLink: ['/about-view']}
+        //
+        //                         ];
+        //                     }
+        //                 );
+        //             }
+        //         );
+        //     }
+        // );
+        this.model = [
+            {label: 'Бисис претраживање', icon: 'home', routerLink: ['/bisis-search']},
+            {label: 'О нама', icon: 'info', routerLink: ['/about-view']}
+            ];
     }
 
 
@@ -73,23 +75,24 @@ export class AppMenuComponent implements OnInit {
 }
 
 @Component({
+    /* tslint:disable:component-selector */
     selector: '[app-submenu]',
     template: `
         <ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
             <li [ngClass]="{'active-menuitem': isActive(i)}" [class]="child.badgeStyleClass" *ngIf="child.visible === false ? false : true">
                 <a [href]="child.url||'#'" (click)="itemClick($event,child,i)" (mouseenter)="onMouseEnter(i)"
                    class="ripplelink" *ngIf="!child.routerLink"
-                    [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
-                    <i class="material-icons">{{child.icon}}</i>
+                   [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
+                    <i *ngIf="child.icon" class="material-icons">{{child.icon}}</i>
                     <span>{{child.label}}</span>
                     <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
                     <i class="material-icons submenu-icon" *ngIf="child.items">keyboard_arrow_down</i>
                 </a>
 
                 <a (click)="itemClick($event,child,i)" (mouseenter)="onMouseEnter(i)" class="ripplelink" *ngIf="child.routerLink"
-                    [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink"
+                   [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink"
                    [routerLinkActiveOptions]="{exact: true}" [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
-                    <i class="material-icons">{{child.icon}}</i>
+                    <i *ngIf="child.icon" class="material-icons">{{child.icon}}</i>
                     <span>{{child.label}}</span>
                     <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
                     <i class="material-icons submenu-icon" *ngIf="child.items">keyboard_arrow_down</i>
@@ -98,7 +101,7 @@ export class AppMenuComponent implements OnInit {
                     <div class="layout-menu-tooltip-arrow"></div>
                     <div class="layout-menu-tooltip-text">{{child.label}}</div>
                 </div>
-                <ul app-submenu [item]="child" *ngIf="child.items" [visible]="isActive(i)" [reset]="reset"
+                <ul app-submenu [item]="child" *ngIf="child.items" [visible]="isActive(i)" [reset]="reset" [parentActive]="isActive(i)"
                     [@children]="(app.isSlim()||app.isHorizontal())&&root ? isActive(i) ?
                     'visible' : 'hidden' : isActive(i) ? 'visibleAnimated' : 'hiddenAnimated'"></ul>
             </li>
@@ -113,10 +116,12 @@ export class AppMenuComponent implements OnInit {
                 height: '*'
             })),
             state('visible', style({
-                height: '*'
+                height: '*',
+                'z-index': 100
             })),
             state('hidden', style({
-                height: '0px'
+                height: '0px',
+                'z-index': '*'
             })),
             transition('visibleAnimated => hiddenAnimated', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
             transition('hiddenAnimated => visibleAnimated', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
@@ -132,6 +137,8 @@ export class AppSubMenuComponent {
     @Input() visible: boolean;
 
     _reset: boolean;
+
+    _parentActive: boolean;
 
     activeIndex: number;
 
@@ -158,6 +165,9 @@ export class AppSubMenuComponent {
 
         // prevent hash change
         if (item.items || (!item.url && !item.routerLink)) {
+            setTimeout(() => {
+                this.app.layoutMenuScrollerViewChild.moveBar();
+            }, 450);
             event.preventDefault();
         }
 
@@ -174,7 +184,8 @@ export class AppSubMenuComponent {
     }
 
     onMouseEnter(index: number) {
-        if (this.root && this.app.menuHoverActive && (this.app.isHorizontal() || this.app.isSlim())) {
+        if (this.root && this.app.menuHoverActive && (this.app.isHorizontal() || this.app.isSlim())
+            && !this.app.isMobile() && !this.app.isTablet()) {
             this.activeIndex = index;
         }
     }
@@ -191,6 +202,18 @@ export class AppSubMenuComponent {
         this._reset = val;
 
         if (this._reset && (this.app.isHorizontal() || this.app.isSlim())) {
+            this.activeIndex = null;
+        }
+    }
+
+    @Input() get parentActive(): boolean {
+        return this._parentActive;
+    }
+
+    set parentActive(val: boolean) {
+        this._parentActive = val;
+
+        if (!this._parentActive) {
             this.activeIndex = null;
         }
     }

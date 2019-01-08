@@ -1,11 +1,16 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.circ.Member;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -13,52 +18,63 @@ import javax.swing.table.AbstractTableModel;
 public class SearchUsersTableModel extends AbstractTableModel implements Serializable {
 
     protected List<Member> data;
-    protected  List<String> columnIdentifiers;
-      
+    protected List<String> columnIdentifiers;
+    private Set<String> selected;
+
     public SearchUsersTableModel() {
-      columnIdentifiers=new ArrayList<String>();
-      columnIdentifiers.add(Messages.getString("circulation.usernumber")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.firstname")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.lastname")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.parentname")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.umcn")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.place")); //$NON-NLS-1$
-      columnIdentifiers.add(Messages.getString("circulation.address")); //$NON-NLS-1$
-      data=new ArrayList<Member>();
-    }
-   
-    public String getColumnName(int column) {
-      Object id = null;
-  		if (column < columnIdentifiers.size()) {  
-  		    id = columnIdentifiers.get(column); 
-  		}
-      return (id == null) ? super.getColumnName(column) : id.toString();
+        columnIdentifiers = new ArrayList<String>();
+        columnIdentifiers.add(Messages.getString("circulation.usernumber"));
+        columnIdentifiers.add(Messages.getString("circulation.firstname"));
+        columnIdentifiers.add(Messages.getString("circulation.lastname"));
+        columnIdentifiers.add(Messages.getString("circulation.parentname"));
+        columnIdentifiers.add(Messages.getString("circulation.umcn"));
+        columnIdentifiers.add(Messages.getString("circulation.place"));
+        columnIdentifiers.add(Messages.getString("circulation.address"));
+        if (BisisApp.appConfig.getLibrarian().isAdministracija()) {
+            columnIdentifiers.add(Messages.getString("circulation.select"));
+        }
+        data = new ArrayList<Member>();
+        selected = new HashSet<>();
     }
 
-    public void setData(List data){
-    	this.data = data;
-    	fireTableDataChanged();
+    public String getColumnName(int column) {
+        Object id = null;
+        if (column < columnIdentifiers.size()) {
+            id = columnIdentifiers.get(column);
+        }
+        return (id == null) ? super.getColumnName(column) : id.toString();
     }
-    
+
+    public void setData(List data) {
+        this.data = data;
+        fireTableDataChanged();
+    }
+
     public void removeAll() {
-      data.clear();
-      fireTableDataChanged();
+        data.clear();
+        fireTableDataChanged();
     }
-    
+
     public int getRowCount() {
-      return data.size();
+        return data.size();
     }
 
     public int getColumnCount() {
-      return columnIdentifiers.size();
+        return columnIdentifiers.size();
     }
 
     public Class getColumnClass(int col) {
-       return String.class;
+        if (col == 7) {
+            return Boolean.class;
+        }
+        return String.class;
     }
-    
+
     public boolean isCellEditable(int row, int column) {
-      return false;
+        if (column == 7) {
+            return true;
+        }
+        return false;
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -78,14 +94,37 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
                 return rowData.getCity();
             case 6:
                 return rowData.getAddress();
+            case 7:
+                if (selected.contains(rowData.getUserId())) {
+                    return true;
+                } else {
+                    return false;
+                }
             default:
                 return null;
         }
         //			return data.get(rowIndex)[columnIndex];
     }
-    
-    public String getUser(int rowIndex) {
-      return data.get(rowIndex).getUserId();
+
+    public void setValueAt(Object value, int row, int col) {
+        if (col == 7) {
+            String userId = data.get(row).getUserId();
+            if ((Boolean)value) {
+                selected.add(userId);
+            } else {
+                selected.remove(userId);
+            }
+            fireTableCellUpdated(row, col);
+        }
     }
-  }
+
+    public String getUser(int rowIndex) {
+        return data.get(rowIndex).getUserId();
+    }
+
+
+    public List<String> getSelectedUsers() {
+        return new ArrayList<>(selected);
+    }
+}
 	 

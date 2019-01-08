@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {AppRoutes} from './app.routes';
 import 'rxjs/add/operator/toPromise';
+import { Observable, SubscribableOrPromise } from 'rxjs/Observable';
 
 import {AccordionModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
@@ -79,6 +80,7 @@ import {AppTopbarComponent} from './app.topbar.component';
 import {AppFooterComponent} from './app.footer.component';
 import {AppRightpanelComponent} from './app.rightpanel.component';
 import {AppInlineProfileComponent} from './app.profile.component';
+import {ToastModule} from 'primeng/toast';
 
 import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -195,6 +197,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         TooltipModule,
         TreeModule,
         TreeTableModule,
+        ToastModule,
         HttpClientModule,
         TranslateModule.forRoot({
             loader: {

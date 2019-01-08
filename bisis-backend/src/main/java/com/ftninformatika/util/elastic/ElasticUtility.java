@@ -65,7 +65,7 @@ public class ElasticUtility {
             retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PP", LatCyrUtils.toLatinUnaccentedWithoutStopSigns(universalSearchModel.getSearchText())));
             retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PU", LatCyrUtils.toLatinUnaccentedWithoutStopSigns(universalSearchModel.getSearchText())));
 
-           // retVal.minimumNumberShouldMatch(universalSearchModel.getSearchText().split(" ").length);
+            retVal.minimumNumberShouldMatch(1);
 
 
         }
@@ -74,6 +74,11 @@ public class ElasticUtility {
             for (String dep : universalSearchModel.getDepartments()) {
                 retVal.must(QueryBuilders.matchQuery("prefixes.OD", dep));
             }
+        }
+
+        if (universalSearchModel.getBranches() != null && universalSearchModel.getBranches().size() > 0){
+            for (String branch: universalSearchModel.getBranches())
+                retVal.must(QueryBuilders.matchQuery("prefixes.SL", branch));
         }
 
         return retVal;
@@ -206,6 +211,13 @@ public class ElasticUtility {
             if (sm.getDepartments() != null && sm.getDepartments().size() > 0) {
                 for (String dep : sm.getDepartments()) {
                     retVal.must(QueryBuilders.matchQuery("prefixes.OD", dep));
+                }
+            }
+
+            if (sm.getBranches() != null && sm.getBranches().size() > 0) {
+                for (String branch: sm.getBranches()) {
+                    // Signatura podlokacija - podlokacija
+                    retVal.must(QueryBuilders.matchQuery("prefixes.SL", branch));
                 }
             }
 

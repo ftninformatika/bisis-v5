@@ -38,6 +38,7 @@ public class SearchModel {
     private String sort;
 
     private List<String> departments = new ArrayList<>();
+    private List<String> branches = new ArrayList<>();
 
     @Override
     public String toString(){

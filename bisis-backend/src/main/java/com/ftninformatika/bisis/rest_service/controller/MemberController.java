@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.circ.pojo.Warning;
+import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
@@ -258,6 +259,33 @@ public class MemberController {
         TreeMap<String, MemberData> result = new TreeMap<>(memberMap);
 
         return result.values().stream().collect(Collectors.toList());
+    }
+
+
+    @RequestMapping(path = "/merge", method = RequestMethod.POST)
+    public boolean merge(@RequestBody MergeData mergeData) {
+        Member mainMember = memberRep.getMemberByUserId(mergeData.getUser());
+        mainMember.setUserId(mergeData.getUserId());
+        for (String userId : mergeData.getUserList()) {
+            if (!userId.equals(mergeData.getUser())) {
+                Member m = memberRep.getMemberByUserId(userId);
+                mainMember.getSignings().addAll(m.getSignings());
+                mainMember.getDuplicates().addAll(m.getDuplicates());
+                mainMember.getPicturebooks().addAll(m.getPicturebooks());
+                memberRep.save(mainMember);
+                memberRep.delete(m);
+            }
+            if (!userId.equals(mergeData.getUserId())) {
+                List<Lending> lendings = lendingRepository.findByUserId(userId);
+                for (Lending l : lendings) {
+                    l.setUserId(mergeData.getUserId());
+                    lendingRepository.save(l);
+                }
+            }
+        }
+        log.info("Spojen korisnik: " + mergeData.getUser());
+        return true;
+
     }
 
     private Logger log = Logger.getLogger(MemberController.class);

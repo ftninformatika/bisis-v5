@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by dboberic on 26/07/2017.
@@ -127,6 +128,13 @@ public class CodersController {
     @RequestMapping(path = "sublocation")
     public List<Sublocation> getSublocations(String libName){
         return sublocrep.getCoders(libName);
+    }
+
+    @RequestMapping(path = "sublocation/get_by_location")
+    public List<Sublocation> getSublocationsByLocation(@RequestParam("loc") String loc, @RequestParam("lib") String lib) {
+        List<Sublocation> retVal = sublocrep.getCoders(lib).stream().filter(s -> s.getCoder_id().startsWith(loc)).collect(Collectors.toList());
+        System.out.println(retVal);
+        return retVal;
     }
 
     @RequestMapping(path = "tasks")

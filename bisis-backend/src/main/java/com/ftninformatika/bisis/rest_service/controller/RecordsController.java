@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
@@ -11,6 +12,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepositor
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
@@ -46,6 +48,7 @@ public class RecordsController {
     @Autowired LocationRepository locationRepository;
     @Autowired LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
+    @Autowired SublocationRepository sublocrep;
 
     private Logger log = Logger.getLogger(MemberController.class);
 
@@ -185,7 +188,7 @@ public class RecordsController {
     }
 
     @RequestMapping(value = "/wrapperrec/{recordId}", method = RequestMethod.GET)
-    public RecordResponseWrapper getFullWrapperRecord(@PathVariable String recordId) {
+    public RecordResponseWrapper getFullWrapperRecord(@RequestHeader("Library") String lib, @PathVariable String recordId) {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
         try {
             Record rec = recordsRepository.findOne(recordId);
@@ -195,6 +198,33 @@ public class RecordsController {
             retVal.setFullRecord(rec);
             retVal.setRecordPreview(pr);
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID())));
+            if (rec == null)
+                throw new RecordNotFoundException(recordId);
+            return retVal;
+        } catch (Exception ex) {
+            throw new RecordNotFoundException(recordId);
+        }
+    }
+
+    @RequestMapping(value = "/opac_wrapperrec/{recordId}", method = RequestMethod.GET)
+    public RecordOpacResponseWrapper getFullOpacWrapperRecord(@RequestHeader("Library") String lib, @PathVariable String recordId) {
+        RecordOpacResponseWrapper retVal = new RecordOpacResponseWrapper();
+        try {
+            Record rec = recordsRepository.findOne(recordId);
+            RecordPreview pr = new RecordPreview();
+            pr.init(rec);
+            ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
+            retVal.setFullRecord(rec);
+            retVal.setRecordPreview(pr);
+            List<ItemAvailability> itemAvailabilities = itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID()));
+            Map<String, String> sublocationMap = sublocrep.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
+            List<PrimerakPreview> primerakPreviews = new ArrayList<>();
+            for (ItemAvailability ia: itemAvailabilities) {
+                String sublocation = rec.getPrimerak(ia.getCtlgNo()).getSigPodlokacija();
+                PrimerakPreview p = lib.equals("bgb") ? new PrimerakPreview(ia, sublocationMap.get(sublocation)) : new PrimerakPreview(ia, ia.getLibDepartment());
+                primerakPreviews.add(p);
+            }
+            retVal.setListOfItems(primerakPreviews);
             if (rec == null)
                 throw new RecordNotFoundException(recordId);
             return retVal;
@@ -249,6 +279,51 @@ public class RecordsController {
         );
 
         Page<RecordResponseWrapper> rr = new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) iRecs).getTotalElements());
+        return rr;
+    }
+
+    @RequestMapping(value = "/wrapperrec/opac_universal", method = RequestMethod.POST)
+    public Page<RecordOpacResponseWrapper> getRecordsOpacUniversalWrapper(@RequestHeader("Library") String lib,@RequestBody UniversalSearchModel universalSearchModel, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
+            , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+
+
+        List<RecordOpacResponseWrapper> retVal = new ArrayList<>();
+
+        BoolQueryBuilder query = ElasticUtility.searchUniversalQuery(universalSearchModel);
+        int page = 0;
+        int pSize = 20;
+
+        if (pageNumber != null)
+            page = pageNumber;
+        if (pageSize != null)
+            pSize = pageSize;
+
+
+        Pageable p = new PageRequest(page, pSize);
+        Iterable<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query, new PageRequest(page, pSize/*, new Sort(Sort.Direction.ASC, "prefixes.AU")*/));
+
+        iRecs.forEach(
+                e -> {
+                    RecordOpacResponseWrapper rw = new RecordOpacResponseWrapper();
+                    Record r = recordsRepository.findOne(e.getId());
+                    RecordPreview pr = new RecordPreview();
+                    pr.init(r);
+                    List<ItemAvailability> itemAvailabilities = itemAvailabilityRepository.findByRecordID(Integer.toString(r.getRecordID()));
+                    Map<String, String> sublocationMap = sublocrep.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
+                    List<PrimerakPreview> primerakPreviews = new ArrayList<>();
+                    for (ItemAvailability ia: itemAvailabilities) {
+                        String sublocation = r.getPrimerak(ia.getCtlgNo()).getSigPodlokacija();
+                        PrimerakPreview pp = lib.equals("bgb") ? new PrimerakPreview(ia, sublocationMap.get(sublocation)) : new PrimerakPreview(ia, ia.getLibDepartment());
+                        primerakPreviews.add(pp);
+                    }
+                    rw.setFullRecord(r);
+                    rw.setListOfItems(primerakPreviews);
+                    rw.setRecordPreview(pr);
+                    retVal.add(rw);
+                }
+        );
+
+        Page<RecordOpacResponseWrapper> rr = new PageImpl<RecordOpacResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) iRecs).getTotalElements());
         return rr;
     }
 
@@ -393,6 +468,41 @@ public class RecordsController {
                 }
         );
         return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
+    }
+
+    @RequestMapping(value = "/query/opac_full", method = RequestMethod.POST)
+    public Page<RecordOpacResponseWrapper> searchFull(@RequestHeader("Library") String lib, @RequestBody SearchModel search, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
+            , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+        ArrayList<RecordOpacResponseWrapper> retVal = new ArrayList<>();
+
+        int page = 0;
+        int pSize = 20;
+
+        if (pageNumber != null)
+            page = pageNumber;
+        if (pageSize != null)
+            pSize = pageSize;
+
+        Pageable p = new PageRequest(page, pSize);
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search), p);
+        ii.forEach(
+                rec -> {
+                    Record r = recordsRepository.findOne(rec.getId());
+                    List<ItemAvailability> ias = itemAvailabilityRepository.findByRecordID(r.getRecordID() + "");
+                    RecordPreview pr = new RecordPreview();
+                    pr.init(r);
+                    Map<String, String> sublocationMap = sublocrep.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
+                    List<PrimerakPreview> primerakPreviews = new ArrayList<>();
+                    for (ItemAvailability ia: ias) {
+                        String sublocation = r.getPrimerak(ia.getCtlgNo()).getSigPodlokacija();
+                        PrimerakPreview pp = lib.equals("bgb") ? new PrimerakPreview(ia, sublocationMap.get(sublocation)) : new PrimerakPreview(ia, ia.getLibDepartment());
+                        primerakPreviews.add(pp);
+                    }
+                    if (r != null)
+                        retVal.add(new RecordOpacResponseWrapper(r, pr, primerakPreviews));
+                }
+        );
+        return new PageImpl<RecordOpacResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
     @RequestMapping(value = "/search_ids", method = RequestMethod.POST)

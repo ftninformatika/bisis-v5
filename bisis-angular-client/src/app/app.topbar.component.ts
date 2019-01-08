@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {AppComponent} from './app.component';
-import {Router} from "@angular/router";
-import {MessageService} from "primeng/components/common/messageservice";
-import {AuthHelper} from "./components/auth/utilities/authhelper";
+import {MessageService} from 'primeng/components/common/messageservice';
+import {AuthHelper} from './components/auth/utilities/authhelper';
 
 @Component({
     selector: 'app-topbar',
@@ -44,7 +43,7 @@ export class AppTopbarComponent {
 
 
     logout(){
-        var libCode = localStorage.getItem('libCode');
+        const libCode = localStorage.getItem('libCode');
         localStorage.clear();
         localStorage.setItem('libCode', libCode);
         this.messageService.clear();
