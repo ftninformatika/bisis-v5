@@ -88,7 +88,7 @@ public class MergeUsersTableModel extends AbstractTableModel implements Serializ
         try {
             //getTemplate().process(member, out);
             //Writer w = new OutputStreamWriter(out, outputCharset);
-            Environment env = template.createProcessingEnvironment(member, out);
+            Environment env = getTemplate().createProcessingEnvironment(member, out);
             env.setOutputEncoding("UTF-8");
             env.process();
         } catch (IOException e) {
