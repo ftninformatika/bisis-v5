@@ -727,7 +727,7 @@ public class CircReportContoller {
         Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
         ee.forEach(
                 ep -> {
-                    if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0 && (udk == null || (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("DC") != null))){
+                    if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                         for (String in: ep.getPrefixes().get("IN")){
                             in = in.replace(PrefixConverter.endPhraseFlag, "");
                             if (allLendings.keySet().contains(in)){
@@ -746,8 +746,8 @@ public class CircReportContoller {
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .collect(Collectors.toList());
 
-        if (sortedResults != null && sortedResults.size() >= 20)
-            sortedResults = sortedResults.subList(0,20);
+        if (sortedResults != null && sortedResults.size() >= 100)
+            sortedResults = sortedResults.subList(0,100);
 
         sortedResults.forEach(
                 entry -> {
