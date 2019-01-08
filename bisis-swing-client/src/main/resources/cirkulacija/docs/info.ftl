@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<#ftl encoding="utf-8">
 <html>
 <head>
-<title>Info</title>
+<title>Инфо</title>
 <style>
 body { font-family:"Arial, Helvetica"; font-size: 11pt}
 </style>
@@ -9,75 +9,75 @@ body { font-family:"Arial, Helvetica"; font-size: 11pt}
 <body>
 <table>
 	<tr>
-		<td><b>Autor:</b></td>
+		<td><b>Аутор:</b></td>
 		<td>${autor}</td>
 	</tr>
 	<tr>
-		<td><b>Sekundarna odgovornost:</b></td>
+		<td><b>Секундарна одговорност:</b></td>
 		<td>${secodgovornost}</td>
 	</tr>
 	<tr>
-		<td><b>Naslov:</b></td>
+		<td><b>Наслов:</b></td>
 		<td>${naslov}</td>
 	</tr>
 	<tr>
-		<td><b>Podnaslov:</b></td>
+		<td><b>Поднаслов:</b></td>
 		<td>${podnaslov}</td>
 	</tr>
 	<tr>
-		<td><b>Tom knjige:</b></td>
+		<td><b>Том књиге:</b></td>
 		<td>${tom}</td>
 	</tr>
 	<tr>
-		<td><b>Mesto izdavanja:</b></td>
+		<td><b>Место издавања:</b></td>
 		<td>${mestoizdanja}</td>
 	</tr>
 	<tr>
-		<td><b>Izdavač:</b></td>
+		<td><b>Издавач:</b></td>
 		<td>${izdavac}</td>
 	</tr>
 	<tr>
-		<td><b>Godina izdavanja:</b></td>
+		<td><b>Година издавања:</b></td>
 		<td>${godinaizdanja}</td>
 	</tr>
 	<tr>
-		<td><b>Broj strana:</b></td>
+		<td><b>Број страна:</b></td>
 		<td>${brstrana}</td>
 	</tr>
 	<tr>
-		<td><b>Ilustracije:</b></td>
+		<td><b>Илустрације:</b></td>
 		<td>${ilustracije}</td>
 	</tr>
 	<tr>
-		<td><b>Dimenzije:</b></td>
+		<td><b>Димензије:</b></td>
 		<td>${dimenzije}</td>
 	</tr>
 	<tr>
-		<td><b>Propratna građa:</b></td>
+		<td><b>Пропратна грађа:</b></td>
 		<td>${propratnagr}</td>
 	</tr>
 	<tr>
-		<td><b>Zbirka:</b></td>
+		<td><b>Збирка:</b></td>
 		<td>${zbirka}</td>
 	</tr>
 	<tr>
-		<td><b>Napomene:</b></td>
+		<td><b>Напомене:</b></td>
 		<td>${napomene}</td>
 	</tr>
 	<tr>
-		<td><b>Napomena o sadržaju:</b></td>
+		<td><b>Напомена о садржају:</b></td>
 		<td>${napomenasadr}</td>
 	</tr>
 	<tr>
-		<td><b>Predmetna odrednica:</b></td>
+		<td><b>Предметна одредница:</b></td>
 		<td>${predmetna}</td>
 	</tr>
 	<tr>
-		<td><b>Signatura:</b></td>
+		<td><b>Сигнатура:</b></td>
 		<td>${signatura}</td>
 	</tr>
 	<tr>
-		<td><b>Format:</b></td>
+		<td><b>Формат:</b></td>
 		<td>${format}</td>
 	</tr>
 	<tr>
@@ -85,11 +85,11 @@ body { font-family:"Arial, Helvetica"; font-size: 11pt}
 		<td>${numerus}</td>
 	</tr>
 	<tr>
-		<td><b>UDK:</b></td>
+		<td><b>УДК:</b></td>
 		<td>${udk}</td>
 	</tr>
 	<tr>
-		<td><b>Raspodela:</b></td>
+		<td><b>Расподела:</b></td>
 		<td>${raspodela}</td>
 	</tr>
 </table>

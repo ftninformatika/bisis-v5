@@ -1,7 +1,7 @@
 <#ftl encoding="utf-8">
 <html>
 <head>
-<title>Info</title>
+<title>Инфо</title>
 <style>
 body { font-family:"Arial, Helvetica"; font-size: 11pt}
 </style>
