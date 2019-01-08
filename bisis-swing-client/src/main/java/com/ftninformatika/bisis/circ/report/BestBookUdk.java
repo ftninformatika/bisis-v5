@@ -51,7 +51,7 @@ public class BestBookUdk {
 		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate", Utils.toLocaleDate(end));
-		params.put("udk", udk + "*");
+		params.put("udk", udk);
 		String loc = "";
 		if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
 			params.put("nazivogr", "odeljenje: "
