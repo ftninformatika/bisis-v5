@@ -19,7 +19,7 @@ spring:
   data:
     mongodb:
       host: localhost
-      port: 27017
+      port: 27018
       database: bisis
 #      uri: mongodb://192.168.200.1:27017,192.168.200.3:27017,192.168.200.38.27017/bisis
     elasticsearch:
@@ -51,7 +51,7 @@ spring:
   data:
     mongodb:
       host: localhost
-      port: 27017
+      port: 27018
       database: bisis
   main:
     web-environment: false
