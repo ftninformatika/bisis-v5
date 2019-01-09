@@ -238,6 +238,18 @@ public class LendingRepositoryImpl implements LendingRepositoryCustom {
         }
     }
 
+    public List<Lending> getLendings(Date startL, Date endL, Date startR, Date endR, String location) {
+        Criteria criteria = createCriteria(startL, endL, startR, endR, location);
+        if (criteria != null) {
+            Query q = new Query();
+            q.addCriteria(criteria);
+            return mongoTemplate.find(q, Lending.class);
+
+        } else {
+            return null;
+        }
+    }
+
     public Integer getLendingCountBy(String dateField, Date start, Date end, String location, String library, boolean distinct) {
         Integer retVal = 0;
         if (dateField == null || dateField.equals(""))

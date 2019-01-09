@@ -176,7 +176,7 @@ public class CircReportContoller {
         Map<String, Report> retVal = new HashMap<>();
         List<String> udcGroups = Arrays.asList("0", "1", "2", "3", "5", "6", "7", "8", "9");
 
-        List<Lending> lendings = lendingRepository.getCtlgnoUsrId(start, end, location);
+        List<Lending> lendings = lendingRepository.getLendings(start, end, null, null, location);
         for (Lending l: lendings){
             String usrCateg = memberRepository.getMemberByUserId(l.getUserId()).getUserCategory().getDescription();
             QueryBuilder qb = ElasticUtility.buildQbForField(l.getCtlgNo(), "IN");

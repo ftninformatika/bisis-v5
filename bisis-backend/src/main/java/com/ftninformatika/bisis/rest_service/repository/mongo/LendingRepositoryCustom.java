@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public interface LendingRepositoryCustom {
     public List<String> getLendingsCtlgNo(Date startL, Date endL, Date startR, Date endR, String location);
+    public List<Lending> getLendings(Date startL, Date endL, Date startR, Date endR, String location);
 
     public List<String> getLendingsUserId(String ctlgNo, String librarianLend, String librarianReturn, String location,
                                           Date lendDateStart, Date lendDateEnd, Date returnDateStart, Date returnDateEnd,
