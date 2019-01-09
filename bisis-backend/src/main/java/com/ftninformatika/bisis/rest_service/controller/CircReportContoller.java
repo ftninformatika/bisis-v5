@@ -746,8 +746,8 @@ public class CircReportContoller {
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .collect(Collectors.toList());
 
-        if (sortedResults != null && sortedResults.size() >= 100)
-            sortedResults = sortedResults.subList(0,100);
+       /* if (sortedResults != null && sortedResults.size() >= 100)
+            sortedResults = sortedResults.subList(0,100);*/
 
         sortedResults.forEach(
                 entry -> {
