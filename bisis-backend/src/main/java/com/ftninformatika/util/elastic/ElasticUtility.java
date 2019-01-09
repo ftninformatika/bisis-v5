@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
  */
 public class ElasticUtility {
 
-    private static List<String> nottokenized = Arrays.asList("DC");
+    private static List<String> nottokenized = Arrays.asList("DC","UG");
 
     public static List<String> getIdsFromElasticIterable(Iterable<ElasticPrefixEntity> elasticResponse) {
         return StreamSupport.stream(elasticResponse.spliterator(), false)

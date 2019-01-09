@@ -212,7 +212,8 @@ public class CircReportContoller {
         if (s != null) {
             i = Integer.parseInt(s);
         }
-        return String.valueOf(i++);
+        i++;
+        return String.valueOf(i);
     }
 
     /**
