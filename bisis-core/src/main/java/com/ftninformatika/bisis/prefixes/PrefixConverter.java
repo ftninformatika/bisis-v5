@@ -201,6 +201,12 @@ public class PrefixConverter {
           dest.add(new PrefixValue("PN", pnautor[1]));
       }
     }
+    if (field.getName().startsWith("675")){
+      if (field.getSubfield('a') != null && field.getSubfield('a').getContent().length()>0 ) {
+        String udkGroup = field.getSubfield('a').getContent().substring(0, 1);
+        dest.add(new PrefixValue("UG", udkGroup));
+      }
+    }
     for (int i = 0; i < field.getSubfieldCount(); i++) {
       Subfield subfield = field.getSubfield(i);
       if (subfield.getSecField() != null) {

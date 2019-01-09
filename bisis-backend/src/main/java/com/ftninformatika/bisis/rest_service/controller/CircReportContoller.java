@@ -197,7 +197,7 @@ public class CircReportContoller {
                 final Integer[] primeraka = {0};
                 BoolQueryBuilder query = QueryBuilders.boolQuery();
                 TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", entry.getValue());
-                PrefixQueryBuilder pf = QueryBuilders.prefixQuery("prefixes.DC", i + "");
+                TermsQueryBuilder pf = QueryBuilders.termsQuery("prefixes.UG", i + "");
                 query.must(tq);
                 query.must(pf);
                 Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
