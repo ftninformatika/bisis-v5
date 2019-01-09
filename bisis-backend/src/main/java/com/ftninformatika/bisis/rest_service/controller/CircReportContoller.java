@@ -174,66 +174,45 @@ public class CircReportContoller {
     @RequestMapping(value = "get_ctgr_udk_report")
     public Map<String, Report> getCtgrUdkReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         Map<String, Report> retVal = new HashMap<>();
+        List<String> udcGroups = Arrays.asList("0", "1", "2", "3", "5", "6", "7", "8", "9");
 
         List<Lending> lendings = lendingRepository.getCtlgnoUsrId(start, end, location);
-        Map<String, List<String>> userCategCtlgnosMap = new HashMap<>();
-
-
         for (Lending l: lendings){
             String usrCateg = memberRepository.getMemberByUserId(l.getUserId()).getUserCategory().getDescription();
-            if(userCategCtlgnosMap.containsKey(usrCateg)){
-                userCategCtlgnosMap.get(usrCateg).add(l.getCtlgNo());
-            }
-            else{
-                userCategCtlgnosMap.put(usrCateg, new ArrayList<>());
-            }
-
-        }
-
-        for (Map.Entry<String, List<String>> entry: userCategCtlgnosMap.entrySet()){
-
-            Report r = new Report();
-            for (int i = 0; i <=9 ; i++){
-                final Integer[] primeraka = {0};
-                BoolQueryBuilder query = QueryBuilders.boolQuery();
-                TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", entry.getValue());
-                TermsQueryBuilder pf = QueryBuilders.termsQuery("prefixes.UG", i + "");
-                query.must(tq);
-                query.must(pf);
-                Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
-                ee.forEach(
-                        ep -> {
-                            if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
-                                ep.getPrefixes().get("IN").forEach(
-                                        in -> {
-                                            in = in.replace(PrefixConverter.endPhraseFlag, "");
-                                            if(entry.getValue().contains(in)){
-                                                primeraka[0] += Collections.frequency(entry.getValue(), in);
-                                            }
-                                        }
-                                );
-                            }
-                        }
-                );
-
-
-                switch (i) {
-                    case 0: r.setProperty10(primeraka[0].toString()); break;
-                    case 1: r.setProperty1(primeraka[0].toString()); break;
-                    case 2: r.setProperty2(primeraka[0].toString()); break;
-                    case 3: r.setProperty3(primeraka[0].toString()); break;
-                    case 4: r.setProperty4(primeraka[0].toString()); break;
-                    case 5: r.setProperty5(primeraka[0].toString()); break;
-                    case 6: r.setProperty6(primeraka[0].toString()); break;
-                    case 7: r.setProperty7(primeraka[0].toString()); break;
-                    case 8: r.setProperty8(primeraka[0].toString()); break;
-                    case 9: r.setProperty9(primeraka[0].toString()); break;
+            QueryBuilder qb = ElasticUtility.buildQbForField(l.getCtlgNo(), "IN");
+            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(qb);
+            if (ee != null) {
+               ElasticPrefixEntity ep = ee.iterator().next();
+                if (ep.getPrefixes().get("DC") != null && ep.getPrefixes().get("DC").size() > 0) {
+                    String udkgroup = ep.getPrefixes().get("DC").get(0).substring(0,1);
+                    if(!retVal.containsKey(usrCateg)){
+                        retVal.put(usrCateg, new Report());
+                    }
+                    Report r = retVal.get(usrCateg);
+                    switch (Integer.parseInt(udkgroup)) {
+                        case 0: r.setProperty10(increaseValue(r.getProperty10())); break;
+                        case 1: r.setProperty1(increaseValue(r.getProperty1())); break;
+                        case 2: r.setProperty2(increaseValue(r.getProperty2())); break;
+                        case 3: r.setProperty3(increaseValue(r.getProperty3())); break;
+                        case 4: r.setProperty4(increaseValue(r.getProperty4())); break;
+                        case 5: r.setProperty5(increaseValue(r.getProperty5())); break;
+                        case 6: r.setProperty6(increaseValue(r.getProperty6())); break;
+                        case 7: r.setProperty7(increaseValue(r.getProperty7())); break;
+                        case 8: r.setProperty8(increaseValue(r.getProperty8())); break;
+                        case 9: r.setProperty9(increaseValue(r.getProperty9())); break;
+                    }
                 }
             }
-            retVal.put(entry.getKey(), r);
         }
-
         return retVal;
+    }
+
+    private String increaseValue(String s) {
+        int i = 0;
+        if (s != null) {
+            i = Integer.parseInt(s);
+        }
+        return String.valueOf(i++);
     }
 
     /**
