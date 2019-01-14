@@ -13,26 +13,38 @@ export class PresentItemGenerator {
 
         for (let i = 0; i < itemAvailabilities.length; i++) {
             if (free.includes(itemAvailabilities[i].ctlgNo)) {
+              let libDep =  itemAvailabilities[i].libDepartment;
+              if (typeof libDep === 'string') {
+                  libDep = (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
+                      : itemAvailabilities[i].libDepartment;
+              }
               retVal.push({
                   invBroj: itemAvailabilities[i].ctlgNo,
-                  libDepartment: (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
-                                                                                  : itemAvailabilities[i].libDepartment,
+                  libDepartment: libDep,
                   presentation: 'слободан',
                   presentationId: 1
               });
             } else if (lended.includes(itemAvailabilities[i].ctlgNo)) {
+                let libDep =  itemAvailabilities[i].libDepartment;
+                if (typeof libDep === 'string') {
+                    libDep = (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
+                        : itemAvailabilities[i].libDepartment;
+                }
                 retVal.push({
                     invBroj: itemAvailabilities[i].ctlgNo,
-                    libDepartment: (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
-                                                                                    : itemAvailabilities[i].libDepartment,
+                    libDepartment: libDep,
                     presentation: 'заузет',
                     presentationId: 2
                 });
             } else if (notLendable.includes(itemAvailabilities[i].ctlgNo)) {
+                let libDep =  itemAvailabilities[i].libDepartment;
+                if (typeof libDep === 'string') {
+                    libDep = (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
+                        : itemAvailabilities[i].libDepartment;
+                }
                 retVal.push({
                     invBroj: itemAvailabilities[i].ctlgNo,
-                    libDepartment: (localStorage.getItem('libCode') === 'bgb') ? this.convert(itemAvailabilities[i].libDepartment)
-                                                                                    : itemAvailabilities[i].libDepartment,
+                    libDepartment: libDep,
                     presentation: 'незадужив',
                     presentationId: 3
                 });
