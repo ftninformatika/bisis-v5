@@ -47,11 +47,13 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
 
     public void setData(List data) {
         this.data = data;
+        selected = new HashSet<>();
         fireTableDataChanged();
     }
 
     public void removeAll() {
         data.clear();
+        selected.clear();
         fireTableDataChanged();
     }
 
