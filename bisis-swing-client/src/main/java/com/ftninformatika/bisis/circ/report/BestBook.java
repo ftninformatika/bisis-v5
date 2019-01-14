@@ -16,6 +16,7 @@ import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
 import com.ftninformatika.utils.date.DateUtils;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -47,12 +48,13 @@ public class BestBook {
 	public static JasperPrint setPrint(Date start,Date end,Object location)throws IOException {
 
 
-		Map<String, Object> params = new HashMap<String, Object>(4);
+		Map<String, Object> params = new HashMap<String, Object>(5);
 		String loc = "";
 		if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-			params.put("nazivogr", "odeljenje: "
-					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription());
+			params.put("nazivogr", "одељење: "
+					+ LatCyrUtils.toCyrillic(((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription()));
 			loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription();
+
 		} else {
 			params.put("nazivogr", "");
 		}
@@ -60,6 +62,7 @@ public class BestBook {
 		List<com.ftninformatika.bisis.circ.pojo.Report> l= BisisApp.bisisService.getBestBookReport(new PathDate(start), new PathDate(end), loc).execute().body();
 
 
+		params.put("reporttitle", "Најчитанија књига");
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate",Utils.toLocaleDate(end));
 
@@ -67,11 +70,11 @@ public class BestBook {
 		try {
 
 		 Document dom = setXML (l);
-			ds = new JRXmlDataSource(dom, "/report/row");
+			ds = new JRXmlDataSource(dom, "*");
 			JasperPrint jp = JasperFillManager
 					.fillReport(BestBook.class
 									.getResource(
-											"/cirkulacija/jaspers/najcitanije.jasper").openStream(),
+											"/cirkulacija/jaspers/najcitanijetabela.jasper").openStream(),
 											params, ds);
 			return jp;
 		} catch (JRException e) {

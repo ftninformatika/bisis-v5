@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -28,9 +29,9 @@ public class BestBookUdk {
 
 		for (com.ftninformatika.bisis.circ.pojo.Report r: l) {
 			Row row = report.addNewRow();
-			row.addNewColumn3().setStringValue(String.valueOf(r.getProperty3()));
-			row.addNewColumn1().setStringValue(r.getProperty1());
-			row.addNewColumn2().setStringValue(r.getProperty2());
+			row.addNewColumn3().setStringValue(String.valueOf(r.getProperty2()));
+			row.addNewColumn1().setStringValue(r.getProperty3());
+			row.addNewColumn2().setStringValue(r.getProperty1());
 
 		}
 
@@ -42,32 +43,33 @@ public class BestBookUdk {
 			String udk) throws IOException {
 
 
-		Map<String, Object> params = new HashMap<String, Object>(5);
+		Map<String, Object> params = new HashMap<String, Object>(6);
 		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
+		params.put("reporttitle", "Најчитанија књига по УДК: " + udk);
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate", Utils.toLocaleDate(end));
 		params.put("udk", udk);
 		String loc = "";
 		if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-			params.put("nazivogr", "odeljenje: "
-					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription());
+			params.put("nazivogr", "одељење: "
+					+ LatCyrUtils.toCyrillic(((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription()));
 			loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription();
 		} else {
 			params.put("nazivogr", "");
 		}
 
-		List<com.ftninformatika.bisis.circ.pojo.Report> l= BisisApp.bisisService.getBestBookUdk(new PathDate(start), new PathDate(end), udk, loc).execute().body();
+		List<com.ftninformatika.bisis.circ.pojo.Report> l = BisisApp.bisisService.getBestBookUdk(new PathDate(start), new PathDate(end), udk, loc).execute().body();
 
 		JRXmlDataSource ds;
 		try {
 
 			Document dom = setXML(l);
-			ds = new JRXmlDataSource(dom, "/report/row");
+			ds = new JRXmlDataSource(dom, "*");
 			JasperPrint jp = JasperFillManager
 					.fillReport(
 							BestBookUdk.class
 									.getResource(
-											"/cirkulacija/jaspers/najcitanijeudk.jasper")
+											"/cirkulacija/jaspers/najcitanijetabela.jasper")
 									.openStream(), params, ds);
 
 			return jp;
