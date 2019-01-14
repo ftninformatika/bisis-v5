@@ -143,7 +143,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{udk2}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="false">
+				<textField isBlankWhenNull="true">
 					<reportElement key="textField" style="SansSerif" x="310" y="2" width="46" height="18" uuid="d6237cc0-efa0-4d20-a1bc-272c05ee76d3"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -156,7 +156,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{udk3}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="false">
+				<textField isBlankWhenNull="true">
 					<reportElement key="textField" style="SansSerif" x="370" y="2" width="51" height="18" uuid="791f9d28-c288-4f06-8af2-9a6a53b01856"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -169,7 +169,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{udk4}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="false">
+				<textField isBlankWhenNull="true">
 					<reportElement key="textField" style="SansSerif" x="437" y="2" width="52" height="18" uuid="70799cf0-c074-41f9-9f0e-27aed8ae2710"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -182,7 +182,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{udk5}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="false">
+				<textField isBlankWhenNull="true">
 					<reportElement key="textField" style="SansSerif" x="499" y="2" width="49" height="18" uuid="44b55dc5-b819-4127-90ac-d10479f0d416"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -208,7 +208,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{udk7}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="false">
+				<textField isBlankWhenNull="true">
 					<reportElement key="textField" style="SansSerif" x="636" y="2" width="45" height="18" uuid="c93a5f22-b69c-447e-801f-52aab5017e52"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -221,7 +221,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{udk8}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="false">
+				<textField isBlankWhenNull="true">
 					<reportElement key="textField" style="SansSerif" x="698" y="2" width="56" height="18" uuid="937966ab-30a5-4015-931e-37e413f50522"/>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
