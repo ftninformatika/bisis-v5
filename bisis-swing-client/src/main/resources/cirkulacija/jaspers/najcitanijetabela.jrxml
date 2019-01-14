@@ -153,11 +153,11 @@
 					<jr:column width="40" uuid="0ac368db-e2d7-427d-8178-d19b783212f5">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="40" height="30" uuid="7c3ec91b-5f8a-4c7f-bf5b-a0e8ff21bab9"/>
+							<textField>
+								<reportElement x="0" y="0" width="40" height="30" uuid="e4a176eb-a774-48bb-a3d1-aba756037ad6"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Р.бр.]]></text>
-							</staticText>
+								<textFieldExpression><![CDATA[str("NAJCITANIJE_RB")]]></textFieldExpression>
+							</textField>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
@@ -170,11 +170,11 @@
 					<jr:column width="225" uuid="210a8dc3-b240-45c4-9339-631f7b02df65">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="225" height="30" uuid="1501baef-9a3f-4541-ab9b-f82512317f7a"/>
+							<textField>
+								<reportElement x="0" y="0" width="225" height="30" uuid="d27f289b-1f05-4674-b460-d9aea8df265f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Наслов]]></text>
-							</staticText>
+								<textFieldExpression><![CDATA[str("NAJCITANIJE_BOOK_TITLE")]]></textFieldExpression>
+							</textField>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isBlankWhenNull="true">
@@ -188,11 +188,11 @@
 					<jr:column width="224" uuid="74e42048-2b3c-4895-b9ac-630465217d25">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="224" height="30" uuid="02d6750f-c511-4de3-9c3c-0c148e5b739d"/>
+							<textField>
+								<reportElement x="0" y="0" width="224" height="30" uuid="629ee25d-8772-478b-91a5-5314cace1e0e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Аутор]]></text>
-							</staticText>
+								<textFieldExpression><![CDATA[str("NAJCITANIJE_AUTHOR")]]></textFieldExpression>
+							</textField>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isBlankWhenNull="true">
@@ -206,11 +206,11 @@
 					<jr:column width="66" uuid="bb67d93e-fca8-436e-b195-3bfd85f369c1">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="66" height="30" uuid="edd5f31d-3129-4db7-b10e-ab064e7ece26"/>
+							<textField>
+								<reportElement x="0" y="0" width="66" height="30" uuid="a7826189-e733-4a26-b7de-41deddb9fe98"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Издато пута]]></text>
-							</staticText>
+								<textFieldExpression><![CDATA[str("NAJCITANIJE_LEND_COUNT")]]></textFieldExpression>
+							</textField>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>

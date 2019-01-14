@@ -45,14 +45,14 @@ public class BestBookUdk {
 
 		Map<String, Object> params = new HashMap<String, Object>(6);
 		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
-		params.put("reporttitle", "Најчитанија књига по УДК: " + udk);
+		params.put("reporttitle", Messages.getString("NAJCITANIJE_TITLE") + ": " +udk);
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate", Utils.toLocaleDate(end));
 		params.put("udk", udk);
 		String loc = "";
 		if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-			params.put("nazivogr", "одељење: "
-					+ LatCyrUtils.toCyrillic(((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription()));
+			params.put("nazivogr", Messages.getString("DEPARTMENT") + "  "
+					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription());
 			loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription();
 		} else {
 			params.put("nazivogr", "");

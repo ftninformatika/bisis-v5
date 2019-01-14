@@ -51,8 +51,8 @@ public class BestBook {
 		Map<String, Object> params = new HashMap<String, Object>(5);
 		String loc = "";
 		if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-			params.put("nazivogr", "одељење: "
-					+ LatCyrUtils.toCyrillic(((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription()));
+			params.put("nazivogr", Messages.getString("DEPARTMENT") + "  "
+					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription());
 			loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription();
 
 		} else {
@@ -62,7 +62,7 @@ public class BestBook {
 		List<com.ftninformatika.bisis.circ.pojo.Report> l= BisisApp.bisisService.getBestBookReport(new PathDate(start), new PathDate(end), loc).execute().body();
 
 
-		params.put("reporttitle", "Најчитанија књига");
+		params.put("reporttitle", Messages.getString("NAJCITANIJE_TITLE"));
 		params.put("begdate", Utils.toLocaleDate(start));
 		params.put("enddate",Utils.toLocaleDate(end));
 
