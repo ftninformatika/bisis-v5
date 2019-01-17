@@ -15,7 +15,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Getter
 @Setter
-@Document(indexName = "_library_domain", type = "record")
+@Document(indexName = "#{@libraryPrefixProvider.getLibPrefix()}_library_domain", type = "record")
 //@Mapping(mappingPath = "/mappings/mapping.json")
 public class ElasticPrefixEntity {
 

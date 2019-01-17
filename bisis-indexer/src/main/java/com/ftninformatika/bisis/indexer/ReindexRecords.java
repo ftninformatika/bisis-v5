@@ -82,7 +82,7 @@ public class ReindexRecords {
                     ep.add(ee);
                 }
                 
-                elasticRecordsRepository.save(ep);
+                elasticRecordsRepository.saveAll(ep);
                 count += 1000;
                 System.out.println("Processed " + count + " of " + num + " records! Library: " + lc.getLibraryName());
                 log.info("Processed " + count + " of " + num + " records! Library: " + lc.getLibraryName());
@@ -96,7 +96,7 @@ public class ReindexRecords {
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id(), prefixes);
                 ep.add(ee);
             }
-            elasticRecordsRepository.save(ep);
+            elasticRecordsRepository.saveAll(ep);
             System.out.println("Processed " + num + " of " + num + " records! Library: " + lc.getLibraryName());
             log.info("Processed " + count + " of " + num + " records! Library: " + lc.getLibraryName());
         }

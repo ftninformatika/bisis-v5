@@ -19,9 +19,9 @@ public class ReindexConfigMongo extends AbstractMongoConfiguration {
         return "bisis";
     }
 
+
     @Override
-    public Mongo mongo() throws Exception {
-        //MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://192.168.200.1:27017,192.168.200.3:27017,192.168.200.38.27017"));
+    public MongoClient mongoClient() {
         MongoClient mongoClient = new MongoClient();
         return mongoClient;
     }

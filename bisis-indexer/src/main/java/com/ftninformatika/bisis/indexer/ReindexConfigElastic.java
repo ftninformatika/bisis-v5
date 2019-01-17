@@ -3,9 +3,9 @@ package com.ftninformatika.bisis.indexer;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -19,15 +19,12 @@ public class ReindexConfigElastic {
 
     @Bean
     public Client client() throws Exception {
-        Settings esSettings = Settings.settingsBuilder()
+        Settings esSettings = Settings.builder()
                // .put("cluster.name", "bisis5")
                 .build();
 
-        Client client = TransportClient.builder()
-                .settings(esSettings).build()
-//                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300))
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
-//                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.200.171"), 9300));
+        TransportClient client = new PreBuiltTransportClient(esSettings);
+        client.addTransportAddress(new TransportAddress(InetAddress.getByName("localhost"), 9300));
 
         return client;
     }

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 @JsonIgnoreProperties( ignoreUnknown = true )
-@Document(collection = "_records")
+@Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_records")
 public class Record implements Serializable {
 
   /**

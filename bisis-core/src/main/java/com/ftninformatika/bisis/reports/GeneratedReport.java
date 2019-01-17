@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @JsonIgnoreProperties( ignoreUnknown = true )
-@Document(collection = "_reports")
+@Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_reports")
 public class GeneratedReport implements Serializable{
     String reportName;
     String fullReportName;
