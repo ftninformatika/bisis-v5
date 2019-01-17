@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '1.5.7.RELEASE'
+    id "org.springframework.boot" version "2.1.2.RELEASE"
 }
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -12,21 +12,25 @@ version = "5.0.0"
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 dependencies {
-    //compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+    compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'
     compile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-elasticsearch', version: '2.1.2.RELEASE'
-    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.1.4.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-mail:1.5.8.RELEASE'
-    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.8.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.7.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.1.2.RELEASE'
+//    compile 'org.springframework.boot:spring-boot-starter-mail:1.5.8.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.2.RELEASE'
 
 }

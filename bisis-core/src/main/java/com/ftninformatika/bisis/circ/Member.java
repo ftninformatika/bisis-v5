@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.circ.pojo.Organization;
 import com.ftninformatika.utils.date.DateUtils;
 import lombok.*;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_members")
+@Document(collection = "#{libraryPrefixProvider == null  ? 'bgb' : 'bs' }_members")
 @ToString(of = {"userId","firstName"})
 public class Member implements java.io.Serializable {
 

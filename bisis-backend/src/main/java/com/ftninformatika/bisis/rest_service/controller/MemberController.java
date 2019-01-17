@@ -68,10 +68,10 @@ public class MemberController {
                 memberData.setMember(memberRep.save(memberData.getMember()));
             }
             if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
-                lendingRepository.save(memberData.getLendings());
+                lendingRepository.saveAll(memberData.getLendings());
                 List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(memberData.getMember().getUserId());
                 memberData.setLendings(lendings);
-                memberData.setBooks(itemAvailabilityRepository.save(memberData.getBooks()));
+                memberData.setBooks(itemAvailabilityRepository.saveAll(memberData.getBooks()));
             }
             return memberData;
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class MemberController {
     public MemberData getAndLockMemberById(@RequestParam("userId") String userId, @RequestParam("librarianId") String librarianId) {
         MemberData retVal = new MemberData();
         Member m = memberRep.getMemberByUserId(userId);
-        LibrarianDTO l = librarianRepository.findOne(librarianId);
+        LibrarianDTO l = librarianRepository.findById(librarianId).get();
 
         if (m == null || l == null) { //nema tog clana (ili nekim cudom bibliotekara)
             log.info("(getAndLockMemberById) nije pronadjen korisnik ID: " + userId + " ili bibliotekar ID: " + librarianId);
@@ -211,10 +211,10 @@ public class MemberController {
     public boolean addWarnings(@RequestBody WarningsData warningsData) {
         try {
             if (warningsData.getLendings() != null && !warningsData.getLendings().isEmpty()) {
-                lendingRepository.save(warningsData.getLendings());
+                lendingRepository.saveAll(warningsData.getLendings());
             }
             if (warningsData.getCounters() != null && !warningsData.getCounters().isEmpty()) {
-                warningCounterRepository.save(warningsData.getCounters());
+                warningCounterRepository.saveAll(warningsData.getCounters());
             }
             return true;
         } catch (Exception e) {

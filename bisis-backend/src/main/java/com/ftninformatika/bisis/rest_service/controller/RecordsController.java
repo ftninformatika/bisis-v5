@@ -54,10 +54,10 @@ public class RecordsController {
 
     @RequestMapping(value = "/delete/{mongoID}")
     public boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
-        recordsRepository.delete(mongoID);
-        elasticRecordsRepository.delete(mongoID);
+        recordsRepository.deleteById(mongoID);
+        elasticRecordsRepository.deleteById(mongoID);
 
-        return (recordsRepository.findOne(mongoID) == null && elasticRecordsRepository.findOne(mongoID) == null);
+        return (recordsRepository.findById(mongoID).get() == null && elasticRecordsRepository.findById(mongoID).get() == null);
     }
 
 
@@ -103,7 +103,7 @@ public class RecordsController {
 
     @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
     public Record getAndLock(@RequestParam(value = "recId") String recId, @RequestParam(value = "librarianId") String librarianId) {
-        Record retVal = recordsRepository.findOne(recId);
+        Record retVal = recordsRepository.findById(recId).get();
         if (retVal.getInUseBy() != null)
             throw new LockException(recId);
         retVal.setInUseBy(librarianId);
@@ -121,7 +121,7 @@ public class RecordsController {
                 }
         );
         if (ids.size() == 1)
-            return recordsRepository.findOne(ids.get(0));
+            return recordsRepository.findById(ids.get(0)).get();
         else
             return null;
     }
@@ -129,7 +129,7 @@ public class RecordsController {
 
     @RequestMapping(value = "/lock", method = RequestMethod.GET)
     public String lock(@RequestParam(value = "recId") String recId, @RequestParam(value = "librarianId") String librarianId) {
-        Record r = recordsRepository.findOne(recId);
+        Record r = recordsRepository.findById(recId).get();
         r.setInUseBy(librarianId);
         recordsRepository.save(r);
         return "Locked record with ID: " + r.get_id();
@@ -137,7 +137,7 @@ public class RecordsController {
 
     @RequestMapping(value = "/unlock", method = RequestMethod.GET)
     public boolean unlock(@RequestParam(value = "recId") String recId) {
-        Record r = recordsRepository.findOne(recId);
+        Record r = recordsRepository.findById(recId).get();
         r.setInUseBy(null);
         recordsRepository.save(r);
         return true;
@@ -153,7 +153,7 @@ public class RecordsController {
                 }
         );
         if (ids.size() == 1) {
-            Record r =  recordsRepository.findOne(ids.get(0));
+            Record r =  recordsRepository.findById(ids.get(0)).get();
             r.setInUseBy(null);
             recordsRepository.save(r);
             return true;
@@ -166,7 +166,7 @@ public class RecordsController {
     public String getRecordUnimarc(@PathVariable String recordId) {
         String retVal = "";
         try {
-            Record rec = recordsRepository.findOne(recordId);
+            Record rec = recordsRepository.findById(recordId).get();
             if (rec == null)
                 throw new RecordNotFoundException(recordId);
             return UnimarcSerializer.toUNIMARC(rec.getPubType(), rec, false);
@@ -178,7 +178,7 @@ public class RecordsController {
     @RequestMapping(value = "/{recordId}", method = RequestMethod.GET)
     public Record getRecord(@PathVariable String recordId) {
         try {
-            Record rec = recordsRepository.findOne(recordId);
+            Record rec = recordsRepository.findById(recordId).get();
             if (rec == null)
                 throw new RecordNotFoundException(recordId);
             return rec;
@@ -191,10 +191,10 @@ public class RecordsController {
     public RecordResponseWrapper getFullWrapperRecord(@RequestHeader("Library") String lib, @PathVariable String recordId) {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
         try {
-            Record rec = recordsRepository.findOne(recordId);
+            Record rec = recordsRepository.findById(recordId).get();
             RecordPreview pr = new RecordPreview();
             pr.init(rec);
-            ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
+            ElasticPrefixEntity e = elasticRecordsRepository.findById(recordId).get();
             retVal.setFullRecord(rec);
             retVal.setRecordPreview(pr);
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID())));
@@ -210,10 +210,10 @@ public class RecordsController {
     public RecordOpacResponseWrapper getFullOpacWrapperRecord(@RequestHeader("Library") String lib, @PathVariable String recordId) {
         RecordOpacResponseWrapper retVal = new RecordOpacResponseWrapper();
         try {
-            Record rec = recordsRepository.findOne(recordId);
+            Record rec = recordsRepository.findById(recordId).get();
             RecordPreview pr = new RecordPreview();
             pr.init(rec);
-            ElasticPrefixEntity e = elasticRecordsRepository.findOne(recordId);
+            ElasticPrefixEntity e = elasticRecordsRepository.findById(recordId).get();
             retVal.setFullRecord(rec);
             retVal.setRecordPreview(pr);
             List<ItemAvailability> itemAvailabilities = itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID()));
@@ -236,7 +236,7 @@ public class RecordsController {
     @RequestMapping(value = "/ep/{recordId}", method = RequestMethod.GET)
     public ElasticPrefixEntity getRecordEP(@PathVariable String recordId) {
         try {
-            ElasticPrefixEntity rec = elasticRecordsRepository.findOne(recordId);
+            ElasticPrefixEntity rec = elasticRecordsRepository.findById(recordId).get();
             if (rec == null)
                 throw new RecordNotFoundException(recordId);
             return rec;
@@ -268,7 +268,7 @@ public class RecordsController {
         iRecs.forEach(
                 e -> {
                     RecordResponseWrapper rw = new RecordResponseWrapper();
-                    Record r = recordsRepository.findOne(e.getId());
+                    Record r = recordsRepository.findById(e.getId()).get();
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
                     rw.setFullRecord(r);
@@ -305,7 +305,7 @@ public class RecordsController {
         iRecs.forEach(
                 e -> {
                     RecordOpacResponseWrapper rw = new RecordOpacResponseWrapper();
-                    Record r = recordsRepository.findOne(e.getId());
+                    Record r = recordsRepository.findById(e.getId()).get();
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
                     List<ItemAvailability> itemAvailabilities = itemAvailabilityRepository.findByRecordID(Integer.toString(r.getRecordID()));
@@ -388,7 +388,7 @@ public class RecordsController {
 
             } else {// ovo znaci da je update
                 record.setLastModifiedDate(new Date());
-                Record storedRec = recordsRepository.findOne(record.get_id());
+                Record storedRec = recordsRepository.findById(record.get_id()).get();
                 List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, storedRec); //novi primerci - pretabani u ItemAvailability
                 if (newItems.size() > 0) {
                     List<Location> locs = locationRepository.getCoders(lib);
@@ -406,7 +406,7 @@ public class RecordsController {
                 LibrarianDTO modificator = null;
                 //null ce biti iz grupnog inventarisanja, zato ova provera
                 if(record.getInUseBy() != null)
-                    modificator = librarianRepository.findOne(record.getInUseBy());
+                    modificator = librarianRepository.findById(record.getInUseBy()).get();
                 if (modificator != null)
                     record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
 
@@ -437,7 +437,7 @@ public class RecordsController {
         ArrayList<Record> retVal = new ArrayList<>();
         Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
         Iterable<String> ids = ElasticUtility.getIdsFromElasticIterable(ii);
-        retVal = (ArrayList<Record>) recordsRepository.findAll(ids);
+        retVal = (ArrayList<Record>) recordsRepository.findAllById(ids);
 
         return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
     }
@@ -459,7 +459,7 @@ public class RecordsController {
         Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search), p);
         ii.forEach(
                 rec -> {
-                    Record r = recordsRepository.findOne(rec.getId());
+                    Record r = recordsRepository.findById(rec.getId()).get();
                     List<ItemAvailability> ia = itemAvailabilityRepository.findByRecordID(r.getRecordID() + "");
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
@@ -487,7 +487,7 @@ public class RecordsController {
         Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search), p);
         ii.forEach(
                 rec -> {
-                    Record r = recordsRepository.findOne(rec.getId());
+                    Record r = recordsRepository.findById(rec.getId()).get();
                     List<ItemAvailability> ias = itemAvailabilityRepository.findByRecordID(r.getRecordID() + "");
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
@@ -564,7 +564,7 @@ public class RecordsController {
 
     @RequestMapping(value = "/lockByRedactor/{recId}", method = RequestMethod.GET)
     public Boolean lockByRedactor(@PathVariable("recId") String recId) {
-        Record r = recordsRepository.findOne(recId);
+        Record r = recordsRepository.findById(recId).get();
         r.setLockedByRedactor(true);
         recordsRepository.save(r);
         return r.isLockedByRedactor();
@@ -572,7 +572,7 @@ public class RecordsController {
 
     @RequestMapping(value = "/unlockByRedactor/{recId}", method = RequestMethod.GET)
     public Boolean unlockByRedactor(@PathVariable("recId") String recId) {
-        Record r = recordsRepository.findOne(recId);
+        Record r = recordsRepository.findById(recId).get();
         r.setLockedByRedactor(false);
         recordsRepository.save(r);
         return r.isLockedByRedactor();
@@ -580,7 +580,7 @@ public class RecordsController {
 
     @RequestMapping(value = "/multiple_ids", method = RequestMethod.POST)
     public ResponseEntity<List<Record>> getMultipleRecordsByIds(@RequestBody List<String> ids) {
-        List<Record> retVal = (List<Record>) recordsRepository.findAll(ids);
+        List<Record> retVal = (List<Record>) recordsRepository.findAllById(ids);
         retVal.sort(Comparator.comparingDouble(r -> ids.indexOf(r.get_id())));
         if (retVal != null)
             return new ResponseEntity<>(retVal, HttpStatus.OK);
@@ -591,7 +591,7 @@ public class RecordsController {
     @RequestMapping(value = "/multiple_ids_wrapper", method = RequestMethod.POST)
     public List<RecordResponseWrapper> getRecordsAllDataByIds(@RequestBody List<String> idList) {
         List<RecordResponseWrapper> retVal = new ArrayList<>();
-        Iterable<Record> recs = recordsRepository.findAll(idList);
+        Iterable<Record> recs = recordsRepository.findAllById(idList);
         recs.forEach(
                 record -> {
                     RecordResponseWrapper wrapper = new RecordResponseWrapper();

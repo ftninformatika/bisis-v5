@@ -401,7 +401,7 @@ public class CircReportContoller {
             QueryBuilder pf = QueryBuilders.queryStringQuery(i + "*");
             ((QueryStringQueryBuilder) pf).defaultField("prefixes.DC");
             ((QueryStringQueryBuilder) pf).autoGeneratePhraseQueries(true);
-            ((QueryStringQueryBuilder) pf).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+            ((QueryStringQueryBuilder) pf).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
             query.must(tq);
             query.must(pf);
             Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
@@ -434,7 +434,7 @@ public class CircReportContoller {
             QueryBuilder pf = QueryBuilders.queryStringQuery(i + "*");
             ((QueryStringQueryBuilder) pf).defaultField("prefixes.DC");
             ((QueryStringQueryBuilder) pf).autoGeneratePhraseQueries(true);
-            ((QueryStringQueryBuilder) pf).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+            ((QueryStringQueryBuilder) pf).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
             q.must(tq);
             q.must(pf);
             Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(q);
@@ -820,7 +820,7 @@ public class CircReportContoller {
         sortedResults.forEach(
                 entry -> {
                     Report r = new Report();
-                    Record rec = recordsRepository.findOne(entry.getKey());
+                    Record rec = recordsRepository.findById(entry.getKey()).get();
                     RecordPreview pr = new RecordPreview();
                     pr.init(rec);
                     r.setProperty1(pr.getTitle());

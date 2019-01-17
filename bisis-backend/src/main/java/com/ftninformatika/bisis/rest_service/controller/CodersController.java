@@ -162,8 +162,8 @@ public class CodersController {
 
     @RequestMapping(path = "education/delete")
     public Boolean deleteEduLvl(@RequestParam ("_id") String place_id){
-        edurep.delete(place_id);
-        return edurep.findOne(place_id) == null;
+        edurep.deleteById(place_id);
+        return edurep.findById(place_id).get() == null;
     }
 
     @RequestMapping(path = "language")
@@ -178,8 +178,8 @@ public class CodersController {
 
     @RequestMapping(path = "place/delete")
     public Boolean deletePlace(@RequestParam("_id") String place_id){
-        placerep.delete(place_id);
-        return placerep.findOne(place_id) == null;
+        placerep.deleteById(place_id);
+        return placerep.findById(place_id).get() == null;
     }
 
     @RequestMapping(path = "place", method = RequestMethod.POST)
@@ -234,8 +234,8 @@ public class CodersController {
 
     @RequestMapping(path = "organization/delete")
     public Boolean deleteOrganization(@RequestParam("_id") String org_id){
-        orgrep.delete(org_id);
-        return orgrep.findOne(org_id) == null;
+        orgrep.deleteById(org_id);
+        return orgrep.findById(org_id).get() == null;
     }
 
     @RequestMapping(path = "circlocation")

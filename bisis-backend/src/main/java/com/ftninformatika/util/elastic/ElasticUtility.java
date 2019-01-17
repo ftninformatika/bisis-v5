@@ -65,7 +65,7 @@ public class ElasticUtility {
             retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PP", LatCyrUtils.toLatinUnaccentedWithoutStopSigns(universalSearchModel.getSearchText())));
             retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PU", LatCyrUtils.toLatinUnaccentedWithoutStopSigns(universalSearchModel.getSearchText())));
 
-            retVal.minimumNumberShouldMatch(1);
+            retVal.minimumShouldMatch(1);
 
 
         }
@@ -105,7 +105,7 @@ public class ElasticUtility {
                 if (text.startsWith("~") && text.length() > 1) {
                     qb = QueryBuilders.matchPhrasePrefixQuery("prefixes." + prefix, text.substring(1)).analyzer("standard").maxExpansions(0);
                     ((QueryStringQueryBuilder) qb).autoGeneratePhraseQueries(true);
-                    ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+                    ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
                 }
                 //ako trazi kraj teksta, obelezeno sa 0end0
                 else if (text.endsWith("~") && text.length() > 1) {
@@ -114,12 +114,12 @@ public class ElasticUtility {
                     qb = QueryBuilders.queryStringQuery("*" + LatCyrUtils.toLatinUnaccentedWithoutStopSigns(text) + PrefixConverter.endPhraseFlag);
                     ((QueryStringQueryBuilder) qb).defaultField("prefixes." + prefix);
                     ((QueryStringQueryBuilder) qb).autoGeneratePhraseQueries(true);
-                    ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+                    ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
                 } else {
                     qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccentedWithoutStopSigns(text));
                 ((QueryStringQueryBuilder) qb).defaultField("prefixes." + prefix);
                 ((QueryStringQueryBuilder) qb).autoGeneratePhraseQueries(true);
-               ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.Operator.AND);
+               ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
 
 
                 }
@@ -206,7 +206,7 @@ public class ElasticUtility {
                         retVal.mustNot(qb);
                 }
             }
-            retVal.minimumNumberShouldMatch(1);
+            retVal.minimumShouldMatch(1);
 
             if (sm.getDepartments() != null && sm.getDepartments().size() > 0) {
                 for (String dep : sm.getDepartments()) {

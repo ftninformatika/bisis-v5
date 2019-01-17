@@ -282,10 +282,16 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         qLending.addCriteria(lendingActionCr);
         qLending.fields().include("userId");
 
-        String[] signedMembersDistinct = (String[]) mongoTemplate.getCollection(library.toLowerCase() + "_members")
-                .distinct("userId", qSigned.getQueryObject()).toArray(new String[]{});
-        String[] lendingMembersDistinct = (String[]) mongoTemplate.getCollection(library + "_lendings")
-                .distinct("userId", qLending.getQueryObject()).toArray(new String[]{});
+        String[] signedMembersDistinct = (String[]) mongoTemplate
+                //.getCollection(library.toLowerCase() + "_members")
+                //.distinct("userId", qSigned.getQueryObject()).toArray(new String[]{});
+                .findDistinct(qSigned, "userId", library.toLowerCase() + "_members", String.class )
+                .toArray();
+        String[] lendingMembersDistinct = (String[]) mongoTemplate
+                //.getCollection(library + "_lendings")
+                //.distinct("userId", qLending.getQueryObject()).toArray(new String[]{});
+                .findDistinct(qLending, "userId", library.toLowerCase() + "_members", String.class )
+                .toArray();
 
         retVal.addAll(Arrays.asList(signedMembersDistinct));
         retVal.addAll(Arrays.asList(lendingMembersDistinct));
