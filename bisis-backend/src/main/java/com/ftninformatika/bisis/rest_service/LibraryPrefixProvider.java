@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service;
-
 import org.springframework.stereotype.Component;
+
 
 /**
  * Created by Petar on 6/20/2017.
@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 public class LibraryPrefixProvider {
 
     private static final ThreadLocal<String> prefix = new ThreadLocal<String>();
-
-
 
     public String getLibPrefix(){
         return prefix.get();
