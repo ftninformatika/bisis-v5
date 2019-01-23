@@ -295,6 +295,12 @@ public interface BisisService {
     @GET("coders/warning_counter")
     Call<List<WarningCounter>> getWarningCounters(@Query("libName")String libName);
 
+    @POST("coders/warning_counter")
+    Call<ArrayList<Object>> insertEditWarningCounters(@Body WarningCounter warningCounter);
+
+    @GET("coders/warning_counter/delete")
+    Call<Boolean> deleteWarningCounter(@Query("_id") String _id);
+
     @GET("coders/organization")
     Call<List<Organization>> getOrganizations(@Query("libName")String libName);
 

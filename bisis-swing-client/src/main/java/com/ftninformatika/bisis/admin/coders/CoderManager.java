@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.EducationLvl;
 import com.ftninformatika.bisis.circ.Organization;
 import com.ftninformatika.bisis.circ.Place;
+import com.ftninformatika.bisis.circ.WarningCounter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +40,15 @@ public class CoderManager {
                     e.setLibrary(BisisApp.appConfig.getLibrary());
                     retVal = BisisApp.bisisService.insertEditEduLvl(e).execute().body();
                 }; break;
+                case "warn_counters": {
+                    WarningCounter wc = new WarningCounter();
+                    wc.set_id(null);
+                    wc.setLibrary(BisisApp.appConfig.getLibrary());
+                    wc.setWarnYear(String.valueOf(row.get(1)));
+                    wc.setWarningType(String.valueOf(row.get(2)));
+                    wc.setLastNo(Integer.valueOf(String.valueOf(row.get(3))));
+                    retVal = BisisApp.bisisService.insertEditWarningCounters(wc).execute().body();
+                }; break;
             }
             return retVal;
         }
@@ -72,6 +82,15 @@ public class CoderManager {
                     e.setLibrary(BisisApp.appConfig.getLibrary());
                     retVal = BisisApp.bisisService.insertEditEduLvl(e).execute().body();
                 }; break;
+                case "warn_counters": {
+                    WarningCounter wc = new WarningCounter();
+                    wc.set_id(String.valueOf(row.get(0)));
+                    wc.setLibrary(BisisApp.appConfig.getLibrary());
+                    wc.setWarnYear(String.valueOf(row.get(1)));
+                    wc.setWarningType(String.valueOf(row.get(2)));
+                    wc.setLastNo(Integer.valueOf(String.valueOf(row.get(3))));
+                    retVal = BisisApp.bisisService.insertEditWarningCounters(wc).execute().body();
+                }; break;
             }
             return retVal;
         }
@@ -88,6 +107,9 @@ public class CoderManager {
                 }; break;
                 case "edu_lvl": {
                     retVal = BisisApp.bisisService.deleteEduLvl(_id).execute().body();
+                }; break;
+                case "warn_counters": {
+                    retVal = BisisApp.bisisService.deleteWarningCounter(_id).execute().body();
                 }; break;
             }
             return retVal;
