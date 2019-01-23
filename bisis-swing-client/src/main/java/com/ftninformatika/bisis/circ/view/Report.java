@@ -420,11 +420,11 @@ public class Report {
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 4:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Structure.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Structure.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 5:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(VisitorStructure.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(VisitorStructure.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 6:
@@ -432,11 +432,11 @@ public class Report {
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 7:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(ZbStatistic.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(ZbStatistic.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 8:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestReader.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestReader.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 9:
@@ -448,17 +448,17 @@ public class Report {
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 11:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 12:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem(), getCmbGroup().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem(), getCmbGroup().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 13:
 									String userid = Validator.convertUserId2DB(getTfNumber().getText());
 									if (!userid.equals("")) {
-										JasperPrint jp = MemberHistory.setPrint(userid, getTfStartDate().getDate(), getTfEndDate().getDate(), Utils.getCmbValue(getCmbLocation().getSelectedItem()));
+										JasperPrint jp = MemberHistory.setPrint(userid, Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), Utils.getCmbValue(getCmbLocation().getSelectedItem()));
 										if (jp != null) {
 											Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(jp);
 											Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
@@ -474,7 +474,7 @@ public class Report {
 								case 14:
 									String ctlgno = Validator.convertCtlgNo2DB(getTfNumber().getText().trim());
 									if (!ctlgno.equals("")) {
-										Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BookHistory.setPrint(ctlgno, getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+										Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BookHistory.setPrint(ctlgno, Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 										Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									} else {
 										JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.invnumnotvalid"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
@@ -482,31 +482,31 @@ public class Report {
 									}
 									break;
 								case 15:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(CtgrUdk.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(CtgrUdk.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 16:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBook.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBook.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 17:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBookUdk.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem(), getTfNumber().getText()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBookUdk.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem(), getTfNumber().getText()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 18:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LendReturn.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LendReturn.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 19:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LendReturnLanguage.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LendReturnLanguage.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 20:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(com.ftninformatika.bisis.circ.report.Picturebooks.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(com.ftninformatika.bisis.circ.report.Picturebooks.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate())));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 21:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LibrarianStatistic.setPrint(getTfStartDate().getDate(), getTfEndDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LibrarianStatistic.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								default:

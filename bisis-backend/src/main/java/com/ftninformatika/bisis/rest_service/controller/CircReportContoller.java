@@ -174,36 +174,71 @@ public class CircReportContoller {
     @RequestMapping(value = "get_ctgr_udk_report")
     public Map<String, Report> getCtgrUdkReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         Map<String, Report> retVal = new HashMap<>();
-        List<String> udcGroups = Arrays.asList("0", "1", "2", "3", "5", "6", "7", "8", "9");
+
+        //System.out.println("Start: " + new Date());
 
         List<Lending> lendings = lendingRepository.getLendings(start, end, null, null, location);
         for (Lending l: lendings){
             String usrCateg = memberRepository.getMemberByUserId(l.getUserId()).getUserCategory().getDescription();
-            QueryBuilder qb = ElasticUtility.buildQbForField(l.getCtlgNo(), "IN");
-            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(qb);
-            if (ee != null) {
-               ElasticPrefixEntity ep = ee.iterator().next();
-                if (ep.getPrefixes().get("DC") != null && ep.getPrefixes().get("DC").size() > 0) {
-                    String udkgroup = ep.getPrefixes().get("DC").get(0).substring(0,1);
-                    if(!retVal.containsKey(usrCateg)){
-                        retVal.put(usrCateg, new Report());
-                    }
-                    Report r = retVal.get(usrCateg);
-                    switch (Integer.parseInt(udkgroup)) {
-                        case 0: r.setProperty10(increaseValue(r.getProperty10())); break;
-                        case 1: r.setProperty1(increaseValue(r.getProperty1())); break;
-                        case 2: r.setProperty2(increaseValue(r.getProperty2())); break;
-                        case 3: r.setProperty3(increaseValue(r.getProperty3())); break;
-                        case 4: r.setProperty4(increaseValue(r.getProperty4())); break;
-                        case 5: r.setProperty5(increaseValue(r.getProperty5())); break;
-                        case 6: r.setProperty6(increaseValue(r.getProperty6())); break;
-                        case 7: r.setProperty7(increaseValue(r.getProperty7())); break;
-                        case 8: r.setProperty8(increaseValue(r.getProperty8())); break;
-                        case 9: r.setProperty9(increaseValue(r.getProperty9())); break;
+            Record record = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
+
+//            QueryBuilder qb = ElasticUtility.buildQbForField(l.getCtlgNo(), "IN");
+//            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(qb);
+//            if (ee != null && ee.iterator().hasNext()) {
+//               ElasticPrefixEntity ep = ee.iterator().next();
+//                if (ep.getPrefixes().get("DC") != null && ep.getPrefixes().get("DC").size() > 0) {
+//                    List<String> udks = ep.getPrefixes().get("DC");
+            if (record != null) {
+                List<String> udks = record.getSubfieldsContent("675a");
+                if (udks != null && !udks.isEmpty()) {
+                    List<String> udkgroups = udks.stream().map(i -> i.substring(0,1)).collect(Collectors.toList()).stream().distinct().collect(Collectors.toList());
+                    for (String udkgroup: udkgroups) {
+                        if (!retVal.containsKey(usrCateg)) {
+                            retVal.put(usrCateg, new Report());
+                        }
+                        Report r = retVal.get(usrCateg);
+                        try {
+                            switch (Integer.parseInt(udkgroup)) {
+                                case 0:
+                                    r.setProperty10(increaseValue(r.getProperty10()));
+                                    break;
+                                case 1:
+                                    r.setProperty1(increaseValue(r.getProperty1()));
+                                    break;
+                                case 2:
+                                    r.setProperty2(increaseValue(r.getProperty2()));
+                                    break;
+                                case 3:
+                                    r.setProperty3(increaseValue(r.getProperty3()));
+                                    break;
+                                case 4:
+                                    r.setProperty4(increaseValue(r.getProperty4()));
+                                    break;
+                                case 5:
+                                    r.setProperty5(increaseValue(r.getProperty5()));
+                                    break;
+                                case 6:
+                                    r.setProperty6(increaseValue(r.getProperty6()));
+                                    break;
+                                case 7:
+                                    r.setProperty7(increaseValue(r.getProperty7()));
+                                    break;
+                                case 8:
+                                    r.setProperty8(increaseValue(r.getProperty8()));
+                                    break;
+                                case 9:
+                                    r.setProperty9(increaseValue(r.getProperty9()));
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            //e.printStackTrace();
+                        }
                     }
                 }
             }
         }
+        //System.out.println("End: " + new Date());
+
         return retVal;
     }
 
@@ -215,6 +250,126 @@ public class CircReportContoller {
         i++;
         return String.valueOf(i);
     }
+
+
+    @RequestMapping(value = "get_ctgr_udk_report_old")
+    public Map<String, Report> getCtgrUdkReportOld(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        Map<String, Report> retVal = new HashMap<>();
+
+        System.out.println("Start: " + new Date());
+
+        //List<Lending> lendings = lendingRepository.getCtlgnoUsrId(start, end, location);
+        List<Lending> lendings = lendingRepository.getLendings(start, end, null, null, location);
+        Map<String, List<String>> userCategCtlgnosMap = new HashMap<>();
+
+
+        for (Lending l: lendings){
+            String usrCateg = memberRepository.getMemberByUserId(l.getUserId()).getUserCategory().getDescription();
+            if(!userCategCtlgnosMap.containsKey(usrCateg)){
+                userCategCtlgnosMap.put(usrCateg, new ArrayList<>());
+            }
+            userCategCtlgnosMap.get(usrCateg).add(l.getCtlgNo());
+
+        }
+
+        for (Map.Entry<String, List<String>> entry: userCategCtlgnosMap.entrySet()){
+
+            Report r = new Report();
+            for (int i = 0; i <=9 ; i++){
+                final Integer[] primeraka = {0};
+                BoolQueryBuilder query = QueryBuilders.boolQuery();
+                TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", entry.getValue());
+                QueryBuilder pf = ElasticUtility.buildQbForField(i+"", "UG");
+                //query.must(tq);
+                query.must(pf);
+                query.filter(tq);
+                Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
+                ee.forEach(
+                        ep -> {
+                            if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
+                                ep.getPrefixes().get("IN").forEach(
+                                        in -> {
+                                            in = in.replace(PrefixConverter.endPhraseFlag, "");
+                                            if(entry.getValue().contains(in)){
+                                                primeraka[0] += Collections.frequency(entry.getValue(), in);
+                                            }
+                                        }
+                                );
+                            }
+                        }
+                );
+
+
+                switch (i) {
+                    case 0: r.setProperty10(primeraka[0].toString()); break;
+                    case 1: r.setProperty1(primeraka[0].toString()); break;
+                    case 2: r.setProperty2(primeraka[0].toString()); break;
+                    case 3: r.setProperty3(primeraka[0].toString()); break;
+                    case 4: r.setProperty4(primeraka[0].toString()); break;
+                    case 5: r.setProperty5(primeraka[0].toString()); break;
+                    case 6: r.setProperty6(primeraka[0].toString()); break;
+                    case 7: r.setProperty7(primeraka[0].toString()); break;
+                    case 8: r.setProperty8(primeraka[0].toString()); break;
+                    case 9: r.setProperty9(primeraka[0].toString()); break;
+                }
+            }
+            retVal.put(entry.getKey(), r);
+        }
+        System.out.println("End: " + new Date());
+        return retVal;
+    }
+
+
+
+
+//    @RequestMapping(value = "get_ctgr_udk_report_measure")
+//    public Map<String, Report> getCtgrUdkReportMeasure(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+//        Map<String, Report> retVal = new HashMap<>();
+//
+//        System.out.println("Start: " + new Date());
+//
+//        List<Lending> lendings = lendingRepository.getCtlgnoUsrId(start, end, location);
+//        Map<String, List<String>> userCategCtlgnosMap = new HashMap<>();
+//
+//
+//        System.out.println("lendings: " + lendings.size() + " time: " + new Date());
+//
+//
+//        for (Lending l: lendings){
+//            String usrCateg = memberRepository.getMemberByUserId(l.getUserId()).getUserCategory().getDescription();
+//            if(userCategCtlgnosMap.containsKey(usrCateg)){
+//                userCategCtlgnosMap.get(usrCateg).add(l.getCtlgNo());
+//            }
+//            else{
+//                userCategCtlgnosMap.put(usrCateg, new ArrayList<>());
+//            }
+//
+//        }
+//
+//        System.out.println("memberrepository time: " + new Date());
+//
+//        for (Lending l: lendings){
+//            Record record = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
+//            if (record != null) {
+//                String udk = record.getSubfieldContent("675a");
+//            }
+//        }
+//        System.out.println("recordsrepository time: " + new Date());
+//
+//
+//        for (Lending l: lendings){
+//            QueryBuilder qb = ElasticUtility.buildQbForField(l.getCtlgNo(), "IN");
+//            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(qb);
+//            if (ee != null && ee.iterator().hasNext()) {
+//                ee.iterator().next();
+//            }
+//        }
+//
+//        System.out.println("elasticrepositor time: " + new Date());
+//
+//        System.out.println("End: " + new Date());
+//        return retVal;
+//    }
 
     /**
      * izdate i vracene po UDK
@@ -399,73 +554,6 @@ public class CircReportContoller {
 
         return r;
     }
-
-
-        /**
-         * najcitanije knjige po UDK
-         */
-    /*BestBookUDKReportCommand, FilterManager.bestBookUDK()*/
-//    @RequestMapping(value = "get_best_book_udk")
-//    public List<Report> getBestBookUdk(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam("udk")String udk, @RequestParam(name = "location", required = false)String location) {
-//        List<Report> retVal = new ArrayList<>();
-//        List<String> allCtlgNos = lendingRepository.getLendActionsCtlgNos(start, end, location, lib);
-//        Set<String> uniqueCtlgNos = new HashSet<>(allCtlgNos);
-//
-//        Map<String, Integer> retMap = new HashMap<>();
-//        BoolQueryBuilder pp = QueryBuilders.boolQuery();
-//        if(udk != null && !udk.equals("")) {
-//
-//            //svi ctlgNo koji su iznajmljeni u zadatom periodu - iz ove kolekcije brojimo
-//            List<String> lendResultClgNos = lendingRepository.getLendingsCtlgNo(DateUtils.getStartOfDay(start), DateUtils.getEndOfDay(end), null, null, location);
-//            //zbog brzine contains() metode - iz ove kolekcije proveravamo
-//
-//            QueryBuilder pf = QueryBuilders.queryStringQuery(udk + "*");
-//            ((QueryStringQueryBuilder) pf).defaultField("prefixes.DC");
-//            ((QueryStringQueryBuilder) pf).autoGeneratePhraseQueries(true);
-//            ((QueryStringQueryBuilder) pf).defaultOperator(QueryStringQueryBuilder.Operator.AND);
-//            pp.must(pf);
-//            pp.filter(QueryBuilders.termsQuery("prefixes.IN",lendResultClgNos));
-//            Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(pp);
-//
-//            Set<String> setCtlgNos = new HashSet<>(lendResultClgNos);
-//            Collections.sort(lendResultClgNos);
-//            ee.forEach(
-//                    e -> {
-//                        if (e.getPrefixes().get("IN") != null && e.getPrefixes().get("DC") != null) {
-//                            for (String in : e.getPrefixes().get("IN")) {
-//                                in = in.replace(PrefixConverter.endPhraseFlag, "");
-//                                if ( setCtlgNos.contains(in) && !retMap.containsKey(in)) {
-//                                    retMap.put(e.getId(), Collections.frequency(lendResultClgNos, in));
-//                                }
-//                                else if ( setCtlgNos.contains(in) && retMap.containsKey(in)) {
-//                                    int count = retMap.get(e.getId()) + Collections.frequency(lendResultClgNos, in);
-//                                    retMap.put(e.getId(), count);
-//                                }
-//                            }
-//                        }
-//                    }
-//            );
-//        }
-//        List<Map.Entry<String, Integer>> finalResults = new ArrayList<>();
-//        if(retMap.size() > 0){
-//            //osakatimo mapu na 20 najcitanijih
-//            finalResults = retMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(20).collect(Collectors.toList());
-//            for (Object o: finalResults){
-//                if(o instanceof HashMap.Entry){
-//                    Report r = new Report();
-//                    Record rec = recordsRepository.findOne(((HashMap.Entry)o).getKey().toString());
-//                    RecordPreview pr = new RecordPreview();
-//                    pr.init(rec);
-//                    r.setProperty21(Long.parseLong((((HashMap.Entry)o).getValue().toString())));
-//                    r.setProperty1(pr.getTitle());
-//                    r.setProperty2(pr.getAuthor());
-//                    retVal.add(r);
-//
-//                }
-//            }
-//        }
-//        return retVal;
-//    }
 
     /** broj korisnika po polu koji su se uclanili u datom periodu
      */

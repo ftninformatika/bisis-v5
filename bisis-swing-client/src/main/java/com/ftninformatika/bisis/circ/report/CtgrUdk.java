@@ -25,64 +25,64 @@ import org.w3c.dom.Document;
 
 public class CtgrUdk {
 
-	private static Document setXML(Map<String, com.ftninformatika.bisis.circ.pojo.Report> l) {
-		ReportDocument reportDoc = ReportDocument.Factory.newInstance();
-		Report report = reportDoc.addNewReport();
+    private static Document setXML(Map<String, com.ftninformatika.bisis.circ.pojo.Report> l) {
+        ReportDocument reportDoc = ReportDocument.Factory.newInstance();
+        Report report = reportDoc.addNewReport();
 
-		for (Map.Entry<String, com.ftninformatika.bisis.circ.pojo.Report> entry: l.entrySet()){
-		    Row row=report.addNewRow();
-		    row.addNewColumn1().setStringValue(entry.getKey());
-		    row.addNewColumn2().setStringValue(entry.getValue().getProperty10());
-		    row.addNewColumn3().setStringValue(entry.getValue().getProperty1());
-		    row.addNewColumn4().setStringValue(entry.getValue().getProperty2());
-		    row.addNewColumn5().setStringValue(entry.getValue().getProperty3());
-		    row.addNewColumn6().setStringValue(entry.getValue().getProperty4());
-		    row.addNewColumn7().setStringValue(entry.getValue().getProperty5());
-		    row.addNewColumn8().setStringValue(entry.getValue().getProperty6());
-		    row.addNewColumn9().setStringValue(entry.getValue().getProperty7());
-		    row.addNewColumn10().setStringValue(entry.getValue().getProperty8());
-		    row.addNewColumn11().setStringValue(entry.getValue().getProperty9());
-		} 	
-		return report.getDomNode().getOwnerDocument();
-	}
+        for (Map.Entry<String, com.ftninformatika.bisis.circ.pojo.Report> entry: l.entrySet()){
+            Row row=report.addNewRow();
+            row.addNewColumn1().setStringValue(entry.getKey());
+            row.addNewColumn2().setStringValue(entry.getValue().getProperty10());
+            row.addNewColumn3().setStringValue(entry.getValue().getProperty1());
+            row.addNewColumn4().setStringValue(entry.getValue().getProperty2());
+            row.addNewColumn5().setStringValue(entry.getValue().getProperty3());
+            row.addNewColumn6().setStringValue(entry.getValue().getProperty4());
+            row.addNewColumn7().setStringValue(entry.getValue().getProperty5());
+            row.addNewColumn8().setStringValue(entry.getValue().getProperty6());
+            row.addNewColumn9().setStringValue(entry.getValue().getProperty7());
+            row.addNewColumn10().setStringValue(entry.getValue().getProperty8());
+            row.addNewColumn11().setStringValue(entry.getValue().getProperty9());
+        }
+        return report.getDomNode().getOwnerDocument();
+    }
 
-	public static JasperPrint setPrint(Date start, Date end, Object branch)
-			throws IOException {
+    public static JasperPrint setPrint(Date start, Date end, Object branch)
+            throws IOException {
 
-		Map<String, Object> params = new HashMap<String, Object>(4);
-		params.put("begdate", Utils.toLocaleDate(start));
-		params.put("enddate", Utils.toLocaleDate(end));
-		params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
-		String loc = "";
+        Map<String, Object> params = new HashMap<String, Object>(4);
+        params.put("begdate", Utils.toLocaleDate(start));
+        params.put("enddate", Utils.toLocaleDate(end));
+        params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
+        String loc = "";
 
-		if (branch instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-			params.put("nazivogr", "odeljenje: "
-					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) branch).getDescription());
-			loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) branch).getDescription();
-		} else {
-			params.put("nazivogr", "");
-		}
+        if (branch instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
+            params.put("nazivogr", "odeljenje: "
+                    + ((com.ftninformatika.bisis.circ.pojo.CircLocation) branch).getDescription());
+            loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) branch).getDescription();
+        } else {
+            params.put("nazivogr", "");
+        }
 
 
-		Map<String, com.ftninformatika.bisis.circ.pojo.Report> l= BisisApp.bisisService.getCtgrUdkReport(new PathDate(start), new PathDate(end), loc).execute().body();
-		JRXmlDataSource ds;
-		try {
+        Map<String, com.ftninformatika.bisis.circ.pojo.Report> l= BisisApp.bisisService.getCtgrUdkReport(new PathDate(start), new PathDate(end), loc).execute().body();
+        JRXmlDataSource ds;
+        try {
 
-			Document dom = setXML(l);
-			ds = new JRXmlDataSource(dom, "/report/row");
-			JasperPrint jp = JasperFillManager
-					.fillReport(
-							CtgrUdk.class
-									.getResource(
-											"/cirkulacija/jaspers/ctgrudk.jasper")
-									.openStream(), params, ds);
+            Document dom = setXML(l);
+            ds = new JRXmlDataSource(dom, "/report/row");
+            JasperPrint jp = JasperFillManager
+                    .fillReport(
+                            CtgrUdk.class
+                                    .getResource(
+                                            "/cirkulacija/jaspers/ctgrudk.jasper")
+                                    .openStream(), params, ds);
 
-			return jp;
-		} catch (JRException e) {
-			e.printStackTrace();
-			return null;
-		}
+            return jp;
+        } catch (JRException e) {
+            e.printStackTrace();
+            return null;
+        }
 
-	}
+    }
 
 }
