@@ -90,7 +90,7 @@ public class TableCatalog {
             new Table("warn_counters", Messages.getString("warncounters"), new Column[] {
                 new Column("id", Messages.getString("Code"), Types.INTEGER, 0, 0, true),
                 new Column("warn_year", Messages.getString("year"), Types.INTEGER, 0, 0, false),
-                new Column("wtype", Messages.getString("remindertype"), Types.INTEGER, 0, 0, false),
+                new Column("wtype", Messages.getString("remindertype"), Types.VARCHAR, 255, 0, false),
                 new Column("last_no", Messages.getString("lastnum"), Types.INTEGER, 0, 0, false)}));
     tables.put("Task",
             new Table("Task", Messages.getString("actions"), new Column[] {
