@@ -215,6 +215,27 @@ public class CodersController {
     @RequestMapping(path = "warning_counter")
     public List<WarningCounter> getWarningCounters(String libName){return warncountrep.getCoders(libName);}
 
+    @RequestMapping(path = "warning_counter", method = RequestMethod.POST)
+    public ArrayList<Object> insertEditWarningCounters(@RequestBody WarningCounter newWC){
+
+        warncountrep.save(newWC);
+
+        ArrayList<Object> retVal = new ArrayList<>();
+        retVal.add(0, newWC.get_id());
+        retVal.add(1, newWC.getWarnYear());
+        retVal.add(2, newWC.getWarningType());
+        retVal.add(3, newWC.getLastNo());
+
+        return retVal;
+    }
+
+
+    @RequestMapping(path = "warning_counter/delete")
+    public Boolean deleteWarningCounters(@RequestParam("_id") String wc_id){
+        warncountrep.delete(wc_id);
+        return  warncountrep.findOne(wc_id) == null;
+    }
+
     @RequestMapping(path = "organization")
     public List<Organization> getOrganizations(String libName){return orgrep.getCoders(libName);}
 
