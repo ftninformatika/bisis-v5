@@ -23,9 +23,14 @@ public class ReportConfig extends AbstractMongoConfiguration {
     return "bisis";
   }
 
+//  @Override
+//  public Mongo mongo() throws Exception {
+//    MongoClient mongoClient = new MongoClient();
+//    return mongoClient;
+//  }
+
   @Override
-  public Mongo mongo() throws Exception {
-    MongoClient mongoClient = new MongoClient();
-    return mongoClient;
+  public MongoClient mongoClient() {
+    return null;
   }
 }

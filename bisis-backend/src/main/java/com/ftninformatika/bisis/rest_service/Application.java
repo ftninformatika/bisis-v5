@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EntityScan("com.ftninformatika")
 @SpringBootApplication
 @EnableEmailTools
-@EnableAutoConfiguration
 //public class Application {
 //
 //    public static void main(String[] args) {

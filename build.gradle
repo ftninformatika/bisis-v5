@@ -1,5 +1,6 @@
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'idea'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -7,48 +8,10 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
 
-    dependencies {
-
-
-
-        // compile 'org.apache.commons:commons-lang3:3.3.2'
-        // compile 'commons-beanutils:commons-beanutils:1.9.2'
-        // compile 'commons-io:commons-io:2.4'
-        // compile 'commons-codec:commons-codec:1.10'
-
-        // testCompile 'org.testng:testng:6.8.13'
-    }
+    
 }
-
-/*
-dependencies {
-    compile 'org.apache.commons:commons-lang3:3.3.2'
-    compile 'commons-beanutils:commons-beanutils:1.9.2'
-    compile 'commons-io:commons-io:2.4'
-    compile 'commons-codec:commons-codec:1.10'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.4.4'
-    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.4'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.4'
-    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.4.4'
-    compile 'org.mongodb:mongo-java-driver:2.12.4'
-    compile 'com.miglayout:miglayout:3.7.4'
-    compile 'org.apache.cxf:cxf-rt-rs-client:3.0.3' // za web deo je testCompile
-    compile 'org.apache.cxf:cxf-rt-transports-local:3.0.3' // ne ide u web
-    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
-    testCompile 'org.testng:testng:6.8.13'
-    testCompile 'org.apache.cxf:cxf-rt-transports-local:3.0.3'
-    testCompile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.0.3'
-}
-
-test {
-    useTestNG() {
-        suiteXmlFiles << new File(rootDir, "src/test/resources/testng.xml")
-    }
-}
-
-war {
-    //archiveName = 'bisis5.war'
-}
-*/

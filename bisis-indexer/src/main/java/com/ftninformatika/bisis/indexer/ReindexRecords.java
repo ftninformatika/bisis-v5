@@ -18,11 +18,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @ComponentScan("com.ftninformatika")
+@EnableElasticsearchRepositories(basePackages = "com.ftninformatika")
+@EnableMongoRepositories("com.ftninformatika")
 public class ReindexRecords {
 
     private static Logger log = Logger.getLogger(ReindexRecords.class);

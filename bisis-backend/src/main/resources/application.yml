@@ -18,29 +18,12 @@ spring:
   profiles: development
   main:
     allow-bean-definition-overriding: true
+  data.mongodb.uri: mongodb://192.168.200.46:27017,192.168.200.3:27017/?replicaSet=bisis5
   data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: bisis
-#      uri: mongodb://192.168.200.1:27017,192.168.200.3:27017,192.168.200.38.27017/bisis
-#    elasticsearch:
-#      cluster-nodes: localhost:9300
-#      repositories:
-#        enabled: true
-      #cluster-name: bisis5
+    elasticsearch:
+      cluster-name: bisis5
+      cluster-nodes: 192.168.200.1:9300, 192.168.200.3:9300
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ftninformatika@gmail.com
-    password: bisis123
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 
 logging:
   level:
@@ -90,20 +73,6 @@ spring:
       cluster-nodes: localhost:9300
       repositories:
         enabled: true
-
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ftninformatika@gmail.com
-    password: bisis123
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-
-
 
 logging:
   level:

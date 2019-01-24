@@ -1,20 +1,15 @@
 plugins {
     id "org.springframework.boot" version "2.1.2.RELEASE"
 }
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 version = "5.0.0"
 
-repositories {
-    mavenCentral()
-    maven {
-        url "https://plugins.gradle.org/m2/"
-    }
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }
 
 dependencies {

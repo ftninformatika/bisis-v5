@@ -6,6 +6,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,17 +27,27 @@ import java.net.InetAddress;
 @ComponentScan(basePackages = "com.ftninformatika")
 public class ElasticSearchConfiguration {
 
+    @Value("${elasticsearch.host}")
+    private String esHost;
+
+    @Value("${elasticsearch.port}")
+    private int esPort;
+
+    @Value("${elasticsearch.clustername}")
+    private String esClusterName;
+
+
 
     @Bean
     public Client client() throws Exception {
 
         Settings esSettings = Settings.builder()
-              //  .put("cluster.name", "bisis5")
+                .put("cluster.name", esClusterName)
                 .put("client.transport.sniff", true)
                 .build();
 
         TransportClient client = new PreBuiltTransportClient(esSettings);
-        client.addTransportAddress(new TransportAddress(InetAddress.getByName("localhost"), 9300));
+        client.addTransportAddress(new TransportAddress(InetAddress.getByName(esHost), esPort));
         return client;
     }
 
