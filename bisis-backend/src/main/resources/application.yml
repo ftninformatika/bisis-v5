@@ -44,24 +44,6 @@ spring:
 ---
 
 spring:
-  profiles: index
-  data:
-    mongodb:
-      host: localhost
-      port: 27018
-      database: bisis
-    elasticsearch:
-          cluster-nodes: 192.168.200.171:9300, 192.168.200.5:9300
-          repositories:
-            enabled: true
-          cluster-name: bisis-cluster
-
-  main:
-    web-environment: false
-
----
-
-spring:
   profiles: production
   data:
     mongodb:

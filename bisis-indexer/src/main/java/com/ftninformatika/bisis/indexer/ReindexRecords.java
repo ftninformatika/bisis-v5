@@ -27,10 +27,11 @@ import java.util.Map;
 
 @ComponentScan("com.ftninformatika")
 @EnableElasticsearchRepositories(basePackages = "com.ftninformatika")
-@EnableMongoRepositories("com.ftninformatika")
+@EnableMongoRepositories(basePackages = "com.ftninformatika")
 public class ReindexRecords {
 
     private static Logger log = Logger.getLogger(ReindexRecords.class);
+    public static final String INDEX_SUFIX ="_library_domain";
 
     public static void main(String[] args) {
 
@@ -44,7 +45,6 @@ public class ReindexRecords {
 
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.getEnvironment().setActiveProfiles("index");
         ctx.register(LibraryPrefixProvider.class);
         ctx.register(ReindexConfigMongo.class);
         ctx.register(ReindexConfigElastic.class);
@@ -61,7 +61,7 @@ public class ReindexRecords {
             ElasticsearchTemplate elasticsearchTemplate = ctx.getBean(ElasticsearchTemplate.class);
 
             try {
-                elasticRecordsRepository.deleteAll();
+                elasticsearchTemplate.deleteIndex(lc.getLibraryName()+INDEX_SUFIX);
                 log.info("Deleted index for library: " + lc.getLibraryName());
                 elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
                 log.info("Created index for library: " + lc.getLibraryName());

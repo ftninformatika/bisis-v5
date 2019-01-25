@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "_lendings")
+@Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_lendings")
 @ToString(of = {"ctlgNo", "lendDate", "returnDate"})
 public class Lending implements java.io.Serializable {
 

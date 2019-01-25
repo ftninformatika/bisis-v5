@@ -22,6 +22,7 @@ public class ElasticPrefixEntity {
 
     @Id
     String id;
+
   /*  @Field(
             type = FieldType.String,
             index = FieldIndex.not_analyzed,

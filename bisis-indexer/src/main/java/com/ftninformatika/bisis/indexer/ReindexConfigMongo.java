@@ -1,27 +1,30 @@
 package com.ftninformatika.bisis.indexer;
 
 
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
 @EnableMongoRepositories("com.ftninformatika")
-public class ReindexConfigMongo extends AbstractMongoConfiguration {
+@PropertySource("classpath:config.properties")
+public class ReindexConfigMongo extends AbstractMongoClientConfiguration {
 
-
-    @Override
-    public MongoClient mongoClient() {
-        return null;
-    }
+    @Value("${spring.data.mongodb.uri}")
+    private String mongoUri;
 
     @Override
     protected String getDatabaseName() {
-        return null;
+        return "bisis";
+    }
+
+    @Override
+    public MongoClient mongoClient() {
+        System.out.println(mongoUri);
+        return MongoClients.create(mongoUri);
     }
 }
