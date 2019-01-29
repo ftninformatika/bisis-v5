@@ -13,6 +13,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,7 @@ public class ReportApplication {
       libProvider.setPrefix(lc.getLibraryName());
       reportRep.deleteAll();
     }
+    libconfigs.sort(Comparator.comparing(LibraryConfiguration::getLibraryName));
     for (LibraryConfiguration lc : libconfigs) {
 
       LibraryCoders libCoders = new LibraryCoders();

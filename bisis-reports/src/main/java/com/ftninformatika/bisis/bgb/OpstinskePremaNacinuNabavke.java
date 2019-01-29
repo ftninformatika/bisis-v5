@@ -22,18 +22,23 @@ public class OpstinskePremaNacinuNabavke extends Report {
 
     for (Primerak p : rec.getPrimerci()) {
       Matcher matcher = pattern.matcher(p.getInvBroj());
-      if (!matcher.matches())
+      if (!matcher.matches()) {
         continue;
+      }
       Date datInv = p.getDatumInventarisanja();
+
+      String key = settings.getReportName() + getFilenameSuffix(datInv);
+
       boolean error = false;
       // inv. broj
       String invBr = p.getInvBroj();
+
       if (invBr == null || invBr.trim().length() == 0) {
         log.error("RN: " + RN + " nedostaje inventarni broj\n");
         error = true;
       }
-      // nacin nabavke
 
+      // nacin nabavke
       String nacinNabavke = p.getNacinNabavke();
       if (nacinNabavke == null || nacinNabavke.trim().length() == 0) {
         log.error("RN: " + RN + " nedostaje na\u010din nabavke za IN=" + invBr + "\n");
@@ -45,10 +50,9 @@ public class OpstinskePremaNacinuNabavke extends Report {
         ogranakID="\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
       }
 
-
-      if (error)
+      if (error) {
         continue;
-      String key = settings.getReportName() + getFilenameSuffix(datInv);
+      }
 
       Ogranak o = getItem(getList(key), ogranakID);
       if (o == null) {
@@ -226,17 +230,8 @@ public class OpstinskePremaNacinuNabavke extends Report {
 
     public String toString() {
       String odeljenje;
-//      if (!ogr.equalsIgnoreCase("\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438")) {
-//        odeljenje = LatCyrUtils.toCyrillic("nepoznato");//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.ODELJENJE_CODER, ogr);
-//        if (getCoders().getSublocCoders().get(ogr) != null)
-//          odeljenje = LatCyrUtils.toCyrillic(getCoders().getSublocCoders().get(ogr).getDescription());
-//        int zarez = odeljenje.indexOf(",");
-//        if (zarez != -1) {
-//          odeljenje = odeljenje.substring(0, zarez);
-//        }
-//      } else {
-        odeljenje = ogr;
-    //  }
+
+      odeljenje = ogr;
       StringBuffer buf = new StringBuffer();
       buf.append("\n  <item id=\"");
       buf.append(ogr);
@@ -540,6 +535,51 @@ public class OpstinskePremaNacinuNabavke extends Report {
     return sum;
   }
 
+  private Ogranak makeTotal(List<Ogranak> ogranci) {
+    Ogranak retVal = new Ogranak();
+    retVal.ogr = "\u0423\u041a\u0423\u041f\u041d\u041e";
+
+    for (Ogranak o: ogranci) {
+      retVal.pa += o.pa;
+      retVal.pi += o.pi;
+      retVal.pk += o.pk;
+      retVal.pl += o.pl;
+      retVal.pm += o.pm;
+      retVal.pn += o.pn;
+      retVal.po += o.po;
+      retVal.pp += o.pp;
+      retVal.pr += o.pr;
+      retVal.pt += o.pt;
+      retVal.pz += o.pz;
+      retVal.pu += o.pu;
+      retVal.aset.addAll(o.aset);
+      retVal.iset.addAll(o.iset);
+      retVal.kset.addAll(o.kset);
+      retVal.lset.addAll(o.lset);
+      retVal.mset.addAll(o.mset);
+      retVal.nset.addAll(o.nset);
+      retVal.oset.addAll(o.oset);
+      retVal.pset.addAll(o.pset);
+      retVal.rset.addAll(o.rset);
+      retVal.tset.addAll(o.tset);
+      retVal.zset.addAll(o.zset);
+      retVal.uset.addAll(o.uset);
+    }
+    retVal.na = retVal.aset.size();
+    retVal.ni = retVal.iset.size();
+    retVal.nk = retVal.kset.size();
+    retVal.nl = retVal.lset.size();
+    retVal.nm = retVal.mset.size();
+    retVal.nn = retVal.nset.size();
+    retVal.no = retVal.oset.size();
+    retVal.np = retVal.pset.size();
+    retVal.nr = retVal.rset.size();
+    retVal.nt = retVal.tset.size();
+    retVal.nz = retVal.zset.size();
+    retVal.nu = retVal.uset.size();
+
+    return retVal;
+  }
 
   @Override
   public void init() {
@@ -555,8 +595,11 @@ public class OpstinskePremaNacinuNabavke extends Report {
   public void finish() {
     log.info("Finishing report...");
 
-    for (List<Ogranak> list : itemMap.values())
+    for (List<Ogranak> list : itemMap.values()) {
       Collections.sort(list);
+      Ogranak ukupno = makeTotal(list);
+      list.add(ukupno);
+    }
 
     for (String key : itemMap.keySet()) {
       List<Ogranak> list = itemMap.get(key);
