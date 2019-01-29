@@ -2,9 +2,8 @@ package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
-import com.ftninformatika.bisis.admin.unlock.UnlockPanel;
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.coders.CodersHelper;
+import com.ftninformatika.bisis.admin.coders.CodersHelper;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.hitlist.groupview.GrupniPrikazFrame;
@@ -17,7 +16,6 @@ import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.fx.JFXInternalFrame.JFXCoderFrame;
 import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
-import javafx.embed.swing.JFXPanel;
 import net.sf.jasperreports.engine.JasperPrint;
 
 import javax.swing.*;

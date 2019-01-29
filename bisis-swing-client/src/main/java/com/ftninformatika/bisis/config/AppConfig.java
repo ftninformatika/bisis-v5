@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ftninformatika.bisis.coders.CodersHelper;
+import com.ftninformatika.bisis.admin.coders.CodersHelper;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.utils.RetrofitUtils;

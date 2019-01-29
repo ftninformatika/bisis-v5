@@ -31,11 +31,11 @@ public class CodedPrefUtils {
     if (pref.equals("AM") || pref.equals("ST") || pref.equals("LI")) {
       // prefiksi za lokacijske podatke
       if (pref.equals("AM"))
-        return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().NACINNABAVKE_CODER);
+        return BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().NACINNABAVKE_CODER);
       if (pref.equals("ST"))
-        return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().STATUS_CODER);
+        return BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().STATUS_CODER);
       if (pref.equals("LI"))
-        return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().DOSTUPNOST_CODER);
+        return BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().DOSTUPNOST_CODER);
 
     }
 

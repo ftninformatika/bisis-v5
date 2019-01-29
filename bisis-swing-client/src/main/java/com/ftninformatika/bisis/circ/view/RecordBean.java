@@ -87,8 +87,8 @@ public class RecordBean {
   }
   
   private String getNameFromCode(String field, String content){
-   // if (BisisApp.getFormat().getSubfield(field).getCoder().getValue(content) != null)
-     // return BisisApp.getFormat().getSubfield(field).getCoder().getValue(content);
+   // if (BisisApp.getFormat().getSubfield(field).getCoderUItemList().getValue(content) != null)
+     // return BisisApp.getFormat().getSubfield(field).getCoderUItemList().getValue(content);
     return "";
   }
   

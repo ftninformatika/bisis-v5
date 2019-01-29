@@ -1,7 +1,8 @@
-package com.ftninformatika.bisis.coders;
+package com.ftninformatika.bisis.admin.coders;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.*;
+import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import lombok.Getter;
@@ -283,7 +284,6 @@ public class CodersHelper {
     public void filterCodersByDepartment(String department) {
 
         if (department != null) {
-
             try {
                 List<Sublocation> sublocCoders = BisisApp.bisisService.getSubLocations(BisisApp.appConfig.getLibrary()).execute().body();
                 List<Location> locCoders = BisisApp.bisisService.getLocations(BisisApp.appConfig.getLibrary()).execute().body();
@@ -299,7 +299,6 @@ public class CodersHelper {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -375,23 +374,23 @@ public class CodersHelper {
 
     public  String getValue(int coder_ref, String code){
         switch(coder_ref){
-            case ODELJENJE_CODER: return getValueFromList(this.getCoder(ODELJENJE_CODER), code);
-            case FORMAT_CODER: return getValueFromList(this.getCoder(FORMAT_CODER), code);
-            case STATUS_CODER: return getValueFromList(this.getCoder(STATUS_CODER), code);
-            case POVEZ_CODER: return getValueFromList(this.getCoder(POVEZ_CODER), code);
-            case PODLOKACIJA_CODER: return getValueFromList(this.getCoder(PODLOKACIJA_CODER), code);
-            case NACINNABAVKE_CODER: return getValueFromList(this.getCoder(NACINNABAVKE_CODER), code);
-            case INTERNAOZNAKA_CODER: return getValueFromList(this.getCoder(INTERNAOZNAKA_CODER), code);
-            case INVENTARNAKNJIGA_CODER: return getValueFromList(this.getCoder(INVENTARNAKNJIGA_CODER), code);
-            case DOSTUPNOST_CODER: return getValueFromList(this.getCoder(DOSTUPNOST_CODER), code);
-            case TASK_CODER: return getValueFromList(this.getCoder(TASK_CODER), code);
-            case LIBRARIAN_CODER: return getValueFromList(this.getCoder(LIBRARIAN_CODER), code);
+            case ODELJENJE_CODER: return getValueFromList(this.getCoderUItemList(ODELJENJE_CODER), code);
+            case FORMAT_CODER: return getValueFromList(this.getCoderUItemList(FORMAT_CODER), code);
+            case STATUS_CODER: return getValueFromList(this.getCoderUItemList(STATUS_CODER), code);
+            case POVEZ_CODER: return getValueFromList(this.getCoderUItemList(POVEZ_CODER), code);
+            case PODLOKACIJA_CODER: return getValueFromList(this.getCoderUItemList(PODLOKACIJA_CODER), code);
+            case NACINNABAVKE_CODER: return getValueFromList(this.getCoderUItemList(NACINNABAVKE_CODER), code);
+            case INTERNAOZNAKA_CODER: return getValueFromList(this.getCoderUItemList(INTERNAOZNAKA_CODER), code);
+            case INVENTARNAKNJIGA_CODER: return getValueFromList(this.getCoderUItemList(INVENTARNAKNJIGA_CODER), code);
+            case DOSTUPNOST_CODER: return getValueFromList(this.getCoderUItemList(DOSTUPNOST_CODER), code);
+            case TASK_CODER: return getValueFromList(this.getCoderUItemList(TASK_CODER), code);
+            case LIBRARIAN_CODER: return getValueFromList(this.getCoderUItemList(LIBRARIAN_CODER), code);
         }
         return null;
 
     }
 
-    public ArrayList<UItem> getCoder(int coderCode){
+    public ArrayList<UItem> getCoderUItemList(int coderCode){
         List<UItem> retVal = null;
         switch (coderCode){
             case ODELJENJE_CODER: retVal = new ArrayList<Location>(locations.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList()); break;
@@ -404,12 +403,31 @@ public class CodersHelper {
             case INVENTARNAKNJIGA_CODER: retVal = new ArrayList<AccessionRegister>(accessionRegs.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
             case DOSTUPNOST_CODER: retVal = new ArrayList<Availability>(availabilities.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
             case TASK_CODER: retVal = new ArrayList<Task>(tasks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
-
-           case LIBRARIAN_CODER: retVal = new ArrayList<LibrarianDTO>(librarians.values()).stream().map(i -> new UItem(i.getUsername(), i.getIme()+" "+i.getPrezime())).collect(Collectors.toList());
+            case LIBRARIAN_CODER: retVal = new ArrayList<LibrarianDTO>(librarians.values()).stream().map(i -> new UItem(i.getUsername(), i.getIme()+" "+i.getPrezime())).collect(Collectors.toList());
 
         }
         return (ArrayList<UItem>) retVal;
     }
+
+    public Map<String, Coder> getCoderMap(int coderCode) {
+        Map<String, Coder> retVal = new HashMap<>();
+
+        switch (coderCode) {
+            case ODELJENJE_CODER: retVal = locations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            case FORMAT_CODER: retVal = formats.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            case STATUS_CODER: retVal = itemStatuses.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            case POVEZ_CODER: retVal = bindings.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            case PODLOKACIJA_CODER: retVal =  sublocations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            case NACINNABAVKE_CODER: retVal = acquisitionTypes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            case INTERNAOZNAKA_CODER: retVal = internalMarks.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            //case INVENTARNAKNJIGA_CODER: retVal = .entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            case DOSTUPNOST_CODER: retVal = availabilities.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+            case TASK_CODER: retVal = tasks.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
+        }
+
+        return retVal;
+    }
+
 
     public static String getLocaleCoderName(int coderCode){
         String locale = BisisApp.appConfig.getClientConfig().getLocale();
@@ -475,6 +493,6 @@ public class CodersHelper {
     public static final int INTERNAOZNAKA_CODER =   	    6;
     public static final int INVENTARNAKNJIGA_CODER =	    7;
     public static final int DOSTUPNOST_CODER =     		    8;
-    public static final int TASK_CODER =     		        9; //ovo je patch i treba drugacije da se resi
+    public static final int TASK_CODER =     		        9;
     public static final int LIBRARIAN_CODER =     		    10;
 }

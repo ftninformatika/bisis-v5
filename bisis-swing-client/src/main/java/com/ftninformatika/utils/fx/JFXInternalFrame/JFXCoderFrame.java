@@ -1,8 +1,7 @@
 package com.ftninformatika.utils.fx.JFXInternalFrame;
 
-import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.coders.CodersHelper;
-import com.ftninformatika.bisis.coders.JfxCoderFrameController;
+import com.ftninformatika.bisis.admin.coders.CodersHelper;
+import com.ftninformatika.bisis.admin.coders.JfxCoderFrameController;
 import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
