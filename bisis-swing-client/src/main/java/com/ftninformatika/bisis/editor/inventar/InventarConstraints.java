@@ -30,8 +30,8 @@ public class InventarConstraints {
 		defaultPrimerakInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultPrimerakInvKnj();
 		defaultGodinaInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultGodinaInvKnj();
 		defaultSveskaInvKnj = BisisApp.appConfig.getClientConfig().getCataloguingDefaultSveskaInvKnj();
-		if(BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER).size()==1){
-			defaultOdeljenje = BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER).get(0).getCode();
+		if(BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER).size()==1){
+			defaultOdeljenje = BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER).get(0).getCode();
 		}
 		
 		

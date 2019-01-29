@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.coders.CodersHelper;
+import com.ftninformatika.bisis.admin.coders.CodersHelper;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.xml.XMLUtils;

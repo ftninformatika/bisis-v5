@@ -17,7 +17,7 @@ import java.util.List;
 import javax.swing.*;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.coders.CodersHelper;
+import com.ftninformatika.bisis.admin.coders.CodersHelper;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
@@ -58,47 +58,47 @@ public class CodedValuePanel extends JPanel {
 		switch(sifType) {
 			case (CodersHelper.NACINNABAVKE_CODER):
 				labelStr = Messages.getString("EDITOR_ACQ_TYPE");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.NACINNABAVKE_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.NACINNABAVKE_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case (CodersHelper.POVEZ_CODER):
 				labelStr = Messages.getString("BINDING");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.POVEZ_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.POVEZ_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case (CodersHelper.PODLOKACIJA_CODER):
 				labelStr = Messages.getString("SUBLOCATION");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.PODLOKACIJA_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.PODLOKACIJA_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case (CodersHelper.FORMAT_CODER):
 				labelStr = Messages.getString("FORMAT");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.FORMAT_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.FORMAT_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case (CodersHelper.INTERNAOZNAKA_CODER):
 				labelStr = Messages.getString("INTERNAL_MARK");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INTERNAOZNAKA_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.INTERNAOZNAKA_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case (CodersHelper.ODELJENJE_CODER):
 				labelStr = Messages.getString("LOCATION");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.ODELJENJE_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.ODELJENJE_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case (CodersHelper.STATUS_CODER):
 				labelStr = Messages.getString("STATUS");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.STATUS_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.STATUS_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case (CodersHelper.INVENTARNAKNJIGA_CODER):
 				labelStr = Messages.getString("INV_BOOK");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.INVENTARNAKNJIGA_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.INVENTARNAKNJIGA_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 				break;
 			case (CodersHelper.DOSTUPNOST_CODER):
 				labelStr = Messages.getString("AVAILABILITY");
-				codesList = BisisApp.appConfig.getCodersHelper().getCoder(CodersHelper.DOSTUPNOST_CODER);
+				codesList = BisisApp.appConfig.getCodersHelper().getCoderUItemList(CodersHelper.DOSTUPNOST_CODER);
 				codesList.sort(Comparator.comparing(c -> c.getCode()));
 		}
 

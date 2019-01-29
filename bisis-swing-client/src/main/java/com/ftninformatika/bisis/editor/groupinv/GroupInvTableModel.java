@@ -172,13 +172,13 @@ public class GroupInvTableModel extends AbstractTableModel {
 
     public List<UItem> getCodes(int column) {
         if (columns[column].equals(Messages.getString("STATUS")))
-            return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().STATUS_CODER);
+            return BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().STATUS_CODER);
         else if (columns[column].equals(Messages.getString("LOCATION")))
-            return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER);
+            return BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().ODELJENJE_CODER);
         else if (columns[column].equals(Messages.getString("SUBLOCATION")))
-            return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().PODLOKACIJA_CODER);
+            return BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().PODLOKACIJA_CODER);
         else if (columns[column].equals(Messages.getString("INTERNAL_MARK")))
-            return BisisApp.appConfig.getCodersHelper().getCoder(BisisApp.appConfig.getCodersHelper().INTERNAOZNAKA_CODER);
+            return BisisApp.appConfig.getCodersHelper().getCoderUItemList(BisisApp.appConfig.getCodersHelper().INTERNAOZNAKA_CODER);
         return null;
     }
 
