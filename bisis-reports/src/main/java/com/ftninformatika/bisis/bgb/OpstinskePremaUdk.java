@@ -17,54 +17,52 @@ public class OpstinskePremaUdk extends Report {
 
 	@Override
 	public void init() {
-	    nf = NumberFormat.getInstance(Locale.GERMANY);
-		nf.setMinimumFractionDigits(2);
-		nf.setMaximumFractionDigits(2);
-		itemMap.clear();
+      nf = NumberFormat.getInstance(Locale.GERMANY);
+      nf.setMinimumFractionDigits(2);
+      nf.setMaximumFractionDigits(2);
+      itemMap.clear();
       pattern = Pattern.compile(getReportSettings().getInvnumpattern());
-		log.info("Report initialized.");
+      log.info("Report initialized.");
 		
 	}
 
 	@Override
 	public void finish() {
-		log.info("Finishing report...");
+      log.info("Finishing report...");
 
-		for (List<Ogranak> list : itemMap.values())
-			Collections.sort(list);
+      for (List<Ogranak> list : itemMap.values()) {
+        Collections.sort(list);
+        Ogranak ukupno = makeTotal(list);
+        list.add(ukupno);
+      }
 
-		for (String key : itemMap.keySet()) {
-			List<Ogranak> list = itemMap.get(key);
-			StringBuilder out = getWriter(key);
-			
-			for (Ogranak o : list) {
-				out.append(o.toString());
-			}
-          out.append("</report>");
-          GeneratedReport gr=new GeneratedReport();
-          if (key.indexOf("-") >= 0){
-            gr.setReportName(key.substring(0,key.indexOf("-")));
-            gr.setFullReportName(key);
-            gr.setPeriod(key.substring(key.indexOf("-")+1));
+      for (String key : itemMap.keySet()) {
+          List<Ogranak> list = itemMap.get(key);
+          StringBuilder out = getWriter(key);
+
+          for (Ogranak o : list) {
+              out.append(o.toString());
           }
-          else{
-            gr.setReportName(key);
-            gr.setFullReportName(key);
-            gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+        out.append("</report>");
+        GeneratedReport gr=new GeneratedReport();
+        if (key.indexOf("-") >= 0){
+          gr.setReportName(key.substring(0,key.indexOf("-")));
+          gr.setFullReportName(key);
+          gr.setPeriod(key.substring(key.indexOf("-")+1));
+        }
+        else{
+          gr.setReportName(key);
+          gr.setFullReportName(key);
+          gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
 
-          }
-          gr.setContent(out.toString());
-          gr.setReportType(getType().name().toLowerCase());
-          getReportRepository().save(gr);
-		}
-		itemMap.clear();
-		log.info("Report finished.");
-		
+        }
+        gr.setContent(out.toString());
+        gr.setReportType(getType().name().toLowerCase());
+        getReportRepository().save(gr);
+      }
+      itemMap.clear();
+      log.info("Report finished.");
 	}
-
-
-  
-  
 
   public void handleRecord(Record rec) {
     if (rec == null)
@@ -125,26 +123,24 @@ public class OpstinskePremaUdk extends Report {
        }
     }
   }
+
   public Ogranak getItem(List<Ogranak> ol, String ogranakID) {
-		
 		for (Ogranak o : ol){
-			
 			if (o.ogr.compareToIgnoreCase(ogranakID)==0){	
 				return o;
 			}
 		}
 	    return null;
-	    
-	    
-	  }
-public List<Ogranak> getList(String key) {
+	}
+
+  public List<Ogranak> getList(String key) {
 	    List<Ogranak> list = itemMap.get(key);
 	    if (list == null) {
 	      list = new ArrayList<Ogranak>();
 	      itemMap.put(key, list);
 	    }
 	    return list;
-	  }
+  }
   
   public class Ogranak implements Comparable {
     public String ogr;
@@ -182,6 +178,7 @@ public List<Ogranak> getList(String key) {
       }
       return 0;
     }
+
     public void add(String rn, char digit) {
       switch (digit) {
         case '0':
@@ -490,23 +487,11 @@ public List<Ogranak> getList(String key) {
     }
     
     public String toString() {
-    	String odeljenje;
-//    	if (!ogr.equalsIgnoreCase("\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438")){
-//    	   odeljenje=LatCyrUtils.toCyrillic("nepoznato");//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.ODELJENJE_CODER, ogr);
-//    	  if(getCoders().getSublocCoders().get(ogr) != null)
-//    	    odeljenje = LatCyrUtils.toCyrillic(getCoders().getSublocCoders().get(ogr).getDescription());
-//          int zarez=odeljenje.indexOf(",");
-//    	  if(zarez!=-1){
-//    		odeljenje=odeljenje.substring(0, zarez);
-//    	  }
-//    	}else{
-    		odeljenje=ogr;
-    //	}
     	StringBuffer buf = new StringBuffer();
         buf.append("\n  <item id=\"");
         buf.append(ogr);
         buf.append("\">\n  <ogranak>");
-        buf.append(odeljenje);
+        buf.append(ogr);
         buf.append(	"</ogranak>\n	<n0>");
         buf.append(getN0());
         buf.append("</n0>\n    <p0>");
@@ -524,7 +509,7 @@ public List<Ogranak> getList(String key) {
         buf.append("</n3>\n    <p3>");
         buf.append(getP3());
         buf.append("</p3>\n		<n5>");
-        buf.append(getN6());
+        buf.append(getN5());
         buf.append("</n5>\n		<p5>");
         buf.append(getP5());
         buf.append("</p5>\n		<n6>");
@@ -566,31 +551,59 @@ public List<Ogranak> getList(String key) {
     
   }
 
-  
-  private Ogranak makeSum(List items) {
-    Ogranak sum = new Ogranak();
-    sum.ogr = "\u0423\u041a\u0423\u041f\u041d\u041e"; // UKUPNO
-    for (int i = 0; i < items.size(); i++) {
-      Ogranak o = (Ogranak)items.get(i);
-      sum.n0 += o.n0; sum.p0 += o.p0;
-      sum.n1 += o.n1; sum.p1 += o.p1;
-      sum.n2 += o.n2; sum.p2 += o.p2;
-      sum.n3 += o.n3; sum.p3 += o.p3;
-      sum.n5 += o.n5; sum.p5 += o.p5;
-      sum.n6 += o.n6; sum.p6 += o.p6;
-      sum.n7 += o.n7; sum.p7 += o.p7;
-      sum.n8s += o.n8s; sum.p8s += o.p8s;
-      sum.n8d += o.n8d; sum.p8d += o.p8d;
-      sum.n9 += o.n9; sum.p9 += o.p9;
-      sum.nd += o.nd; sum.pd += o.pd;
-      sum.ns += o.ns; sum.ps += o.ps;
-      sum.nu += o.nu; sum.pu += o.pu;
+  /**
+   * Kolona ukupno treba da bude suma svih jedinstvenih zapisa u svakoj koloni.
+   * (Isti zapisi na razlicitim odeljenjima se broje jednom)
+   */
+  private Ogranak makeTotal(List<Ogranak> ogranci) {
+    Ogranak retVal = new Ogranak();
+    retVal.ogr = "\u0423\u041a\u0423\u041f\u041d\u041e";
+
+    for (Ogranak o: ogranci) {
+      retVal.p0 += o.p0;
+      retVal.p1 += o.p1;
+      retVal.p2 += o.p2;
+      retVal.p3 += o.p3;
+      retVal.p5 += o.p5;
+      retVal.p6 += o.p6;
+      retVal.p7 += o.p7;
+      retVal.p8d += o.p8d;
+      retVal.p8s += o.p8s;
+      retVal.p9 += o.p9;
+      retVal.pd += o.pd;
+      retVal.pu += o.pu;
+      retVal.ps += o.ps;
+      retVal.set0.addAll(o.set0);
+      retVal.set1.addAll(o.set1);
+      retVal.set2.addAll(o.set2);
+      retVal.set3.addAll(o.set3);
+      retVal.set5.addAll(o.set5);
+      retVal.set6.addAll(o.set6);
+      retVal.set7.addAll(o.set7);
+      retVal.set8d.addAll(o.set8d);
+      retVal.set8s.addAll(o.set8s);
+      retVal.set9.addAll(o.set9);
+      retVal.setd.addAll(o.setd);
+      retVal.setu.addAll(o.setu);
+      retVal.sets.addAll(o.sets);
     }
-    sum.nu = ukupnoNaslova.size();
-    sum.ns = ukupnoSlikovnica.size();
-    return sum;
+    retVal.n0 = retVal.set0.size();
+    retVal.n1 = retVal.set1.size();
+    retVal.n2 = retVal.set2.size();
+    retVal.n3 = retVal.set3.size();
+    retVal.n5 = retVal.set5.size();
+    retVal.n6 = retVal.set6.size();
+    retVal.n7 = retVal.set7.size();
+    retVal.n8d = retVal.set8d.size();
+    retVal.n8s = retVal.set8s.size();
+    retVal.n9 = retVal.set9.size();
+    retVal.nd = retVal.setd.size();
+    retVal.nu = retVal.setu.size();
+    retVal.ns = retVal.sets.size();
+
+    return retVal;
   }
-  
+
   /**
    * Vraca sledece vrednosti:
    * s - slikovnice
@@ -637,6 +650,7 @@ public List<Ogranak> getList(String key) {
       return ' ';
     }
   }
+
   NumberFormat nf;
   private Set ukupnoNaslova = new HashSet();
   private Set ukupnoSlikovnica = new HashSet();

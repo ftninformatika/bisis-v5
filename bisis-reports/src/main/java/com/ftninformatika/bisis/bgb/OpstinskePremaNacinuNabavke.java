@@ -500,41 +500,10 @@ public class OpstinskePremaNacinuNabavke extends Report {
 
   }
 
-
-  private Ogranak makeSum(List items) {
-    Ogranak sum = new Ogranak();
-    sum.ogr = "\u0423\u041a\u0423\u041f\u041d\u041e"; // UKUPNO
-    for (int i = 0; i < items.size(); i++) {
-      Ogranak o = (Ogranak) items.get(i);
-      sum.na += o.na;
-      sum.pa += o.pa;
-      sum.ni += o.ni;
-      sum.pi += o.pi;
-      sum.nk += o.nk;
-      sum.pk += o.pk;
-      sum.nl += o.nl;
-      sum.pl += o.pl;
-      sum.nm += o.nm;
-      sum.pm += o.pm;
-      sum.nn += o.nn;
-      sum.pn += o.pn;
-      sum.no += o.no;
-      sum.po += o.po;
-      sum.np += o.np;
-      sum.pp += o.pp;
-      sum.nr += o.nr;
-      sum.pr += o.pr;
-      sum.nt += o.nt;
-      sum.pt += o.pt;
-      sum.nz += o.nz;
-      sum.pz += o.pz;
-      sum.nu += o.nu;
-      sum.pu += o.pu;
-    }
-    sum.nu = ukupnoNaslova.size();
-    return sum;
-  }
-
+  /**
+   * Kolona ukupno treba da bude suma svih jedinstvenih zapisa u svakoj koloni.
+   * (Isti zapisi na razlicitim odeljenjima se broje jednom)
+   */
   private Ogranak makeTotal(List<Ogranak> ogranci) {
     Ogranak retVal = new Ogranak();
     retVal.ogr = "\u0423\u041a\u0423\u041f\u041d\u041e";
