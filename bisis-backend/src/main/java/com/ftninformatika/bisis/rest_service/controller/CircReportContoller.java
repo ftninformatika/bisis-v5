@@ -237,7 +237,6 @@ public class CircReportContoller {
                 }
             }
         }
-        //System.out.println("End: " + new Date());
 
         return retVal;
     }

@@ -268,7 +268,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         Criteria lendingActionCr = new Criteria().orOperator(
                 Criteria.where("lendDate").gte(start).lte(end),
                 Criteria.where("resumeDate").gte(start).lte(end),
-                Criteria.where("resumeDate").gte(start).lte(end)
+                Criteria.where("returnDate").gte(start).lte(end)
         );
         if (location != null && !location.equals("")) {
             signedCr = new Criteria().andOperator(signedCr, Criteria.where("location").is(location));
