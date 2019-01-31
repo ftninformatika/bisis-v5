@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
@@ -22,6 +23,8 @@ import org.elasticsearch.index.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -191,13 +194,14 @@ public class CircReportContoller {
             if (record != null) {
                 List<String> udks = record.getSubfieldsContent("675a");
                 if (udks != null && !udks.isEmpty()) {
+                    try {
                     List<String> udkgroups = udks.stream().map(i -> i.substring(0,1)).collect(Collectors.toList()).stream().distinct().collect(Collectors.toList());
                     for (String udkgroup: udkgroups) {
                         if (!retVal.containsKey(usrCateg)) {
                             retVal.put(usrCateg, new Report());
                         }
                         Report r = retVal.get(usrCateg);
-                        try {
+
                             switch (Integer.parseInt(udkgroup)) {
                                 case 0:
                                     r.setProperty10(increaseValue(r.getProperty10()));
@@ -230,9 +234,9 @@ public class CircReportContoller {
                                     r.setProperty9(increaseValue(r.getProperty9()));
                                     break;
                             }
-                        } catch (Exception e) {
                             //e.printStackTrace();
                         }
+                    } catch (Exception e) {
                     }
                 }
             }
@@ -370,13 +374,201 @@ public class CircReportContoller {
 //        return retVal;
 //    }
 
+    @RequestMapping(value = "get_lend_return_udk_report_new")
+    public Map<String, Report> getLendReturnUdkReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        Map<String, Report> retVal = new HashMap<>();
+        start = DateUtils.getStartOfDay(start);
+        end = DateUtils.getEndOfDay(end);
+        List<String> lendingsCtlgNos = lendingRepository.getLendingsCtlgNo(start, end, null, null, location);
+        List<String> returnCtlgNos = lendingRepository.getLendingsCtlgNo( null, null, start, end, location);
+        Set<String> lendingsCtlgNosSet = new HashSet<>(lendingsCtlgNos);
+        Set<String> retCtlgNosSet = new HashSet<>(returnCtlgNos);
+        lendingsCtlgNos.sort(Comparator.naturalOrder());
+        returnCtlgNos.sort(Comparator.naturalOrder());
+
+        Map<String, Set<String>> udkRnsLended = new HashMap<>();
+        Report reportLendedPrimerci = new Report();
+        processLendReturnUdk(reportLendedPrimerci, lendingsCtlgNos, lendingsCtlgNosSet, udkRnsLended);
+        Report reportLendNaslovi = fillLendReturnTitlesReport(udkRnsLended);
+
+        Map<String, Set<String>> udkRnsReturned = new HashMap<>();
+        Report reportReturnedPrimerci = new Report();
+        processLendReturnUdk(reportReturnedPrimerci, lendingsCtlgNos, lendingsCtlgNosSet, udkRnsReturned);
+        Report reportReturnNaslovi = fillLendReturnTitlesReport(udkRnsReturned);
+
+        retVal.put("izN", reportLendNaslovi);
+        retVal.put("vrN", reportReturnNaslovi);
+        retVal.put("iz", reportLendedPrimerci);
+        retVal.put("vr", reportReturnedPrimerci);
+
+        return retVal;
+    }
+
+    private Report fillLendReturnTitlesReport(Map<String, Set<String>> mapSetRns) {
+        Report retVal = new Report();
+        retVal.setProperty10(String.valueOf(mapSetRns.get("0").size()));
+        retVal.setProperty1(String.valueOf(mapSetRns.get("1").size()));
+        retVal.setProperty2(String.valueOf(mapSetRns.get("2").size()));
+        retVal.setProperty3(String.valueOf(mapSetRns.get("3").size()));
+        retVal.setProperty5(String.valueOf(mapSetRns.get("5").size()));
+        retVal.setProperty6(String.valueOf(mapSetRns.get("6").size()));
+        retVal.setProperty7(String.valueOf(mapSetRns.get("7").size()));
+        retVal.setProperty8(String.valueOf(mapSetRns.get("8d").size()));
+        retVal.setProperty11(String.valueOf(mapSetRns.get("8s").size()));
+        retVal.setProperty9(String.valueOf(mapSetRns.get("9").size()));
+        return retVal;
+    }
+
+
+    private void processLendReturnUdk(Report report,List<String> ctgNos, Set<String> ctlgNosSet, Map<String, Set<String>> rnMap) {
+        for (String inv: ctlgNosSet) {
+            Record r = recordsRepository.getRecordByPrimerakInvNum(inv);
+            String rn = r.getSubfieldContent("001e");
+            if (report == null || rn == null)
+                continue;
+            List<Subfield> udkGroups = r.getSubfields("675a");
+            if (udkGroups == null || udkGroups.size() == 0)
+                continue;
+            for (Subfield sfGroup : udkGroups) {
+                String udk = sfGroup.getContent();
+                if (udk.startsWith("0")) {
+                    if (rnMap.containsKey("0")) {
+                        rnMap.get("0").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("0", set);
+                    }
+                    int primeraka = parseInt(report.getProperty10()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty10(String.valueOf(primeraka));
+                    continue;
+                }
+                if (udk.startsWith("1")) {
+                    if (rnMap.containsKey("1")) {
+                        rnMap.get("1").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("1", set);
+                    }
+                    int primeraka = parseInt(report.getProperty1()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty1(String.valueOf(primeraka));
+                    continue;
+                }
+                if (udk.startsWith("2")) {
+                    if (rnMap.containsKey("2")) {
+                        rnMap.get("2").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("2", set);
+                    }
+                    int primeraka = parseInt(report.getProperty2()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty2(String.valueOf(primeraka));
+                    continue;
+                }
+                if (udk.startsWith("3")) {
+                    if (rnMap.containsKey("3")) {
+                        rnMap.get("3").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("3", set);
+                    }
+                    int primeraka = parseInt(report.getProperty3()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty3(String.valueOf(primeraka));
+                    continue;
+                }
+                if (udk.startsWith("5")) {
+                    if (rnMap.containsKey("5")) {
+                        rnMap.get("5").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("5", set);
+                    }
+                    int primeraka = parseInt(report.getProperty5()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty5(String.valueOf(primeraka));
+                    continue;
+                }
+                if (udk.startsWith("6")) {
+                    if (rnMap.containsKey("6")) {
+                        rnMap.get("6").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("6", set);
+                    }
+                    int primeraka = parseInt(report.getProperty6()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty6(String.valueOf(primeraka));
+                    continue;
+                }
+                if (udk.startsWith("7")) {
+                    if (rnMap.containsKey("7")) {
+                        rnMap.get("7").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("7", set);
+                    }
+                    int primeraka = parseInt(report.getProperty7()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty7(String.valueOf(primeraka));
+                    continue;
+                }
+                // 8 - domaca
+                if (udk.startsWith("821.163.41")) {
+                    if (rnMap.containsKey("8d")) {
+                        rnMap.get("8d").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("8d", set);
+                    }
+                    int primeraka = parseInt(report.getProperty8()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty8(String.valueOf(primeraka));
+                    continue;
+                }
+                // 8 - strana
+                if (udk.startsWith("8") && !udk.startsWith("821.163.41")) {
+                    if (rnMap.containsKey("8s")) {
+                        rnMap.get("8s").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("8s", set);
+                    }
+                    int primeraka = parseInt(report.getProperty11()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty11(String.valueOf(primeraka));
+                    continue;
+                }
+                if (udk.startsWith("9")) {
+                    if (rnMap.containsKey("9")) {
+                        rnMap.get("9").add(rn);
+                    } else {
+                        Set<String> set = new HashSet<>();
+                        set.add(rn);
+                        rnMap.put("9", set);
+                    }
+                    int primeraka = parseInt(report.getProperty9()) + Collections.frequency(ctgNos, inv);
+                    report.setProperty9(String.valueOf(primeraka));
+                    continue;
+                }
+            }
+        }
+    }
+
+    private int parseInt(String num) {
+        if (num == null)
+            return 0;
+        return Integer.parseInt(num);
+    }
     /**
      * izdate i vracene po UDK
      */
     /*LendUDKReportCommand*//*ReturnUDKReportCommand*/
     @SuppressWarnings("Duplicates")
     @RequestMapping(value = "get_lend_return_udk_report")
-    public Map<String, Report> getLendReturnUdkReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+    public Map<String, Report> getLendReturnUdkReportOld(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         start = DateUtils.getStartOfDay(start);
         end = DateUtils.getEndOfDay(end);
 
