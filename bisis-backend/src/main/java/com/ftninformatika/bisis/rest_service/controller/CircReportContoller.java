@@ -158,10 +158,37 @@ public class CircReportContoller {
     }
 
 
-
     /**
-     * slikovnice
+     * Zbir strukture posetilaca na dnevnim nivoima
+     * Broji jedinstveno samo za svaki dan
      */
+    @RequestMapping(value = "get_visitor_structure_report_sum_daily")
+    public Map<String, Map<String, Integer>> getVisitorStructureSumDailyReport(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
+        Map<String, Map<String, Integer>> retVal = new HashMap<>();
+
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(start);
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTime(end);
+
+        for (Date date = startCalendar.getTime(); startCalendar.before(endCalendar); startCalendar.add(Calendar.DATE, 1), date = startCalendar.getTime()) {
+            Map<String, Map<String, Integer>> dailyMap = getVisitorStructureReport(lib, date, date, location);
+            for (String key : dailyMap.keySet()) {
+                if (!retVal.containsKey(key)) {
+                    retVal.put(key, dailyMap.get(key));
+                }
+                else {
+                    dailyMap.get(key).forEach((k, v) -> retVal.get(key).merge(k, v, Integer::sum));
+                }
+            }
+        }
+        return retVal;
+    }
+
+
+        /**
+         * slikovnice
+         */
     /*PictureBooksReportCommand*/
     @RequestMapping(value = "get_picturebooks_report")
     public Report getPicturebooksReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {

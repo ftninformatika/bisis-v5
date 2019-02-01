@@ -88,6 +88,7 @@ public class Report {
 		listReports.add(Messages.getString("circulation.signtypebook"));
 		listReports.add(Messages.getString("circulation.structsignedmembers"));
 		listReports.add(Messages.getString("circulation.visitorsstructure"));
+		listReports.add(Messages.getString("circulation.visitorsstructuresumdaily"));
 		listReports.add(Messages.getString("circulation.visitors"));
 		listReports.add(Messages.getString("circulation.zbreport"));
 		listReports.add(Messages.getString("circulation.bestreaders"));
@@ -132,7 +133,6 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
-
 			case 2 :
 				getLName().setText(Messages.getString("circulation.case2"));
 				getTfNumber().setVisible(false);
@@ -141,7 +141,6 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				 getCmbGroup().setVisible(false);
 				break;
-
 			case 3 :
 				getLName().setText(Messages.getString("circulation.case3"));
 				getTfStartDate().setVisible(true);
@@ -150,7 +149,6 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
-				
 			case 4 :
 				getLName().setText(Messages.getString("circulation.case4"));
 				getTfNumber().setVisible(false);
@@ -159,8 +157,7 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
-				
-			case 5 :
+			case 5:
 				getLName().setText(Messages.getString("circulation.case5"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
@@ -168,9 +165,16 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
-			
 			case 6 :
 				getLName().setText(Messages.getString("circulation.case6"));
+				getTfNumber().setVisible(false);
+				getTfStartDate().setVisible(true);
+				getTfEndDate().setVisible(true);
+				getLTfCmb().setVisible(false);
+				getCmbGroup().setVisible(false);
+				break;
+			case 7 :
+				getLName().setText(Messages.getString("circulation.case7"));
 				getTfNumber().setVisible(false);
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(false);
@@ -178,15 +182,6 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				break;
 				
-			case 7 :
-				getLName().setText(Messages.getString("circulation.case7"));
-				getTfNumber().setVisible(false);
-				getTfStartDate().setVisible(true);
-				getTfEndDate().setVisible(true);
-				getLTfCmb().setVisible(false);
-				getCmbGroup().setVisible(false);
-				break;
-			
 			case 8 :
 				getLName().setText(Messages.getString("circulation.case8"));
 				getTfNumber().setVisible(false);
@@ -195,12 +190,12 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
-				
+			
 			case 9 :
 				getLName().setText(Messages.getString("circulation.case9"));
 				getTfNumber().setVisible(false);
-				getTfEndDate().setVisible(false);
-				getTfStartDate().setVisible(false);
+				getTfStartDate().setVisible(true);
+				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
@@ -215,8 +210,8 @@ public class Report {
 			case 11 :
 				getLName().setText(Messages.getString("circulation.case11"));
 				getTfNumber().setVisible(false);
-				getTfEndDate().setVisible(true);
-				getTfStartDate().setVisible(true);
+				getTfEndDate().setVisible(false);
+				getTfStartDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
@@ -225,13 +220,21 @@ public class Report {
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
+				getLTfCmb().setVisible(false);
+				getCmbGroup().setVisible(false);
+				break;
+			case 13 :
+				getLName().setText(Messages.getString("circulation.case13"));
+				getTfNumber().setVisible(false);
+				getTfEndDate().setVisible(true);
+				getTfStartDate().setVisible(true);
 				getLTfCmb().setText(Messages.getString("circulation.group"));
 				getLTfCmb().setVisible(true);
 				setCmbModel();
 		        getCmbGroup().setVisible(true);
 				break;
-			case 13 :
-				getLName().setText(Messages.getString("circulation.case13"));
+			case 14 :
+				getLName().setText(Messages.getString("circulation.case14"));
 				getTfNumber().setText("");
 				getTfNumber().setVisible(true);
 				getTfEndDate().setVisible(true);
@@ -240,8 +243,8 @@ public class Report {
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
 				break;
-			case 14 :
-				getLName().setText(Messages.getString("circulation.case14"));
+			case 15 :
+				getLName().setText(Messages.getString("circulation.case15"));
 				getTfNumber().setText("");
 				getTfNumber().setVisible(true);
 				getTfEndDate().setVisible(true);
@@ -250,16 +253,7 @@ public class Report {
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
 				break;
-			case 15 :
-				getLName().setText(Messages.getString("circulation.case15"));
-				getTfNumber().setVisible(false);
-				getTfEndDate().setVisible(true);
-				getTfStartDate().setVisible(true);
-				getLTfCmb().setVisible(false);
-				getCmbGroup().setVisible(false);
-				break;
-				
-			case 16:
+			case 16 :
 				getLName().setText(Messages.getString("circulation.case16"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
@@ -267,22 +261,23 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
+				
 			case 17:
 				getLName().setText(Messages.getString("circulation.case17"));
+				getTfNumber().setVisible(false);
+				getTfEndDate().setVisible(true);
+				getTfStartDate().setVisible(true);
+				getLTfCmb().setVisible(false);
+				getCmbGroup().setVisible(false);
+				break;
+			case 18:
+				getLName().setText(Messages.getString("circulation.case18"));
 				getTfNumber().setText("");
 				getTfNumber().setVisible(true);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setText(Messages.getString("circulation.udc"));
 				getLTfCmb().setVisible(true);
-				getCmbGroup().setVisible(false);
-				break;
-			case 18:
-				getLName().setText(Messages.getString("circulation.case18"));
-				getTfNumber().setVisible(false);
-				getTfEndDate().setVisible(true);
-				getTfStartDate().setVisible(true);
-				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
 			case 19:
@@ -303,6 +298,14 @@ public class Report {
 				break;
 			case 21:
 				getLName().setText(Messages.getString("circulation.case21"));
+				getTfNumber().setVisible(false);
+				getTfEndDate().setVisible(true);
+				getTfStartDate().setVisible(true);
+				getLTfCmb().setVisible(false);
+				getCmbGroup().setVisible(false);
+				break;
+			case 22:
+				getLName().setText(Messages.getString("circulation.case22"));
 				getTfNumber().setVisible(false);
 				getTfEndDate().setVisible(true);
 				getTfStartDate().setVisible(true);
@@ -382,7 +385,7 @@ public class Report {
 	}
 
 	private boolean isValidDateRange(){
-		if (tfStartDate.isVisible() && tfEndDate.isVisible() && cmbReport.getSelectedIndex() != 14 && cmbReport.getSelectedIndex() != 13) {
+		if (tfStartDate.isVisible() && tfEndDate.isVisible() && cmbReport.getSelectedIndex() != 15 && cmbReport.getSelectedIndex() != 14) {
 			if (!DateUtils.inCircReportDateRange(tfStartDate.getDate(), tfEndDate.getDate())){
 				JOptionPane.showMessageDialog(null,
 						Messages.getString("circulation.wrongdates"),
@@ -428,34 +431,38 @@ public class Report {
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 6:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Visitors.setPrint(getTfStartDate().getDate(), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(VisitorStructureSumDaily.setPrint(getTfStartDate().getDate(), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 7:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(ZbStatistic.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Visitors.setPrint(getTfStartDate().getDate(), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 8:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestReader.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(ZbStatistic.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 9:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Blocked.setPrint(getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestReader.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 10:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(GroupsReport.setPrint(getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Blocked.setPrint(getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 11:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(GroupsReport.setPrint(getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 12:
-									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem(), getCmbGroup().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberBook.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								case 13:
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(MemberByGroup.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem(), getCmbGroup().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+									break;
+								case 14:
 									String userid = Validator.convertUserId2DB(getTfNumber().getText());
 									if (!userid.equals("")) {
 										JasperPrint jp = MemberHistory.setPrint(userid, Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), Utils.getCmbValue(getCmbLocation().getSelectedItem()));
@@ -471,7 +478,7 @@ public class Report {
 												new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 									}
 									break;
-								case 14:
+								case 15:
 									String ctlgno = Validator.convertCtlgNo2DB(getTfNumber().getText().trim());
 									if (!ctlgno.equals("")) {
 										Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BookHistory.setPrint(ctlgno, Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
@@ -481,31 +488,31 @@ public class Report {
 												new ImageIcon(getClass().getResource("/circ-images/x32.png")));
 									}
 									break;
-								case 15:
+								case 16:
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(CtgrUdk.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
-								case 16:
+								case 17:
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBook.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
-								case 17:
+								case 18:
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(BestBookUdk.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem(), getTfNumber().getText()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
-								case 18:
+								case 19:
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LendReturn.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
-								case 19:
+								case 20:
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LendReturnLanguage.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
-								case 20:
+								case 21:
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(com.ftninformatika.bisis.circ.report.Picturebooks.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate())));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
-								case 21:
+								case 22:
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LibrarianStatistic.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;

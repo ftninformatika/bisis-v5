@@ -71,7 +71,7 @@ public abstract class AppConfig {
 
   public void setRetrofit(String token, String domain) {
     OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
-    okHttpClient.readTimeout(60, TimeUnit.SECONDS);
+    okHttpClient.readTimeout(75, TimeUnit.SECONDS);
 
 
     String finalToken = token;

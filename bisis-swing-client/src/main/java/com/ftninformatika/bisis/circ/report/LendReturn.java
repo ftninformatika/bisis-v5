@@ -118,7 +118,7 @@ public class LendReturn {
 		params.put("enddate", Utils.toLocaleDate(end));
 		String loc = "";
 		if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-			params.put("nazivogr", Messages.getString("IZDATOVRACENO_DEPARTMENT") + "  "
+			params.put("nazivogr", Messages.getString("DEPARTMENT_COLON")
 					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription());
 			loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription();
 		} else {

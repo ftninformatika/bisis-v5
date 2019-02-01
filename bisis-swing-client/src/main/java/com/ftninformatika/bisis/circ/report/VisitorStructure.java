@@ -19,11 +19,12 @@ public class VisitorStructure {
 
 		try {
 
-			Map<String, Object> params = new HashMap<String, Object>(13);
+			Map<String, Object> params = new HashMap<String, Object>(14);
+			params.put("title", Messages.getString("STRPOSETILACA_TITLE"));
 			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 			String loc = "";
 			if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-				params.put("nazivogr", "odeljenje: "
+				params.put("nazivogr", Messages.getString("DEPATMENT_COLON")
 						+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription());
 				loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription();
 			} else {

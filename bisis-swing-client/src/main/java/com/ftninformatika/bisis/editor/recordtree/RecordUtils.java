@@ -16,11 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
-public class RecordUtils { //TODO-hardcoded all over the place
+public class RecordUtils {
   
   public static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-  
-  
+
   // sortira polja ali ne i potpolja
   public static void sortFields(){
     for (int i = 1; i < CurrRecord.record.getFields().size(); i++) {
