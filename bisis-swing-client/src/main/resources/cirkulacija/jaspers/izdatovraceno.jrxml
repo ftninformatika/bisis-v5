@@ -229,7 +229,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{IzP}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{IzP}==null?0:$F{IzP}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField" style="SansSerif" positionType="Float" x="290" y="2" width="90" height="16" uuid="a6db402f-4886-42e8-a0f0-13a5fa3b6c25"/>
@@ -268,7 +268,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{VrP}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{VrP}==null?0:$F{VrP}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField" style="SansSerif" positionType="Float" x="11" y="2" width="80" height="16" uuid="bbcd09e7-e946-433f-bd5f-8ea43c1f4d58"/>

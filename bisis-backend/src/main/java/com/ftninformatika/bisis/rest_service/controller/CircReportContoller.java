@@ -426,16 +426,16 @@ public class CircReportContoller {
 
     private Report fillLendReturnTitlesReport(Map<String, Set<String>> mapSetRns) {
         Report retVal = new Report();
-        retVal.setProperty10(String.valueOf(mapSetRns.get("0").size()));
-        retVal.setProperty1(String.valueOf(mapSetRns.get("1").size()));
-        retVal.setProperty2(String.valueOf(mapSetRns.get("2").size()));
-        retVal.setProperty3(String.valueOf(mapSetRns.get("3").size()));
-        retVal.setProperty5(String.valueOf(mapSetRns.get("5").size()));
-        retVal.setProperty6(String.valueOf(mapSetRns.get("6").size()));
-        retVal.setProperty7(String.valueOf(mapSetRns.get("7").size()));
-        retVal.setProperty8(String.valueOf(mapSetRns.get("8d").size()));
-        retVal.setProperty11(String.valueOf(mapSetRns.get("8s").size()));
-        retVal.setProperty9(String.valueOf(mapSetRns.get("9").size()));
+        retVal.setProperty10(String.valueOf(mapSetRns.get("0") != null ? mapSetRns.get("0").size() : 0));
+        retVal.setProperty1(String.valueOf(mapSetRns.get("1") != null ? mapSetRns.get("1").size() : 0));
+        retVal.setProperty2(String.valueOf(mapSetRns.get("2") != null ? mapSetRns.get("2").size() : 0));
+        retVal.setProperty3(String.valueOf(mapSetRns.get("3") != null ? mapSetRns.get("3").size() : 0));
+        retVal.setProperty5(String.valueOf(mapSetRns.get("5") != null ? mapSetRns.get("5").size() : 0));
+        retVal.setProperty6(String.valueOf(mapSetRns.get("6") != null ? mapSetRns.get("6").size() : 0));
+        retVal.setProperty7(String.valueOf(mapSetRns.get("7") != null ? mapSetRns.get("7").size() : 0));
+        retVal.setProperty8(String.valueOf(mapSetRns.get("8d") != null ? mapSetRns.get("8d").size() : 0));
+        retVal.setProperty11(String.valueOf(mapSetRns.get("8s") != null ? mapSetRns.get("8s").size() : 0));
+        retVal.setProperty9(String.valueOf(mapSetRns.get("9") != null ? mapSetRns.get("9").size() : 0));
         return retVal;
     }
 
