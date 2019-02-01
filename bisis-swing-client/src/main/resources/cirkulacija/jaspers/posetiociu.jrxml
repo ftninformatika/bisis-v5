@@ -62,7 +62,7 @@
 						<bottomPen lineWidth="0.0" lineColor="#000000"/>
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
-					<textFieldExpression><![CDATA[$V{grup}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{grup}==null?0:$V{grup}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>

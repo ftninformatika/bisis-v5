@@ -112,7 +112,7 @@
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textFieldExpression><![CDATA[$V{musko}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{musko}==null?0:$V{musko}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField" style="SansSerif" positionType="Float" x="231" y="19" width="103" height="17" uuid="eb148a10-793e-43d9-9fc8-7112979e54c8"/>
@@ -122,7 +122,7 @@
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textFieldExpression><![CDATA[$V{zensko}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{zensko}==null?0:$V{zensko}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField" style="SansSerif" positionType="Float" x="231" y="36" width="103" height="17" uuid="74dda486-9033-4a20-803c-64e5f2b74c2d"/>
@@ -132,7 +132,7 @@
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textFieldExpression><![CDATA[$V{nepoznato}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{nepoznato}==null?0:$V{nepoznato}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement key="staticText" style="SansSerif" positionType="Float" x="220" y="36" width="6" height="18" uuid="d770c54c-7944-45c8-9ef4-8675236d2345"/>
