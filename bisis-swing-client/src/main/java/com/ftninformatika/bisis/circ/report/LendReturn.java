@@ -29,7 +29,6 @@ public class LendReturn {
 		ReportDocument reportDoc = ReportDocument.Factory.newInstance();
 		Report report = reportDoc.addNewReport();
 
-			//TODO i broj naslova...
 			Row row = report.addNewRow();
 			row.addNewColumn1().setStringValue("0");
 			row.addNewColumn2().setStringValue(l.get("iz").getProperty10());
@@ -59,13 +58,6 @@ public class LendReturn {
 			row.addNewColumn5().setStringValue(l.get("vrN").getProperty3());
 
 			row = report.addNewRow();
-			row.addNewColumn1().setStringValue("4");
-			row.addNewColumn2().setStringValue(l.get("iz").getProperty4());
-			row.addNewColumn3().setStringValue(l.get("izN").getProperty4());
-			row.addNewColumn4().setStringValue(l.get("vr").getProperty4());
-			row.addNewColumn5().setStringValue(l.get("vrN").getProperty4());
-
-			row = report.addNewRow();
 			row.addNewColumn1().setStringValue("5");
 			row.addNewColumn2().setStringValue(l.get("iz").getProperty5());
 			row.addNewColumn3().setStringValue(l.get("izN").getProperty5());
@@ -87,11 +79,18 @@ public class LendReturn {
 			row.addNewColumn5().setStringValue(l.get("vrN").getProperty7());
 
 			row = report.addNewRow();
-			row.addNewColumn1().setStringValue("8");
+			row.addNewColumn1().setStringValue(Messages.getString("IZDATOVRACENO_DOMACE"));
 			row.addNewColumn2().setStringValue(l.get("iz").getProperty8());
 			row.addNewColumn3().setStringValue(l.get("izN").getProperty8());
 			row.addNewColumn4().setStringValue(l.get("vr").getProperty8());
 			row.addNewColumn5().setStringValue(l.get("vrN").getProperty8());
+
+			row = report.addNewRow();
+			row.addNewColumn1().setStringValue(Messages.getString("IZDATOVRACENO_STRANE"));
+			row.addNewColumn2().setStringValue(l.get("iz").getProperty11());
+			row.addNewColumn3().setStringValue(l.get("izN").getProperty11());
+			row.addNewColumn4().setStringValue(l.get("vr").getProperty11());
+			row.addNewColumn5().setStringValue(l.get("vrN").getProperty11());
 
 			row = report.addNewRow();
 			row.addNewColumn1().setStringValue("9");
@@ -101,7 +100,7 @@ public class LendReturn {
 			row.addNewColumn5().setStringValue(l.get("vrN").getProperty9());
 
 			row = report.addNewRow();
-			row.addNewColumn1().setStringValue("UKUPNO");
+			row.addNewColumn1().setStringValue(Messages.getString("IZDATOVRACENO_UKUPNO"));
 			row.addNewColumn2().setStringValue(l.get("iz").getProperty13());
 			row.addNewColumn3().setStringValue(l.get("izN").getProperty13());
 			row.addNewColumn4().setStringValue(l.get("vr").getProperty13());
@@ -119,7 +118,7 @@ public class LendReturn {
 		params.put("enddate", Utils.toLocaleDate(end));
 		String loc = "";
 		if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-			params.put("nazivogr", "odeljenje: "
+			params.put("nazivogr", Messages.getString("IZDATOVRACENO_DEPARTMENT") + "  "
 					+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription());
 			loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription();
 		} else {

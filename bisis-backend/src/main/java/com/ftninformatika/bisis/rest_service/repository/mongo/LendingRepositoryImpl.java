@@ -244,7 +244,6 @@ public class LendingRepositoryImpl implements LendingRepositoryCustom {
             Query q = new Query();
             q.addCriteria(criteria);
             return mongoTemplate.find(q, Lending.class);
-
         } else {
             return null;
         }
