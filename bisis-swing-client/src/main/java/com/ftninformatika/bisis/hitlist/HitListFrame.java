@@ -294,12 +294,13 @@ public class HitListFrame extends JInternalFrame {
         btnInventar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 String recordId = ((Record) lbHitList.getSelectedValue()).get_id();
+                String rn = String.valueOf(((Record) lbHitList.getSelectedValue()).getRN());
                 Record rec = null;
                 try {
                     rec = BisisApp.recMgr.getAndLock(recordId, BisisApp.appConfig.getLibrarian().get_id());
 
                     if (rec == null) { //vraca null ako je vec u upotrebi
-                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(), MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), recordId), Messages.getString("RECORD_LOCKED"), JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(), MessageFormat.format(Messages.getString("HITLIST_RECORD_WITH_ID.0.IS_LOCKED"), rn), Messages.getString("RECORD_LOCKED"), JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
 
