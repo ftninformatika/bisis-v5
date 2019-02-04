@@ -24,23 +24,22 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 
 	try {
 
-			Map<String, Object> params = new HashMap<String, Object>(12);
+			Map<String, Object> params = new HashMap<String, Object>(14);
 				String loc = "";
 			if (branch instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-				params.put("nazivogr", "odeljenje: "
+				params.put("nazivogr", Messages.getString("DEPARTMENT_COLON")
 						+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) branch).getDescription());
 				loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) branch).getDescription();
 			} else {
 				params.put("nazivogr", "");
 			}
 
-
-			List<com.ftninformatika.bisis.circ.pojo.Report>  l1= BisisApp.bisisService.getCategoriaReport(new PathDate(start),new PathDate(end), loc).execute().body();
-			List<com.ftninformatika.bisis.circ.pojo.Report>  l2= BisisApp.bisisService.getMmbrTypeStructReport(new PathDate(start),new PathDate(end), loc).execute().body();
-			Long numFree = BisisApp.bisisService.getFreeSigningReport(new PathDate(start),new PathDate(end), loc).execute().body();
-			Long numUsers = BisisApp.bisisService.getUsersNumberReport(new PathDate(start),new PathDate(end), loc).execute().body();
-			List<com.ftninformatika.bisis.circ.pojo.Report>  l5= BisisApp.bisisService.getGenderReport(new PathDate(start),new PathDate(end), loc).execute().body();
-			Integer totalFromYearStart = BisisApp.bisisService.getTotalSignedMembersFromStartOfYear(loc).execute().body();
+			List<com.ftninformatika.bisis.circ.pojo.Report>  l1 = BisisApp.bisisService.getCategoriaReport(new PathDate(start),new PathDate(end), loc, false).execute().body();
+			List<com.ftninformatika.bisis.circ.pojo.Report>  l2 = BisisApp.bisisService.getMmbrTypeStructReport(new PathDate(start),new PathDate(end), loc, false).execute().body();
+			Long numFree = BisisApp.bisisService.getFreeSigningReport(new PathDate(start),new PathDate(end), loc, false).execute().body();
+			Long numUsers = BisisApp.bisisService.getUsersNumberReport(new PathDate(start),new PathDate(end), loc, false).execute().body();
+			List<com.ftninformatika.bisis.circ.pojo.Report>  l5 = BisisApp.bisisService.getGenderReport(new PathDate(start),new PathDate(end), loc, false).execute().body();
+			Integer totalFromYearStart = BisisApp.bisisService.getTotalSignedMembersFromStartOfYear(loc, false).execute().body();
 
 			Document dom1 = CategoriSigning.setXML(l1);
 			Document dom2 = MmbrTypeSigning.setXML(l2);
@@ -48,27 +47,21 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 			Document dom4 = UsersNumber.setXML(numUsers);
 			Document dom5 = Gender.setXML(l5);
 
-
-
 			JasperReport brojbespl = (JasperReport) JRLoader
-			.loadObject(Structure.class
-					.getResource(
-							"/cirkulacija/jaspers/brojbespl.jasper")
-					.openStream());
-
-
+					.loadObject(Structure.class
+							.getResource(
+									"/cirkulacija/jaspers/brojbespl.jasper")
+							.openStream());
 			JasperReport clanovi = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
 									"/cirkulacija/jaspers/clanovi.jasper")
 							.openStream());
-
 			JasperReport placanje = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
 									"/cirkulacija/jaspers/placanje.jasper")
 							.openStream());
-	
 			JasperReport broj = (JasperReport) JRLoader
 					.loadObject(Structure.class
 							.getResource(
@@ -81,6 +74,7 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 							.openStream());
 
 			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
+			params.put("title", Messages.getString("STRUKTURA_TITLE"));
 			params.put("begdate", Utils.toLocaleDate(start));
 			params.put("enddate", Utils.toLocaleDate(end));
 			params.put("clanovi", clanovi);

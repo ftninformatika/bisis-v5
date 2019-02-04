@@ -203,11 +203,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         }
     }
 
-    public Long getFreeSigningMembersCount(Date start, Date end, String location) {
+    public Long getFreeSigningMembersCount(Date start, Date end, String location, boolean firstTimeSigned) {
         Criteria cr = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(DateUtils.getStartOfDay(start)).lte(DateUtils.getEndOfDay(end)).and("cost").is(0));
         if (location != null && !location.equals("")) {
             cr = new Criteria().andOperator(cr, Criteria.where("location").is(location));
         }
+        if (firstTimeSigned)
+            cr = new Criteria().andOperator(cr, Criteria.where("signings").size(1));
         Query query = new Query();
         query.addCriteria(cr);
 
@@ -215,18 +217,20 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return count;
     }
 
-    public Integer getUserSignedCount(Date start, Date end, String location) {
-        Criteria cr1;
+    public Integer getUserSignedCount(Date start, Date end, String location, boolean firstTimeSigned) {
+        Criteria cr;
         start = DateUtils.getYesterday(DateUtils.getEndOfDay(start));
         end = DateUtils.getNextDay(DateUtils.getStartOfDay(end));
         if (location != null && !location.equals("")) {
-            cr1 = Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(start).lt(end).and("location").is(location));
+            cr = Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(start).lt(end).and("location").is(location));
 
         } else {
-            cr1 = Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(start).lt(end));
+            cr = Criteria.where("signings").elemMatch(Criteria.where("signDate").gt(start).lt(end));
         }
+        if (firstTimeSigned)
+            cr = new Criteria().andOperator(cr, Criteria.where("signings").size(1));
         Query query = new Query();
-        query.addCriteria(cr1);
+        query.addCriteria(cr);
 
         int cnt = 0;
         List<Member> memberList = mongoTemplate.find(query, Member.class);
@@ -239,12 +243,19 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     public List<Report> groupMemberByField(Date startDate, Date endDate, String location, String groupByField) {
+        return groupMemberByField(startDate, endDate, location, groupByField, false);
+    }
+
+    public List<Report> groupMemberByField(Date startDate, Date endDate, String location, String groupByField, boolean firstTimeSigned) {
         Criteria cr = null;
         if (location != null && !location.equals("")) {
             cr = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate).and("location").is(location));
 
         } else {
             cr = Criteria.where("signings").elemMatch(Criteria.where("signDate").gte(startDate).lte(endDate));
+        }
+        if (firstTimeSigned) {
+            cr = new Criteria().andOperator(cr, Criteria.where("signings").size(1));
         }
         Aggregation agg = newAggregation(
                 match(cr),

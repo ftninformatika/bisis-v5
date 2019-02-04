@@ -105,6 +105,7 @@ public class Report {
 		listReports.add(Messages.getString("circulation.lendreturnlan"));
 		listReports.add(Messages.getString("circulation.picturebooksreport"));
 		listReports.add(Messages.getString("circulation.librarianstatistic"));
+		listReports.add(Messages.getString("circulation.firsttimesigned"));
 		return listReports;
 	}
 	private JComboBox getCmbReport() {
@@ -181,7 +182,6 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
-				
 			case 8 :
 				getLName().setText(Messages.getString("circulation.case8"));
 				getTfNumber().setVisible(false);
@@ -190,7 +190,6 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
-			
 			case 9 :
 				getLName().setText(Messages.getString("circulation.case9"));
 				getTfNumber().setVisible(false);
@@ -312,6 +311,14 @@ public class Report {
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
 				break;
+			case 23:
+				getLName().setText(Messages.getString("circulation.case23"));
+				getTfNumber().setVisible(false);
+				getTfEndDate().setVisible(true);
+				getTfStartDate().setVisible(true);
+				getLTfCmb().setVisible(false);
+				getCmbGroup().setVisible(false);
+				break;
 			default :
 
 		}
@@ -360,7 +367,6 @@ public class Report {
 		getCmbGroup().setModel(
 				Cirkulacija.getApp().getMainFrame().getUserPanel()
 						.getMmbrship().getGroupsModel());
-		
 	}
 
 	private JTextField getTfNumber() {
@@ -516,13 +522,16 @@ public class Report {
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(LibrarianStatistic.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
+								case 23:
+									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(FirstTimeSigned.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
+									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+									break;
 								default:
 									JOptionPane.showMessageDialog(null, Messages.getString("circulation.nodataentered"),
 											Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
 
 							}
 							//clear();
-
 						} catch (Exception exc1) {
 							exc1.printStackTrace();
 							JOptionPane.showMessageDialog(null, Messages.getString("circulation.error"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
