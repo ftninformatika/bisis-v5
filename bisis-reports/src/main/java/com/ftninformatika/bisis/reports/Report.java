@@ -145,42 +145,7 @@ public abstract class Report {
   
   return "";
 }
- /* private String getMonthName(String s) {
-    int m = 0;
-    try {
-      m = Integer.parseInt(s);
-    } catch (NumberFormatException ex) {
-      ex.printStackTrace();
-      return "";
-    }
-    switch (m) {
-      case 1:
-        return "januar";
-      case 2:
-        return "februar";
-      case 3:
-        return "mart";
-      case 4:
-        return "april";
-      case 5:
-        return "maj";
-      case 6:
-        return "juni";
-      case 7:
-        return "juli";
-      case 8:
-        return "avgust";
-      case 9:
-        return "septembar";
-      case 10:
-        return "oktobar";
-      case 11:
-        return "novembar";
-      case 12:
-        return "decembar";
-    }
-    return "";
-  }*/
+
   public String addZero(int month){
 	  String monthStr=Integer.toString(month);
 	  if(month<10)

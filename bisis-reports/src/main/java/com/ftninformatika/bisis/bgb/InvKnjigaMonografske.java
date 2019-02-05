@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
+import com.ftninformatika.bisis.reports.ReportType;
 import com.ftninformatika.bisis.reports.ReportsUtils;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
@@ -100,7 +101,11 @@ public class InvKnjigaMonografske extends Report {
                 }
                 gr.setContent(out.toString());
                 gr.setReportType(getType().name().toLowerCase());
-                getReportRepository().save(gr);
+                try {
+                    getReportRepository().save(gr);
+                } catch (Exception e) {
+                    System.out.println("stoj!");
+                }
 		    }
 		   
 		    itemMap.clear();
@@ -197,9 +202,11 @@ public class InvKnjigaMonografske extends Report {
     	          p.getSigUDK());
     	 if (sig==null ||sig.equals(""))
        	  sig=" ";
+        if (p.getDatumInventarisanja() == null && settings.getType().equals(ReportType.YEAR.toString()))
+            continue;
 
       
-        Item i = new Item();
+      Item i = new Item();
       i.invbr = p.getInvBroj();
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
@@ -270,6 +277,7 @@ public class InvKnjigaMonografske extends Report {
       
       String part=settings.getPart();
       String type=settings.getType();
+
       String key;
       if(part==null){
     	if (type.equals("online")){
