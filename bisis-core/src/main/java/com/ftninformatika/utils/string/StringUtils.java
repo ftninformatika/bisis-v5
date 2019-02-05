@@ -315,6 +315,8 @@ public class StringUtils {
    *  respectively. Usable when converting text for HTML.
    */
   public static String adjustForHTML(String s) {
+    if (s == null)
+      return "";
     return replace(replace(replace(replace(s, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"), "'", "&apos;");
   }
 

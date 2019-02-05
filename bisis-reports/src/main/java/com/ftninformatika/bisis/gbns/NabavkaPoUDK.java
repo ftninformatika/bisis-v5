@@ -50,6 +50,7 @@ public class NabavkaPoUDK extends Report {
 				gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
 
 			}
+			gr.setFullReportName(key);
 			gr.setContent(out.toString());
 			gr.setReportType(getType().name().toLowerCase());
 			getReportRepository().save(gr);
