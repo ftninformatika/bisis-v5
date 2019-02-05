@@ -3,6 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="najcitanijetabela" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="858ad957-d69f-4056-b45a-946ab5fb32d1">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="samplebestbookadapter"/>
 	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.textField"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -118,7 +122,7 @@
 				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="290" y="21" width="10" height="19" uuid="ff63278f-a76b-4fb1-9e4b-2f128f47f2e0"/>
+				<reportElement key="staticText" x="290" y="21" width="10" height="19" uuid="ff63278f-a76b-4fb1-9e4b-2f128f47f2e0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -185,36 +189,36 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="224" uuid="74e42048-2b3c-4895-b9ac-630465217d25">
+					<jr:column width="207" uuid="74e42048-2b3c-4895-b9ac-630465217d25">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="224" height="30" uuid="629ee25d-8772-478b-91a5-5314cace1e0e"/>
+								<reportElement x="0" y="0" width="207" height="30" uuid="629ee25d-8772-478b-91a5-5314cace1e0e"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[str("NAJCITANIJE_AUTHOR")]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="224" height="30" uuid="1e743ba7-3d2c-41db-bd5c-b4332330821b"/>
+								<reportElement x="0" y="0" width="207" height="30" uuid="1e743ba7-3d2c-41db-bd5c-b4332330821b"/>
 								<box leftPadding="2"/>
 								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{column3}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="66" uuid="bb67d93e-fca8-436e-b195-3bfd85f369c1">
+					<jr:column width="83" uuid="bb67d93e-fca8-436e-b195-3bfd85f369c1">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="66" height="30" uuid="a7826189-e733-4a26-b7de-41deddb9fe98"/>
+								<reportElement x="0" y="0" width="83" height="30" uuid="a7826189-e733-4a26-b7de-41deddb9fe98"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[str("NAJCITANIJE_LEND_COUNT")]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="66" height="30" uuid="59a92f50-da99-4427-87a5-929ab76a8ee9"/>
+								<reportElement x="0" y="0" width="83" height="30" uuid="59a92f50-da99-4427-87a5-929ab76a8ee9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{column1_1}]]></textFieldExpression>
 							</textField>

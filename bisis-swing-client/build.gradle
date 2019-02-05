@@ -50,7 +50,8 @@ dependencies {
     compile group: 'com.toedter', name: 'jcalendar', version: '1.4'
     compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
     compile group: 'stax', name: 'stax-api', version: '1.0.1'
-    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.4.3'
+    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.7.0'
+    compile group: 'org.apache.poi', name: 'poi', version: '3.16'
     compile fileTree(dir: '../old-libs', include: '*.jar')
     compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
     compile group: 'org.devzendo', name: 'quaqua', version: '9.1'

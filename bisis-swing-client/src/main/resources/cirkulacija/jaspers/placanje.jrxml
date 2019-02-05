@@ -18,14 +18,6 @@
 	<parameter name="brojbespl" class="net.sf.jasperreports.engine.JasperReport"/>
 	<parameter name="ogranak" class="java.lang.Integer"/>
 	<parameter name="dom3" class="org.w3c.dom.Document" isForPrompting="false"/>
-	<queryString>
-		<![CDATA[select mt.name, count(u.id) 
-from users u, single s,mmbr_types mt
-where u.branch_id = $P{ogranak} 
- and s.mmbr_type =mt.id  and u.id = s.user_id
- and u.id in (select single_id from signing where sdate >= $P{begdate} and sdate <= $P{enddate})
-group by mt.name]]>
-	</queryString>
 	<field name="EXPRESSION1" class="java.lang.Long">
 		<fieldDescription><![CDATA[column15]]></fieldDescription>
 	</field>
