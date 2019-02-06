@@ -322,6 +322,7 @@ public class Membership {
         if (tblMmbrship == null) {
             tblMmbrship = new JTable();
             tblMmbrship.setModel(getTableModel());
+            tblMmbrship.putClientProperty("Quaqua.Table.style", "striped");
             TableColumn comboColumn = tblMmbrship.getColumnModel().getColumn(0);
             comboColumn.setCellEditor(new DefaultCellEditor(getCmbBranch()));
             comboColumn.setCellRenderer(new CmbTableRenderer());

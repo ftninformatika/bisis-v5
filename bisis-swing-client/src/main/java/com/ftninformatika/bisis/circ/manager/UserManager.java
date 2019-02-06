@@ -259,6 +259,7 @@ public class UserManager {
                 log.info("Pronadjen individualni korisnik: " + userID);
                 if (memberData.getInUseBy() == null) {
                     member = memberData.getMember();
+                    member.getSignings().sort(Comparator.comparing(Signing::getSignDate));
                     lendings = memberData.getLendings();
                     if (member != null) {
                         Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
