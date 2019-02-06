@@ -52,6 +52,15 @@ public class RecordsController {
 
     private Logger log = Logger.getLogger(MemberController.class);
 
+    @RequestMapping(value = "/findInvHoles")
+    public List<Integer> findInvHoles(@RequestParam(value = "invFrom")String invFrom, @RequestParam(value = "invTo")String invTo) {
+        List<Integer> retVal = new ArrayList<>();
+
+        retVal = recordsRepository.findInvNumHoles(invFrom, invTo);
+
+        return retVal;
+    }
+
     @RequestMapping(value = "/delete/{mongoID}")
     public boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
         recordsRepository.delete(mongoID);

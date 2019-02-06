@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.editor;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.groupinv.GroupInvFrame;
+import com.ftninformatika.bisis.editor.invholes.InvNumberHolesFrame;
 import com.ftninformatika.bisis.editor.merge.MergeRecordsFrame;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
@@ -17,7 +18,7 @@ public class Obrada {
 
     public static EditorFrame editorFrame = new EditorFrame();
     public static GroupInvFrame groupInvFrame = new GroupInvFrame();
-	/*public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();*/
+	public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();
 //	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();
 
     public static JFXInternalFrame mergeRecFrame = new JFXInternalFrame("Merge",
@@ -119,7 +120,7 @@ public class Obrada {
     }
 
     public static void openInvHolesFrame() {
-  /*	try {
+  	try {
       if (!invHolesFrame.isVisible())
       	invHolesFrame.setVisible(true);
       if (invHolesFrame.isIcon())
@@ -127,7 +128,7 @@ public class Obrada {
       if (!invHolesFrame.isSelected())
       	invHolesFrame.setSelected(true);
     } catch (Exception ex) {
-    }*/
+    }
     }
 
     public static void openMergeRecordsFrame() {
@@ -142,11 +143,10 @@ public class Obrada {
     }
     }
 
-
     static {
         BisisApp.getMainFrame().insertFrame(editorFrame);
         BisisApp.getMainFrame().insertFrame(groupInvFrame);
-        //BisisApp.getMainFrame().insertFrame(invHolesFrame);
+        BisisApp.getMainFrame().insertFrame(invHolesFrame);
         BisisApp.getMainFrame().insertFrame(mergeRecFrame);
         try {
             editorFrame.setMaximum(true);
@@ -154,7 +154,6 @@ public class Obrada {
             mergeRecFrame.setSize(600, 500);
             mergeRecFrame.setResizable(false);
             mergeRecFrame.setMaximizable(false);
-            // invHolesFrame.setMaximum(true);
         } catch (PropertyVetoException e) {
         }
     }
