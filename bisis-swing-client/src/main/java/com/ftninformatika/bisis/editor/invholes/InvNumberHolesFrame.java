@@ -3,20 +3,13 @@ package com.ftninformatika.bisis.editor.invholes;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
 
 import javax.swing.*;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.inventar.CodedValuePanel;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.swing.CCPUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,7 +18,7 @@ import net.miginfocom.swing.MigLayout;
 public class InvNumberHolesFrame extends JInternalFrame {
 	
 	public InvNumberHolesFrame(){
-		super("Praznine u inventarnim brojevima", false, true, false, true);
+		super(Messages.getString("INV_HOLES_TITLE"), false, true, false, true);
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		setSize(new Dimension(340,550));
 		initialize();
@@ -40,20 +33,21 @@ public class InvNumberHolesFrame extends JInternalFrame {
 		invKnjPanel.addAllowedSymbol("*");		
 		executeButton = new JButton(new ImageIcon(getClass().getResource(
         	"/icons/Check16.png")));
-		executeButton.setText("Prona\u0111i");
+		executeButton.setText(Messages.getString("INV_HOLES_FIND"));
 		viewTxtArea = new JTextArea(20,20);
 		viewTxtArea.setEditable(false);
+		viewTxtArea.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
 		scrollPane = new JScrollPane(viewTxtArea);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		setLayout(new MigLayout("insets 10 10 10 10","[][][][][]","[]5[]10[]5[]20[]20[]"));
-		add(new JLabel("Odeljenje"),"span 5, wrap");
+		add(new JLabel(Messages.getString("INV_HOLES_DEPARTMENT")),"span 5, wrap");
 		add(odeljenjePanel,"wrap");		
-		add(new JLabel("Inventarna knjiga"),"wrap");
+		add(new JLabel(Messages.getString("INV_HOLES_INVBOOK")),"wrap");
 		add(invKnjPanel,"wrap");
-		add(new JLabel("<html><b>od</b></html>"),"split 5");
+		add(new JLabel(Messages.getString("INV_HOLES_FROM")),"split 5");
 		add(odTxtFld,"");
-		add(new JLabel("<html><b>do</b></html>"),"");
+		add(new JLabel(Messages.getString("INV_HOLES_TO")),"");
 		add(doTxtFld,"");
 		add(executeButton,"wrap");
 		add(scrollPane,"wrap, grow");
@@ -76,7 +70,7 @@ public class InvNumberHolesFrame extends JInternalFrame {
 
 			retVal = InvNumberHolesFinder.getInvHolesfromIndex(odeljenje, invKnj, odInt, doInt);
 
-			if (retVal != null && retVal.length() == 0) viewTxtArea.setText("Nema praznina u inventarnim brojevima.");
+			if (retVal != null && retVal.length() == 0) viewTxtArea.setText(Messages.getString("INV_HOLES_NEGATIVE"));
 			viewTxtArea.setText(retVal);
 		}
 		else {
@@ -92,11 +86,13 @@ public class InvNumberHolesFrame extends JInternalFrame {
 		try {
 			int from = Integer.parseInt(odTxtFld.getText());
 			int to = Integer.parseInt(doTxtFld.getText());
-			if (from < 0 || from > 9999999)
+			if (from < 1 || from > 9999999)
 				return false;
-			if (to < 1 || to > 9999999)
+			if (to < 2 || to > 9999999)
 				return false;
 			if (from >= to)
+				return false;
+			if ((to - from) > 100000)
 				return false;
 		} catch (NumberFormatException e) {
 			return false;
@@ -105,7 +101,7 @@ public class InvNumberHolesFrame extends JInternalFrame {
 	}
 
 	private void showError() {
-		JOptionPane.showMessageDialog(BisisApp.getMainFrame(), "Odaberite odeljenje, inv. knjigu i validan brojni raspon!", "Naslov", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("INV_HOLES_MESSAGE"), Messages.getString("INV_HOLES_ERROR"), JOptionPane.ERROR_MESSAGE);
 	}
 	
 	private static Log log = LogFactory.getLog(InvNumberHolesFrame.class);

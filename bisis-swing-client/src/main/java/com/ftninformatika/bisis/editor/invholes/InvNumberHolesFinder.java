@@ -1,22 +1,36 @@
 package com.ftninformatika.bisis.editor.invholes;
 
 
+import com.ftninformatika.bisis.BisisApp;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class InvNumberHolesFinder {
 	
 	public static String getInvHolesfromIndex(String odeljenje, String invKnjiga, int odInt, int doInt){
 		StringBuffer retVal = new StringBuffer();
- 		//	
-		int[] hits = {};  					
 
-		for (int brojac = odInt;brojac<=doInt;brojac++){
-			String brojStr = String.valueOf(brojac);
-			brojStr = "00000000000".substring(0, 7-brojStr.length())+brojStr;
-			String invBroj = odeljenje+invKnjiga+brojStr;
-			if(hits.length==0)
-				 retVal.append(brojStr+"\n");
+		String odString = String.valueOf(odInt);
+		odString = "00000000000".substring(0, 7 - odString.length()) + odString;
+		odString = odeljenje + invKnjiga + odString;
+
+		String doString = String.valueOf(doInt);
+		doString = "00000000000".substring(0, 7 - doString.length()) + doString;
+		doString = odeljenje + invKnjiga + doString;
+
+		List<Integer> freeInvs = new ArrayList<>();
+		try {
+			freeInvs = BisisApp.bisisService.findInvHoles(odString, doString).execute().body();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-	 return retVal.toString();		
+		for (Integer i: freeInvs)
+			retVal.append(i + "\n");
+
+		return retVal.toString();
 	}
 
 

@@ -123,6 +123,9 @@ public interface BisisService {
 
 //records---------------------------------------------------------------
 
+    @GET("records/findInvHoles")
+    Call<List<Integer>> findInvHoles(@Query("invFrom") String invFrom, @Query("invTo") String invTo);
+
     @GET("mongo_repository_records?size=20&")
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
 
