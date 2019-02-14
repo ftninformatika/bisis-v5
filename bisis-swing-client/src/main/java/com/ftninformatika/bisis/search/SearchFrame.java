@@ -459,8 +459,42 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
 
   private void handleNetSearch() {
-    JOptionPane.showMessageDialog(BisisApp.mf,"Pretraga u mreži nije implementirana!","Pretraga u mreži",JOptionPane.INFORMATION_MESSAGE);
+      String text1 = "";
+      String text2 = "";
+      String text3 = "";
+      String text4 = "";
+      String text5 = "";
 
+      if(tfPref1.isVisible())
+          text1 = tfPref1.getText();
+      else
+          text1 = codedPref1.getText();
+
+      if(tfPref2.isVisible())
+          text2 = tfPref2.getText();
+      else
+          text2 = codedPref2.getText();
+
+      if(tfPref3.isVisible())
+          text3 = tfPref3.getText();
+      else
+          text3 = codedPref3.getText();
+      if(tfPref4.isVisible())
+          text4 = tfPref4.getText();
+      else
+          text4 = codedPref4.getText();
+
+      if(tfPref5.isVisible())
+          text5 = tfPref5.getText();
+      else
+          text5 = codedPref5.getText();
+    if(text1.equals("") && text2.equals("") && text3.equals("") && text4.equals("") && text5.equals("")){
+      JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
+              "Niste postavili nijedan kriterijum za pretragu!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
+    }else {
+      btnSearch.setEnabled(false);
+      JOptionPane.showMessageDialog(BisisApp.mf, "Pretraga u mrezi nije implementirana!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
+    }
   }
   
   private void refreshServerList(List<LibraryConfiguration> serverList) {
