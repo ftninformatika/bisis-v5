@@ -232,8 +232,8 @@ public class CodersController {
 
     @RequestMapping(path = "warning_counter/delete")
     public Boolean deleteWarningCounters(@RequestParam("_id") String wc_id){
-        warncountrep.delete(wc_id);
-        return  warncountrep.findOne(wc_id) == null;
+        warncountrep.deleteById(wc_id);
+        return  warncountrep.findById(wc_id).get() == null;
     }
 
     @RequestMapping(path = "organization")

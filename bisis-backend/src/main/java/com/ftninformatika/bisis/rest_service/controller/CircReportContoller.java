@@ -289,7 +289,6 @@ public class CircReportContoller {
                             if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                                 ep.getPrefixes().get("IN").forEach(
                                         in -> {
-                                            in = in.replace(PrefixConverter.endPhraseFlag, "");
                                             if(entry.getValue().contains(in)){
                                                 primeraka[0] += Collections.frequency(entry.getValue(), in);
                                             }
@@ -412,7 +411,6 @@ public class CircReportContoller {
                         if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                             ep.getPrefixes().get("IN").forEach(
                                     in -> {
-                                        in = in.replace(PrefixConverter.endPhraseFlag, "");
                                         if(lendingsCtlgNosSet.contains(in)){
                                             primeraka[0] += Collections.frequency(lendingsCtlgNos, in);
                                         }
@@ -445,7 +443,6 @@ public class CircReportContoller {
                         if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                             ep.getPrefixes().get("IN").forEach(
                                     in -> {
-                                        in = in.replace(PrefixConverter.endPhraseFlag, "");
                                         if(retCtlgNosSet.contains(in)){
                                             primeraka[0] += Collections.frequency(returnCtlgNos, in);
                                         }
@@ -619,14 +616,13 @@ public class CircReportContoller {
 
         for (String ctl: lendCtlgnos){
 
-            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl + PrefixConverter.endPhraseFlag, lRec);
+            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl, lRec);
             if (ep == null){
                 System.out.println("Lend problem ctlgno: " + ctl);
                 continue;
             }
             if (ep.getPrefixes().get("101a") != null && ep.getPrefixes().get("101a").size() > 0){
                 for (String lan: ep.getPrefixes().get("101a")){
-                    lan = lan.replace(PrefixConverter.endPhraseFlag, "");
                     if (retVal.containsKey(lan)){
                         Report r = retVal.get(lan);
                         r.setProperty1((Integer.valueOf(r.getProperty1()) + 1 ) + "");
@@ -644,14 +640,13 @@ public class CircReportContoller {
         }
 
         for (String ctl: retCtlgnos){
-            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl + PrefixConverter.endPhraseFlag, rRec);
+            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl , rRec);
             if (ep == null){
                 System.out.println("Return problem ctlgno: " + ctl);
                 continue;
             }
             if (ep.getPrefixes().get("101a") != null && ep.getPrefixes().get("101a").size() > 0){
                 for (String lan: ep.getPrefixes().get("101a")){
-                    lan = lan.replace(PrefixConverter.endPhraseFlag, "");
                     if (retVal.containsKey(lan)){
                         Report r = retVal.get(lan);
                         if(r.getProperty2() == null)
@@ -797,7 +792,6 @@ public class CircReportContoller {
                 ep -> {
                     if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                         for (String in: ep.getPrefixes().get("IN")){
-                            in = in.replace(PrefixConverter.endPhraseFlag, "");
                             if (allLendings.keySet().contains(in)){
                                 if (resultMap.containsKey(ep.getId())) {
                                     resultMap.put(ep.getId(), resultMap.get(ep.getId()) + allLendings.get(in));

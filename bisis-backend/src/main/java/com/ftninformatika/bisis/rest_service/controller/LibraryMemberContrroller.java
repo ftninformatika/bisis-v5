@@ -21,26 +21,26 @@ public class LibraryMemberContrroller {
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
 
-    @Autowired EmailController emailController;
+//    @Autowired EmailController emailController;
 
-    @RequestMapping( value = "/generate_reset", method = RequestMethod.GET)
-    public boolean generateReset(@RequestParam("email") String email) {
-        LibraryMember lm = libraryMemberRepository.findByUsername(email); //by email zapravo
-        if (lm == null) return false;
-        lm.setPasswordResetString(randomStringGenerator());
-        libraryMemberRepository.save(lm);
-        String emailBody = MessageFormat.format(Texts.getString("EMAIL_PASSWORD_RESET_TEXT_0.1"), lm.get_id(), lm.getPasswordResetString());
-        new Thread(() -> {
-                try {
-                    emailController.sendSimpleEmail("bisis_support", lm.getUsername(), Texts.getString("EMAIL_PASSWORD_RESTART_HEADING"), emailBody);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        return true;
-
-
-    }
+//    @RequestMapping( value = "/generate_reset", method = RequestMethod.GET)
+//    public boolean generateReset(@RequestParam("email") String email) {
+//        LibraryMember lm = libraryMemberRepository.findByUsername(email); //by email zapravo
+//        if (lm == null) return false;
+//        lm.setPasswordResetString(randomStringGenerator());
+//        libraryMemberRepository.save(lm);
+//        String emailBody = MessageFormat.format(Texts.getString("EMAIL_PASSWORD_RESET_TEXT_0.1"), lm.get_id(), lm.getPasswordResetString());
+//        new Thread(() -> {
+//                try {
+//                    emailController.sendSimpleEmail("bisis_support", lm.getUsername(), Texts.getString("EMAIL_PASSWORD_RESTART_HEADING"), emailBody);
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//            }).start();
+//        return true;
+//
+//
+//    }
 
     @RequestMapping( value = "/{passwordResetString}", method = RequestMethod.GET)
     public boolean getReset(@PathVariable String passwordResetString) {

@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
@@ -30,6 +29,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.util.CloseableIterator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -113,7 +115,7 @@ public class RecordsController {
 
     @RequestMapping(value = "/get_by_rn", method = RequestMethod.GET)
     public Record getRecordByRN(@RequestParam("rn") String rn){
-        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn+PrefixConverter.endPhraseFlag));
+        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn));
         List<String> ids = new ArrayList<>();
         e.forEach(
                 er -> {
@@ -145,7 +147,7 @@ public class RecordsController {
 
     @RequestMapping(value = "/unlock_by_rn", method = RequestMethod.GET)
     public boolean unlockByRN(@RequestParam(value = "rn") String rn) {
-        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn+PrefixConverter.endPhraseFlag));
+        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn));
         List<String> ids = new ArrayList<>();
         e.forEach(
                 er -> {
@@ -511,7 +513,7 @@ public class RecordsController {
 
         Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
         retVal = StreamSupport.stream(ii.spliterator(), false)
-                .map(i -> i.getId().replace(PrefixConverter.endPhraseFlag, ""))
+                .map(i -> i.getId())
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(retVal, HttpStatus.OK);
@@ -523,20 +525,20 @@ public class RecordsController {
         Result retVal = new Result();
         ArrayList<String> ids = new ArrayList<>();
         ArrayList<String> ctlgnos = new ArrayList<>();
-//        NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery());
-//        searchQuery.withQuery(ElasticUtility.makeQuery(search));
-//        searchQuery.withSort(SortBuilders.fieldSort("prefixes.AU").order(SortOrder.ASC));
-        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(search));
-        ii.forEach(
-                r -> {
-                    ids.add(r.getId());
-                    if (r.getPrefixes().get("IN") != null && r.getPrefixes().get("IN").size() > 0) {
-                        for (String s : r.getPrefixes().get("IN"))
-                            ctlgnos.add(s.replace(PrefixConverter.endPhraseFlag, ""));
-//                        ctlgnos.addAll(r.getPrefixes().get("IN"));
-                    }
-                }
-        );
+
+        Pageable pageable = PageRequest.of(0, 5000);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(ElasticUtility.makeQuery(search))
+                .withPageable(pageable)
+                .build();
+
+        CloseableIterator<ElasticPrefixEntity> streamEs = elasticsearchTemplate.stream(searchQuery, ElasticPrefixEntity.class);
+        while (streamEs.hasNext()) {
+            ElasticPrefixEntity e = streamEs.next();
+            ids.add(e.getId());
+            if (e.getPrefixes().get("IN") != null && e.getPrefixes().size() > 0)
+                ctlgnos.addAll(e.getPrefixes().get("IN"));
+        }
 
         retVal.setRecords(ids.toArray(new String[ids.size()]));
         retVal.setInvs(ctlgnos);

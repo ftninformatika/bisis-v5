@@ -1,7 +1,5 @@
 {
   "number_of_shards": 1,
   "number_of_replicas" : 1,
-  "index.mapping.total_fields.limit": 2000,
-  "sort.field": ["prefixes.IN"],
-  "sort.order": ["asc"]
+  "index.mapping.total_fields.limit": 2000
 }
