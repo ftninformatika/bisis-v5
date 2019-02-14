@@ -493,6 +493,13 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
               "Niste postavili nijedan kriterijum za pretragu!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
     }else {
       btnSearch.setEnabled(false);
+      JCheckList checkList =(JCheckList)spServerList.getViewport().getView();
+      for (int i=0; i<checkList.getModel().getSize();i++){
+        CheckableItem ci = (CheckableItem) checkList.getModel().getElementAt(i);
+        if(ci.isSelected()){
+
+        }
+      }
       JOptionPane.showMessageDialog(BisisApp.mf, "Pretraga u mrezi nije implementirana!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
     }
   }
