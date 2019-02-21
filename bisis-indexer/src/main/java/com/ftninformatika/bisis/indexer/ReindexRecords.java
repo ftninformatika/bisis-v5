@@ -18,14 +18,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @ComponentScan("com.ftninformatika")
+@EnableElasticsearchRepositories(basePackages = "com.ftninformatika")
+@EnableMongoRepositories(basePackages = "com.ftninformatika")
 public class ReindexRecords {
 
     private static Logger log = Logger.getLogger(ReindexRecords.class);
+    public static final String INDEX_SUFIX ="_library_domain";
 
     public static void main(String[] args) {
 
@@ -39,7 +45,6 @@ public class ReindexRecords {
 
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.getEnvironment().setActiveProfiles("index");
         ctx.register(LibraryPrefixProvider.class);
         ctx.register(ReindexConfigMongo.class);
         ctx.register(ReindexConfigElastic.class);
@@ -56,7 +61,7 @@ public class ReindexRecords {
             ElasticsearchTemplate elasticsearchTemplate = ctx.getBean(ElasticsearchTemplate.class);
 
             try {
-                elasticRecordsRepository.deleteAll();
+                elasticsearchTemplate.deleteIndex(lc.getLibraryName()+INDEX_SUFIX);
                 log.info("Deleted index for library: " + lc.getLibraryName());
                 elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
                 log.info("Created index for library: " + lc.getLibraryName());
@@ -82,7 +87,7 @@ public class ReindexRecords {
                     ep.add(ee);
                 }
                 
-                elasticRecordsRepository.save(ep);
+                elasticRecordsRepository.saveAll(ep);
                 count += 1000;
                 System.out.println("Processed " + count + " of " + num + " records! Library: " + lc.getLibraryName());
                 log.info("Processed " + count + " of " + num + " records! Library: " + lc.getLibraryName());
@@ -96,7 +101,7 @@ public class ReindexRecords {
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id(), prefixes);
                 ep.add(ee);
             }
-            elasticRecordsRepository.save(ep);
+            elasticRecordsRepository.saveAll(ep);
             System.out.println("Processed " + num + " of " + num + " records! Library: " + lc.getLibraryName());
             log.info("Processed " + count + " of " + num + " records! Library: " + lc.getLibraryName());
         }

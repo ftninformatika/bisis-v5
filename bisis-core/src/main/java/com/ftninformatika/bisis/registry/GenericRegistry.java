@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_registries")
+@Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_registries")
 public class GenericRegistry {
     @Id private String _id;
     //Registry coder

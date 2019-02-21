@@ -2,10 +2,14 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.LendingDateOption;
+import com.ftninformatika.utils.IterableUtils;
 import com.ftninformatika.utils.date.DateUtils;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.client.MongoCursor;
+import org.apache.commons.collections.IteratorUtils;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -103,8 +107,9 @@ public class LendingRepositoryImpl implements LendingRepositoryCustom {
 
 
         //ko munja naspram .find()
-        DBCursor cursor = mongoTemplate.getCollection(library.toLowerCase() + "_lendings")
-                .find(query.getQueryObject());
+        MongoCursor<Document> cursor = mongoTemplate.getCollection(library.toLowerCase() + "_lendings")
+                .find(query.getQueryObject()).iterator();
+
         while (cursor.hasNext()) {
             retVal.add(String.valueOf(cursor.next().get("ctlgNo")));
         }
@@ -264,11 +269,14 @@ public class LendingRepositoryImpl implements LendingRepositoryCustom {
         query.fields().include("ctlgNo");
         List lendBooks = new ArrayList();
         if (!distinct)
-            lendBooks = mongoTemplate.getCollection(library.toLowerCase() + "_lendings")
-                    .distinct("ctlgNo", query.getQueryObject());
+            lendBooks = Arrays.asList(mongoTemplate
+//                    .getCollection(library.toLowerCase() + "_lendings")
+//                    .distinct("ctlgNo", query.getQueryObject());
+                    .findDistinct(query, "ctlgNo", library.toLowerCase() + "_lendings", Lending.class)
+                    .toArray());
         else
-            lendBooks = mongoTemplate.getCollection(library.toLowerCase() + "_lendings")
-                    .find(query.getQueryObject()).toArray();
+            lendBooks = IteratorUtils.toList(mongoTemplate.getCollection(library.toLowerCase() + "_lendings")
+                    .find(query.getQueryObject()).iterator());
         retVal = lendBooks.size();
 
         return retVal;

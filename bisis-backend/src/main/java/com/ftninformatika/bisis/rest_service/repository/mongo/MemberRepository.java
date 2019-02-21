@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Member;
 import org.elasticsearch.monitor.os.OsStats;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;

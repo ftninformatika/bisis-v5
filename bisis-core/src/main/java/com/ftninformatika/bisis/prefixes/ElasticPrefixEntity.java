@@ -15,12 +15,14 @@ import java.util.Map;
 @NoArgsConstructor
 @Getter
 @Setter
-@Document(indexName = "#{libraryPrefixProvider.getLibPrefix()}_library_domain", type = "record")
+@Document(indexName = "#{@libraryPrefixProvider.getLibPrefix()}_library_domain", type = "record")
 @Mapping(mappingPath = "/mappings/mapping.json")
+@Setting(settingPath = "/settings/settings.json")
 public class ElasticPrefixEntity {
 
     @Id
     String id;
+
   /*  @Field(
             type = FieldType.String,
             index = FieldIndex.not_analyzed,

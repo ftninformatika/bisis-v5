@@ -30,7 +30,7 @@ public class RegistriesController {
     @RequestMapping( path = "delete", method = RequestMethod.POST)
     public Boolean deleteRegistryForType(@RequestBody GenericRegistry obj) {
         genericRegistryRepository.delete(obj);
-        return genericRegistryRepository.findOne(obj.get_id()) == null;
+        return genericRegistryRepository.findById(obj.get_id()).get() == null;
     }
 
     @RequestMapping( path = "", method = RequestMethod.POST)

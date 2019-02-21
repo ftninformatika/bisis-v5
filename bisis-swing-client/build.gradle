@@ -1,6 +1,3 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'application'
 
 buildscript {
@@ -12,9 +9,6 @@ buildscript {
     }
 }
 apply plugin: 'de.gliderpilot.jnlp'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 version = "5.0.0"
 

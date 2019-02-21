@@ -1,22 +1,58 @@
 {
   "record": {
     "properties": {
-      "prefixes": {
-        "properties": {
-          "DC": {
-            "type": "string",
-            "index": "not_analyzed",
-            "analyzer":"keyword",
-            "search_analyzer":"keyword"
-          },
-          "UG": {
-            "type": "string",
-            "index": "not_analyzed",
-            "analyzer":"keyword",
-            "search_analyzer":"keyword"
-          }
-        }
+        "prefixes.DC": {
+          "type": "keyword"
+        },
+        "prefixes.675a": {
+          "type": "keyword"
+        },
+        "prefixes.675u": {
+          "type": "keyword"
+        },
+        "prefixes.UG": {
+          "type": "keyword"
+        },
+      "prefixes.675b": {
+        "type": "keyword"
+      },
+        "prefixes.IN": {
+          "type": "keyword"
+        },
+      "prefixes.BN": {
+        "type": "keyword"
+      },
+      "prefixes.010a": {
+        "type": "keyword"
+      },
+      "prefixes.010z": {
+        "type": "keyword"
+      },
+      "prefixes.SN": {
+        "type": "keyword"
+      },
+      "prefixes.011a": {
+        "type": "keyword"
+      },
+      "prefixes.011z": {
+        "type": "keyword"
+      },
+      "prefixes.SP": {
+        "type": "keyword"
+      },
+      "prefixes.011e": {
+        "type": "keyword"
+      },
+      "prefixes.011c": {
+        "type": "keyword"
+      },
+      "prefixes.SY": {
+        "type": "keyword"
+      },
+      "prefixes.SZ": {
+        "type": "keyword"
       }
+
     }
   }
 }

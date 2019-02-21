@@ -17,7 +17,7 @@ public class YamlFileApplicationContextInitializer implements ApplicationContext
         try {
             Resource resource = applicationContext.getResource("classpath:applicaiton.yml");
             YamlPropertySourceLoader sourceLoader = new YamlPropertySourceLoader();
-            PropertySource<?> yamlTestProperties = yamlTestProperties = sourceLoader.load("yamlTestProperties", resource, null);
+            PropertySource<?> yamlTestProperties = yamlTestProperties = (PropertySource<?>) sourceLoader.load("yamlTestProperties", resource);
             applicationContext.getEnvironment().getPropertySources().addFirst(yamlTestProperties);
         } catch (IOException e) {
             throw new RuntimeException(e);

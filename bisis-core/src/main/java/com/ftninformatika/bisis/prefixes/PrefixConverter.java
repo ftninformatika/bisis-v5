@@ -17,14 +17,13 @@ public class PrefixConverter {
 //    }
 //    return retVal;
 //  }
-  public static String endPhraseFlag = " 0end0";
+//  public static String endPhraseFlag = " 0end0";
 
   public static Map<String, List<String>> toMap(Record rec, String stRashod) {
     HashMap<String, List<String>> retVal = new HashMap<>();
     List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
     for (PrefixValue pv: prefixes) {
-
-      String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value.toLowerCase()) + endPhraseFlag;
+      String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value.toLowerCase());
       if (retVal.containsKey(pv.prefName)){
         List list = retVal.get(pv.prefName);
         if (!list.contains(valueUnaccented)) {
@@ -36,6 +35,10 @@ public class PrefixConverter {
         retVal.put(pv.prefName, list);
       }
     }
+    if (retVal.get("IN") != null && retVal.get("IN").size() > 1) {
+      retVal.get("IN").sort(Comparator.naturalOrder());
+    }
+
     return retVal;
   }
 
@@ -279,7 +282,7 @@ public class PrefixConverter {
     }
 
 
-    static PrefixConfig prefixConfig;
+  static PrefixConfig prefixConfig;
 
   static PrefixHandler prefixHandler;
 

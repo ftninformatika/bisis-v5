@@ -38,7 +38,6 @@ public class ExpandPrefixController {
                 elasticsearchRepository.search(ElasticUtility.makeExpandQuery(prefix,text));
         for (ElasticPrefixEntity ep: ii) {
             for (String ss: ep.getPrefixes().get(prefix)) {
-                ss = ss.replace(PrefixConverter.endPhraseFlag, "");
                 if (!retVal.contains(ss) && ss.toLowerCase().startsWith(text.toLowerCase()))
                     retVal.add(ss);
             }

@@ -79,7 +79,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
 
     private LibraryMember getMememberFromToken(final Jws<Claims> tokenData){
           try{
-            return libraryMemberRepository.findOne(tokenData.getBody().get("userID").toString());
+            return libraryMemberRepository.findById(tokenData.getBody().get("userID").toString()).get();
         }catch (UsernameNotFoundException e) {
             throw new UserNotFoundException("Member "
                     + tokenData.getBody().get("username").toString() + " not found");

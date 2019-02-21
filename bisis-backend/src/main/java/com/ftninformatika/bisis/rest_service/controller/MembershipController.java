@@ -24,10 +24,10 @@ public class MembershipController {
 
     @RequestMapping( method = RequestMethod.DELETE)
     public boolean deleteMembership(@RequestBody Membership membership){
-        Membership m = membershipRepository.findOne(membership.get_id());
+        Membership m = membershipRepository.findById(membership.get_id()).get();
         if ( m == null ) return false;
-        membershipRepository.delete(membership.get_id());
-        return membershipRepository.findOne(membership.getLibrary()) == null;
+        membershipRepository.deleteById(membership.get_id());
+        return membershipRepository.findById(membership.getLibrary()).get() == null;
     }
 
 }

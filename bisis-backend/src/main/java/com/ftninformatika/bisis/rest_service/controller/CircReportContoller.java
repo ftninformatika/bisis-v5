@@ -248,7 +248,6 @@ public class CircReportContoller {
                             if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                                 ep.getPrefixes().get("IN").forEach(
                                         in -> {
-                                            in = in.replace(PrefixConverter.endPhraseFlag, "");
                                             if(entry.getValue().contains(in)){
                                                 primeraka[0] += Collections.frequency(entry.getValue(), in);
                                             }
@@ -275,7 +274,6 @@ public class CircReportContoller {
         System.out.println("End: " + new Date());
         return retVal;
     }
-
     @RequestMapping(value = "get_lend_return_udk_report")
     public Map<String, Report> getLendReturnUdkReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         Map<String, Report> retVal = new HashMap<>();
@@ -591,14 +589,13 @@ public class CircReportContoller {
 
         for (String ctl: lendCtlgnos){
 
-            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl + PrefixConverter.endPhraseFlag, lRec);
+            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl, lRec);
             if (ep == null){
                 System.out.println("Lend problem ctlgno: " + ctl);
                 continue;
             }
             if (ep.getPrefixes().get("101a") != null && ep.getPrefixes().get("101a").size() > 0){
                 for (String lan: ep.getPrefixes().get("101a")){
-                    lan = lan.replace(PrefixConverter.endPhraseFlag, "");
                     if (retVal.containsKey(lan)){
                         Report r = retVal.get(lan);
                         r.setProperty1((Integer.valueOf(r.getProperty1()) + 1 ) + "");
@@ -616,14 +613,13 @@ public class CircReportContoller {
         }
 
         for (String ctl: retCtlgnos){
-            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl + PrefixConverter.endPhraseFlag, rRec);
+            ElasticPrefixEntity ep = ElasticUtility.getEPEFromCtlgno(ctl , rRec);
             if (ep == null){
                 System.out.println("Return problem ctlgno: " + ctl);
                 continue;
             }
             if (ep.getPrefixes().get("101a") != null && ep.getPrefixes().get("101a").size() > 0){
                 for (String lan: ep.getPrefixes().get("101a")){
-                    lan = lan.replace(PrefixConverter.endPhraseFlag, "");
                     if (retVal.containsKey(lan)){
                         Report r = retVal.get(lan);
                         if(r.getProperty2() == null)
@@ -770,7 +766,6 @@ public class CircReportContoller {
                 ep -> {
                     if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
                         for (String in: ep.getPrefixes().get("IN")){
-                            in = in.replace(PrefixConverter.endPhraseFlag, "");
                             if (allLendings.keySet().contains(in)){
                                 if (resultMap.containsKey(ep.getId())) {
                                     resultMap.put(ep.getId(), resultMap.get(ep.getId()) + allLendings.get(in));
@@ -793,7 +788,7 @@ public class CircReportContoller {
         sortedResults.forEach(
                 entry -> {
                     Report r = new Report();
-                    Record rec = recordsRepository.findOne(entry.getKey());
+                    Record rec = recordsRepository.findById(entry.getKey()).get();
                     RecordPreview pr = new RecordPreview();
                     pr.init(rec);
                     r.setProperty1(pr.getTitle());

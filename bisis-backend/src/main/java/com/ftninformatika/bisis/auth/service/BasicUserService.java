@@ -27,7 +27,7 @@ public class BasicUserService implements UserService {
 
     @Override
     public LibrarianUser find(final String id) {
-        return repository.findOne(id);
+        return repository.findById(id).get();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BasicUserService implements UserService {
     public LibrarianUser update(final String id, final LibrarianUser librarianUser) {
         librarianUser.setId(id);
 
-        final LibrarianUser saved = repository.findOne(id);
+        final LibrarianUser saved = repository.findById(id).get();
 
         if (saved != null) {
             librarianUser.setCreatedAt(saved.getCreatedAt());
@@ -58,7 +58,7 @@ public class BasicUserService implements UserService {
 
     @Override
     public String delete(final String id) {
-        repository.delete(id);
+        repository.deleteById(id);
         return id;
     }
 
