@@ -215,13 +215,6 @@ public class CodersController {
     @RequestMapping(path = "warning_counter")
     public List<WarningCounter> getWarningCounters(String libName){return warncountrep.getCoders(libName);}
 
-
-    @RequestMapping(path = "warning_counter/delete")
-    public Boolean deleteWarningCounters(@RequestParam("_id") String wc_id){
-        warncountrep.delete(wc_id);
-        return  warncountrep.findOne(wc_id) == null;
-    }
-
     @RequestMapping(path = "warning_counter", method = RequestMethod.POST)
     public ArrayList<Object> insertEditWarningCounters(@RequestBody WarningCounter newWC){
 
@@ -235,7 +228,6 @@ public class CodersController {
 
         return retVal;
     }
-
 
     @RequestMapping(path = "warning_counter/delete")
     public Boolean deleteWarningCounters(@RequestParam("_id") String wc_id){

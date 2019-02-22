@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @EnableMongoRepositories("com.ftninformatika")
 @EnableElasticsearchRepositories("com.ftninformatika")
-@ComponentScan("com.ftninformatika.**")
+@ComponentScan("com.ftninformatika")
 @SpringBootApplication
 //public class Application {
 //
