@@ -1,10 +1,13 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.utils.date.DateUtils;
+import com.mongodb.client.MongoCursor;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -293,19 +296,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         qLending.addCriteria(lendingActionCr);
         qLending.fields().include("userId");
 
-        String[] signedMembersDistinct = (String[]) mongoTemplate
-                //.getCollection(library.toLowerCase() + "_members")
-                //.distinct("userId", qSigned.getQueryObject()).toArray(new String[]{});
-                .findDistinct(qSigned, "userId", library.toLowerCase() + "_members", String.class )
-                .toArray();
-        String[] lendingMembersDistinct = (String[]) mongoTemplate
-                //.getCollection(library + "_lendings")
-                //.distinct("userId", qLending.getQueryObject()).toArray(new String[]{});
-                .findDistinct(qLending, "userId", library.toLowerCase() + "_members", String.class )
-                .toArray();
+        Set<String> signedMembersDistinct =  new HashSet<Member>(mongoTemplate
+                .find(qSigned, Member.class)).stream().map(m -> m.getUserId()).collect(Collectors.toSet());
 
-        retVal.addAll(Arrays.asList(signedMembersDistinct));
-        retVal.addAll(Arrays.asList(lendingMembersDistinct));
+        Set<String> lendingMembersDistinct = mongoTemplate
+                .find(qLending, Lending.class).stream().map(l -> l.getUserId()).collect(Collectors.toSet());
+
+        retVal.addAll(signedMembersDistinct);
+        retVal.addAll(lendingMembersDistinct);
         retVal = retVal.stream().distinct().collect(Collectors.toList());
         retVal = retVal.stream().sorted().collect(Collectors.toList());
 
