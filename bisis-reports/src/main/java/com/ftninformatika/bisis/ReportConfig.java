@@ -1,36 +1,35 @@
 package com.ftninformatika.bisis;
 
-
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
  * Created by dboberic on 22/10/2017.
  */
 
-@Profile("reporting")
 @Configuration
 @EnableMongoRepositories("com.ftninformatika")
+@PropertySource("classpath:config.properties")
+public class ReportConfig extends AbstractMongoClientConfiguration {
 
-public class ReportConfig extends AbstractMongoConfiguration {
+  @Value("${spring.data.mongodb.uri}")
+  private String mongoUri;
+
+  @Value("${spring.data.mongodb.database}")
+  private String databaseName;
 
   @Override
   protected String getDatabaseName() {
-    return "bisis";
+    return databaseName;
   }
-
-//  @Override
-//  public Mongo mongo() throws Exception {
-//    MongoClient mongoClient = new MongoClient();
-//    return mongoClient;
-//  }
 
   @Override
   public MongoClient mongoClient() {
-    return null;
+    return MongoClients.create(mongoUri);
   }
 }

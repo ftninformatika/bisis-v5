@@ -8,6 +8,9 @@ war {
 }
 // gradle build pakuje war aplikaciju
 
+bootWar {
+	baseName = 'bisisWS'
+}
 
 bootJar {
 	enabled = false
