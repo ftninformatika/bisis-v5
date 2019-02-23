@@ -206,7 +206,7 @@ public class ElasticUtility {
                         retVal.mustNot(qb);
                 }
             }
-            retVal.minimumShouldMatch(1);
+//            retVal.minimumShouldMatch(1);
 
             if (sm.getDepartments() != null && sm.getDepartments().size() > 0) {
                 for (String dep : sm.getDepartments()) {
