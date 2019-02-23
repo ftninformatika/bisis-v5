@@ -225,7 +225,7 @@ public class ElasticUtility {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        System.out.println(retVal.toString());
+//        System.out.println(retVal.toString());
         return retVal;
     }
 
