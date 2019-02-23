@@ -7,22 +7,20 @@
         <@field001 field/>
         <#if val!="">
             <#assign brID=val>
+            </#if>
+            </#list>
         </#if>
-    </#list>
-</#if>
- <@signatura/>
- <@odrednica/>
- <@zaglavlje/>
- <@glavniOpis/>
- <@napomene/>
- <@prilozi/>
- <@isbn/> 
- <@brojUDC/>
- <@inventarni/>
-<#if brUDC !="" && saInventarnim>
-    <#assign lm="<BISIS>"+brID+"<BR>"+sign+"<BR>"+odred+zag+"<BR>"+opis+nap+pril+isbnBR+"<BR>"+recUtil.getPredmetneOdrednice()+"<BR>"+brUDC+"<BR><BR>"+recUtil.getRaspodelaNSCirc()+recUtil.getBrojPrimerakaSvezakaNS()+"<BR><BR>"+inv+"</BISIS>">
-<#elseif saInventarnim>
-    <#assign lm="<BISIS>"+brID+"<BR>"+sign+"<BR>"+odred+zag+"<BR>"+opis+nap+pril+isbnBR+"<BR>"+recUtil.getPredmetneOdrednice()+"<BR><BR>"+recUtil.getRaspodelaNSCirc()+recUtil.getBrojPrimerakaSvezakaNS()+"<BR><BR>"+inv+"</BISIS>">
-<#else>
-    <#assign lm="<BISIS>"+odred+zag+"<BR>"+opis+nap+pril+isbnBR+"</BISIS>">
-</#if>${lm}
+<@signatura/>
+<@odrednica/>
+<@zaglavlje/>
+<@glavniOpis/>
+<@napomene/>
+<@prilozi/>
+<@isbn/>
+<@brojUDC/>
+<@inventarni/>
+ <#if saInventarnim>
+     <#assign lm="<BISIS>"+brID+"<BR>"+sign+"<BR>"+odred+zag+"<BR>"+opis+nap+pril+isbnBR+"<BR>"+recUtil.getPredmetneOdrednice()+"<BR>"+brUDC+"<BR><BR>"+recUtil.getRaspodelaNSCirc()+recUtil.getBrojPrimerakaSvezakaNS()+"<BR><BR>"+inv+"</BISIS>">
+ <#else>
+     <#assign lm="<BISIS>"+odred+zag+"<BR>"+opis+nap+pril+isbnBR+"</BISIS>">
+     </#if>${lm}

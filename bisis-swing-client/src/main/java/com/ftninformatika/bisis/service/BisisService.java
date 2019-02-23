@@ -16,10 +16,7 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
-import com.ftninformatika.bisis.search.Result;
-import com.ftninformatika.bisis.search.SearchModel;
-import com.ftninformatika.bisis.search.SearchModelCirc;
-import com.ftninformatika.bisis.search.SearchModelMember;
+import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.utils.PathDate;
 import com.google.gson.JsonObject;
 import okhttp3.ResponseBody;
@@ -122,6 +119,9 @@ public interface BisisService {
     Call<Boolean> deleteLibraian(@Body LibrarianDTO librarian);
 
 //records---------------------------------------------------------------
+
+    @POST("records/multi_lib_search")
+    Call<Object> multiLibSearch(@Body MultiLibSearchRequest multiLibSearchRequest);
 
     @GET("records/findInvHoles")
     Call<List<Integer>> findInvHoles(@Query("invFrom") String invFrom, @Query("invTo") String invTo);

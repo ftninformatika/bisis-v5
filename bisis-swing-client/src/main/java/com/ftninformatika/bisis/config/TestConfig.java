@@ -5,10 +5,10 @@ import com.ftninformatika.bisis.librarian.Librarian;
 public class TestConfig extends AppConfig {
 
   public TestConfig(Librarian librarian, String library, String token) {
-    super("https://test.bisis.rs/bisisWS/", librarian, library, token);
+    super("http://192.168.200.46:8080/", librarian, library, token);
   }
 
   public TestConfig() {
-    this.setServerUrl("https://test.bisis.rs/bisisWS/");
+    this.setServerUrl("http://192.168.200.46:8080/");
   }
 }

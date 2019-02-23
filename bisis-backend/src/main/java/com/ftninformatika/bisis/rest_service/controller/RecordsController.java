@@ -13,10 +13,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
-import com.ftninformatika.bisis.search.Result;
-import com.ftninformatika.bisis.search.SearchModel;
-import com.ftninformatika.bisis.search.SearchModelCirc;
-import com.ftninformatika.bisis.search.UniversalSearchModel;
+import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.RecordUtils;
 import org.apache.commons.collections.IteratorUtils;
@@ -611,6 +608,11 @@ public class RecordsController {
                 }
         );
         return retVal;
+    }
+
+    @RequestMapping(value = "/multi_lib_search", method = RequestMethod.POST)
+    public Object multiLibSearch(@RequestBody MultiLibSearchRequest mlSearch) {
+        return null;
     }
 
 }

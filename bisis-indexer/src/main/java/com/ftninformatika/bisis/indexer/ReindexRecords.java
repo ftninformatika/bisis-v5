@@ -19,8 +19,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ComponentScan("com.ftninformatika")
 public class ReindexRecords {
@@ -46,9 +48,16 @@ public class ReindexRecords {
         ctx.refresh();
 
         List<LibraryConfiguration> libconfigs = ctx.getBean(LibraryConfigurationRepository.class).findAll();
+        List<String> libNames = libconfigs.stream().map(i -> i.getLibraryName()).collect(Collectors.toList());
         LibraryPrefixProvider libProvider = ctx.getBean(LibraryPrefixProvider.class);
 
+        if (args.length == 1 && libNames.contains(args[0])) {
+            log.info("Starting indexing for specific library: ");
+
+        }
+
         log.info("Starting indexing all libraries!");
+        libconfigs.sort(Comparator.comparing(LibraryConfiguration::getLibraryName));
         for (LibraryConfiguration lc : libconfigs) {
             libProvider.setPrefix(lc.getLibraryName());
             RecordsRepository recordsRepository = ctx.getBean(RecordsRepository.class);
@@ -56,7 +65,7 @@ public class ReindexRecords {
             ElasticsearchTemplate elasticsearchTemplate = ctx.getBean(ElasticsearchTemplate.class);
 
             try {
-                elasticRecordsRepository.deleteAll();
+                elasticsearchTemplate.deleteIndex(ElasticPrefixEntity.class);
                 log.info("Deleted index for library: " + lc.getLibraryName());
                 elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
                 log.info("Created index for library: " + lc.getLibraryName());

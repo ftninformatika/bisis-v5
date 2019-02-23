@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -15,7 +16,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EntityScan("com.ftninformatika")
 @SpringBootApplication
 @EnableEmailTools
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
+@ComponentScan(basePackages = {"com.ftninformatika"})
 //public class Application {
 //
 //    public static void main(String[] args) {

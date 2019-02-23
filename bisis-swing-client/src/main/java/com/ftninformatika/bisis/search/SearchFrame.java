@@ -494,10 +494,16 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     }else {
       btnSearch.setEnabled(false);
       JCheckList checkList =(JCheckList)spServerList.getViewport().getView();
+      MultiLibSearchRequest mlRequest = new MultiLibSearchRequest();
+      SearchModel searchModel = new SearchModel(btnPref1.getText(),btnPref2.getText(),btnPref3.getText(),btnPref4.getText(),btnPref5.getText(),
+                                              text1,text2,text3,text4,text5,
+                                              cbOper1.getSelectedItem().toString(),cbOper2.getSelectedItem().toString(),cbOper3.getSelectedItem().toString()
+                                              ,cbOper4.getSelectedItem().toString(),cbSort.getSelectedItem().toString(), null, null);
+      mlRequest.setSearchModel(searchModel);
       for (int i=0; i<checkList.getModel().getSize();i++){
         CheckableItem ci = (CheckableItem) checkList.getModel().getElementAt(i);
         if(ci.isSelected()){
-
+          mlRequest.getLibCodes().add(((LibraryConfiguration)ci.getObject()).getLibraryName());
         }
       }
       JOptionPane.showMessageDialog(BisisApp.mf, "Pretraga u mrezi nije implementirana!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
