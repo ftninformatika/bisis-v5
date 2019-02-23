@@ -17,13 +17,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 
 /**
  * Created by dboberic on 05/10/2017.
  */
-
 @ComponentScan("com.ftninformatika")
+@EnableMongoRepositories(basePackages = "com.ftninformatika")
 public class ReportApplication {
 
 
@@ -38,7 +39,6 @@ public class ReportApplication {
     root.setLevel(ch.qos.logback.classic.Level.INFO);
 
     AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-    ctx.getEnvironment().setActiveProfiles("reporting");
     ctx.register(LibraryPrefixProvider.class);
     ctx.register(ReportConfig.class);
     ctx.refresh();

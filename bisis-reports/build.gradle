@@ -2,6 +2,10 @@ apply plugin: 'application'
 
 version = '5.0.0'
 
+jar {
+    enabled = true
+}
+
 dependencies {
     compile project(":bisis-backend")
     compile group: 'log4j', name: 'log4j', version: '1.2.17'

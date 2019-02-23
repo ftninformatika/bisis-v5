@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "#{libraryPrefixProvider.getLibPrefix()}_registry_types")
+@Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_registry_types")
 public class RegistryCoder {
     @Id private String _id;
     private String description;

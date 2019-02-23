@@ -17,9 +17,14 @@ public class ReindexConfigMongo extends AbstractMongoClientConfiguration {
     @Value("${spring.data.mongodb.uri}")
     private String mongoUri;
 
+    @Value("${spring.data.mongodb.database}")
+    private String databaseName;
+
+
+
     @Override
     protected String getDatabaseName() {
-        return "bisis";
+        return databaseName;
     }
 
     @Override
