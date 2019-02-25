@@ -65,8 +65,10 @@ public class RecordsController {
 
     @RequestMapping(value = "/delete/{mongoID}")
     public boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
+        Record rec = recordsRepository.findById(mongoID).get();
         recordsRepository.deleteById(mongoID);
         elasticRecordsRepository.deleteById(mongoID);
+        itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
 
         return (recordsRepository.findById(mongoID).get() == null && elasticRecordsRepository.findById(mongoID).get() == null);
     }
@@ -411,7 +413,7 @@ public class RecordsController {
                 }
                 List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
                 if (deletedInvs.size() > 0)
-                    itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
+                    itemAvailabilityRepository.deleteByCtlgNoInAndRecordIDIs(deletedInvs, String.valueOf(record.getRecordID()));
 
                 //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
                 LibrarianDTO modificator = null;
