@@ -5,7 +5,7 @@ logging:
 
 spring:
   profiles:
-    active: production
+    active: developmentCluster
 
 security:
   token:
@@ -18,7 +18,7 @@ spring:
   profiles: developmentCluster
   main:
     allow-bean-definition-overriding: true
-  data.mongodb.uri: mongodb://bisis:bisis@192.168.200.46:27017,192.168.200.3:27017/?replicaSet=bisis5
+  data.mongodb.uri: mongodb://bisis:bisis@192.168.200.1:27017,192.168.200.46:27017,192.168.200.3:27017/?replicaSet=bisis5
   data.mongodb.database: bisis
   data:
     elasticsearch:
