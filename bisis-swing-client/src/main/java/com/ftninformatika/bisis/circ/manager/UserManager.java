@@ -11,6 +11,9 @@ import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
+import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
+import com.ftninformatika.utils.validators.memberdata.MemberDateError;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -40,7 +43,7 @@ public class UserManager {
     public String saveUser(User user) {
         if (user.getDirty()) {
             String memberExists;
-            log.info("Cuvanje korisnika: " + (member == null? "novi " + user.getMmbrship().getUserID() : member.getUserId()));
+
 
             try {
                 memberExists = BisisApp.bisisService.memberExist(user.getMmbrship().getUserID()).execute().body();
@@ -77,6 +80,11 @@ public class UserManager {
             if (!lendings.isEmpty()) {
                 memberData.setLendings(lendings);
                 memberData.setBooks(Cirkulacija.getApp().getRecordsManager().getListOfItems());
+            }
+
+            MemberDateError errorInDates = MemberDataDatesValidator.validateMemberDataDates(memberData);
+            if (errorInDates != MemberDateError.NO_ERROR) {
+                return Messages.getString(errorInDates.getMessageKey());
             }
 
             try {
@@ -237,11 +245,11 @@ public class UserManager {
 				if (deleteUser.isSaved()){
 					return "ok";
 				}else{
-					return deleteUser.getMessage();
+					return deleteUser.getMessageKey();
 				}
 				
 			} else {
-				return archiveUser.getMessage();
+				return archiveUser.getMessageKey();
 			}
 		} else {
 			return "Gre\u0161ka u konekciji s bazom podataka!";

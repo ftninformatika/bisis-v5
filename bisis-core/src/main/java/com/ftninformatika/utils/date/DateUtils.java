@@ -3,6 +3,7 @@
  *  ***/
 package com.ftninformatika.utils.date;
 
+import com.ftninformatika.bisis.circ.Member;
 import org.joda.time.Days;
 
 import java.text.DateFormat;
@@ -24,7 +25,7 @@ public class DateUtils {
     return df.format(date);
   }
 
-  public static Date getYearStartFromDate(Date date){
+  public static Date getYearStartFromDate(Date date) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
     int year = calendar.get(Calendar.YEAR);
@@ -55,21 +56,21 @@ public class DateUtils {
     return calendar.getTime();
   }
 
-  public static Date getNextDay(Date date){
+  public static Date getNextDay(Date date) {
     Calendar c = Calendar.getInstance();
     c.setTime(date);
     c.add(Calendar.DATE, 1);
     return c.getTime();
   }
 
-  public static Date getYesterday(Date date){
+  public static Date getYesterday(Date date) {
     Calendar c = Calendar.getInstance();
     c.setTime(date);
     c.add(Calendar.DATE, -1);
     return c.getTime();
   }
 
-  public static boolean compareDates(Date d1, Date d2){
+  public static boolean compareDates(Date d1, Date d2) {
     Calendar cal1 = Calendar.getInstance();
     Calendar cal2 = Calendar.getInstance();
     cal1.setTime(d1);
@@ -79,18 +80,32 @@ public class DateUtils {
     return sameDay;
   }
 
-  public static boolean inCircReportDateRange(Date d1, Date d2){
+  public static boolean inCircReportDateRange(Date d1, Date d2) {
     long delta = d2.getTime() - d1.getTime();
     long days = TimeUnit.DAYS.convert(delta, TimeUnit.MILLISECONDS);
     return delta > 0 && days < MAX_DATE_RANGE_DAYS;
   }
 
-  public static String getFormatedStringFromStringDate(String date){
+  public static String getFormatedStringFromStringDate(String date) {
     String retVal = "";
-    if(date.matches(DATE_REG_EX)){
-        String[] parts = date.split("-");
-        retVal = parts[2] + "." + parts[1] + "." + parts[0];
+    if (date.matches(DATE_REG_EX)) {
+      String[] parts = date.split("-");
+      retVal = parts[2] + "." + parts[1] + "." + parts[0];
     }
     return retVal;
   }
+
+  public static boolean isValidDate(Date date) {
+    if (date == null)
+      return true;
+    Calendar lowestDate = Calendar.getInstance();
+    Calendar highestDate = Calendar.getInstance();
+    lowestDate.set(1900, Calendar.JANUARY, 1);
+    highestDate.set(2200, Calendar.JANUARY, 1);
+    if (date.after(lowestDate.getTime()) && date.before(highestDate.getTime())) {
+      return true;
+    }
+    return false;
+  }
+
 }

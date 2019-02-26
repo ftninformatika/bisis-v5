@@ -275,7 +275,7 @@ public class HitListFrame extends JInternalFrame {
 
                     Obrada.editRecord(rec);
                 }/* catch (LockException e) {
-                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessageKey(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
                 }*/ catch (IOException e) {
                     JOptionPane.showMessageDialog(BisisApp.getMainFrame(), e.getMessage(), Messages.getString("HITLIST_ERROR_OCCURRED"), JOptionPane.INFORMATION_MESSAGE);
 
@@ -306,7 +306,7 @@ public class HitListFrame extends JInternalFrame {
 
                     Obrada.editInventar(rec);
                 } /*catch (LockException e) {
-							JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessage(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e.getMessageKey(),"Zaklju\u010dan zapis",JOptionPane.INFORMATION_MESSAGE);
 		                } */ catch (NullPointerException e) {
                     JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("HITLIST_PLEASE_SELECT_RECORD"), Messages.getString("MAIN_ERROR"), JOptionPane.INFORMATION_MESSAGE);
                 } catch (IOException e) {

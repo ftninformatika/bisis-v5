@@ -17,10 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,7 @@ import java.util.Map;
 public class ReindexRecords {
 
     private static Logger log = Logger.getLogger(ReindexRecords.class);
-    public static final String INDEX_SUFIX ="library_domain";
+    public static final String INDEX_SUFFIX = "library_domain";
 
     public static void main(String[] args) {
 
@@ -91,7 +88,7 @@ public class ReindexRecords {
         ElasticsearchTemplate elasticsearchTemplate = ctx.getBean(ElasticsearchTemplate.class);
 
         try {
-            elasticsearchTemplate.deleteIndex(libraryName + INDEX_SUFIX);
+            elasticsearchTemplate.deleteIndex(libraryName + INDEX_SUFFIX);
             log.info("Deleted index for library: " + libraryName);
             elasticsearchTemplate.createIndex(ElasticPrefixEntity.class);
             log.info("Created index for library: " + libraryName);
@@ -124,7 +121,7 @@ public class ReindexRecords {
                 lr = recordsRepository.findAll(p);
             }
         }
-        elasticsearchTemplate.getClient().admin().indices().prepareForceMerge(libraryName + INDEX_SUFIX).setMaxNumSegments(1).execute().actionGet();
+        elasticsearchTemplate.getClient().admin().indices().prepareForceMerge(libraryName + INDEX_SUFFIX).setMaxNumSegments(1).execute().actionGet();
     }
 
 }

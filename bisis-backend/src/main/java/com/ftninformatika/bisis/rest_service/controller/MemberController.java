@@ -10,6 +10,8 @@ import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
+import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
+import com.ftninformatika.utils.validators.memberdata.MemberDateError;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -64,6 +66,9 @@ public class MemberController {
     @RequestMapping(path = "/addUpdateMemberData", method = RequestMethod.POST)
     public MemberData addUpdateMemberData(@RequestBody MemberData memberData) {
         try {
+            if (MemberDataDatesValidator.validateMemberDataDates(memberData) != MemberDateError.NO_ERROR)
+                return null;
+
             if (memberData.getMember() != null) {
                 memberData.setMember(memberRep.save(memberData.getMember()));
             }
