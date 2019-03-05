@@ -1,0 +1,29 @@
+apply plugin: 'application'
+apply plugin: 'java'
+
+version = '5.0.0'
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    compile project(":bisis-backend")
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.8.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons-core', version: '1.4.1.RELEASE'
+
+}
+
+
+
+jar {
+    mainClassName = 'com.ftninformatika.bisis.dup_purger.DeleteDupInventory'
+    manifest {
+
+        attributes 'Implementation-Title': 'Fix duplicates app..',
+                'Implementation-Version': version,
+                'Main-Class': 'com.ftninformatika.bisis.dup_purger.DeleteDupInventory',
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+    }
+}
