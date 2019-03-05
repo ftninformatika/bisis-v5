@@ -23,6 +23,9 @@ public interface RecordsRepository extends MongoRepository<Record, String>, Reco
     @Query("{ 'primerci': { $elemMatch: { 'invBroj': ?0 } } }")
     Record getRecordByPrimerakInvNum(@Param("invNum") String invNum);
 
+    @Query("{ 'primerci': { $elemMatch: { 'invBroj': ?0 } } }")
+    List<Record> getRecordsByPrimerakInvNum(@Param("invNum") String invNum);
+
     @Query("{ 'godine.sveske': { $elemMatch: { 'invBroj': ?0 } } }")
     Record getRecordBySveskaInvNum(@Param("invNum") String invNum);
 

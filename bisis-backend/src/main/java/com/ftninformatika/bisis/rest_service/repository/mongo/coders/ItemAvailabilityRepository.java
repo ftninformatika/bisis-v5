@@ -17,6 +17,8 @@ public interface ItemAvailabilityRepository extends MongoRepository<ItemAvailabi
 
     public ItemAvailability getByCtlgNo(String ctlno);
 
+    public List<ItemAvailability> findAllByCtlgNo (String ctlgNo);
+
     public void deleteByCtlgNoIn (List<String> ctlgnos);
 
     public void deleteByCtlgNoInAndRecordIDIs (List<String> ctlgnos, String recordID);

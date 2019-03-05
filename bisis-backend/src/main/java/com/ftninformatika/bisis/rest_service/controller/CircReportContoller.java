@@ -6,7 +6,6 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
@@ -16,6 +15,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRep
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.UserCategRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.date.DateUtils;
+import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,6 +37,7 @@ public class CircReportContoller {
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired UserCategRepository userCategRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    private Logger log = Logger.getLogger(CircReportContoller.class);
 
     /**
      *
@@ -342,7 +343,18 @@ public class CircReportContoller {
 
     private void processLendReturnUdk(Report report,List<String> ctgNos, Set<String> ctlgNosSet, Map<String, Set<String>> rnMap) {
         for (String inv: ctlgNosSet) {
-            Record r = recordsRepository.getRecordByPrimerakInvNum(inv);
+            Record r = new Record();
+            try {
+                r = recordsRepository.getRecordByPrimerakInvNum(inv);
+            }
+            catch (Exception e){
+                List<Record> records = recordsRepository.getRecordsByPrimerakInvNum(inv);
+                log.info("Izvuceni zapisi: ");
+                log.info(records.toString());
+                if (records != null && records.size() >= 1)
+                    r = records.get(0);
+                e.printStackTrace();
+            }
             String rn = r.getSubfieldContent("001e");
             String udk = r.getSubfieldContent("675a");
             if (report == null || rn == null || udk == null)

@@ -29,8 +29,7 @@ public class MemberController {
     @Autowired MemberRepository memberRep;
     @Autowired LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
-    @Autowired
-    ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
     @Autowired WarningCounterRepository warningCounterRepository;
 

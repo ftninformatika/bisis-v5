@@ -18,6 +18,7 @@ import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.RecordUtils;
+import com.mongodb.client.ClientSession;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -64,13 +65,13 @@ public class RecordsController {
     }
 
     @RequestMapping(value = "/delete/{mongoID}")
-    public boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
+    public Boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
         Record rec = recordsRepository.findById(mongoID).get();
         recordsRepository.deleteById(mongoID);
-        elasticRecordsRepository.deleteById(mongoID);
         itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
-
-        return (recordsRepository.findById(mongoID).get() == null && elasticRecordsRepository.findById(mongoID).get() == null);
+//        elasticRecordsRepository.deleteById(mongoID);
+        elasticsearchTemplate.delete(ElasticPrefixEntity.class, mongoID);
+        return true;
     }
 
 
@@ -413,7 +414,7 @@ public class RecordsController {
                 }
                 List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
                 if (deletedInvs.size() > 0)
-                    itemAvailabilityRepository.deleteByCtlgNoInAndRecordIDIs(deletedInvs, String.valueOf(record.getRecordID()));
+                    itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
 
                 //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
                 LibrarianDTO modificator = null;

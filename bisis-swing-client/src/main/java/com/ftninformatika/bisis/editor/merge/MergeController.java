@@ -224,10 +224,10 @@ public class MergeController {
 
     public void executeMerge(){
         try{
-            BisisApp.getRecordManager().update(osnovni);
             for(Record rec:ostali){
                 BisisApp.getRecordManager().delete(rec.get_id());
             }
+            BisisApp.getRecordManager().update(osnovni);
         }catch(Exception e){
             JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                     Messages.getString("MERGE_RECORD_ERROR_MERGING"),
