@@ -369,8 +369,10 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       case KeyEvent.VK_ESCAPE:
         setVisible(false);
         break;
-      case KeyEvent.VK_ENTER:
-        btnSearch.doClick();
+      case KeyEvent.VK_ENTER: {
+        if (ev.getID() == KeyEvent.KEY_TYPED && ev.getModifiers() == 0)
+          btnSearch.doClick();
+      }
         break;
       case KeyEvent.VK_DOWN:
         if (tfPref == tfPref1)

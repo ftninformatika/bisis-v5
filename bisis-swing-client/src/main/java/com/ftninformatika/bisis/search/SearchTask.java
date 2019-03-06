@@ -106,9 +106,6 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	       if (connError){
 	    	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                      Messages.getString("SEARCH_CONNECTION_REFUSED_TALK_TO_ADMIN"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
-	       }else if(queryResult.getRecords() == null){
-	    	   JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-                       Messages.getString("SEARCH_NO_HITS"), Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
 	       }
 	       else if (queryResult.getResultCount() == 0){
 	        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
