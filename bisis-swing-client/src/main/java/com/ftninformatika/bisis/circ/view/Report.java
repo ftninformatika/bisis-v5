@@ -599,7 +599,7 @@ public class Report {
     }
     
     public void selectMemberHistory(String userId){
-      getCmbReport().setSelectedIndex(13);
+      getCmbReport().setSelectedIndex(14);
       getTfNumber().setText(userId);
     }
 }
