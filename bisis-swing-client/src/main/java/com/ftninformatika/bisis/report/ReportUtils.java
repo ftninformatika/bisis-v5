@@ -14,6 +14,7 @@ import java.util.*;
 
 public class ReportUtils {
 
+  public static final String INV_BOOK_BGB = "com.ftninformatika.bisis.bgb.InvKnjigaMonografske";
 
   public static GeneratedReport loadReport(Report report) {
     try {
@@ -39,17 +40,20 @@ public class ReportUtils {
    */
   public static void showReport(GeneratedReport report, Report reportSpec) {
     HashMap<String, Object> params = new HashMap<String, Object>();
+    String selectExpression = "report/item";
     try {
       if(reportSpec.getSubjasper()!=null){
     		JasperReport subreport = (JasperReport) JRLoader.loadObject(ReportUtils.class
 					.getResource(reportSpec.getSubjasper()));
     		params.put("subjasper", subreport);
     	}
+    	if (reportSpec.getClassName().equals(INV_BOOK_BGB))
+    	    selectExpression = "*";
     	params.put("library",BisisApp.appConfig.getClientConfig().getPincodeLibrary());
         params.put("period", report.getPeriod());
         params.put("title",reportSpec.getMenuitem().replace("|", " "));
         params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
-        JRXmlDataSource dataSource = new JRXmlDataSource(XMLUtils.getDocumentFromString(report.getContent()), "/report/item");
+        JRXmlDataSource dataSource = new JRXmlDataSource(XMLUtils.getDocumentFromString(report.getContent()), selectExpression);
         JasperPrint jp = JasperFillManager.fillReport(Report.class.getResource(reportSpec.getJasper()).openStream(), params, dataSource);
         BisisApp.getMainFrame().addReportFrame(report.getReportName(), jp);
     } catch (Exception ex) {
