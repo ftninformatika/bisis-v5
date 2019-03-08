@@ -57,7 +57,6 @@ export class BisisSearchComponent implements OnInit {
                     this.lib = params['lib'];
                     localStorage.setItem('libCode', params['lib']);
                     const dep = params['dep'] ? params['dep'] : undefined;
-                    console.log(dep);
                     this.selectedLibrary = params['lib'];
                     this.libHeader = this.getLibName(this.selectedLibrary);
                     this.libService.getDepartmentsForLib(this.selectedLibrary).subscribe(
@@ -78,6 +77,8 @@ export class BisisSearchComponent implements OnInit {
                                   }
                                   this.selectedDepartments[0] = selectedDepId;
                                   this.selectionChangedBranch({'value': selectedDepId});
+                              } else {
+                                  this.router.navigate(['/bisis-search']);
                               }
                           }
                       );
