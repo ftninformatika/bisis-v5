@@ -5,7 +5,7 @@ import { RecordsPageModel } from '../model/RecordsPageModel';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {MessageService} from 'primeng/components/common/messageservice';
-import {config} from '../config/config';
+import {Config} from '../config/config';
 
 @Injectable()
 export class BisisSearchService {
@@ -20,7 +20,7 @@ export class BisisSearchService {
         const headers = new Headers();
         headers.append('Library', libCode);
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(config.getEnvironmentVariable('endPoint') + 'records/opac_wrapperrec/' + recId, options)
+        return this.http.get(Config.getEnvironmentVariable('endPoint') + 'records/opac_wrapperrec/' + recId, options)
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -48,7 +48,7 @@ export class BisisSearchService {
 
         };
 
-        return this.http.post(config.getEnvironmentVariable('endPoint') + 'records/wrapperrec/opac_universal?pageNumber='
+        return this.http.post(Config.getEnvironmentVariable('endPoint') + 'records/wrapperrec/opac_universal?pageNumber='
             + page + '&pageSize=' + size, universalSearchModel , options)
             .map(response => response.json() as RecordsPageModel)
             .catch(this.handleError);
@@ -61,7 +61,7 @@ export class BisisSearchService {
         const headers = new Headers();
         headers.append('Library', localStorage.getItem('libCode'));
         const options = new RequestOptions({ headers: headers });
-            return this.http.post(config.getEnvironmentVariable('endPoint') + 'records/query/opac_full?pageNumber='
+            return this.http.post(Config.getEnvironmentVariable('endPoint') + 'records/query/opac_full?pageNumber='
                 + page + '&pageSize=' + size, searchModel, options)
               .map(response =>  response.json() as RecordsPageModel)
               .catch(this.handleError);

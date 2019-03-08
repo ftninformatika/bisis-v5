@@ -5,7 +5,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {MessageService} from "primeng/components/common/messageservice";
 import {Router} from "@angular/router";
-import {config} from "../config/config";
+import {Config} from "../config/config";
 
 @Injectable()
 export class MemberService {
@@ -20,7 +20,7 @@ export class MemberService {
         headers.append('Library', localStorage.getItem("authenticatedUserLib"));
         headers.append('Authorization', localStorage.getItem("token"))
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(config.getEnvironmentVariable('endPoint') + 'circ_report/get_lending_history_full?memberNo=' + memberNo, options)
+        return this.http.get(Config.getEnvironmentVariable('endPoint') + 'circ_report/get_lending_history_full?memberNo=' + memberNo, options)
             .map( response => response.json())
             .catch(this.handleError);
     }
@@ -30,7 +30,7 @@ export class MemberService {
         headers.append('Library', localStorage.getItem("authenticatedUserLib"));
         headers.append('Authorization', localStorage.getItem("token"))
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(config.getEnvironmentVariable('endPoint') + 'members_repository/'+id, options)
+        return this.http.get(Config.getEnvironmentVariable('endPoint') + 'members_repository/'+id, options)
             .map( response => response.json())
             .catch(this.handleError);
 

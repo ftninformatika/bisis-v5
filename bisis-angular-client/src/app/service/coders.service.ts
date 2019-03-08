@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
-import {config} from '../config/config';
+import {Config} from '../config/config';
 import {Observable} from 'rxjs/Observable';
 import {ItemStatus} from '../model/coders/ItemStatus';
 
@@ -12,7 +12,7 @@ export class CodersService {
     }
 
     getItemStatusCoders(libName: string){
-        return this.http.get(config.getEnvironmentVariable('endPoint') +  'coders/item_status?libName=' + libName)
+        return this.http.get(Config.getEnvironmentVariable('endPoint') +  'coders/item_status?libName=' + libName)
             .map(response => response.json() as ItemStatus[])
             .catch(this.handleError);
     }

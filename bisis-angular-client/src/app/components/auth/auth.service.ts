@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {config} from '../../config/config';
+import {Config} from '../../config/config';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +12,7 @@ export class AuthService {
     logIn(username: string, password: string, persist?: boolean): Observable<boolean> {
         persist = persist || false;
         return this._http.post<any>(
-            config.getEnvironmentVariable('endPoint') + '/memauth',
+            Config.getEnvironmentVariable('endPoint') + '/memauth',
             { username: username, password: password, remember: persist }
         ).map(response  => {
                 // login successful if there's a jwt token in the response

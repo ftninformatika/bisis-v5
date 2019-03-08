@@ -13,6 +13,4 @@ export class RecordsPageModel{
     sort: boolean;
     totalElements: number;
     totalPages: number;
-
-
 }

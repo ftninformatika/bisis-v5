@@ -3,7 +3,7 @@ import {Message, GrowlModule} from 'primeng/primeng';
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/components/common/messageservice";
-import {config} from "../../../config/config";
+import {Config} from "../../../config/config";
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.component.html',
@@ -36,7 +36,7 @@ export class PasswordResetComponent implements OnInit {
       }
 
 
-    this.http.get(config.getEnvironmentVariable('endPoint') + "/library_members/generate_reset?email="+email).subscribe(
+    this.http.get(Config.getEnvironmentVariable('endPoint') + "/library_members/generate_reset?email="+email).subscribe(
         response => {
             if (response.json() == true) {
                 this.messageService.add({

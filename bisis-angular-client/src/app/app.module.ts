@@ -6,7 +6,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {AppRoutes} from './app.routes';
 import 'rxjs/add/operator/toPromise';
-import { Observable, SubscribableOrPromise } from 'rxjs/Observable';
 
 import {AccordionModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
@@ -81,21 +80,12 @@ import {AppFooterComponent} from './app.footer.component';
 import {AppRightpanelComponent} from './app.rightpanel.component';
 import {AppInlineProfileComponent} from './app.profile.component';
 import {ToastModule} from 'primeng/toast';
-
 import {MessageService} from 'primeng/components/common/messageservice';
-
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import {
-    TranslateModule, TranslateLoader, MissingTranslationHandler, TranslateParser,
-    TranslateCompiler
-} from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-import { BisisSearchService } from './service/bisis-search.service';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {BisisSearchService} from './service/bisis-search.service';
 import {MemberService} from './service/member.service';
-
-import { config } from './config/config';
-
 import { LibraryService } from './service/library.service';
 import { GetCoder } from './service/get-local-data.service';
 import {AuthModule} from './components/auth/auth.module';
@@ -206,6 +196,9 @@ export function HttpLoaderFactory(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
+        // NgxsModule.forRoot([
+        //     LibraryState
+        // ]),
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     exports: [BrowserModule, HttpModule, TranslateModule],

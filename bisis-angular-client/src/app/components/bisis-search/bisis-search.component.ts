@@ -56,6 +56,8 @@ export class BisisSearchComponent implements OnInit {
                   if (response.includes(params['lib'])) {
                     this.lib = params['lib'];
                     localStorage.setItem('libCode', params['lib']);
+                    const dep = params['dep'] ? params['dep'] : undefined;
+                    console.log(dep);
                     this.selectedLibrary = params['lib'];
                     this.libHeader = this.getLibName(this.selectedLibrary);
                     this.libService.getDepartmentsForLib(this.selectedLibrary).subscribe(
@@ -65,11 +67,17 @@ export class BisisSearchComponent implements OnInit {
                               arrayify(responseDeps).forEach(
                                   d => {
                                       const labelDesc = (this.selectedLibrary === 'bgb' ) ? this.convert(d.description) : d.description;
-                                      this.departmentList.push({'label': labelDesc, 'value': d.coder_id});
+                                      this.departmentList.push({label: labelDesc, value: d.coder_id});
                                   });
                               if (this.selectedLibrary === 'bgb') {
-                                  this.selectedDepartments[0] = responseDeps[0]['coder_id'];
-                                  this.selectionChangedBranch({'value': responseDeps[0]['coder_id']});
+                                  let selectedDepId = responseDeps[0]['coder_id'];
+                                  if (arrayify(responseDeps).some(d => d.coder_id === dep)) {
+                                      selectedDepId = dep;
+                                  } else if (!arrayify(responseDeps).some(d => d.coder_id === dep) && dep !== undefined) {
+                                      this.router.navigate(['/bisis-search']);
+                                  }
+                                  this.selectedDepartments[0] = selectedDepId;
+                                  this.selectionChangedBranch({'value': selectedDepId});
                               }
                           }
                       );

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {config} from '../config/config';
+import {Config} from '../config/config';
 
 @Injectable()
 export class LibraryService {
@@ -14,7 +14,7 @@ export class LibraryService {
     }
 
     getLibs() {
-        return this.http.get(config.getEnvironmentVariable('endPoint') +  'coders/lib_configurations')
+        return this.http.get(Config.getEnvironmentVariable('endPoint') +  'coders/lib_configurations')
             .map(response => response.json().map(
                 item => item.libraryName
             ) )
@@ -22,13 +22,13 @@ export class LibraryService {
     }
 
     getDepartmentsForLib(libName) {
-        return this.http.get(config.getEnvironmentVariable('endPoint') + 'coders/location?libName=' + libName)
+        return this.http.get(Config.getEnvironmentVariable('endPoint') + 'coders/location?libName=' + libName)
             .map( response => response.json())
             .catch(this.handleError);
     }
 
     getSublocationForDepartment(libname, location) {
-        return this.http.get(config.getEnvironmentVariable('endPoint')
+        return this.http.get(Config.getEnvironmentVariable('endPoint')
             + 'coders/sublocation/get_by_location?lib=' + libname + '&loc=' + location)
             .map( response => response.json())
             .catch(this.handleError);

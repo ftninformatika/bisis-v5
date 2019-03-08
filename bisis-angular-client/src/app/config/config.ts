@@ -1,8 +1,8 @@
-export class config {
+export class Config {
 
     public static getEnvironmentVariable(value) {
-        var environment:string;
-        var data = {};
+        let environment: string;
+        let data = {};
         environment = window.location.hostname;
         switch (environment) {
             case'localhost':
