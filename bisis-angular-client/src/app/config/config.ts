@@ -15,7 +15,11 @@ export class Config {
                     endPoint: 'bisisWS/'
                 };
                 break;
-
+            case 'test.bisis.rs':
+                data = {
+                    endPoint: 'bisisWS/'
+                };
+                break;
             default:
                 data = {
                     endPoint: ''
@@ -23,6 +27,4 @@ export class Config {
         }
         return data[value];
     }
-
-
 }

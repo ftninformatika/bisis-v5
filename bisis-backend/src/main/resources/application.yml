@@ -5,7 +5,7 @@ logging:
 
 spring:
   profiles:
-    active: developmentCluster
+    active: test
 
 security:
   token:
@@ -24,6 +24,24 @@ spring:
     elasticsearch:
       cluster-name: bisis5
       cluster-nodes: 192.168.200.1:9300, 192.168.200.3:9300
+
+
+logging:
+  level:
+    com.ftninformatika: INFO
+
+---
+
+spring:
+  profiles: test
+  main:
+    allow-bean-definition-overriding: true
+  data.mongodb.uri: mongodb://localhost:27017
+  data.mongodb.database: bisis
+  data:
+    elasticsearch:
+      cluster-name: bisis5
+      cluster-nodes: localhost:9300
 
 
 logging:
