@@ -20,8 +20,6 @@ public class ReindexConfigMongo extends AbstractMongoClientConfiguration {
     @Value("${spring.data.mongodb.database}")
     private String databaseName;
 
-
-
     @Override
     protected String getDatabaseName() {
         return databaseName;
