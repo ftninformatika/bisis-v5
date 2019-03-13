@@ -18,6 +18,12 @@ import com.ftninformatika.utils.date.DateUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.util.CloseableIterator;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
@@ -37,6 +43,7 @@ public class CircReportContoller {
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired UserCategRepository userCategRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired ElasticsearchTemplate elasticsearchTemplate;
     private Logger log = Logger.getLogger(CircReportContoller.class);
 
     /**
@@ -773,23 +780,27 @@ public class CircReportContoller {
             query = QueryBuilders.termsQuery("prefixes.IN", allLendings.keySet());
         }
 
-        Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
-        ee.forEach(
-                ep -> {
-                    if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
-                        for (String in: ep.getPrefixes().get("IN")){
-                            if (allLendings.keySet().contains(in)){
-                                if (resultMap.containsKey(ep.getId())) {
-                                    resultMap.put(ep.getId(), resultMap.get(ep.getId()) + allLendings.get(in));
-                                }
-                                else {
-                                    resultMap.put(ep.getId(), allLendings.get(in));
-                                }
-                            }
+        Pageable pageable = PageRequest.of(0, 5000);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(query)
+                .withPageable(pageable)
+                .build();
+
+        CloseableIterator<ElasticPrefixEntity> streamEe = elasticsearchTemplate.stream(searchQuery, ElasticPrefixEntity.class);
+        while (streamEe.hasNext()) {
+            ElasticPrefixEntity ep = streamEe.next();
+            if (ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0) {
+                for (String in : ep.getPrefixes().get("IN")) {
+                    if (allLendings.keySet().contains(in)) {
+                        if (resultMap.containsKey(ep.getId())) {
+                            resultMap.put(ep.getId(), resultMap.get(ep.getId()) + allLendings.get(in));
+                        } else {
+                            resultMap.put(ep.getId(), allLendings.get(in));
                         }
                     }
                 }
-        );
+            }
+        }
         List<Map.Entry<String, Integer>> sortedResults  = resultMap.entrySet().stream()
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .collect(Collectors.toList());

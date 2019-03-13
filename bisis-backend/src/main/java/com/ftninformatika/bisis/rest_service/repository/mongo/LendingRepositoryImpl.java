@@ -377,7 +377,7 @@ public class LendingRepositoryImpl implements LendingRepositoryCustom {
 
 
     public List<Object> getGroupByForLendingsBetweenDate(Date start, Date end, String location, String groupByField, String countFieldName, String sortByField, String byLendReturnResume, Integer listSize) {
-        List<Object> results = null;
+        List<Object> results = new ArrayList<>();
         start = DateUtils.getStartOfDay(start);
         end = DateUtils.getEndOfDay(end);
         Criteria lendDateCriteria = Criteria.where(byLendReturnResume).gte(start).lte(end);
@@ -389,7 +389,10 @@ public class LendingRepositoryImpl implements LendingRepositoryCustom {
                 Aggregation.project(countFieldName).and(groupByField).previousOperation(),
                 Aggregation.sort(Sort.Direction.DESC, sortByField)
         );
-        results = mongoTemplate.aggregate(agg, Lending.class, Object.class).getMappedResults();
+        Iterator<Object> iterator = mongoTemplate.aggregate(agg, Lending.class, Object.class).iterator();
+        while(iterator.hasNext()) {
+            results.add(iterator.next());
+        }
 
         if (results != null && listSize != null && results.size() >= listSize)
             return results.subList(0, listSize);
