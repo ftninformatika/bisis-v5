@@ -18,6 +18,7 @@ import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.RecordUtils;
+import com.mongodb.MongoClient;
 import com.mongodb.client.ClientSession;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.log4j.Logger;
@@ -35,6 +36,7 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.util.CloseableIterator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -52,6 +54,7 @@ public class RecordsController {
     @Autowired LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired SublocationRepository sublocrep;
+    @Autowired MongoClient mongoClient;
 
     private Logger log = Logger.getLogger(MemberController.class);
 
@@ -65,13 +68,28 @@ public class RecordsController {
     }
 
     @RequestMapping(value = "/delete/{mongoID}")
+    @Transactional
     public Boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
-        Record rec = recordsRepository.findById(mongoID).get();
-        recordsRepository.deleteById(mongoID);
-        itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
-//        elasticRecordsRepository.deleteById(mongoID);
-        elasticsearchTemplate.delete(ElasticPrefixEntity.class, mongoID);
-        return true;
+        try (ClientSession session = mongoClient.startSession()) {
+            session.startTransaction();
+            try {
+                Record rec = recordsRepository.findById(mongoID).get();
+                recordsRepository.deleteById(mongoID);
+                itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
+                session.commitTransaction();
+                elasticsearchTemplate.delete(ElasticPrefixEntity.class, mongoID);
+                return true;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                session.abortTransaction();
+                return false;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -300,7 +318,6 @@ public class RecordsController {
     public Page<RecordOpacResponseWrapper> getRecordsOpacUniversalWrapper(@RequestHeader("Library") String lib,@RequestBody UniversalSearchModel universalSearchModel, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
-
         List<RecordOpacResponseWrapper> retVal = new ArrayList<>();
 
         BoolQueryBuilder query = ElasticUtility.searchUniversalQuery(universalSearchModel);
@@ -382,62 +399,72 @@ public class RecordsController {
 
     //dodavanje novog ili izmena postojeceg zapisa
     @RequestMapping(method = RequestMethod.POST)
+    @Transactional
     public ResponseEntity<Record> addOrUpdate(@RequestHeader("Library") String lib, @RequestBody Record record) {
 
-        try {
+        try (ClientSession session = mongoClient.startSession()) {
 
-            if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
-                record.setLastModifiedDate(new Date());
-                record.setCreationDate(new Date());
+            session.startTransaction();
+            try {
+                if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
+                    record.setLastModifiedDate(new Date());
+                    record.setCreationDate(new Date());
 
-                List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, new Record());
-                if (newItems.size() > 0) {
-                    List<Location> locs = locationRepository.getCoders(lib);
-                    for (ItemAvailability i : newItems) {
-                        Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
-                        i.setLibDepartment(locDesc.get().getDescription());
-                        itemAvailabilityRepository.save(i);
+                    List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, new Record());
+                    if (newItems.size() > 0) {
+                        List<Location> locs = locationRepository.getCoders(lib);
+                        for (ItemAvailability i : newItems) {
+                            Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
+                            i.setLibDepartment(locDesc.get().getDescription());
+                            itemAvailabilityRepository.save(i);
+                        }
                     }
+
+                } else {// ovo znaci da je update
+                    record.setLastModifiedDate(new Date());
+                    Record storedRec = recordsRepository.findById(record.get_id()).get();
+                    List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, storedRec); //novi primerci - pretabani u ItemAvailability
+                    if (newItems.size() > 0) {
+                        List<Location> locs = locationRepository.getCoders(lib);
+                        for (ItemAvailability i : newItems) {
+                            Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
+                            i.setLibDepartment(locDesc.get().getDescription());
+                            itemAvailabilityRepository.save(i);
+                        }
+                    }
+                    List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
+                    if (deletedInvs.size() > 0)
+                        itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
+
+                    //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
+                    LibrarianDTO modificator = null;
+                    //null ce biti iz grupnog inventarisanja, zato ova provera
+                    if (record.getInUseBy() != null)
+                        modificator = librarianRepository.findById(record.getInUseBy()).get();
+                    if (modificator != null)
+                        record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
+
                 }
 
-            } else {// ovo znaci da je update
-                record.setLastModifiedDate(new Date());
-                Record storedRec = recordsRepository.findById(record.get_id()).get();
-                List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, storedRec); //novi primerci - pretabani u ItemAvailability
-                if (newItems.size() > 0) {
-                    List<Location> locs = locationRepository.getCoders(lib);
-                    for (ItemAvailability i : newItems) {
-                        Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
-                        i.setLibDepartment(locDesc.get().getDescription());
-                        itemAvailabilityRepository.save(i);
-                    }
-                }
-                List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
-                if (deletedInvs.size() > 0)
-                    itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
 
-                //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
-                LibrarianDTO modificator = null;
-                //null ce biti iz grupnog inventarisanja, zato ova provera
-                if(record.getInUseBy() != null)
-                    modificator = librarianRepository.findById(record.getInUseBy()).get();
-                if (modificator != null)
-                    record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
-
+                record.pack();
+                //insert record in mongodb via MongoRepository
+                Record savedRecord = recordsRepository.save(record);
+                session.commitTransaction();
+                //convert record to suitable prefix-json for elasticsearch
+                Map<String, List<String>> prefixes = PrefixConverter.toMap(record, null);
+                ElasticPrefixEntity ee = new ElasticPrefixEntity();
+                ee.setId(savedRecord.get_id());
+                ee.setPrefixes(prefixes);
+                elasticRecordsRepository.save(ee);
+                elasticRecordsRepository.index(ee);
+                return new ResponseEntity<>(savedRecord, HttpStatus.OK);
             }
-
-
-            record.pack();
-            //insert record in mongodb via MongoRepository
-            Record savedRecord = recordsRepository.save(record);
-            //convert record to suitable prefix-json for elasticsearch
-            Map<String, List<String>> prefixes = PrefixConverter.toMap(record, null);
-            ElasticPrefixEntity ee = new ElasticPrefixEntity();
-            ee.setId(savedRecord.get_id().toString());
-            ee.setPrefixes(prefixes);
-            elasticRecordsRepository.save(ee);
-            elasticRecordsRepository.index(ee);
-            return new ResponseEntity<>(savedRecord, HttpStatus.OK);
+            catch (Exception e) {
+                e.printStackTrace();
+                session.abortTransaction();
+                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
 
         } catch (Exception et) {
             et.printStackTrace();

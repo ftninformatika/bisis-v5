@@ -22,8 +22,7 @@ import java.util.List;
 public class LibrarianController {
 
     @Autowired private LibrarianRepository librarianRepository;
-    @Autowired
-    private ProcessTypeRepository proctypeRep;
+    @Autowired private ProcessTypeRepository proctypeRep;
 
     @RequestMapping(value = "/getByUsername")
     public LibrarianDTO getByUsername(@RequestParam (value = "username") String username){

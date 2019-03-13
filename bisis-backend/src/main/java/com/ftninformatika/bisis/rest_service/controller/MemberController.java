@@ -12,9 +12,12 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
+import com.mongodb.MongoClient;
+import com.mongodb.client.ClientSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +35,7 @@ public class MemberController {
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
     @Autowired WarningCounterRepository warningCounterRepository;
+    @Autowired MongoClient mongoClient;
 
     @RequestMapping(path = "/memberExist", method = RequestMethod.GET)
     public String userExist(@RequestParam(value = "userId") String userId) {
@@ -63,27 +67,35 @@ public class MemberController {
     }
 
     @RequestMapping(path = "/addUpdateMemberData", method = RequestMethod.POST)
+    @Transactional
     public MemberData addUpdateMemberData(@RequestBody MemberData memberData) {
-        try {
-            if (MemberDataDatesValidator.validateMemberDataDates(memberData) != MemberDateError.NO_ERROR)
-                return null;
+        try (ClientSession session = mongoClient.startSession()) {
+            session.startTransaction();
+            try {
+                if (MemberDataDatesValidator.validateMemberDataDates(memberData) != MemberDateError.NO_ERROR)
+                    return null;
 
-            if (memberData.getMember() != null) {
-                memberData.setMember(memberRep.save(memberData.getMember()));
+                if (memberData.getMember() != null) {
+                    memberData.setMember(memberRep.save(memberData.getMember()));
+                }
+                if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
+                    lendingRepository.saveAll(memberData.getLendings());
+                    List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(memberData.getMember().getUserId());
+                    memberData.setLendings(lendings);
+                    memberData.setBooks(itemAvailabilityRepository.saveAll(memberData.getBooks()));
+                }
+                session.commitTransaction();
+                return memberData;
             }
-            if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
-                lendingRepository.saveAll(memberData.getLendings());
-                List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(memberData.getMember().getUserId());
-                memberData.setLendings(lendings);
-                memberData.setBooks(itemAvailabilityRepository.saveAll(memberData.getBooks()));
+            catch (Exception e) {
+                e.printStackTrace();
+                session.abortTransaction();
+                return null;
             }
-            return memberData;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
-
     }
 
     @RequestMapping(path = "/getMemberDataById")
@@ -167,13 +179,23 @@ public class MemberController {
     }
 
     @RequestMapping(path = "/dischargeBook")
+    @Transactional
     public Boolean dischargeBook(@RequestBody Lending lending) {
-        try {
-            Lending l = lendingRepository.save(lending);
-            ItemAvailability item = itemAvailabilityRepository.getByCtlgNo(lending.getCtlgNo());
-            item.setBorrowed(false);
-            itemAvailabilityRepository.save(item);
-            return true;
+        try (ClientSession session = mongoClient.startSession()) {
+            session.startTransaction();
+            try {
+                Lending l = lendingRepository.save(lending);
+                ItemAvailability item = itemAvailabilityRepository.getByCtlgNo(lending.getCtlgNo());
+                item.setBorrowed(false);
+                itemAvailabilityRepository.save(item);
+                session.commitTransaction();
+                return true;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                session.abortTransaction();
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -212,6 +234,7 @@ public class MemberController {
 
 
     @RequestMapping(path = "/addWarnings", method = RequestMethod.POST)
+    @Transactional
     public boolean addWarnings(@RequestBody WarningsData warningsData) {
         try {
             if (warningsData.getLendings() != null && !warningsData.getLendings().isEmpty()) {
@@ -267,30 +290,47 @@ public class MemberController {
 
 
     @RequestMapping(path = "/merge", method = RequestMethod.POST)
+    @Transactional
     public boolean merge(@RequestBody MergeData mergeData) {
-        Member mainMember = memberRep.getMemberByUserId(mergeData.getUser());
-        for (String userId : mergeData.getUserList()) {
-            if (!userId.equals(mergeData.getUser())) {
-                Member m = memberRep.getMemberByUserId(userId);
-                mainMember.getSignings().addAll(m.getSignings());
-                mainMember.getDuplicates().addAll(m.getDuplicates());
-                mainMember.getPicturebooks().addAll(m.getPicturebooks());
-                memberRep.save(mainMember);
-                memberRep.delete(m);
-            }
-            if (!userId.equals(mergeData.getUserId())) {
-                List<Lending> lendings = lendingRepository.findByUserId(userId);
-                for (Lending l : lendings) {
-                    l.setUserId(mergeData.getUserId());
-                    lendingRepository.save(l);
+        try (ClientSession session = mongoClient.startSession()) {
+
+            session.startTransaction();
+            try {
+                Member mainMember = memberRep.getMemberByUserId(mergeData.getUser());
+                for (String userId : mergeData.getUserList()) {
+                    if (!userId.equals(mergeData.getUser())) {
+                        Member m = memberRep.getMemberByUserId(userId);
+                        mainMember.getSignings().addAll(m.getSignings());
+                        mainMember.getDuplicates().addAll(m.getDuplicates());
+                        mainMember.getPicturebooks().addAll(m.getPicturebooks());
+                        memberRep.save(mainMember);
+                        memberRep.delete(m);
+                    }
+                    if (!userId.equals(mergeData.getUserId())) {
+                        List<Lending> lendings = lendingRepository.findByUserId(userId);
+                        for (Lending l : lendings) {
+                            l.setUserId(mergeData.getUserId());
+                            lendingRepository.save(l);
+                        }
+                    }
                 }
+                mainMember.setUserId(mergeData.getUserId());
+                mainMember.setInUseBy(null);
+                memberRep.save(mainMember);
+                session.commitTransaction();
+                log.info("Spojen korisnik: " + mergeData.getUser());
+                return true;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                session.abortTransaction();
+                return false;
             }
         }
-        mainMember.setUserId(mergeData.getUserId());
-        mainMember.setInUseBy(null);
-        memberRep.save(mainMember);
-        log.info("Spojen korisnik: " + mergeData.getUser());
-        return true;
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
     }
 

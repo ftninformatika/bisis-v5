@@ -22,6 +22,7 @@ public class MongoTransactionalConfiguration extends AbstractMongoConfiguration 
         return new MongoTransactionManager(dbFactory);
     }
 
+    @Bean
     @Override
     public MongoClient mongoClient() {
         MongoClientURI dbURI = new MongoClientURI(environment.getProperty("spring.data.mongodb.uri"));
