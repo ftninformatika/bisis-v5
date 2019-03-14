@@ -86,7 +86,7 @@ jnlp {
     href 'bisis5.jnlp'
     codebase 'https://app.bisis.rs/instalacija'
     signJarParams = [
-            keystore : new File(project.rootDir, "bisis-key/FTNInformatika2017.jks"),
+            keystore : new File(project.rootDir, "bisis-key/FTNInformatika2018.jks"),
             alias    : 'ftninformatika',
             storepass: 'bisis',
             tsaurl   : 'http://timestamp.digicert.com']

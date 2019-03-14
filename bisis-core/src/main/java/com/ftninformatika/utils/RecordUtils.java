@@ -31,6 +31,7 @@ public class RecordUtils {
                     ia.setBorrowed(false); //ako je tek inventarisan ne moze biti izdat???
                     ia.setRecordID(String.valueOf(freshRecord.getRecordID()));
                     ia.setLibDepartment(p.getOdeljenje());
+                    ia.setRn(freshRecord.getRN());
                     retVal.add(ia);
                 }
         }
@@ -43,6 +44,7 @@ public class RecordUtils {
                     ia.setBorrowed(false);
                     ia.setRecordID(String.valueOf(freshRecord.getRecordID()));
                     ia.setLibDepartment(p.getOdeljenje());
+                    ia.setRn(freshRecord.getRN());
                     retVal.add(ia);
                 }
         }
