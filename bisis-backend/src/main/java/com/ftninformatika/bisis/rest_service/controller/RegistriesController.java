@@ -1,10 +1,13 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-
 import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.GenericRegistryRepository;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -12,14 +15,22 @@ import java.util.List;
 public class RegistriesController {
 
 
-    @Autowired
-    GenericRegistryRepository genericRegistryRepository;
-
+    @Autowired GenericRegistryRepository genericRegistryRepository;
+    @Autowired MongoTemplate mongoTemplate;
        //---Genericki registri--
+    // TODO - refactor this later(codec or service or repository extension??) and find out why repository queries are extra slow!
     @RequestMapping( path = "{regCode}" )
-    public List<GenericRegistry> getRegistriesForType(@PathVariable("regCode") Integer regCode) {
-
-        return genericRegistryRepository.findByCode(regCode);
+    public List<GenericRegistry> getRegistriesForType(@RequestHeader("Library") String lib,
+                                                      @PathVariable("regCode") Integer regCode) {
+        List<GenericRegistry> retVal = new ArrayList<>();
+        Iterator<Document> docs = mongoTemplate.getCollection(lib + "_registries").find(new Document("code", regCode)).iterator();
+        while (docs.hasNext()) {
+            Document d = docs.next();
+            GenericRegistry g = new GenericRegistry(d.getObjectId("_id").toHexString(), d.getInteger("code")
+                    , d.getString("field1"), d.getString("field2"), d.getString("field3"));
+            retVal.add(g);
+        }
+        return retVal;
     }
 
     @RequestMapping( path = "{regCode}/count" )
