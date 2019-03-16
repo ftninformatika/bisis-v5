@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.admin.coders.CodersHelper;
+import com.ftninformatika.bisis.config.TestConfig;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.HitListFrame;
 import com.ftninformatika.bisis.hitlist.groupview.GrupniPrikazFrame;
@@ -29,8 +30,14 @@ import java.text.MessageFormat;
 public class MainFrame extends JFrame {
 
     public MainFrame() {
-        setTitle(MessageFormat.format(Messages.getString("MAIN_BISIS.0"), BisisApp.appVersion));
-        ImageIcon icon = new ImageIcon(getClass().getResource("/icons/appicon.png"));
+        String iconPath = "/icons/appicon.png";
+        String title = Messages.getString("MAIN_BISIS.0");
+        if (BisisApp.appConfig instanceof TestConfig) {
+            iconPath = "/icons/appicon_test.png";
+            title = Messages.getString("MAIN_BISIS_TEST.0");
+        }
+        setTitle(MessageFormat.format(title, BisisApp.appVersion));
+        ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
         setIconImage(icon.getImage());
         add(desktop, BorderLayout.CENTER);
         add(getStatusnaLinija(), BorderLayout.SOUTH);
