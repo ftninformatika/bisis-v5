@@ -66,8 +66,6 @@ public interface BisisService {
 
 //members---------------------------------------------------------------
 
-//    @GET("/members/getById")
-//    Call<Member> getMemberById(@Query("userId") String userId);
 
     @GET("members/memberExist")
     Call<String> memberExist(@Query("userId") String userId);
@@ -122,6 +120,9 @@ public interface BisisService {
     Call<Boolean> deleteLibraian(@Body LibrarianDTO librarian);
 
 //records---------------------------------------------------------------
+
+    @POST("records/mergeRecords")
+    Call<Boolean> mergeRecords(@Body MergeRecordsWrapper mergeRecordsWrapper);
 
     @GET("records/findInvHoles")
     Call<List<Integer>> findInvHoles(@Query("invFrom") String invFrom, @Query("invTo") String invTo);

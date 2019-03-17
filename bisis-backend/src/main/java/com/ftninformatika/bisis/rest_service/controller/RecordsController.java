@@ -59,14 +59,13 @@ public class RecordsController {
 
     private Logger log = Logger.getLogger(MemberController.class);
 
-    @PostMapping("/mergeRecord")
-    @Transactional
-    public Boolean mergeRecords(MergeRecordsWrapper mergeRecordsWrapper) {
-        if (mergeRecordsWrapper == null || mergeRecordsWrapper.getPrimaryRecord() == null
-        || mergeRecordsWrapper.getOtherRecords().size() == 0) {
-            return false;
-        }
-        return true;
+    @PostMapping("/mergeRecords")
+    public ResponseEntity<Boolean> mergeRecords(@RequestHeader("Library") String lib,
+                                                @RequestBody MergeRecordsWrapper mergeRecordsWrapper) {
+        Boolean retVal = recordsService.mergeRecords(mergeRecordsWrapper, lib);
+        if(retVal)
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
     }
 
     @GetMapping("/findInvHoles")
@@ -75,28 +74,12 @@ public class RecordsController {
     }
 
     @GetMapping("/delete/{mongoID}")
-    @Transactional
-    public Boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
-        try (ClientSession session = mongoClient.startSession()) {
-            session.startTransaction();
-            try {
-                Record rec = recordsRepository.findById(mongoID).get();
-                recordsRepository.deleteById(mongoID);
-                itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
-                session.commitTransaction();
-                elasticsearchTemplate.delete(ElasticPrefixEntity.class, mongoID);
-                return true;
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                session.abortTransaction();
-                return false;
-            }
+    public ResponseEntity<Boolean> deleteRecord(@PathVariable("mongoID") String mongoID) {
+        Boolean retVal = recordsService.deleteRecord(mongoID);
+        if (retVal) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
     }
 
 

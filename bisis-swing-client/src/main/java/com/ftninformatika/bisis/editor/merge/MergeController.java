@@ -189,14 +189,14 @@ public class MergeController {
         editorPane.setEditorKit(new HTMLEditorKit());
         String checkMergedStr = "";
         checkMergedStr +=(Messages.getString("MERGE_RECORD_HTML_BASIC_REC"));
-        checkMergedStr +=("<b>RN = "+osnovni.getRecordID()+"</b><br>");
+        checkMergedStr +=("<b>RN = "+osnovni.getRN()+"</b><br>");
         checkMergedStr +=(RecordFactory.toFullFormat(0, RecordUtils.sortFields(PrimerakSerializer.primerciUPolja(osnovni)), true));
         PrimerakSerializer.poljaUPrimerke(osnovni);
         checkMergedStr +=("\n");
         checkMergedStr +=("-----------------------------------------------------<br>");
         checkMergedStr +=(Messages.getString("MERGE_RECORD_RECS_TO_DELETE"));
         for(Record rec:ostali){
-            checkMergedStr +=("<b>RN = "+rec.getRecordID()+"</b><br>");
+            checkMergedStr +=("<b>RN = "+rec.getRN()+"</b><br>");
             checkMergedStr +=(RecordFactory.toFullFormat(0, PrimerakSerializer.primerciUPolja(rec), true));
             checkMergedStr +=("<br>-----------------------<br>");
         }
@@ -223,11 +223,17 @@ public class MergeController {
     }
 
     public void executeMerge(){
-        try{
-            for(Record rec:ostali){
-                BisisApp.getRecordManager().delete(rec.get_id());
+        MergeRecordsWrapper mergeRecordsWrapper = new MergeRecordsWrapper(osnovni, (ArrayList<Record>) ostali);
+        Boolean ret = null;
+        try {
+            try {
+                ret = BisisApp.bisisService.mergeRecords(mergeRecordsWrapper).execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                ret = false;
             }
-            BisisApp.getRecordManager().update(osnovni);
+            if (ret != null && !ret)
+                throw new Exception();
         }catch(Exception e){
             JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                     Messages.getString("MERGE_RECORD_ERROR_MERGING"),

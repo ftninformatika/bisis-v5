@@ -3,14 +3,10 @@ package com.ftninformatika.bisis.editor;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.groupinv.GroupInvFrame;
 import com.ftninformatika.bisis.editor.invholes.InvNumberHolesFrame;
-import com.ftninformatika.bisis.editor.merge.MergeRecordsFrame;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
-
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.beans.PropertyVetoException;
 
 

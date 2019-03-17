@@ -15,7 +15,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
-import com.ftninformatika.bisis.rest_service.service.interfaces.RecordsServiceIterface;
+import com.ftninformatika.bisis.rest_service.service.interfaces.RecordsServiceInterface;
 import com.ftninformatika.utils.RecordUtils;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientException;
@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class RecordsService implements RecordsServiceIterface {
+public class RecordsService implements RecordsServiceInterface {
 
 
     @Autowired RecordsRepository recordsRepository;
@@ -48,9 +48,18 @@ public class RecordsService implements RecordsServiceIterface {
     private Logger log = Logger.getLogger(RecordsService.class);
 
     @Transactional
-    boolean mergeRecords(MergeRecordsWrapper mergeRecordsWrapper) {
+    public boolean mergeRecords(MergeRecordsWrapper mergeRecordsWrapper, String lib) {
         if (mergeRecordsWrapper == null || mergeRecordsWrapper.getPrimaryRecord() == null
                 || mergeRecordsWrapper.getOtherRecords().size() == 0) {
+            return false;
+        }
+        for (Record r: mergeRecordsWrapper.getOtherRecords()) {
+            deleteRecord(r.get_id());
+        }
+        try {
+            addOrUpdateRecord(lib, mergeRecordsWrapper.getPrimaryRecord());
+        } catch (RecordNotCreatedOrUpdatedException e) {
+            e.printStackTrace();
             return false;
         }
 
@@ -124,6 +133,32 @@ public class RecordsService implements RecordsServiceIterface {
         } catch (MongoClientException et) {
             et.printStackTrace();
             throw new MongoClientException("Mongodb client session not made!");
+        }
+    }
+
+    @Transactional
+    public Boolean deleteRecord(String _id) throws IllegalArgumentException{
+        try (ClientSession session = mongoClient.startSession()) {
+            session.startTransaction();
+            try {
+                Record rec = recordsRepository.findById(_id).get();
+                recordsRepository.deleteById(_id);
+                itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
+                session.commitTransaction();
+                elasticsearchTemplate.delete(ElasticPrefixEntity.class, _id);
+                return true;
+            } catch (IllegalArgumentException ie) {
+                ie.printStackTrace();
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                session.abortTransaction();
+                return false;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
