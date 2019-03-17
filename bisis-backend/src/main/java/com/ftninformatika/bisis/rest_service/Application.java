@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 
-@EnableMongoRepositories("com.ftninformatika")
+@EnableMongoRepositories("com.ftninformatika.bisis")
 @EnableElasticsearchRepositories("com.ftninformatika")
 @ComponentScan("com.ftninformatika")
 @SpringBootApplication

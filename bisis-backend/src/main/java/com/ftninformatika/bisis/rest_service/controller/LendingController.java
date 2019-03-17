@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.circ.Lending;
-import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.LendingRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.reports;
 
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

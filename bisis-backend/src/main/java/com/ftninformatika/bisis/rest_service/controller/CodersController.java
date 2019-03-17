@@ -4,8 +4,8 @@ import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.coders.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

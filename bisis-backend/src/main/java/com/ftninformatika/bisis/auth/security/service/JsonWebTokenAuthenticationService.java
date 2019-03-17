@@ -6,7 +6,7 @@ import com.ftninformatika.bisis.auth.model.MemberAuthentication;
 import com.ftninformatika.bisis.auth.model.UserAuthentication;
 import com.ftninformatika.bisis.auth.security.constants.SecurityConstants;
 import com.ftninformatika.bisis.circ.LibraryMember;
-import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.LibraryMemberRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

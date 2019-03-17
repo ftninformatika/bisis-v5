@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.registry.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.GenericRegistryRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.GenericRegistryRepository;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

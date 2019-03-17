@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
