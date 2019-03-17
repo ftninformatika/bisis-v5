@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.LibraryConfigurationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

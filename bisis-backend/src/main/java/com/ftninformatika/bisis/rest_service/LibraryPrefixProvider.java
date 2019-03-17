@@ -10,8 +10,6 @@ public class LibraryPrefixProvider {
 
     private static final ThreadLocal<String> prefix = new ThreadLocal<String>();
 
-
-
     public String getLibPrefix(){
         return prefix.get();
     }

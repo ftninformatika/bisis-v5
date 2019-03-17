@@ -4,8 +4,8 @@ import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.coders.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,9 +44,11 @@ public class CodersController {
 
     @Autowired LanguageRepository langrep;
 
-    @Autowired MembershipRepository mbrshiprep;
+    @Autowired
+    MembershipRepository mbrshiprep;
 
-    @Autowired MembershipTypeRepository mbrtyperep;
+    @Autowired
+    MembershipTypeRepository mbrtyperep;
 
     @Autowired PlaceRepository placerep;
 
@@ -56,15 +58,18 @@ public class CodersController {
 
     @Autowired WarningCounterRepository warncountrep;
 
-    @Autowired OrganizationRepository orgrep;
+    @Autowired
+    OrganizationRepository orgrep;
 
     @Autowired ProcessTypeRepository processTypeRepository;
 
     @Autowired CircLocationRepository circLocationRepository;
 
-    @Autowired CorporateMemberRepository corporateMemberRepository;
+    @Autowired
+    CorporateMemberRepository corporateMemberRepository;
 
-    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
 
     @Autowired CounterRepository counterRepository;
 

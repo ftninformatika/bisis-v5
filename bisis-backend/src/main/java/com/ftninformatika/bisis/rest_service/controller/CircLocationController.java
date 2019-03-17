@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.circ.CircLocation;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircLocationRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.coders.CircLocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;

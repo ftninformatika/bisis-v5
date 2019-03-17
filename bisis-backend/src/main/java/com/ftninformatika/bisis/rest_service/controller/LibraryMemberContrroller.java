@@ -2,13 +2,10 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.circ.LibraryMember;
 import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
-import com.ftninformatika.bisis.rest_service.Texts;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.LibraryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.text.MessageFormat;
 import java.util.Random;
 
 /**

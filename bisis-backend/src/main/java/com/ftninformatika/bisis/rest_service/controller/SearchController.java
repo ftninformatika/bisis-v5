@@ -2,19 +2,15 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
-import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.LendingRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.MemberRepository;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;

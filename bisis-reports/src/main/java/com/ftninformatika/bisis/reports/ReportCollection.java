@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.reports;
 
 import com.ftninformatika.bisis.LibraryCoders;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.ReportsRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.log4j.Logger;

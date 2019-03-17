@@ -1,23 +1,23 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
-import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
+import com.ftninformatika.bisis.rest_service.exceptions.LockException;
+import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
+import com.ftninformatika.bisis.rest_service.exceptions.RecordNotFoundException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.LibrarianRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.coders.LocationRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.coders.SublocationRepository;
+import com.ftninformatika.bisis.rest_service.service.implementations.RecordsService;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
-import com.ftninformatika.utils.RecordUtils;
 import com.mongodb.MongoClient;
 import com.mongodb.client.ClientSession;
 import org.apache.commons.collections.IteratorUtils;
@@ -55,19 +55,26 @@ public class RecordsController {
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired SublocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
+    @Autowired RecordsService recordsService;
 
     private Logger log = Logger.getLogger(MemberController.class);
 
-    @RequestMapping(value = "/findInvHoles")
-    public List<Integer> findInvHoles(@RequestParam(value = "invFrom")String invFrom, @RequestParam(value = "invTo")String invTo) {
-        List<Integer> retVal = new ArrayList<>();
-
-        retVal = recordsRepository.findInvNumHoles(invFrom, invTo);
-
-        return retVal;
+    @PostMapping("/mergeRecord")
+    @Transactional
+    public Boolean mergeRecords(MergeRecordsWrapper mergeRecordsWrapper) {
+        if (mergeRecordsWrapper == null || mergeRecordsWrapper.getPrimaryRecord() == null
+        || mergeRecordsWrapper.getOtherRecords().size() == 0) {
+            return false;
+        }
+        return true;
     }
 
-    @RequestMapping(value = "/delete/{mongoID}")
+    @GetMapping("/findInvHoles")
+    public List<Integer> findInvHoles(@RequestParam(value = "invFrom")String invFrom, @RequestParam(value = "invTo")String invTo) {
+        return recordsRepository.findInvNumHoles(invFrom, invTo);
+    }
+
+    @GetMapping("/delete/{mongoID}")
     @Transactional
     public Boolean deleteRecord(@PathVariable("mongoID") String mongoID) {
         try (ClientSession session = mongoClient.startSession()) {
@@ -93,7 +100,7 @@ public class RecordsController {
     }
 
 
-    @RequestMapping(value = "/getRecord")
+    @GetMapping("/getRecord")
     public Record getRecordForCtlgNum(@RequestParam(value = "ctlgno") String ctlgno) {
         Record retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
         if (retVal == null)
@@ -101,7 +108,7 @@ public class RecordsController {
         return retVal;
     }
 
-    @RequestMapping(value = "/getWrapperRecord")
+    @GetMapping("/getWrapperRecord")
     public RecordResponseWrapper getWrapperRecordForCtlgNum(@RequestParam(value = "ctlgno") String ctlgno) {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
 
@@ -114,7 +121,6 @@ public class RecordsController {
 
         if (r != null) {
             retVal.setFullRecord(r);
-            //retVal.setPrefixEntity(elasticRecordsRepository.findOne(r.get_id()));
             String recId = Integer.toString(r.getRecordID());
             retVal.setListOfItems(itemAvailabilityRepository.findByRecordID(recId));
         }
@@ -123,17 +129,15 @@ public class RecordsController {
     }
 
 
-    @RequestMapping(value = "/getRecordForPrimerak")
+    @GetMapping("/getRecordForPrimerak")
     public Record getRecordForPrimerak(@RequestParam(value = "ctlgno") String ctlgno) {
         Record retVal = null;
-
         retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
-
         return retVal;
     }
 
 
-    @RequestMapping(value = "/get_and_lock", method = RequestMethod.GET)
+    @GetMapping("/get_and_lock")
     public Record getAndLock(@RequestParam(value = "recId") String recId, @RequestParam(value = "librarianId") String librarianId) {
         Record retVal = recordsRepository.findById(recId).get();
         if (retVal.getInUseBy() != null)
@@ -143,7 +147,7 @@ public class RecordsController {
         return retVal;
     }
 
-    @RequestMapping(value = "/get_by_rn", method = RequestMethod.GET)
+    @GetMapping("/get_by_rn")
     public Record getRecordByRN(@RequestParam("rn") String rn){
         Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn));
         List<String> ids = new ArrayList<>();
@@ -159,7 +163,7 @@ public class RecordsController {
     }
 
 
-    @RequestMapping(value = "/lock", method = RequestMethod.GET)
+    @GetMapping(value = "/lock")
     public String lock(@RequestParam(value = "recId") String recId, @RequestParam(value = "librarianId") String librarianId) {
         Record r = recordsRepository.findById(recId).get();
         r.setInUseBy(librarianId);
@@ -167,7 +171,7 @@ public class RecordsController {
         return "Locked record with ID: " + r.get_id();
     }
 
-    @RequestMapping(value = "/unlock", method = RequestMethod.GET)
+    @GetMapping("/unlock")
     public boolean unlock(@RequestParam(value = "recId") String recId) {
         Record r = recordsRepository.findById(recId).get();
         r.setInUseBy(null);
@@ -175,7 +179,7 @@ public class RecordsController {
         return true;
     }
 
-    @RequestMapping(value = "/unlock_by_rn", method = RequestMethod.GET)
+    @GetMapping("/unlock_by_rn")
     public boolean unlockByRN(@RequestParam(value = "rn") String rn) {
         Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn));
         List<String> ids = new ArrayList<>();
@@ -194,7 +198,7 @@ public class RecordsController {
             return false;
     }
 
-    @RequestMapping(value = "/unimarc/{recordId}", method = RequestMethod.GET)
+    @GetMapping("/unimarc/{recordId}")
     public String getRecordUnimarc(@PathVariable String recordId) {
         String retVal = "";
         try {
@@ -207,7 +211,7 @@ public class RecordsController {
         }
     }
 
-    @RequestMapping(value = "/{recordId}", method = RequestMethod.GET)
+    @GetMapping("/{recordId}")
     public Record getRecord(@PathVariable String recordId) {
         try {
             Record rec = recordsRepository.findById(recordId).get();
@@ -219,7 +223,7 @@ public class RecordsController {
         }
     }
 
-    @RequestMapping(value = "/wrapperrec/{recordId}", method = RequestMethod.GET)
+    @GetMapping("/wrapperrec/{recordId}")
     public RecordResponseWrapper getFullWrapperRecord(@RequestHeader("Library") String lib, @PathVariable String recordId) {
         RecordResponseWrapper retVal = new RecordResponseWrapper();
         try {
@@ -238,7 +242,7 @@ public class RecordsController {
         }
     }
 
-    @RequestMapping(value = "/opac_wrapperrec/{recordId}", method = RequestMethod.GET)
+    @GetMapping("/opac_wrapperrec/{recordId}")
     public RecordOpacResponseWrapper getFullOpacWrapperRecord(@RequestHeader("Library") String lib, @PathVariable String recordId) {
         RecordOpacResponseWrapper retVal = new RecordOpacResponseWrapper();
         try {
@@ -265,7 +269,7 @@ public class RecordsController {
         }
     }
 
-    @RequestMapping(value = "/ep/{recordId}", method = RequestMethod.GET)
+    @GetMapping("/ep/{recordId}")
     public ElasticPrefixEntity getRecordEP(@PathVariable String recordId) {
         try {
             ElasticPrefixEntity rec = elasticRecordsRepository.findById(recordId).get();
@@ -277,7 +281,7 @@ public class RecordsController {
         }
     }
 
-    @RequestMapping(value = "/wrapperrec/universal", method = RequestMethod.POST)
+    @PostMapping("/wrapperrec/universal")
     public Page<RecordResponseWrapper> getRecordsUniversalWrapper(@RequestBody UniversalSearchModel universalSearchModel, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
@@ -314,7 +318,7 @@ public class RecordsController {
         return rr;
     }
 
-    @RequestMapping(value = "/wrapperrec/opac_universal", method = RequestMethod.POST)
+    @PostMapping("/wrapperrec/opac_universal")
     public Page<RecordOpacResponseWrapper> getRecordsOpacUniversalWrapper(@RequestHeader("Library") String lib,@RequestBody UniversalSearchModel universalSearchModel, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
@@ -359,7 +363,7 @@ public class RecordsController {
     }
 
 
-    @RequestMapping(value = "/wrapperrec/universal/page/{text}", method = RequestMethod.GET)
+    @GetMapping("/wrapperrec/universal/page/{text}")
     public Page<ElasticPrefixEntity> getRecordsUniversalPages(@PathVariable String text) {
         List<RecordResponseWrapper> retVal = new ArrayList<>();
         SimpleQueryStringBuilder query = QueryBuilders.simpleQueryStringQuery(text);
@@ -367,112 +371,37 @@ public class RecordsController {
         Pageable p = new PageRequest(page, 100);
         Page<ElasticPrefixEntity> iRecs = elasticRecordsRepository.search(query, p);
 
-
         return iRecs;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Page<Record> getRecords() {
-
-
-        long ukupno = recordsRepository.count();
-        PageRequest p = new PageRequest(1, 5);
-        Page<Record> recordPage = recordsRepository.findAll(p);
-
-        if (recordPage == null)
-            throw new NullPointerException("Nema zapisa!");
-        return recordPage;
-
-    }
-
-    @RequestMapping(value = "/ep", method = RequestMethod.GET)
+    @GetMapping("/ep")
     public List<ElasticPrefixEntity> getRecordsEP() {
         Iterable<ElasticPrefixEntity> s = elasticRecordsRepository.findAll();
         return IteratorUtils.toList(s.iterator());
     }
 
-    @RequestMapping(value = "/checkInv/{invNum}")
+    @GetMapping("/checkInv/{invNum}")
     public Boolean checkInv(@PathVariable("invNum") String invNum) {
         Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(ElasticUtility.idExistsQuery(invNum));
         return IteratorUtils.toList(e.iterator()).size() != 0;
     }
 
-    //dodavanje novog ili izmena postojeceg zapisa
-    @RequestMapping(method = RequestMethod.POST)
-    @Transactional
+    @PostMapping
     public ResponseEntity<Record> addOrUpdate(@RequestHeader("Library") String lib, @RequestBody Record record) {
-
-        try (ClientSession session = mongoClient.startSession()) {
-
-            session.startTransaction();
-            try {
-                if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
-                    record.setLastModifiedDate(new Date());
-                    record.setCreationDate(new Date());
-
-                    List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, new Record());
-                    if (newItems.size() > 0) {
-                        List<Location> locs = locationRepository.getCoders(lib);
-                        for (ItemAvailability i : newItems) {
-                            Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
-                            i.setLibDepartment(locDesc.get().getDescription());
-                            itemAvailabilityRepository.save(i);
-                        }
-                    }
-
-                } else {// ovo znaci da je update
-                    record.setLastModifiedDate(new Date());
-                    Record storedRec = recordsRepository.findById(record.get_id()).get();
-                    List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, storedRec); //novi primerci - pretabani u ItemAvailability
-                    if (newItems.size() > 0) {
-                        List<Location> locs = locationRepository.getCoders(lib);
-                        for (ItemAvailability i : newItems) {
-                            Optional<Location> locDesc = locs.stream().filter(l -> l.getCoder_id().equals(i.getLibDepartment())).findFirst();
-                            i.setLibDepartment(locDesc.get().getDescription());
-                            itemAvailabilityRepository.save(i);
-                        }
-                    }
-                    List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
-                    if (deletedInvs.size() > 0)
-                        itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
-
-                    //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
-                    LibrarianDTO modificator = null;
-                    //null ce biti iz grupnog inventarisanja, zato ova provera
-                    if (record.getInUseBy() != null)
-                        modificator = librarianRepository.findById(record.getInUseBy()).get();
-                    if (modificator != null)
-                        record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
-
-                }
-
-
-                record.pack();
-                //insert record in mongodb via MongoRepository
-                Record savedRecord = recordsRepository.save(record);
-                session.commitTransaction();
-                //convert record to suitable prefix-json for elasticsearch
-                Map<String, List<String>> prefixes = PrefixConverter.toMap(record, null);
-                ElasticPrefixEntity ee = new ElasticPrefixEntity();
-                ee.setId(savedRecord.get_id());
-                ee.setPrefixes(prefixes);
-                elasticRecordsRepository.save(ee);
-                elasticRecordsRepository.index(ee);
-                return new ResponseEntity<>(savedRecord, HttpStatus.OK);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                session.abortTransaction();
-                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-            }
-
-        } catch (Exception et) {
-            et.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        Record retVal = null;
+        try {
+            retVal = recordsService.addOrUpdateRecord(lib, record);
+            return new ResponseEntity<>(retVal, HttpStatus.OK);
+        } catch (RecordNotCreatedOrUpdatedException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(retVal, HttpStatus.NOT_MODIFIED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(retVal, HttpStatus.NOT_MODIFIED);
         }
     }
 
-    @RequestMapping(value = "/query", method = RequestMethod.POST)
+    @PostMapping("/query")
     public ResponseEntity<List<Record>> search(@RequestBody SearchModel search, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
         ArrayList<Record> retVal = new ArrayList<>();
@@ -483,7 +412,7 @@ public class RecordsController {
         return new ResponseEntity<List<Record>>(retVal, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/query/full", method = RequestMethod.POST)
+    @PostMapping("/query/full")
     public Page<RecordResponseWrapper> searchFull(@RequestBody SearchModel search, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
         ArrayList<RecordResponseWrapper> retVal = new ArrayList<>();
@@ -511,7 +440,7 @@ public class RecordsController {
         return new PageImpl<RecordResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
-    @RequestMapping(value = "/query/opac_full", method = RequestMethod.POST)
+    @PostMapping(value = "/query/opac_full")
     public Page<RecordOpacResponseWrapper> searchFull(@RequestHeader("Library") String lib, @RequestBody SearchModel search, @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
         ArrayList<RecordOpacResponseWrapper> retVal = new ArrayList<>();
@@ -546,7 +475,7 @@ public class RecordsController {
         return new PageImpl<RecordOpacResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
-    @RequestMapping(value = "/search_ids", method = RequestMethod.POST)
+    @PostMapping("/search_ids")
     public ResponseEntity<List<String>> searchIds(@RequestBody SearchModel search) {
         List<String> retVal = null;
 
@@ -559,7 +488,7 @@ public class RecordsController {
 
     }
 
-    @RequestMapping(value = "/search_ids_result", method = RequestMethod.POST)
+    @PostMapping(value = "/search_ids_result")
     public ResponseEntity<Result> searchIdsResult(@RequestBody SearchModel search) {
         Result retVal = new Result();
         ArrayList<String> ids = new ArrayList<>();
@@ -585,7 +514,7 @@ public class RecordsController {
 
     }
 
-    @RequestMapping(value = "/search_ids_circ", method = RequestMethod.POST)
+    @PostMapping("/search_ids_circ")
     public ResponseEntity<List<String>> searchIdsCirc(@RequestBody SearchModelCirc search) {
         List<String> retVal = null;
 
@@ -598,12 +527,12 @@ public class RecordsController {
 
     }
 
-    @RequestMapping(value = "/search_records_ep_format", method = RequestMethod.POST)
+    @PostMapping("/search_records_ep_format")
     public ResponseEntity<List<ElasticPrefixEntity>> searchRecordsElasticPrefixFormat(@RequestBody SearchModel search) {
         return null;
     }
 
-    @RequestMapping(value = "/lockByRedactor/{recId}", method = RequestMethod.GET)
+    @PostMapping("/lockByRedactor/{recId}")
     public Boolean lockByRedactor(@PathVariable("recId") String recId) {
         Record r = recordsRepository.findById(recId).get();
         r.setLockedByRedactor(true);
@@ -611,7 +540,7 @@ public class RecordsController {
         return r.isLockedByRedactor();
     }
 
-    @RequestMapping(value = "/unlockByRedactor/{recId}", method = RequestMethod.GET)
+    @PostMapping("/unlockByRedactor/{recId}")
     public Boolean unlockByRedactor(@PathVariable("recId") String recId) {
         Record r = recordsRepository.findById(recId).get();
         r.setLockedByRedactor(false);
@@ -619,7 +548,7 @@ public class RecordsController {
         return r.isLockedByRedactor();
     }
 
-    @RequestMapping(value = "/multiple_ids", method = RequestMethod.POST)
+    @PostMapping("/multiple_ids")
     public ResponseEntity<List<Record>> getMultipleRecordsByIds(@RequestBody List<String> ids) {
         List<Record> retVal = (List<Record>) recordsRepository.findAllById(ids);
         retVal.sort(Comparator.comparingDouble(r -> ids.indexOf(r.get_id())));
@@ -629,7 +558,7 @@ public class RecordsController {
             return new ResponseEntity<>(retVal, HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/multiple_ids_wrapper", method = RequestMethod.POST)
+    @PostMapping("/multiple_ids_wrapper")
     public List<RecordResponseWrapper> getRecordsAllDataByIds(@RequestBody List<String> idList) {
         List<RecordResponseWrapper> retVal = new ArrayList<>();
         Iterable<Record> recs = recordsRepository.findAllById(idList);

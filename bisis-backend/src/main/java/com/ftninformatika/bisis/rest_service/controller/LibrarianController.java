@@ -1,11 +1,10 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.model.Authority;
-import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ProcessTypeRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.LibrarianRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.coders.ProcessTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

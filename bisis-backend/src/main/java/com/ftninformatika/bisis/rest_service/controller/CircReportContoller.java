@@ -9,10 +9,10 @@ import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.UserCategRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.coders.LocationRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.interfaces.coders.UserCategRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.date.DateUtils;
 import org.apache.log4j.Logger;
@@ -34,12 +34,17 @@ import java.util.stream.Collectors;
 @RequestMapping("/circ_report")
 public class CircReportContoller {
 
-    @Autowired MemberRepository memberRepository;
-    @Autowired LendingRepository lendingRepository;
-    @Autowired RecordsRepository recordsRepository;
-    @Autowired CorporateMemberRepository corporateMemberRepository;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    LendingRepository lendingRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
+    @Autowired
+    CorporateMemberRepository corporateMemberRepository;
     @Autowired LocationRepository locationRepository;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired UserCategRepository userCategRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
