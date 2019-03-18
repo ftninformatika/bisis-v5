@@ -34,7 +34,6 @@ import java.util.Optional;
 @Service
 public class RecordsService implements RecordsServiceInterface {
 
-
     @Autowired RecordsRepository recordsRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
@@ -43,7 +42,6 @@ public class RecordsService implements RecordsServiceInterface {
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired SublocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
-
 
     private Logger log = Logger.getLogger(RecordsService.class);
 
@@ -112,7 +110,6 @@ public class RecordsService implements RecordsServiceInterface {
 
                 }
                 record.pack();
-                //insert record in mongodb via MongoRepository
                 Record savedRecord = recordsRepository.save(record);
                 session.commitTransaction();
                 //convert record to suitable prefix-json for elasticsearch
@@ -149,6 +146,7 @@ public class RecordsService implements RecordsServiceInterface {
                 return true;
             } catch (IllegalArgumentException ie) {
                 ie.printStackTrace();
+                session.abortTransaction();
                 return false;
             } catch (Exception e) {
                 e.printStackTrace();

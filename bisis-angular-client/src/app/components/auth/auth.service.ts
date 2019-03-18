@@ -1,18 +1,22 @@
-import { Injectable, Injector } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Config} from '../../config/config';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ApiConfig } from '../../config/api.config';
 
 @Injectable()
 export class AuthService {
     private _currentUser: any;
     private _adminAccess: boolean;
-    constructor( private _http: HttpClient) {}
+    private readonly _httpClient: HttpClient;
+
+    constructor( private httpClient: HttpClient) {
+        this._httpClient = httpClient;
+    }
 
     logIn(username: string, password: string, persist?: boolean): Observable<boolean> {
         persist = persist || false;
-        return this._http.post<any>(
-            Config.getEnvironmentVariable('endPoint') + '/memauth',
+        return this._httpClient.post<any>(
+            ApiConfig.origin + '/memauth',
             { username: username, password: password, remember: persist }
         ).map(response  => {
                 // login successful if there's a jwt token in the response

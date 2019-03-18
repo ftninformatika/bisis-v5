@@ -1,36 +1,41 @@
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Response, RequestOptions, Headers } from '@angular/http';
+import { MessageService } from 'primeng/components/common/messageservice';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { RecordsPageModel } from '../model/RecordsPageModel';
+import { ApiConfig } from '../config/api.config';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {MessageService} from 'primeng/components/common/messageservice';
-import {Config} from '../config/config';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class BisisSearchService {
 
+    private readonly _httpClient: HttpClient;
+    private readonly _messageService: MessageService;
 
-
-    constructor(public http: Http, public messageService: MessageService) {
-
+    constructor(httpClient: HttpClient, messageService: MessageService) {
+        this._httpClient = httpClient;
+        this._messageService = messageService;
     }
 
-    getRecord(recId, libCode) {
-        const headers = new Headers();
-        headers.append('Library', libCode);
-        const options = new RequestOptions({ headers: headers });
-        return this.http.get(Config.getEnvironmentVariable('endPoint') + 'records/opac_wrapperrec/' + recId, options)
-            .map(response => response.json())
+    public getRecord(recId, libCode) {
+        const httpOptions = {
+            headers: new HttpHeaders({'Library': libCode})
+        };
+        return this._httpClient.get(ApiConfig.Origin + 'records/opac_wrapperrec/' + recId, httpOptions)
+            .map((response: any) => response)
             .catch(this.handleError);
     }
 
 
-    searchUniversal(choice: string, text: string, departments: string[], branches: string[], page = 0, size = 1000) {
+    public searchUniversal(choice: string, text: string,
+                           departments: string[], branches: string[],
+                           page = 0, size = 1000): Observable<RecordsPageModel> {
         if (localStorage.getItem('libCode') === undefined ||
             localStorage.getItem('libCode') == null || localStorage.getItem('libCode') === '') {
-            this.messageService.clear();
-            this.messageService.add({
+            this._messageService.clear();
+            this._messageService.add({
                 severity: 'error',
                 summary: 'Грешка',
                 detail: 'Одаберите библиотеку!'
@@ -38,9 +43,10 @@ export class BisisSearchService {
             return;
         }
 
-        const headers = new Headers();
-        headers.append('Library', localStorage.getItem('libCode'));
-        const options = new RequestOptions({ headers: headers });
+        // TODO - all this shit goes to interceptor
+        const httpOptions = {
+          headers: new HttpHeaders({'Library': localStorage.getItem('libCode')})};
+        // TODO - make models for everything that makes sense
         const universalSearchModel = {
             'searchText': text,
             'departments': departments,
@@ -48,23 +54,18 @@ export class BisisSearchService {
 
         };
 
-        return this.http.post(Config.getEnvironmentVariable('endPoint') + 'records/wrapperrec/opac_universal?pageNumber='
-            + page + '&pageSize=' + size, universalSearchModel , options)
-            .map(response => response.json() as RecordsPageModel)
-            .catch(this.handleError);
-
+        return this._httpClient.post(ApiConfig.Origin + 'records/wrapperrec/opac_universal?pageNumber='
+            + page + '&pageSize=' + size, universalSearchModel , httpOptions) as Observable<RecordsPageModel>;
     }
 
 
 
-    searchRecordsAdvanced(searchModel, page = 0, size = 1000): Observable<RecordsPageModel> {
-        const headers = new Headers();
-        headers.append('Library', localStorage.getItem('libCode'));
-        const options = new RequestOptions({ headers: headers });
-            return this.http.post(Config.getEnvironmentVariable('endPoint') + 'records/query/opac_full?pageNumber='
-                + page + '&pageSize=' + size, searchModel, options)
-              .map(response =>  response.json() as RecordsPageModel)
-              .catch(this.handleError);
+    public searchRecordsAdvanced(searchModel, page = 0, size = 1000): Observable<RecordsPageModel> {
+        const httpOptions = {headers: new HttpHeaders({'Library': localStorage.getItem('libCode')})};
+        return this._httpClient.post(ApiConfig.Origin + 'records/query/opac_full?pageNumber='
+            + page + '&pageSize=' + size, searchModel, httpOptions)
+          .map((response: RecordsPageModel) =>  response as RecordsPageModel)
+          .catch(this.handleError);
     }
 
 

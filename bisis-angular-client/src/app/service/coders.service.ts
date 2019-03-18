@@ -1,32 +1,19 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Config} from '../config/config';
-import {Observable} from 'rxjs/Observable';
-import {ItemStatus} from '../model/coders/ItemStatus';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { ItemStatus } from '../model/coders/ItemStatus';
+import { ApiConfig } from '../config/api.config';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class CodersService {
 
-    constructor(public http: Http) {
+    private readonly _httpClient: HttpClient;
 
+    constructor(httpClient: HttpClient) {
+        this._httpClient = httpClient;
     }
 
-    getItemStatusCoders(libName: string){
-        return this.http.get(Config.getEnvironmentVariable('endPoint') +  'coders/item_status?libName=' + libName)
-            .map(response => response.json() as ItemStatus[])
-            .catch(this.handleError);
-    }
-
-    private handleError (error: Response | any) {
-        let errMsg: string;
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return Observable.throw(errMsg);
+    public getItemStatusCoders(libName: string): Observable<ItemStatus[]> {
+        return this._httpClient.get(ApiConfig.Origin +  'coders/item_status?libName=' + libName) as Observable<ItemStatus[]>;
     }
 }

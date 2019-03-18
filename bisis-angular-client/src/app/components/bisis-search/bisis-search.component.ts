@@ -103,7 +103,7 @@ export class BisisSearchComponent implements OnInit {
 
   selectionChangedBranch(event) {
       this.branchesList = [];
-      this.libService.getSublocationForDepartment(this.selectedLibrary, event['value']).subscribe(
+      this.libService.getSublocationsForDepartment(this.selectedLibrary, event['value']).subscribe(
         response => {
             arrayify(response).forEach(
                 d => {

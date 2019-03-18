@@ -1,36 +1,38 @@
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { ApiConfig } from '../config/api.config';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {Config} from '../config/config';
 
 @Injectable()
 export class LibraryService {
 
+    private readonly _httpClient: HttpClient;
 
-    constructor(public http: Http) {
-
+    constructor(httpClient: HttpClient) {
+        this._httpClient = httpClient;
     }
 
-    getLibs() {
-        return this.http.get(Config.getEnvironmentVariable('endPoint') +  'coders/lib_configurations')
-            .map(response => response.json().map(
+    getLibs(): Observable<any> {
+        return this._httpClient.get(ApiConfig.Origin +  'coders/lib_configurations')
+            .map((response: any) => response.map(
                 item => item.libraryName
             ) )
             .catch(this.handleError);
     }
 
     getDepartmentsForLib(libName) {
-        return this.http.get(Config.getEnvironmentVariable('endPoint') + 'coders/location?libName=' + libName)
-            .map( response => response.json())
+        return this._httpClient.get(ApiConfig.Origin + 'coders/location?libName=' + libName)
+            .map( (response: any) => response)
             .catch(this.handleError);
     }
 
-    getSublocationForDepartment(libname, location) {
-        return this.http.get(Config.getEnvironmentVariable('endPoint')
-            + 'coders/sublocation/get_by_location?lib=' + libname + '&loc=' + location)
-            .map( response => response.json())
+    getSublocationsForDepartment(libName, location) {
+        return this._httpClient.get(ApiConfig.Origin
+            + 'coders/sublocation/get_by_location?lib=' + libName + '&loc=' + location)
+            .map( (response: any) => response)
             .catch(this.handleError);
     }
 

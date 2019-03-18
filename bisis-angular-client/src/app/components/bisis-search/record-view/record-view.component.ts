@@ -6,19 +6,18 @@ import {BisisSearchService} from '../../../service/bisis-search.service';
 import {CodersService} from '../../../service/coders.service';
 import {PresentItemGenerator} from '../../../tools/PresentItemGenerator';
 import {PresentItem} from '../../../model/PresentItem';
-import {setUpControl} from '@angular/forms/src/directives/shared';
+
 @Component({
   selector: 'app-record-view',
   templateUrl: './record-view.component.html',
   styleUrls: ['./record-view.component.css']
 })
-export class RecordViewComponent implements OnInit{
+export class RecordViewComponent implements OnInit {
 
   @Input() selectedRec: any;
   viewTypes: SelectItem[];
   selectedViewType: string;
   unimarcRows: any[];
-  unimarcRows2: any[];
   isPage: boolean;
   presentItems: PresentItem[];
 
@@ -51,7 +50,6 @@ export class RecordViewComponent implements OnInit{
                         this.codersService.getItemStatusCoders(this.getLibCode()).subscribe(
                             response2 => {
                                 // generisi prikazne elemente
-                                console.log(response2);
                                this.presentItems = this.presentItemGenerator.generatePresentItemsList(response['fullRecord'],
                                    response2, response['listOfItems'] );
                             }
@@ -81,12 +79,11 @@ export class RecordViewComponent implements OnInit{
 
   makeUnimarc(record: any) {
     if (!record) {
-      // console.log('something went wrong');
       return;
     }
 
 
-    const retVal = new Array();
+    const retVal = [];
 
     record.fields.forEach(element => {
       const el = {} ;
@@ -145,12 +142,10 @@ export class RecordViewComponent implements OnInit{
         });
 
       });
-       // console.log(el);
        retVal.push(el);
 
     });
     this.unimarcRows = retVal;
-    // console.log(this.unimarcRows);
   }
 
 }

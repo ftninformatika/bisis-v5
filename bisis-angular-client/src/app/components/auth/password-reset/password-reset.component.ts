@@ -1,9 +1,8 @@
 import {Component,  OnInit} from '@angular/core';
-import {Message, GrowlModule} from 'primeng/primeng';
-import {Http} from "@angular/http";
-import {Router} from "@angular/router";
-import {MessageService} from "primeng/components/common/messageservice";
-import {Config} from "../../../config/config";
+import { Message, GrowlModule, MessageService } from 'primeng/primeng';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { ApiConfig } from '../../../config/api.config';
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.component.html',
@@ -12,22 +11,26 @@ import {Config} from "../../../config/config";
 export class PasswordResetComponent implements OnInit {
 
   msgs: Message[];
+  private readonly _httpClient: HttpClient;
+  private readonly _messageService: MessageService;
+  private readonly _router: Router;
 
-  constructor( public http: Http,public router: Router,private messageService: MessageService) {
-
+  constructor(httpClient: HttpClient, router: Router, messageService: MessageService) {
+      this._httpClient = httpClient;
+      this._messageService = messageService;
+      this._router = router;
   }
 
   ngOnInit() {
     this.msgs = [];
   }
 
-  requestPasswordReset(email){
+  requestPasswordReset(email) {
 
-      this.messageService.clear();
+      this._messageService.clear();
 
-      if (this.validateEmail(email) == false){
-
-          this.messageService.add({
+      if (this.validateEmail(email) === false) {
+          this._messageService.add({
               severity: 'error',
               summary: 'Упозорење',
               detail: 'Унесите исправну email адресу.'
@@ -36,19 +39,18 @@ export class PasswordResetComponent implements OnInit {
       }
 
 
-    this.http.get(Config.getEnvironmentVariable('endPoint') + "/library_members/generate_reset?email="+email).subscribe(
-        response => {
-            if (response.json() == true) {
-                this.messageService.add({
+    this._httpClient.get(ApiConfig.origin + '/library_members/generate_reset?email=' + email).subscribe(
+        (response: any) => {
+            if (response.json() === true) {
+                this._messageService.add({
                     severity: 'info',
                     summary: 'Обавештење',
                     detail: 'Линк за рестарт лозинке ће вам ускоро бити послат на вашу адресу!'
                 });
-                this.router.navigate(['/']);
+                this._router.navigate(['/']);
 
-            }
-            else {
-                this.messageService.add({
+            } else {
+                this._messageService.add({
                     severity: 'error',
                     summary: 'Упозорење',
                     detail: 'Унета адреса не постоји као регистрована у нашем систему. Молимо вас покушајте поново.'
@@ -60,7 +62,7 @@ export class PasswordResetComponent implements OnInit {
 
 
     validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     }
 }

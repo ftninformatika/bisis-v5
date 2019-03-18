@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../headers';
-import {MessageService} from "primeng/components/common/messageservice";
-import {Config} from "../../../config/config";
+import { MessageService } from 'primeng/api';
+import { ApiConfig } from '../../../config/api.config';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     const body = JSON.stringify({ username, password });
     this.messageService.clear();
-    this.http.post(Config.getEnvironmentVariable('endPoint') + '/memauth', body, { headers: contentHeaders })
+    this.http.post(ApiConfig.origin + '/memauth', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.clear();
@@ -53,8 +53,8 @@ export class LoginComponent implements OnInit {
       localStorage.clear();
   }
 
-  forgotPass(){
-      this.router.navigate(['/forgot-pass'])
+  forgotPass() {
+      this.router.navigate(['/forgot-pass']);
   }
 
   ngOnInit() {
