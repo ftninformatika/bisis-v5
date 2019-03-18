@@ -1,7 +1,7 @@
-import {ItemStatus} from '../model/coders/ItemStatus';
-import {ItemAvailability} from '../model/ItemAvailability';
-import {Injectable} from '@angular/core';
-import {PresentItem} from '../model/PresentItem';
+import { ItemStatus } from '../model/coders/ItemStatus';
+import { ItemAvailability } from '../model/ItemAvailability';
+import { Injectable } from '@angular/core';
+import { PresentItem } from '../model/PresentItem';
 
 @Injectable()
 export class PresentItemGenerator {
@@ -50,19 +50,15 @@ export class PresentItemGenerator {
                 });
             }
         }
-        // console.log(retVal);
         return retVal;
     }
 
     public generatePresentItemsList(record: any, statuses: ItemStatus[], itemAvailabilities: ItemAvailability[]): PresentItem[] {
         const lendables = this.getLenablesIds(statuses);
         const showables = this.getShowablesIds(statuses);
-
         const free = [];
         const lended = [];
         const notLendable = [];
-
-
         // monografija
         if (record['pubType'] === 1) {
             for (let i = 0; i < record['primerci'].length; i++) {
@@ -99,38 +95,32 @@ export class PresentItemGenerator {
 
     private isPrimerakLended(invNum: string, itemAvailabilities: ItemAvailability[]): boolean {
         let retVal = false;
-
         for (let i = 0; i < itemAvailabilities.length; i++) {
             if (itemAvailabilities[i].ctlgNo === invNum) {
                 retVal = itemAvailabilities[i].borrowed;
                 break;
             }
         }
-
         return retVal;
     }
 
     private getLenablesIds(statuses: ItemStatus[]): string[] {
         const retVal = [];
-
         for (let i = 0; i < statuses.length; i++) {
             if (statuses[i].lendable) {
                 retVal.push(statuses[i].coder_id);
             }
         }
-
         return retVal;
     }
 
     private getShowablesIds(statuses: ItemStatus[]): string[] {
         const retVal = [];
-
         for (let i = 0; i < statuses.length; i++) {
             if (statuses[i].showable) {
                 retVal.push(statuses[i].coder_id);
             }
         }
-
         return retVal;
     }
 }

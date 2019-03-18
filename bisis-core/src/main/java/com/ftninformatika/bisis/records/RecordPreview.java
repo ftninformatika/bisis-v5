@@ -144,19 +144,21 @@ public class RecordPreview {
         try {
             Iterator it = rec.getPrimerci().iterator();
             while (it.hasNext()){
-                if (!text.equals(""))
-                    text = text + ", ";
-                text = text + Signature.format((Primerak)it.next());
+                String formatedSig = Signature.format((Primerak)it.next()) + ", ";
+                if (!text.contains(formatedSig))
+                    text = text + formatedSig;
             }
             empty = text.substring(0, 1);
         } catch (Exception e1) {
             Iterator it = rec.getGodine().iterator();
             while (it.hasNext()){
-                if (!text.equals(""))
-                    text = text + ", ";
-                text = text + Signature.format((Godina)it.next());
+                String formatedSig = Signature.format((Primerak)it.next()) + ", ";
+                if (!text.contains(formatedSig))
+                    text = text + formatedSig;
             }
         }
+        if(text.length() > 2)
+            text = text.substring(0, (text.length() - 2));
         return text;
     }
 
@@ -311,8 +313,7 @@ public class RecordPreview {
         try {
             fields1 = rec.getSubfieldsContent("100c");
             text = fieldsToString(fields1);
-        } catch (Exception e1) {
-        }
+        } catch (Exception e1) {}
         fields1 = null;
         return text;
     }
@@ -323,8 +324,7 @@ public class RecordPreview {
         try {
             fields1 = rec.getSubfieldsContent("210a");
             text = fieldsToString(fields1);
-        } catch (Exception e1) {
-        }
+        } catch (Exception e1) {}
         fields1 = null;
         return text;
     }

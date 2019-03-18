@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     const body = JSON.stringify({ username, password });
     this.messageService.clear();
-    this.http.post(ApiConfig.origin + '/memauth', body, { headers: contentHeaders })
+    // TODO - move this to auth service and implement redux
+    this.http.post(ApiConfig.Origin + '/memauth', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.clear();

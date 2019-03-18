@@ -116,8 +116,15 @@ public class SerialInventarPanel extends InventarPanel {
     RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
       public boolean include(Entry entry) {
         //index kolone odeljenja
-        String locCol = (String) entry.getValue(3);
-        String invStart = ((String) entry.getValue(0)).substring(0,2);
+        String locCol = "";
+        String invStart = "";
+        try {
+          locCol = (String) entry.getValue(3);
+          invStart = ((String) entry.getValue(0)).substring(0, 2);
+        }
+        catch (Exception e) {
+          return false;
+        }
         if (department != null && !department.equals("")){
           if(locCol != null && !locCol.equals(department))
             return false;

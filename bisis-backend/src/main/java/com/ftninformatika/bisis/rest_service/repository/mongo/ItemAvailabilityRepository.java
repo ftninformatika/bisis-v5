@@ -12,16 +12,11 @@ import java.util.List;
  */
 public interface ItemAvailabilityRepository extends MongoRepository<ItemAvailability, String>, PagingAndSortingRepository<ItemAvailability,String>{
 
-    public List<ItemAvailability> findByRecordID(String recId);
-
-    public ItemAvailability getByCtlgNo(String ctlno);
-
-    public List<ItemAvailability> findAllByCtlgNo (String ctlgNo);
-
-    public void deleteByCtlgNoIn (List<String> ctlgnos);
-
-    public void deleteByCtlgNoInAndRecordIDIs (List<String> ctlgnos, String recordID);
-
-    public void deleteAllByRecordID (String recordID);
+    List<ItemAvailability> findByRecordID(String recId);
+    ItemAvailability getByCtlgNo(String ctlno);
+    List<ItemAvailability> findAllByCtlgNo (String ctlgNo);
+    void deleteByCtlgNoIn (List<String> ctlgnos);
+    void deleteByCtlgNoInAndRecordIDIs (List<String> ctlgnos, String recordID);
+    void deleteAllByRecordID (String recordID);
 
 }
