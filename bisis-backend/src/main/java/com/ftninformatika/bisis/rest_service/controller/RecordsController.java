@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
+import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.exceptions.LockException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotFoundException;
@@ -12,11 +13,9 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
+import com.ftninformatika.bisis.rest_service.service.implementations.LibraryConfigService;
 import com.ftninformatika.bisis.rest_service.service.implementations.RecordsService;
-import com.ftninformatika.bisis.search.Result;
-import com.ftninformatika.bisis.search.SearchModel;
-import com.ftninformatika.bisis.search.SearchModelCirc;
-import com.ftninformatika.bisis.search.UniversalSearchModel;
+import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.mongodb.MongoClient;
 import com.mongodb.client.ClientSession;
@@ -56,6 +55,8 @@ public class RecordsController {
     @Autowired SublocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
     @Autowired RecordsService recordsService;
+    @Autowired LibraryConfigService lcService;
+    @Autowired LibraryPrefixProvider libraryPrefixProvider;
 
     private Logger log = Logger.getLogger(MemberController.class);
 
@@ -456,6 +457,41 @@ public class RecordsController {
                 }
         );
         return new PageImpl<RecordOpacResponseWrapper>(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
+    }
+
+    @PostMapping("/search_ids/multiple_libs")
+    public ResponseEntity<Vector<BriefInfoModel>> searchIdsMutlipleLibs(@RequestHeader("Library") String libHeader,
+            @RequestBody OtherLibsSearch otherLibsSearch) {
+        Vector<BriefInfoModel> retVal = null;
+
+        if (otherLibsSearch.getLibraries().size() == 0 || otherLibsSearch.getSearchModel() == null
+            || !lcService.getAllLibraryPrefixes().containsAll(otherLibsSearch.getLibraries()))
+            return new ResponseEntity<>(retVal, HttpStatus.NOT_ACCEPTABLE);
+
+        // TODO - move to service
+        BoolQueryBuilder query = ElasticUtility.makeQuery(otherLibsSearch.getSearchModel());
+        retVal = new Vector<>();
+        for (String lib: otherLibsSearch.getLibraries()) {
+            // TODO - use template to route instead
+            libraryPrefixProvider.setPrefix(lib);
+            Result res = searchIdsResult(otherLibsSearch.getSearchModel()).getBody();
+            if (res.getRecords() == null || res.getRecords().length == 0)
+                continue;
+
+            for (String _id: res.getRecords()) {
+                BriefInfoModel bi = new BriefInfoModel();
+                bi.setLibPrefix(lib);
+                bi.setLibFullName("hardcoded");
+                RecordBriefs rb = new RecordBriefs();
+                rb.set_id(_id);
+                rb.setAutor(recordsRepository.findById(_id).get().getSubfieldContent("200a"));
+                bi.setBriefInfo(rb);
+                retVal.add(bi);
+            }
+
+        }
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
     @PostMapping("/search_ids")

@@ -7,8 +7,10 @@ import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.xml.XMLUtils;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
+import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import java.io.File;
 import java.util.*;
 
 
@@ -47,8 +49,13 @@ public class ReportUtils {
 					.getResource(reportSpec.getSubjasper()));
     		params.put("subjasper", subreport);
     	}
-    	if (reportSpec.getClassName().equals(INV_BOOK_BGB))
-    	    selectExpression = "*";
+    	if (reportSpec.getClassName().equals(INV_BOOK_BGB)) {
+            selectExpression = "*";
+            File f = new File("./tmp");
+            f.mkdir();
+            JRFileVirtualizer virtualizer = new JRFileVirtualizer(2,"./tmp");
+            params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
+    	}
     	params.put("library",BisisApp.appConfig.getClientConfig().getPincodeLibrary());
         params.put("period", report.getPeriod());
         params.put("title",reportSpec.getMenuitem().replace("|", " "));

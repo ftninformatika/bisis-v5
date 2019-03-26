@@ -67,6 +67,8 @@ public class RecordPreview {
         this.keywords = getKeywords(r);
     }
 
+
+
     public String getKeywords(Record rec){
         StringBuffer retVal = new StringBuffer();
         DefaultPrefixMap prefixMap = new DefaultPrefixMap();
