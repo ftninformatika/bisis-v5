@@ -74,8 +74,8 @@ public class RecordsManager {
             }
         }
         if (zaduziv){
-            listContainsItem(itemAvailability);
             if (!itemAvailability.getBorrowed()){
+                listContainsItem(itemAvailability);
                 itemAvailability.setBorrowed(true);
                 listOfItems.add(itemAvailability);
                 record = getRecord(ctlgno);
