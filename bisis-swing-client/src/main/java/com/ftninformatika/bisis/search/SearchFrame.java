@@ -9,6 +9,8 @@ import com.ftninformatika.bisis.libenv.LibEnvProxy;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
+import com.ftninformatika.bisis.records.BriefInfoModel;
+import com.ftninformatika.bisis.search.net.NetHitListFrame;
 import com.ftninformatika.utils.CharacterLookup;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.StringUtils;
@@ -332,7 +334,6 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 	  List<String> exp = getExpand(tfPref, prefix);
 	  if (exp != null) {
 		  Collections.sort(exp);
-		  //expandListDlg = new ExpandListDlg(BisisApp.getMainFrame());
 		  expandListDlg.setList(exp);
 		  expandListDlg.setVisible(true);
 		  if (expandListDlg.isSelected()) {
@@ -490,19 +491,40 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
           text5 = tfPref5.getText();
       else
           text5 = codedPref5.getText();
-    if(text1.equals("") && text2.equals("") && text3.equals("") && text4.equals("") && text5.equals("")){
+    if(text1.equals("") && text2.equals("") && text3.equals("") && text4.equals("") && text5.equals("")) {
       JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
               "Niste postavili nijedan kriterijum za pretragu!", "Pretraga", JOptionPane.INFORMATION_MESSAGE);
-    }else {
+    } else {
       btnSearch.setEnabled(false);
       JCheckList checkList =(JCheckList)spServerList.getViewport().getView();
-      for (int i=0; i<checkList.getModel().getSize();i++){
+      OtherLibsSearch otherLibsSearch = new OtherLibsSearch();
+      SearchModel search = new SearchModel(btnPref1.getText(),btnPref2.getText()
+              ,btnPref3.getText(),btnPref4.getText(),btnPref5.getText(),
+              text1,text2,text3,text4,text5
+              ,cbOper1.getSelectedItem().toString(),cbOper2.getSelectedItem().toString()
+              ,cbOper3.getSelectedItem().toString(),cbOper4.getSelectedItem().toString(), null, null, null);
+      otherLibsSearch.setSearchModel(search);
+      for (int i=0; i<checkList.getModel().getSize();i++) {
         CheckableItem ci = (CheckableItem) checkList.getModel().getElementAt(i);
-        if(ci.isSelected()){
-
+        if(ci.isSelected()) {
+          otherLibsSearch.getLibraries().add(ci.getValue());
         }
       }
-      JOptionPane.showMessageDialog(BisisApp.mf, "Pretraga u mrezi nije implementirana!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
+      try {
+        Vector<BriefInfoModel> results = BisisApp.bisisService.searchIdsMutlipleLibs(otherLibsSearch).execute().body();
+        if (results == null){
+          JOptionPane.showMessageDialog(BisisApp.mf, "Greska u pretrazi, formulisite bolji upit!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
+          return;
+        }
+        netSearchResultFrame = new NetHitListFrame(otherLibsSearch.getSearchModel().toString(),results);
+        BisisApp.getMainFrame().addNetHitListFrame(netSearchResultFrame);
+
+      } catch (IOException e) {
+      JOptionPane.showMessageDialog(BisisApp.mf, "Greska u pretrazi!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
+        e.printStackTrace();
+      } finally {
+        btnSearch.setEnabled(true);
+      }
     }
   }
   
@@ -516,6 +538,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       for (LibraryConfiguration lc:serverList) {
           if (lc.getLibraryFullName()!=null) {
               CheckableItem item = new CheckableItem(lc);
+              item.setValue(lc.getLibraryName());
               item.setSelected(true);
               items.add(item);
           }
@@ -540,47 +563,8 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
       e.printStackTrace();
       JOptionPane.showMessageDialog(BisisApp.mf,Messages.getString("SERVER_LIST_EMPTY"),Messages.getString("SEARCH_SEARCHING"),JOptionPane.ERROR_MESSAGE);
     }
+  }
 
-  }
-  
-  /**
-   * Support function used from processResponse and accessible from runners
-   * inside threads
-   */
-  public synchronized void setErrors(String text) {
-	  JOptionPane.showMessageDialog(BisisApp.mf,
-			  text, Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
-  }
-  /*
-  public synchronized void processResponse(Document resp,
-		  AbstractRemoteCall caller, LibraryServerDesc lib) {
-	  //System.out.println(resp.asXML());
-	  MessagingError me = new MessagingError();
-	  Vector result = caller.processResponse(resp, lib, me);
-	  if (result == null) {
-		  if (me.isActive())
-			  setErrors(me.getCode());
-	  } else {
-		  if (caller instanceof com.gint.app.bisis4.xmlmessaging.actions.SearchRequestActionCall){
-			  NetHitListFrame handler=netSearchResultFrames.get(caller.getConvId());
-			  if(handler==null)
-				  netSearchResultFrames.put(caller.getConvId(), BisisApp.getMainFrame().addNetHitListFrame(((SearchRequestActionCall)caller).getQuery(),caller.getConvId(),rbZipNetSearch.isSelected(),((BriefInfoModel)result.get(0)).getLibServ(), result));
-			  else
-				  handler.appendResults(result);
-		  }else{
-			  setErrors("Wrong handler");
-		  }
-	  }
-  }
-  */
-  /*public void removeNetSearchFrame(String convId){
-	  netSearchResultFrames.remove(convId);
-  }*/
-  
-  private void clearServerList() {
-    spServerList.setViewportView(new JPanel());
-  }
-  
   private void handleLookup(JTextComponent tf) {
     lookup.setVisible(true);
     if (lookup.isSelected()) {
@@ -601,17 +585,14 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private PrefixListDlg prefixListDlg = new PrefixListDlg(BisisApp.mf);
   private ExpandListDlg expandListDlg = new ExpandListDlg(BisisApp.mf);
   private boolean dirtyPrefixSet = false;
-  
-  //added by Miroslav Zaric -  required for NetSearch
-  //private ThreadDispatcher td;
-  //private LinkedHashMap<String, NetHitListFrame> netSearchResultFrames=new LinkedHashMap<String, NetHitListFrame>();
+
+  private NetHitListFrame netSearchResultFrame = null;
   //Filter za odeljenja bgb
   public static String locId = null;
   public static int locIdIndex = 0;
   private static final Dimension textPanelDim = new Dimension(200,20);
   private static final Dimension prefButtonDim = new Dimension(70,20);
   private static String delims = ", ;:\"()[]{}-+!\t\r\n\f";
-  //private static String delims = ", ;:()[]{}-+/.!\t\r\n\f";
 
 	 
   public class SortPrefix {

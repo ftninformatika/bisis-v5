@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
@@ -460,35 +461,41 @@ public class RecordsController {
     }
 
     @PostMapping("/search_ids/multiple_libs")
-    public ResponseEntity<Vector<BriefInfoModel>> searchIdsMutlipleLibs(@RequestHeader("Library") String libHeader,
-            @RequestBody OtherLibsSearch otherLibsSearch) {
+    public ResponseEntity<Vector<BriefInfoModel>> searchIdsMutlipleLibs(@RequestBody OtherLibsSearch otherLibsSearch) {
         Vector<BriefInfoModel> retVal = null;
+        Map<String, LibraryConfiguration> lcMap = lcService.getAllLibraryConfigMap();
 
         if (otherLibsSearch.getLibraries().size() == 0 || otherLibsSearch.getSearchModel() == null
-            || !lcService.getAllLibraryPrefixes().containsAll(otherLibsSearch.getLibraries()))
+            || !lcMap.keySet().containsAll(otherLibsSearch.getLibraries()))
             return new ResponseEntity<>(retVal, HttpStatus.NOT_ACCEPTABLE);
 
-        // TODO - move to service
-        BoolQueryBuilder query = ElasticUtility.makeQuery(otherLibsSearch.getSearchModel());
         retVal = new Vector<>();
         for (String lib: otherLibsSearch.getLibraries()) {
-            // TODO - use template to route instead
+            // For routing
             libraryPrefixProvider.setPrefix(lib);
             Result res = searchIdsResult(otherLibsSearch.getSearchModel()).getBody();
             if (res.getRecords() == null || res.getRecords().length == 0)
                 continue;
 
+            // Limit of records per library
+            if (res.getRecords().length > 2000)
+                return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+
             for (String _id: res.getRecords()) {
                 BriefInfoModel bi = new BriefInfoModel();
                 bi.setLibPrefix(lib);
-                bi.setLibFullName("hardcoded");
+                bi.setLibFullName(lcMap.get(lib).getLibraryFullName());
                 RecordBriefs rb = new RecordBriefs();
+                RecordPreview rp = new RecordPreview();
+                rp.init(recordsRepository.findById(_id).get());
                 rb.set_id(_id);
-                rb.setAutor(recordsRepository.findById(_id).get().getSubfieldContent("200a"));
+                rb.setAutor(rp.getAuthor());
+                rb.setPublicYear(rp.getPublishingYear());
+                rb.setPublisher(rp.getPublisher());
+                rb.setTitle(rp.getTitle());
                 bi.setBriefInfo(rb);
                 retVal.add(bi);
             }
-
         }
 
         return new ResponseEntity<>(retVal, HttpStatus.OK);

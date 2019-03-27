@@ -37,12 +37,12 @@ public class ReindexRecords {
         }
         String library_prefix = args[0];
 
-        PropertyConfigurator.configure(
-                ReindexRecords.class.getResourceAsStream("/log4j.properties"));
-        Logger.getLogger(ReindexRecords.class).info("BISIS5 record indexer starting...");
-
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-        root.setLevel(ch.qos.logback.classic.Level.INFO);
+//        PropertyConfigurator.configure(
+//                ReindexRecords.class.getResourceAsStream("/log4j.properties"));
+//        Logger.getLogger(ReindexRecords.class).info("BISIS5 record indexer starting...");
+//
+//        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+//        root.setLevel(ch.qos.logback.classic.Level.INFO);
 
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();

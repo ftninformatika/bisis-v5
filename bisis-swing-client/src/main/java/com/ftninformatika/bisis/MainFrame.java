@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.report.ReportFrame;
 import com.ftninformatika.bisis.search.Result;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.bisis.search.SearchFrame;
+import com.ftninformatika.bisis.search.net.NetHitListFrame;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.fx.JFXInternalFrame.JFXCoderFrame;
 import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
@@ -94,39 +95,37 @@ public class MainFrame extends JFrame {
         showFrame(hlf);
     }
 
-        public void addHitListFrame(Result queryResults, String sQuery) {
-            if(hlf==null){
-                hlf = new HitListFrame(queryResults,sQuery);
-                desktop.add(hlf);
-            }
-            else {
-                hlf.setQueryResults(sQuery, queryResults);
-                showHitlistFrame();
-            }
-            try {
-                hlf.setMaximum(true);
-            } catch (PropertyVetoException e) {
-            }
-            hlf.setVisible(true);
-        }
-        public void addBranchesFrame(String query, String[] hits) {
-            brf = new GrupniPrikazFrame(query, hits);
-            desktop.add(brf);
-            brf.setVisible(true);
-        }
-/*
-        public NetHitListFrame addNetHitListFrame(String query, String convId, boolean compress,LibraryServerDesc lib, Vector<BriefInfoModel> hits) {
-            NetHitListFrame hlf = new NetHitListFrame(query, convId, compress, lib, hits);
+    public void addHitListFrame(Result queryResults, String sQuery) {
+        if(hlf==null){
+            hlf = new HitListFrame(queryResults,sQuery);
             desktop.add(hlf);
-            hlf.setVisible(true);
-            return hlf;
         }
-*/
-        public void addReportFrame(String title, JasperPrint jp) {
-            ReportFrame rf = new ReportFrame(title, jp);
-            desktop.add(rf);
-            rf.setVisible(true);
+        else {
+            hlf.setQueryResults(sQuery, queryResults);
+            showHitlistFrame();
         }
+        try {
+            hlf.setMaximum(true);
+        } catch (PropertyVetoException e) {
+        }
+        hlf.setVisible(true);
+    }
+    public void addBranchesFrame(String query, String[] hits) {
+        brf = new GrupniPrikazFrame(query, hits);
+        desktop.add(brf);
+        brf.setVisible(true);
+    }
+
+    public void addNetHitListFrame(NetHitListFrame netHitListFrame) {
+        desktop.add(netHitListFrame);
+        netHitListFrame.setVisible(true);
+    }
+
+    public void addReportFrame(String title, JasperPrint jp) {
+        ReportFrame rf = new ReportFrame(title, jp);
+        desktop.add(rf);
+        rf.setVisible(true);
+    }
 
     private void shutdown() {
         if(Obrada.isEditorClosable()){

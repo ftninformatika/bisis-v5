@@ -51,12 +51,15 @@ public class RecordsService implements RecordsServiceInterface {
                 || mergeRecordsWrapper.getOtherRecords().size() == 0) {
             return false;
         }
-        for (Record r: mergeRecordsWrapper.getOtherRecords()) {
-            deleteRecord(r.get_id());
-        }
         try {
+            for (Record r: mergeRecordsWrapper.getOtherRecords()) {
+                deleteRecord(r.get_id());
+            }
             addOrUpdateRecord(lib, mergeRecordsWrapper.getPrimaryRecord());
         } catch (RecordNotCreatedOrUpdatedException e) {
+            e.printStackTrace();
+            return false;
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -111,7 +114,6 @@ public class RecordsService implements RecordsServiceInterface {
                 }
                 record.pack();
                 Record savedRecord = recordsRepository.save(record);
-                session.commitTransaction();
                 //convert record to suitable prefix-json for elasticsearch
                 Map<String, List<String>> prefixes = PrefixConverter.toMap(record, null);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity();
@@ -119,6 +121,7 @@ public class RecordsService implements RecordsServiceInterface {
                 ee.setPrefixes(prefixes);
                 elasticRecordsRepository.save(ee);
                 elasticRecordsRepository.index(ee);
+                session.commitTransaction();
                 return savedRecord;
             }
             catch (Exception e) {
@@ -141,8 +144,8 @@ public class RecordsService implements RecordsServiceInterface {
                 Record rec = recordsRepository.findById(_id).get();
                 recordsRepository.deleteById(_id);
                 itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
-                session.commitTransaction();
                 elasticsearchTemplate.delete(ElasticPrefixEntity.class, _id);
+                session.commitTransaction();
                 return true;
             } catch (IllegalArgumentException ie) {
                 ie.printStackTrace();

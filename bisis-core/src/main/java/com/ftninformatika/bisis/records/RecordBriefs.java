@@ -20,4 +20,20 @@ public class RecordBriefs {
     private String publicYear;
     private String language;
     private String country;
+
+    public String toString() {
+        StringBuffer retVal = new StringBuffer();
+        if (autor != null && !autor.equals(""))
+            retVal.append(autor + ". ");
+        if (title != null && !title.equals(""))
+            retVal.append("<i>" + title + "</i>. ");
+        if (publisher != null && !publisher.equals(""))
+            retVal.append(publisher);
+        if (publicYear != null && !publicYear.equals("")) {
+            if (publisher != null && !publisher.equals(""))
+                retVal.append(", ");
+            retVal.append(publicYear + ". ");
+        }
+        return retVal.toString();
+    }
 }

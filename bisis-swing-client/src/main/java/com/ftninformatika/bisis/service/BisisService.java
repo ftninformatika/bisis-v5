@@ -16,10 +16,7 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
-import com.ftninformatika.bisis.search.Result;
-import com.ftninformatika.bisis.search.SearchModel;
-import com.ftninformatika.bisis.search.SearchModelCirc;
-import com.ftninformatika.bisis.search.SearchModelMember;
+import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.utils.PathDate;
 import com.google.gson.JsonObject;
 import okhttp3.ResponseBody;
@@ -29,6 +26,7 @@ import retrofit2.http.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 public interface BisisService {
 
@@ -120,6 +118,9 @@ public interface BisisService {
     Call<Boolean> deleteLibraian(@Body LibrarianDTO librarian);
 
 //records---------------------------------------------------------------
+
+    @POST("records/search_ids/multiple_libs")
+    Call<Vector<BriefInfoModel>> searchIdsMutlipleLibs(@Body OtherLibsSearch otherLibsSearch);
 
     @POST("records/mergeRecords")
     Call<Boolean> mergeRecords(@Body MergeRecordsWrapper mergeRecordsWrapper);

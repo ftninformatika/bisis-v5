@@ -7,11 +7,16 @@ public class CheckableItem {
   private Object obj;
   private boolean isSelected;
   private Icon icon;
+  private String value;
 
   public CheckableItem(Object obj) {
     this.obj = obj;
     isSelected = false;
   }
+
+  public void setValue(String value) { this.value = value;}
+
+  public String getValue() {return this.value; }
 
   public void setSelected(boolean b) {
     isSelected = b;
