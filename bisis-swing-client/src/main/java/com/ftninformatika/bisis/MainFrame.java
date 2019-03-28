@@ -145,8 +145,6 @@ public class MainFrame extends JFrame {
     }
 
     public void insertFrame(JInternalFrame frame){
-
-
         desktop.add(frame);
     }
 /*

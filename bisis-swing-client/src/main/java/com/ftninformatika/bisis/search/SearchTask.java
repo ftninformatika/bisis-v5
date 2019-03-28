@@ -1,14 +1,13 @@
 package com.ftninformatika.bisis.search;
-import com.ftninformatika.bisis.BisisApp;
 
+import com.ftninformatika.bisis.BisisApp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
-
-
 import com.ftninformatika.utils.Messages;
+
 public class SearchTask extends SwingWorker<Integer, Integer> {
 	
  private String pref1;
@@ -91,7 +90,6 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
               return -1;
           }
       }
-
 	return -1;
   }
   

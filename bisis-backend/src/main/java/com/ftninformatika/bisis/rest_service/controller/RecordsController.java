@@ -38,6 +38,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import sun.util.resources.cldr.br.CurrencyNames_br;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -206,6 +207,19 @@ public class RecordsController {
         } catch (Exception ex) {
             throw new RecordNotFoundException(recordId);
         }
+    }
+
+    @PostMapping("/get_foreign_record")
+    public ResponseEntity<Record> getForeignRecord(@RequestBody BriefInfoModel bim) {
+        if (bim == null || bim.getBriefInfo() == null
+        || bim.getBriefInfo().get_id() == null || "".equals(bim.getBriefInfo().get_id())
+        || bim.getLibPrefix() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        libraryPrefixProvider.setPrefix(bim.getLibPrefix());
+        Record retVal = recordsRepository.findById(bim.getBriefInfo().get_id()).get();
+        if (retVal == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
     @GetMapping("/wrapperrec/{recordId}")
@@ -477,7 +491,7 @@ public class RecordsController {
             if (res.getRecords() == null || res.getRecords().length == 0)
                 continue;
 
-            // Limit of records per library
+            // Limit of records per library TODO - hardcoded, move to some place nicer
             if (res.getRecords().length > 2000)
                 return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
 
@@ -500,6 +514,25 @@ public class RecordsController {
 
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
+
+    @PostMapping("/get_mixed_library_records")
+    public ResponseEntity<Vector<Record>> getMixedLibraryRecords(@RequestBody Vector<BriefInfoModel> currentBriefs) {
+        Vector<Record> retVal = new Vector<>();
+        if (currentBriefs == null || currentBriefs.size() == 0)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        for (BriefInfoModel bim: currentBriefs) {
+            libraryPrefixProvider.setPrefix(bim.getLibPrefix());
+            if (bim.getBriefInfo() == null || bim.getBriefInfo().get_id() == null
+            || "".equals(bim.getBriefInfo().get_id()) || !recordsRepository.findById(bim.getBriefInfo().get_id()).isPresent()) {
+                log.warn("Not valid record brief: " + bim.toString());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            Record r = recordsRepository.findById(bim.getBriefInfo().get_id()).get();
+            retVal.add(r);
+        }
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
 
     @PostMapping("/search_ids")
     public ResponseEntity<List<String>> searchIds(@RequestBody SearchModel search) {

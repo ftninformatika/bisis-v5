@@ -119,6 +119,12 @@ public interface BisisService {
 
 //records---------------------------------------------------------------
 
+    @POST("records/get_foreign_record")
+    Call<Record> getForeignRecord(@Body BriefInfoModel briefInfoModel);
+
+    @POST("records/get_mixed_library_records")
+    Call<Vector<Record>> getMixedLibraryRecords(@Body Vector<BriefInfoModel> currentBriefs);
+
     @POST("records/search_ids/multiple_libs")
     Call<Vector<BriefInfoModel>> searchIdsMutlipleLibs(@Body OtherLibsSearch otherLibsSearch);
 
@@ -132,7 +138,7 @@ public interface BisisService {
     Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
 
     @GET("records/{recordId}")
-    Call<Record> getOneRecord(@Path("recordId") String recordId);
+    Call<Record> getOneRecord(@Path("recordId") String _id);
 
     @GET("mongo_repository_records/search/deleteByRecordID")
     Call<Long> deleteRecordByRecId(@Query("id") int id);

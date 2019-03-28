@@ -18,7 +18,6 @@ public class NetHitListRenderer extends JEditorPane implements ListCellRenderer 
     super("text/html", "");
     setOpaque(true);
     this.selectedBriefs=selectedBriefs;
-    
   }
   
   public void setFormatter(int type) {
