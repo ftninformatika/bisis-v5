@@ -25,11 +25,11 @@ public class NetHitListFrame extends JInternalFrame {
 
     private JLabel lQuery = new JLabel();
     private JLabel lFromTo = new JLabel();
-    private JToggleButton btnBrief = new JToggleButton("Sa\u017eeti");
-    private JToggleButton btnFull = new JToggleButton("Puni");
-    private JButton btnPrev = new JButton("Prethodni");
-    private JButton btnNext = new JButton("Slede\u0107i");
-    private JButton btnNew = new JButton("Novi");
+    private JToggleButton btnBrief = new JToggleButton(Messages.getString("NET_HITLIST_BRIEF"));
+    private JToggleButton btnFull = new JToggleButton(Messages.getString("NET_HITLIST_FULL"));
+    private JButton btnPrev = new JButton(Messages.getString("NET_HITLIST_PREVIOUS"));
+    private JButton btnNext = new JButton(Messages.getString("NET_HITLIST_NEXT"));
+    private JButton btnNew = new JButton(Messages.getString("NET_HITLIST_NEW"));
     private JScrollPane spHitList = new JScrollPane();
     private JList lbHitList = new JList();
     private NetHitListModel netHitListModel;
@@ -40,10 +40,9 @@ public class NetHitListFrame extends JInternalFrame {
     private int briefPage = 0;
     private boolean recordMode = false;
     private LinkedHashMap selectedHits;
-    public static boolean FIRST_INIT = true;
 
     public NetHitListFrame(String query, Vector<BriefInfoModel> hits) {
-        super("Rezultati pretrage", true, true, true, true);
+        super(Messages.getString("NET_HITLIST_RESULTS"), true, true, true, true);
         this.searchHits = hits;
         this.receivedRecords=new Vector<Record>();
         this.selectedHits=new LinkedHashMap();
@@ -163,7 +162,7 @@ public class NetHitListFrame extends JInternalFrame {
                         if (rec != null) Obrada.newRecord(rec);
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-                                "Greska pri preuzimanju zapisa", Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
+                                Messages.getString("NET_HITLIST_ERROR_TITLE"), Messages.getString("NET_HITLIST_ERROR_TEXT"), JOptionPane.INFORMATION_MESSAGE);
                         e.printStackTrace();
 
                     }
@@ -180,7 +179,7 @@ public class NetHitListFrame extends JInternalFrame {
         btnGroup.add(btnFull);
         btnBrief.setSelected(true);
 
-        lQuery.setText("<html>Upit: <b>" + query + "</b></html>");
+        lQuery.setText(Messages.getString("NET_HITLIST_QUERY") + query + "</b></html>");
         updateAvailability();
         displayPage();
     }
@@ -206,8 +205,8 @@ public class NetHitListFrame extends JInternalFrame {
 
     private int pageCount() {
         Vector hits = searchHits;
-        if (recordMode)
-            hits = receivedRecords;
+//        if (recordMode)
+//            hits = receivedRecords;
         if (hits == null || hits.size() == 0)
             return 0;
         return hits.size() / PAGE_SIZE + (hits.size() % PAGE_SIZE > 0 ? 1 : 0);
@@ -227,42 +226,43 @@ public class NetHitListFrame extends JInternalFrame {
 
     private void displayPage() {
         Vector hits=searchHits;
-            if (recordMode) {
-                try {
-                    hits = getRecordsForPage(page, hits);
-                    receivedRecords = hits;
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-                            "Greska pri preuzimanju zapisa", Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
-                    e.printStackTrace();
-                }
+        if (recordMode) {
+            try {
+                hits = getRecordsForPage(hits);
+                receivedRecords = hits;
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
+                        Messages.getString("NET_HITLIST_ERROR_TITLE"), Messages.getString("NET_HITLIST_ERROR_TEXT"), JOptionPane.INFORMATION_MESSAGE);
+                e.printStackTrace();
             }
+        }
         if (hits == null || hits.size() == 0)
-          return;
+            return;
         int count = PAGE_SIZE;
-            if (page == pageCount()-1 ) {  //ako je poslednja stranica
-                if (hits.size() % PAGE_SIZE==0) {
-                    count=PAGE_SIZE;
-                }
-            else{
-             count = hits.size() % PAGE_SIZE;
-                }
+        if (briefPage == pageCount()-1 ) {  //ako je poslednja stranica
+            if (hits.size() % PAGE_SIZE==0) {
+                count=PAGE_SIZE;
             }
-
-            Object[] recs = new Object[count];
+            else{
+                count = hits.size() % PAGE_SIZE;
+            }
+        }
+        Object[] recs = new Object[count];
         for (int i = 0; i < count; i++)
           recs[i] = hits.get(page*PAGE_SIZE + i);
         netHitListModel.setHits(recs);
         lbHitList.setSelectedIndex(0);
-            lFromTo.setText("<html>Pogoci: <b>" + (page * PAGE_SIZE + 1) + " - " +
-                    (page * PAGE_SIZE + count) + "</b> od <b>" +
-            hits.size() + "</b></html>");
+        lFromTo.setText(Messages.getString("NET_HITLIST_HITS") + (page * PAGE_SIZE + 1) + " - " +
+                (page * PAGE_SIZE + count) + "</b> od <b>" +
+        hits.size() + "</b></html>");
     }
 
-    private Vector getRecordsForPage(int page, Vector<BriefInfoModel> hits) throws IOException {
-      Vector<Record> retVal = new Vector<>();
+    private Vector getRecordsForPage(Vector<BriefInfoModel> hits) throws IOException {
+        Vector<Record> retVal = new Vector<>();
+        int startRecIndex = briefPage * PAGE_SIZE;
         int count = PAGE_SIZE;
-        if (page == pageCount()-1 ){  //ako je poslednja stranica
+        int lastPage = pageCount();
+        if (briefPage == lastPage - 1){  //ako je poslednja stranica
             if (hits.size() % PAGE_SIZE==0){
                 count=PAGE_SIZE;
             }
@@ -270,8 +270,9 @@ public class NetHitListFrame extends JInternalFrame {
                 count = hits.size() % PAGE_SIZE;
             }
         }
+        int endRecIndex = startRecIndex + count;
         Vector<BriefInfoModel> reqestObject = new Vector<>();
-        for (int i = 0; i < count; i++) {
+        for (int i = startRecIndex; i < endRecIndex; i++) {
             reqestObject.add(hits.get(page * PAGE_SIZE + i));
         }
         retVal = BisisApp.bisisService.getMixedLibraryRecords(reqestObject).execute().body();
