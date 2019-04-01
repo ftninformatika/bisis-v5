@@ -30,12 +30,12 @@ import java.util.Set;
 public class BisisApp {
 
     public static void main(String[] args) {
-//        PropertyConfigurator.configure(BisisApp.class.getResourceAsStream("/log4j.properties"));
-//        Logger.getLogger(BisisApp.class).info("BISIS5 se pokrece");
-//
-//        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(
-//                ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-//        root.setLevel(ch.qos.logback.classic.Level.INFO);
+        PropertyConfigurator.configure(BisisApp.class.getResourceAsStream("/log4j.properties"));
+        Logger.getLogger(BisisApp.class).info("BISIS5 se pokrece");
+
+        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(
+                ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+        root.setLevel(ch.qos.logback.classic.Level.INFO);
 
         Properties props = new Properties();
         String profile = null;

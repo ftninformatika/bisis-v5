@@ -53,17 +53,15 @@ public class RecordsService implements RecordsServiceInterface {
         }
         try {
             for (Record r: mergeRecordsWrapper.getOtherRecords()) {
-                deleteRecord(r.get_id());
+               if (!deleteRecord(r.get_id()))
+                   return false;
             }
-            addOrUpdateRecord(lib, mergeRecordsWrapper.getPrimaryRecord());
+            if (addOrUpdateRecord(lib, mergeRecordsWrapper.getPrimaryRecord()) == null)
+                return false;
         } catch (RecordNotCreatedOrUpdatedException e) {
             e.printStackTrace();
             return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
-
         return true;
     }
 
@@ -102,7 +100,6 @@ public class RecordsService implements RecordsServiceInterface {
                     List<String> deletedInvs = RecordUtils.getDeletedInvNumsDelta(record, storedRec); //lista inv brojeva obrisanih primeraka
                     if (deletedInvs.size() > 0)
                         itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
-
                     //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
                     LibrarianDTO modificator = null;
                     //null ce biti iz grupnog inventarisanja, zato ova provera
@@ -110,7 +107,6 @@ public class RecordsService implements RecordsServiceInterface {
                         modificator = librarianRepository.findById(record.getInUseBy()).get();
                     if (modificator != null)
                         record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
-
                 }
                 record.pack();
                 Record savedRecord = recordsRepository.save(record);
@@ -129,7 +125,6 @@ public class RecordsService implements RecordsServiceInterface {
                 session.abortTransaction();
                 throw new RecordNotCreatedOrUpdatedException(record.get_id());
             }
-
         } catch (MongoClientException et) {
             et.printStackTrace();
             throw new MongoClientException("Mongodb client session not made!");
@@ -138,28 +133,11 @@ public class RecordsService implements RecordsServiceInterface {
 
     @Transactional
     public Boolean deleteRecord(String _id) throws IllegalArgumentException{
-        try (ClientSession session = mongoClient.startSession()) {
-            session.startTransaction();
-            try {
-                Record rec = recordsRepository.findById(_id).get();
-                recordsRepository.deleteById(_id);
-                itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
-                elasticsearchTemplate.delete(ElasticPrefixEntity.class, _id);
-                session.commitTransaction();
-                return true;
-            } catch (IllegalArgumentException ie) {
-                ie.printStackTrace();
-                session.abortTransaction();
-                return false;
-            } catch (Exception e) {
-                e.printStackTrace();
-                session.abortTransaction();
-                return false;
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        Record rec = recordsRepository.findById(_id).get();
+        recordsRepository.deleteById(_id);
+        itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
+        elasticsearchTemplate.delete(ElasticPrefixEntity.class, _id);
+        return true;
     }
+
 }

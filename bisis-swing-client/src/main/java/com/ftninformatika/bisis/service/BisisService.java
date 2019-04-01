@@ -18,11 +18,9 @@ import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.utils.PathDate;
-import com.google.gson.JsonObject;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +30,6 @@ public interface BisisService {
 
     @POST("auth")
     Call<ResponseBody> getToken(@Body UserCredentials creds);
-
-    @GET("circ")
-    Call<ResponseBody> getMembers();
-
-    @GET("libraries")
-    Call<ResponseBody> getLibs();
 
     @GET("configs/search/getByLibraryName")
     Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
@@ -54,8 +46,6 @@ public interface BisisService {
     @GET("sveske/{invNum}")
     Call<Sveska> getSveskaByInvNum(@Path("invNum") String invNum);
 
-    @GET("lendings/getLendingsByUserId")
-    Call<List<Lending>> getLendingsByUserId(@Query("userId") String userId);
 
 //primerci--------------------------------------------------------------
 
@@ -67,9 +57,6 @@ public interface BisisService {
 
     @GET("members/memberExist")
     Call<String> memberExist(@Query("userId") String userId);
-
-    @POST("members/addUpdate")
-    Call<Member> addUpdateMember(@Body Member member);
 
     /**
      *
@@ -134,17 +121,8 @@ public interface BisisService {
     @GET("records/findInvHoles")
     Call<List<Integer>> findInvHoles(@Query("invFrom") String invFrom, @Query("invTo") String invTo);
 
-    @GET("mongo_repository_records?size=20&")
-    Call<JsonObject> getAllRecords(@Query("number") int pageNumber);
-
     @GET("records/{recordId}")
     Call<Record> getOneRecord(@Path("recordId") String _id);
-
-    @GET("mongo_repository_records/search/deleteByRecordID")
-    Call<Long> deleteRecordByRecId(@Query("id") int id);
-
-    @GET("mongo_repository_records/search/getByID")
-    Call<Record> getRecordById(@Query("id") int id);
 
     @POST("records/search_ids") //vraca kolekciju id-jeva
     Call<List<String>> searchRecordsIds(@Body SearchModel searchModel);
@@ -152,26 +130,11 @@ public interface BisisService {
     @POST("records/search_ids_result") //vraca kolekciju id-jeva
     Call<Result> searchRecordsIdsResult(@Body SearchModel searchModel);
 
-    @POST("records/search_ids_circ") //vraca kolekciju id-jeva
-    Call<List<String>> searchRecordsIdsCirc(@Body SearchModelCirc searchModel);
-
     @POST("records/multiple_ids")
     Call<List<Record>> getRecordsByIds(@Body List<String> idList);
 
     @GET("expand_prefix_controller")
     Call<List<String>> getExpand(@Query("prefix") String prefix, @Query("text") String text);
-
-    @POST("records/query")
-    Call<List<Record>> queryRecords(@Body SearchModel sm);
-
-    @POST("records/querywrapper")
-    Call<List<RecordResponseWrapper>> queryRecordsWrapper(@Body SearchModel sm);
-
-    @GET("records/clear_elastic")
-    Call<Boolean> clearElasticStorage();
-
-    @GET("records/fill_elastic")
-    Call<Boolean> fillElasticStorage();
 
     @POST("records")
     Call<Record> createRecord(@Body Record rec);
@@ -203,9 +166,6 @@ public interface BisisService {
     @GET("records/getRecord")
     Call<Record> getRecordByCtlgNo(@Query("ctlgno") String ctlgno);
     // full record
-
-    @GET("records/getWrapperRecord")
-    Call<Record> getWrapperRecordByCtlgNo(@Query("ctlgno") String ctlgno);
 
     @GET("records/lockByRedactor/{recId}")
     Call<Boolean> lockByRedactor(@Path("recId") String recId);
@@ -346,21 +306,17 @@ public interface BisisService {
     Call<ItemAvailability> getItemAvailability(@Query("ctlgno") String ctlgno);
 
    //reports
-
     @GET ("reports/all")
     Call<List<String>> getReports(@Query("reportType") String reportType, @Query("reportName") String reportName);
 
     @GET ("reports/byFullName")
     Call<GeneratedReport> getReport(@Query("reportFullName") String reportFullName);
 
-
     @POST ("search/circ/recordIds")
     Call<List<String>> searchBooks(@Body SearchModelCirc searchModel);
 
-
     @POST("records/multiple_ids_wrapper")
     Call<List<RecordResponseWrapper>> getRecordsAllDataByIds(@Body List<String> idList);
-
 
     @POST ("search/circ/members")
     Call<List<Member>> searchMembers(@Body SearchModelMember searchModel);
@@ -376,7 +332,6 @@ public interface BisisService {
 
     @POST ("members/merge")
     Call<Boolean> merge(@Body MergeData mergeData);
-
 
     //circ reports
 

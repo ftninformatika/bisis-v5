@@ -65,7 +65,7 @@ public class RecordsController {
     @PostMapping("/mergeRecords")
     public ResponseEntity<Boolean> mergeRecords(@RequestHeader("Library") String lib,
                                                 @RequestBody MergeRecordsWrapper mergeRecordsWrapper) {
-        Boolean retVal = recordsService.mergeRecords(mergeRecordsWrapper, lib);
+        boolean retVal = recordsService.mergeRecords(mergeRecordsWrapper, lib);
         if(retVal)
             return new ResponseEntity<>(true, HttpStatus.OK);
         return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
@@ -117,8 +117,7 @@ public class RecordsController {
 
     @GetMapping("/getRecordForPrimerak")
     public Record getRecordForPrimerak(@RequestParam(value = "ctlgno") String ctlgno) {
-        Record retVal = null;
-        retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
+        Record retVal = recordsRepository.getRecordByPrimerakInvNum(ctlgno);
         return retVal;
     }
 
@@ -186,7 +185,6 @@ public class RecordsController {
 
     @GetMapping("/unimarc/{recordId}")
     public String getRecordUnimarc(@PathVariable String recordId) {
-        String retVal = "";
         try {
             Record rec = recordsRepository.findById(recordId).get();
             if (rec == null)
@@ -373,12 +371,6 @@ public class RecordsController {
         return iRecs;
     }
 
-    @GetMapping("/ep")
-    public List<ElasticPrefixEntity> getRecordsEP() {
-        Iterable<ElasticPrefixEntity> s = elasticRecordsRepository.findAll();
-        return IteratorUtils.toList(s.iterator());
-    }
-
     @GetMapping("/checkInv/{invNum}")
     public Boolean checkInv(@PathVariable("invNum") String invNum) {
         Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(ElasticUtility.idExistsQuery(invNum));
@@ -386,6 +378,7 @@ public class RecordsController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Record> addOrUpdate(@RequestHeader("Library") String lib, @RequestBody Record record) {
         Record retVal = null;
         try {
@@ -584,11 +577,6 @@ public class RecordsController {
 
         return new ResponseEntity<>(retVal, HttpStatus.OK);
 
-    }
-
-    @PostMapping("/search_records_ep_format")
-    public ResponseEntity<List<ElasticPrefixEntity>> searchRecordsElasticPrefixFormat(@RequestBody SearchModel search) {
-        return null;
     }
 
     @PostMapping("/lockByRedactor/{recId}")

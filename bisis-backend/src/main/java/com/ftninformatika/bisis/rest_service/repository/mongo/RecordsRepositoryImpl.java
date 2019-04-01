@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
-import com.ftninformatika.bisis.records.Primerak;
-import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.utils.RangeRegexGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -60,19 +59,18 @@ public class RecordsRepositoryImpl implements RecordsRepositoryCustom {
         List<String> regexes = regexGenerator.getRegex(invFrom, invTo);
         List<Criteria> regexCr = new ArrayList<>();
         for (String reg: regexes)
-            regexCr.add(Criteria.where("primerci").elemMatch(Criteria.where("invBroj").regex(reg)));
+            regexCr.add(Criteria.where("ctlgNo").regex(reg));
 
         Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
         Query q = new Query();
         q.addCriteria(cr);
-        q.fields().include("primerci.invBroj");
+        q.fields().include("ctlgNo");
         Set<Integer> usedInvs = new HashSet<>();
         {
-            List<Record> results = mongoTemplate.find(q, Record.class);
-            for (Record r: results)
-                for (Primerak p: r.getPrimerci())
-                    if (matchesInvRange(p.getInvBroj(), regexes))
-                        usedInvs.add(Integer.parseInt(p.getInvBroj().substring(4)));
+            List<ItemAvailability> results = mongoTemplate.find(q, ItemAvailability.class);
+            for (ItemAvailability i: results)
+                    if (matchesInvRange(i.getCtlgNo(), regexes))
+                        usedInvs.add(Integer.parseInt(i.getCtlgNo().substring(4)));
         }
         retVal = IntStream.rangeClosed(Integer.parseInt(invFrom.substring(4)), Integer.parseInt(invTo.substring(4))).boxed().collect(Collectors.toList());
         retVal.removeAll(usedInvs);
