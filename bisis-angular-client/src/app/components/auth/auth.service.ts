@@ -16,7 +16,7 @@ export class AuthService {
     logIn(username: string, password: string, persist?: boolean): Observable<boolean> {
         persist = persist || false;
         return this._httpClient.post<any>(
-            ApiConfig.origin + '/memauth',
+            ApiConfig.Origin + '/memauth',
             { username: username, password: password, remember: persist }
         ).map(response  => {
                 // login successful if there's a jwt token in the response

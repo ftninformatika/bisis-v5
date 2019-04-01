@@ -39,7 +39,7 @@ export class PasswordResetComponent implements OnInit {
       }
 
 
-    this._httpClient.get(ApiConfig.origin + '/library_members/generate_reset?email=' + email).subscribe(
+    this._httpClient.get(ApiConfig.Origin + '/library_members/generate_reset?email=' + email).subscribe(
         (response: any) => {
             if (response.json() === true) {
                 this._messageService.add({

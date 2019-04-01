@@ -21,14 +21,14 @@ export class MemberService {
                 'Library': localStorage.getItem('libCode'),
                 'Authorization': localStorage.getItem('token')})
         };
-        return this._httpClient.get(ApiConfig.origin + 'circ_report/get_lending_history_full?memberNo=' + memberNo, httpOptions)
+        return this._httpClient.get(ApiConfig.Origin + 'circ_report/get_lending_history_full?memberNo=' + memberNo, httpOptions)
             .map( (response: any) => response.json())
             .catch(this.handleError);
     }
 
     getMemberData(id) {
         const httpOptions = {headers: new HttpHeaders({'Library': localStorage.getItem('libCode')})};
-        return this._httpClient.get(ApiConfig.origin + 'members_repository/' + id, httpOptions)
+        return this._httpClient.get(ApiConfig.Origin + 'members_repository/' + id, httpOptions)
             .map( (response: any) => response.json())
             .catch(this.handleError);
 
