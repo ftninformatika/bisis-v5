@@ -1,7 +1,6 @@
 package com.ftninformatika.util.elastic;
 
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
@@ -17,7 +16,8 @@ import java.util.stream.StreamSupport;
  */
 public class ElasticUtility {
 
-    private static List<String> nottokenized = Arrays.asList("DC","UG");
+    private static List<String> NOT_TOKENIZED = Arrays.asList("DC", "UG", "675a", "675u", "UG", "675b", "IN", "BN"
+    , "010a", "010z", "SN", "011a", "011z", "SP", "011e", "011c", "SY", "SZ");
 
     public static List<String> getIdsFromElasticIterable(Iterable<ElasticPrefixEntity> elasticResponse) {
         return StreamSupport.stream(elasticResponse.spliterator(), false)
@@ -88,7 +88,7 @@ public class ElasticUtility {
         QueryBuilder qb = null;
         if (text != null && !"".equals(text)) {
             //za netokenizirane prefikse posebno se proverava da li se pravi match ili wildcard
-            if(nottokenized.contains(prefix)){
+            if(NOT_TOKENIZED.contains(prefix)){
                 text = text.toLowerCase();
                 if (!text.contains("*")&& !text.contains("?")) {
                     qb = QueryBuilders.matchQuery("prefixes." + prefix, LatCyrUtils.toLatinUnaccented(text));
