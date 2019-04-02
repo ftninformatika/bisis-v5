@@ -184,7 +184,7 @@ public class NetHitListFrame extends JInternalFrame {
         displayPage();
     }
 
-    public void appendRecords(Vector<Record> newRecs) {
+    private void appendRecords(Vector<Record> newRecs) {
         if (!recordMode) {
             recordMode = true;
             briefPage = page;
@@ -239,7 +239,7 @@ public class NetHitListFrame extends JInternalFrame {
         if (hits == null || hits.size() == 0)
             return;
         int count = PAGE_SIZE;
-        if (briefPage == pageCount()-1 ) {  //ako je poslednja stranica
+        if (page == pageCount()-1 ) {  //ako je poslednja stranica
             if (hits.size() % PAGE_SIZE==0) {
                 count=PAGE_SIZE;
             }
@@ -247,6 +247,8 @@ public class NetHitListFrame extends JInternalFrame {
                 count = hits.size() % PAGE_SIZE;
             }
         }
+        if (recordMode && hits != null && hits.size() > 0)
+            count = hits.size();
         Object[] recs = new Object[count];
         for (int i = 0; i < count; i++)
           recs[i] = hits.get(page*PAGE_SIZE + i);
