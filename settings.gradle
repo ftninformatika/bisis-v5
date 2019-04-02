@@ -3,5 +3,4 @@ include "bisis-core", "bisis-backend", "bisis-swing-client"
 include 'bisis-reports'
 include 'bisis-angular-client'
 include 'bisis-indexer'
-include 'bisis-duplicate-inv'
 
