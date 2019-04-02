@@ -117,8 +117,13 @@ public class MainFrame extends JFrame {
     }
 
     public void addNetHitListFrame(NetHitListFrame netHitListFrame) {
+        try {
+            desktop.remove(nhlf);
+            desktop.repaint();
+        } catch (Exception e) {}
+        nhlf = netHitListFrame;
         desktop.add(netHitListFrame);
-        netHitListFrame.setVisible(true);
+        nhlf.setVisible(true);
     }
 
     public void addReportFrame(String title, JasperPrint jp) {
@@ -287,6 +292,7 @@ public class MainFrame extends JFrame {
     private JDesktopPane desktop = new JDesktopPane();
     private SearchFrame searchFrame = new SearchFrame();
     private HitListFrame hlf = null;
+    private NetHitListFrame nhlf = null;
     private GrupniPrikazFrame brf=null;
 //    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;

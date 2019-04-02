@@ -511,21 +511,12 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
           otherLibsSearch.getLibraries().add(ci.getValue());
         }
       }
-      try {
-        Vector<BriefInfoModel> results = BisisApp.bisisService.searchIdsMutlipleLibs(otherLibsSearch).execute().body();
-        if (results == null){
-          JOptionPane.showMessageDialog(BisisApp.mf, "Greska u pretrazi, formulisite bolji upit!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
-          return;
-        }
-        netSearchResultFrame = new NetHitListFrame(otherLibsSearch.getSearchModel().toString(),results);
-        BisisApp.getMainFrame().addNetHitListFrame(netSearchResultFrame);
+      SearchStatusDlg statusDlg = new SearchStatusDlg();
+      SearchTask task = new SearchTask(otherLibsSearch, statusDlg);
+      task.execute();
+      statusDlg.setVisible(true);
+      btnSearch.setEnabled(true);
 
-      } catch (IOException e) {
-      JOptionPane.showMessageDialog(BisisApp.mf, "Greska u pretrazi!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
-        e.printStackTrace();
-      } finally {
-        btnSearch.setEnabled(true);
-      }
     }
   }
   

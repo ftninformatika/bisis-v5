@@ -4,8 +4,12 @@ import com.ftninformatika.bisis.BisisApp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+
+import com.ftninformatika.bisis.records.BriefInfoModel;
+import com.ftninformatika.bisis.search.net.NetHitListFrame;
 import com.ftninformatika.utils.Messages;
 
 public class SearchTask extends SwingWorker<Integer, Integer> {
@@ -32,7 +36,16 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
  private String queryString="";
  private SearchStatusDlg statusDlg;
  private SearchModel searchModel;
+ private OtherLibsSearch otherLibsSearch;
+ private Vector<BriefInfoModel> resultsForeignSearch;
  private Result queryResult;
+ private SearchTaskType type = SearchTaskType.MAIN_SEARCH;
+
+ public SearchTask(OtherLibsSearch otherLibsSearch, SearchStatusDlg statusDlg) {
+     this.type = SearchTaskType.FOREIGN_SEARCH;
+     this.statusDlg=statusDlg;
+     this.otherLibsSearch = otherLibsSearch;
+ }
  
   public SearchTask(String pref1, String oper1, String text1, 
 					String pref2, String oper2, String text2,
@@ -40,6 +53,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 					String pref4, String oper4, String text4,
 					String pref5,  String text5, String sort,
 					SearchStatusDlg statusDlg, String locId) {
+      this.type = SearchTaskType.MAIN_SEARCH;
 	  this.statusDlg=statusDlg;
 	  this.pref1=pref1;
 	  this.pref2=pref2;
@@ -70,27 +84,45 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
   }
   @Override
   public Integer  doInBackground() {
+    if (type == SearchTaskType.MAIN_SEARCH) {
+        if (this.searchModel != null) {
+            try {
+                this.queryResult = BisisApp.recMgr.searchRecords(searchModel);
+                if (queryResult != null) {
+                    return this.queryResult.getResultCount();
+                } else {
+                    this.connError = true;
+                    return -1;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                this.connError = true;
+                return -1;
+            } catch (Exception e2) {
+                e2.printStackTrace();
+                this.bigSet = true;
+                return -1;
+            }
+        }
+        return -1;
+    }
+    // Foreign search
+    else if (type == SearchTaskType.FOREIGN_SEARCH) {
+        try {
+            resultsForeignSearch = BisisApp.bisisService.searchIdsMutlipleLibs(otherLibsSearch).execute().body();
+            if (resultsForeignSearch == null){
+                JOptionPane.showMessageDialog(BisisApp.mf, "Greska u pretrazi, formulisite bolji upit!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
+                return -1;
+            }
+            return 1;
 
-	  if (this.searchModel != null){
-          try {
-              this.queryResult = BisisApp.recMgr.searchRecords(searchModel);
-              if (queryResult != null) {
-                  return this.queryResult.getResultCount();
-              } else {
-                  this.connError = true;
-                  return -1;
-              }
-          } catch (IOException e) {
-              e.printStackTrace();
-              this.connError = true;
-              return -1;
-          } catch (Exception e2){
-              e2.printStackTrace();
-              this.bigSet = true;
-              return -1;
-          }
-      }
-	return -1;
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(BisisApp.mf, "Greska u pretrazi!", "Pretraga u mreži", JOptionPane.INFORMATION_MESSAGE);
+            e.printStackTrace();
+            return -1;
+        }
+    }
+    return -1;
   }
   
   @Override
@@ -99,24 +131,27 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
   }
   
   @Override
-  protected void done() {  
-	     if (!isCancelled){
-	       if (connError){
-	    	 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-                     Messages.getString("SEARCH_CONNECTION_REFUSED_TALK_TO_ADMIN"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
-	       }
-	       else if (queryResult.getResultCount() == 0){
-	        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-                    Messages.getString("SEARCH_NO_HITS"), Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
-	       }
-           else if(bigSet){
-               JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
-                       Messages.getString("SEARCH_LARGE_RESULTSET_REQUERY"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
-           }
-	       else{
-	        BisisApp.getMainFrame().addHitListFrame(queryResult, searchModel.toString());
-	       }
-	     } 
+  protected void done() {
+     if (type == SearchTaskType.MAIN_SEARCH) {
+         if (!isCancelled) {
+             if (connError) {
+                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
+                         Messages.getString("SEARCH_CONNECTION_REFUSED_TALK_TO_ADMIN"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
+             } else if (queryResult.getResultCount() == 0) {
+                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
+                         Messages.getString("SEARCH_NO_HITS"), Messages.getString("SEARCH_SEARCHING"), JOptionPane.INFORMATION_MESSAGE);
+             } else if (bigSet) {
+                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
+                         Messages.getString("SEARCH_LARGE_RESULTSET_REQUERY"), Messages.getString("SEARCH_ERROR"), JOptionPane.INFORMATION_MESSAGE);
+             } else {
+                 BisisApp.getMainFrame().addHitListFrame(queryResult, searchModel.toString());
+             }
+         }
+     }
+     else if (type == SearchTaskType.FOREIGN_SEARCH) {
+         NetHitListFrame netSearchResultFrame = new NetHitListFrame(otherLibsSearch.getSearchModel().toString(),resultsForeignSearch);
+         BisisApp.getMainFrame().addNetHitListFrame(netSearchResultFrame);
+        }
 	     statusDlg.dispose();  
 	 }
 	      
