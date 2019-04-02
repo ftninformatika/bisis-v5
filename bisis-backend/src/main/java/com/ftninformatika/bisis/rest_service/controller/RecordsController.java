@@ -183,18 +183,6 @@ public class RecordsController {
             return false;
     }
 
-    @GetMapping("/unimarc/{recordId}")
-    public String getRecordUnimarc(@PathVariable String recordId) {
-        try {
-            Record rec = recordsRepository.findById(recordId).get();
-            if (rec == null)
-                throw new RecordNotFoundException(recordId);
-            return UnimarcSerializer.toUNIMARC(rec.getPubType(), rec, false);
-        } catch (Exception ex) {
-            throw new RecordNotFoundException(recordId);
-        }
-    }
-
     @GetMapping("/{recordId}")
     public Record getRecord(@PathVariable String recordId) {
         try {

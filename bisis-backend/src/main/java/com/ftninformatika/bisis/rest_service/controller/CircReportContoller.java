@@ -33,23 +33,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/circ_report")
 public class CircReportContoller {
 
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    LendingRepository lendingRepository;
-    @Autowired
-    RecordsRepository recordsRepository;
-    @Autowired
-    CorporateMemberRepository corporateMemberRepository;
-    @Autowired
-    LocationRepository locationRepository;
-    @Autowired
-    LibrarianRepository librarianRepository;
+    @Autowired MemberRepository memberRepository;
+    @Autowired LendingRepository lendingRepository;
+    @Autowired RecordsRepository recordsRepository;
+    @Autowired CorporateMemberRepository corporateMemberRepository;
+    @Autowired LocationRepository locationRepository;
+    @Autowired LibrarianRepository librarianRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
-    @Autowired
-    UserCategRepository userCategRepository;
-    @Autowired
-    ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired UserCategRepository userCategRepository;
+    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     private Logger log = Logger.getLogger(CircReportContoller.class);
 
@@ -233,62 +225,6 @@ public class CircReportContoller {
         return String.valueOf(i);
     }
 
-
-    @RequestMapping(value = "get_ctgr_udk_report_old")
-    public Map<String, Report> getCtgrUdkReportOld(@RequestHeader("Library") String lib, @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
-        Map<String, Report> retVal = new HashMap<>();
-        List<Lending> lendings = lendingRepository.getLendings(start, end, null, null, location);
-        Map<String, List<String>> userCategCtlgnosMap = new HashMap<>();
-
-        for (Lending l: lendings){
-            String usrCateg = memberRepository.getMemberByUserId(l.getUserId()).getUserCategory().getDescription();
-            if(!userCategCtlgnosMap.containsKey(usrCateg)){
-                userCategCtlgnosMap.put(usrCateg, new ArrayList<>());
-            }
-            userCategCtlgnosMap.get(usrCateg).add(l.getCtlgNo());
-        }
-        for (Map.Entry<String, List<String>> entry: userCategCtlgnosMap.entrySet()){
-            Report r = new Report();
-            for (int i = 0; i <=9 ; i++){
-                final Integer[] primeraka = {0};
-                BoolQueryBuilder query = QueryBuilders.boolQuery();
-                TermsQueryBuilder tq = QueryBuilders.termsQuery("prefixes.IN", entry.getValue());
-                QueryBuilder pf = ElasticUtility.buildQbForField(i + "", "UG");
-                //query.must(tq);
-                query.must(pf);
-                query.filter(tq);
-                Iterable<ElasticPrefixEntity> ee = elasticRecordsRepository.search(query);
-                ee.forEach(
-                        ep -> {
-                            if(ep.getPrefixes().get("IN") != null && ep.getPrefixes().get("IN").size() > 0){
-                                ep.getPrefixes().get("IN").forEach(
-                                        in -> {
-                                            if(entry.getValue().contains(in)){
-                                                primeraka[0] += Collections.frequency(entry.getValue(), in);
-                                            }
-                                        }
-                                );
-                            }
-                        }
-                );
-                switch (i) {
-                    case 0: r.setProperty10(primeraka[0].toString()); break;
-                    case 1: r.setProperty1(primeraka[0].toString()); break;
-                    case 2: r.setProperty2(primeraka[0].toString()); break;
-                    case 3: r.setProperty3(primeraka[0].toString()); break;
-                    case 4: r.setProperty4(primeraka[0].toString()); break;
-                    case 5: r.setProperty5(primeraka[0].toString()); break;
-                    case 6: r.setProperty6(primeraka[0].toString()); break;
-                    case 7: r.setProperty7(primeraka[0].toString()); break;
-                    case 8: r.setProperty8(primeraka[0].toString()); break;
-                    case 9: r.setProperty9(primeraka[0].toString()); break;
-                }
-            }
-            retVal.put(entry.getKey(), r);
-        }
-        System.out.println("End: " + new Date());
-        return retVal;
-    }
     @RequestMapping(value = "get_lend_return_udk_report")
     public Map<String, Report> getLendReturnUdkReport(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end,@RequestParam(name = "location", required = false)String location) {
         Map<String, Report> retVal = new HashMap<>();
@@ -812,9 +748,6 @@ public class CircReportContoller {
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .collect(Collectors.toList());
 
-       /* if (sortedResults != null && sortedResults.size() >= 100)
-            sortedResults = sortedResults.subList(0,100);*/
-
         sortedResults.forEach(
                 entry -> {
                     Report r = new Report();
@@ -939,7 +872,6 @@ public class CircReportContoller {
 
         lendings.forEach(
                 l -> {
-                    //Member m = memberRepository.getMemberByUserId(l.getUserId()); ovako je radilo jako sporo i response time je bio preveliki pa je pucalo za pojedine datume
                     Member m = members.get(l.getUserId());
                     Report r = new Report();
                     r.setProperty1(m.getUserId());
@@ -973,9 +905,7 @@ public class CircReportContoller {
     @RequestMapping( value = "get_mmbr_type_report")
     public List<Report> getMmbrTypeReport( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location) {
         List<Report> retVal = new ArrayList<>();
-        List<Member> members = null;
-
-        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "membershipType.description");
+        List<Member> members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "membershipType.description");
         for (Member m: members){
             Report r = new Report();
             r.setProperty1(m.getUserId());
@@ -1003,9 +933,7 @@ public class CircReportContoller {
     @RequestMapping( value = "get_librarian_report")
     public List<Report> getLibrarianReport( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,  @RequestParam(name = "location", required = false)String location){
         List<Report> retVal = new ArrayList<>();
-        List<Member> members = null;
-
-        members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "userId");
+        List<Member> members = memberRepository.getSignedMembers(DateUtils.getStartOfDay(date), DateUtils.getEndOfDay(date), location, "userId");
         members.sort(Comparator.comparing(m -> m.getSignings().get(0).getLibrarian()));//sortira po bibliotekaru
 
         for (Member m: members){
