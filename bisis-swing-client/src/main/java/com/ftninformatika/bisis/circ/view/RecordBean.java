@@ -117,23 +117,17 @@ public class RecordBean {
   }
   
   public String getAutor(){
-    if (rec == null)
-      return "";
-    try {
-      fields1 = rec.getSubfieldsContent("700a");
-      fields2 = rec.getSubfieldsContent("700b");
-      text = fieldsToString(fields1, fields2);
-      empty = text.substring(0, 2);
-    } catch (Exception e1) {
-      try {
-        fields1 = rec.getSubfieldsContent("710a"); 
-        text = fieldsToString(fields1);
-      } catch (Exception e2) {
-      }
-    }
-    fields1 = null;
-    fields2 = null;
-    return text;
+      String retVal = "";
+      if (rec == null)
+          return "";
+      if (rec.getSubfieldContent("700a") != null)
+          retVal = rec.getSubfieldContent("700a")
+                  + (rec.getSubfieldContent("700b") == null ? "" : rec.getSubfieldContent("700b"));
+      if (!retVal.equals(""))
+        return retVal;
+      if (rec.getSubfieldContent("710a") != null)
+          retVal = rec.getSubfieldContent("710a");
+      return retVal;
   }
   
   public String getIzdavac(){
