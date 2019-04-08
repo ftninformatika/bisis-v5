@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.barcode.epl2.IPrinter;
@@ -280,7 +282,17 @@ public class User extends JPanel {
 			tpMain.addTab(Messages.getString("circulation.additionaldata"), null, getPMain1(), null); //$NON-NLS-1$
 			tpMain.addTab(Messages.getString("circulation.membershipfee"), null, getPMain2(), null); //$NON-NLS-1$
 			tpMain.addTab(Messages.getString("circulation.charging"), null, getPMain3(), null); //$NON-NLS-1$
-      tpMain.setSelectedIndex(0);
+      		tpMain.setSelectedIndex(0);
+      		tpMain.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					if (tpMain.getSelectedIndex() == 3) {
+						Cirkulacija.getApp().getMainFrame().setLendingsTabWindowSize();
+					} else {
+						Cirkulacija.getApp().getMainFrame().setDefaultWindowSize();
+					}
+				}
+			});
 		}
 		return tpMain;
 	}

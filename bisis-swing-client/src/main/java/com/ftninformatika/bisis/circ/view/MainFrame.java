@@ -70,8 +70,7 @@ public class MainFrame extends JInternalFrame {
     }
 
     private void initialize() {
-        this.setSize(new Dimension(950, 560));
-        this.setPreferredSize(new Dimension(950, 560));
+        this.setDefaultWindowSize();
         this.setName("mframe"); //$NON-NLS-1$
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addInternalFrameListener(new InternalFrameAdapter() {
@@ -107,6 +106,16 @@ public class MainFrame extends JInternalFrame {
             userIDPanel.addSearchListener(getUserIDSearch());
         }
         return userIDPanel;
+    }
+
+    public void setLendingsTabWindowSize() {
+        this.setSize(new Dimension(1000, 700));
+        this.setPreferredSize(new Dimension(1000, 700));
+    }
+
+    public void setDefaultWindowSize() {
+        this.setSize(new Dimension(1000, 600));
+        this.setPreferredSize(new Dimension(1000, 600));
     }
 
     private ActionListener getUserIDOK() {
