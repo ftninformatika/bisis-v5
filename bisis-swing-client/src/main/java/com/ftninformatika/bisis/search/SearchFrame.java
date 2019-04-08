@@ -569,16 +569,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     }
   }
 
-
-
   // operatori
   private CharacterLookup lookup = new CharacterLookup(BisisApp.mf);
-  
   private PrefixListDlg prefixListDlg = new PrefixListDlg(BisisApp.mf);
   private ExpandListDlg expandListDlg = new ExpandListDlg(BisisApp.mf);
   private boolean dirtyPrefixSet = false;
-
-  private NetHitListFrame netSearchResultFrame = null;
   //Filter za odeljenja bgb
   public static String locId = null;
   public static int locIdIndex = 0;
@@ -586,23 +581,23 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private static final Dimension prefButtonDim = new Dimension(70,20);
   private static String delims = ", ;:\"()[]{}-+!\t\r\n\f";
 
-	 
   public class SortPrefix {
     public String name;
     public String caption;
     public SortPrefix() {
-    }
-    public SortPrefix(String name, String caption) {
+  }
+  public SortPrefix(String name, String caption) {
       this.name = name;
       this.caption = caption;
-    }
-    public SortPrefix(String name) {
+  }
+  public SortPrefix(String name) {
       this.name = name + "_sort";
       this.caption = PrefixConfigFactory.getPrefixConfig().getPrefixName(name);
-    }
-    public String toString() {
+  }
+  public String toString() {
       return caption;
     }
+
   }
   
 }

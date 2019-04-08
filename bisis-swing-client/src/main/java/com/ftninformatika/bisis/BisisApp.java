@@ -157,6 +157,16 @@ public class BisisApp {
         }
     }
 
+    public static void clearForRestart() {
+        mf.setVisible(false);
+        mf.dispose();
+        mf = null;
+        recMgr = null;
+        splashScreen = null;
+        String[] args = {};
+        main(args);
+    }
+
     private static String getDomainFromUsername(String username) {
         //mora zbog header interceptora u retrofitu
         return username.split("@")[1].replace('.', '_');

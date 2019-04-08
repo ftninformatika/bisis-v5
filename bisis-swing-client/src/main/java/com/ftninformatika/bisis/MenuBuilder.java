@@ -84,6 +84,7 @@ public class MenuBuilder extends JMenuBar {
     private JMenuItem miBibliotekari = null;
     private JMenuItem miTipoviObrade = null;
     private JMenuItem mIzlaz = null;
+    private JMenuItem mLogOut = null;
     private JMenuItem mLog = null;
     private JMenuItem mMonitor = null;
     private JMenuItem miUserCategs = null;
@@ -370,6 +371,7 @@ public class MenuBuilder extends JMenuBar {
             mSistem.setText(Messages.getString("MENU_SYSTEM"));
             mSistem.add(getMLog());
             mSistem.add(getMMonitor());
+            mSistem.add(getMLogOut());
             mSistem.add(getMIzlaz());
         }
         return mSistem;
@@ -765,6 +767,18 @@ public class MenuBuilder extends JMenuBar {
             });
         }
         return mIzlaz;
+    }
+
+    private JMenuItem getMLogOut() {
+        if (mLogOut == null) {
+            mLogOut = new JMenuItem(Messages.getString("LOGOUT"));
+            mLogOut.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    BisisApp.getMainFrame().logOut();
+                }
+            });
+        }
+        return mLogOut;
     }
 
     private JMenuItem getMLog() {
