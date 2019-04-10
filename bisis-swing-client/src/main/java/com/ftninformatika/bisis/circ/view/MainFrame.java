@@ -109,8 +109,8 @@ public class MainFrame extends JInternalFrame {
     }
 
     public void setLendingsTabWindowSize() {
-        this.setSize(new Dimension(1000, 640));
-        this.setPreferredSize(new Dimension(1000, 640));
+        this.setSize(new Dimension(1000, 615));
+        this.setPreferredSize(new Dimension(1000, 615));
     }
 
     public void setDefaultWindowSize() {
@@ -146,21 +146,17 @@ public class MainFrame extends JInternalFrame {
                             }
                             showPanel("userPanel"); //$NON-NLS-1$
                         } else if (found == 2) {
-                            log.info("Pronadjen kolektivni korisnik: " + userid);
                             getUserIDPanel().clear();
                             getUserIDPanel().setVisible(false);
                             showPanel("groupPanel"); //$NON-NLS-1$
                         } else if (found == 3) {
-                            log.info("Zakljucan korisnik: " + userid);
                             JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.userinuse"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                     new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                         } else {
-                            log.info("Nije pronadjen korisnik: " + userid);
                             JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.userdontexists"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                     new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                         }
                     } else {
-                        log.info("Broj korisnika nije validan: " + getUserIDPanel().getValue());
                         JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.usernumberisnotvalid"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                 new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                     }

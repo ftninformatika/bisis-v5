@@ -93,9 +93,9 @@ public class StatistikaObradjivaca extends Report {
         date = intern.parse(sdate);
         String key = settings.getReportName() + getFilenameSuffix(date);
         Item item = getItem(key, obr);
-        if ("cr".equals(type))
+        if ("createdRecords".equals(type))
           item.add(brPrimeraka, 0, 0, 0,0,0);
-        else if ("dp".equals(type)){
+        else if ("createdInv".equals(type)){
           item.add(0, brPrimeraka, 0, 0,0,0);
         }else if ("rd".equals(type)){
           item.add(0, 0, brPrimeraka, 0,0,0);
@@ -135,7 +135,7 @@ public class StatistikaObradjivaca extends Report {
       sg = 0;
       can=0;
       dan=0;
-      //this.obr = "";//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.LIBRARIAN_CODER, obr); TODO-???
+      //this.inventator = "";//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.LIBRARIAN_CODER, inventator); TODO-???
       if(this.obr!=null){
     	  this.obr= LatCyrUtils.toCyrillic(this.obr);
      }else{
@@ -145,7 +145,7 @@ public class StatistikaObradjivaca extends Report {
     }
 
     public String toString() {
-        return "<item><obr>"+obr+"</obr><cr>"+cr+"</cr><dp>"+dp+"</dp><rd>"+rd+"</rd><sg>"+sg+"</sg><can>"+can+"</can><dan>"+dan+"</dan></item>\n";
+        return "<item><inventator>"+obr+"</inventator><createdRecords>"+cr+"</createdRecords><createdInv>"+dp+"</createdInv><rd>"+rd+"</rd><sg>"+sg+"</sg><can>"+can+"</can><dan>"+dan+"</dan></item>\n";
       }
 
     public int hashCode() {

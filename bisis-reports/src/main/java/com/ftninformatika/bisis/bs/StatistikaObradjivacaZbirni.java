@@ -87,7 +87,7 @@ public class StatistikaObradjivacaZbirni extends Report {
       String type = f.getSubfield('b').getContent();
       String obr = f.getSubfield('f').getContent();
       String sdate = f.getSubfield('c').getContent();
-      if (sf6 != null && sf6.getContent() != null && sf6.getContent().trim().compareToIgnoreCase("")!=0 && type.compareToIgnoreCase("cr")!=0) {
+      if (sf6 != null && sf6.getContent() != null && sf6.getContent().trim().compareToIgnoreCase("")!=0 && type.compareToIgnoreCase("createdRecords")!=0) {
         try {
           brPrimeraka = Integer.parseInt(sf6.getContent().trim());
         } catch (Exception ex) {
@@ -106,9 +106,9 @@ public class StatistikaObradjivacaZbirni extends Report {
       }
       String key = settings.getReportName() + getFilenameSuffix(date);
       Item item = getItem(key, obr);
-      if ("cr".equals(type))
+      if ("createdRecords".equals(type))
         item.add(1, 0, 0, 0,0);
-      else if ("dp".equals(type))
+      else if ("createdInv".equals(type))
         item.add(0, 1, 0, 0,0);
       else if ("co".equals(type))
         item.add(0, 0, 1, 0,0);
@@ -141,7 +141,7 @@ public class StatistikaObradjivacaZbirni extends Report {
       co = 0;
       re = 0;
       nv=0;
-      //this.obr = HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.LIBRARIAN_CODER, obr);
+      //this.inventator = HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.LIBRARIAN_CODER, inventator);
       if(this.obr!=null){
     	  this.obr=LatCyrUtils.toCyrillic(this.obr);
      }else{
@@ -150,7 +150,7 @@ public class StatistikaObradjivacaZbirni extends Report {
     }
 
     public String toString() {
-        return "<item><obr>"+obr+"</obr><cr>"+cr+"</cr><dp>"+dp+"</dp><co>"+co+"</co><re>"+re+"</re><nov>"+nv+"</nov></item>\n";
+        return "<item><inventator>"+obr+"</inventator><createdRecords>"+cr+"</createdRecords><createdInv>"+dp+"</createdInv><co>"+co+"</co><re>"+re+"</re><nov>"+nv+"</nov></item>\n";
       }
 
     public int hashCode() {
