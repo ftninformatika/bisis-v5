@@ -109,8 +109,8 @@ public class MainFrame extends JInternalFrame {
     }
 
     public void setLendingsTabWindowSize() {
-        this.setSize(new Dimension(1000, 700));
-        this.setPreferredSize(new Dimension(1000, 700));
+        this.setSize(new Dimension(1000, 640));
+        this.setPreferredSize(new Dimension(1000, 640));
     }
 
     public void setDefaultWindowSize() {

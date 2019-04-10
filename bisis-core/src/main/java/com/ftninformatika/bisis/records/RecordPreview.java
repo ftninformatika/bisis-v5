@@ -170,7 +170,8 @@ public class RecordPreview {
             return "";
         if (rec.getSubfieldContent("700a") != null)
             retVal = rec.getSubfieldContent("700a")
-                    + (rec.getSubfieldContent("700b") == null ? "" : rec.getSubfieldContent("700b"));
+                    + (rec.getSubfieldContent("700b") == null ?
+                    "" : (" " + rec.getSubfieldContent("700b")));
         if (!retVal.equals(""))
             return retVal;
         if (rec.getSubfieldContent("710a") != null)

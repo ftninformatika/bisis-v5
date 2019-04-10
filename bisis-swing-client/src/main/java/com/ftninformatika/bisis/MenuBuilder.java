@@ -371,7 +371,7 @@ public class MenuBuilder extends JMenuBar {
             mSistem.setText(Messages.getString("MENU_SYSTEM"));
             mSistem.add(getMLog());
             mSistem.add(getMMonitor());
-            mSistem.add(getMLogOut());
+//            mSistem.add(getMLogOut());
             mSistem.add(getMIzlaz());
         }
         return mSistem;
