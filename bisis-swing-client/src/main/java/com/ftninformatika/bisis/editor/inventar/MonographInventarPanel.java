@@ -433,22 +433,26 @@ public class MonographInventarPanel extends InventarPanel {
 		else sigDubletTxtFld.setText("");
 		if(p.getDatumInventarisanja()!=null) datumInvTxtFld.setText(InventarConstraints.sdf.format(p.getDatumInventarisanja()));
 		else datumInvTxtFld.setText("");
-  if(p.getOdeljenje()!=null) odeljenjePanel.setCode(p.getOdeljenje());
-  else odeljenjePanel.setCode("");  
-		if(p.getInvBroj()!=null && p.getInvBroj().length()>3)     
-    invKnjPanel.setCode(p.getInvBroj().substring(2,4));   
+  		if(p.getOdeljenje()!=null) odeljenjePanel.setCode(p.getOdeljenje());
+  		else odeljenjePanel.setCode("");
+		if(p.getInvBroj()!=null && p.getInvBroj().length()>3)
+		invKnjPanel.setCode(p.getInvBroj().substring(2,4));
 		else invKnjPanel.setCode("");
 		if(p.getInvBroj()!=null) invBrojPanel.setInventarniBroj(p.getInvBroj());
 		else invBrojPanel.setInventarniBroj("");
 		if(p.getStatus()!=null) statusPanel.setCode(p.getStatus());
 		else statusPanel.setCode("");
-    if(p.getDostupnost()!=null) dostupnostPanel.setCode(p.getDostupnost());
-    else dostupnostPanel.setCode("");
+    	if(p.getDostupnost()!=null) dostupnostPanel.setCode(p.getDostupnost());
+    	else dostupnostPanel.setCode("");
 		if(p.getNapomene()!=null) napomeneTxtArea.setText(p.getNapomene());
 		else napomeneTxtArea.setText("");		
 		if(p.getDatumStatusa()!=null) datumStatusaTxtFld.setText(InventarConstraints.sdf.format(p.getDatumStatusa()));
 		else datumStatusaTxtFld.setText("");
 		if(p.getInventator()!=null) inventatorTxtFld.setText(p.getInventator());
+		else if(p.getInvBroj() == null
+				&& BisisApp.appConfig.getLibrarian().getUsername() != null) {
+			inventatorTxtFld.setText(BisisApp.appConfig.getLibrarian().getUsername());
+		}
 		else inventatorTxtFld.setText("");
 		if(p.getUsmeravanje()!=null) usmeravanjeTxtFld.setText(p.getUsmeravanje());
 		else usmeravanjeTxtFld.setText("");

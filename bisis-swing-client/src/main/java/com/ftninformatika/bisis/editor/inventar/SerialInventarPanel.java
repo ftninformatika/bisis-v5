@@ -229,6 +229,8 @@ public class SerialInventarPanel extends InventarPanel {
     if(g.getDostupnost()!=null) dostupnostPanel.setCode(g.getDostupnost());
     else dostupnostPanel.setCode("");
     if(g.getInventator()!=null) inventatorTxtFld.setText(g.getInventator());
+    else if (g.getInvBroj() == null && BisisApp.appConfig.getLibrarian().getUsername() != null)
+      inventatorTxtFld.setText(BisisApp.appConfig.getLibrarian().getUsername());
     else inventatorTxtFld.setText("");    
     sveskePanel.setSveske(g);
   }
