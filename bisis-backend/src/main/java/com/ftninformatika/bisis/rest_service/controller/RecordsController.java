@@ -241,7 +241,13 @@ public class RecordsController {
             Map<String, String> sublocationMap = sublocrep.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
             List<PrimerakPreview> primerakPreviews = new ArrayList<>();
             for (ItemAvailability ia: itemAvailabilities) {
-                String sublocation = rec.getPrimerak(ia.getCtlgNo()).getSigPodlokacija();
+                boolean isPrimerak = rec.getPrimerci().size() > 0;
+                boolean isGodina = rec.getGodine().size() > 0;
+                String sublocation = "";
+                if (isPrimerak)
+                    sublocation = rec.getPrimerak(ia.getCtlgNo()).getSigPodlokacija();
+                else if (isGodina)
+                    sublocation = rec.getGodina(ia.getCtlgNo()).getSigPodlokacija();
                 PrimerakPreview p = lib.equals("bgb") ? new PrimerakPreview(ia, sublocationMap.get(sublocation)) : new PrimerakPreview(ia, ia.getLibDepartment());
                 primerakPreviews.add(p);
             }
