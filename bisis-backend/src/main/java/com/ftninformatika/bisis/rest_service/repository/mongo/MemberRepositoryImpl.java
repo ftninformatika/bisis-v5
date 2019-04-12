@@ -172,7 +172,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         if (cr != null) {
             Query q = new Query();
             q.addCriteria(cr);
-            q.fields().elemMatch("signings", Criteria.where("signDate").gte(startDate).lte(endDate));
+            Criteria elemMatchInsideCriteria = new Criteria();
+            elemMatchInsideCriteria = elemMatchInsideCriteria.andOperator(Criteria.where("signDate").gte(startDate).lte(endDate), Criteria.where("location").is(location));
+            q.fields().elemMatch("signings", elemMatchInsideCriteria);
             q.fields().include("userId").include("firstName").include("lastName").include("address").include("zip").
                     include("city").include("docNo").include("docCity").include("jmbg").include("gender").
                     include("userCategory.description").include("membershipType.description");
