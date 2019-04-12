@@ -154,7 +154,7 @@ public class RecordPreview {
         } catch (Exception e1) {
             Iterator it = rec.getGodine().iterator();
             while (it.hasNext()){
-                String formatedSig = Signature.format((Primerak)it.next()) + ", ";
+                String formatedSig = Signature.format((Godina) it.next()) + ", ";
                 if (!text.contains(formatedSig))
                     text = text + formatedSig;
             }
