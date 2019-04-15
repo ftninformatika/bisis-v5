@@ -50,7 +50,7 @@ public class StatistikaInventatora extends Report {
   @Override
   public void handleRecord(Record rec) {
 
-    if (rec == null || rec.getPrimerci().size() == 0 || rec.getGodine().size() == 0)
+    if (rec == null)
         return;
 
     String inventator = rec.getCreator().getUsername();
@@ -64,12 +64,12 @@ public class StatistikaInventatora extends Report {
         Item itemCr = getItem(key, inventator);
         itemCr.createdRecords++;
         for (Primerak p: rec.getPrimerci()) {
-            String prInvetator = p.getInventator() == null ? "Nepoznat" : p.getInventator();
+            String prInvetator = p.getInventator() == null ? "Непознат" : p.getInventator();
             Item itemPr = getItem(key, prInvetator);
             itemPr.createdInv++;
         }
         for (Godina g: rec.getGodine()) {
-            String prInvetator = g.getInventator() == null ? "Nepoznat" : g.getInventator();
+            String prInvetator = g.getInventator() == null ? "Непознат" : g.getInventator();
             Item itemPr = getItem(key, prInvetator);
             itemPr.createdInv++;
         }
@@ -106,7 +106,8 @@ public class StatistikaInventatora extends Report {
                 + createdRecords +
                 "</createdRecords><createdInv>"
                 + createdInv +
-                "</createdInv></item>\n";
+                "</createdInv>" +
+                "</item>\n";
       }
 
     public int hashCode() {
