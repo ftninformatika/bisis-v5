@@ -373,8 +373,10 @@ public class Record implements Serializable {
   
   
   public Godina getGodina(String invBroj){
-	  for(Godina g:godine){		 
-		  if(g.getInvBroj().equals(invBroj))
+      if (invBroj == null)
+          return null;
+	  for(Godina g:godine){
+		  if(g.getInvBroj() != null && g.getInvBroj().equals(invBroj))
 		  return g;		  
 	  }
 	  return null;

@@ -73,20 +73,21 @@ export class PresentItemGenerator {
                         }
                     }
                 }
-            } // serijska
+            } // serijska - ne izdaju se
         } else if (record['pubType'] === 2) {
             for (let i = 0; i < record['godine'].length; i++) {
-                if (showables.includes(record['godine'][i]['status'])) {
-                    if (lendables.includes(record['godine'][i]['status']) === false) {
-                        notLendable.push(record['godine'][i]['invBroj']);
-                    } else {
-                        if (this.isPrimerakLended(record['primerci'][i]['invBroj'], itemAvailabilities)) {
-                            lended.push(record['godine'][i]['invBroj']);
-                        } else {
-                            free.push(record['godine'][i]['invBroj']);
-                        }
-                    }
-                }
+                // if (showables.includes(record['godine'][i]['status'])) {
+                //     if (lendables.includes(record['godine'][i]['status']) === false) {
+                //         notLendable.push(record['godine'][i]['invBroj']);
+                //     } else {
+                //         if (this.isPrimerakLended(record['primerci'][i]['invBroj'], itemAvailabilities)) {
+                //             lended.push(record['godine'][i]['invBroj']);
+                //         } else {
+                //             free.push(record['godine'][i]['invBroj']);
+                //         }
+                //     }
+                // }
+                notLendable.push(record['godine'][i]['invBroj']);
             }
         }
 
