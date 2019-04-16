@@ -389,16 +389,21 @@ public class HitListFrame extends JInternalFrame {
         if(SearchFrame.locId != null) {
             RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
                 public boolean include(Entry entry) {
-                    String locCol = (String) entry.getValue(7);
-                    String invStart = ((String) entry.getValue(0)).substring(0, 2);
+                    try {
+                        String locCol = (String) entry.getValue(7);
+                        String invStart = ((String) entry.getValue(0)).substring(0, 2);
 
-                    if (SearchFrame.locId != null) {
-                        if (locCol != null && !locCol.equals(SearchFrame.locId))
-                            return false;
-                        else if (!invStart.equals(SearchFrame.locId))
-                            return false;
+                        if (SearchFrame.locId != null) {
+                            if (locCol != null && !locCol.equals(SearchFrame.locId))
+                                return false;
+                            else if (!invStart.equals(SearchFrame.locId))
+                                return false;
+                        }
+                        return true;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return false;
                     }
-                    return true;
                 }
             };
             TableRowSorter<InventarTabTableModel> sorter = new TableRowSorter<InventarTabTableModel>(inventarTableModel);
