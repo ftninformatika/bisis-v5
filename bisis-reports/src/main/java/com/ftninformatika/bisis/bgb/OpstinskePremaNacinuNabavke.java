@@ -1,12 +1,12 @@
 package com.ftninformatika.bisis.bgb;
 
+import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.log4j.Logger;
-
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -19,39 +19,39 @@ public class OpstinskePremaNacinuNabavke extends Report {
     if (rec == null)
       return;
     String RN = rec.getSubfieldContent("001e");
+    processInventory(rec.getPrimerci(), RN);
+    processInventory(rec.getGodine(), RN);
+  }
 
-    for (Primerak p : rec.getPrimerci()) {
-      Matcher matcher = pattern.matcher(p.getInvBroj());
+  private void processInventory(List invUnits, String RN) {
+    if (invUnits == null || invUnits.size() == 0)
+      return;
+    for (Object p : invUnits) {
+      String invBr = getInvBr(p);
+      if (invBr == null) {
+        continue;
+      }
+      Matcher matcher = pattern.matcher(invBr);
       if (!matcher.matches()) {
         continue;
       }
-      Date datInv = p.getDatumInventarisanja();
-
+      Date datInv = getDatumInventarisanja(p);
       String key = settings.getReportName() + getFilenameSuffix(datInv);
 
-      boolean error = false;
-      // inv. broj
-      String invBr = p.getInvBroj();
-
-      if (invBr == null || invBr.trim().length() == 0) {
+      if (invBr.trim().length() == 0) {
         log.error("RN: " + RN + " nedostaje inventarni broj\n");
-        error = true;
+        continue;
       }
 
-      // nacin nabavke
-      String nacinNabavke = p.getNacinNabavke();
+      String nacinNabavke = getNacinNabavke(p);
       if (nacinNabavke == null || nacinNabavke.trim().length() == 0) {
         log.error("RN: " + RN + " nedostaje na\u010din nabavke za IN=" + invBr + "\n");
-        error = true;
-      }
-      // razvrstava primerke po podlokacijama
-      String ogranakID=p.getSigPodlokacija();
-      if(ogranakID==null){
-        ogranakID="\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
+        continue;
       }
 
-      if (error) {
-        continue;
+      String ogranakID=getPodlokacija(p);
+      if(ogranakID==null){
+        ogranakID="\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438"; // nerazvrstani
       }
 
       Ogranak o = getItem(getList(key), ogranakID);
@@ -66,17 +66,45 @@ public class OpstinskePremaNacinuNabavke extends Report {
     }
   }
 
+  private String getInvBr(Object o) {
+    if (o instanceof Primerak)
+      return (((Primerak) o).getInvBroj());
+    else if (o instanceof Godina)
+      return ((Godina) o).getInvBroj();
+    return null;
+  }
+
+  private Date getDatumInventarisanja(Object o) {
+    if (o instanceof Primerak)
+      return (((Primerak) o).getDatumInventarisanja());
+    else if (o instanceof Godina)
+      return ((Godina) o).getDatumInventarisanja();
+    return null;
+  }
+
+  private String getNacinNabavke(Object o) {
+    if (o instanceof Primerak)
+      return (((Primerak) o).getNacinNabavke());
+    else if (o instanceof Godina)
+      return ((Godina) o).getNacinNabavke();
+    return null;
+  }
+
+  private String getPodlokacija(Object o) {
+    if (o instanceof Primerak)
+      return (((Primerak) o).getSigPodlokacija());
+    else if (o instanceof Godina)
+      return ((Godina) o).getSigPodlokacija();
+    return null;
+  }
+
   public Ogranak getItem(List<Ogranak> ol, String ogranakID) {
-
     for (Ogranak o : ol) {
-
       if (o.ogr.compareToIgnoreCase(ogranakID) == 0) {
         return o;
       }
     }
     return null;
-
-
   }
 
   public List<Ogranak> getList(String key) {
