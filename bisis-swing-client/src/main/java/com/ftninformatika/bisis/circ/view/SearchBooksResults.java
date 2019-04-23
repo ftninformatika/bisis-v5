@@ -132,9 +132,9 @@ public class SearchBooksResults extends JPanel {
             leftPanel.add(getBtnPrev(), cc.xy(7, 4));
             leftPanel.add(getBtnNext(), cc.xy(9, 4));
             leftPanel.add(getLeftScrollPane(), cc.xyw(2, 6, 9, "fill, fill")); //$NON-NLS-1$
-            leftPanel.add(getBtnLend(), cc.xy(3, 8, "fill, fill")); //$NON-NLS-1$
-            leftPanel.add(getBtnReturn(), cc.xy(5, 8, "fill, fill")); //$NON-NLS-1$
-            leftPanel.add(getBtnPrintInv(), cc.xy(7, 8)); //$NON-NLS-1$
+            leftPanel.add(getBtnLend(), cc.xy(2, 8, "fill, fill")); //$NON-NLS-1$
+            leftPanel.add(getBtnReturn(), cc.xy(3, 8, "fill, fill")); //$NON-NLS-1$
+            leftPanel.add(getBtnPrintInv(), cc.xy(5, 8, "fill fill")); //$NON-NLS-1$
         }
         return leftPanel.getPanel();
     }
@@ -257,9 +257,9 @@ public class SearchBooksResults extends JPanel {
             return btnPrintInv;
         }
         btnPrintInv = new JButton();
-        btnLend.setToolTipText(Messages.getString("BARCODE")); //$NON-NLS-1$
-        btnPrintInv.setPreferredSize(new java.awt.Dimension(28, 28));
-        btnPrintInv.setIcon(new ImageIcon(getClass().getResource("/circ-images/print16.png"))); //$NON-NLS-1$
+        btnPrintInv.setToolTipText(Messages.getString("BARCODE")); //$NON-NLS-1$
+        btnPrintInv.setPreferredSize(new java.awt.Dimension(32, 32));
+        btnPrintInv.setIcon(new ImageIcon(getClass().getResource("/circ-images/barcode16.png"))); //$NON-NLS-1$
         btnPrintInv.setFocusable(false);
         btnPrintInv.setEnabled(false);
         btnPrintInv.addActionListener(new ActionListener() {
