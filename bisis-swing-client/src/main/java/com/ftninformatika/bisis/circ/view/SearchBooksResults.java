@@ -24,7 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTree;
 import javax.swing.JButton;
-import javax.swing.JTextPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -34,6 +33,7 @@ import javax.swing.tree.TreeSelectionModel;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.Report;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.editor.inventar.PrintBarcode;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
@@ -61,6 +61,7 @@ public class SearchBooksResults extends JPanel {
     private JButton btnReturn = null;
     private JButton btnPrev = null;
     private JButton btnNext = null;
+    private JButton btnPrintInv = null;
     private JLabel lUser = null;
     private JScrollPane rightScrollPaneInfo = null;
     private JScrollPane rightScrollPaneList = null;
@@ -133,6 +134,7 @@ public class SearchBooksResults extends JPanel {
             leftPanel.add(getLeftScrollPane(), cc.xyw(2, 6, 9, "fill, fill")); //$NON-NLS-1$
             leftPanel.add(getBtnLend(), cc.xy(3, 8, "fill, fill")); //$NON-NLS-1$
             leftPanel.add(getBtnReturn(), cc.xy(5, 8, "fill, fill")); //$NON-NLS-1$
+            leftPanel.add(getBtnPrintInv(), cc.xy(7, 8)); //$NON-NLS-1$
         }
         return leftPanel.getPanel();
     }
@@ -180,6 +182,7 @@ public class SearchBooksResults extends JPanel {
                     Object node = tree.getLastSelectedPathComponent();
                     if (node == null) return;
                     if (node instanceof Record) {
+                        getBtnPrintInv().setEnabled(false);
                         if (getTabPane().getSelectedIndex() == 0) {
                             makeInfo((Record) node);
                         } else {
@@ -187,6 +190,7 @@ public class SearchBooksResults extends JPanel {
                         }
                     } else if (node instanceof Primerak) {
                         Primerak primerak = (Primerak) node;
+                        getBtnPrintInv().setEnabled(true);
                         if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())) {
                             getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(primerak.getInvBroj()) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
                             if (!Cirkulacija.getApp().getUserManager().gotUser())
@@ -204,6 +208,7 @@ public class SearchBooksResults extends JPanel {
                         }
                     } else if (node instanceof Sveska) {
                         Sveska sveska = (Sveska) node;
+                        getBtnPrintInv().setEnabled(false);
                         if (getBooksTreeModel().isBorrowed(sveska.getInvBroj())) {
                             getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(sveska.getInvBroj()) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
                             if (!Cirkulacija.getApp().getUserManager().gotUser())
@@ -245,6 +250,27 @@ public class SearchBooksResults extends JPanel {
             });
         }
         return btnLend;
+    }
+
+    private JButton getBtnPrintInv() {
+        if (btnPrintInv != null) {
+            return btnPrintInv;
+        }
+        btnPrintInv = new JButton();
+        btnLend.setToolTipText(Messages.getString("BARCODE")); //$NON-NLS-1$
+        btnPrintInv.setPreferredSize(new java.awt.Dimension(28, 28));
+        btnPrintInv.setIcon(new ImageIcon(getClass().getResource("/circ-images/print16.png"))); //$NON-NLS-1$
+        btnPrintInv.setFocusable(false);
+        btnPrintInv.setEnabled(false);
+        btnPrintInv.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                Object selectedItem = getTree().getLastSelectedPathComponent();
+                if (selectedItem instanceof Primerak) {
+                    PrintBarcode.printBarcodeForPrimerak((Primerak) selectedItem, null);
+                }
+            }
+        });
+        return btnPrintInv;
     }
 
     private JButton getBtnReturn() {
