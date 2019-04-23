@@ -1,11 +1,13 @@
 package com.ftninformatika.bisis.editor.groupinv;
 
+import com.ftninformatika.bisis.editor.inventar.InventarConstraints;
 import com.ftninformatika.utils.Messages;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,6 +44,13 @@ public class GroupInvTextDialog extends CenteredDialog {
 		textArea = new JTextArea(10,20);
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		add(scrollPane,"grow, wrap");
+		textArea.addKeyListener(new KeyAdapter(){
+			public void keyReleased(KeyEvent keyEvent) {
+				if (keyEvent.getKeyCode() == KeyEvent.VK_F2) {
+					textArea.insert(InventarConstraints.sdf.format(new Date()), textArea.getCaretPosition());
+				}
+			}
+		});
 		okButton = new JButton();
 		okButton.setSize(new java.awt.Dimension(88,26));
 		okButton.setText(Messages.getString("EDITOR_BUTTONACCEPT"));
