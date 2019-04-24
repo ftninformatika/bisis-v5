@@ -53,29 +53,46 @@ public class StatistikaInventatora extends Report {
     if (rec == null)
         return;
 
-    String inventator = rec.getCreator().getUsername();
+    String creator = getCreator(rec);
     Date recCrDate = rec.getCreationDate();
 
-    if (recCrDate == null || inventator == null || inventator.equals(""))
-        return;
-
     try {
-        String key = settings.getReportName() + getFilenameSuffix(recCrDate);
-        Item itemCr = getItem(key, inventator);
+        String keyCreator = settings.getReportName() + getFilenameSuffix(recCrDate);
+        Item itemCr = getItem(keyCreator, creator);
         itemCr.createdRecords++;
         for (Primerak p: rec.getPrimerci()) {
+            String keyInvetator = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());
             String prInvetator = p.getInventator() == null ? "Непознат" : p.getInventator();
-            Item itemPr = getItem(key, prInvetator);
+            Item itemPr = getItem(keyInvetator, prInvetator);
             itemPr.createdInv++;
         }
         for (Godina g: rec.getGodine()) {
+            String keyInvetator = settings.getReportName() + getFilenameSuffix(g.getDatumInventarisanja());
             String prInvetator = g.getInventator() == null ? "Непознат" : g.getInventator();
-            Item itemPr = getItem(key, prInvetator);
+            Item itemPr = getItem(keyInvetator, prInvetator);
             itemPr.createdInv++;
         }
     } catch (Exception e) {
         e.printStackTrace();
     }
+  }
+
+  public String getCreator(Record r) {
+        String retVal = "Непознат";
+        if (r.getCreationDate() == null)
+            return retVal;
+
+        if (r.getCreationDate().equals(r.getLastModifiedDate())
+            && r.getModifier() != null &&
+                r.getModifier().getUsername() != null &&
+                !r.getModifier().getUsername().equals("")){
+            retVal = r.getModifier().getUsername();
+        } else if (r.getCreator() != null
+                && r.getCreator().getUsername() != null
+                && !r.getCreator().getUsername().equals("")) {
+            retVal  = r.getCreator().getUsername();
+        }
+        return retVal;
   }
 
   public class Item implements Comparable<Item> {

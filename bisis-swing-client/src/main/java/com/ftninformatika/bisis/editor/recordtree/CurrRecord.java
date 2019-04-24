@@ -74,9 +74,7 @@ public class CurrRecord {
                     record.setRecordID(id);
                     record.setRN(rn);
                     record.setPubType(CurrFormat.getPubType());
-                    if (record.getCreator() == null) {
-                        record.setCreator(new Author(BisisApp.appConfig.getLibrarian().getUsername(), BisisApp.appConfig.getClientConfig().getLibraryName()));
-                    }
+                    record.setCreator(new Author(BisisApp.appConfig.getLibrarian().getUsername(), BisisApp.appConfig.getClientConfig().getLibraryName()));
                     record.setModifier(new Author(BisisApp.appConfig.getLibrarian().getUsername(), BisisApp.appConfig.getClientConfig().getLibraryName()));
                     Record r = null;
                     try {
