@@ -241,6 +241,30 @@ public class GroupInvTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    public void appendText(String newText, int selectedColumn) {
+        if (columns[selectedColumn].equals(Messages.getString("NOTE"))) {
+            for (Primerak p : primerci) {
+                String oldText = p.getNapomene() == null ? "" : p.getNapomene();
+                p.setNapomene(oldText + newText);
+            }
+            for (Godina g : godine) {
+                String oldText = g.getNapomene() == null ? "" : g.getNapomene();
+                g.setNapomene(oldText + newText);
+            }
+        }
+        if (columns[selectedColumn].equals(Messages.getString("UDK"))){
+            for (Primerak p : primerci) {
+                String oldText = p.getNapomene() == null ? "" : p.getNapomene();
+                p.setSigUDK(oldText + newText);
+            }
+            for (Godina g : godine) {
+                String oldText = g.getNapomene() == null ? "" : g.getNapomene();
+                g.setSigUDK(oldText + newText);
+            }
+        }
+        fireTableDataChanged();
+    }
+
     public void clearList() {
         primerci.clear();
         godine.clear();

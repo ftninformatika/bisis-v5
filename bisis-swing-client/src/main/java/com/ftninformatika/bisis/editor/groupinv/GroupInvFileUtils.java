@@ -63,7 +63,9 @@ public class GroupInvFileUtils {
 	}
 	
 	public static void main(String[] args){
-		System.out.println(parseLine("19933/00"));
+
+//		System.out.println(parseLine("19933/00"));
+		System.out.println(null + "asdsada");
 	}
 
 }

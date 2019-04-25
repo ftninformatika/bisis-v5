@@ -28,18 +28,26 @@ public class GroupInvTextDialog extends CenteredDialog {
 	private JPanel buttonsPanel;  
 	private String name;
 	private String newText;
-	
-	
-	public GroupInvTextDialog(String name){
+	boolean appendMode = false;
+
+	public GroupInvTextDialog(String name) {
 		super(BisisApp.getMainFrame(),true);
+		initialize();
+	}
 	
+	public GroupInvTextDialog(String name, boolean appendMode){
+		super(BisisApp.getMainFrame(),true);
 		this.name = name;
-		this.setSize(280, 300);		
-		setTitle(MessageFormat.format(Messages.getString("CHANGE_VALUE_FOR.0"), name));
+		this.appendMode = appendMode;
 		initialize();
 	}
 	
 	private void initialize() {
+		this.setSize(280, 300);
+		if (!appendMode)
+			setTitle(MessageFormat.format(Messages.getString("CHANGE_VALUE_FOR.0"), name));
+		else
+			setTitle(MessageFormat.format(Messages.getString("APPEND_VALUE_FOR.0"), name));
 		setLayout(new MigLayout("insets 10 10 10 10","","[]"));
 		textArea = new JTextArea(10,20);
 		JScrollPane scrollPane = new JScrollPane(textArea);

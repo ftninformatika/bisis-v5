@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.editor.groupinv;
 
+import com.ftninformatika.bisis.editor.inventar.PrintBarcode;
+import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.utils.Messages;
 
 import java.awt.*;
@@ -57,10 +59,26 @@ public class GroupInvFrame extends JInternalFrame {
         manualInputPanel.add(dodajButton, "grow");
 
         scrollPane = new JScrollPane(inventarTable);
-        buttonsPanel.setLayout(new MigLayout("", "5[]300[right]5[right]", ""));
+        buttonsPanel.setLayout(new MigLayout("", "4[]4[]150[right]5[right]", ""));
 
-
+        printBarcodeButton.setToolTipText(Messages.getString("BARCODE")); //$NON-NLS-1$
+        printBarcodeButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        printBarcodeButton.setIcon(new ImageIcon(getClass().getResource("/circ-images/barcode16.png"))); //$NON-NLS-1$
+        printBarcodeButton.setFocusable(false);
+        printBarcodeButton.setEnabled(false);
+        printBarcodeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+//                Object selectedItem = getTree().getLastSelectedPathComponent();
+//                if (selectedItem instanceof Primerak) {
+//                    PrintBarcode.printBarcodeForPrimerak((Primerak) selectedItem, null);
+//                } TODO
+            }
+        });
+        appendValueButton.setToolTipText(Messages.getString("EDITOR_APPEND_VALUE_BUTTON_TOOLTIP"));
+        appendValueButton.setEnabled(false);
         buttonsPanel.add(changeValueButton);
+        buttonsPanel.add(appendValueButton);
+        buttonsPanel.add(printBarcodeButton);
         buttonsPanel.add(saveChangesButton);
         buttonsPanel.add(resetTableButton);
 
@@ -111,6 +129,12 @@ public class GroupInvFrame extends JInternalFrame {
             }
         });
 
+        appendValueButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                handleAppendValue();
+            }
+        });
+
         saveChangesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 handleSaveChanges();
@@ -155,11 +179,18 @@ public class GroupInvFrame extends JInternalFrame {
     }
 
     private void handleTableSelectionChanged() {
+        if (inventarTable.getSelectedRow() != -1)
+            printBarcodeButton.setEnabled(true);
         inventarTable.repaint();
         if (tableModel.columnCanBeSelected(inventarTable.getSelectedColumn()))
             changeValueButton.setEnabled(true);
         else
             changeValueButton.setEnabled(false);
+
+        if (inventarTable.getSelectedColumn() % 4 == 0)
+            appendValueButton.setEnabled(true);
+        else
+            appendValueButton.setEnabled(false);
     }
 
     private void handleOpenFile() {
@@ -214,6 +245,18 @@ public class GroupInvFrame extends JInternalFrame {
         }
     }
 
+    private void handleAppendValue() {
+        int sColIndex = inventarTable.getSelectedColumn();
+        if (sColIndex % 4 == 0) {
+            GroupInvTextDialog appendDialog = new GroupInvTextDialog(tableModel.getColumnName(sColIndex), true);
+            appendDialog.setVisible(true);
+            if (appendDialog.getNewText() != null) {
+                tableModel.appendText(appendDialog.getNewText(), sColIndex);
+            }
+            appendDialog.setVisible(false);
+        }
+    }
+
     private void handleSaveChanges() {
         boolean ok = tableModel.updateRecords();
         if (ok)
@@ -233,7 +276,9 @@ public class GroupInvFrame extends JInternalFrame {
     private void handleClearList() {
         tableModel.clearList();
         inventarTable.repaint();
+        printBarcodeButton.setEnabled(false);
         changeValueButton.setEnabled(false);
+        appendValueButton.setEnabled(false);
     }
 
     private JPanel manualInputPanel = new JPanel();
@@ -252,6 +297,8 @@ public class GroupInvFrame extends JInternalFrame {
     private JButton browseButton = new JButton(Messages.getString("EDITOR_FIND_FILE_BUTTON"));
     private JButton loadFileButton = new JButton(Messages.getString("EDITOR_LOAD_NUMS_BUTTON"));
     private JButton changeValueButton = new JButton(Messages.getString("EDITOR_CHANGE_VALUE_BUTTON"));
+    private JButton printBarcodeButton = new JButton();
+    private JButton appendValueButton = new JButton(Messages.getString("EDITOR_APPEND_VALUE_BUTTON"));
     private JButton saveChangesButton = new JButton(Messages.getString("EDITOR_SAVE_BUTTON"));
     private JButton resetTableButton = new JButton(Messages.getString("EDITOR_CANCEL_BUTTON"));
     private JFileChooser fileChooser = new JFileChooser();
