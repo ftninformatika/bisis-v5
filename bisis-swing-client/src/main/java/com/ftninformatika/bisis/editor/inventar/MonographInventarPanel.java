@@ -344,7 +344,7 @@ public class MonographInventarPanel extends InventarPanel {
 		buttonsPanel.setLayout(layout);		
 		buttonsPanel.add(raspodelaButton);
 		buttonsPanel.add(printBarcodeButton);
-  buttonsPanel.add(Box.createGlue());
+  		buttonsPanel.add(Box.createGlue());
 		buttonsPanel.add(sacuvajButton);   
 		buttonsPanel.add(ponistiButton);		
 		
@@ -450,7 +450,8 @@ public class MonographInventarPanel extends InventarPanel {
 		else datumStatusaTxtFld.setText("");
 		if(p.getInventator()!=null) inventatorTxtFld.setText(p.getInventator());
 		else if(p.getInvBroj() == null
-				&& BisisApp.appConfig.getLibrarian().getUsername() != null) {
+				&& BisisApp.appConfig.getLibrarian().getUsername() != null
+				&& primerciTable.getSelectedRowCount()<=1) {
 			inventatorTxtFld.setText(BisisApp.appConfig.getLibrarian().getUsername());
 		}
 		else inventatorTxtFld.setText("");
