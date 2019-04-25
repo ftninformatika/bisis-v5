@@ -68,10 +68,20 @@ public class GroupInvFrame extends JInternalFrame {
         printBarcodeButton.setEnabled(false);
         printBarcodeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
-//                Object selectedItem = getTree().getLastSelectedPathComponent();
-//                if (selectedItem instanceof Primerak) {
-//                    PrintBarcode.printBarcodeForPrimerak((Primerak) selectedItem, null);
-//                } TODO
+                if (inventarTable.getSelectedRow() == -1)
+                    return;
+                if (inventarTable.getSelectedRows().length != 1)
+                    return;
+                int rowIndex = inventarTable.getSelectedRow();
+                try {
+                    String selectedInvNum = (String) tableModel.getValueAt(rowIndex, 0);
+                    Object selectedItem = tableModel.getItemFromInvNum(selectedInvNum);
+                    if (selectedItem instanceof Primerak) {
+                        PrintBarcode.printBarcodeForPrimerak((Primerak) selectedItem, null);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         appendValueButton.setToolTipText(Messages.getString("EDITOR_APPEND_VALUE_BUTTON_TOOLTIP"));

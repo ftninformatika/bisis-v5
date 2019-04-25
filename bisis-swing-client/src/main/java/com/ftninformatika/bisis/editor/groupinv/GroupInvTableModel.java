@@ -9,27 +9,26 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.Signature;
+import org.omg.CORBA.OBJECT_NOT_EXIST;
 
 import java.io.IOException;
 import java.text.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.swing.table.AbstractTableModel;
 
 
 public class GroupInvTableModel extends AbstractTableModel {
 
-    private List<Primerak> primerci = new ArrayList<Primerak>();
-    private List<Godina> godine = new ArrayList<Godina>();
-    private List<Sveska> sveske = new ArrayList<Sveska>();
-    private List<String> neispravni = new ArrayList<String>();
-
-    private List sviInventarni = new ArrayList();
+    private List<Primerak> primerci = new ArrayList<>();
+    private List<Godina> godine = new ArrayList<>();
+    private List<Sveska> sveske = new ArrayList<>();
+    private List<String> neispravni = new ArrayList<>();
 
     private String[] columns;
-    private String[] columnSet;
 
     public GroupInvTableModel() {
         super();
@@ -145,7 +144,6 @@ public class GroupInvTableModel extends AbstractTableModel {
      * 	vraca da li je primerak, godina ili sveska
      * 	uspesno dodata u tabelu
      */
-
     public void addItem(String invBroj) {
         if (invBrojExists(invBroj)) return;
         Object item = GroupInvRecordUtils.loadItem(invBroj);
@@ -281,6 +279,32 @@ public class GroupInvTableModel extends AbstractTableModel {
                 columns[column].equals(Messages.getString("INTERNAL_MARK")) ||
                 columns[column].equals(Messages.getString("NOTE"));
 
+    }
+
+    public Object getItemFromInvNum(String invNum) {
+        Object retVal = null;
+        if (invNum == null)
+            return retVal;
+
+        try {
+            retVal = primerci.stream().filter(p -> p.getInvBroj().equals(invNum)).findFirst().get();
+        } catch (NullPointerException | NoSuchElementException e) {
+            for (Godina g: godine) {
+                if (g.getInvBroj().equals(invNum)) {
+                    retVal = g;
+                    break;
+                }
+            }
+            for (Sveska s: sveske) {
+                if (s.getInvBroj().equals(invNum)) {
+                    retVal = s;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retVal;
     }
 
     public boolean invBrojExists(String invBroj) {

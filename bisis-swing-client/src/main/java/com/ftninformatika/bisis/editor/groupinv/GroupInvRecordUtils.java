@@ -37,9 +37,9 @@ public class GroupInvRecordUtils {
 		}
 		return retVal;
 	}
-	
 
-	
+
+
 	/*
 	 * pronalazi zapis sa inventarnim brojem invBroj
 	 * stavlja ga u listu zapisa za azuriranje - updatedRecords
