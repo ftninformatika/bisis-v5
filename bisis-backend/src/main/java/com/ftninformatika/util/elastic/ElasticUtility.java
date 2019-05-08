@@ -66,8 +66,6 @@ public class ElasticUtility {
             retVal.should(QueryBuilders.matchPhraseQuery("prefixes.PU", LatCyrUtils.toLatinUnaccentedWithoutStopSigns(universalSearchModel.getSearchText())));
 
             retVal.minimumShouldMatch(1);
-
-
         }
 
         if (universalSearchModel.getDepartments() != null && universalSearchModel.getDepartments().size() > 0) {
@@ -88,26 +86,26 @@ public class ElasticUtility {
         QueryBuilder qb = null;
         if (text != null && !"".equals(text)) {
             //za netokenizirane prefikse posebno se proverava da li se pravi match ili wildcard
-            if(NOT_TOKENIZED.contains(prefix)){
+            if(NOT_TOKENIZED.contains(prefix)) {
                 text = text.toLowerCase();
-                if (!text.contains("*")&& !text.contains("?")) {
+                if (isBarcodeIsbnIssn(prefix, text))
+                    text = formatBarcodeIsbnIssnInput(text);
+                if (!text.contains("*") && !text.contains("?")) {
                     qb = QueryBuilders.matchQuery("prefixes." + prefix, LatCyrUtils.toLatinUnaccented(text));
                 }else {
                     String temp = text.replaceAll("\\*","").replaceAll("\\?","");
-
-                    if(temp.length()>0){ //ne dozvoljavamo upit koji sadrzi samo * i ?
+                    if(temp.length() > 0) { //ne dozvoljavamo upit koji sadrzi samo * i ?
                         qb = QueryBuilders.wildcardQuery("prefixes." + prefix,LatCyrUtils.toLatinUnaccented(text));
                     }
                 }
-
-            }else {
+            } else {
                 //ako trazi pocetak teksta
                 if (text.startsWith("~") && text.length() > 1) {
                     qb = QueryBuilders.matchPhrasePrefixQuery("prefixes." + prefix, text.substring(1)).analyzer("standard").maxExpansions(0);
                     ((QueryStringQueryBuilder) qb).autoGeneratePhraseQueries(true);
                     ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
                 }
-                //ako trazi kraj teksta, obelezeno sa 0end0
+                //ako trazi kraj teksta
                 else if (text.endsWith("~") && text.length() > 1) {
 //                qb = QueryBuilders.matchQuery("prefixes." + prefix, text.substring(0, text.length() - 1)
 //                        + PrefixConverter.endPhraseFlag).analyzer("standard").maxExpansions(0);
@@ -117,16 +115,47 @@ public class ElasticUtility {
                     ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
                 } else {
                     qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccentedWithoutStopSigns(text));
-                ((QueryStringQueryBuilder) qb).defaultField("prefixes." + prefix);
-                ((QueryStringQueryBuilder) qb).autoGeneratePhraseQueries(true);
-               ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
-
-
+                    ((QueryStringQueryBuilder) qb).defaultField("prefixes." + prefix);
+                    ((QueryStringQueryBuilder) qb).autoGeneratePhraseQueries(true);
+                    ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
                 }
             }
         }
-
         return qb;
+    }
+
+    /**
+     * Checks if search value is isbn or issn
+     * from barcode scanner (without "-" signs)
+     * in order to generate different query.
+     */
+    private static boolean isBarcodeIsbnIssn(String pref, String value) {
+        if (pref == null || value == null)
+            return false;
+        if (!pref.equals("BN") && !pref.equals("SN"))
+            return false;
+        if (value.length() < 8)
+            return false;
+        if (value.contains("-"))
+            return false;
+        if (!value.matches("[0-9]+"))
+            return false;
+        return true;
+    }
+
+    /**
+     * Format isbn/issn input without "-" signs
+     * to be able to perform analog search
+     * @return formatted value
+     */
+    private static String formatBarcodeIsbnIssnInput(String value) {
+        StringBuffer retVal = new StringBuffer();
+        for (char c: value.toCharArray()) {
+            retVal.append(c);
+            retVal.append("*");
+        }
+        retVal.delete(retVal.length() - 1, retVal.length());
+        return retVal.toString();
     }
 
     //formiranje Query-ja za glavnu pretragu zapisa
