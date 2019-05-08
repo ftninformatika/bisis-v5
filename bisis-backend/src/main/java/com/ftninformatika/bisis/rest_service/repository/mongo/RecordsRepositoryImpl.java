@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,8 +31,8 @@ public class RecordsRepositoryImpl implements RecordsRepositoryCustom {
 
     private boolean validateInvNumHolesInput(String invFrom, String invTo) {
         try {
-            Integer.parseInt(invFrom);
-            Integer.parseInt(invTo);
+            BigInteger biFrom = new BigInteger(invFrom);
+            BigInteger biTo = new BigInteger(invTo);
             if (!invFrom.substring(0,4).equals(invTo.substring(0,4)))
                 return false;
             int from = Integer.parseInt(invFrom.substring(4));
@@ -56,7 +57,8 @@ public class RecordsRepositoryImpl implements RecordsRepositoryCustom {
             return retVal;
 
         RangeRegexGenerator regexGenerator = new RangeRegexGenerator();
-        List<String> regexes = regexGenerator.getRegex(invFrom, invTo);
+        List<String> regexes = regexGenerator.getRegex(invFrom.substring(4), invTo.substring(4));
+        regexes = regexes.stream().map(r -> invFrom.substring(0,4) + r).collect(Collectors.toList());
         List<Criteria> regexCr = new ArrayList<>();
         for (String reg: regexes)
             regexCr.add(Criteria.where("ctlgNo").regex(reg));
