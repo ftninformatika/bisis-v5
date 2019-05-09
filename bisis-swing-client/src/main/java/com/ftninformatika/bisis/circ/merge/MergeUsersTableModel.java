@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.circ.merge;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.view.RecordBean;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.Record;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -68,6 +70,8 @@ public class MergeUsersTableModel extends AbstractTableModel implements Serializ
 
     public Object getValueAt(int rowIndex, int columnIndex) {
         Member rowData = (Member) data.get(rowIndex).getMember();
+        //Sortirati da prva clanarina bude najsvezija
+        rowData.getSignings().stream().max(Comparator.comparing(Signing::getSignDate)).get().getSignDate();
         switch (columnIndex) {
 //            case 0:
 //                return rowData.getUserId();

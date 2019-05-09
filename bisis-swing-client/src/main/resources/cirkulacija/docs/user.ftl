@@ -60,6 +60,10 @@ body { font-family:"Arial, Helvetica"; font-size: 11pt}
 		<td><b>Стари бројеви:</b></td>
 		<td>${oldNumbers!""}</td>
 	</tr>
+	<tr>
+		<td><b>Датум последњег учлањења:</b></td>
+		<td><b>${signings[0].signDate?string('dd.MM.yyyy')}</b></td>
+	</tr>
 </table>
 
 </body>

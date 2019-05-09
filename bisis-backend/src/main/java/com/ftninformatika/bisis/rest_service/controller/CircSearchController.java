@@ -71,7 +71,7 @@ public class CircSearchController {
                     wildcardHandle((String)search.getValueForPrefix("librarianReturn")),location,
                     lendDateStart, lendDateEnd, returnDateStart, returnDateEnd, deadlineStart, deadlineEnd);
 
-        return  memberRepository.getMembersFilteredByLending(search,userIds);
+        return  memberRepository.getMembersFilteredByLending(search, userIds);
 
     }
 
