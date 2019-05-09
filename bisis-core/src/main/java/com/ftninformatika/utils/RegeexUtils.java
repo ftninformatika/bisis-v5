@@ -4,13 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
-public class RangeRegexGenerator
-{
+public class RegeexUtils {
+
+    public static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
+
+    public static String escapeSpecialRegexChars(String str) {
+        return SPECIAL_REGEX_CHARS.matcher(str).replaceAll("\\\\$0");
+    }
+
+
     public static void main(String[] args)
     {
-        RangeRegexGenerator rrg = new RangeRegexGenerator();
+        RegeexUtils rrg = new RegeexUtils();
 
 
         List<String> regexes = rrg.getRegex("01000003589", "01005698542");

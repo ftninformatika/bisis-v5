@@ -79,7 +79,6 @@ public class Member implements java.io.Serializable {
 
 	@JsonIgnore
 	public String getLibrarianForSigningDate(Date date){
-
 		for (Signing s: signings){
 			if (DateUtils.compareDates(date, s.getSignDate()))
 				return s.getLibrarian();

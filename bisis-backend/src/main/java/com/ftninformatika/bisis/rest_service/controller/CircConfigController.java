@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/circ_configuration")
 public class CircConfigController {
 
-    @Autowired
-    CircConfigRepository circLocationRepository;
+    @Autowired CircConfigRepository circLocationRepository;
 
-    @RequestMapping( value = "/save", method = RequestMethod.POST )
+    @PostMapping("/save")
     public CircConfig save(@RequestBody CircConfig circConfig){
         return  circLocationRepository.save(circConfig);
     }

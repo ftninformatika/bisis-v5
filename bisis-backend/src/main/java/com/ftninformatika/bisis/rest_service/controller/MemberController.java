@@ -28,17 +28,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/members")
 public class MemberController {
 
-    @Autowired
-    MemberRepository memberRep;
-    @Autowired
-    LibrarianRepository librarianRepository;
-    @Autowired
-    LendingRepository lendingRepository;
+    @Autowired MemberRepository memberRep;
+    @Autowired LibrarianRepository librarianRepository;
+    @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
-    @Autowired
-    OrganizationRepository organizationRepository;
-    @Autowired
-    WarningCounterRepository warningCounterRepository;
+    @Autowired OrganizationRepository organizationRepository;
+    @Autowired WarningCounterRepository warningCounterRepository;
     @Autowired MongoClient mongoClient;
 
     @RequestMapping(path = "/memberExist", method = RequestMethod.GET)

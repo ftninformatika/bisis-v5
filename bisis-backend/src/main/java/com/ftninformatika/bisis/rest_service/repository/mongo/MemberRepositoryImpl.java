@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.search.SearchModelMember;
+import com.ftninformatika.utils.RegeexUtils;
 import com.ftninformatika.utils.date.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,8 +25,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
  */
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
-    @Autowired
-    MongoTemplate mongoTemplate;
+    @Autowired MongoTemplate mongoTemplate;
     List<String> fromLendings = Arrays.asList("ctlgNo", "librarianLend", "librarianReturn", "lendDate", "returnDate", "deadline");
     String currentOperator = null;
 
@@ -107,7 +107,6 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             } else {
                 currentCriteria = signingCriteria;
             }
-
         }
 
         if (untilDates != null) {
@@ -121,8 +120,6 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             } else {
                 currentCriteria = signingCriteria;
             }
-
-
         }
         if (userIds != null) {
             if (currentCriteria != null) {
@@ -313,6 +310,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private Criteria createCriteria(String prefix, String text, String op, Criteria currentCriteria) {
 
         if (text != null && !text.equals("") && !fromLendings.contains(prefix)) {
+            text = RegeexUtils.escapeSpecialRegexChars(text);
             if (!text.startsWith("*")) {
                 text = "^" + text;
             }

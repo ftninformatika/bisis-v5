@@ -29,8 +29,7 @@ public class LibrarianController {
 
         retVal = librarianRepository.getByUsername(username);
 
-       
-        //Moraju se uzeti tipovi obrade iz sifarnika jer su oni azurirani
+      //Moraju se uzeti tipovi obrade iz sifarnika jer su oni azurirani
       String libName = retVal.getBiblioteka();
         if (retVal.getCurentProcessType()!=null){
           String curentPT = retVal.getCurentProcessType().getName();
