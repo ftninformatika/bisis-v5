@@ -4,16 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.elasticsearch.common.util.set.Sets;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SearchModelMember extends SearchModel{
+    /**
+     * To escape regex special characters
+     */
+    public static Set<String> PREDEFINED_VALUE_PREFIXES = Sets.newHashSet("educationLevel", "membershipType.description", "corporateMember.instName"
+            , "language", "userCategory.description", "organization.name", "educationLevel");
     private String prefDate1;
     private String prefDate2;
 

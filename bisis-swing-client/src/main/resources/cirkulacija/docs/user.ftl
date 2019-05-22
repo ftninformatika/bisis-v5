@@ -62,7 +62,7 @@ body { font-family:"Arial, Helvetica"; font-size: 11pt}
 	</tr>
 	<tr>
 		<td><b>Датум последњег учлањења:</b></td>
-		<td><b>${signings[0].signDate?string('dd.MM.yyyy')}</b></td>
+		<td>${signings[0].signDate?string('dd.MM.yyyy')}</td>
 	</tr>
 </table>
 

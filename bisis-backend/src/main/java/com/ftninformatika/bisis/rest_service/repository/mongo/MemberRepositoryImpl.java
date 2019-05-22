@@ -310,7 +310,10 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private Criteria createCriteria(String prefix, String text, String op, Criteria currentCriteria) {
 
         if (text != null && !text.equals("") && !fromLendings.contains(prefix)) {
-            text = RegeexUtils.escapeSpecialRegexChars(text);
+
+            if (SearchModelMember.PREDEFINED_VALUE_PREFIXES.contains(prefix)) {
+                text = RegeexUtils.escapeSpecialRegexChars(text);
+            }
             if (!text.startsWith("*")) {
                 text = "^" + text;
             }
