@@ -69,12 +69,11 @@ public class CodeChoiceDialog extends CenteredDialog {
 	 * @return void
 	 */
 	private void initialize() {		
-		this.setSize(373, 400);		
+		this.setSize(450, 500);
 		this.setTitle(title);	
 		filteredJList = new FilteredJList();
 	
-	//	codesList = new CodesList(cList);
-		filteredJList.getJList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);		
+		filteredJList.getJList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		for(UItem item:cList){
 			filteredJList.addItem(item.toString());
 		}
@@ -101,7 +100,7 @@ public class CodeChoiceDialog extends CenteredDialog {
 				handleOk();
 			}			
 		});
-    okButton.addKeyListener(new KeyAdapter(){
+    	okButton.addKeyListener(new KeyAdapter(){
       public void keyReleased(KeyEvent e){  
         handleKeys(e);    
       }     
@@ -114,17 +113,15 @@ public class CodeChoiceDialog extends CenteredDialog {
 				handleCancel();
 			}			
 		});
-    cancelButton.addKeyListener(new KeyAdapter(){
+    	cancelButton.addKeyListener(new KeyAdapter(){
       public void keyReleased(KeyEvent e){  
         handleKeys(e);    
       }     
     });		
-		
-		
+
 		getRootPane().setDefaultButton(okButton);		
 		this.setContentPane(getJContentPane());
-		
-		
+
 	}
 
 	private void handleKeys(KeyEvent e) {

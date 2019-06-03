@@ -180,7 +180,6 @@ public class StatistikaBaze extends Report {
 
 				} catch (ParseException ex) { // otpadaju primerci jer ne moze
 												// da se parsira datum
-
 					if (zapis) {
 						i.zapisa++;
 						zapis = false;
