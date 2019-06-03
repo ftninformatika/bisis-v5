@@ -21,6 +21,4 @@ public class GeneratedReport implements Serializable{
     String reportType;
     String period;
     String content;
-
-
 }

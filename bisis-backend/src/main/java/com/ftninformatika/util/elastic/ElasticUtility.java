@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
+import org.apache.lucene.search.WildcardQuery;
 import org.elasticsearch.index.query.*;
 
 import java.util.Arrays;
@@ -267,7 +268,11 @@ public class ElasticUtility {
             if ("".equals(prefName) || "".equals(prefValue))
                 return null;
 
-            retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + prefName, LatCyrUtils.toLatinUnaccented(prefValue)));
+            if (prefName.equals("IN") && prefValue.length() >= 4) {
+                retVal.must(QueryBuilders.wildcardQuery("prefixes." + prefName, prefValue + "*"));
+            } else {
+                retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + prefName, LatCyrUtils.toLatinUnaccented(prefValue)));
+            }
         } catch (NullPointerException e) {
             e.printStackTrace();
             return null;
