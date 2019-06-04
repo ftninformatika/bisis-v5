@@ -3,7 +3,8 @@ package com.ftninformatika.bisis.rest_service.controller;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
-import com.ftninformatika.bisis.records.serializers.UnimarcSerializer;
+import com.ftninformatika.bisis.records.sort.SearchResultsSorter;
+import com.ftninformatika.bisis.records.sort.SortingRecElement;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.exceptions.LockException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
@@ -19,7 +20,6 @@ import com.ftninformatika.bisis.rest_service.service.implementations.RecordsServ
 import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.mongodb.MongoClient;
-import com.mongodb.client.ClientSession;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -38,7 +38,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import sun.util.resources.cldr.br.CurrencyNames_br;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -549,8 +548,11 @@ public class RecordsController {
     @PostMapping(value = "/search_ids_result")
     public ResponseEntity<Result> searchIdsResult(@RequestBody SearchModel search) {
         Result retVal = new Result();
-        ArrayList<String> ids = new ArrayList<>();
         ArrayList<String> ctlgnos = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
+
+        String sortChoice = (search.getSort() != null && search.getSort().contains("_sort"))
+                ? search.getSort().replace("_sort", "") : "AU";
 
         Pageable pageable = PageRequest.of(0, 5000);
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
@@ -559,11 +561,32 @@ public class RecordsController {
                 .build();
 
         CloseableIterator<ElasticPrefixEntity> streamEs = elasticsearchTemplate.stream(searchQuery, ElasticPrefixEntity.class);
-        while (streamEs.hasNext()) {
-            ElasticPrefixEntity e = streamEs.next();
-            ids.add(e.getId());
-            if (e.getPrefixes().get("IN") != null && e.getPrefixes().size() > 0)
-                ctlgnos.addAll(e.getPrefixes().get("IN"));
+        {
+            ArrayList<SortingRecElement> searchResults = new ArrayList<>();
+            while (streamEs.hasNext()) {
+                ElasticPrefixEntity e = streamEs.next();
+
+                try {
+                    String sortPrefVal = e.getPrefixes().get(sortChoice).get(0);
+                    if (sortChoice.equals("PY") || sortChoice.equals("RN")) {
+                        Integer numVal = Integer.valueOf(sortPrefVal);
+                        searchResults.add(new SortingRecElement(e.getId(), null, numVal));
+                    } else {
+                        searchResults.add(new SortingRecElement(e.getId(), sortPrefVal, null));
+                    }
+                } catch (IndexOutOfBoundsException e1) {
+                    searchResults.add(new SortingRecElement(e.getId(), "ZZZZZZZ", null));
+                } catch (NumberFormatException nfE) {
+                    searchResults.add(new SortingRecElement(e.getId(), null, Integer.MAX_VALUE));
+                } catch (NullPointerException npE) {
+                    if (sortChoice.equals("PY") || sortChoice.equals("RN")) searchResults.add(new SortingRecElement(e.getId(), null, Integer.MAX_VALUE));
+                    else searchResults.add(new SortingRecElement(e.getId(), "ZZZZZZZ", null));
+                }
+
+                if (e.getPrefixes().get("IN") != null && e.getPrefixes().size() > 0)
+                    ctlgnos.addAll(e.getPrefixes().get("IN"));
+            }
+            ids = SearchResultsSorter.sortIds(searchResults, sortChoice);
         }
 
         retVal.setRecords(ids.toArray(new String[ids.size()]));
