@@ -727,119 +727,110 @@ public class RecordUtilities {
 	}
 	
 	
-	public String getMaticnaPublikacijaMRSabac(){		
-//		StringBuffer retVal = new StringBuffer();
-//		int mr = record.getMR();
-//		if(mr!=0){
-//			int[] hits;
-//			Term t = new Term("RN",String.valueOf(mr));
-//			TermQuery tq = new TermQuery(t);
-//			if(BisisApp.isStandalone())
-//				hits = BisisApp.getRecordManager().select2(tq, null);
-//			else
-//				hits = BisisApp.getRecordManager().select2x(SerializationUtils.serialize(tq), null);
-//			if(hits.length>0){
-//				Record masterRecord = BisisApp.getRecordManager().getRecord(hits[0]);
-//				if(masterRecord!=null){
-//					// opis maticne publikacije, preuzeta ideja iz iz bisis30 klasa com.gint.app.bisis.editor.report.Concept
-//					if(masterRecord.getField("200")!=null){
-//						if(masterRecord.getField("532")!=null){
-//							if(masterRecord.getField("532").getSubfield('a')!=null)
-//								retVal.append(masterRecord.getSubfieldContent("532a"));
-//						}else{
-//							Field f200 = masterRecord.getField("200");
-//							if(f200.getSubfield('a')!=null) retVal.append(StringUtils.adjustForHTML(f200.getSubfieldContent('a')));
-//							if(f200.getSubfield('e')!=null && !f200.getSubfieldContent('e').equals(""))
-//								retVal.append(StringUtils.adjustForHTML(" : "+f200.getSubfieldContent('e')));
-//					}
-//					if(masterRecord.getSubfield("011e")!=null && !masterRecord.getSubfieldContent("011e").equals(""))
-//						retVal.append(StringUtils.adjustForHTML(". - ISSN "+masterRecord.getSubfieldContent("011e")));
-//				}
-//
-//			if(record.getField("215")!=null){
-//				if(getSubfieldContent(record,"215i")!=null
-//						|| getSubfieldContent(record,"215h")!=null
-//						|| getSubfieldContent(record,"215k") !=null){
-//					retVal.append(".&nbsp;-&nbsp;");
-//					String dodatak = "";
-//					if(getSubfieldContent(record,"215i")!=null && !getSubfieldContent(record,"215i").equals("")){
-//						dodatak+=getSubfieldContent(record,"215i");
-//					}
-//					if(getSubfieldContent(record,"215h")!=null && !getSubfieldContent(record,"215h").equals("")){
-//							if(!dodatak.equals(""))
-//								dodatak+=",&nbsp;";
-//							dodatak+=getSubfieldContent(record,"215h");
-//					}
-//					if(getSubfieldContent(record,"215k")!=null && !getSubfieldContent(record,"215k").equals("")){
-//							if(!dodatak.equals(""))
-//								dodatak+="&nbsp;(";
-//							dodatak+=getSubfieldContent(record,"215k");
-//							dodatak+=")";
-//					}
-//					if(getSubfieldContent(record,"215a")!=null && !getSubfieldContent(record,"215a").equals("")){
-//						if(!dodatak.equals(""))
-//							dodatak+=",&nbsp;";
-//						dodatak+=getSubfieldContent(record,"215a");
-//
-//				}
-//					retVal.append(dodatak);
-//					}
-//			}
-//			}
-//			return retVal.toString();
-//		}
-////		}
+	public String getMaticnaPublikacijaMRSabac(){
+		StringBuffer retVal = new StringBuffer();
+		int mr = record.getMR();
+		if(mr!=0){
+			Record masterRecord = null;
+			try {
+				masterRecord = BisisApp.getRecordManager().getRecordByRN(mr);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(masterRecord != null){
+				// opis maticne publikacije, preuzeta ideja iz iz bisis30 klasa com.gint.app.bisis.editor.report.Concept
+				if(masterRecord.getField("200") != null){
+					if(masterRecord.getField("532") != null){
+						if(masterRecord.getField("532").getSubfield('a') != null)
+							retVal.append(masterRecord.getSubfieldContent("532a"));
+					}else{
+						Field f200 = masterRecord.getField("200");
+						if(f200.getSubfield('a')!=null) retVal.append(StringUtils.adjustForHTML(f200.getSubfieldContent('a')));
+						if(f200.getSubfield('e')!=null && !f200.getSubfieldContent('e').equals(""))
+							retVal.append(StringUtils.adjustForHTML(" : "+f200.getSubfieldContent('e')));
+				}
+				if(masterRecord.getSubfield("011e")!=null && !masterRecord.getSubfieldContent("011e").equals(""))
+					retVal.append(StringUtils.adjustForHTML(". - ISSN "+masterRecord.getSubfieldContent("011e")));
+			}
+
+		if(record.getField("215")!=null){
+			if(getSubfieldContent(record,"215i")!=null
+					|| getSubfieldContent(record,"215h")!=null
+					|| getSubfieldContent(record,"215k") !=null){
+				retVal.append(".&nbsp;-&nbsp;");
+				String dodatak = "";
+				if(getSubfieldContent(record,"215i")!=null && !getSubfieldContent(record,"215i").equals("")){
+					dodatak+=getSubfieldContent(record,"215i");
+				}
+				if(getSubfieldContent(record,"215h")!=null && !getSubfieldContent(record,"215h").equals("")){
+						if(!dodatak.equals(""))
+							dodatak+=",&nbsp;";
+						dodatak+=getSubfieldContent(record,"215h");
+				}
+				if(getSubfieldContent(record,"215k")!=null && !getSubfieldContent(record,"215k").equals("")){
+						if(!dodatak.equals(""))
+							dodatak+="&nbsp;(";
+						dodatak+=getSubfieldContent(record,"215k");
+						dodatak+=")";
+				}
+				if(getSubfieldContent(record,"215a")!=null && !getSubfieldContent(record,"215a").equals("")){
+					if(!dodatak.equals(""))
+						dodatak+=",&nbsp;";
+					dodatak+=getSubfieldContent(record,"215a");
+
+			}
+				retVal.append(dodatak);
+				}
+			}
+			}
+			return retVal.toString();
+		}
 		return "nepoznato";		
 		
 	}
-	
-	// TODO - prepravi ovo
+
 	public String getMaticnaPublikacijaMRSignatura(){		
-//		String retVal = "";
-//		int mr = record.getMR();
-//		if(mr!=0){
-//			int[] hits;
-//			Term t = new Term("RN",String.valueOf(mr));
-//			TermQuery tq = new TermQuery(t);
-//			if(BisisApp.isStandalone())
-//				hits = BisisApp.getRecordManager().select2(tq, null);
-//			else
-//				hits = BisisApp.getRecordManager().select2x(SerializationUtils.serialize(tq), null);
-//			if(hits.length>0){
-//				Record masterRecord = BisisApp.getRecordManager().getRecord(hits[0]);
-//				if(masterRecord!=null){
-//					if(masterRecord.getGodine()!=null && masterRecord.getGodine().size()>0){
-//						for(Godina g:masterRecord.getGodine()){
-//							if(g.getSigPodlokacija().equals("ZP")){
-//								 if (g.getSigPodlokacija()!=null && !g.getSigPodlokacija().equals(""))
-//								      retVal += g.getSigPodlokacija() + "-";
-//								   if (g.getSigIntOznaka()!=null && !g.getSigIntOznaka().equals(""))
-//								      retVal += g.getSigIntOznaka() + "-";
-//								   if (g.getSigFormat()!=null && !g.getSigFormat().equals(""))
-//								      retVal += g.getSigFormat() + "-";
-//								   if (g.getSigNumerusCurens()!=null && !g.getSigNumerusCurens().equals(""))
-//								      retVal += g.getSigNumerusCurens();
-//							}
-//
-//							return retVal.toString();
-//						}
-//						// ako nema podlokacija ZP
-//						Godina g = masterRecord.getGodine().get(0);
-//						if (g.getSigPodlokacija()!=null && !g.getSigPodlokacija().equals(""))
-//						      retVal += g.getSigPodlokacija() + "-";
-//						   if (g.getSigIntOznaka()!=null && !g.getSigIntOznaka().equals(""))
-//						      retVal += g.getSigIntOznaka() + "-";
-//						   if (g.getSigFormat()!=null && !g.getSigFormat().equals(""))
-//						      retVal += g.getSigFormat() + "-";
-//						   if (g.getSigNumerusCurens()!=null && !g.getSigNumerusCurens().equals(""))
-//						      retVal += g.getSigNumerusCurens();
-//						   return retVal;
-//
-//					}
-//				}
-//			}
-//
-//		}
+		String retVal = "";
+		int mr = record.getMR();
+		if(mr!=0){
+				Record masterRecord = null;
+			try {
+				masterRecord = BisisApp.getRecordManager().getRecordByRN(mr);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(masterRecord != null){
+					if(masterRecord.getGodine() !=null && masterRecord.getGodine().size()>0){
+						for(Godina g:masterRecord.getGodine()){
+							if(g.getSigPodlokacija().equals("ZP")){
+								 if (g.getSigPodlokacija()!=null && !g.getSigPodlokacija().equals(""))
+								      retVal += g.getSigPodlokacija() + "-";
+								   if (g.getSigIntOznaka()!=null && !g.getSigIntOznaka().equals(""))
+								      retVal += g.getSigIntOznaka() + "-";
+								   if (g.getSigFormat()!=null && !g.getSigFormat().equals(""))
+								      retVal += g.getSigFormat() + "-";
+								   if (g.getSigNumerusCurens()!=null && !g.getSigNumerusCurens().equals(""))
+								      retVal += g.getSigNumerusCurens();
+							}
+
+							return retVal.toString();
+						}
+						// ako nema podlokacija ZP
+						Godina g = masterRecord.getGodine().get(0);
+						if (g.getSigPodlokacija()!=null && !g.getSigPodlokacija().equals(""))
+						      retVal += g.getSigPodlokacija() + "-";
+						   if (g.getSigIntOznaka()!=null && !g.getSigIntOznaka().equals(""))
+						      retVal += g.getSigIntOznaka() + "-";
+						   if (g.getSigFormat()!=null && !g.getSigFormat().equals(""))
+						      retVal += g.getSigFormat() + "-";
+						   if (g.getSigNumerusCurens()!=null && !g.getSigNumerusCurens().equals(""))
+						      retVal += g.getSigNumerusCurens();
+						   return retVal;
+
+					}
+				}
+
+		}
 		return "nepoznata signatura";		
 		
 	}
