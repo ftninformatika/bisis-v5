@@ -23,7 +23,6 @@ public class SearchReport {
 		try {
   		Map<String, Object> params = new HashMap<String, Object>(2);
   		params.put("upit", query);
-  		//TODO ovo ne radi zbog lokalizacije, imena kolona se ne poklapaju
 			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
   		JasperPrint jp = JasperFillManager.fillReport(SearchReport.class.getResource(
   					"/cirkulacija/jaspers/searchuser.jasper").openStream(),

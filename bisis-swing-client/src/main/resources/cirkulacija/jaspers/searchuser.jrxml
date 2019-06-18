@@ -3,6 +3,30 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="searchuser" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="a07e82d7-a16b-4941-ad06-74c2f8bbb90c">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-1"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-2"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-3"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-4"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-5"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-6"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-8"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-9"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-10"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-11"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.staticText-12"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.textFieldQuery"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.textFieldRb"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-1"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-2"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-3"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-4"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-5"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-6"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-7"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-8"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.key.line-9"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -47,7 +71,7 @@
 				<text><![CDATA[Static Text]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" x="103" y="45" width="428" height="24" isPrintWhenDetailOverflows="true" uuid="7d0a1aea-02e8-44d0-84d0-4c600151ce87"/>
+				<reportElement key="textFieldQuery" x="103" y="45" width="428" height="24" isPrintWhenDetailOverflows="true" uuid="7d0a1aea-02e8-44d0-84d0-4c600151ce87"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -103,24 +127,23 @@
 	<columnHeader>
 		<band height="41" splitType="Stretch">
 			<line>
-				<reportElement key="line-7" x="3" y="35" width="525" height="1" uuid="7cc2917e-2351-4605-9112-0cff06581d73"/>
-			</line>
-			<line>
 				<reportElement key="line-9" x="4" y="40" width="523" height="1" uuid="bd10f2ae-21be-4e74-8196-16b3939bc045"/>
 			</line>
 			<textField>
-				<reportElement key="staticText-12" x="4" y="10" width="36" height="24" uuid="d698e5c1-1793-439d-8410-cc32177f34c6"/>
+				<reportElement key="staticText-12" x="3" y="16" width="20" height="24" uuid="d698e5c1-1793-439d-8410-cc32177f34c6"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[str("SEARCHUSER_RB")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText-5" x="39" y="10" width="72" height="23" uuid="60f09a39-708b-401d-9342-870a473b97e1"/>
+				<reportElement key="staticText-5" x="30" y="16" width="72" height="23" uuid="60f09a39-708b-401d-9342-870a473b97e1"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -131,7 +154,7 @@
 				<textFieldExpression><![CDATA[str("SEARCHUSER_BRC")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText-6" x="110" y="10" width="75" height="23" uuid="dae77586-fbcc-44b5-8f42-5ae7f3a1fa41"/>
+				<reportElement key="staticText-6" x="110" y="17" width="61" height="23" uuid="dae77586-fbcc-44b5-8f42-5ae7f3a1fa41"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -142,7 +165,7 @@
 				<textFieldExpression><![CDATA[str("SEARCHUSER_NAME")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText-8" x="184" y="10" width="91" height="23" uuid="4c851db1-1d16-44ad-a252-fbd1d13f4c69"/>
+				<reportElement key="staticText-8" x="169" y="17" width="76" height="23" uuid="4c851db1-1d16-44ad-a252-fbd1d13f4c69"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -153,7 +176,7 @@
 				<textFieldExpression><![CDATA[str("SEARCHUSER_SURNAME")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText-9" x="275" y="10" width="84" height="23" uuid="c5ce5ba0-58f2-4d39-b36e-a3c64b6b3887"/>
+				<reportElement key="staticText-9" x="246" y="17" width="72" height="23" uuid="c5ce5ba0-58f2-4d39-b36e-a3c64b6b3887"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -164,7 +187,7 @@
 				<textFieldExpression><![CDATA[str("SEARCHUSER_PARENT")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText-10" x="359" y="10" width="82" height="23" uuid="1132bcfb-e3d7-46d4-a8ff-05aa32981015"/>
+				<reportElement key="staticText-10" x="318" y="17" width="72" height="23" uuid="1132bcfb-e3d7-46d4-a8ff-05aa32981015"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -175,7 +198,7 @@
 				<textFieldExpression><![CDATA[str("SEARCHUSER_JMBG")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText-11" x="441" y="10" width="86" height="23" uuid="5219b28a-7631-4cab-b328-e37d1ccd3b08"/>
+				<reportElement key="staticText-11" x="390" y="17" width="136" height="23" uuid="5219b28a-7631-4cab-b328-e37d1ccd3b08"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -188,115 +211,135 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
+		<band height="26" splitType="Stretch">
 			<line>
-				<reportElement key="line-1" x="38" y="0" width="1" height="24" uuid="d63e9f31-5711-4fcc-9bb9-792e9d8c4327"/>
+				<reportElement key="line-1" x="23" y="0" width="1" height="26" uuid="d63e9f31-5711-4fcc-9bb9-792e9d8c4327"/>
 			</line>
 			<line>
-				<reportElement key="line-2" x="109" y="0" width="1" height="24" uuid="f95a8949-1363-4af0-9751-c2d6f930f08b"/>
+				<reportElement key="line-2" x="105" y="0" width="1" height="26" uuid="f95a8949-1363-4af0-9751-c2d6f930f08b"/>
 			</line>
 			<line>
-				<reportElement key="line-3" x="183" y="0" width="1" height="24" uuid="89db5f38-1911-4967-b99b-ee26cb91e454"/>
+				<reportElement key="line-3" x="171" y="0" width="1" height="26" uuid="89db5f38-1911-4967-b99b-ee26cb91e454"/>
 			</line>
 			<line>
-				<reportElement key="line-4" x="273" y="0" width="1" height="24" uuid="a1fdc613-ced7-4e69-b3e5-e775292d727b"/>
+				<reportElement key="line-4" x="246" y="0" width="1" height="26" uuid="a1fdc613-ced7-4e69-b3e5-e775292d727b"/>
 			</line>
 			<line>
-				<reportElement key="line-5" x="359" y="0" width="1" height="24" uuid="1149a5ec-6fed-4bf9-811e-322b674c5e7e"/>
+				<reportElement key="line-5" x="318" y="0" width="1" height="26" uuid="1149a5ec-6fed-4bf9-811e-322b674c5e7e"/>
 			</line>
 			<line>
-				<reportElement key="line-6" x="442" y="0" width="1" height="25" uuid="6e77871f-b606-478a-9a3a-2f046c53dd2a"/>
+				<reportElement key="line-6" x="390" y="0" width="1" height="25" uuid="6e77871f-b606-478a-9a3a-2f046c53dd2a"/>
 			</line>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" x="8" y="0" width="25" height="18" uuid="9fc912ca-cf79-498c-82fd-e9c869f84958"/>
+				<reportElement key="textFieldRb" x="4" y="0" width="16" height="24" uuid="9fc912ca-cf79-498c-82fd-e9c869f84958"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{rednibroj}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" x="41" y="0" width="65" height="18" uuid="a2a2a654-9b4c-4e05-8ce1-dca592204088"/>
+				<reportElement key="textField" x="23" y="0" width="80" height="24" uuid="a2a2a654-9b4c-4e05-8ce1-dca592204088"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{COLUMN_0}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" x="124" y="0" width="47" height="18" uuid="f2c94312-1c1c-4f97-81f7-850983f0e876"/>
+				<reportElement key="textField" x="105" y="0" width="64" height="24" uuid="f2c94312-1c1c-4f97-81f7-850983f0e876"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{COLUMN_1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" x="186" y="0" width="84" height="18" uuid="99ac840a-ecb8-4b7a-8d91-51b3c044f09f"/>
+				<reportElement key="textField" x="171" y="0" width="74" height="24" uuid="99ac840a-ecb8-4b7a-8d91-51b3c044f09f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{COLUMN_2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" x="278" y="0" width="77" height="18" uuid="28254977-73bc-4e7f-a4f9-6e6611eccbed"/>
+				<reportElement key="textField" x="246" y="0" width="69" height="24" uuid="28254977-73bc-4e7f-a4f9-6e6611eccbed"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{COLUMN_3}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" x="366" y="0" width="72" height="18" uuid="6349428a-2c6b-41c9-b9cb-d71631ede852"/>
+				<reportElement key="textField" x="317" y="0" width="72" height="24" uuid="6349428a-2c6b-41c9-b9cb-d71631ede852"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{COLUMN_4}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" x="448" y="0" width="82" height="18" uuid="fcfcc6c7-bd0d-48d3-922b-ec2a02ad53b2"/>
+				<reportElement key="textField" x="390" y="0" width="90" height="24" uuid="fcfcc6c7-bd0d-48d3-922b-ec2a02ad53b2"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Top"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{COLUMN_6}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" x="448" y="11" width="82" height="14" uuid="83c07619-e76e-4095-afbc-e5295a15cccc"/>
+				<reportElement key="textField" x="480" y="0" width="46" height="24" uuid="83c07619-e76e-4095-afbc-e5295a15cccc"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{COLUMN_5}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line-8" x="3" y="24" width="527" height="1" uuid="9a7f6327-eaaa-4aee-8087-a6723de1a14a"/>
+				<reportElement key="line-7" x="3" y="-1" width="525" height="1" uuid="7cc2917e-2351-4605-9112-0cff06581d73"/>
+			</line>
+			<line>
+				<reportElement key="line-8" x="2" y="25" width="527" height="1" uuid="9a7f6327-eaaa-4aee-8087-a6723de1a14a"/>
 			</line>
 		</band>
 	</detail>
