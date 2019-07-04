@@ -104,7 +104,7 @@
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="108" y="6" width="110" height="15" uuid="865b11df-eb58-45e4-bc60-a7fc56c66fa0"/>
+				<reportElement key="staticText" style="SansSerif" positionType="Float" x="36" y="6" width="182" height="15" uuid="865b11df-eb58-45e4-bc60-a7fc56c66fa0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

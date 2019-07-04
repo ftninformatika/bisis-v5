@@ -39,7 +39,7 @@ public static JasperPrint setPrint(Date start, Date end, Object branch)
 			Long numFree = BisisApp.bisisService.getFreeSigningReport(new PathDate(start),new PathDate(end), loc, false).execute().body();
 			Long numUsers = BisisApp.bisisService.getUsersNumberReport(new PathDate(start),new PathDate(end), loc, false).execute().body();
 			List<com.ftninformatika.bisis.circ.pojo.Report>  l5 = BisisApp.bisisService.getGenderReport(new PathDate(start),new PathDate(end), loc, false).execute().body();
-			Integer totalFromYearStart = BisisApp.bisisService.getTotalSignedMembersFromStartOfYear(loc, false).execute().body();
+			Integer totalFromYearStart = BisisApp.bisisService.getTotalSignedMembersFromStartOfYear(loc, false, new PathDate(end)).execute().body();
 
 			Document dom1 = CategoriSigning.setXML(l1);
 			Document dom2 = MmbrTypeSigning.setXML(l2);

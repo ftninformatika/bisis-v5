@@ -48,11 +48,14 @@ public class CircReportContoller {
     /**
      *
      * ukupan broj korisnika uclanjenih od pocetka godine do sada
+     * ili prosledjenog datuma
      */
     @RequestMapping(value = "get_total_signed_from_start_of_year")
     public Integer getTotalSignedMembersFromStartOfYear( @RequestParam("location")String location
-                                                        ,@RequestParam(value = "firstTimeSigned", required = false) boolean firstTimeSigned) {
+                                                        ,@RequestParam(value = "firstTimeSigned", required = false) boolean firstTimeSigned
+                                                        ,@RequestParam(value = "untilDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date untilDate) {
         Date today = DateUtils.getEndOfDay(new Date());
+        if (untilDate != null) today = DateUtils.getEndOfDay(untilDate);
         Date yearStart = DateUtils.getYearStartFromDate(today);
         return memberRepository.getUserSignedCount(yearStart, today,  location, firstTimeSigned);
     }

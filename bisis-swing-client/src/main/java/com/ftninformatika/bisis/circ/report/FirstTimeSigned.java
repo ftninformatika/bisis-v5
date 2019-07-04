@@ -39,7 +39,7 @@ public class FirstTimeSigned {
             Long numFree = BisisApp.bisisService.getFreeSigningReport(new PathDate(start),new PathDate(end), loc, true).execute().body();
             Long numUsers = BisisApp.bisisService.getUsersNumberReport(new PathDate(start),new PathDate(end), loc, true).execute().body();
             List<com.ftninformatika.bisis.circ.pojo.Report>  l5 = BisisApp.bisisService.getGenderReport(new PathDate(start),new PathDate(end), loc, true).execute().body();
-            Integer totalFromYearStart = BisisApp.bisisService.getTotalSignedMembersFromStartOfYear(loc, true).execute().body();
+            Integer totalFromYearStart = BisisApp.bisisService.getTotalSignedMembersFromStartOfYear(loc, true, new PathDate(end)).execute().body();
 
             Document dom1 = CategoriSigning.setXML(l1);
             Document dom2 = MmbrTypeSigning.setXML(l2);
