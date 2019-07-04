@@ -22,7 +22,7 @@ public class MemberBook {
 		ReportDocument reportDoc = ReportDocument.Factory.newInstance();
 		Report report = reportDoc.addNewReport();
 
-		l.sort(Comparator.comparing(r -> r.getProperty10())); //da ih poredja po tipovima ucljanjenja zbog subreporta property10(mmbrType)
+		l.sort(Comparator.comparing(com.ftninformatika.bisis.circ.pojo.Report::getProperty10, Comparator.nullsFirst(Comparator.naturalOrder()))); //da ih poredja po tipovima ucljanjenja zbog subreporta property10(mmbrType)
 		for (com.ftninformatika.bisis.circ.pojo.Report r: l) {
 			Row row = report.addNewRow();
 

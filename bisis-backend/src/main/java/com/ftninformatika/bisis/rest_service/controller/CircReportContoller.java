@@ -850,7 +850,8 @@ public class CircReportContoller {
                     r.setProperty7(m.getDocNo());
                     r.setProperty8(m.getDocCity());
                     r.setProperty9(m.getJmbg());
-                    r.setProperty10(m.getMembershipType().getDescription());
+                    if (m.getMembershipType() != null) r.setProperty10(m.getMembershipType().getDescription());
+                    else r.setProperty10(null);
                     r.setProperty12(m.getSignings().get(0).getCost());
                     retVal.add(r);
                 }
