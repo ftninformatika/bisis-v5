@@ -2,14 +2,18 @@ package com.ftninformatika.bisis.auth.controller;
 
 import com.ftninformatika.bisis.auth.converter.ConverterFacade;
 import com.ftninformatika.bisis.auth.dto.UserDTO;
+import com.ftninformatika.bisis.auth.service.LibraryMemberService;
 import com.ftninformatika.bisis.auth.service.UserService;
+import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import com.ftninformatika.utils.validators.memberdata.DataErrors;
+import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -17,8 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class SignUpController {
 
     private final UserService service;
-
     private final ConverterFacade converterFacade;
+    private JavaMailSender mailSender;
+    @Autowired LibraryMemberService libraryMemberService;
+    @Autowired LibraryMemberRepository libraryMemberRepository;
+
+    @Autowired
+    public void setMailSender(JavaMailSenderImpl mailSender) {
+        this.mailSender = mailSender;
+    }
 
     @Autowired
     public SignUpController(final UserService service,
@@ -27,8 +38,25 @@ public class SignUpController {
         this.converterFacade = converterFacade;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<?> signUp(@RequestBody final UserDTO dto) {
         return new ResponseEntity<>(service.create(converterFacade.convert(dto)), HttpStatus.OK);
     }
+
+    @PostMapping(value = "/opac")
+    public ResponseEntity<?> signForOpac(@RequestBody LibraryMember newMember) {
+        if (DataValidator.validateEmail(newMember.getUsername()) == DataErrors.EMAIL_FORMAT_INVALID)
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+
+        if (libraryMemberService.emailExistAndActivated(newMember.getUsername()))
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+        // Email doesn't exits in any user, or profile is not acivated yet
+        LibraryMember createdMember = libraryMemberRepository.save(newMember);
+
+        // TODO- send e-mail for activation
+        //
+        return new ResponseEntity<>(createdMember, HttpStatus.ACCEPTED);
+    }
+
 }

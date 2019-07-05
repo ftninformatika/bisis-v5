@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 @Getter
 @Setter
-public class MemberAuthentication implements Authentication{
+public class MemberAuthentication implements Authentication {
 
     private static final long serialVersionUID = -7170337143687707450L;
 
@@ -58,10 +58,6 @@ public class MemberAuthentication implements Authentication{
     @Override
     public String getName() {
         return user.getUsername();
-    }
-
-    public LibraryMember getUser() {
-        return user;
     }
 
 }

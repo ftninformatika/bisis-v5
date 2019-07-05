@@ -98,7 +98,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
     private boolean tokenExpired(final String token, LibraryMember member){
         Date now = new Date();
 
-        if (token.equals(member.getToken())) {
+        if (token.equals(member.getAuthToken())) {
 
            long ONE_MINUTE_IN_MILLIS=60000;//millisecs
 

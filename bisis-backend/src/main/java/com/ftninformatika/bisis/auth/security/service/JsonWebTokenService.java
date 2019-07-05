@@ -34,8 +34,7 @@ public class JsonWebTokenService implements TokenService {
         this.userDetailsService = userDetailsService;
     }
 
-    @Autowired
-    LibraryMemberRepository libraryMemberRepository;
+    @Autowired LibraryMemberRepository libraryMemberRepository;
 
     @Override
     public String getToken(final String username, final String password) {
@@ -67,6 +66,7 @@ public class JsonWebTokenService implements TokenService {
             return null;
         }
         final LibraryMember user = libraryMemberRepository.findByUsername(username); //email im je username
+
         Map<String, Object> tokenData = new HashMap<>();
         if (password.equals(user.getPassword())) {
             tokenData.put("clientType", "member");
@@ -83,7 +83,7 @@ public class JsonWebTokenService implements TokenService {
             String encriptedToken = jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
 
 
-            user.setToken(encriptedToken);
+            user.setAuthToken(encriptedToken);
             user.setLastActivity(new Date());
             libraryMemberRepository.save(user);
             return encriptedToken;

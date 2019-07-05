@@ -14,7 +14,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/library_members")
-public class LibraryMemberContrroller {
+public class LibraryMemberController {
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
 
