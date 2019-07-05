@@ -46,7 +46,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
                 }
             }
             if ("member".equals(tokenData.getBody().get("clientType").toString())) { //autentifikacija korisnika (membera)
-                LibraryMember member = getMememberFromToken(tokenData);
+                LibraryMember member = getMemberFromToken(tokenData);
                 if (tokenExpired(token, member)){  //pitamo da li je istekao token?
                     System.out.println("Your token has expired!");
                     return null;
@@ -76,7 +76,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
         return null;
     }
 
-    private LibraryMember getMememberFromToken(final Jws<Claims> tokenData){
+    private LibraryMember getMemberFromToken(final Jws<Claims> tokenData){
           try{
             return libraryMemberRepository.findById(tokenData.getBody().get("userID").toString()).get();
         }catch (UsernameNotFoundException e) {

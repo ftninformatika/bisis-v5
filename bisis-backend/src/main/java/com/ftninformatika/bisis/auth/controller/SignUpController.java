@@ -15,7 +15,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/signup")
 public class SignUpController {
@@ -51,7 +50,11 @@ public class SignUpController {
         if (libraryMemberService.emailExistAndActivated(newMember.getUsername()))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
-        // Email doesn't exits in any user, or profile is not acivated yet
+        String activationToken = libraryMemberService.generateActivationToken(newMember);
+        newMember.setActivationToken(activationToken);
+
+        // Email doesn't exits in any user, or profile is not activated yet
+        // save profile and send activation link
         LibraryMember createdMember = libraryMemberRepository.save(newMember);
 
         // TODO- send e-mail for activation

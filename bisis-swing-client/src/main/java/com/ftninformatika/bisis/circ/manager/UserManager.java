@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Membership;
@@ -12,6 +13,8 @@ import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.validators.memberdata.DataErrors;
+import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
 import org.apache.log4j.Logger;
@@ -399,6 +402,26 @@ public class UserManager {
 
         user.getLending().refreshInfo(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo);
 
+    }
+
+    public String createWebAccount() throws Exception{
+        if (member == null)
+            throw new Exception("Корисник није учитан");
+        if (DataValidator.validateEmail(member.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
+            throw new Exception(Messages.getString(DataErrors.EMAIL_FORMAT_INVALID.getMessageKey()));
+        if (member.getActivatedWebProfile() != null &&
+            member.getActivatedWebProfile().equals(Boolean.TRUE))
+            throw new Exception("Профил овог корисника је већ активан!");
+        LibraryMember libraryMember = new LibraryMember();
+        libraryMember.setAuthorities(new ArrayList<>(Arrays.asList(Authority.ROLE_USER)));
+        libraryMember.setUsername(member.getEmail());
+        libraryMember.setLibraryPrefix(BisisApp.appConfig.getLibrary());
+        libraryMember.setIndex(member.get_id());
+        libraryMember.setProfileActivated(false);
+        LibraryMember createdMember = BisisApp.bisisService.createWebAccount(libraryMember).execute().body();
+        if (createdMember == null)
+            throw new Exception("Грешка у комуникацији са сервером!");
+        return "Послат је активациони e-mail адресу корисника!";
     }
 
 

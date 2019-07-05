@@ -25,20 +25,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -119,6 +106,7 @@ public class UserData {
     private JButton btnBlock = null;
     private JButton btnPrint = null;
     private JButton btnPin = null;
+    private JButton btnCreateWebAccount = null;
     private User parent = null;
     private ComboBoxRenderer cmbRenderer = null;
     private ZipPlaceDlg zipplace = null;
@@ -173,6 +161,7 @@ public class UserData {
             pMain0.add(getTfPhone(), cc.xyw(8, 8, 5));
             pMain0.add(getEmailLabel(), cc.xy(6, 10));
             pMain0.add(getTfEmail(), cc.xyw(8, 10, 5));
+            pMain0.add(getBtnCreateWebAccount(), cc.xyw(8, 11, 4));
 
             pMain0.addSeparator(Messages.getString("circulation.gender"), cc.xyw(6, 12, 3)); //$NON-NLS-1$
             pMain0.addSeparator(Messages.getString("circulation.age"), cc.xyw(11, 12, 2)); //$NON-NLS-1$
@@ -1156,6 +1145,34 @@ public class UserData {
             });
         }
         return btnBlock;
+    }
+
+    // TODO- put hardcoded strings in localization bundle
+    private JButton getBtnCreateWebAccount() {
+        if (btnCreateWebAccount == null) {
+            btnCreateWebAccount = new JButton();
+            btnCreateWebAccount.setText(Messages.getString("circulation.createwebacc"));
+            btnCreateWebAccount.setFocusable(false);
+            if (Cirkulacija.getApp().getUserManager().getMember() != null &&
+                Cirkulacija.getApp().getUserManager().getMember().getActivatedWebProfile()
+                .equals(Boolean.TRUE)) {
+                btnCreateWebAccount.setEnabled(false);
+                btnCreateWebAccount.setToolTipText("Већ постоји активан web профил за овог корисника.");
+            }
+            btnCreateWebAccount.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount();
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,"Грешка",JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+        }
+        return btnCreateWebAccount;
     }
 
     private JButton getBtnPrint() {

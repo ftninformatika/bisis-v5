@@ -441,5 +441,6 @@ public interface BisisService {
     @POST("registries")
     Call<GenericRegistry> addRegistryForType(@Body GenericRegistry obj);
 
-
+    @POST("signup/opac")
+    Call<LibraryMember> createWebAccount(@Body LibraryMember libraryMember);
 }
