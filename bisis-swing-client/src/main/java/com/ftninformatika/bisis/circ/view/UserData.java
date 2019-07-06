@@ -1147,7 +1147,6 @@ public class UserData {
         return btnBlock;
     }
 
-    // TODO- put hardcoded strings in localization bundle
     private JButton getBtnCreateWebAccount() {
         if (btnCreateWebAccount == null) {
             btnCreateWebAccount = new JButton();
@@ -1157,17 +1156,17 @@ public class UserData {
                 Cirkulacija.getApp().getUserManager().getMember().getActivatedWebProfile()
                 .equals(Boolean.TRUE)) {
                 btnCreateWebAccount.setEnabled(false);
-                btnCreateWebAccount.setToolTipText("Већ постоји активан web профил за овог корисника.");
+                btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
             }
             btnCreateWebAccount.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
                         String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount();
-                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,"Грешка",JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"),JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e1) {
                         e1.printStackTrace();
-                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),"Грешка",JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),Messages.getString("circulation.error"),JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });

@@ -3,12 +3,8 @@
  *  ***/
 package com.ftninformatika.utils.date;
 
-import com.ftninformatika.bisis.circ.Member;
-import org.joda.time.Days;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -67,6 +63,13 @@ public class DateUtils {
     Calendar c = Calendar.getInstance();
     c.setTime(date);
     c.add(Calendar.DATE, -1);
+    return c.getTime();
+  }
+
+  public static Date incDecDays(Date date, int daysNo) {
+    Calendar c = Calendar.getInstance();
+    c.setTime(date);
+    c.add(Calendar.DATE, daysNo);
     return c.getTime();
   }
 

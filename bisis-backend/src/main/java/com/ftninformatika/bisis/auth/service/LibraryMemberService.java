@@ -33,10 +33,10 @@ public class LibraryMemberService {
      * @return
      */
     public boolean emailExistAndActivated(String email) {
-        if (email == null) return false;
+        if (email == null) return true;
         LibraryMember lm = libraryMemberRepository.findByUsername(email);
-        if (lm != null && lm.getProfileActivated()) return false;
-        return true;
+        if (lm != null && lm.getProfileActivated()) return true;
+        return false;
     }
 
     /**
@@ -47,11 +47,8 @@ public class LibraryMemberService {
     public String generateActivationToken(LibraryMember libraryMember) {
         Map<String, Object> tokenData = new HashMap<>();
         tokenData.put("username", libraryMember.getUsername());
-        Date acivationDeadline =  DateUtils.getNextDay(DateUtils.getNextDay(DateUtils.getNextDay(
-                DateUtils.getNextDay(DateUtils.getNextDay(new Date()))
-        )));
-        tokenData.put("acivationDate", acivationDeadline);
-
+        Date activationDeadline = DateUtils.incDecDays(new Date(), 5);
+        tokenData.put("acivationDate", activationDeadline);
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setClaims(tokenData);
         return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
