@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 
-public class RegeexUtils {
+public class RegexUtils {
 
     public static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
 
@@ -18,7 +18,7 @@ public class RegeexUtils {
 
     public static void main(String[] args)
     {
-        RegeexUtils rrg = new RegeexUtils();
+        RegexUtils rrg = new RegexUtils();
 
 
         List<String> regexes = rrg.getRegex("01000003589", "01005698542");

@@ -9,6 +9,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface LibraryMemberRepository extends MongoRepository<LibraryMember, String> {
 
     LibraryMember findByUsername(String username);
-
     LibraryMember findByPasswordResetString(String passwordResetString);
+    LibraryMember findByActivationToken(String activationToken);
 }
