@@ -55,19 +55,19 @@ public class UserManager {
             } catch (Exception e) {
                 log.error(e);
                 e.printStackTrace();
-                return "Gre\u0161ka u konekciji s bazom podataka!";
+                return Messages.getString("USER_MANAGER_CONNECTION_ERROR");
             }
 
             if (member == null) {
                 if (memberExists != null && !memberExists.equals("")) {
                     log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
-                    return "Broj korisnika vec postoji!";
+                    return Messages.getString("USER_MANAGER_USER_ALREADY_EXIST");
                 }
                 member = new Member();
             } else {
                 if (memberExists != null && !memberExists.equals("") && !memberExists.equals(member.get_id())) {
                     log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
-                    return "Broj korisnika vec postoji!";
+                    return Messages.getString("USER_MANAGER_USER_ALREADY_EXIST");
                 }
             }
             member = toObjectModel(user, member);
@@ -98,7 +98,7 @@ public class UserManager {
                 e.printStackTrace();
                 log.error("Greska pri cuvanju korisnika: " + user.getMmbrship().getUserID());
                 log.error(e);
-                return "Gre\u0161ka u konekciji s bazom podataka!";
+                return Messages.getString("USER_MANAGER_CONNECTION_ERROR");
             }
 
 
@@ -121,7 +121,7 @@ public class UserManager {
                 return "ok";
             } else {
                 log.error("Greska pri cuvanju podataka: " + user.getMmbrship().getUserID());
-                return "Gre\u0161ka u konekciji s bazom podataka!";
+                return Messages.getString("USER_MANAGER_CONNECTION_ERROR");
             }
         } else {
             return "ok";
@@ -176,7 +176,7 @@ public class UserManager {
         if (saved) {
             return "ok";
         } else {
-            return "Gre\u0161ka u konekciji s bazom podataka!";
+            return Messages.getString("USER_MANAGER_CONNECTION_ERROR");
         }
     }
 
@@ -408,12 +408,12 @@ public class UserManager {
 
     public String createWebAccount() throws Exception {
         if (member == null)
-            throw new Exception("Корисник није учитан");
+            throw new Exception(Messages.getString("USER_MANAGER_USER_NOT_LOADED"));
         if (DataValidator.validateEmail(member.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
             throw new Exception(Messages.getString(DataErrors.EMAIL_FORMAT_INVALID.getMessageKey()));
         if (member.getActivatedWebProfile() != null &&
             member.getActivatedWebProfile().equals(Boolean.TRUE))
-            throw new Exception("Профил овог корисника је већ активан!");
+            throw new Exception(Messages.getString(""));
         LibraryMember libraryMember = new LibraryMember();
         libraryMember.setAuthorities(new ArrayList<>(Arrays.asList(Authority.ROLE_USER)));
         libraryMember.setUsername(member.getEmail());
@@ -422,12 +422,12 @@ public class UserManager {
         libraryMember.setProfileActivated(false);
         Response<LibraryMember> createdMemberResp = BisisApp.bisisService.createWebAccount(libraryMember).execute();
         if (createdMemberResp.code() == HttpStatus.CONFLICT.value())
-            throw new Exception("Унета e-mail адреса већ постоји!");
+            throw new Exception(Messages.getString("USER_MANAGER_EMAIL_ALREADY_EXIST"));
         if (createdMemberResp.code() == HttpStatus.EXPECTATION_FAILED.value())
-            throw new Exception("Кориснички подаци нису валидни!");
+            throw new Exception(Messages.getString("USER_MANAGER_INVALID_USER_DATA"));
         if (createdMemberResp.body() == null)
-            throw new Exception("Грешка у комуникацији са сервером!");
-        return "Послат је активациони e-mail адресу корисника!";
+            throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));
+        return Messages.getString("USER_MANAGER_ACTIVATION_EMAIL_SENT");
     }
 
 
