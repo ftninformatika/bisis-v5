@@ -42,7 +42,7 @@ public class LibraryMemberService {
     /**
      *
      * @param libraryMember- new OPAC account, without activation link
-     * @return- activation token, valid for next 5 days
+     * @return - activation token, valid for next 5 days
      */
     public String generateActivationToken(LibraryMember libraryMember) {
         Map<String, Object> tokenData = new HashMap<>();

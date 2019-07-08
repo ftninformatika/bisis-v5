@@ -47,8 +47,12 @@ public class SignUpController {
         if (DataValidator.validateEmail(newMember.getUsername()) == DataErrors.EMAIL_FORMAT_INVALID)
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 
-        if (libraryMemberService.emailExistAndActivated(newMember.getUsername()))
+        LibraryMember existingUser = libraryMemberRepository.findByUsername(newMember.getUsername());
+
+        if (existingUser != null && existingUser.getProfileActivated())
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+        else if (existingUser != null && !existingUser.getProfileActivated())
+            libraryMemberRepository.delete(existingUser);
 
         String activationToken = libraryMemberService.generateActivationToken(newMember);
         newMember.setActivationToken(activationToken);
@@ -61,5 +65,4 @@ public class SignUpController {
         //
         return new ResponseEntity<>(createdMember, HttpStatus.ACCEPTED);
     }
-
 }

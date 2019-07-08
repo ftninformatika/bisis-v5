@@ -18,6 +18,8 @@ import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.*;
@@ -329,7 +331,7 @@ public class UserManager {
                 member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
                 member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
                 member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(), member.getOldNumbers(),
-                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin());
+                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin(), member.getActivatedWebProfile());
 
         user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), member.getSignings());
 
@@ -404,7 +406,7 @@ public class UserManager {
 
     }
 
-    public String createWebAccount() throws Exception{
+    public String createWebAccount() throws Exception {
         if (member == null)
             throw new Exception("Корисник није учитан");
         if (DataValidator.validateEmail(member.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
@@ -418,8 +420,12 @@ public class UserManager {
         libraryMember.setLibraryPrefix(BisisApp.appConfig.getLibrary());
         libraryMember.setIndex(member.get_id());
         libraryMember.setProfileActivated(false);
-        LibraryMember createdMember = BisisApp.bisisService.createWebAccount(libraryMember).execute().body();
-        if (createdMember == null)
+        Response<LibraryMember> createdMemberResp = BisisApp.bisisService.createWebAccount(libraryMember).execute();
+        if (createdMemberResp.code() == HttpStatus.CONFLICT.value())
+            throw new Exception("Унета e-mail адреса већ постоји!");
+        if (createdMemberResp.code() == HttpStatus.EXPECTATION_FAILED.value())
+            throw new Exception("Кориснички подаци нису валидни!");
+        if (createdMemberResp.body() == null)
             throw new Exception("Грешка у комуникацији са сервером!");
         return "Послат је активациони e-mail адресу корисника!";
     }

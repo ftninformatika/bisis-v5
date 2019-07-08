@@ -1152,12 +1152,6 @@ public class UserData {
             btnCreateWebAccount = new JButton();
             btnCreateWebAccount.setText(Messages.getString("circulation.createwebacc"));
             btnCreateWebAccount.setFocusable(false);
-            if (Cirkulacija.getApp().getUserManager().getMember() != null &&
-                Cirkulacija.getApp().getUserManager().getMember().getActivatedWebProfile()
-                .equals(Boolean.TRUE)) {
-                btnCreateWebAccount.setEnabled(false);
-                btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
-            }
             btnCreateWebAccount.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -1414,7 +1408,7 @@ public class UserData {
                          String gender, String age, String tmpAddress, String tmpCity, String tmpZip,
                          String tmpPhone, String jmbg, Date birthday, int docId, String docNo, String docCity, String country,
                          String title, String occupation, String indexNo, String classNo, Organization org,
-                         String eduLvl, String languages, String note, String oldNumbers, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode) {
+                         String eduLvl, String languages, String note, String oldNumbers, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode, boolean activatedWebProfile) {
         getTfFirstName().setText(firstName);
         getTfLastName().setText(lastName);
         getTfParentName().setText(parentName);
@@ -1467,6 +1461,10 @@ public class UserData {
         }
         getDuplicateTableModel().setData(duplicates);
         this.pincode = pincode;
+        if (activatedWebProfile) {
+            btnCreateWebAccount.setEnabled(false);
+            btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
+        }
     }
 
     public void loadEduLvl(List data) {
