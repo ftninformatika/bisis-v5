@@ -50,7 +50,7 @@ public class LibraryMemberService {
         Date activationDeadline = DateUtils.incDecDays(new Date(), 5);
         tokenData.put("acivationDate", activationDeadline);
         JwtBuilder jwtBuilder = Jwts.builder();
-        jwtBuilder.setClaims(tokenData);
+        jwtBuilder.setClaims(tokenData).setExpiration(activationDeadline);
         return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
     }
 

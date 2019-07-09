@@ -6,8 +6,10 @@ import com.ftninformatika.bisis.auth.security.service.TokenService;
 import com.ftninformatika.bisis.auth.service.LibraryMemberService;
 import com.ftninformatika.bisis.circ.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import io.jsonwebtoken.JwtBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,7 +63,7 @@ public class MemberAuthenticationController {
     @PostMapping(value = "/activate-account")
     public ResponseEntity<?> activateOpacAccount(@RequestBody String acitvateToken) {
         if (acitvateToken == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        // TODO- check if token expired
+
         LibraryMember libraryMember = libraryMemberRepository.findByActivationToken(acitvateToken);
         if (libraryMember == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         libraryMember.setActivationToken(null);

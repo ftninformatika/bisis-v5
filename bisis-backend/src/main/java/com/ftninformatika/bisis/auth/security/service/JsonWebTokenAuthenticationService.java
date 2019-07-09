@@ -51,7 +51,6 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
                     System.out.println("Your token has expired!");
                     return null;
                 }
-
                 if (member != null ) {
                     member.setLastActivity(new Date());
                     libraryMemberRepository.save(member);
@@ -64,7 +63,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
 
 
 
-    private Jws<Claims> parseToken(final String token) {
+    public Jws<Claims> parseToken(final String token) {
         if (token != null) {
             try {
                 return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);

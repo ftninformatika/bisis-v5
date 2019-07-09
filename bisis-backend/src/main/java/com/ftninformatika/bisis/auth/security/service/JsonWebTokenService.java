@@ -10,6 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -67,8 +68,11 @@ public class JsonWebTokenService implements TokenService {
         }
         final LibraryMember user = libraryMemberRepository.findByUsername(username); //email im je username
 
+        if (user == null || !BCrypt.checkpw(password, user.getPassword()))
+            return null;
+
         Map<String, Object> tokenData = new HashMap<>();
-        if (password.equals(user.getPassword())) {
+        if (BCrypt.checkpw(password, user.getPassword())) {
             tokenData.put("clientType", "member");
             tokenData.put("userID", user.get_id());
             tokenData.put("username", user.getUsername());
