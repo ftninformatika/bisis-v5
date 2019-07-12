@@ -331,7 +331,7 @@ public class UserManager {
                 member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
                 member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
                 member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(), member.getOldNumbers(),
-                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin(), member.getActivatedWebProfile());
+                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin(), member.isActivatedWebProfile());
 
         user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), member.getSignings());
 
@@ -411,8 +411,7 @@ public class UserManager {
             throw new Exception(Messages.getString("USER_MANAGER_USER_NOT_LOADED"));
         if (DataValidator.validateEmail(member.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
             throw new Exception(Messages.getString(DataErrors.EMAIL_FORMAT_INVALID.getMessageKey()));
-        if (member.getActivatedWebProfile() != null &&
-            member.getActivatedWebProfile().equals(Boolean.TRUE))
+        if (member.isActivatedWebProfile())
             throw new Exception(Messages.getString(""));
         LibraryMember libraryMember = new LibraryMember();
         libraryMember.setAuthorities(new ArrayList<>(Arrays.asList(Authority.ROLE_USER)));

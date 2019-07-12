@@ -1,11 +1,18 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
+import com.ftninformatika.bisis.auth.security.service.JsonWebTokenService;
 import com.ftninformatika.bisis.circ.LibraryMember;
 import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -17,27 +24,21 @@ import java.util.Random;
 public class LibraryMemberController {
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
+    @Autowired JsonWebTokenAuthenticationService jsonWebTokenAuthenticationService;
 
-//    @Autowired EmailController emailController;
 
-//    @RequestMapping( value = "/generate_reset", method = RequestMethod.GET)
-//    public boolean generateReset(@RequestParam("email") String email) {
-//        LibraryMember lm = libraryMemberRepository.findByUsername(email); //by email zapravo
-//        if (lm == null) return false;
-//        lm.setPasswordResetString(randomStringGenerator());
-//        libraryMemberRepository.save(lm);
-//        String emailBody = MessageFormat.format(Texts.getString("EMAIL_PASSWORD_RESET_TEXT_0.1"), lm.get_id(), lm.getPasswordResetString());
-//        new Thread(() -> {
-//                try {
-//                    emailController.sendSimpleEmail("bisis_support", lm.getUsername(), Texts.getString("EMAIL_PASSWORD_RESTART_HEADING"), emailBody);
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-//            }).start();
-//        return true;
-//
-//
-//    }
+    @PostMapping("/get_member_by_activation_token")
+    public ResponseEntity<?> getMemberByActivationToken(@RequestBody String activationToken) {
+        if (activationToken == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Jws<Claims> claimsJws = jsonWebTokenAuthenticationService.parseToken(activationToken);
+        if (claimsJws != null && claimsJws.getBody().getExpiration().before(new Date()))
+            return new ResponseEntity<>(HttpStatus.GONE);
+        LibraryMember libraryMember = libraryMemberRepository.findByActivationToken(activationToken);
+        if (libraryMember == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(libraryMember, HttpStatus.OK);
+    }
 
     @RequestMapping( value = "/{passwordResetString}", method = RequestMethod.GET)
     public boolean getReset(@PathVariable String passwordResetString) {

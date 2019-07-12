@@ -70,7 +70,7 @@ public class Member implements java.io.Serializable {
 	private Integer classNo;
 	private String blockReason;
 	private String pin;
-	private Boolean activatedWebProfile;
+	private boolean activatedWebProfile;
 
 	private List<Signing> signings = new ArrayList<>();
 	private List<Duplicate> duplicates = new ArrayList<>();
