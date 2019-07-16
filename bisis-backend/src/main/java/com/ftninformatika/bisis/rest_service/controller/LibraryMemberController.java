@@ -1,17 +1,18 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
-import com.ftninformatika.bisis.auth.security.service.JsonWebTokenService;
 import com.ftninformatika.bisis.circ.LibraryMember;
 import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
+import com.ftninformatika.utils.validators.security.PasswordCodes;
+import com.ftninformatika.utils.validators.security.PasswordValidator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Date;
 import java.util.Random;
 
@@ -25,7 +26,19 @@ public class LibraryMemberController {
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired JsonWebTokenAuthenticationService jsonWebTokenAuthenticationService;
+    @Autowired LibraryMemberService libraryMemberService;
 
+    @PostMapping("/activate_account")
+    public ResponseEntity<Boolean> activateAccount(@RequestBody LibraryMember libraryMember) {
+        if (libraryMember == null || libraryMember.getPassword() == null)
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        if (PasswordValidator.validatePasswordStrength(libraryMember.getPassword()) == PasswordCodes.STRONG_ENOUGH) {
+            if (libraryMemberService.activateMember(libraryMember))
+                return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @PostMapping("/get_member_by_activation_token")
     public ResponseEntity<?> getMemberByActivationToken(@RequestBody String activationToken) {

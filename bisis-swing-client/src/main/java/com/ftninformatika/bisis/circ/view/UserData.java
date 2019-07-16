@@ -1464,6 +1464,7 @@ public class UserData {
         if (activatedWebProfile) {
             btnCreateWebAccount.setEnabled(false);
             btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
+            tfEmail.setEnabled(false);
         }
     }
 

@@ -85,8 +85,6 @@ public class JsonWebTokenService implements TokenService {
             //jwtBuilder.setExpiration(calendar.getTime());
             jwtBuilder.setClaims(tokenData);
             String encriptedToken = jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
-
-
             user.setAuthToken(encriptedToken);
             user.setLastActivity(new Date());
             libraryMemberRepository.save(user);
