@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 import com.ftninformatika.bisis.circ.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.opac.OpacMemberWrapper;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
@@ -16,10 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +34,30 @@ public class LibraryMemberService {
     @Autowired MemberRepository memberRepository;
     @Autowired LibraryPrefixProvider libraryPrefixProvider;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+
+
+    /**
+     * Gets wrapper object that contains library member (OPAC)
+     * and its BISIS circulation model
+     * @param libraryMember
+     * @return
+     */
+    public OpacMemberWrapper getOpacWrapperMember(LibraryMember libraryMember) {
+        List<String> allPrefixes = libraryConfigurationRepository.findAll()
+                .stream().map(LibraryConfiguration::getLibraryName).collect(Collectors.toList());
+        if (libraryMember == null || libraryMember.getLibraryPrefix() == null
+                || !allPrefixes.contains(libraryMember.getLibraryPrefix()))
+            return null;
+        libraryPrefixProvider.setPrefix(libraryMember.getLibraryPrefix());
+        OpacMemberWrapper retVal = new OpacMemberWrapper();
+        Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
+        if (!member.isPresent())
+            return null;
+        libraryMember.setPassword(null);
+        retVal.setLibraryMember(libraryMember);
+        retVal.setMember(member.get());
+        return retVal;
+    }
 
     /**
      * Hash library user password and activate OPAC profile

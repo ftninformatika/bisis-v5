@@ -1,19 +1,17 @@
 package com.ftninformatika.bisis.auth.controller;
 
 import com.ftninformatika.bisis.auth.dto.LoginDTO;
-import com.ftninformatika.bisis.auth.dto.TokenDTO;
 import com.ftninformatika.bisis.auth.security.service.TokenService;
 import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.opac.OpacMemberWrapper;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Petar on 10/13/2017.
@@ -36,21 +34,17 @@ public class MemberAuthenticationController {
     @Autowired LibraryMemberRepository libraryMemberRepository;
 
     @PostMapping
-    public Map<String, Object> authenticate(@RequestBody final LoginDTO dto) {
-        Map<String, Object> retVal = new HashMap<>();
-        final String token = tokenService.getMemberToken(dto.getUsername(), dto.getPassword());
-        if (token != null) {
-            final TokenDTO response = new TokenDTO();
-            response.setToken(token);
-            retVal.put("token", response);
-            LibraryMember m = libraryMemberRepository.findByUsername(dto.getUsername());
-            m.setPassword(null);
-            m.setPasswordResetString(null);
-            retVal.put("member_info", m);
-            return retVal;
-        } else {
-            return (Map<String, Object>) new HashMap<>().put("message", "Error authenticating memeber!");
-        }
+    public ResponseEntity<?> authenticate(@RequestBody LoginDTO loginDTO) {
+        String token = tokenService.getMemberToken(loginDTO.getUsername(), loginDTO.getPassword());
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(loginDTO.getUsername());
+        if (token == null || libraryMember == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!BCrypt.checkpw(loginDTO.getPassword(), libraryMember.getPassword()))
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        OpacMemberWrapper retVal = libraryMemberService.getOpacWrapperMember(libraryMember);
+        if (retVal == null)
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
     /**
@@ -61,7 +55,6 @@ public class MemberAuthenticationController {
     @PostMapping(value = "/activate-account")
     public ResponseEntity<?> activateOpacAccount(@RequestBody String acitvateToken) {
         if (acitvateToken == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         LibraryMember libraryMember = libraryMemberRepository.findByActivationToken(acitvateToken);
         if (libraryMember == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         libraryMember.setActivationToken(null);
