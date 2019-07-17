@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.auth.controller;
 import com.ftninformatika.bisis.auth.converter.ConverterFacade;
 import com.ftninformatika.bisis.auth.dto.UserDTO;
 import com.ftninformatika.bisis.auth.service.UserService;
-import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;

@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(
-                        "/auth", "/memauth", "/coders/language", "/coders/lib_configurations", "/records/wrapperrec/**",
+                        "/opac/**","/auth", "/memauth", "/coders/language", "/coders/lib_configurations", "/records/wrapperrec/**",
                         "/records/wrapperrec/universal", "/records/unimarc", "/records/query/**", "/records/opac_wrapperrec/**",
                         "/library_members/**", "/coders/location**","/coders/item_status**", "/coders/sublocation/get_by_location**").permitAll()
                 .antMatchers("/members_repository/**", "/circ_report/**").hasAnyRole("USER","ADMIN")

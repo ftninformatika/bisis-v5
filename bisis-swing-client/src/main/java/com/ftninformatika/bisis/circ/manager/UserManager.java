@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;

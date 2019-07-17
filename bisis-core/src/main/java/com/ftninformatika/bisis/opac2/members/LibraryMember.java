@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.circ;
+package com.ftninformatika.bisis.opac2.members;
 
 import com.ftninformatika.bisis.auth.model.Authority;
 import lombok.*;

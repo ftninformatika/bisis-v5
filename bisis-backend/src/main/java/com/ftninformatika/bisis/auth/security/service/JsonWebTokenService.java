@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.auth.security.service;
 
 import com.ftninformatika.bisis.auth.exception.model.ServiceException;
 import com.ftninformatika.bisis.auth.model.LibrarianUser;
-import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;

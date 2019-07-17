@@ -13,6 +13,7 @@ import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;

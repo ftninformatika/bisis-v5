@@ -1,9 +1,9 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
-import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac.OpacMemberWrapper;
+import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;

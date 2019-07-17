@@ -2,8 +2,8 @@ package com.ftninformatika.bisis.auth.controller;
 
 import com.ftninformatika.bisis.auth.dto.LoginDTO;
 import com.ftninformatika.bisis.auth.security.service.TokenService;
-import com.ftninformatika.bisis.circ.LibraryMember;
-import com.ftninformatika.bisis.opac.OpacMemberWrapper;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import org.springframework.beans.factory.annotation.Autowired;

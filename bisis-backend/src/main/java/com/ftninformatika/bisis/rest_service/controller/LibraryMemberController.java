@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
-import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;

@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.opac;
+package com.ftninformatika.bisis.opac2.members;
 
-import com.ftninformatika.bisis.circ.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

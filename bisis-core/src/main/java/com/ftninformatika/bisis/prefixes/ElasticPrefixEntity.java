@@ -23,13 +23,6 @@ public class ElasticPrefixEntity {
     @Id
     String id;
 
-  /*  @Field(
-            type = FieldType.String,
-            index = FieldIndex.not_analyzed,
-            searchAnalyzer = "standard",
-            store = true
-    )
-    private String operationName="testing";*/
     private Map<String, List<String>> prefixes;
     @Override
     public String toString() {

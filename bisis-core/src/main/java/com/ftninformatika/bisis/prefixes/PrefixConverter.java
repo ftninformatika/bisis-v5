@@ -17,7 +17,6 @@ public class PrefixConverter {
 //    }
 //    return retVal;
 //  }
-//  public static String endPhraseFlag = " 0end0";
 
   public static Map<String, List<String>> toMap(Record rec, String stRashod) {
     HashMap<String, List<String>> retVal = new HashMap<>();
@@ -33,6 +32,30 @@ public class PrefixConverter {
         List list = new ArrayList<>();
         list.add(valueUnaccented);
         retVal.put(pv.prefName, list);
+      }
+//      Posebna vrsta indeksiranih polja, namenjena za autocomplete
+//      ne koristimo iste indekse jer treba da budu tretirane kao
+//      keywords prilikom pretrage
+      if (autocompletePrefixMap.keySet().contains(pv.prefName)) {
+        String acPref = autocompletePrefixMap.get(pv.prefName);
+        String acPrefRaw = acPref + AUTOCOMPLETE_RAW_SUFFIX;
+        if (retVal.containsKey(acPref) && retVal.containsKey(acPrefRaw)){
+          List listNormalized = retVal.get(acPref);
+          List listRaw = retVal.get(acPrefRaw);
+          if (!listNormalized.contains(valueUnaccented)) {
+            retVal.get(acPref).add(valueUnaccented);
+          }
+          if (!listRaw.contains(pv.value)) {
+            retVal.get(acPrefRaw).add(pv.value);
+          }
+        } else {
+          List listNormalized = new ArrayList<>();
+          listNormalized.add(valueUnaccented);
+          List listRaw = new ArrayList<>();
+          listRaw.add(pv.value);
+          retVal.put(acPref, listNormalized);
+          retVal.put(acPrefRaw, listRaw);
+        }
       }
     }
     if (retVal.get("IN") != null && retVal.get("IN").size() > 1) {
@@ -283,17 +306,20 @@ public class PrefixConverter {
 
 
   static PrefixConfig prefixConfig;
-
   static PrefixHandler prefixHandler;
-
   static PrefixMap prefixMap;
+  static String AUTOCOMPLETE_RAW_SUFFIX = "_raw";
+  static Map<String, String> autocompletePrefixMap = new HashMap<>();
   private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-
   static {
     try {
       prefixConfig = PrefixConfigFactory.getPrefixConfig();
       prefixHandler = prefixConfig.getPrefixHandler();
       prefixMap = prefixConfig.getPrefixMap();
+      autocompletePrefixMap.put("AU", "authors");
+      autocompletePrefixMap.put("PU", "publishers");
+      autocompletePrefixMap.put("TI", "titles");
+      autocompletePrefixMap.put("KW", "keywords");
     } catch (Exception ex) {
       ex.printStackTrace();
     }
