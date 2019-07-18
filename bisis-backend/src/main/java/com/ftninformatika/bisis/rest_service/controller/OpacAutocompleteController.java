@@ -1,12 +1,13 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.prefixes.PrefixValue;
+import com.ftninformatika.bisis.rest_service.service.implementations.OpacAutocompleteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,17 +17,14 @@ import java.util.List;
 @RequestMapping("/opac/autocomplete")
 public class OpacAutocompleteController {
 
-//    TODO- implement real version
+    @Autowired OpacAutocompleteService opacAutocompleteService;
+
     @PostMapping
     public ResponseEntity<List<PrefixValue>> searchAutocomplete(@RequestBody String query) {
-        List<PrefixValue> retVal = new ArrayList<>();
-        retVal.add(new PrefixValue("AU", "Ivo Andrić"));
-        retVal.add(new PrefixValue("AU", "Лав Николајевич Толстој"));
-        retVal.add(new PrefixValue("AU", "Sanja  Marinković"));
-        retVal.add(new PrefixValue("PU", "Vulkan"));
-        retVal.add(new PrefixValue("KW", "tri praseta"));
-        retVal.add(new PrefixValue("TI", "Titanik"));
-        retVal.add(new PrefixValue("Ti", "Britannica"));
+        List<PrefixValue> retVal = opacAutocompleteService.getAutocompleteResults(query);
+        if (retVal.size() == 0)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(retVal, HttpStatus.OK);
+
     }
 }

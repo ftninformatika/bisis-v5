@@ -19,6 +19,8 @@ public class ElasticUtility {
 
     private static List<String> NOT_TOKENIZED = Arrays.asList("DC", "UG", "675a", "675u", "UG", "675b", "IN", "BN"
     , "010a", "010z", "SN", "011a", "011z", "SP", "011e", "011c", "SY", "SZ");
+    public static List<String> AUTOCOMPLETE_PREFIXES = Arrays.asList("authors", "publishers","titles", "keywords");
+    public static String RAW_SUFFIX = "_raw";
 
     public static List<String> getIdsFromElasticIterable(Iterable<ElasticPrefixEntity> elasticResponse) {
         return StreamSupport.stream(elasticResponse.spliterator(), false)
@@ -280,6 +282,7 @@ public class ElasticUtility {
 
         return retVal;
     }
+
 
 
 }

@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.prefixes;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
+import com.ftninformatika.utils.string.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,6 +40,11 @@ public class PrefixConverter {
       if (autocompletePrefixMap.keySet().contains(pv.prefName)) {
         String acPref = autocompletePrefixMap.get(pv.prefName);
         String acPrefRaw = acPref + AUTOCOMPLETE_RAW_SUFFIX;
+
+        if (acPref.equals("authors")) {
+          valueUnaccented = StringUtils.removeDigitsFromString(valueUnaccented);
+          pv.value = StringUtils.removeDigitsFromString(pv.value);
+        }
         if (retVal.containsKey(acPref) && retVal.containsKey(acPrefRaw)){
           List listNormalized = retVal.get(acPref);
           List listRaw = retVal.get(acPrefRaw);
@@ -61,7 +67,6 @@ public class PrefixConverter {
     if (retVal.get("IN") != null && retVal.get("IN").size() > 1) {
       retVal.get("IN").sort(Comparator.naturalOrder());
     }
-
     return retVal;
   }
 
