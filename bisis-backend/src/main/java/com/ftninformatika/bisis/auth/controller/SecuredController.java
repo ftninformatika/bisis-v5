@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hello")
 public class SecuredController {
 
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> sayHello() {
         return new ResponseEntity<>("Secured hello!", HttpStatus.OK);

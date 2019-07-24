@@ -4,7 +4,9 @@ import com.ftninformatika.bisis.auth.converter.ConverterFacade;
 import com.ftninformatika.bisis.auth.dto.UserDTO;
 import com.ftninformatika.bisis.auth.service.UserService;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;
@@ -21,14 +23,9 @@ public class SignUpController {
 
     private final UserService service;
     private final ConverterFacade converterFacade;
-    private JavaMailSender mailSender;
+    @Autowired EmailService emailService;
     @Autowired LibraryMemberService libraryMemberService;
     @Autowired LibraryMemberRepository libraryMemberRepository;
-
-    @Autowired
-    public void setMailSender(JavaMailSenderImpl mailSender) {
-        this.mailSender = mailSender;
-    }
 
     @Autowired
     public SignUpController(final UserService service,
@@ -61,8 +58,28 @@ public class SignUpController {
         // save profile and send activation link
         LibraryMember createdMember = libraryMemberRepository.save(newMember);
 
-        // TODO- send e-mail for activation
-        //
+        try {
+            emailService.sendSimpleMail(createdMember.getUsername(), Texts.getString("EMAIL_ACITVATE_PROFILE_HEADING"),
+                    Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY_0.1" + createdMember.getActivationToken()));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
         return new ResponseEntity<>(createdMember, HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/opac/resend-email")
+    public ResponseEntity<?> resendEmail(@RequestBody String username)  {
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(username);
+        if (libraryMember == null || libraryMember.getActivationToken() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        try {
+            emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("EMAIL_ACITVATE_PROFILE_HEADING"),
+                    Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY_0.1" + libraryMember.getActivationToken()));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

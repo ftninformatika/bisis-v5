@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.authorizeRequests()
-                .antMatchers(
+                .antMatchers("/hello",
                         "/opac/**","/auth", "/memauth", "/coders/language", "/coders/lib_configurations", "/records/wrapperrec/**",
                         "/records/wrapperrec/universal", "/records/unimarc", "/records/query/**", "/records/opac_wrapperrec/**",
                         "/library_members/**", "/coders/location**","/coders/item_status**", "/coders/sublocation/get_by_location**").permitAll()
