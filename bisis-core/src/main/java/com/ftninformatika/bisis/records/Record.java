@@ -472,6 +472,8 @@ public class Record implements Serializable {
   @Id private String _id;
   /** record identifier */
   private int recordID;
+  /** id in books_common collection */
+  private Integer commonBookUid;
   /** publication type */
   private int pubType;
   /** the list of fields */

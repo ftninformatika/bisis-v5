@@ -60,7 +60,7 @@ public class SignUpController {
 
         try {
             emailService.sendSimpleMail(createdMember.getUsername(), Texts.getString("EMAIL_ACITVATE_PROFILE_HEADING"),
-                    Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY_0.1" + createdMember.getActivationToken()));
+                    Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY") + createdMember.getActivationToken());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

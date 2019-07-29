@@ -1,36 +1,34 @@
 package com.ftninformatika.bisis.opac2.books;
 
-import com.ftninformatika.bisis.records.Record;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author badf00d21  29.7.19.
+ * Model for united library collection of
+ * books with essential data only
+ * @author badf00d21  17.7.19.
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Book {
-    //    Record mongoId
+@Document(collection = "books_common")
+public class BookCommon {
+    @Id
     private String _id;
-    private Integer pubType;
-    private List<String> authors = new ArrayList<>();
+    @Indexed(unique = true)
+    private Integer uid;
     private String title;
-    private String subtitle;
-    private String publisher;
-    private String publishYear;
-    private String publishPlace;
     private String isbn;
     private String issn;
-    private String pagesCount;
-    private String dimensions;
-//    Data from books_common collection
     private String imageUrl;
     private String description;
 }
