@@ -1,10 +1,15 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.bisis.opac2.opac2.Filters;
+import com.ftninformatika.bisis.opac2.opac2.LocationFilterWrapper;
+import com.ftninformatika.bisis.opac2.opac2.ResultPageFilterRequest;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.bisis.rest_service.controller.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
@@ -32,13 +37,15 @@ public class OpacSearchService {
     @Autowired RecordsRepository recordsRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired BookCommonRepository bookCommonRepository;
+//    TODO- refactor this at some point (don't import controllers in service layer)
+    @Autowired CodersController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
 
     public PageImpl<List<Book>> searchBooks(SearchModel searchModel, Integer pageNumber, Integer pageSize) {
         List<Book> retVal = new ArrayList<>();
 
         int page = 0;
-        int pSize = 20;
+        int pSize = 10;
 
         if (pageNumber != null)
             page = pageNumber;
@@ -83,5 +90,24 @@ public class OpacSearchService {
                 }
         );
         return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
+    }
+
+    public Filters getFilters(ResultPageFilterRequest filterRequest, String library) {
+//        if (filterRequest == null || filterRequest.getSearchModel() == null)
+//            return null;
+        Filters retVal = new Filters();
+        List<Location> locations = codersController.getLocations(library);
+        List<LocationFilterWrapper> locationFilters = new ArrayList<>();
+        if (locations != null && locations.size() > 0) {
+            for(Location l: locations) {
+                LocationFilterWrapper lf = new LocationFilterWrapper();
+                lf.setLocation(l);
+                lf.setSublocations(codersController.getSublocationsByLocation(l.getCoder_id(), library));
+                locationFilters.add(lf);
+            }
+            retVal.setLocations(locationFilters);
+        }
+
+        return retVal;
     }
 }
