@@ -151,6 +151,8 @@ public class OpacSearchService {
                     case "PY":
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String val = ee.getPrefixes().get(prefix).get(i);
+                            if (val == null || val.equals("")) continue;
+                            val = val.trim();
                             if (filters.getPubYearByValue(val) == null) {
                                 FilterItem filterItem = new FilterItem(val, val, false, 1);
                                 filters.getPubYears().add(new Filter(filterItem, null));

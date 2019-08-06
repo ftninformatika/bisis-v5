@@ -88,7 +88,7 @@ public class Filters {
         Collections.reverse(pubTypes);
         languages.sort(Comparator.comparing(f -> f.getFilter().getCount()));
         Collections.reverse(languages);
-        pubYears.sort(Comparator.comparing((f -> f.getFilter().getCount())));
+        pubYears.sort(Comparator.comparing((f -> f.getFilter().getValue())));
         Collections.reverse(pubYears);
     }
 }
