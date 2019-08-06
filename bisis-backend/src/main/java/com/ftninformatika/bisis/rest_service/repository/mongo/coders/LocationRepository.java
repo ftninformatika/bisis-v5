@@ -13,7 +13,10 @@ import java.util.List;
 public interface LocationRepository extends MongoRepository<Location,String> {
 
     @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
-    public List<Location> getCoders(String libName);
+    List<Location> getCoders(String libName);
 
-    public Location getByDescriptionAndLibrary(String desc, String lib);
+    Location getByDescriptionAndLibrary(String desc, String lib);
+
+    @Query("{'coder_id': ?0, 'library': ?1}")
+    Location getByCoder_Id(String coder_id, String lib);
 }

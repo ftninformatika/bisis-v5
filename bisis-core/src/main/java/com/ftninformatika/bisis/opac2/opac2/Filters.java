@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -56,5 +58,37 @@ public class Filters {
             if (f.getFilter().getValue().equals(val))
                 return f;
         return null;
+    }
+
+    public Filter getLocationByValue(String val) {
+        if (val == null || val.length() != 2)
+            return null;
+        for (Filter f: locations)
+            if (f.getFilter().getValue().equals(val))
+                return f;
+        return null;
+    }
+
+    public FilterItem getSublocationByValue(String val) {
+        if (val == null || val.length() < 2)
+            return null;
+        Filter f = getLocationByValue(val.substring(0,2));
+        if (f == null || f.getChildren().size() == 0) return null;
+        for (FilterItem fi: f.getChildren()) {
+            if (fi.getValue().equals(val)) return fi;
+        }
+        return null;
+    }
+
+    public void sortFilters() {
+        locations.sort(Comparator.comparing(f -> f.getFilter().getValue()));
+        authors.sort(Comparator.comparing(f -> f.getFilter().getCount()));
+        Collections.reverse(authors);
+        pubTypes.sort(Comparator.comparing(f -> f.getFilter().getCount()));
+        Collections.reverse(pubTypes);
+        languages.sort(Comparator.comparing(f -> f.getFilter().getCount()));
+        Collections.reverse(languages);
+        pubYears.sort(Comparator.comparing((f -> f.getFilter().getCount())));
+        Collections.reverse(pubYears);
     }
 }
