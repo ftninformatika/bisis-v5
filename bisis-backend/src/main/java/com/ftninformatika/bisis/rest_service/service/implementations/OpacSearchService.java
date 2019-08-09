@@ -4,10 +4,7 @@ import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
-import com.ftninformatika.bisis.opac2.opac2.Filter;
-import com.ftninformatika.bisis.opac2.opac2.FilterItem;
-import com.ftninformatika.bisis.opac2.opac2.Filters;
-import com.ftninformatika.bisis.opac2.opac2.ResultPageFilterRequest;
+import com.ftninformatika.bisis.opac2.opac2.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
@@ -17,9 +14,9 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonReposito
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
-import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import org.apache.log4j.Logger;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -52,8 +49,10 @@ public class OpacSearchService {
     @Autowired CodersController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
 
-    public PageImpl<List<Book>> searchBooks(SearchModel searchModel, Integer pageNumber, Integer pageSize) {
+    public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, Integer pageNumber, Integer pageSize) {
         List<Book> retVal = new ArrayList<>();
+
+        if (searchRequest != null && searchRequest.getSearchModel() == null) return null;
 
         int page = 0;
         int pSize = 10;
@@ -63,8 +62,13 @@ public class OpacSearchService {
         if (pageSize != null)
             pSize = pageSize;
 
+        BoolQueryBuilder query = ElasticUtility.makeQuery(searchRequest.getSearchModel());
+
+        if (searchRequest.getOptions() != null && searchRequest.getOptions().getFilters() != null)
+            query = ElasticUtility.filterSearch(query, searchRequest.getOptions().getFilters());
+
         Pageable p = new PageRequest(page, pSize);
-        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(ElasticUtility.makeQuery(searchModel), p);
+        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(query, p);
 
         ii.forEach(
                 elasticPrefixEntity -> {
@@ -103,25 +107,33 @@ public class OpacSearchService {
         return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
-    public Filters getFilters(ResultPageFilterRequest filterRequest, String library) {
+    public Filters getFilters(ResultPageSearchRequest filterRequest, String library) {
         if (filterRequest == null || filterRequest.getSearchModel() == null)
             return null;
         Filters retVal = null;
 
+        BoolQueryBuilder query = ElasticUtility.makeQuery(filterRequest.getSearchModel());
+        FiltersReq filtersReq = null;
+
+        if (filterRequest.getOptions() != null && filterRequest.getOptions().getFilters() != null) {
+            query = ElasticUtility.filterSearch(query, filterRequest.getOptions().getFilters());
+            filtersReq = filterRequest.getOptions().getFilters();
+        }
+
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(ElasticUtility.makeQuery(filterRequest.getSearchModel()))
-                .withIndices(library + "library_domain") // TODO- hardcoded
+                .withQuery(query)
+                .withIndices(library + "library_domain")
                 .withTypes("record")
                 .withPageable(PageRequest.of(0, 10))
                 .build();
 
         CloseableIterator<ElasticPrefixEntity> searchResults = elasticsearchTemplate
                 .stream(searchQuery, ElasticPrefixEntity.class);
-        retVal = extractFiltersFromResults(searchResults, library);
+        retVal = extractFiltersFromResults(searchResults, filtersReq, library);
         return retVal;
     }
 
-    private Filters extractFiltersFromResults(CloseableIterator<ElasticPrefixEntity> results, String lib) {
+    private Filters extractFiltersFromResults(CloseableIterator<ElasticPrefixEntity> results, FiltersReq filtersReq, String lib) {
         Filters filters = new Filters();
         List<String> prefixes = Arrays.asList("authors_raw", "PY", "DT", "LA", "OD");
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
@@ -141,7 +153,8 @@ public class OpacSearchService {
                             String val = ee.getPrefixes().get(prefix).get(i);
                             if (val == null || val.equals("")) continue;
                             if (filters.getAuthorByValue(val) == null) {
-                                FilterItem filterItem = new FilterItem(val, val, false, 1);
+                                boolean checked = (filtersReq != null && filtersReq.getAuthors() != null && filtersReq.getAuthors().contains(val));
+                                FilterItem filterItem = new FilterItem(val, val, checked, 1);
                                 filters.getAuthors().add(new Filter(filterItem, null));
                             } else {
                                 filters.getAuthorByValue(val).getFilter().setCount(filters.getAuthorByValue(val).getFilter().getCount() + 1);
@@ -154,7 +167,8 @@ public class OpacSearchService {
                             if (val == null || val.equals("")) continue;
                             val = val.trim();
                             if (filters.getPubYearByValue(val) == null) {
-                                FilterItem filterItem = new FilterItem(val, val, false, 1);
+                                boolean checked = (filtersReq != null && filtersReq.getPubYears() != null && filtersReq.getPubYears().contains(val));
+                                FilterItem filterItem = new FilterItem(val, val, checked, 1);
                                 filters.getPubYears().add(new Filter(filterItem, null));
                             } else {
                                 filters.getPubYearByValue(val).getFilter().setCount(filters.getPubYearByValue(val).getFilter().getCount() + 1);
@@ -167,7 +181,8 @@ public class OpacSearchService {
                             if (filters.getPubTypesByValue(val) == null) {
                                 String lbl = getPubTypeLabel(val);
                                 if (lbl == null) continue;
-                                FilterItem filterItem = new FilterItem(lbl, val, false, 1);
+                                boolean checked = (filtersReq != null && filtersReq.getPubTypes() != null && filtersReq.getPubTypes().contains(val));
+                                FilterItem filterItem = new FilterItem(lbl, val, checked, 1);
                                 filters.getPubTypes().add(new Filter(filterItem, null));
                             } else {
                                 filters.getPubTypesByValue(val).getFilter().setCount(filters.getPubTypesByValue(val).getFilter().getCount() + 1);
@@ -180,7 +195,8 @@ public class OpacSearchService {
                             if (filters.getLanguagesByValue(val) == null) {
                                 String lbl = getLanguageLabel(val);
                                 if (lbl == null) continue;
-                                FilterItem filterItem = new FilterItem(lbl, val, false, 1);
+                                boolean checked = (filtersReq != null && filtersReq.getLanguages() != null && filtersReq.getLanguages().contains(val));
+                                FilterItem filterItem = new FilterItem(lbl, val, checked, 1);
                                 filters.getLanguages().add(new Filter(filterItem, null));
                             } else {
                                 filters.getLanguagesByValue(val).getFilter().setCount(filters.getLanguagesByValue(val).getFilter().getCount() + 1);
@@ -193,7 +209,8 @@ public class OpacSearchService {
                             if (filters.getLocationByValue(val) == null) {
                                 Location l = locationMap.get(val);
                                 if (l == null) continue;
-                                FilterItem filterItem = new FilterItem(l.getDescription(), val, false, 1);
+                                boolean checked = (filtersReq != null && filtersReq.getLocations() != null && filtersReq.getLocations().contains(val));
+                                FilterItem filterItem = new FilterItem(l.getDescription(), val, checked, 1);
                                 List<String> subVals = ee.getPrefixes().get("SL");
                                 filters.getLocations().add(new Filter(filterItem, new ArrayList<>()));
                                 if (subVals != null && subVals.size() > 0) {
@@ -201,7 +218,8 @@ public class OpacSearchService {
                                         if (filters.getSublocationByValue(subVal) == null) {
                                             Sublocation sl = sublocationMap.get(subVal);
                                             if (sl == null) continue;
-                                            FilterItem subFilterItem = new FilterItem(sl.getDescription(), subVal, false, 1);
+                                            boolean checked1 = (filtersReq != null && filtersReq.getSubLocations() != null && filtersReq.getSubLocations().contains(val));
+                                            FilterItem subFilterItem = new FilterItem(sl.getDescription(), subVal, checked, 1);
                                             filters.getLocationByValue(val).getChildren().add(subFilterItem);
                                         } else {
                                             filters.getSublocationByValue(subVal).setCount(filters.getSublocationByValue(subVal).getCount() + 1);

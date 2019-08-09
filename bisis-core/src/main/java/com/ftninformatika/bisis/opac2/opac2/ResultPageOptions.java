@@ -15,7 +15,7 @@ import lombok.Setter;
 public class ResultPageOptions {
     private Integer pageSize = 10;
     private Integer currentPage = 0;
-    private Filters filters;
+    private FiltersReq filters;
     private String sort;
     private String previewType;
 }

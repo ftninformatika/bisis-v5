@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultPageFilterRequest {
+public class ResultPageSearchRequest {
     private SearchModel searchModel;
     private ResultPageOptions options;
 }

@@ -1,9 +1,12 @@
 package com.ftninformatika.util.elastic;
 
+import com.ftninformatika.bisis.opac2.opac2.FiltersReq;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
+import com.ftninformatika.utils.string.StringUtils;
+import ma.glasnost.orika.impl.util.StringUtil;
 import org.apache.lucene.search.WildcardQuery;
 import org.elasticsearch.index.query.*;
 
@@ -258,6 +261,51 @@ public class ElasticUtility {
             e.printStackTrace();
         }
 //        System.out.println(retVal.toString());
+        return retVal;
+    }
+
+    public static BoolQueryBuilder filterSearch(BoolQueryBuilder queryBuilder, FiltersReq filtersReq) {
+        if (queryBuilder == null) return null;
+//        BoolQueryBuilder retVal = queryBuilder;
+        if (filtersReq == null) return queryBuilder;
+
+        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+        retVal.must(queryBuilder);
+
+        if (filtersReq.getLanguages() != null && filtersReq.getLanguages().size() > 0) {
+            for (String lan: filtersReq.getLanguages()) {
+                retVal.must(QueryBuilders.matchQuery("prefixes.LA", lan));
+            }
+        }
+        if (filtersReq.getAuthors() != null && filtersReq.getAuthors().size() > 0) {
+            for (String e: filtersReq.getAuthors()) {
+                retVal.must(QueryBuilders.matchQuery("prefixes.authors_raw", e));
+            }
+        }
+
+        if (filtersReq.getLocations() != null && filtersReq.getLocations().size() > 0) {
+            for (String e: filtersReq.getLocations()) {
+                retVal.must(QueryBuilders.matchQuery("prefixes.OD", e));
+            }
+        }
+
+        if (filtersReq.getSubLocations() != null && filtersReq.getSubLocations().size() > 0) {
+            for (String e: filtersReq.getSubLocations()) {
+                retVal.must(QueryBuilders.matchQuery("prefixes.SL", e));
+            }
+        }
+
+        if (filtersReq.getPubTypes() != null && filtersReq.getPubTypes().size() > 0) {
+            for (String e: filtersReq.getPubTypes()) {
+                retVal.must(QueryBuilders.matchQuery("prefixes.DT", e));
+            }
+        }
+
+        if (filtersReq.getPubYears() != null && filtersReq.getPubYears().size() > 0) {
+            for (String e: filtersReq.getPubYears()) {
+                retVal.must(QueryBuilders.matchQuery("prefixes.PY", e));
+            }
+        }
         return retVal;
     }
 

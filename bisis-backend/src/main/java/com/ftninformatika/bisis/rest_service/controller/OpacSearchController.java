@@ -2,9 +2,8 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.opac2.Filters;
-import com.ftninformatika.bisis.opac2.opac2.ResultPageFilterRequest;
+import com.ftninformatika.bisis.opac2.opac2.ResultPageSearchRequest;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
-import com.ftninformatika.bisis.search.SearchModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
@@ -26,11 +25,11 @@ public class OpacSearchController {
 
 
     @PostMapping
-    public ResponseEntity<?> search(@RequestBody SearchModel searchModel
+    public ResponseEntity<?> search(@RequestBody ResultPageSearchRequest resultPageSearchRequest
             , @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
-        PageImpl<List<Book>> retVal = opacSearchService.searchBooks(searchModel, pageNumber, pageSize);
+        PageImpl<List<Book>> retVal = opacSearchService.searchBooks(resultPageSearchRequest, pageNumber, pageSize);
 
         if (retVal.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -39,7 +38,7 @@ public class OpacSearchController {
     }
 
     @PostMapping(value = "getFilters")
-    public ResponseEntity<?> getFilters(@RequestHeader("Library") String lib, @RequestBody ResultPageFilterRequest filterRequest) {
+    public ResponseEntity<?> getFilters(@RequestHeader("Library") String lib, @RequestBody ResultPageSearchRequest filterRequest) {
         Filters retVal = opacSearchService.getFilters(filterRequest, lib);
         if (retVal == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -47,7 +46,7 @@ public class OpacSearchController {
     }
 
     @PostMapping(value = "filterSearch")
-    public ResponseEntity<?> filterSearch(@RequestBody ResultPageFilterRequest filterRequest) {
+    public ResponseEntity<?> filterSearch(@RequestBody ResultPageSearchRequest filterRequest) {
         return null;
     }
 }
