@@ -4,7 +4,7 @@ import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
-import com.ftninformatika.bisis.opac2.opac2.*;
+import com.ftninformatika.bisis.opac2.search.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
@@ -15,6 +15,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,9 +136,13 @@ public class OpacSearchService {
 
     private Filters extractFiltersFromResults(CloseableIterator<ElasticPrefixEntity> results, FiltersReq filtersReq, String lib) {
         Filters filters = new Filters();
-        List<String> prefixes = Arrays.asList("authors_raw", "PY", "DT", "LA", "OD");
+        List<String> prefixes = Arrays.asList("authors_raw", "PY", "DT", "LA", "OD", "SL");
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
         Map<String, Sublocation> sublocationMap = sublocationRepository.getCoders(lib).stream().collect(Collectors.toMap(Sublocation::getCoder_id, sl -> sl));
+        Map<String, Integer> subLocationCount = new HashMap<>();
+        for (String slKey: sublocationMap.keySet()) {
+            subLocationCount.put(slKey, 0);
+        }
         while (results.hasNext()) {
             ElasticPrefixEntity ee = results.next();
             if (ee.getPrefixes() == null)
@@ -153,7 +158,7 @@ public class OpacSearchService {
                             String val = ee.getPrefixes().get(prefix).get(i);
                             if (val == null || val.equals("")) continue;
                             if (filters.getAuthorByValue(val) == null) {
-                                boolean checked = (filtersReq != null && filtersReq.getAuthors() != null && filtersReq.getAuthors().contains(val));
+                                boolean checked = (filtersReq != null && filtersReq.getAuthors() != null && filtersReq.getAuthors().stream().anyMatch(e -> e.getItem().getValue().equals(val)));
                                 FilterItem filterItem = new FilterItem(val, val, checked, 1);
                                 filters.getAuthors().add(new Filter(filterItem, null));
                             } else {
@@ -165,10 +170,10 @@ public class OpacSearchService {
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String val = ee.getPrefixes().get(prefix).get(i);
                             if (val == null || val.equals("")) continue;
-                            val = val.trim();
+                            String valTrimmed = val.trim();
                             if (filters.getPubYearByValue(val) == null) {
-                                boolean checked = (filtersReq != null && filtersReq.getPubYears() != null && filtersReq.getPubYears().contains(val));
-                                FilterItem filterItem = new FilterItem(val, val, checked, 1);
+                                boolean checked = (filtersReq != null && filtersReq.getPubYears() != null && filtersReq.getPubYears().stream().anyMatch(e -> e.getItem().getValue().trim().equals(valTrimmed)));
+                                FilterItem filterItem = new FilterItem(valTrimmed, valTrimmed, checked, 1);
                                 filters.getPubYears().add(new Filter(filterItem, null));
                             } else {
                                 filters.getPubYearByValue(val).getFilter().setCount(filters.getPubYearByValue(val).getFilter().getCount() + 1);
@@ -181,7 +186,7 @@ public class OpacSearchService {
                             if (filters.getPubTypesByValue(val) == null) {
                                 String lbl = getPubTypeLabel(val);
                                 if (lbl == null) continue;
-                                boolean checked = (filtersReq != null && filtersReq.getPubTypes() != null && filtersReq.getPubTypes().contains(val));
+                                boolean checked = (filtersReq != null && filtersReq.getPubTypes() != null && filtersReq.getPubTypes().stream().anyMatch(e -> e.getItem().getValue().equals(val)));
                                 FilterItem filterItem = new FilterItem(lbl, val, checked, 1);
                                 filters.getPubTypes().add(new Filter(filterItem, null));
                             } else {
@@ -195,7 +200,7 @@ public class OpacSearchService {
                             if (filters.getLanguagesByValue(val) == null) {
                                 String lbl = getLanguageLabel(val);
                                 if (lbl == null) continue;
-                                boolean checked = (filtersReq != null && filtersReq.getLanguages() != null && filtersReq.getLanguages().contains(val));
+                                boolean checked = (filtersReq != null && filtersReq.getLanguages() != null && filtersReq.getLanguages().stream().anyMatch(e -> e.getItem().getValue().equals(val)));
                                 FilterItem filterItem = new FilterItem(lbl, val, checked, 1);
                                 filters.getLanguages().add(new Filter(filterItem, null));
                             } else {
@@ -209,31 +214,40 @@ public class OpacSearchService {
                             if (filters.getLocationByValue(val) == null) {
                                 Location l = locationMap.get(val);
                                 if (l == null) continue;
-                                boolean checked = (filtersReq != null && filtersReq.getLocations() != null && filtersReq.getLocations().contains(val));
+                                boolean checked = (filtersReq != null && filtersReq.getLocations() != null && filtersReq.getLocations().stream().anyMatch(e -> e.getItem().getValue().equals(val)));
                                 FilterItem filterItem = new FilterItem(l.getDescription(), val, checked, 1);
-                                List<String> subVals = ee.getPrefixes().get("SL");
                                 filters.getLocations().add(new Filter(filterItem, new ArrayList<>()));
-                                if (subVals != null && subVals.size() > 0) {
-                                    for (String subVal : subVals) {
-                                        if (filters.getSublocationByValue(subVal) == null) {
-                                            Sublocation sl = sublocationMap.get(subVal);
-                                            if (sl == null) continue;
-                                            boolean checked1 = (filtersReq != null && filtersReq.getSubLocations() != null && filtersReq.getSubLocations().contains(val));
-                                            FilterItem subFilterItem = new FilterItem(sl.getDescription(), subVal, checked, 1);
-                                            filters.getLocationByValue(val).getChildren().add(subFilterItem);
-                                        } else {
-                                            filters.getSublocationByValue(subVal).setCount(filters.getSublocationByValue(subVal).getCount() + 1);
-                                        }
-                                    }
-
-                                }
+//                                List<String> subVals = ee.getPrefixes().get("SL");
+//                                if (subVals != null && subVals.size() > 0) {
+//                                    for (String subVal : subVals) {
+//                                        if (subLocationCount.get(subVal) != null) {
+//                                            subLocationCount.put(subVal, subLocationCount.get(subVal) + 1);
+//                                        }
+//                                    }
+//
+//                                }
                             } else {
                                 filters.getLocationByValue(val).getFilter().setCount(filters.getLocationByValue(val).getFilter().getCount() + 1);
                             }
                         }
                         break;
+                    case "SL": {
+                        for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
+                            String val = ee.getPrefixes().get(prefix).get(i);
+                            if (subLocationCount.get(val) != null)
+                                subLocationCount.put(val, subLocationCount.get(val) + 1);
+                        }
+                    } break;
                 }
             }
+        }
+        for (String slKey: subLocationCount.keySet()) {
+            String loc = null;
+            int count = subLocationCount.get(slKey);
+            if (slKey.length() == 4)
+                loc = slKey.substring(0, 2);
+            if (count > 0)
+                filters.getLocationByValue(loc).getChildren().add(new FilterItem(sublocationMap.get(slKey).getDescription(), slKey, false, count));
         }
         filters.sortFilters();
         return filters;

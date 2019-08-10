@@ -1,13 +1,11 @@
 package com.ftninformatika.util.elastic;
 
-import com.ftninformatika.bisis.opac2.opac2.FiltersReq;
+import com.ftninformatika.bisis.opac2.search.FiltersReq;
+import com.ftninformatika.bisis.opac2.search.SelectedFilter;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import com.ftninformatika.utils.string.StringUtils;
-import ma.glasnost.orika.impl.util.StringUtil;
-import org.apache.lucene.search.WildcardQuery;
 import org.elasticsearch.index.query.*;
 
 import java.util.Arrays;
@@ -273,37 +271,43 @@ public class ElasticUtility {
         retVal.must(queryBuilder);
 
         if (filtersReq.getLanguages() != null && filtersReq.getLanguages().size() > 0) {
-            for (String lan: filtersReq.getLanguages()) {
-                retVal.must(QueryBuilders.matchQuery("prefixes.LA", lan));
+            for (SelectedFilter lan: filtersReq.getLanguages()) {
+                if (lan.getItem() != null && lan.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.LA", lan.getItem().getValue()));
             }
         }
         if (filtersReq.getAuthors() != null && filtersReq.getAuthors().size() > 0) {
-            for (String e: filtersReq.getAuthors()) {
-                retVal.must(QueryBuilders.matchQuery("prefixes.authors_raw", e));
+            for (SelectedFilter e: filtersReq.getAuthors()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.authors_raw", e.getItem().getValue()));
             }
         }
 
         if (filtersReq.getLocations() != null && filtersReq.getLocations().size() > 0) {
-            for (String e: filtersReq.getLocations()) {
-                retVal.must(QueryBuilders.matchQuery("prefixes.OD", e));
+            for (SelectedFilter e: filtersReq.getLocations()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.OD", e.getItem().getValue()));
             }
         }
 
         if (filtersReq.getSubLocations() != null && filtersReq.getSubLocations().size() > 0) {
-            for (String e: filtersReq.getSubLocations()) {
-                retVal.must(QueryBuilders.matchQuery("prefixes.SL", e));
+            for (SelectedFilter e: filtersReq.getSubLocations()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.SL", e.getItem().getValue()));
             }
         }
 
         if (filtersReq.getPubTypes() != null && filtersReq.getPubTypes().size() > 0) {
-            for (String e: filtersReq.getPubTypes()) {
-                retVal.must(QueryBuilders.matchQuery("prefixes.DT", e));
+            for (SelectedFilter e: filtersReq.getPubTypes()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.DT", e.getItem().getValue()));
             }
         }
 
         if (filtersReq.getPubYears() != null && filtersReq.getPubYears().size() > 0) {
-            for (String e: filtersReq.getPubYears()) {
-                retVal.must(QueryBuilders.matchQuery("prefixes.PY", e));
+            for (SelectedFilter e: filtersReq.getPubYears()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.PY", e.getItem().getValue()));
             }
         }
         return retVal;

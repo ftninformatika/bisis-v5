@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.opac2.opac2;
+package com.ftninformatika.bisis.opac2.search;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -69,11 +69,14 @@ public class Filters {
         return null;
     }
 
-    public FilterItem getSublocationByValue(String val) {
-        if (val == null || val.length() < 2)
+    public FilterItem getSublocationByValue(String val, String lbl) {
+        if (val == null || val.length() < 4)
             return null;
-        Filter f = getLocationByValue(val.substring(0,2));
-        if (f == null || f.getChildren().size() == 0) return null;
+        String locChunk = val.substring(0, 2);
+        Filter f = getLocationByValue(locChunk);
+        if (f == null)
+            locations.add(new Filter(new FilterItem(lbl, locChunk, false, 0), new ArrayList<>()));
+        f = getLocationByValue(locChunk);
         for (FilterItem fi: f.getChildren()) {
             if (fi.getValue().equals(val)) return fi;
         }
@@ -82,6 +85,9 @@ public class Filters {
 
     public void sortFilters() {
         locations.sort(Comparator.comparing(f -> f.getFilter().getValue()));
+        for (Filter f: locations) {
+            f.getChildren().sort(Comparator.comparing(FilterItem::getValue));
+        }
         authors.sort(Comparator.comparing(f -> f.getFilter().getCount()));
         Collections.reverse(authors);
         pubTypes.sort(Comparator.comparing(f -> f.getFilter().getCount()));

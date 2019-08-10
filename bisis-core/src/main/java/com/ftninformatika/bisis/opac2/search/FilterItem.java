@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.opac2.opac2;
+package com.ftninformatika.bisis.opac2.search;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

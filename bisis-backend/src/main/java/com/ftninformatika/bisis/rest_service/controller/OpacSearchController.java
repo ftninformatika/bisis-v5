@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.opac2.Filters;
-import com.ftninformatika.bisis.opac2.opac2.ResultPageSearchRequest;
+import com.ftninformatika.bisis.opac2.search.Filters;
+import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
@@ -43,11 +43,6 @@ public class OpacSearchController {
         if (retVal == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(retVal, HttpStatus.OK);
-    }
-
-    @PostMapping(value = "filterSearch")
-    public ResponseEntity<?> filterSearch(@RequestBody ResultPageSearchRequest filterRequest) {
-        return null;
     }
 }
 
