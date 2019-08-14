@@ -7,6 +7,8 @@ import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.elasticsearch.index.query.*;
+import org.springframework.data.redis.connection.SortParameters;
+import org.springframework.data.redis.core.query.SortQueryBuilder;
 
 import java.util.Arrays;
 import java.util.List;

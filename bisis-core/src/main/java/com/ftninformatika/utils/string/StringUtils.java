@@ -7,6 +7,12 @@ package com.ftninformatika.utils.string;
  */
 public class StringUtils {
 
+  public static String removeNonDigitsFromString(String s) {
+    if (s == null)
+      return null;
+    return s.replaceAll("[^\\d]", "");
+  }
+
    /**
    * Removes all digits from string
    * @param s String to change

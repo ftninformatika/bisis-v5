@@ -75,8 +75,19 @@
       },
       "prefixes.keywords_raw": {
         "type": "keyword"
+      },
+      "prefixes.AU_sort": {
+        "type": "keyword"
+      },
+      "prefixes.PU_sort": {
+        "type": "keyword"
+      },
+      "prefixes.TI_sort": {
+        "type": "keyword"
+      },
+      "prefixes.PY_sort": {
+        "type": "keyword"
       }
-
     }
   }
 }

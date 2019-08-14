@@ -30,7 +30,7 @@ public class PrefixConverter {
          retVal.get(pv.prefName).add(valueUnaccented);
         }
       } else {
-        List list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         list.add(valueUnaccented);
         retVal.put(pv.prefName, list);
       }
@@ -40,7 +40,6 @@ public class PrefixConverter {
       if (autocompletePrefixMap.keySet().contains(pv.prefName)) {
         String acPref = autocompletePrefixMap.get(pv.prefName);
         String acPrefRaw = acPref + AUTOCOMPLETE_RAW_SUFFIX;
-
         if (acPref.equals("authors")) {
           valueUnaccented = StringUtils.removeDigitsFromString(valueUnaccented);
           pv.value = StringUtils.removeDigitsFromString(pv.value);
@@ -55,13 +54,29 @@ public class PrefixConverter {
             retVal.get(acPrefRaw).add(pv.value);
           }
         } else {
-          List listNormalized = new ArrayList<>();
+          List<String> listNormalized = new ArrayList<>();
           listNormalized.add(valueUnaccented);
-          List listRaw = new ArrayList<>();
+          List<String> listRaw = new ArrayList<>();
           listRaw.add(pv.value);
           retVal.put(acPref, listNormalized);
           retVal.put(acPrefRaw, listRaw);
         }
+      }
+//      Posebni indeksi za sortiranje, moraju da sadrze po jednu vrenost
+      if (sortPrefixMap.keySet().contains(pv.prefName)) {
+        String sortPref = sortPrefixMap.get(pv.prefName);
+        List<String> singleValList = new ArrayList<>();
+        List<String> valList = retVal.get(pv.prefName);
+        if (valList != null && valList.size() > 0) {
+          switch (pv.prefName) {
+            case "AU": singleValList.add(StringUtils.removeDigitsFromString(valList.get(0))); break;
+            case "PY": singleValList.add(StringUtils.removeNonDigitsFromString(valList.get(0))); break;
+            case "PU": singleValList.add(valList.get(0)); break;
+            case "TI": singleValList.add(valList.get(0)); break;
+          }
+        }
+        if (singleValList.get(0) != null)
+          retVal.put(sortPref, singleValList);
       }
     }
     if (retVal.get("IN") != null && retVal.get("IN").size() > 1) {
@@ -315,6 +330,7 @@ public class PrefixConverter {
   static PrefixMap prefixMap;
   static String AUTOCOMPLETE_RAW_SUFFIX = "_raw";
   static Map<String, String> autocompletePrefixMap = new HashMap<>();
+  static Map<String, String> sortPrefixMap = new HashMap<>();
   private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
   static {
     try {
@@ -325,6 +341,11 @@ public class PrefixConverter {
       autocompletePrefixMap.put("PU", "publishers");
       autocompletePrefixMap.put("TI", "titles");
       autocompletePrefixMap.put("KW", "keywords");
+
+      sortPrefixMap.put("AU", "AU_sort");
+      sortPrefixMap.put("TI", "TI_sort");
+      sortPrefixMap.put("PY", "PY_sort");
+      sortPrefixMap.put("PU", "PU_sort");
     } catch (Exception ex) {
       ex.printStackTrace();
     }

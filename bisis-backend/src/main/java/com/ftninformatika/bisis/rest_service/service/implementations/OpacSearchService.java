@@ -15,9 +15,10 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -39,7 +40,6 @@ import java.util.stream.Collectors;
 @Service
 public class OpacSearchService {
 
-
     @Autowired RecordsRepository recordsRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired BookCommonRepository bookCommonRepository;
@@ -50,7 +50,7 @@ public class OpacSearchService {
     @Autowired CodersController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
 
-    public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, Integer pageNumber, Integer pageSize) {
+    public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize) {
         List<Book> retVal = new ArrayList<>();
 
         if (searchRequest != null && searchRequest.getSearchModel() == null) return null;
@@ -67,9 +67,19 @@ public class OpacSearchService {
 
         if (searchRequest.getOptions() != null && searchRequest.getOptions().getFilters() != null)
             query = ElasticUtility.filterSearch(query, searchRequest.getOptions().getFilters());
-
         Pageable p = new PageRequest(page, pSize);
-        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(query, p);
+
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(query)
+                .withIndices(lib + "library_domain")
+                .withTypes("record")
+                .withPageable(p)
+                .withSort(SortBuilders.fieldSort("prefixes.authors_raw").order(SortOrder.ASC))
+                .build();
+
+//        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(query, p);
+
+        Iterable<ElasticPrefixEntity> ii = elasticsearchTemplate.queryForPage(searchQuery, ElasticPrefixEntity.class);
 
         ii.forEach(
                 elasticPrefixEntity -> {
@@ -78,34 +88,49 @@ public class OpacSearchService {
                     if (!r.isPresent()) {
                         log.warn("Can't get record for mongoId: " + recMongoId);
                     } else {
-                        Book b = new Book();
-                        b.set_id(r.get().get_id());
-//                        TODO- refactor this later, put all extracting metadata from fields on one place
-                        RecordPreview rp = new RecordPreview();
-                        rp.init(r.get());
-                        b.getAuthors().add(rp.getAuthor());
-                        b.setTitle(rp.getTitle());
-                        b.setSubtitle(rp.getSubtitle());
-                        b.setPubType(r.get().getPubType());
-                        b.setIsbn(rp.getISSN(r.get()));
-                        b.setIsbn(r.get().getSubfieldContent("010a"));
-                        b.setPublisher(rp.getPublisher());
-                        b.setPublishYear(rp.getPublishingYear());
-                        b.setPublishPlace(rp.getPublishingPlace());
-                        b.setPagesCount(rp.getPages());
-                        b.setDimensions(rp.getDimensions());
-                        if (r.get().getCommonBookUid() != null) {
-                            BookCommon bc = bookCommonRepository.findByUid(r.get().getCommonBookUid());
-                            if (bc != null) {
-                                b.setDescription(bc.getDescription());
-                                b.setImageUrl(bc.getImageUrl());
-                            }
-                        }
+                        Book b = getBookByRec(r.get(), elasticPrefixEntity);
                         retVal.add(b);
                     }
                 }
         );
         return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
+    }
+
+    private Book getBookByRec(Record r, ElasticPrefixEntity elasticPrefixEntity) {
+        Book b = new Book();
+        b.set_id(r.get_id());
+        RecordPreview rp = new RecordPreview();
+        rp.init(r);
+        b.setAuthors(getAuthors(elasticPrefixEntity));
+        b.setTitle(rp.getTitle());
+        b.setSubtitle(rp.getSubtitle());
+        b.setPubType(r.getPubType());
+        b.setIsbn(rp.getISSN(r));
+        b.setIsbn(r.getSubfieldContent("010a"));
+        b.setPublisher(rp.getPublisher());
+        b.setPublishYear(rp.getPublishingYear());
+        b.setPublishPlace(rp.getPublishingPlace());
+        b.setPagesCount(rp.getPages());
+        b.setDimensions(rp.getDimensions());
+        if (r.getCommonBookUid() != null) {
+            BookCommon bc = bookCommonRepository.findByUid(r.getCommonBookUid());
+            if (bc != null) {
+                b.setDescription(bc.getDescription());
+                b.setImageUrl(bc.getImageUrl());
+            }
+        }
+        return b;
+    }
+
+    private List<String> getAuthors(ElasticPrefixEntity e) {
+        List<String> retVal = new ArrayList<>();
+        List<String> vals = e.getPrefixes().get("authors_raw");
+        if (vals == null || vals.size() == 0) return retVal;
+        for (int i = 0; i < vals.size(); i = i + 2) {
+            if (!vals.get(i).trim().equals(""))
+                retVal.add(vals.get(i));
+        }
+        return retVal;
     }
 
     public Filters getFilters(ResultPageSearchRequest filterRequest, String library) {
@@ -127,7 +152,6 @@ public class OpacSearchService {
                 .withTypes("record")
                 .withPageable(PageRequest.of(0, 10))
                 .build();
-
         CloseableIterator<ElasticPrefixEntity> searchResults = elasticsearchTemplate
                 .stream(searchQuery, ElasticPrefixEntity.class);
         retVal = extractFiltersFromResults(searchResults, filtersReq, library);
@@ -217,15 +241,6 @@ public class OpacSearchService {
                                 boolean checked = (filtersReq != null && filtersReq.getLocations() != null && filtersReq.getLocations().stream().anyMatch(e -> e.getItem().getValue().equals(val)));
                                 FilterItem filterItem = new FilterItem(l.getDescription(), val, checked, 1);
                                 filters.getLocations().add(new Filter(filterItem, new ArrayList<>()));
-//                                List<String> subVals = ee.getPrefixes().get("SL");
-//                                if (subVals != null && subVals.size() > 0) {
-//                                    for (String subVal : subVals) {
-//                                        if (subLocationCount.get(subVal) != null) {
-//                                            subLocationCount.put(subVal, subLocationCount.get(subVal) + 1);
-//                                        }
-//                                    }
-//
-//                                }
                             } else {
                                 filters.getLocationByValue(val).getFilter().setCount(filters.getLocationByValue(val).getFilter().getCount() + 1);
                             }
@@ -244,9 +259,11 @@ public class OpacSearchService {
         for (String slKey: subLocationCount.keySet()) {
             String loc = null;
             int count = subLocationCount.get(slKey);
+//            TODO- change this to read from some config prop if it is higher hierarchy with sub locations, like BGB
             if (slKey.length() == 4)
                 loc = slKey.substring(0, 2);
-            if (count > 0)
+            else continue;
+            if (filters.getLocationByValue(loc) != null || count > 0)
                 filters.getLocationByValue(loc).getChildren().add(new FilterItem(sublocationMap.get(slKey).getDescription(), slKey, false, count));
         }
         filters.sortFilters();

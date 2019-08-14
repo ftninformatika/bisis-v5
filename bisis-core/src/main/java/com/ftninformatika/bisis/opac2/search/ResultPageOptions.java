@@ -18,4 +18,5 @@ public class ResultPageOptions {
     private FiltersReq filters;
     private String sort;
     private String previewType;
+    private String lib;
 }

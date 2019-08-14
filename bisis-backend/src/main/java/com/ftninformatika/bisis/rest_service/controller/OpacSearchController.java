@@ -25,13 +25,13 @@ public class OpacSearchController {
 
 
     @PostMapping
-    public ResponseEntity<?> search(@RequestBody ResultPageSearchRequest resultPageSearchRequest
+    public ResponseEntity<?> search(@RequestHeader("Library") String lib, @RequestBody ResultPageSearchRequest resultPageSearchRequest
             , @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
             , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
-        PageImpl<List<Book>> retVal = opacSearchService.searchBooks(resultPageSearchRequest, pageNumber, pageSize);
+        PageImpl<List<Book>> retVal = opacSearchService.searchBooks(resultPageSearchRequest, lib, pageNumber, pageSize);
 
-        if (retVal.isEmpty())
+        if (retVal == null || retVal.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(retVal, HttpStatus.OK);
