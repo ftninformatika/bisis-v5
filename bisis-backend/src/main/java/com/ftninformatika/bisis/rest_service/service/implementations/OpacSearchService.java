@@ -15,6 +15,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import com.ftninformatika.utils.Helper;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -53,7 +54,7 @@ public class OpacSearchService {
     public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize) {
         List<Book> retVal = new ArrayList<>();
 
-        if (searchRequest != null && searchRequest.getSearchModel() == null) return null;
+        if (searchRequest == null || searchRequest.getSearchModel() == null) return null;
 
         int page = 0;
         int pSize = 10;
@@ -69,17 +70,19 @@ public class OpacSearchService {
             query = ElasticUtility.filterSearch(query, searchRequest.getOptions().getFilters());
         Pageable p = new PageRequest(page, pSize);
 
-        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(query)
                 .withIndices(lib + "library_domain")
                 .withTypes("record")
-                .withPageable(p)
-                .withSort(SortBuilders.fieldSort("prefixes.authors_raw").order(SortOrder.ASC))
-                .build();
+                .withPageable(p);
 
-//        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(query, p);
+        if(Helper.resolve(() -> searchRequest.getOptions().getSort().getType()).isPresent()) {
+            Sort s = searchRequest.getOptions().getSort();
+            if (s.getType() != null)
+                searchQuery.withSort(SortBuilders.fieldSort("prefixes." + s.getType().toString()).order(s.getAscending() == true ? SortOrder.ASC : SortOrder.DESC));
+        }
 
-        Iterable<ElasticPrefixEntity> ii = elasticsearchTemplate.queryForPage(searchQuery, ElasticPrefixEntity.class);
+        Iterable<ElasticPrefixEntity> ii = elasticsearchTemplate.queryForPage(searchQuery.build(), ElasticPrefixEntity.class);
 
         ii.forEach(
                 elasticPrefixEntity -> {

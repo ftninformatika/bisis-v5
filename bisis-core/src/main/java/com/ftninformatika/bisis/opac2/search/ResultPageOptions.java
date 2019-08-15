@@ -16,7 +16,7 @@ public class ResultPageOptions {
     private Integer pageSize = 10;
     private Integer currentPage = 0;
     private FiltersReq filters;
-    private String sort;
+    private Sort sort;
     private String previewType;
     private String lib;
 }
