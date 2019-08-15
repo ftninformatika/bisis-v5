@@ -266,7 +266,7 @@ public class OpacSearchService {
             if (slKey.length() == 4)
                 loc = slKey.substring(0, 2);
             else continue;
-            if (filters.getLocationByValue(loc) != null || count > 0)
+            if (filters.getLocationByValue(loc) != null && count > 0)
                 filters.getLocationByValue(loc).getChildren().add(new FilterItem(sublocationMap.get(slKey).getDescription(), slKey, false, count));
         }
         filters.sortFilters();
