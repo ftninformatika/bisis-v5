@@ -99,6 +99,16 @@ public class OpacSearchService {
         return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
+    public Book getFullBookById(String _id) {
+        Optional<Record> record =  recordsRepository.findById(_id);
+        if (record.isPresent()) {
+            Book retVal = getBookByRec(record.get(), elasticRecordsRepository.findById(_id).get());
+            retVal.setRecord(record.get());
+            return retVal;
+        }
+        return null;
+    }
+
     private Book getBookByRec(Record r, ElasticPrefixEntity elasticPrefixEntity) {
         Book b = new Book();
         b.set_id(r.get_id());

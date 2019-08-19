@@ -30,6 +30,7 @@ public class Book {
     private String issn;
     private String pagesCount;
     private String dimensions;
+    private Record record = null;
 //    Data from books_common collection
     private String imageUrl;
     private String description;
