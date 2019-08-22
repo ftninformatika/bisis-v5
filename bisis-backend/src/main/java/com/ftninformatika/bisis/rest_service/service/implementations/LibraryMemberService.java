@@ -1,13 +1,17 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac2.dto.AddToShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.utils.date.DateUtils;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -30,10 +34,12 @@ public class LibraryMemberService {
     @Value("security.token.secret.key")
     private String tokenKey;
 
-    @Autowired LibraryMemberRepository libraryMemberRepository;
-    @Autowired MemberRepository memberRepository;
-    @Autowired LibraryPrefixProvider libraryPrefixProvider;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired LibraryMemberRepository libraryMemberRepository;
+    @Autowired LibraryPrefixProvider libraryPrefixProvider;
+    @Autowired OpacSearchService opacSearchService;
+    @Autowired RecordsRepository recordsRepository;
+    @Autowired MemberRepository memberRepository;
 
 
     /**
@@ -110,6 +116,50 @@ public class LibraryMemberService {
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setClaims(tokenData).setExpiration(activationDeadline);
         return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
+    }
+
+    /**
+     *
+     * @param addToShelfDto obj with username and MongoId of book that needs
+     *        to be added to shelf
+     * @return indicator if book put on shelf
+     */
+    public boolean addToShelf(AddToShelfDto addToShelfDto) {
+        if (addToShelfDto == null || addToShelfDto.getEmail() == null ||
+                addToShelfDto.getEmail().trim().equals("") ||
+                addToShelfDto.getBookId() == null ||
+                addToShelfDto.getBookId().trim().equals(""))
+            return false;
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(addToShelfDto.getEmail());
+        if (libraryMember == null)
+            return false;
+        if (!recordsRepository.findById(addToShelfDto.getBookId()).isPresent())
+            return false;
+        if (libraryMember.getMyBookshelfBooks() == null)
+            libraryMember.setMyBookshelfBooks(new ArrayList<>());
+        if (libraryMember.getMyBookshelfBooks().contains(addToShelfDto.getBookId()))
+            return false;
+        libraryMember.getMyBookshelfBooks().add(addToShelfDto.getBookId());
+        libraryMemberRepository.save(libraryMember);
+        return true;
+    }
+
+    public List<Book> getShelf(String username, String lib) {
+        if (username == null || username.trim().equals(""))
+            return null;
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(username);
+        if (libraryMember == null)
+            return null;
+        List<Book> retVal = new ArrayList<>();
+        if (libraryMember.getMyBookshelfBooks() == null || libraryMember.getMyBookshelfBooks().size() == 0)
+            return retVal;
+        Iterator<Record> records =recordsRepository.findAllById(libraryMember.getMyBookshelfBooks()).iterator();
+        while (records.hasNext()) {
+            Record r = records.next();
+            Book b = opacSearchService.getBookByRec(r, lib);
+            retVal.add(b);
+        }
+        return retVal;
     }
 
 }

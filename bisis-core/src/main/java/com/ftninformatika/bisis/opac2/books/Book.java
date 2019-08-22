@@ -31,6 +31,9 @@ public class Book {
     private String pagesCount;
     private String dimensions;
     private Record record = null;
+    private String udk;
+    private String notes;
+    private List<Item> items = null;
 //    Data from books_common collection
     private String imageUrl;
     private String description;

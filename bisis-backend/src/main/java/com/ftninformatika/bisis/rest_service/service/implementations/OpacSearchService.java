@@ -1,21 +1,25 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.bisis.opac2.books.Item;
 import com.ftninformatika.bisis.opac2.search.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.rest_service.controller.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.Helper;
+import com.ftninformatika.utils.string.Signature;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -47,6 +51,8 @@ public class OpacSearchService {
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired LocationRepository locationRepository;
     @Autowired SublocationRepository sublocationRepository;
+    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired ItemStatusRepository itemStatusRepository;
 //    TODO- refactor this at some point (don't import controllers in service layer)
     @Autowired CodersController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
@@ -91,7 +97,7 @@ public class OpacSearchService {
                     if (!r.isPresent()) {
                         log.warn("Can't get record for mongoId: " + recMongoId);
                     } else {
-                        Book b = getBookByRec(r.get(), elasticPrefixEntity);
+                        Book b = getBookByRec(r.get(), lib);
                         retVal.add(b);
                     }
                 }
@@ -99,22 +105,23 @@ public class OpacSearchService {
         return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
-    public Book getFullBookById(String _id) {
+    public Book getFullBookById(String _id, String lib) {
         Optional<Record> record =  recordsRepository.findById(_id);
         if (record.isPresent()) {
-            Book retVal = getBookByRec(record.get(), elasticRecordsRepository.findById(_id).get());
+            Book retVal = getBookByRec(record.get(), lib);
+            retVal.setItems(getItems(record.get(), lib));
             retVal.setRecord(record.get());
             return retVal;
         }
         return null;
     }
 
-    private Book getBookByRec(Record r, ElasticPrefixEntity elasticPrefixEntity) {
+    public Book getBookByRec(Record r, String lib) {
         Book b = new Book();
         b.set_id(r.get_id());
         RecordPreview rp = new RecordPreview();
         rp.init(r);
-        b.setAuthors(getAuthors(elasticPrefixEntity));
+        b.setAuthors(Arrays.asList(rp.getAuthor(r)));
         b.setTitle(rp.getTitle());
         b.setSubtitle(rp.getSubtitle());
         b.setPubType(r.getPubType());
@@ -125,6 +132,8 @@ public class OpacSearchService {
         b.setPublishPlace(rp.getPublishingPlace());
         b.setPagesCount(rp.getPages());
         b.setDimensions(rp.getDimensions());
+        b.setUdk(rp.getUdk());
+        b.setNotes(rp.getNotes(r));
         if (r.getCommonBookUid() != null) {
             BookCommon bc = bookCommonRepository.findByUid(r.getCommonBookUid());
             if (bc != null) {
@@ -135,16 +144,74 @@ public class OpacSearchService {
         return b;
     }
 
-    private List<String> getAuthors(ElasticPrefixEntity e) {
-        List<String> retVal = new ArrayList<>();
-        List<String> vals = e.getPrefixes().get("authors_raw");
-        if (vals == null || vals.size() == 0) return retVal;
-        for (int i = 0; i < vals.size(); i = i + 2) {
-            if (!vals.get(i).trim().equals(""))
-                retVal.add(vals.get(i));
+    public List<Item> getItems(Record r, String lib) {
+        List<Item> retVal = new ArrayList<>();
+        Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
+        Map<String, Sublocation> sublocationMap = sublocationRepository.getCoders(lib).stream().collect(Collectors.toMap(Sublocation::getCoder_id, sl -> sl));
+        Map<String, ItemStatus> itemStatusMap = itemStatusRepository.getCoders(lib).stream().collect(Collectors.toMap(ItemStatus::getCoder_id, sl -> sl));
+        if (r == null || ((r.getPrimerci() == null || r.getPrimerci().size() == 0) &&
+                (r.getGodine() == null || r.getGodine().size() == 0)))
+            return null;
+        if (r.getPrimerci().size() > 0) {
+            for (Primerak p: r.getPrimerci()) {
+                Item i = new Item();
+                i.setInvNum(p.getInvBroj());
+                ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(i.getInvNum());
+                if (ia == null) continue;
+                String itemStatus = ia.getBorrowed() ? "BORROWED" : "FREE";
+                ItemStatus is = itemStatusMap.get(p.getStatus());
+                if (is != null && !is.isLendable()) {
+                    itemStatus = "NOT_LENDABLE";
+                    if (!is.isShowable()) itemStatus = "NOT_SHOWABLE";
+                }
+                i.setSignature(Signature.format(p));
+                i.setStatus(itemStatus);
+                Sublocation sl = sublocationMap.get(p.getSigPodlokacija());
+                if (sl != null) {
+                    i.setLocation(sl.getDescription());
+                    i.setLocCode(p.getSigPodlokacija());
+                }
+                else {
+                    Location l = locationMap.get(p.getInvBroj().substring(0,2));
+                    if (l == null) continue;
+                    i.setLocCode(l.getCoder_id());
+                    i.setLocation(l.getDescription());
+                }
+                retVal.add(i);
+            }
         }
-        return retVal;
+        else if (r.getGodine().size() > 0) {
+            for (Godina p: r.getGodine()) {
+                Item i = new Item();
+                i.setInvNum(p.getInvBroj());
+                ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(i.getInvNum());
+                if (ia == null) continue;
+                String itemStatus = "NOT_LENDABLE";
+                i.setSignature(Signature.format(p));
+                i.setStatus(itemStatus);
+                Sublocation sl = sublocationMap.get(p.getSigPodlokacija());
+                if (sl != null) {
+                    i.setLocation(sl.getDescription());
+                    i.setLocCode(p.getSigPodlokacija());
+                }
+                else {
+                    Location l = locationMap.get(p.getInvBroj().substring(0,2));
+                    if (l == null) continue;
+                    i.setLocCode(l.getCoder_id());
+                    i.setLocation(l.getDescription());
+                }
+                retVal.add(i);
+            }
+        }
+
+        if (retVal.size() > 0) {
+            retVal.sort(Comparator.comparing(Item::getInvNum));
+            return retVal;
+        }
+        else return null;
     }
+
+
 
     public Filters getFilters(ResultPageSearchRequest filterRequest, String library) {
         if (filterRequest == null || filterRequest.getSearchModel() == null)

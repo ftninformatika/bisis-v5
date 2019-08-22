@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
+import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac2.dto.AddToShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -80,6 +83,21 @@ public class LibraryMemberController {
             return true;
         }
         return false;
+    }
+
+    @PostMapping("/add_to_shelf")
+    public ResponseEntity<Boolean> addToShelf(@RequestBody AddToShelfDto addToShelfDto) {
+        if (!libraryMemberService.addToShelf(addToShelfDto))
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("/get_shelf")
+    public ResponseEntity<List<Book>> getShelf(@RequestHeader("Library") String lib, @RequestBody String username) {
+        List<Book> retVal = libraryMemberService.getShelf(username, lib);
+        if (retVal == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
     private String randomStringGenerator(){

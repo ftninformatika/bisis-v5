@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,5 +31,6 @@ public class LibraryMember {
     private String authToken; // Access token
     private Date lastActivity; // Used when access token is provided to check if token is still valid
     private String passwordResetString; // Represent url path for password reset
+    private List<String> myBookshelfBooks = new ArrayList<>();
 
 }
