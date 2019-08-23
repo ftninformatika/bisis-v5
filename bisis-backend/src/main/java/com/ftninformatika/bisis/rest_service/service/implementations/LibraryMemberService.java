@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.dto.AddToShelfDto;
+import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -120,26 +120,40 @@ public class LibraryMemberService {
 
     /**
      *
-     * @param addToShelfDto obj with username and MongoId of book that needs
+     * @param shelfDto obj with username and MongoId of book that needs
      *        to be added to shelf
      * @return indicator if book put on shelf
      */
-    public boolean addToShelf(AddToShelfDto addToShelfDto) {
-        if (addToShelfDto == null || addToShelfDto.getEmail() == null ||
-                addToShelfDto.getEmail().trim().equals("") ||
-                addToShelfDto.getBookId() == null ||
-                addToShelfDto.getBookId().trim().equals(""))
+    public boolean addToShelf(ShelfDto shelfDto) {
+        if (isShelfDtoValid(shelfDto))
             return false;
-        LibraryMember libraryMember = libraryMemberRepository.findByUsername(addToShelfDto.getEmail());
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(shelfDto.getEmail());
         if (libraryMember == null)
             return false;
-        if (!recordsRepository.findById(addToShelfDto.getBookId()).isPresent())
+        if (!recordsRepository.findById(shelfDto.getBookId()).isPresent())
             return false;
         if (libraryMember.getMyBookshelfBooks() == null)
             libraryMember.setMyBookshelfBooks(new ArrayList<>());
-        if (libraryMember.getMyBookshelfBooks().contains(addToShelfDto.getBookId()))
+        if (libraryMember.getMyBookshelfBooks().contains(shelfDto.getBookId()))
             return false;
-        libraryMember.getMyBookshelfBooks().add(addToShelfDto.getBookId());
+        libraryMember.getMyBookshelfBooks().add(shelfDto.getBookId());
+        libraryMemberRepository.save(libraryMember);
+        return true;
+    }
+
+    public boolean removeFromShelf(ShelfDto shelfDto) {
+        if (isShelfDtoValid(shelfDto))
+            return false;
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(shelfDto.getEmail());
+        if (libraryMember == null)
+            return false;
+        if (!recordsRepository.findById(shelfDto.getBookId()).isPresent())
+            return false;
+        if (libraryMember.getMyBookshelfBooks() == null)
+            libraryMember.setMyBookshelfBooks(new ArrayList<>());
+        if (!libraryMember.getMyBookshelfBooks().contains(shelfDto.getBookId()))
+            return false;
+        libraryMember.getMyBookshelfBooks().remove(shelfDto.getBookId());
         libraryMemberRepository.save(libraryMember);
         return true;
     }
@@ -160,6 +174,13 @@ public class LibraryMemberService {
             retVal.add(b);
         }
         return retVal;
+    }
+
+    private boolean isShelfDtoValid(ShelfDto shelfDto) {
+        return  ((shelfDto == null || shelfDto.getEmail() == null ||
+                shelfDto.getEmail().trim().equals("") ||
+                shelfDto.getBookId() == null ||
+                shelfDto.getBookId().trim().equals("")));
     }
 
 }

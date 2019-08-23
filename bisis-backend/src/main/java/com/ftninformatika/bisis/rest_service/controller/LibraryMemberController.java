@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
 import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.dto.AddToShelfDto;
+import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
@@ -86,8 +86,15 @@ public class LibraryMemberController {
     }
 
     @PostMapping("/add_to_shelf")
-    public ResponseEntity<Boolean> addToShelf(@RequestBody AddToShelfDto addToShelfDto) {
-        if (!libraryMemberService.addToShelf(addToShelfDto))
+    public ResponseEntity<Boolean> addToShelf(@RequestBody ShelfDto shelfDto) {
+        if (!libraryMemberService.addToShelf(shelfDto))
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("/remove_from_shelf")
+    public ResponseEntity<Boolean> removeFromShel(@RequestBody ShelfDto shelfDto) {
+        if (!libraryMemberService.removeFromShelf(shelfDto))
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }

@@ -37,7 +37,7 @@ public class OpacSearchController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
-    @PostMapping(value = "getFilters")
+    @PostMapping(value = "get_filters")
     public ResponseEntity<?> getFilters(@RequestHeader("Library") String lib, @RequestBody ResultPageSearchRequest filterRequest) {
         Filters retVal = opacSearchService.getFilters(filterRequest, lib);
         if (retVal == null)

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddToShelfDto {
+public class ShelfDto {
     private String email;
     private String bookId;
 }
