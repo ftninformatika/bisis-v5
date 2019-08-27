@@ -85,7 +85,7 @@ public class OpacSearchService {
         if(Helper.resolve(() -> searchRequest.getOptions().getSort().getType()).isPresent()) {
             Sort s = searchRequest.getOptions().getSort();
             if (s.getType() != null)
-                searchQuery.withSort(SortBuilders.fieldSort("prefixes." + s.getType().toString()).order(s.getAscending() == true ? SortOrder.ASC : SortOrder.DESC));
+                searchQuery.withSort(SortBuilders.fieldSort("prefixes." + s.getType().toString()).order(s.getAscending() ? SortOrder.ASC : SortOrder.DESC));
         }
 
         Iterable<ElasticPrefixEntity> ii = elasticsearchTemplate.queryForPage(searchQuery.build(), ElasticPrefixEntity.class);

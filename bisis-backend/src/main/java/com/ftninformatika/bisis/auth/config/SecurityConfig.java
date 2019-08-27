@@ -29,12 +29,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.authorizeRequests()
-                .antMatchers("/book","/hello",
-                        "/opac/**","/auth", "/memauth", "/coders/language", "/coders/lib_configurations", "/records/wrapperrec/**",
-                        "/records/wrapperrec/universal", "/records/unimarc", "/records/query/**", "/records/opac_wrapperrec/**",
-                        "/library_members/**", "/coders/location**","/coders/item_status**", "/coders/sublocation/get_by_location**").permitAll()
+                .antMatchers(
+                        "/book",
+                        "/hello",
+                        "/opac/**",
+                        "/auth",
+                        "/memauth",
+                        "/coders/language",
+                        "/coders/lib_configurations",
+                        "/records/wrapperrec/**",
+                        "/records/wrapperrec/universal",
+                        "/records/unimarc",
+                        "/records/query/**",
+                        "/v2/api-docs", "/configuration/**",
+                        "/swagger*/**",
+                        "/webjars/**",
+                        "/records/opac_wrapperrec/**",
+                        "/library_members/**",
+                        "/coders/location**",
+                        "/coders/item_status**",
+                        "/coders/sublocation/get_by_location**").permitAll()
                 .antMatchers("/members_repository/**", "/circ_report/**").hasAnyRole("USER","ADMIN")
-
                 .antMatchers("/**").hasAuthority("ROLE_ADMIN")
                 //.anyRequest().authenticated()
                 //.anyRequest().permitAll()

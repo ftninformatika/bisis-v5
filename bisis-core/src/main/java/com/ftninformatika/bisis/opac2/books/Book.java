@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.opac2.books;
 
 import com.ftninformatika.bisis.records.Record;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,9 +31,11 @@ public class Book {
     private String issn;
     private String pagesCount;
     private String dimensions;
+    @ApiModelProperty(hidden = true)
     private Record record = null;
     private String udk;
     private String notes;
+    @ApiModelProperty(hidden = true)
     private List<Item> items = null;
 //    Data from books_common collection
     private String imageUrl;

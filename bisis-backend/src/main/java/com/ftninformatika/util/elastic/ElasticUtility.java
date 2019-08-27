@@ -319,7 +319,6 @@ public class ElasticUtility {
     //expand search query
     public static BoolQueryBuilder makeExpandQuery(String prefName, String prefValue) {
         BoolQueryBuilder retVal = new BoolQueryBuilder();
-
         try {
             if ("".equals(prefName) || "".equals(prefValue))
                 return null;

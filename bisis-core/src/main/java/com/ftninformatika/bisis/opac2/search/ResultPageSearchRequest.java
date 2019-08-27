@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.opac2.search;
 
 import com.ftninformatika.bisis.search.SearchModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResultPageSearchRequest {
     private SearchModel searchModel;
+    @ApiModelProperty(hidden = true)
     private ResultPageOptions options;
 }

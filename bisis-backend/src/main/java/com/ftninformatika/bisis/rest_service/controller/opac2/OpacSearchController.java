@@ -1,9 +1,11 @@
-package com.ftninformatika.bisis.rest_service.controller;
+package com.ftninformatika.bisis.rest_service.controller.opac2;
 
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.search.Filters;
 import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
@@ -25,9 +27,14 @@ public class OpacSearchController {
 
 
     @PostMapping
-    public ResponseEntity<?> search(@RequestHeader("Library") String lib, @RequestBody ResultPageSearchRequest resultPageSearchRequest
-            , @RequestParam(value = "pageNumber", required = false) final Integer pageNumber
-            , @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+    @ApiOperation(value = "Get Pageable search results." +
+            "`Library` value is 'gbns' for Public Library of Novi Sad."
+            , response = Book[].class)
+    public ResponseEntity<?> search(
+            @ApiParam(example = "gbns", required = true) @RequestHeader("Library") String lib,
+            @RequestBody ResultPageSearchRequest resultPageSearchRequest,
+            @ApiParam(defaultValue = "0", type = "integer") @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
+            @ApiParam(defaultValue = "10", type = "integer") @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
         PageImpl<List<Book>> retVal = opacSearchService.searchBooks(resultPageSearchRequest, lib, pageNumber, pageSize);
 
@@ -37,8 +44,11 @@ public class OpacSearchController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "getFilters", hidden = true)
     @PostMapping(value = "get_filters")
-    public ResponseEntity<?> getFilters(@RequestHeader("Library") String lib, @RequestBody ResultPageSearchRequest filterRequest) {
+    public ResponseEntity<?> getFilters(
+            @RequestHeader("Library") String lib,
+            @RequestBody ResultPageSearchRequest filterRequest) {
         Filters retVal = opacSearchService.getFilters(filterRequest, lib);
         if (retVal == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
