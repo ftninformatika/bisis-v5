@@ -323,7 +323,7 @@ public class ElasticUtility {
             if ("".equals(prefName) || "".equals(prefValue))
                 return null;
 
-            if (prefName.equals("IN") && prefValue.length() >= 4) {
+            if ((prefName.equals("IN") && prefValue.length() >= 4) || (AUTOCOMPLETE_PREFIXES.contains(prefName))) {
                 retVal.must(QueryBuilders.wildcardQuery("prefixes." + prefName, prefValue + "*"));
             } else {
                 retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + prefName, LatCyrUtils.toLatinUnaccented(prefValue)));

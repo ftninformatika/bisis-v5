@@ -31,11 +31,9 @@ public class Book {
     private String issn;
     private String pagesCount;
     private String dimensions;
-    @ApiModelProperty(hidden = true)
     private Record record = null;
     private String udk;
     private String notes;
-    @ApiModelProperty(hidden = true)
     private List<Item> items = null;
 //    Data from books_common collection
     private String imageUrl;

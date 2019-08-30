@@ -25,16 +25,12 @@ public class OpacSearchController {
 
     @Autowired OpacSearchService opacSearchService;
 
-
     @PostMapping
-    @ApiOperation(value = "Get Pageable search results." +
-            "`Library` value is 'gbns' for Public Library of Novi Sad."
-            , response = Book[].class)
     public ResponseEntity<?> search(
-            @ApiParam(example = "gbns", required = true) @RequestHeader("Library") String lib,
+            @RequestHeader("Library") String lib,
             @RequestBody ResultPageSearchRequest resultPageSearchRequest,
-            @ApiParam(defaultValue = "0", type = "integer") @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
-            @ApiParam(defaultValue = "10", type = "integer") @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+            @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
+            @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
         PageImpl<List<Book>> retVal = opacSearchService.searchBooks(resultPageSearchRequest, lib, pageNumber, pageSize);
 
@@ -44,7 +40,6 @@ public class OpacSearchController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "getFilters", hidden = true)
     @PostMapping(value = "get_filters")
     public ResponseEntity<?> getFilters(
             @RequestHeader("Library") String lib,
