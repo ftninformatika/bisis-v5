@@ -6,7 +6,9 @@ import com.ftninformatika.bisis.opac2.dto.ChangePasswordDTO;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
+import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.utils.validators.security.PasswordCodes;
 import com.ftninformatika.utils.validators.security.PasswordValidator;
@@ -32,6 +34,7 @@ public class LibraryMemberController {
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired JsonWebTokenAuthenticationService jsonWebTokenAuthenticationService;
     @Autowired LibraryMemberService libraryMemberService;
+    @Autowired EmailService emailService;
 
     @PostMapping("/activate_account")
     public ResponseEntity<Boolean> activateAccount(@RequestBody LibraryMember libraryMember) {
@@ -58,35 +61,6 @@ public class LibraryMemberController {
         return new ResponseEntity<>(libraryMember, HttpStatus.OK);
     }
 
-    @RequestMapping( value = "/{passwordResetString}", method = RequestMethod.GET)
-    public boolean getReset(@PathVariable String passwordResetString) {
-        return libraryMemberRepository.findByPasswordResetString(passwordResetString) != null;
-    }
-
-
-//    @RequestMapping( value = "/reset_password", method = RequestMethod.POST)
-//    public boolean resetPassword(@RequestBody PasswordResetDTO newPassword) {
-//
-//        if (!newPassword.getNewPassword().equals(newPassword.getNewPasswordAgain())) //ako se ne poklapaju
-//            return false;
-//
-//        LibraryMember lm = libraryMemberRepository.findByPasswordResetString(newPassword.getPasswordResetString());
-//
-//        if (lm == null)
-//            return false;
-//
-//        if (!lm.get_id().equals(newPassword.getUserId()))
-//            return false;
-//
-//        if ( newPassword.getNewPassword() != null && (!"".equals(newPassword.getNewPassword())) &&
-//                newPassword.getNewPassword().length() > 5 ){ // pass mora biti duze od 6 char
-//            lm.setPassword(newPassword.getNewPassword());
-//            libraryMemberRepository.save(lm);
-//            return true;
-//        }
-//        return false;
-//    }
-
     @PostMapping("change_password")
     public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
         if (changePasswordDTO == null || changePasswordDTO.getNewPassword() == null
@@ -103,6 +77,23 @@ public class LibraryMemberController {
         if (libraryMember == null)
             return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("forgot_password")
+    public ResponseEntity<Boolean> forgotPassword(@RequestBody String username) {
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(username);
+        if (libraryMember == null)
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        String activationToken = libraryMemberService.generateActivationToken(libraryMember);
+        libraryMember.setActivationToken(activationToken);
+        libraryMemberRepository.save(libraryMember);
+        try {
+            emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("PASSWORD_RESTART_HEADING"),
+                    Texts.getString("PASSWORD_RESTART_BODY") + libraryMember.getActivationToken());
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/add_to_shelf")
