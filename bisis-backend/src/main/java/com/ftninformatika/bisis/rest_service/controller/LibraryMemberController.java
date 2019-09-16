@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.controller;
 
 import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
 import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac2.dto.ChangePasswordDTO;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
@@ -14,6 +15,7 @@ import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +46,7 @@ public class LibraryMemberController {
     }
 
     @PostMapping("/get_member_by_activation_token")
-    public ResponseEntity<?> getMemberByActivationToken(@RequestBody String activationToken) {
+    public ResponseEntity<LibraryMember> getMemberByActivationToken(@RequestBody String activationToken) {
         if (activationToken == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         Jws<Claims> claimsJws = jsonWebTokenAuthenticationService.parseToken(activationToken);
@@ -62,27 +64,45 @@ public class LibraryMemberController {
     }
 
 
-    @RequestMapping( value = "/reset_password", method = RequestMethod.POST)
-    public boolean resetPassword(@RequestBody PasswordResetDTO newPassword) {
+//    @RequestMapping( value = "/reset_password", method = RequestMethod.POST)
+//    public boolean resetPassword(@RequestBody PasswordResetDTO newPassword) {
+//
+//        if (!newPassword.getNewPassword().equals(newPassword.getNewPasswordAgain())) //ako se ne poklapaju
+//            return false;
+//
+//        LibraryMember lm = libraryMemberRepository.findByPasswordResetString(newPassword.getPasswordResetString());
+//
+//        if (lm == null)
+//            return false;
+//
+//        if (!lm.get_id().equals(newPassword.getUserId()))
+//            return false;
+//
+//        if ( newPassword.getNewPassword() != null && (!"".equals(newPassword.getNewPassword())) &&
+//                newPassword.getNewPassword().length() > 5 ){ // pass mora biti duze od 6 char
+//            lm.setPassword(newPassword.getNewPassword());
+//            libraryMemberRepository.save(lm);
+//            return true;
+//        }
+//        return false;
+//    }
 
-        if (!newPassword.getNewPassword().equals(newPassword.getNewPasswordAgain())) //ako se ne poklapaju
-            return false;
-
-        LibraryMember lm = libraryMemberRepository.findByPasswordResetString(newPassword.getPasswordResetString());
-
-        if (lm == null)
-            return false;
-
-        if (!lm.get_id().equals(newPassword.getUserId()))
-            return false;
-
-        if ( newPassword.getNewPassword() != null && (!"".equals(newPassword.getNewPassword())) &&
-                newPassword.getNewPassword().length() > 5 ){ // pass mora biti duze od 6 char
-            lm.setPassword(newPassword.getNewPassword());
-            libraryMemberRepository.save(lm);
-            return true;
-        }
-        return false;
+    @PostMapping("change_password")
+    public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        if (changePasswordDTO == null || changePasswordDTO.getNewPassword() == null
+                || changePasswordDTO.getUsername() == null)
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(changePasswordDTO.getUsername());
+        if (libraryMember == null)
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        if (PasswordValidator.validatePasswordStrength(changePasswordDTO.getNewPassword()) == PasswordCodes.NOT_STRONG_ENOUGH)
+            return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
+        String passHash = BCrypt.hashpw(changePasswordDTO.getNewPassword(), BCrypt.gensalt());
+        libraryMember.setPassword(passHash);
+        libraryMember = libraryMemberRepository.save(libraryMember);
+        if (libraryMember == null)
+            return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @PostMapping("/add_to_shelf")
