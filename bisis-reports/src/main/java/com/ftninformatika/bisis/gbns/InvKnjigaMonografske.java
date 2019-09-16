@@ -83,6 +83,7 @@ public class InvKnjigaMonografske extends Report {
 	    
 	    for (String key : itemMap.keySet()) {
 	      List<Item> list = itemMap.get(key);
+
 	      StringBuilder out = getWriter(key);
 	      for (Item i : list){
 	    	   out.append(i.toString());
@@ -102,7 +103,14 @@ public class InvKnjigaMonografske extends Report {
            gr.setFullReportName(key);
            gr.setContent(out.toString());
            gr.setReportType(getType().name().toLowerCase());
-           getReportRepository().save(gr);
+           try {
+               getReportRepository().save(gr);
+           }
+           catch (Exception e) {
+               System.out.println(e.getMessage());
+               log.error("Error saving report: " + key);
+               log.error("With message: " + e.getMessage());
+           }
 
 	    }
 	   
