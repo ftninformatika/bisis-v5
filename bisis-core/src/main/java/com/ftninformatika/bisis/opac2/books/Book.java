@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.opac2.books;
 
 import com.ftninformatika.bisis.records.Record;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

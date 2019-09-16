@@ -4,8 +4,6 @@ import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.search.Filters;
 import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
