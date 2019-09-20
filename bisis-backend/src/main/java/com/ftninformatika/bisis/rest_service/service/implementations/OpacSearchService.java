@@ -1,8 +1,10 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.cards.ReportCore;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
 import com.ftninformatika.bisis.opac2.books.Item;
@@ -13,6 +15,7 @@ import com.ftninformatika.bisis.rest_service.controller.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
@@ -53,6 +56,7 @@ public class OpacSearchService {
     @Autowired SublocationRepository sublocationRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired ItemStatusRepository itemStatusRepository;
+    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
 //    TODO- refactor this at some point (don't import controllers in service layer)
     @Autowired CodersController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
@@ -97,7 +101,7 @@ public class OpacSearchService {
                     if (!r.isPresent()) {
                         log.warn("Can't get record for mongoId: " + recMongoId);
                     } else {
-                        Book b = getBookByRec(r.get(), lib);
+                        Book b = getBookByRec(r.get());
                         retVal.add(b);
                     }
                 }
@@ -106,17 +110,20 @@ public class OpacSearchService {
     }
 
     public Book getFullBookById(String _id, String lib) {
+        LibraryConfiguration libraryConfiguration = libraryConfigurationRepository.getByLibraryName(lib);
         Optional<Record> record =  recordsRepository.findById(_id);
         if (record.isPresent()) {
-            Book retVal = getBookByRec(record.get(), lib);
+            Book retVal = getBookByRec(record.get());
             retVal.setItems(getItems(record.get(), lib));
             retVal.setRecord(record.get());
+            String isbdHtml = ReportCore.makeOne(record.get(), false, libraryConfiguration);
+            retVal.setIsbdHtml(isbdHtml);
             return retVal;
         }
         return null;
     }
 
-    public Book getBookByRec(Record r, String lib) {
+    public Book getBookByRec(Record r) {
         Book b = new Book();
         b.set_id(r.get_id());
         RecordPreview rp = new RecordPreview();

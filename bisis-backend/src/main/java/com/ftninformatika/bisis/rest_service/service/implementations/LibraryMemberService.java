@@ -170,7 +170,7 @@ public class LibraryMemberService {
         Iterator<Record> records =recordsRepository.findAllById(libraryMember.getMyBookshelfBooks()).iterator();
         while (records.hasNext()) {
             Record r = records.next();
-            Book b = opacSearchService.getBookByRec(r, lib);
+            Book b = opacSearchService.getBookByRec(r);
             retVal.add(b);
         }
         return retVal;

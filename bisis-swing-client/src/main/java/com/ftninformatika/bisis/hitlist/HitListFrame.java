@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.hitlist;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.Report;
+import com.ftninformatika.bisis.cards.ReportCore;
 import com.ftninformatika.bisis.editor.EditorFrame;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
@@ -553,6 +554,7 @@ public class HitListFrame extends JInternalFrame {
         String html = Report.makeOne(record, true);
         cardPane.setText(html);
         cardPane.setCaretPosition(0);
+
     }
 
     private void createModificationList(Record rec){

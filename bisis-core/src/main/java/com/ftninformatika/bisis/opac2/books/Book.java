@@ -33,6 +33,7 @@ public class Book {
     private Record record = null;
     private String udk;
     private String notes;
+    private String isbdHtml;
     private List<Item> items = null;
 //    Data from books_common collection
     private String imageUrl;
