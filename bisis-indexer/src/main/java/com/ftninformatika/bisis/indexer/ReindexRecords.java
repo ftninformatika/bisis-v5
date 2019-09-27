@@ -123,7 +123,4 @@ public class ReindexRecords {
         }
         elasticsearchTemplate.getClient().admin().indices().prepareForceMerge(libraryName + INDEX_SUFFIX).setMaxNumSegments(1).execute().actionGet();
     }
-
-
-
 }
