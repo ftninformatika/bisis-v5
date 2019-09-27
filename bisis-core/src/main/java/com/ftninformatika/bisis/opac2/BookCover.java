@@ -19,7 +19,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class BookCover {
     @Id
     private String _id;
-
     private Integer bookCommonsId;
     private Binary imageBin;
     private String link;

@@ -34,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/hello",
                         "/opac/**",
                         "/auth",
+                        "/book_cover/**",
+                        "/book_common/**",
                         "/memauth",
                         "/coders/language",
                         "/coders/lib_configurations",

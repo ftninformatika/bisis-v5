@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookCoverRepository extends MongoRepository<BookCover, String> {
 
+    BookCover getByLink(String link);
+
 }

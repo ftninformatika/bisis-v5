@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.controller;
+package com.ftninformatika.bisis.rest_service.controller.opac2;
 
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
