@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author badf00d21  27.9.19.
@@ -19,10 +17,20 @@ public class BookCommonController {
 
     @Autowired BookCommonService bookCommonService;
 
+
     @PostMapping
-    public ResponseEntity<Boolean> saveModifyBookCommon(@RequestBody BookCommon bookCommon) {
-        if (!bookCommonService.saveModifyBookCommon(bookCommon))
-            return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+    public ResponseEntity<BookCommon> saveModifyBookCommon(@RequestBody BookCommon bookCommon) {
+        BookCommon bc = bookCommonService.saveModifyBookCommon(bookCommon);
+        if (bc == null)
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(bc, HttpStatus.OK);
+    }
+
+    @GetMapping("/{bookCommonUID}")
+    public ResponseEntity<BookCommon> getBookCommon(@PathVariable("bookCommonUID") Integer bookCommonUID) {
+        BookCommon bookCommon = bookCommonService.getBookCommonByUID(bookCommonUID);
+        if (bookCommon == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(bookCommon, HttpStatus.OK);
     }
 }

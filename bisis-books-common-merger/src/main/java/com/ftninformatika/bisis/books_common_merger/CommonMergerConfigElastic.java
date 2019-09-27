@@ -18,7 +18,7 @@ import java.net.InetAddress;
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "com.ftninformatika")
 @PropertySource("classpath:config.properties")
-public class ReindexConfigElastic {
+public class CommonMergerConfigElastic {
 
     @Value("${spring.data.elasticsearch.cluster-name}")
     private String clusterName;

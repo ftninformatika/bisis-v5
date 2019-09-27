@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller.opac2;
 
 import com.ftninformatika.bisis.rest_service.service.implementations.BookCoverService;
-import com.mongodb.client.gridfs.model.GridFSFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.mongodb.gridfs.GridFsResource;

@@ -13,11 +13,14 @@ public class BookCommonService {
 
     @Autowired BookCommonRepository bookCommonRepository;
 
-    public boolean saveModifyBookCommon(BookCommon bookCommon) {
+    public BookCommon saveModifyBookCommon(BookCommon bookCommon) {
         if (bookCommon == null || bookCommon.getUid() == null ||
-                (bookCommon.getIsbn() == null && bookCommon.getIssn() == null)) return false;
-        BookCommon bc = bookCommonRepository.save(bookCommon);
-        return true;
+                (bookCommon.getIsbn() == null && bookCommon.getIssn() == null)) return null;
+        return bookCommonRepository.save(bookCommon);
+    }
+
+    public BookCommon getBookCommonByUID(Integer bookCommonUID) {
+        return bookCommonRepository.findByUid(bookCommonUID);
     }
 
 }
