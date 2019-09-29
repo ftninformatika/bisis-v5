@@ -1,18 +1,18 @@
 package com.ftninformatika.bisis.books_common_merger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisis.rest_service.config.MongoTransactionalConfiguration;
+import com.ftninformatika.bisis.rest_service.controller.RecordsController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCommonController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCoverController;
-import org.apache.commons.io.IOUtils;
+import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -24,17 +24,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
+import static com.ftninformatika.bisis.books_common_merger.BooksCommonMergerUtils.getCoverMultipart;
 /**
  * @author badf00d21  25.9.19.
  */
 @ComponentScan("com.ftninformatika")
 public class BooksCommonMerger {
-
+//  TODO: Setup logger properly and remove souts
     private static Logger log = Logger.getLogger(BooksCommonMerger.class);
-    private static ObjectMapper objectMapper = new ObjectMapper();
-    private static String[] photoExtensions = {".jpg", ".png", ".gif"};
-    private static int UID_COUNTER = 1;
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -52,37 +49,44 @@ public class BooksCommonMerger {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(LibraryPrefixProvider.class);
+        ctx.register(MongoTransactionalConfiguration.class);
         ctx.register(CommonMergerConfigMongo.class);
         ctx.register(CommonMergerConfigElastic.class);
         ctx.refresh();
         ctx.scan("com.ftninformatika");
-        BookCommonController bookCommonController = ctx.getBean(BookCommonController.class);
-//        ctx.scan("com.ftninformatika.bisis.rest_service");
-        BookCoverController bookCoverController = ctx.getBean(BookCoverController.class);
+        RecordsPair recordsPair = new RecordsPair();
+        recordsPair.setBookCommonController(ctx.getBean(BookCommonController.class));
+        recordsPair.setBookCoverController(ctx.getBean(BookCoverController.class));
+        recordsPair.setRecordsController(ctx.getBean(RecordsController.class));
+        recordsPair.setRecordsRepository(ctx.getBean(RecordsRepository.class));
 
         try (Stream<Path> walk = Files.walk(Paths.get(path))) {
-
-            List<String> files = walk.filter(Files::isRegularFile)
-                    .map(Objects::toString).collect(Collectors.toList());
+            List<String> files = walk.filter(Files::isRegularFile).map(Objects::toString).collect(Collectors.toList());
 
             for (String fileName: files) {
                 if (!fileName.endsWith(".json")) continue;
-                BookCommon bookCommon = getBookCommonFromPath(fileName);
+
+                BookCommon bookCommon = BooksCommonMergerUtils.getBookCommonFromPath(fileName);
                 if (bookCommon == null) {
                     log.warn("Cannot make BookCommon from path: " + fileName);
+                    System.out.println("Cannot make BookCommon from path: " + fileName);
                     continue;
                 }
-//                TODO: put merging to other library records logic here
-//                validate isbn-s
-                BookCommon returnedBookCommon = bookCommonController.saveModifyBookCommon(bookCommon).getBody();
-                if (returnedBookCommon == null) {
-                    log.warn("Server error for saving object from file: " + path);
-                    continue;
+                if (!recordsPair.pairBookCommon(bookCommon)) continue;
+                if(!recordsPair.getBookCommonController().saveModifyBookCommon(bookCommon)
+                        .getStatusCode().equals(HttpStatus.OK)) {
+                    log.error("BookCommon: " + bookCommon.getIsbn() + " is not saved");
+                    System.out.println("BookCommon: " + bookCommon.getIsbn() + " is not saved");
                 }
-                UID_COUNTER++;
+                BooksCommonMergerUtils.UID_COUNTER++;
                 MultipartFile coverMultipart = getCoverMultipart(fileName, files);
-                if (!bookCoverController.uploadImage(bookCommon.getUid(), coverMultipart).getBody()) {
-                    log.info("No cover image for file: " + path);
+                if (recordsPair.getBookCoverController().uploadImage(bookCommon.getUid(), coverMultipart).getStatusCode().equals(HttpStatus.OK)) {
+                    log.info("No cover image for file: " + fileName);
+                    System.out.println("No cover image for file: " + fileName);
+                }
+                else {
+                    log.info("Saved image for file: " + fileName);
+                    System.out.println("Saved image for file: " + fileName);
                 }
             }
         } catch (IOException e) {
@@ -90,55 +94,5 @@ public class BooksCommonMerger {
         }
     }
 
-    private static String getCoverPhotoPart(String path, List<String> lof) {
-        if (path == null) return null;
-        String withoutExtension = path.substring(0, path.length() - 5);
-        for(String s: photoExtensions) {
-            if (lof.contains(withoutExtension + s)) return (withoutExtension + s);
-        }
-        return null;
-    }
-
-    private static MultipartFile getCoverMultipart(String path, List<String> lof) throws IOException {
-        String bookCoverPath = getCoverPhotoPart(path, lof);
-        if (bookCoverPath == null) return null;
-        String[] pathChunks = bookCoverPath.split("/");
-        String name = pathChunks[pathChunks.length - 1];
-        File file = new File(bookCoverPath);
-        FileInputStream input = new FileInputStream(file);
-        MultipartFile multipartFile = new MockMultipartFile("file", name, "image", IOUtils.toByteArray(input));
-        return multipartFile;
-    }
-
-    private static BookCommon getBookCommonFromPath(String path) {
-        JSONObject jo = getJSONObjFromPath(path);
-        if (jo == null) return null;
-        try {
-            BookCommon bookCommon = new BookCommon();
-            bookCommon.setIsbn(jo.getString("isbn"));
-            bookCommon.setUid(UID_COUNTER);
-            bookCommon.setDescription(jo.getString("opis"));
-            bookCommon.setTitle(jo.getString("naslov"));
-            return bookCommon;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private static JSONObject getJSONObjFromPath(String path) {
-        if (path == null) return null;
-        InputStream is = null;
-        try {
-            is = Files.newInputStream(Paths.get(path));
-            String jsonTxt = IOUtils.toString(is);
-            JSONObject jsonObject = new JSONObject(jsonTxt);
-            is.close();
-            return jsonObject;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }
