@@ -13,15 +13,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@PropertySource("classpath:config.properties")
 class RecordsPair {
 
     private static Logger log = Logger.getLogger(RecordsPair.class);
@@ -34,7 +37,7 @@ class RecordsPair {
 
     boolean pairBookCommon(BookCommon bookCommon) {
         boolean isPaired = false;
-        String[] isbnPairs = generateIsbnPair(bookCommon.getIsbn());
+        List<String> isbnPairs = generateIsbnPair(bookCommon.getIsbn());
         if (isbnPairs == null) {
             log.warn("ISBN invalid: " + (bookCommon.getIsbn() == null ? "null" : bookCommon.getIsbn()));
             System.out.println("ISBN invalid: " + (bookCommon.getIsbn() == null ? "null" : bookCommon.getIsbn()));
@@ -43,7 +46,6 @@ class RecordsPair {
         for (String libPref: LIB_PREFIXES) {
             LibraryPrefixProvider.setPrefix(libPref);
             for (String isbn: isbnPairs) {
-                if (isbn == null) continue;
                 SearchModel query = generateIsbnSearchModel(isbn);
                 List<Record> records = searchRecords(query);
                 if (records == null) {
@@ -103,24 +105,20 @@ class RecordsPair {
      * Neki isbn su uneti u formatu [10] a neki u formatu [13]
      * pretragu vrsimo za obe varijante jer referenciraju isti zapis
      */
-    private String[] generateIsbnPair(String isbn) {
-        String[] isbnPair = new String[2];
+    private List<String> generateIsbnPair(String isbn) {
+       List<String> isbnPair = new ArrayList<>();
         if (!validateIsbn(isbn)) return null;
-        isbnPair[0] = isbn;
+        isbnPair.add(isbn);
         String isbnSecFormat;
         if (!validateIsbn10(isbn)) {
-            isbnSecFormat = isbn.substring(3);
-            if (validateIsbn10(isbnSecFormat)) {
-                isbnPair[1] = isbnSecFormat;
-                return isbnPair;
-            }
+            isbnSecFormat = isbn.substring(3).replaceAll("-", "").trim();
+            isbnPair.add(isbnSecFormat);
+            return isbnPair;
         }
         if (!validateIsbn13(isbn)) {
-            isbnSecFormat = 978 + isbn;
-            if (validateIsbn13(isbnSecFormat)) {
-                isbnPair[1] = isbnSecFormat;
-                return isbnPair;
-            }
+            isbnSecFormat = 978 + isbn.replaceAll("-", "").trim();
+            isbnPair.add(isbnSecFormat);
+            return isbnPair;
         }
         return isbnPair;
     }
@@ -130,29 +128,17 @@ class RecordsPair {
     }
 
     private boolean validateIsbn10(String isbn) {
-        if ( isbn == null ) {
+        if (isbn == null) {
             return false;
         }
-        //remove any hyphens
-        isbn = isbn.replaceAll( "-", "" ).trim();
-        //must be a 10 digit ISBN
-        if ( isbn.length() != 10 ) {
+        isbn = isbn.replaceAll( "-", "" ).trim().replace(" ", "");
+        if (isbn.length() != 10) {
             return false;
         }
         try {
-            int tot = 0;
-            for ( int i = 0; i < 9; i++ ) {
-                int digit = Integer.parseInt( isbn.substring( i, i + 1 ) );
-                tot += ((10 - i) * digit);
-            }
-            String checksum = Integer.toString( (11 - (tot % 11)) % 11 );
-            if ( "10".equals( checksum ) ) {
-                checksum = "X";
-            }
-            return checksum.equals( isbn.substring( 9 ) );
-        }
-        catch ( NumberFormatException nfe ) {
-            //to catch invalid ISBNs that have non-numeric characters in them
+            Double.parseDouble(isbn.substring(0, 9));
+            return true;
+        } catch (NumberFormatException nfe) {
             return false;
         }
     }
@@ -161,27 +147,15 @@ class RecordsPair {
         if ( isbn == null ) {
             return false;
         }
-        //remove any hyphens
-        isbn = isbn.replaceAll( "-", "" ).trim();
-        //must be a 13 digit ISBN
+        isbn = isbn.replaceAll( "-", "" ).trim().replace(" ", "");
         if (isbn.length() != 13) {
             return false;
         }
         try {
-            int tot = 0;
-            for ( int i = 0; i < 12; i++ ) {
-                int digit = Integer.parseInt( isbn.substring( i, i + 1 ) );
-                tot += (i % 2 == 0) ? digit : digit * 3;
-            }
-            //checksum must be 0-9. If calculated as 10 then = 0
-            int checksum = 10 - (tot % 10);
-            if ( checksum == 10 ) {
-                checksum = 0;
-            }
-            return checksum == Integer.parseInt( isbn.substring( 12 ) );
+            Double.parseDouble(isbn.substring(0, 12));
+            return true;
         }
         catch (NumberFormatException nfe) {
-            //to catch invalid ISBNs that have non-numeric characters in them
             return false;
         }
     }

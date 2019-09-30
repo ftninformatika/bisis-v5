@@ -18,6 +18,7 @@ class BooksCommonMergerUtils {
 
     private static String[] PHOTO_EXTENSIONS = {".jpg", ".png", ".gif"};
     static int UID_COUNTER = 1;
+    private static String PLACEHOLDER_COVER_URL = "https://www.makart.rs/__public/dev/img/makart2.png";
 
     static MultipartFile getCoverMultipart(String path, List<String> lof) throws IOException {
         String bookCoverPath = getCoverPhotoPart(path, lof);
@@ -26,7 +27,23 @@ class BooksCommonMergerUtils {
         String name = pathChunks[pathChunks.length - 1];
         File file = new File(bookCoverPath);
         FileInputStream input = new FileInputStream(file);
-        return new MockMultipartFile("file", name, "image", IOUtils.toByteArray(input));
+        MultipartFile mpFile = new MockMultipartFile("file", name, "image", IOUtils.toByteArray(input));
+        input.close();
+        return mpFile;
+    }
+
+    static boolean bookCoverValid(String path) {
+        JSONObject jo = getJSONObjFromPath(path);
+        if (jo == null) return false;
+        try {
+            return (!
+                    (jo.getString("korice_url") == null
+                    || jo.getString("korice_url").equals(PLACEHOLDER_COVER_URL))
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     static BookCommon getBookCommonFromPath(String path) {
@@ -63,7 +80,7 @@ class BooksCommonMergerUtils {
             return jsonObject;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }

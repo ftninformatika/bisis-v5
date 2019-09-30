@@ -30,7 +30,6 @@ import static com.ftninformatika.bisis.books_common_merger.BooksCommonMergerUtil
  */
 @ComponentScan("com.ftninformatika")
 public class BooksCommonMerger {
-//  TODO: Setup logger properly and remove souts
     private static Logger log = Logger.getLogger(BooksCommonMerger.class);
 
     public static void main(String[] args) {
@@ -42,7 +41,7 @@ public class BooksCommonMerger {
         String path = args[0];
         PropertyConfigurator.configure(
                 BooksCommonMerger.class.getResourceAsStream("/log4j.properties"));
-        Logger.getLogger(BooksCommonMerger.class).info("BISIS5 merging book covers and sinopsis via isbn starting...");
+        Logger.getLogger(BooksCommonMerger.class).info("\n\n###STARTING\nBISIS5 merging book covers and sinopsis via isbn starting...");
 
         ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
         root.setLevel(ch.qos.logback.classic.Level.INFO);
@@ -79,8 +78,14 @@ public class BooksCommonMerger {
                     System.out.println("BookCommon: " + bookCommon.getIsbn() + " is not saved");
                 }
                 BooksCommonMergerUtils.UID_COUNTER++;
+
+                if (!(BooksCommonMergerUtils.bookCoverValid(fileName))) {
+                    log.info("No cover image for file: " + fileName);
+                    System.out.println("No cover image for file: " + fileName);
+                    continue;
+                }
                 MultipartFile coverMultipart = getCoverMultipart(fileName, files);
-                if (recordsPair.getBookCoverController().uploadImage(bookCommon.getUid(), coverMultipart).getStatusCode().equals(HttpStatus.OK)) {
+                if (!recordsPair.getBookCoverController().uploadImage(bookCommon.getUid(), coverMultipart).getStatusCode().equals(HttpStatus.OK)) {
                     log.info("No cover image for file: " + fileName);
                     System.out.println("No cover image for file: " + fileName);
                 }

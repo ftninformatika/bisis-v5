@@ -5,7 +5,6 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonReposito
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCoverRepository;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -31,10 +30,11 @@ public class BookCoverService {
             return false;
         BasicDBObject metaData = new BasicDBObject();
         metaData.put("bookCommonUID", bookCommonID);
-        metaData.put("link", "/book_cover/retrieve/" + bookCommonID);
+//        TODO: Hardcoded, put this somewhere in config
+        metaData.put("link", "http://localhost:8080/book_cover/retrieve/" + bookCommonID);
         BookCommon bc = bookCommonRepository.findByUid(bookCommonID);
         if (bc == null) return false;
-        bc.setImageUrl("/book_cover/retrieve/" + bookCommonID);
+        bc.setImageUrl("http://localhost:8080/book_cover/retrieve/" + bookCommonID);
         bookCommonRepository.save(bc);
         gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData );
         return true;
