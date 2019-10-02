@@ -27,6 +27,6 @@ public class BookCollection {
     private String title;
     private Date creationDate;
     private Date lastModified;
-    private List<String> bookIds = new ArrayList<>();
+    private List<String> recordsIds = new ArrayList<>();
 
 }

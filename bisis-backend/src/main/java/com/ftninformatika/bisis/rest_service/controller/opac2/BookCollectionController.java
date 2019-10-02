@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller.opac2;
 
 import com.ftninformatika.bisis.opac2.BookCollection;
+import com.ftninformatika.bisis.opac2.dto.AddToCollectionDTO;
 import com.ftninformatika.bisis.rest_service.service.implementations.BookCollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,4 +32,10 @@ public class BookCollectionController {
         return new ResponseEntity<>(bookCollectionService.getCollections(), HttpStatus.OK);
     }
 
+    @PostMapping("/add_record")
+    public ResponseEntity<Boolean> addRecordToCollection(AddToCollectionDTO addToCollectionDTO) {
+        if(!bookCollectionService.addBookToCollection(addToCollectionDTO))
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
 }
