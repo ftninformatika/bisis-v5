@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,20 +17,23 @@ import java.util.List;
  */
 @Service
 public class BookCollectionService {
+    private static int MAX_COLLECTIONS_PER_LIB = 15;
     @Autowired BookCollectionRepository bookCollectionRepository;
     @Autowired LibraryMemberRepository libraryMemberRepository;
 
     public boolean addModifyCollection(BookCollection newCollection) {
         if (newCollection == null || newCollection.getCreatorUsername() == null) return false;
+        if (bookCollectionRepository.count() >= MAX_COLLECTIONS_PER_LIB) return false;
         LibraryMember cretor = libraryMemberRepository.findByUsername(newCollection.getCreatorUsername());
         if (cretor == null || !cretor.getAuthorities().contains(Authority.ROLE_ADMIN)
                 || newCollection.getBookIds().size() > BookCollection.MAX_SIZE) return false;
+        newCollection.setLastModified(new Date());
         BookCollection bc = bookCollectionRepository.save(newCollection);
         return (bc != null && bc.get_id() != null);
     }
 
-//    public List<BookCollection> getCollections() {
-//        List<BookCollection> bookCollections =
-//    }
+    public List<BookCollection> getCollections() {
+        return bookCollectionRepository.findAll();
+    }
 
 }

@@ -24,6 +24,7 @@ public class BookCollection {
     @Id()
     private String _id;
     private String creatorUsername;
+    private String title;
     private Date creationDate;
     private Date lastModified;
     private List<String> bookIds = new ArrayList<>();
