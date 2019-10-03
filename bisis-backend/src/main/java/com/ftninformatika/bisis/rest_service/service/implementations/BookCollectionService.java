@@ -30,8 +30,8 @@ public class BookCollectionService {
     public boolean addModifyCollection(BookCollection newCollection) {
         if (newCollection == null || newCollection.getCreatorUsername() == null) return false;
         if (bookCollectionRepository.count() >= MAX_COLLECTIONS_PER_LIB) return false;
-        LibraryMember cretor = libraryMemberRepository.findByUsername(newCollection.getCreatorUsername());
-        if (cretor == null || !cretor.getAuthorities().contains(Authority.ROLE_ADMIN)
+        LibraryMember creator = libraryMemberRepository.findByUsername(newCollection.getCreatorUsername());
+        if (creator == null || !creator.getAuthorities().contains(Authority.ROLE_ADMIN)
                 || newCollection.getRecordsIds().size() > BookCollection.MAX_SIZE) return false;
         newCollection.setLastModified(new Date());
         BookCollection bc = bookCollectionRepository.save(newCollection);
@@ -48,6 +48,8 @@ public class BookCollectionService {
         Optional<BookCollection> bcO = bookCollectionRepository.findById(addToCollectionDTO.getCollectionId());
         if (!rO.isPresent() || !bcO.isPresent()) return false;
         BookCollection bc = bcO.get();
+        if (bc.getRecordsIds().contains(addToCollectionDTO.getRecordId()))
+            return false;
         if (bc.getRecordsIds() == null) bc.setRecordsIds(new ArrayList<>());
         bc.getRecordsIds().add(addToCollectionDTO.getRecordId());
         bookCollectionRepository.save(bc);

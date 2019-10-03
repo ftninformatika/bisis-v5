@@ -33,7 +33,7 @@ public class BookCollectionController {
     }
 
     @PostMapping("/add_record")
-    public ResponseEntity<Boolean> addRecordToCollection(AddToCollectionDTO addToCollectionDTO) {
+    public ResponseEntity<Boolean> addRecordToCollection(@RequestBody AddToCollectionDTO addToCollectionDTO) {
         if(!bookCollectionService.addBookToCollection(addToCollectionDTO))
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(true, HttpStatus.OK);
