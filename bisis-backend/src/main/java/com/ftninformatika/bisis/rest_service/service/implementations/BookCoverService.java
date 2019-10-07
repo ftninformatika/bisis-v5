@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCoverRepository;
 import com.mongodb.BasicDBObject;
@@ -24,17 +25,19 @@ public class BookCoverService {
     @Autowired BookCoverRepository bookCoverRepository;
     @Autowired GridFsTemplate gridFsTemplate;
     @Autowired BookCommonRepository bookCommonRepository;
+    @Autowired YAMLConfig yamlConfig;
 
     public boolean uploadImage(Integer bookCommonID, MultipartFile file) throws IOException {
+
         if (file == null || file.isEmpty() || bookCommonID == null)
             return false;
         BasicDBObject metaData = new BasicDBObject();
         metaData.put("bookCommonUID", bookCommonID);
-//        TODO: Hardcoded, put this somewhere in config
-        metaData.put("link", "http://localhost:8080/book_cover/retrieve/" + bookCommonID);
+
+        metaData.put("link", yamlConfig.getServerOrigin() + "book_cover/retrieve/" + bookCommonID);
         BookCommon bc = bookCommonRepository.findByUid(bookCommonID);
         if (bc == null) return false;
-        bc.setImageUrl("http://localhost:8080/book_cover/retrieve/" + bookCommonID);
+        bc.setImageUrl(yamlConfig.getServerOrigin() + "book_cover/retrieve/" + bookCommonID);
         bookCommonRepository.save(bc);
         gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData );
         return true;

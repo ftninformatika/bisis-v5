@@ -22,6 +22,7 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
     @Autowired
     LibraryPrefixProvider prefixProvider;
 
+
     public AuthenticationTokenFilter(final TokenAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
@@ -35,7 +36,6 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
 
 
         String lib = ((HttpServletRequest) request).getHeader("Library");
-
 
         if (lib != null && !lib.equals("")) {
             prefixProvider.setPrefix(lib); //Usmeravanje na odredjenu kolekciju u zavisnosti od hedera (Library)
