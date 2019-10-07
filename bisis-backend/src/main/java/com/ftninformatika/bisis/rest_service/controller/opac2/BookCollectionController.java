@@ -38,4 +38,11 @@ public class BookCollectionController {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{collectionId}")
+    public ResponseEntity<Boolean> deleteCollection(@PathVariable("collectionId") String collectionId) {
+        if(!bookCollectionService.deleteCollcetion(collectionId))
+            return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
 }

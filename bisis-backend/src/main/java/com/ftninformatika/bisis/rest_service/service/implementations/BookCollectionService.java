@@ -58,4 +58,17 @@ public class BookCollectionService {
         return true;
     }
 
+    public boolean deleteCollcetion(String collectionId) {
+        if (collectionId == null) return false;
+        if (!bookCollectionRepository.findById(collectionId).isPresent())
+            return false;
+        try {
+            bookCollectionRepository.deleteById(collectionId);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
