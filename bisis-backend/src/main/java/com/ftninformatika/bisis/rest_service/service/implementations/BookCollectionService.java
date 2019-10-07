@@ -34,6 +34,8 @@ public class BookCollectionService {
         if (creator == null || !creator.getAuthorities().contains(Authority.ROLE_ADMIN)
                 || newCollection.getRecordsIds().size() > BookCollection.MAX_SIZE) return false;
         newCollection.setLastModified(new Date());
+        if (newCollection.get_id() == null && bookCollectionRepository.findByTitle(newCollection.getTitle()) != null)
+            return false;
         BookCollection bc = bookCollectionRepository.save(newCollection);
         return (bc != null && bc.get_id() != null);
     }

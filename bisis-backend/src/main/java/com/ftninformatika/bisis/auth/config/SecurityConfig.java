@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(
                         "/book",
+                        "/book/multiple",
+                        "/book/collection",
                         "/hello",
                         "/opac/**",
                         "/auth",

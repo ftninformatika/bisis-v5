@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface BookCollectionRepository extends MongoRepository<BookCollection, String> {
+    BookCollection findByTitle (String title);
 }

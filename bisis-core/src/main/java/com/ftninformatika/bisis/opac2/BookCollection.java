@@ -28,5 +28,6 @@ public class BookCollection {
     private Date creationDate;
     private Date lastModified;
     private List<String> recordsIds = new ArrayList<>();
+    private boolean showCollection;
 
 }

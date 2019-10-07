@@ -38,4 +38,12 @@ public class BookController {
             return new ResponseEntity<>(books, HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
+
+    @PostMapping("/collection")
+    public ResponseEntity<List<Book>> getBooksByCollectionId(@RequestBody String collectionId) {
+        List<Book> books = bookCommonService.getBooksByCollectionId(collectionId);
+        if (books.isEmpty())
+            return new ResponseEntity<>(books, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
 }
