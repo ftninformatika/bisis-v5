@@ -45,4 +45,11 @@ public class BookCollectionController {
             return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
+
+    @GetMapping("/showable_collections")
+    public ResponseEntity<List<BookCollection>> getShowableCollections() {
+        List<BookCollection> bookCollections = bookCollectionService.getShowableCollections();
+        return new ResponseEntity<>(bookCollections, HttpStatus.OK);
+    }
 }

@@ -71,4 +71,10 @@ public class BookCollectionService {
         }
     }
 
+    public List<BookCollection> getShowableCollections() {
+        List<BookCollection> bookCollections = new ArrayList<>();
+        bookCollections = bookCollectionRepository.findBookCollectionsByShowCollection(true);
+        return bookCollections;
+    }
+
 }
