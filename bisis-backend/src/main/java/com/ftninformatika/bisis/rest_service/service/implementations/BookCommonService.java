@@ -38,9 +38,10 @@ public class BookCommonService {
 
     public List<Book> getBooksByRecordIds(List<String> recordsIds) {
         List<Book> books = new ArrayList<>();
-        Iterator<Record> recordIterator = recordsRepository.findAllById(recordsIds).iterator();
-        while (recordIterator.hasNext()) {
-            Book b = opacSearchService.getBookByRec(recordIterator.next());
+        for (String recordId: recordsIds) {
+            Optional<Record> r = recordsRepository.findById(recordId);
+            if (!r.isPresent()) continue;
+            Book b = opacSearchService.getBookByRec(r.get());
             books.add(b);
         }
         return books;
