@@ -58,6 +58,15 @@ public class CodedPrefUtils {
     return items;
   }
 
+  private static String toJson(List<UItem> items) {
+    StringBuffer sb = new StringBuffer();
+    sb.append("[\n");
+    for (UItem i: items)
+      sb.append(i.toJsonString());
+    sb.append("]\n");
+    return sb.toString();
+  }
+
   private static boolean isNumber(String str) {
     try {
       Integer.valueOf(str);
@@ -66,5 +75,7 @@ public class CodedPrefUtils {
       return false;
     }
   }
+
+
 
 }

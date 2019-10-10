@@ -26,9 +26,9 @@ public class BookCoverController {
     public ResponseEntity<Boolean> uploadImage(@PathVariable("bookCommonUID") Integer bookCommonUID,
                                          @RequestPart("file") MultipartFile file) {
         try {
-            if (bookCoverService.uploadImage(bookCommonUID, file))
-                return new ResponseEntity<>(true, HttpStatus.OK);
-            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+            if (!bookCoverService.uploadImage(bookCommonUID, file))
+                return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
         catch (Exception e) {
             e.printStackTrace();

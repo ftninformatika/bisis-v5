@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.format;
 
+import com.ftninformatika.utils.string.LatCyrUtils;
+
 import java.io.Serializable;
 
 /**
@@ -51,8 +53,11 @@ public class UItem implements Serializable {
   
   @Override
   public String toString() {
-  // TODO Auto-generated method stub
     return code+"-"+value;
+  }
+
+  public String toJsonString() {
+    return "{\ncode: '" + code + "' ,\nname: '" + LatCyrUtils.toCyrillic(value.substring(0, 1).toUpperCase() + value.substring(1)) +"'\n},\n";
   }
 
   private String code;

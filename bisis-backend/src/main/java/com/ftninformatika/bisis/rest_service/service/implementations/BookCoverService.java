@@ -39,15 +39,23 @@ public class BookCoverService {
         if (bc == null) return false;
         bc.setImageUrl(yamlConfig.getServerOrigin() + "book_cover/retrieve/" + bookCommonID);
         bookCommonRepository.save(bc);
+        GridFsResource storedCover = getCoverImage(bc.getUid());
+        if (storedCover != null)
+            deleteCoverImage(bookCommonID);
         gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData );
         return true;
     }
 
-    public GridFsResource getCoverImage(Integer bookCommonID) {
-        if (bookCommonID == null) return null;
-        GridFSFile gridFSFile = gridFsTemplate.findOne(new Query(Criteria.where("metadata.bookCommonUID").is(bookCommonID)));
+    public GridFsResource getCoverImage(Integer bookCommonUID) {
+        if (bookCommonUID == null) return null;
+        GridFSFile gridFSFile = gridFsTemplate.findOne(new Query(Criteria.where("metadata.bookCommonUID").is(bookCommonUID)));
         if (gridFSFile == null) return null;
         return gridFsTemplate.getResource(gridFSFile);
+    }
+
+    public void deleteCoverImage(Integer bookCommonUID) {
+        if (bookCommonUID == null) return;
+        gridFsTemplate.delete(new Query(Criteria.where("metadata.bookCommonUID").is(bookCommonUID)));
     }
 
 }

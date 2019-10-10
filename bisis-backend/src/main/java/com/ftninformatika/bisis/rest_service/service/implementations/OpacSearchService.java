@@ -146,6 +146,7 @@ public class OpacSearchService {
             if (bc != null) {
                 b.setDescription(bc.getDescription());
                 b.setImageUrl(bc.getImageUrl());
+                b.setCommonBookUID(bc.getUid());
             }
         }
         return b;

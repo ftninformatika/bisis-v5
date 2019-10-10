@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,6 +52,7 @@ public class BookCollectionController {
     @GetMapping("/showable_collections")
     public ResponseEntity<List<BookCollection>> getShowableCollections() {
         List<BookCollection> bookCollections = bookCollectionService.getShowableCollections();
+        Collections.reverse(bookCollections);
         return new ResponseEntity<>(bookCollections, HttpStatus.OK);
     }
 }

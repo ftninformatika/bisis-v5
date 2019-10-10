@@ -38,4 +38,5 @@ public class Book {
 //    Data from books_common collection
     private String imageUrl;
     private String description;
+    private Integer commonBookUID;
 }
