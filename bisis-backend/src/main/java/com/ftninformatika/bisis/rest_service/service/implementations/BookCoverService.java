@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonReposito
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCoverRepository;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

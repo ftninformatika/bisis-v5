@@ -12,13 +12,13 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonReposito
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,6 +35,7 @@ public class BookCommonService {
     @Autowired BookCollectionRepository bookCollectionRepository;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired RecordsController recordsController; // Avoid this
+    private Logger log = Logger.getLogger(BookCommonService.class);
 
 //    TODO: refactor this at some point
     public BookCommon saveModifyBookCommon(BookCommon bookCommon) {
@@ -95,13 +96,14 @@ public class BookCommonService {
                     SearchModel query = generateIsbnSearchModel(isbn);
                     List<Record> records = searchRecords(query);
                     if (records == null) {
-                        System.out.println("No records in library: " + lib + " for ISBN: " + isbn);
+//                        System.out.println("No records in library: " + lib + " for ISBN: " + isbn);
                         continue;
                     }
                     for (Record r : records) {
                         if (r.getCommonBookUid() == null) {
                             r.setCommonBookUid(bookCommon.getUid());
                             recordsRepository.save(r);
+                            log.info("Merged book common UID: " + bookCommon.getUid() + " with record RN: " + r.getRN() + " library: " + lib);
                         }
                     }
                 }
