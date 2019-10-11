@@ -50,7 +50,7 @@ public class BookCollectionService {
         Optional<BookCollection> bcO = bookCollectionRepository.findById(addToCollectionDTO.getCollectionId());
         if (!rO.isPresent() || !bcO.isPresent()) return false;
         BookCollection bc = bcO.get();
-        if (bc.getRecordsIds().contains(addToCollectionDTO.getRecordId()))
+        if (bc.getRecordsIds().contains(addToCollectionDTO.getRecordId()) || bc.getRecordsIds().size() >= 30)
             return false;
         if (bc.getRecordsIds() == null) bc.setRecordsIds(new ArrayList<>());
         bc.getRecordsIds().add(addToCollectionDTO.getRecordId());

@@ -23,7 +23,7 @@ import java.util.Map;
 @Service
 public class JsonWebTokenService implements TokenService {
 
-    private static int tokenExpirationTime = 30;
+    private static int tokenExpirationTime = 480;
 
     @Value("security.token.secret.key")
     private String tokenKey;
