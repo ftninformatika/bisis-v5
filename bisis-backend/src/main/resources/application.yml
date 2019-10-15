@@ -5,7 +5,7 @@ logging:
 
 spring:
   profiles:
-    active: developmentSingle
+    active: developmentCluster
 
 security:
   token:

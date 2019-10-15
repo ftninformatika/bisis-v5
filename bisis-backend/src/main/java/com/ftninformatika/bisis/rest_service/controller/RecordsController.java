@@ -61,6 +61,15 @@ public class RecordsController {
 
     private Logger log = Logger.getLogger(MemberController.class);
 
+    @PostMapping("/rate_record/{recordId}")
+    public ResponseEntity<Long> rateRecord(@RequestBody RecordRating recordRating
+            , @PathVariable("recordId") String recordId) {
+            long avgRating = recordsService.rateRecord(recordRating, recordId);
+            if (avgRating == -1)
+                return new ResponseEntity(-1, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(avgRating, HttpStatus.OK);
+    }
+
     @PostMapping("/mergeRecords")
     public ResponseEntity<Boolean> mergeRecords(@RequestHeader("Library") String lib,
                                                 @RequestBody MergeRecordsWrapper mergeRecordsWrapper) {

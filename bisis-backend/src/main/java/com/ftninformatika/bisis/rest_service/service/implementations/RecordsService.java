@@ -4,10 +4,7 @@ import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
-import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.records.MergeRecordsWrapper;
-import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.RecordModification;
+import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
@@ -44,6 +41,30 @@ public class RecordsService implements RecordsServiceInterface {
     @Autowired MongoClient mongoClient;
 
     private Logger log = Logger.getLogger(RecordsService.class);
+
+    /**
+     *
+     * @param recordRating new rating from unique user on record
+     * @param recordId record _id
+     * @return avg score of rating
+     */
+    public long rateRecord(RecordRating recordRating, String recordId) {
+        if (recordRating.getGivenRating() == null || recordRating.getLibraryMemberId() == null
+        || recordRating.getUsername() == null || recordId == null)
+            return -1;
+        Optional<Record> rOpt = recordsRepository.findById(recordId);
+        if (!rOpt.isPresent()) return -1;
+        if (rOpt.get().getRecordRatings().size() > 0 && rOpt.get().getRecordRatings().stream().map(RecordRating::getLibraryMemberId)
+                .anyMatch(recordRating.getLibraryMemberId()::equals)) return -1;
+        Record r = rOpt.get();
+        r.getRecordRatings().add(recordRating);
+        if (recordsRepository.save(r) == null) return -1;
+        long ratingCount = r.getRecordRatings().size();
+        long sumRatings = r.getRecordRatings().stream()
+                .mapToLong(RecordRating::getGivenRating).sum();
+        return sumRatings / ratingCount;
+    }
+
 
     @Transactional
     public boolean mergeRecords(MergeRecordsWrapper mergeRecordsWrapper, String lib) {

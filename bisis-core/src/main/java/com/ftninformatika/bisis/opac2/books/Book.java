@@ -35,6 +35,8 @@ public class Book {
     private String notes;
     private String isbdHtml;
     private List<Item> items = null;
+    private int totalRatings;
+    private long avgRating;
 //    Data from books_common collection
     private String imageUrl;
     private String description;

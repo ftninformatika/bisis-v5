@@ -459,6 +459,14 @@ public class Record implements Serializable {
       primerci.set(primerci.indexOf(getPrimerak(primerak.getInvBroj())), primerak);
   }
 
+  public long getAvgRating() {
+      if (recordRatings != null && recordRatings.size() > 0) {
+          return recordRatings.stream().mapToLong(RecordRating::getGivenRating).sum()
+                  / recordRatings.size();
+      }
+      return -1;
+  }
+
   @Id private String _id;
   /** record identifier */
   private int recordID;
@@ -490,6 +498,8 @@ public class Record implements Serializable {
   private int rn;
   /** locked by redactor */
   private boolean lockedByRedactor = false;
+  /** user ratings collection of current record */
+  private List<RecordRating> recordRatings = new ArrayList<>();
 
 
 }

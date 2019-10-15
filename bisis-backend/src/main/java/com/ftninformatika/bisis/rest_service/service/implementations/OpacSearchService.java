@@ -141,6 +141,8 @@ public class OpacSearchService {
         b.setDimensions(rp.getDimensions());
         b.setUdk(rp.getUdk());
         b.setNotes(rp.getNotes(r));
+        b.setAvgRating(r.getAvgRating());
+        b.setTotalRatings(r.getRecordRatings() != null ? r.getRecordRatings().size() : 0);
         if (r.getCommonBookUid() != null) {
             BookCommon bc = bookCommonRepository.findByUid(r.getCommonBookUid());
             if (bc != null) {

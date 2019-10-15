@@ -53,8 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/library_members/**",
                         "/coders/location**",
                         "/coders/item_status**",
-                        "/coders/sublocation/get_by_location**").permitAll()
-                .antMatchers("/members_repository/**", "/circ_report/**").hasAnyRole("USER","ADMIN")
+                        "/coders/sublocation/get_by_location**",
+                        "/records/rate_record/**").permitAll()
+                .antMatchers(
+                        "/members_repository/**",
+                        "/circ_report/**")
+                .hasAnyRole("USER","ADMIN")
                 .antMatchers("/**").hasAuthority("ROLE_ADMIN")
                 //.anyRequest().authenticated()
                 //.anyRequest().permitAll()
