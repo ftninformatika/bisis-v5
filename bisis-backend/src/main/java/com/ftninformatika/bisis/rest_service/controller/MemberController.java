@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
+import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
@@ -7,8 +8,10 @@ import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.service.implementations.MemberService;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
 import com.mongodb.MongoClient;
@@ -16,6 +19,8 @@ import com.mongodb.client.ClientSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -35,6 +40,13 @@ public class MemberController {
     @Autowired OrganizationRepository organizationRepository;
     @Autowired WarningCounterRepository warningCounterRepository;
     @Autowired MongoClient mongoClient;
+    @Autowired MemberService memberService;
+
+    @GetMapping("/lending_history/{memberNo}")
+    public ResponseEntity<List<Report>> getUserLendingHistory(@PathVariable("memberNo") String memberNo) {
+        List<Report> lendingReports = memberService.getMemberLendingHistoryReport(memberNo);
+        return new ResponseEntity<>(lendingReports, HttpStatus.OK);
+    }
 
     @RequestMapping(path = "/memberExist", method = RequestMethod.GET)
     public String userExist(@RequestParam(value = "userId") String userId) {
