@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.opac2.books;
 
+import com.ftninformatika.bisis.records.AvgRecordRating;
 import com.ftninformatika.bisis.records.Record;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +37,7 @@ public class Book {
     private String isbdHtml;
     private List<Item> items = null;
     private int totalRatings;
-    private long avgRating;
+    private AvgRecordRating avgRating;
 //    Data from books_common collection
     private String imageUrl;
     private String description;

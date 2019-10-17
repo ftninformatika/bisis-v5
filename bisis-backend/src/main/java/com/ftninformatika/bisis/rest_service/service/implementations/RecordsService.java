@@ -23,10 +23,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordsService implements RecordsServiceInterface {
@@ -42,27 +40,29 @@ public class RecordsService implements RecordsServiceInterface {
 
     private Logger log = Logger.getLogger(RecordsService.class);
 
-    /**
-     *
-     * @param recordRating new rating from unique user on record
-     * @param recordId record _id
-     * @return avg score of rating
-     */
-    public long rateRecord(RecordRating recordRating, String recordId) {
+    public AvgRecordRating rateRecord(RecordRating recordRating, String recordId) {
         if (recordRating.getGivenRating() == null || recordRating.getLibraryMemberId() == null
         || recordRating.getUsername() == null || recordId == null)
-            return -1;
+            return null;
         Optional<Record> rOpt = recordsRepository.findById(recordId);
-        if (!rOpt.isPresent()) return -1;
-        if (rOpt.get().getRecordRatings().size() > 0 && rOpt.get().getRecordRatings().stream().map(RecordRating::getLibraryMemberId)
-                .anyMatch(recordRating.getLibraryMemberId()::equals)) return -1;
+        if (!rOpt.isPresent()) return null;
         Record r = rOpt.get();
+        if (r.getRecordRatings() != null && r.getRecordRatings().size() > 0
+                && r.getRecordRatings().stream().map(RecordRating::getLibraryMemberId)
+                .collect(Collectors.toList()).stream().anyMatch(recordRating.getLibraryMemberId()::equals)) {
+            for (RecordRating rating: r.getRecordRatings()) {
+                if (rating.getLibraryMemberId().equals(recordRating.getLibraryMemberId())) {
+                    r.getRecordRatings().remove(rating);
+                    r.getRecordRatings().add(recordRating);
+                    if (recordsRepository.save(r) == null) return null;
+                    return r.getAvgRating();
+                }
+            }
+        }
+        if (r.getRecordRatings() == null) r.setRecordRatings(new ArrayList<>());
         r.getRecordRatings().add(recordRating);
-        if (recordsRepository.save(r) == null) return -1;
-        long ratingCount = r.getRecordRatings().size();
-        long sumRatings = r.getRecordRatings().stream()
-                .mapToLong(RecordRating::getGivenRating).sum();
-        return sumRatings / ratingCount;
+        if (recordsRepository.save(r) == null) return null;
+        return r.getAvgRating();
     }
 
 

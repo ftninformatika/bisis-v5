@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @author badf00d21  15.10.19.
+ * @author badf00d21  17.10.19.
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecordRating {
-    private String username;
-    private String libraryMemberId;
-    private Integer givenRating;
+public class AvgRecordRating {
+    private float avgRating;
+    private int totalRates;
 }

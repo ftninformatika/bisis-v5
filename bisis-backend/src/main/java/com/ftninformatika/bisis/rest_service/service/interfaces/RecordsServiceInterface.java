@@ -1,10 +1,20 @@
 package com.ftninformatika.bisis.rest_service.service.interfaces;
 
-import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
+import com.ftninformatika.bisis.records.AvgRecordRating;
+import com.ftninformatika.bisis.records.RecordRating;
+import com.ftninformatika.bisis.records.Record;
 import com.mongodb.MongoClientException;
 
 public interface RecordsServiceInterface {
+
+    /**
+     *
+     * @param recordRating new rating from unique user on record
+     * @param recordId record _id
+     * @return avg score of rating
+     */
+    AvgRecordRating rateRecord(RecordRating recordRating, String recordId);
 
     /**
      *

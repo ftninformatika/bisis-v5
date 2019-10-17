@@ -28,6 +28,7 @@ public class MongoTransactionalConfiguration extends AbstractMongoConfiguration 
         return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
     }
 
+//    TODO: revert this before deploy to prod
     @Bean
     @Override
     public MongoClient mongoClient() {

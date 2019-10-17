@@ -459,12 +459,15 @@ public class Record implements Serializable {
       primerci.set(primerci.indexOf(getPrimerak(primerak.getInvBroj())), primerak);
   }
 
-  public long getAvgRating() {
-      if (recordRatings != null && recordRatings.size() > 0) {
-          return recordRatings.stream().mapToLong(RecordRating::getGivenRating).sum()
-                  / recordRatings.size();
+  @JsonIgnore
+  public AvgRecordRating getAvgRating() {
+      if (recordRatings == null || recordRatings.size() == 0)
+          return null;
+      Long ratesSum = new Long(0);
+      for (RecordRating rating: recordRatings) {
+          ratesSum += rating.getGivenRating();
       }
-      return -1;
+      return new AvgRecordRating(((float)ratesSum / recordRatings.size()), recordRatings.size());
   }
 
   @Id private String _id;
