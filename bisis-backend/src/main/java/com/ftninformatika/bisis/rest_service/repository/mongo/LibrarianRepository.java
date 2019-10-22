@@ -18,4 +18,5 @@ public interface LibrarianRepository extends MongoRepository<LibrarianDTO, Strin
     public LibrarianDTO getByUsername(@Param("username") String username);
 
     public List<LibrarianDTO> getLibrariansByBiblioteka(@Param("library") String library);
+    public LibrarianDTO getByEmail(String email);
 }

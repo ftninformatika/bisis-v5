@@ -25,6 +25,7 @@ public class Librarian {
   private boolean redaktor;
   private boolean inventator;
   private boolean cirkulacijaPlus;
+  private boolean opacAdmin;
   private LibrarianContext context = new LibrarianContext();
   private String biblioteka;
   private ProcessType curentProcessType;

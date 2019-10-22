@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
@@ -8,10 +11,7 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.utils.date.DateUtils;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -40,6 +40,7 @@ public class LibraryMemberService {
     @Autowired OpacSearchService opacSearchService;
     @Autowired RecordsRepository recordsRepository;
     @Autowired MemberRepository memberRepository;
+    @Autowired LibrarianRepository librarianRepository;
 
 
     /**
@@ -56,12 +57,26 @@ public class LibraryMemberService {
             return null;
         libraryPrefixProvider.setPrefix(libraryMember.getLibraryPrefix());
         OpacMemberWrapper retVal = new OpacMemberWrapper();
-        Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
-        if (!member.isPresent())
-            return null;
+        if (libraryMember.getAuthorities().contains(Authority.ROLE_USER)) {
+            Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
+            if (member.isPresent()) retVal.setMember(member.get());
+            else return null;
+        }
+        else if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN)) {
+            Optional<LibrarianDTO> librarianDTO = librarianRepository.findById(libraryMember.getLibrarianIndex());
+            if (librarianDTO.isPresent()) {
+                Member tmpMem = new Member();
+                LibrarianDTO librarian = librarianDTO.get();
+                tmpMem.setFirstName(librarian.getIme());
+                tmpMem.setLastName(librarian.getPrezime());
+                tmpMem.setAddress("");
+                tmpMem.setUserId("ADMIN");
+                retVal.setMember(tmpMem);
+            }
+            else return null;
+        }
         libraryMember.setPassword(null);
         retVal.setLibraryMember(libraryMember);
-        retVal.setMember(member.get());
         return retVal;
     }
 
@@ -79,6 +94,9 @@ public class LibraryMemberService {
             || !allPrefixes.contains(libraryMember.getLibraryPrefix()))
             return false;
         libraryPrefixProvider.setPrefix(libraryMember.getLibraryPrefix());
+        if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN)) {
+            return activateAdmin(libraryMember);
+        }
         String hashedPass = BCrypt.hashpw(libraryMember.getPassword(), BCrypt.gensalt());
         Member member = memberRepository.findById(libraryMember.getIndex()).get();
         libraryMember.setPassword(hashedPass);
@@ -88,6 +106,25 @@ public class LibraryMemberService {
         member.setActivatedWebProfile(true);
         member = memberRepository.save(member);
         return (savedLm != null && member != null);
+    }
+
+
+    /**
+     * Activates account for admin users
+     * @param libraryMember
+     * @return true if activated
+     */
+    public boolean activateAdmin(LibraryMember libraryMember) {
+        String hashedPass = BCrypt.hashpw(libraryMember.getPassword(), BCrypt.gensalt());
+
+        LibrarianDTO librarian = librarianRepository.findById(libraryMember.getLibrarianIndex()).get();
+        libraryMember.setPassword(hashedPass);
+        libraryMember.setProfileActivated(true);
+        libraryMember.setActivationToken(null);
+        LibraryMember savedLm = libraryMemberRepository.save(libraryMember);
+        librarian.setOpacAdmin(true);
+        librarian = librarianRepository.save(librarian);
+        return (savedLm != null && librarian != null);
     }
 
     /**

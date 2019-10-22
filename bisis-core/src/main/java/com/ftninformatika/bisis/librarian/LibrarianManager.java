@@ -31,7 +31,7 @@ public class LibrarianManager {
         retVal.setContext(initializeContextFromDTO(librarianDTO.getContext()));
         retVal.setDefaultDepartment(librarianDTO.getDefaultDepartment());
         retVal.setCircDepartment(librarianDTO.getCircDepartment());
-
+        retVal.setOpacAdmin(librarianDTO.isOpacAdmin());
         return retVal;
     }
 
@@ -56,7 +56,7 @@ public class LibrarianManager {
         retVal.setContext(initializeDTOFromContext(lib.getContext()));
         retVal.setDefaultDepartment(lib.getDefaultDepartment());
         retVal.setCircDepartment(lib.getCircDepartment());
-
+        retVal.setOpacAdmin(lib.isOpacAdmin());
         return retVal;
     }
 

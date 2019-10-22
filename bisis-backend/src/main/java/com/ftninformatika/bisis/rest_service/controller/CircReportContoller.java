@@ -1150,7 +1150,6 @@ public class CircReportContoller {
         List<Report> reports=new ArrayList<Report>();
         List<Lending> lendings;
         lendings = lendingRepository.findByUserId(memberNo);
-
         Record r;
         RecordPreview rp = new RecordPreview();
         SimpleDateFormat sdf =new SimpleDateFormat("dd.MM.yyyy");

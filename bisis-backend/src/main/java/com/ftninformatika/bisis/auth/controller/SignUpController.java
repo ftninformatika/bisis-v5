@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.auth.dto.UserDTO;
 import com.ftninformatika.bisis.auth.service.UserService;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
+import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
@@ -25,6 +26,7 @@ public class SignUpController {
     private final ConverterFacade converterFacade;
     @Autowired EmailService emailService;
     @Autowired LibraryMemberService libraryMemberService;
+    @Autowired YAMLConfig yamlConfig;
     @Autowired LibraryMemberRepository libraryMemberRepository;
 
     @Autowired

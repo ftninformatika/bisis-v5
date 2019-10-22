@@ -19,9 +19,7 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
 
     private final TokenAuthenticationService authenticationService;
 
-    @Autowired
-    LibraryPrefixProvider prefixProvider;
-
+    @Autowired LibraryPrefixProvider prefixProvider;
 
     public AuthenticationTokenFilter(final TokenAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;

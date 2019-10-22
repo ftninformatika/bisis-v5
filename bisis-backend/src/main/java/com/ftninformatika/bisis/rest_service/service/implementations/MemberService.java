@@ -4,7 +4,6 @@ import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.mongodb.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;

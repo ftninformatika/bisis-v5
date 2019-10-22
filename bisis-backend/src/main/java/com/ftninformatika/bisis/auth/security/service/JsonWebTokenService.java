@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.auth.security.service;
 
 import com.ftninformatika.bisis.auth.exception.model.ServiceException;
+import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.auth.model.LibrarianUser;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
@@ -73,6 +74,7 @@ public class JsonWebTokenService implements TokenService {
 
         Map<String, Object> tokenData = new HashMap<>();
         if (BCrypt.checkpw(password, user.getPassword())) {
+//            if (user.getAuthorities().contains(Authority.ROLE_ADMIN)) tokenData.put("clientType", "librarian");
             tokenData.put("clientType", "member");
             tokenData.put("userID", user.get_id());
             tokenData.put("username", user.getUsername());

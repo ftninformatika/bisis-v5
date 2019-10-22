@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.auth.config;
 
+import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.auth.security.filter.AuthenticationTokenFilter;
 import com.ftninformatika.bisis.auth.security.service.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/records/wrapperrec/universal",
                         "/records/unimarc",
                         "/records/query/**",
+                        "/book_cover/**",
                         "/v2/api-docs",
                         "/configuration/**",
                         "/swagger*/**",
@@ -53,14 +55,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/records/opac_wrapperrec/**",
                         "/library_members/**",
                         "/coders/location**",
+                        "/records/rate_record/**",
                         "/coders/item_status**",
-                        "/coders/sublocation/get_by_location**",
-                        "/records/rate_record/**").permitAll()
+                        "/coders/sublocation/get_by_location**").permitAll()
                 .antMatchers(
                         "/members_repository/**",
                         "/circ_report/**")
                 .hasAnyRole("USER","ADMIN")
-                .antMatchers("/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/**").hasAuthority(Authority.ROLE_ADMIN.getAuthority())
                 //.anyRequest().authenticated()
                 //.anyRequest().permitAll()
                 .and()

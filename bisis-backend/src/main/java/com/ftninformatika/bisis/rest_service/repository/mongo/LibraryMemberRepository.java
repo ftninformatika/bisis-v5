@@ -11,4 +11,5 @@ public interface LibraryMemberRepository extends MongoRepository<LibraryMember, 
     LibraryMember findByUsername(String username);
     LibraryMember findByPasswordResetString(String passwordResetString);
     LibraryMember findByActivationToken(String activationToken);
+
 }
