@@ -18,6 +18,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.MessageFormat;
+
 @RestController
 @RequestMapping("/signup")
 public class SignUpController {
@@ -62,7 +64,7 @@ public class SignUpController {
 
         try {
             emailService.sendSimpleMail(createdMember.getUsername(), Texts.getString("EMAIL_ACITVATE_PROFILE_HEADING"),
-                    Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY") + createdMember.getActivationToken());
+                    MessageFormat.format(Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY.0"), yamlConfig.getOpacOrigin()) + createdMember.getActivationToken());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -78,7 +80,7 @@ public class SignUpController {
 
         try {
             emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("EMAIL_ACITVATE_PROFILE_HEADING"),
-                    Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY_0.1" + libraryMember.getActivationToken()));
+                    MessageFormat.format(Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY.0"), yamlConfig.getOpacOrigin()) + libraryMember.getActivationToken());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

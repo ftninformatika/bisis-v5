@@ -13,4 +13,5 @@ import java.util.List;
 public interface BookCollectionRepository extends MongoRepository<BookCollection, String> {
     BookCollection findByTitle (String title);
     List<BookCollection> findBookCollectionsByShowCollection (boolean shown);
+
 }

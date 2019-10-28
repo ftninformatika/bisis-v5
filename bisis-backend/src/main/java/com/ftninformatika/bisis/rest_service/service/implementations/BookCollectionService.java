@@ -9,13 +9,12 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepo
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author badf00d21  19.9.19.
@@ -36,6 +35,8 @@ public class BookCollectionService {
         newCollection.setLastModified(new Date());
         if (newCollection.get_id() == null && bookCollectionRepository.findByTitle(newCollection.getTitle()) != null)
             return false;
+        else if (newCollection.get_id() == null)
+            newCollection.setIndex(generateIndex());
         BookCollection bc = bookCollectionRepository.save(newCollection);
         return (bc != null && bc.get_id() != null);
     }
@@ -74,7 +75,40 @@ public class BookCollectionService {
     public List<BookCollection> getShowableCollections() {
         List<BookCollection> bookCollections = new ArrayList<>();
         bookCollections = bookCollectionRepository.findBookCollectionsByShowCollection(true);
+        bookCollections.sort(Comparator.comparing(BookCollection::getIndex).reversed());
         return bookCollections;
+    }
+
+    public boolean swapCollectionIndexes(Integer i, Integer i1) {
+        try {
+            List<BookCollection> bookCollections = bookCollectionRepository.findAll();
+            List<Integer> indexes = bookCollections.stream().map(BookCollection::getIndex).collect(Collectors.toList());
+            if (i == null || i1 == null || !indexes.contains(i) || !indexes.contains(i1))
+                return false;
+            BookCollection bc = bookCollections.stream().filter(b -> b.getIndex() == i).findFirst().get();
+            BookCollection bc1 = bookCollections.stream().filter(b -> b.getIndex() == i1).findFirst().get();
+            bc.setIndex(i1);
+            bc1.setIndex(i);
+            bookCollectionRepository.save(bc);
+            bookCollectionRepository.save(bc1);
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private int generateIndex() {
+        try {
+            List<BookCollection> bookCollections = bookCollectionRepository.findAll();
+            bookCollections.sort(Comparator.comparing(BookCollection::getIndex).reversed());
+            return bookCollections.get(0).getIndex() + 1;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
 }

@@ -5,7 +5,8 @@ logging:
 
 spring:
   profiles:
-    active: developmentCluster
+    active: developmentSingle
+
 
 security:
   token:
@@ -25,6 +26,7 @@ spring:
       cluster-name: bisis5
       cluster-nodes: 192.168.200.1:9300, 192.168.200.3:9300
 serverOrigin: http://localhost:8080/
+opacOrigin: http://localhost:4200/
 logging:
   level:
     com.ftninformatika: INFO
@@ -42,6 +44,7 @@ spring:
       cluster-name: bisis5
       cluster-nodes: localhost:9300
 serverOrigin: https://test.bisis.rs/bisisWS/
+opacOrigin: https://bisis5-opac2.firebiseapp.acom/
 logging:
   level:
     com.ftninformatika: INFO
@@ -63,6 +66,7 @@ spring:
       repositories:
         enabled: true
 serverOrigin: http://localhost:8080/
+opacOrigin: http://localhost:4200/
 logging:
   level:
     com.ftninformatika: INFO
@@ -80,6 +84,7 @@ spring:
       cluster-name: bisis5
       cluster-nodes: 192.168.45.20:9300, 192.168.45.21:9300
 serverOrigin: https://app.bisis.rs/bisisWS/
+opacOrigin: https://app.bisis.rs/
 logging:
   level:
     com.ftninformatika: INFO

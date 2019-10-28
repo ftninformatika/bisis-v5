@@ -23,6 +23,8 @@ public class BookCollection {
     public static int MAX_SIZE = 30;
     @Id()
     private String _id;
+//    Collections are shown from top to bottom by index 0, 1...
+    private int index;
     private String creatorUsername;
     private String title;
     private Date creationDate;

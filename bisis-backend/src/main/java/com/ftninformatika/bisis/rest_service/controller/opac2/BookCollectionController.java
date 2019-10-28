@@ -48,11 +48,17 @@ public class BookCollectionController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-
     @GetMapping("/showable_collections")
     public ResponseEntity<List<BookCollection>> getShowableCollections() {
         List<BookCollection> bookCollections = bookCollectionService.getShowableCollections();
         Collections.reverse(bookCollections);
         return new ResponseEntity<>(bookCollections, HttpStatus.OK);
+    }
+
+    @GetMapping("/swap_indexes")
+    public ResponseEntity<Boolean> swapIndexes(@RequestParam("i") Integer i, @RequestParam("i1") Integer i1) {
+        if (bookCollectionService.swapCollectionIndexes(i, i1))
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

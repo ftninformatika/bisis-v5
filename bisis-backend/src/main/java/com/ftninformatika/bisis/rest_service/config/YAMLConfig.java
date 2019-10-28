@@ -19,4 +19,7 @@ public class YAMLConfig {
     public String getServerOrigin() {
         return environment.getProperty("serverOrigin");
     }
+
+    @Bean
+    public String getOpacOrigin() { return environment.getProperty("opacOrigin"); }
 }
