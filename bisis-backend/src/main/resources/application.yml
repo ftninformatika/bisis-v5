@@ -5,7 +5,7 @@ logging:
 
 spring:
   profiles:
-    active: developmentSingle
+    active: test
 
 
 security:
@@ -44,7 +44,7 @@ spring:
       cluster-name: bisis5
       cluster-nodes: localhost:9300
 serverOrigin: https://test.bisis.rs/bisisWS/
-opacOrigin: https://bisis5-opac2.firebiseapp.acom/
+opacOrigin: https://bisis5-opac2.firebaseapp.com/
 logging:
   level:
     com.ftninformatika: INFO

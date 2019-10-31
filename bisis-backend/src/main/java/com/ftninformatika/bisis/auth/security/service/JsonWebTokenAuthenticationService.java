@@ -47,16 +47,16 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
             }
             if ("member".equals(tokenData.getBody().get("clientType").toString())) { //autentifikacija korisnika (membera)
                 LibraryMember member = getMemberFromToken(tokenData);
-                if (tokenExpired(token, member)){  //pitamo da li je istekao token?
-                    System.out.println("Your token has expired!");
-                    return null;
-                }
-                if (member != null ) {
+//                if (tokenExpired(token, member)){  //pitamo da li je istekao token?
+//                    System.out.println("Your token has expired!");
+//                    return null;
+//                }
+//                if (member != null ) {
                     member.setLastActivity(new Date());
                     libraryMemberRepository.save(member);
                     return new MemberAuthentication(member);
                 }
-            }
+//            }
         }
         return null;
     }
