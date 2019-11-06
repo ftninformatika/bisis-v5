@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/book/collection",
                         "/hello",
                         "/opac/**",
+                        "/external_hit/**",
                         "/auth",
                         "/book_cover/**",
                         "/book_common/**",
