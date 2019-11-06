@@ -49,7 +49,7 @@ public class ExternalHitService {
             sb.append("<html lang=\"sr\">");
             sb.append("<head>");
             sb.append("<title>" + book.getTitle() + "</title>");
-            sb.append("<meta charser=\"utf-8\">");
+            sb.append("<meta charset=\"utf-8\">");
             sb.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
             sb.append("<meta property=\"og:url\" content=\"" + url + "\">");
             sb.append("<meta property=\"og:title\" content=\"" + book.getTitle() + "\">");
