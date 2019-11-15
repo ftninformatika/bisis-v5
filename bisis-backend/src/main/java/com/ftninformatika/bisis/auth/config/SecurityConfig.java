@@ -63,8 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/members_repository/**",
                         "/circ_report/**")
                 .hasAnyRole("USER","ADMIN")
-                .antMatchers("/**").hasAuthority(Authority.ROLE_ADMIN.getAuthority())
-                //.anyRequest().authenticated()
+                .antMatchers("/**").hasAuthority("ROLE_ADMIN")
+//                .anyRequest().authenticated()
                 //.anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new AuthenticationTokenFilter(tokenAuthenticationService),

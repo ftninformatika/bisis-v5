@@ -14,6 +14,11 @@ public class CircConfigController {
 
     @Autowired CircConfigRepository circLocationRepository;
 
+    @GetMapping("/get_by_library")
+    public CircConfig getByLibrary(@RequestParam("libname") String libName) {
+        return circLocationRepository.findByLibrary(libName);
+    }
+
     @PostMapping("/save")
     public CircConfig save(@RequestBody CircConfig circConfig){
         return  circLocationRepository.save(circConfig);
