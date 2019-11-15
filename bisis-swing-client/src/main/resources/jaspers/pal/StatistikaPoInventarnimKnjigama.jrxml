@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-06-22T11:49:28 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StatistikaPoInventarnimKnjigama" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="a3df15ae-240f-4d6a-b3f0-766d5b51d41f">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="period" class="java.lang.String"/>
+	<field name="udk" class="java.lang.String">
+		<fieldDescription><![CDATA[udk]]></fieldDescription>
+	</field>
+	<field name="brNas" class="java.lang.String">
+		<fieldDescription><![CDATA[brNas]]></fieldDescription>
+	</field>
+	<field name="brPr" class="java.lang.String">
+		<fieldDescription><![CDATA[brPr]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[total]]></fieldDescription>
+	</field>
+	<field name="inv" class="java.lang.String">
+		<fieldDescription><![CDATA[inv]]></fieldDescription>
+	</field>
+	<variable name="ukupnoN" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[new Integer(Integer.parseInt($F{brNas}))]]></variableExpression>
+	</variable>
+	<variable name="ukupnoP" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[new Integer(Integer.parseInt($F{brPr}))]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText-1" x="0" y="0" width="230" height="16" uuid="e21ad279-255b-4b22-b70d-540a568590e1"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Библиотека "Милутин Бојић", Палилула]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-2" x="0" y="14" width="539" height="34" uuid="0ebda74f-0425-4530-808f-ff4ac9923f2b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Рекапитулација броја инвентарисаних јединица
+према инвентарним књигама]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="58" width="317" height="20" uuid="a77ed2fa-621b-4981-8e0f-e65554ba6c28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{period}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement key="rectangle-4" x="282" y="0" width="140" height="20" uuid="9d66369c-2514-4372-bd32-7bdd8d5f7e45"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-2" x="142" y="0" width="140" height="20" uuid="89dc463d-096f-440d-a8fb-bf5370ee06f9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-1" x="2" y="0" width="140" height="20" uuid="936df08f-2fab-4ee9-b3f6-2addda230a6f"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText-5" x="142" y="0" width="137" height="20" uuid="4538250a-68aa-4f25-b368-006beae86fa4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[број наслова]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-7" x="282" y="0" width="137" height="20" uuid="75aae1ec-a782-4d0c-ad5b-89ee412bf424"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[број примерака]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<rectangle>
+				<reportElement key="rectangle-9" x="282" y="0" width="140" height="15" uuid="88b7b2ed-44cb-474e-b8b2-7b9586b671fd"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-7" x="142" y="0" width="140" height="15" uuid="33c2045d-4bc5-483d-8493-d866704b27db"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-6" x="2" y="0" width="140" height="15" uuid="b17286be-686c-4ce2-a7ef-c4fbdded8823"/>
+			</rectangle>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-3" x="5" y="0" width="137" height="15" uuid="e55ff0f2-8b21-4ba5-9686-99cbefc3306a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inv}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-4" x="142" y="0" width="137" height="15" uuid="e076e2f4-a415-4955-be2e-482662382f6b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Integer (Integer.parseInt($F{brNas}))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-6" x="282" y="0" width="137" height="15" uuid="003c93d5-c2bb-40fb-9ae2-bb501e47bfb6"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Integer (Integer.parseInt($F{brPr}))]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

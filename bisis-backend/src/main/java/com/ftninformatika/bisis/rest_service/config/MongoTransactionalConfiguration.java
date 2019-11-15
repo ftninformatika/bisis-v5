@@ -32,15 +32,15 @@ public class MongoTransactionalConfiguration extends AbstractMongoConfiguration 
     @Bean
     @Override
     public MongoClient mongoClient() {
-//        MongoClientURI dbURI = new MongoClientURI(environment.getProperty("spring.data.mongodb.uri"));
-//        MongoClient client = new MongoClient(dbURI);
-//        return client;
-        return new MongoClient();
+        MongoClientURI dbURI = new MongoClientURI(environment.getProperty("spring.data.mongodb.uri"));
+        MongoClient client = new MongoClient(dbURI);
+        return client;
+//        return new MongoClient();
     }
 
     @Override
     protected String getDatabaseName() {
-//        return environment.getProperty("spring.data.mongodb.database");
-        return "bisis";
+        return environment.getProperty("spring.data.mongodb.database");
+//        return "bisis";
     }
 }
