@@ -16,7 +16,9 @@ import com.ftninformatika.bisis.LibraryCoders;
 import com.ftninformatika.bisis.ReportApplication;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -496,6 +498,20 @@ public void finish() {
 			out.append(o.toString());
 		}
 		out.append("</report>");
+      GeneratedReport gr = new GeneratedReport();
+      if (key.indexOf("-") >= 0) {
+        gr.setReportName(key.substring(0, key.indexOf("-")));
+        gr.setFullReportName(key);
+        gr.setPeriod(key.substring(key.indexOf("-") + 1));
+      } else {
+        gr.setReportName(key);
+        gr.setFullReportName(key);
+        gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
+
+      }
+      gr.setContent(out.toString());
+      gr.setReportType(getType().name().toLowerCase());
+      getReportRepository().save(gr);
 	}
 	itemMap.clear();
 	log.info("Report finished.");
