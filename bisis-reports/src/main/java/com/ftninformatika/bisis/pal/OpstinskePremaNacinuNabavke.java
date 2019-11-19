@@ -230,7 +230,9 @@ public List<Ogranak> getList(String key) {
     	String odeljenje;
     	System.out.println(ogr);
     	if (!ogr.equalsIgnoreCase("\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438")){
-    	  odeljenje= getCoders().getLocCoders().get(ogr).toString();
+
+    	  odeljenje= getCoders().getSublocCoders().get(ogr).getDescription() != null ?
+                  getCoders().getSublocCoders().get(ogr).getDepartment() : "Непознато";
     	}else{
     		odeljenje=ogr;
     	}

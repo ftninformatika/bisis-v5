@@ -506,7 +506,8 @@ public List<Ogranak> getList(String key) {
     public String toString() {
     	String odeljenje;
     	if (!ogr.equalsIgnoreCase("\u043d\u0435\u0440\u0430\u0437\u0432\u0440\u0441\u0442\u0430\u043d\u0438")){
-    	   odeljenje=getCoders().getSublocCoders().get(ogr).toString();
+    	   odeljenje = getCoders().getSublocCoders().get(ogr).getCoder_id() != null ?
+                       getCoders().getSublocCoders().get(ogr).getCoder_id() : "Непознато";
     	}else{
     		odeljenje=ogr;
     	}
