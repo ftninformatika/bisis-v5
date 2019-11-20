@@ -22,6 +22,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRep
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.Helper;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -253,6 +254,14 @@ public class OpacSearchService {
         List<String> prefixes = Arrays.asList("authors_raw", "PY", "DT", "LA", "OD", "SL");
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
         Map<String, Sublocation> sublocationMap = sublocationRepository.getCoders(lib).stream().collect(Collectors.toMap(Sublocation::getCoder_id, sl -> sl));
+        for (String key: locationMap.keySet()) {
+            Location l = locationMap.get(key);
+            l.setDescription(LatCyrUtils.toCyrillic(l.getDescription()));
+        }
+        for (String key: sublocationMap.keySet()) {
+            Sublocation sl = sublocationMap.get(key);
+            sl.setDescription(LatCyrUtils.toCyrillic(sl.getDescription()));
+        }
         Map<String, Integer> subLocationCount = new HashMap<>();
         for (String slKey: sublocationMap.keySet()) {
             subLocationCount.put(slKey, 0);
