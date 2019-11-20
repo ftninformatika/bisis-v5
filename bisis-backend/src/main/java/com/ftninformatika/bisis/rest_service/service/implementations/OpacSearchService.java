@@ -160,6 +160,14 @@ public class OpacSearchService {
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
         Map<String, Sublocation> sublocationMap = sublocationRepository.getCoders(lib).stream().collect(Collectors.toMap(Sublocation::getCoder_id, sl -> sl));
         Map<String, ItemStatus> itemStatusMap = itemStatusRepository.getCoders(lib).stream().collect(Collectors.toMap(ItemStatus::getCoder_id, sl -> sl));
+        for (String key: locationMap.keySet()) {
+            Location l = locationMap.get(key);
+            l.setDescription(LatCyrUtils.toCyrillic(l.getDescription()));
+        }
+        for (String key: sublocationMap.keySet()) {
+            Sublocation sl = sublocationMap.get(key);
+            sl.setDescription(LatCyrUtils.toCyrillic(sl.getDescription()));
+        }
         if (r == null || ((r.getPrimerci() == null || r.getPrimerci().size() == 0) &&
                 (r.getGodine() == null || r.getGodine().size() == 0)))
             return null;
