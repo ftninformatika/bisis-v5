@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -42,7 +43,7 @@ public class PrefixConverter {
         String acPrefRaw = acPref + AUTOCOMPLETE_RAW_SUFFIX;
         if (acPref.equals("authors")) {
           valueUnaccented = StringUtils.removeDigitsFromString(valueUnaccented);
-          pv.value = StringUtils.removeDigitsFromString(pv.value);
+          pv.value = WordUtils.capitalizeFully(StringUtils.removeDigitsFromString(pv.value));
         }
         if (retVal.containsKey(acPref) && retVal.containsKey(acPrefRaw)){
           List listNormalized = retVal.get(acPref);

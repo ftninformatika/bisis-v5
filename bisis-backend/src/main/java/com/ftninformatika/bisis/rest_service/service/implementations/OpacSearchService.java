@@ -24,6 +24,7 @@ import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.Helper;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -282,18 +283,33 @@ public class OpacSearchService {
                 if (ee.getPrefixes().get(prefix) == null || ee.getPrefixes().get(prefix).size() == 0) {
                     continue;
                 }
+                Set<String> authorsUnique = new HashSet<>();
                 switch (prefix) {
                     case "authors_raw":
-                        for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i += 2) {
-//                Every second, because of the indexing logic (Ivo Andric, Andric Ivo)
+                        for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String val = ee.getPrefixes().get(prefix).get(i);
                             if (val == null || val.equals("")) continue;
+                            char[] charArray = val
+//                                    .replaceAll("[^a-zA-Z]","")
+                                    .replaceAll("-", "")
+                                    .replaceAll("\\.", "")
+                                    .replaceAll(" ", "")
+                                    .toLowerCase()
+                                    .trim()
+                                    .toCharArray();
+                            Arrays.sort(charArray);
+                            String normalizedVal = new String(charArray);
+
+                            if (authorsUnique.contains(normalizedVal))
+                                continue;
                             if (filters.getAuthorByValue(val) == null) {
                                 boolean checked = (filtersReq != null && filtersReq.getAuthors() != null && filtersReq.getAuthors().stream().anyMatch(e -> e.getItem().getValue().equals(val)));
                                 FilterItem filterItem = new FilterItem(val, val, checked, 1);
                                 filters.getAuthors().add(new Filter(filterItem, null));
+                                authorsUnique.add(normalizedVal);
                             } else {
                                 filters.getAuthorByValue(val).getFilter().setCount(filters.getAuthorByValue(val).getFilter().getCount() + 1);
+                                authorsUnique.add(normalizedVal);
                             }
                         }
                         break;
