@@ -343,7 +343,7 @@ public class OpacSearchService {
                         break;
                     case "LA":
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
-                            String val = ee.getPrefixes().get(prefix).get(i);
+                            String val = mergeCoderVal(ee.getPrefixes().get(prefix).get(i));
                             if (filters.getLanguagesByValue(val) == null) {
                                 String lbl = getLanguageLabel(val);
                                 if (lbl == null) continue;
@@ -396,14 +396,14 @@ public class OpacSearchService {
     private String getPubTypeLabel(String val) {
         String lbl = null;
         switch (val) {
-            case "a": lbl = "Аналитика"; break;
-            case "c": lbl = "Збирка- нумерисана";break;
+            case "a": lbl = "Аналитичке"; break;
+            case "c": lbl = "Збирке- нумерисана";break;
             case "d": lbl = "Изведени радови";break;
-            case "e": lbl = "Збирка- ненумерисана";break;
-            case "m": lbl = "Монографија";break;
-            case "s": lbl = "Серијска";break;
+            case "e": lbl = "Збирке- ненумерисана";break;
+            case "m": lbl = "Монографске";break;
+            case "s": lbl = "Серијске";break;
             case "r": lbl = "Разгледнице";break;
-            case "z": lbl = "Збирни запис";break;
+            case "z": lbl = "Збирни записи";break;
         }
         return lbl;
     }
@@ -411,9 +411,9 @@ public class OpacSearchService {
     private String getLanguageLabel(String val) {
         String lbl = null;
         switch (val) {
-            case "scc": lbl = "Српски ћирилица"; break;
+//            case "scc": lbl = "Српски ћирилица"; break;
             case "srp": lbl = "Српски"; break;
-            case "scr": lbl = "Српски латиница"; break;
+//            case "scr": lbl = "Српски латиница"; break;
             case "hrv": lbl = "Хрватски"; break;
             case "eng": lbl = "Енглески"; break;
             case "ger": lbl = "Немачки"; break;
@@ -436,5 +436,13 @@ public class OpacSearchService {
             case "mul": lbl = "Вишејезични"; break;
         }
         return lbl;
+    }
+
+    public String mergeCoderVal(String val) {
+        switch (val) {
+            case "scr": return "srp";
+            case "scc": return "srp";
+            default: return val;
+        }
     }
 }

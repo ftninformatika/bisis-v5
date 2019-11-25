@@ -273,9 +273,14 @@ public class ElasticUtility {
         retVal.must(queryBuilder);
 
         if (filtersReq.getLanguages() != null && filtersReq.getLanguages().size() > 0) {
+            BoolQueryBuilder bq = null;
             for (SelectedFilter lan: filtersReq.getLanguages()) {
-                if (lan.getItem() != null && lan.isValid())
+                if (lan.getItem() != null && lan.isValid() && !lan.getItem().getValue().equals(FiltersReq.MERGE_FILTER_SERBIAN)) {
                     retVal.must(QueryBuilders.matchQuery("prefixes.LA", lan.getItem().getValue()));
+                } else {
+//                    TODO: If needed make map with filters for merging and their regexes
+                    retVal.must(QueryBuilders.regexpQuery("prefixes.LA", "((srp)|(scr)|(scc))"));
+                }
             }
         }
         if (filtersReq.getAuthors() != null && filtersReq.getAuthors().size() > 0) {
