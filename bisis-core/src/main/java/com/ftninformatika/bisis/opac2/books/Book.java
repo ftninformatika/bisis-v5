@@ -22,6 +22,7 @@ public class Book {
     private String _id;
     private Integer pubType;
     private List<String> authors = new ArrayList<>();
+    private List<String> otherAuthors = new ArrayList<>();
     private String title;
     private String subtitle;
     private String publisher;
