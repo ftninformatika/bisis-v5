@@ -18,4 +18,9 @@ public class Item {
     private String signature;
     private String status;
     private String invNum;
+//    Periodicne sadrze ovo ispod
+    private String volume;
+    private String year;
+    private String number;
+    private boolean serial;
 }

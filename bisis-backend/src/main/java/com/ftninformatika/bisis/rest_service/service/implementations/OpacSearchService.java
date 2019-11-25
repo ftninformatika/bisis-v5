@@ -186,6 +186,7 @@ public class OpacSearchService {
                 }
                 i.setSignature(Signature.format(p));
                 i.setStatus(itemStatus);
+                i.setSerial(false);
                 Sublocation sl = sublocationMap.get(p.getSigPodlokacija());
                 if (sl != null) {
                     i.setLocation(sl.getDescription());
@@ -209,6 +210,10 @@ public class OpacSearchService {
                 String itemStatus = "NOT_LENDABLE";
                 i.setSignature(Signature.format(p));
                 i.setStatus(itemStatus);
+                i.setVolume(p.getGodiste());
+                i.setYear(p.getGodina());
+                i.setNumber(p.getBroj());
+                i.setSerial(true);
                 Sublocation sl = sublocationMap.get(p.getSigPodlokacija());
                 if (sl != null) {
                     i.setLocation(sl.getDescription());
