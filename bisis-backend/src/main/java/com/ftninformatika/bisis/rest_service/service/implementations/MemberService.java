@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author badf00d21  17.10.19.
@@ -29,11 +30,23 @@ public class MemberService {
     @Autowired OpacSearchService opacSearchService;
     @Autowired RecordsRepository recordsRepository;
 
-    public List<Report> getMemberLendingHistoryReport(String memberNo) {
+    public List<Report> getOnlyActiveLendingsReport(String memberNo) {
+        return getMemberLendingHistoryReport(memberNo, true);
+    }
+
+    public List<Report> getReturnedLendingsReport(String memberNo) {
+        return getMemberLendingHistoryReport(memberNo, false);
+    }
+
+    public List<Report> getMemberLendingHistoryReport(String memberNo, boolean activeLendings) {
         List<Report> retVal = new ArrayList<>();
         if (memberNo == null)
             return retVal;
         List<Lending> lendings = lendingRepository.findByUserId(memberNo);
+        if (lendings == null || lendings.size() == 0)
+            return retVal;
+
+        lendings = lendings.stream().filter(l -> (l.getReturnDate() == null) == activeLendings).collect(Collectors.toList());
 
         lendings.sort(Comparator.comparing(Lending::getLendDate).reversed());
         Record r;
@@ -55,6 +68,7 @@ public class MemberService {
             report.setProperty4(book.getTitle());
             report.setProperty5(l.getCtlgNo());
             report.setProperty6(r.get_id());
+            report.setProperty7(l.getDeadline() == null ? null : sdf.format(l.getDeadline()));
             retVal.add(report);
         }
 

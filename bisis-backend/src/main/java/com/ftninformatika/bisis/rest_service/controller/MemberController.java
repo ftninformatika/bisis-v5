@@ -44,7 +44,13 @@ public class MemberController {
 
     @GetMapping("/lending_history/{memberNo}")
     public ResponseEntity<List<Report>> getUserLendingHistory(@PathVariable("memberNo") String memberNo) {
-        List<Report> lendingReports = memberService.getMemberLendingHistoryReport(memberNo);
+        List<Report> lendingReports = memberService.getReturnedLendingsReport(memberNo);
+        return new ResponseEntity<>(lendingReports, HttpStatus.OK);
+    }
+
+    @GetMapping("/active_lendings/{memberNo}")
+    public ResponseEntity<List<Report>> getUserActiveLendings(@PathVariable("memberNo") String memberNo) {
+        List<Report> lendingReports = memberService.getOnlyActiveLendingsReport(memberNo);
         return new ResponseEntity<>(lendingReports, HttpStatus.OK);
     }
 
