@@ -339,6 +339,7 @@ public class PrefixConverter {
       prefixHandler = prefixConfig.getPrefixHandler();
       prefixMap = prefixConfig.getPrefixMap();
       autocompletePrefixMap.put("AU", "authors");
+      autocompletePrefixMap.put("SB", "subjects");
       autocompletePrefixMap.put("PU", "publishers");
       autocompletePrefixMap.put("TI", "titles");
       autocompletePrefixMap.put("KW", "keywords");

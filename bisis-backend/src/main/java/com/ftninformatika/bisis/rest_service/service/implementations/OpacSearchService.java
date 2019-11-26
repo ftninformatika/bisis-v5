@@ -24,7 +24,6 @@ import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.Helper;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
-import org.apache.commons.lang3.text.WordUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -153,6 +152,19 @@ public class OpacSearchService {
                 b.setCommonBookUID(bc.getUid());
             }
         }
+        Optional<ElasticPrefixEntity> ee = elasticRecordsRepository.findById(r.get_id());
+        if (!ee.isPresent()) return b;
+        Set<String> otherAuthorsUnique = new HashSet<>();
+        String authorUniq = getAuthorNormalizedStr(rp.getAuthor());
+        if (ee.get().getPrefixes().get("authors_raw") != null && ee.get().getPrefixes().get("authors_raw").size() > 0) {
+            for (String au: ee.get().getPrefixes().get("authors_raw")) {
+                String uniq = getAuthorNormalizedStr(au);
+                if (authorUniq == null || uniq == null || otherAuthorsUnique.contains(uniq)
+                        || authorUniq.equals(uniq) || au.equals("")) continue;
+                b.getOtherAuthors().add(au);
+                otherAuthorsUnique.add(uniq);
+            }
+        }
         return b;
     }
 
@@ -265,7 +277,7 @@ public class OpacSearchService {
 
     private Filters extractFiltersFromResults(CloseableIterator<ElasticPrefixEntity> results, FiltersReq filtersReq, String lib) {
         Filters filters = new Filters();
-        List<String> prefixes = Arrays.asList("authors_raw", "PY", "DT", "LA", "OD", "SL");
+        List<String> prefixes = Arrays.asList("authors_raw", "PY", "DT", "LA", "OD", "SL", "subjects_raw");
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
         Map<String, Sublocation> sublocationMap = sublocationRepository.getCoders(lib).stream().collect(Collectors.toMap(Sublocation::getCoder_id, sl -> sl));
         for (String key: locationMap.keySet()) {
@@ -293,18 +305,8 @@ public class OpacSearchService {
                     case "authors_raw":
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String val = ee.getPrefixes().get(prefix).get(i);
-                            if (val == null || val.equals("")) continue;
-                            char[] charArray = val
-//                                    .replaceAll("[^a-zA-Z]","")
-                                    .replaceAll("-", "")
-                                    .replaceAll("\\.", "")
-                                    .replaceAll(" ", "")
-                                    .toLowerCase()
-                                    .trim()
-                                    .toCharArray();
-                            Arrays.sort(charArray);
-                            String normalizedVal = new String(charArray);
-
+                            String normalizedVal = getAuthorNormalizedStr(val);
+                            if (normalizedVal == null) continue;
                             if (authorsUnique.contains(normalizedVal))
                                 continue;
                             if (filters.getAuthorByValue(val) == null) {
@@ -381,6 +383,20 @@ public class OpacSearchService {
                                 subLocationCount.put(val, subLocationCount.get(val) + 1);
                         }
                     } break;
+                    case "subjects_raw": {
+                        for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
+                            String val = getNormalizedSubject(ee.getPrefixes().get(prefix).get(i));
+                            if (filters.getSubjectByValue(val) == null) {
+                                String lbl = val;
+                                if (lbl == null) continue;
+                                boolean checked = (filtersReq != null && filtersReq.getSubjects() != null && filtersReq.getSubjects().stream().anyMatch(e -> e.getItem().getValue().equals(val)));
+                                FilterItem filterItem = new FilterItem(lbl, val, checked, 1);
+                                filters.getSubjects().add(new Filter(filterItem, null));
+                            } else {
+                                filters.getSubjectByValue(val).getFilter().setCount(filters.getSubjectByValue(val).getFilter().getCount() + 1);
+                            }
+                        }
+                    } break;
                 }
             }
         }
@@ -396,6 +412,28 @@ public class OpacSearchService {
         }
         filters.sortFilters();
         return filters;
+    }
+
+    private String getAuthorNormalizedStr(String val) {
+        if (val == null || val.equals("")) return null;
+        char[] charArray = val
+                .replace(",", "")
+                .replaceAll("-", "")
+                .replaceAll("\\.", "")
+                .replaceAll(" ", "")
+                .toLowerCase()
+                .trim()
+                .toCharArray();
+        Arrays.sort(charArray);
+        String normalizedVal = new String(charArray);
+        return normalizedVal;
+    }
+
+    private String getNormalizedSubject(String val) {
+        if (val == null || val.trim().equals("") || val.trim().length() < 4)
+            return null;
+        val = val.replace("\"", "");
+        return val;
     }
 
     private String getPubTypeLabel(String val) {

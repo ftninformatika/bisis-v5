@@ -76,6 +76,12 @@
       "prefixes.keywords_raw": {
         "type": "keyword"
       },
+      "prefixes.subjects": {
+        "type": "keyword"
+      },
+      "prefixes.subjects_raw": {
+        "type": "keyword"
+      },
       "prefixes.AU_sort": {
         "type": "keyword"
       },

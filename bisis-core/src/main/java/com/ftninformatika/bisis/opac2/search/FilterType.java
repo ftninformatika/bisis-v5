@@ -6,7 +6,8 @@ public enum FilterType {
     AUTHOR(2),
     LANGUAGE(3),
     PUB_YEAR(4),
-    SUB_LOCATION(5);
+    SUB_LOCATION(5),
+    SUBJECT(6);
 
     private int val;
 

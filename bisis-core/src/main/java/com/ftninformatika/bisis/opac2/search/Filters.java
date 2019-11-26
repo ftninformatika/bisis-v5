@@ -23,6 +23,7 @@ public class Filters {
     private List<Filter> pubTypes = new ArrayList<>();
     private List<Filter> languages = new ArrayList<>();
     private List<Filter> pubYears = new ArrayList<>();
+    private List<Filter> subjects = new ArrayList<>();
 
     public Filter getAuthorByValue(String val) {
         if (val == null)
@@ -69,6 +70,15 @@ public class Filters {
         return null;
     }
 
+    public Filter getSubjectByValue(String val) {
+        if (val == null)
+            return null;
+        for (Filter f: subjects)
+            if (f.getFilter().getValue().equals(val))
+                return f;
+        return null;
+    }
+
     public FilterItem getSublocationByValue(String val, String lbl) {
         if (val == null || val.length() < 4)
             return null;
@@ -96,5 +106,7 @@ public class Filters {
         Collections.reverse(languages);
         pubYears.sort(Comparator.comparing((f -> f.getFilter().getValue())));
         Collections.reverse(pubYears);
+        subjects.sort(Comparator.comparing((f -> f.getFilter().getCount())));
+        Collections.reverse(subjects);
     }
 }

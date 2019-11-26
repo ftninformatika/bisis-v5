@@ -23,5 +23,6 @@ public class FiltersReq {
     private List<SelectedFilter> pubTypes = new ArrayList<>();
     private List<SelectedFilter> languages = new ArrayList<>();
     private List<SelectedFilter> pubYears = new ArrayList<>();
+    private List<SelectedFilter> subjects = new ArrayList<>();
 
 }

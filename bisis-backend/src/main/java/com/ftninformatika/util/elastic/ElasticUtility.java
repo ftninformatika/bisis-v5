@@ -283,10 +283,18 @@ public class ElasticUtility {
                 }
             }
         }
+
         if (filtersReq.getAuthors() != null && filtersReq.getAuthors().size() > 0) {
             for (SelectedFilter e: filtersReq.getAuthors()) {
                 if (e.getItem() != null && e.isValid())
                     retVal.must(QueryBuilders.matchQuery("prefixes.authors_raw", e.getItem().getValue()).operator(Operator.AND).analyzer("keyword"));
+            }
+        }
+
+        if (filtersReq.getSubjects() != null && filtersReq.getSubjects().size() > 0) {
+            for (SelectedFilter e: filtersReq.getSubjects()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.subjects_raw", e.getItem().getValue()).operator(Operator.AND).analyzer("keyword"));
             }
         }
 
