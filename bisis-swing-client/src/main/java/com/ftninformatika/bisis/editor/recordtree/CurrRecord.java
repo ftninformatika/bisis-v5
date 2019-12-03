@@ -283,7 +283,7 @@ public class CurrRecord {
             }
             String target = us.getOwner().getName() + us.getName();
             UValidator v = ValidatorFactory.getValidator(target);
-            if (v != null && v.isValid(newContent) != "") {
+            if (v != null && !v.isValid(newContent).equals("")) {
                 throw new UValidatorException(v.isValid(newContent));
             }
         }

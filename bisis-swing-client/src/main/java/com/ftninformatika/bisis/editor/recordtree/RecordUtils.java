@@ -166,11 +166,11 @@ public class RecordUtils {
       UField uf = ufL.get(i); 
       List<Field> fList = CurrRecord.record.getFields(uf.getName());      
       for(int j=0;j<uf.getSubfieldCount();j++){
-        USubfield usf = (USubfield)uf.getSubfields().get(j);        
+        USubfield usf = uf.getSubfields().get(j);
         Subfield sf = new Subfield(usf.getName());         
         for(int k=0;k<fList.size();k++){
           if(fList.get(k).getSubfield(usf.getName())==null)
-              fList.get(k).add(sf);
+              fList.get(k).add(sf.copy());
         }
         if(usf.getDefaultValue()!=null){
           sf.setContent(usf.getDefaultValue());
