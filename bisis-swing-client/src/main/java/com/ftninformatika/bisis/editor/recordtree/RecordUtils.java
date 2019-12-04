@@ -166,18 +166,19 @@ public class RecordUtils {
       UField uf = ufL.get(i); 
       List<Field> fList = CurrRecord.record.getFields(uf.getName());      
       for(int j=0;j<uf.getSubfieldCount();j++){
-        USubfield usf = (USubfield)uf.getSubfields().get(j);        
-        Subfield sf = new Subfield(usf.getName());         
+        USubfield usf = (USubfield)uf.getSubfields().get(j);
+        Subfield sf = new Subfield(usf.getName());
         for(int k=0;k<fList.size();k++){
-          if(fList.get(k).getSubfield(usf.getName())==null)
+          if(fList.get(k).getSubfield(usf.getName())==null) {
               sf = k == 0 ? sf : sf.copy();
               fList.get(k).add(sf);
+          }
         }
-        if(usf.getDefaultValue()!=null){
+        if(usf.getDefaultValue()!=null && !usf.getDefaultValue().equals("")){
           sf.setContent(usf.getDefaultValue());
         }
-      }     
       }
+    }
     //default vrednosti za indikatore
     for(UIndicator ui : CurrFormat.getProcessType().getIndicators())
     	if(CurrRecord.record.getField(ui.getOwner().getName())!=null)
