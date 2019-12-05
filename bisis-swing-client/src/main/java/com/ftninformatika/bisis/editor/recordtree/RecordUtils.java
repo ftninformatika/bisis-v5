@@ -170,7 +170,7 @@ public class RecordUtils {
         Subfield sf = new Subfield(usf.getName());
         for(int k=0;k<fList.size();k++){
           if(fList.get(k).getSubfield(usf.getName())==null) {
-              sf = k == 0 ? sf : sf.copy();
+              sf = i > 0 ? new Subfield(usf.getName()) : sf;
               fList.get(k).add(sf);
           }
         }
