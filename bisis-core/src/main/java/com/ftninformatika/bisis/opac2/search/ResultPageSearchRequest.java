@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author badf00d21  5.8.19.
  */
@@ -15,5 +17,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResultPageSearchRequest {
     private SearchModel searchModel;
+    private List<String> recordsIds;
     private ResultPageOptions options;
 }

@@ -38,6 +38,22 @@ public class OpacSearchController {
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
+
+    @PostMapping
+    public ResponseEntity<?> searchByIds(
+            @RequestHeader("Library") String lib,
+            @RequestBody ResultPageSearchRequest resultPageSearchRequest,
+            @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
+            @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+
+        PageImpl<List<Book>> retVal = opacSearchService.searchBooksByIds(resultPageSearchRequest, lib, pageNumber, pageSize);
+
+        if (retVal == null || retVal.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
     @PostMapping(value = "get_filters")
     public ResponseEntity<?> getFilters(
             @RequestHeader("Library") String lib,

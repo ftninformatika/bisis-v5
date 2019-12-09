@@ -110,6 +110,46 @@ public class OpacSearchService {
         return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
+    public PageImpl<List<Book>> searchBooksByIds(ResultPageSearchRequest searchRequest, String lib, Integer page, Integer pageSize) {
+        List<Book> retVal = new ArrayList<>();
+
+        if (searchRequest == null || searchRequest.getSearchModel() == null) return null;
+
+        page = 0;
+        int pSize = 10;
+
+        if (pageSize != null)
+            pSize = pageSize;
+
+        BoolQueryBuilder query = ElasticUtility.makeQuery(searchRequest.getSearchModel());
+
+        if (searchRequest.getOptions() != null && searchRequest.getOptions().getFilters() != null)
+            query = ElasticUtility.filterSearch(query, searchRequest.getOptions().getFilters());
+        Pageable p = new PageRequest(page, pSize);
+
+        NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(query)
+                .withIndices(lib + "library_domain")
+                .withTypes("record")
+                .withPageable(p);
+
+        Iterable<ElasticPrefixEntity> ii = elasticsearchTemplate.queryForPage(searchQuery.build(), ElasticPrefixEntity.class);
+
+        ii.forEach(
+                elasticPrefixEntity -> {
+                    String recMongoId = elasticPrefixEntity.getId();
+                    Optional<Record> r = recordsRepository.findById(recMongoId);
+                    if (!r.isPresent()) {
+                        log.warn("Can't get record for mongoId: " + recMongoId);
+                    } else {
+                        Book b = getBookByRec(r.get());
+                        retVal.add(b);
+                    }
+                }
+        );
+        return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
+    }
+
     public Book getFullBookById(String _id, String lib) {
         LibraryConfiguration libraryConfiguration = libraryConfigurationRepository.getByLibraryName(lib);
         Optional<Record> record =  recordsRepository.findById(_id);
