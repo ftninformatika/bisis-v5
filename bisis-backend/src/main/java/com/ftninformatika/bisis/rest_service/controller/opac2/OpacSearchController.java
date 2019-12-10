@@ -39,7 +39,7 @@ public class OpacSearchController {
     }
 
 
-    @PostMapping
+    @PostMapping("/by_ids")
     public ResponseEntity<?> searchByIds(
             @RequestHeader("Library") String lib,
             @RequestBody ResultPageSearchRequest resultPageSearchRequest,

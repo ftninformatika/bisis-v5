@@ -113,29 +113,12 @@ public class OpacSearchService {
     public PageImpl<List<Book>> searchBooksByIds(ResultPageSearchRequest searchRequest, String lib, Integer page, Integer pageSize) {
         List<Book> retVal = new ArrayList<>();
 
-        if (searchRequest == null || searchRequest.getSearchModel() == null) return null;
+        if (searchRequest == null || searchRequest.getRecordsIds() == null) return null;
 
-        page = 0;
-        int pSize = 10;
 
-        if (pageSize != null)
-            pSize = pageSize;
+        Iterable<ElasticPrefixEntity> eeL = elasticRecordsRepository.findAllByIdIn(searchRequest.getRecordsIds());
 
-        BoolQueryBuilder query = ElasticUtility.makeQuery(searchRequest.getSearchModel());
-
-        if (searchRequest.getOptions() != null && searchRequest.getOptions().getFilters() != null)
-            query = ElasticUtility.filterSearch(query, searchRequest.getOptions().getFilters());
-        Pageable p = new PageRequest(page, pSize);
-
-        NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withIndices(lib + "library_domain")
-                .withTypes("record")
-                .withPageable(p);
-
-        Iterable<ElasticPrefixEntity> ii = elasticsearchTemplate.queryForPage(searchQuery.build(), ElasticPrefixEntity.class);
-
-        ii.forEach(
+        eeL.forEach(
                 elasticPrefixEntity -> {
                     String recMongoId = elasticPrefixEntity.getId();
                     Optional<Record> r = recordsRepository.findById(recMongoId);
@@ -147,7 +130,13 @@ public class OpacSearchService {
                     }
                 }
         );
-        return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
+
+        page = 0;
+        int pSize = retVal.size();
+        Pageable p = new PageRequest(page, pSize);
+
+
+        return new PageImpl(retVal, p, pSize);
     }
 
     public Book getFullBookById(String _id, String lib) {

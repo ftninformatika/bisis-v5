@@ -1,6 +1,7 @@
 package com.ftninformatika.util.elastic;
 
 import com.ftninformatika.bisis.opac2.search.FiltersReq;
+import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
 import com.ftninformatika.bisis.opac2.search.SelectedFilter;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
@@ -162,6 +163,21 @@ public class ElasticUtility {
         }
         retVal.delete(retVal.length() - 1, retVal.length());
         return retVal.toString();
+    }
+
+    /**
+     * Ako treba formirati query za pretragu po id-jevima onda je searchModel null a recordIds popunjen
+     */
+    public static BoolQueryBuilder makeQueryWrapper(ResultPageSearchRequest searchRequest) {
+        if (searchRequest.getSearchModel() != null) return makeQuery(searchRequest.getSearchModel());
+        else if (searchRequest.getRecordsIds() != null && searchRequest.getRecordsIds().size() > 0)
+            return makeQueryByIds(searchRequest.getRecordsIds());
+        return null;
+    }
+
+    private static BoolQueryBuilder makeQueryByIds(List<String> ids) {
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("_id", ids);
+        return QueryBuilders.boolQuery().must(termQueryBuilder);
     }
 
     //formiranje Query-ja za glavnu pretragu zapisa
