@@ -116,7 +116,7 @@ public class OpacSearchService {
         if (searchRequest == null || searchRequest.getRecordsIds() == null) return null;
 
 
-        Iterable<ElasticPrefixEntity> eeL = elasticRecordsRepository.findAllByIdIn(searchRequest.getRecordsIds());
+        Iterable<ElasticPrefixEntity> eeL = elasticRecordsRepository.findAllById(searchRequest.getRecordsIds());
 
         eeL.forEach(
                 elasticPrefixEntity -> {

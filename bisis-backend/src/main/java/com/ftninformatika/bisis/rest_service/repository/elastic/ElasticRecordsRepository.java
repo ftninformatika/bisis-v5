@@ -15,5 +15,4 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "elastic_records", path = "elastic_records")
 @Lazy
 public interface ElasticRecordsRepository extends ElasticsearchRepository<ElasticPrefixEntity, String>, PagingAndSortingRepository<ElasticPrefixEntity, String> {
-    Iterable<ElasticPrefixEntity> findAllByIdIn(List<String> ids);
 }
