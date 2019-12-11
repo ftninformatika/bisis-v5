@@ -161,7 +161,9 @@ public class UserData {
             pMain0.add(getTfPhone(), cc.xyw(8, 8, 5));
             pMain0.add(getEmailLabel(), cc.xy(6, 10));
             pMain0.add(getTfEmail(), cc.xyw(8, 10, 5));
-            pMain0.add(getBtnCreateWebAccount(), cc.xyw(8, 11, 4));
+//            TODO- put label with indicator if web account alredy exist, and show warning of deletion if making new on same member
+            pMain0.addSeparator("Ne/postoji aktivan nalog..", cc.xyw(8, 11, 6));
+            pMain0.add(getBtnCreateWebAccount(), cc.xyw(8, 11, 6));
 
             pMain0.addSeparator(Messages.getString("circulation.gender"), cc.xyw(6, 12, 3)); //$NON-NLS-1$
             pMain0.addSeparator(Messages.getString("circulation.age"), cc.xyw(11, 12, 2)); //$NON-NLS-1$
@@ -1151,6 +1153,7 @@ public class UserData {
         if (btnCreateWebAccount == null) {
             btnCreateWebAccount = new JButton();
             btnCreateWebAccount.setText(Messages.getString("circulation.createwebacc"));
+            btnCreateWebAccount.setSize(200, 28);
             btnCreateWebAccount.setFocusable(false);
             btnCreateWebAccount.addActionListener(new ActionListener() {
                 @Override

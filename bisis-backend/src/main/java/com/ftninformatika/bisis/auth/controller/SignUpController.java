@@ -55,6 +55,18 @@ public class SignUpController {
         else if (existingUser != null && !existingUser.getProfileActivated())
             libraryMemberRepository.delete(existingUser);
 
+        // Creating account on new email for user who already had account
+        if (newMember.getIndex() != null) {
+            LibraryMember oldAccount = libraryMemberRepository.findByIndex(newMember.getIndex());
+            libraryMemberRepository.delete(oldAccount);
+        }
+
+        // ADMIN - Creating account on new email for user who already had account
+        if (newMember.getLibrarianIndex() != null) {
+            LibraryMember oldAccount = libraryMemberRepository.findByLibrarianIndex(newMember.getLibrarianIndex());
+            libraryMemberRepository.delete(oldAccount);
+        }
+
         String activationToken = libraryMemberService.generateActivationToken(newMember);
         newMember.setActivationToken(activationToken);
 
