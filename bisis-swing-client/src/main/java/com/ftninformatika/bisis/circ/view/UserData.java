@@ -12,6 +12,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JDateChooserCellEditor;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -106,12 +107,14 @@ public class UserData {
     private JButton btnBlock = null;
     private JButton btnPrint = null;
     private JButton btnPin = null;
+    private JLabel lblWebAccount = null;
     private JButton btnCreateWebAccount = null;
     private User parent = null;
     private ComboBoxRenderer cmbRenderer = null;
     private ZipPlaceDlg zipplace = null;
     private CmbKeySelectionManager cmbKeySelectionManager = null;
     private boolean blocked;
+    private boolean hasActiveWebAccount;
     private Note note;
     private String blockedReason;
     private String pincode;
@@ -161,8 +164,7 @@ public class UserData {
             pMain0.add(getTfPhone(), cc.xyw(8, 8, 5));
             pMain0.add(getEmailLabel(), cc.xy(6, 10));
             pMain0.add(getTfEmail(), cc.xyw(8, 10, 5));
-//            TODO- put label with indicator if web account alredy exist, and show warning of deletion if making new on same member
-            pMain0.addSeparator("Ne/postoji aktivan nalog..", cc.xyw(8, 11, 6));
+            pMain0.add(getWebAccountIndicatorLabel(), cc.xyw(4, 11, 4));
             pMain0.add(getBtnCreateWebAccount(), cc.xyw(8, 11, 6));
 
             pMain0.addSeparator(Messages.getString("circulation.gender"), cc.xyw(6, 12, 3)); //$NON-NLS-1$
@@ -293,6 +295,13 @@ public class UserData {
             });
         }
         return tfAddress;
+    }
+
+    private JLabel getWebAccountIndicatorLabel() {
+        if (lblWebAccount == null) {
+            lblWebAccount = new JLabel();
+        }
+        return lblWebAccount;
     }
 
     public JLabel getAddressLabel() {
@@ -1465,9 +1474,15 @@ public class UserData {
         getDuplicateTableModel().setData(duplicates);
         this.pincode = pincode;
         if (activatedWebProfile) {
-            btnCreateWebAccount.setEnabled(false);
+//            btnCreateWebAccount.setEnabled(false);
+            this.hasActiveWebAccount = true;
             btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
-            tfEmail.setEnabled(false);
+            getWebAccountIndicatorLabel().setText("Веб налог је активан");
+            getWebAccountIndicatorLabel().setBackground(Color.green);
+//            tfEmail.setEnabled(false);
+        }
+        else {
+            getWebAccountIndicatorLabel().setText("Веб налог није креиран");
         }
     }
 
