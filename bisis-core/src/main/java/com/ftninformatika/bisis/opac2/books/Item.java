@@ -18,6 +18,7 @@ public class Item {
     private String signature;
     private String status;
     private String invNum;
+    private String googleMapLocationURL;
 //    Periodicne sadrze ovo ispod
     private String volume;
     private String year;

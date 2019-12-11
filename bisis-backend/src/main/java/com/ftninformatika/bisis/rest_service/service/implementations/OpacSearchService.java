@@ -232,12 +232,14 @@ public class OpacSearchService {
                 if (sl != null) {
                     i.setLocation(sl.getDescription());
                     i.setLocCode(p.getSigPodlokacija());
+                    i.setGoogleMapLocationURL(sl.getGoogleMapLocationURL());
                 }
                 else {
                     Location l = locationMap.get(p.getInvBroj().substring(0,2));
                     if (l == null) continue;
                     i.setLocCode(l.getCoder_id());
                     i.setLocation(l.getDescription());
+                    i.setGoogleMapLocationURL(l.getGoogleMapLocationURL());
                 }
                 retVal.add(i);
             }
@@ -259,12 +261,14 @@ public class OpacSearchService {
                 if (sl != null) {
                     i.setLocation(sl.getDescription());
                     i.setLocCode(p.getSigPodlokacija());
+                    i.setGoogleMapLocationURL(sl.getGoogleMapLocationURL());
                 }
                 else {
                     Location l = locationMap.get(p.getInvBroj().substring(0,2));
                     if (l == null) continue;
                     i.setLocCode(l.getCoder_id());
                     i.setLocation(l.getDescription());
+                    i.setGoogleMapLocationURL(l.getGoogleMapLocationURL());
                 }
                 retVal.add(i);
             }
