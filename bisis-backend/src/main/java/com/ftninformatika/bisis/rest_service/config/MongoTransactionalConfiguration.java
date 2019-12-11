@@ -28,19 +28,19 @@ public class MongoTransactionalConfiguration extends AbstractMongoConfiguration 
         return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
     }
 
-//    TODO: revert this before deploy to prod
     @Bean
     @Override
     public MongoClient mongoClient() {
+        String profile = environment.getProperty("spring.profiles.active");
+        if ("developmentSingle".equals(profile)) return new MongoClient();
+
         MongoClientURI dbURI = new MongoClientURI(environment.getProperty("spring.data.mongodb.uri"));
         MongoClient client = new MongoClient(dbURI);
         return client;
-//        return new MongoClient();
     }
 
     @Override
     protected String getDatabaseName() {
         return environment.getProperty("spring.data.mongodb.database");
-//        return "bisis";
     }
 }
