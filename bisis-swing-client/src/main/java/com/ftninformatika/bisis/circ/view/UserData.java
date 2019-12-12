@@ -1482,6 +1482,7 @@ public class UserData {
 //            tfEmail.setEnabled(false);
         }
         else {
+            this.hasActiveWebAccount = false;
             getWebAccountIndicatorLabel().setText("Веб налог није креиран");
         }
     }
