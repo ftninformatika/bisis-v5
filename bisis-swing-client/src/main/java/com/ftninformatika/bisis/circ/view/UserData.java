@@ -1168,6 +1168,19 @@ public class UserData {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
+                        if (hasActiveWebAccount) {
+                            int dialogButton = JOptionPane.YES_NO_OPTION;
+                            int dialogResult = JOptionPane.showConfirmDialog (null, "Већ постоји веб налог за овог корнисника, овиме ћете обрисати његов тренутни и послати захтев за прављење новог.","Упозорење",dialogButton);
+                            if(dialogResult == JOptionPane.YES_OPTION){
+                                // Saving code here
+                                String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount();
+                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"),JOptionPane.INFORMATION_MESSAGE);
+
+                            }
+                            else {
+                                return;
+                            }
+                        }
                         String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount();
                         JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"),JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e1) {
