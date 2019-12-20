@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.books_common_merger;
 
 import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.mock.web.MockMultipartFile;
@@ -53,8 +54,8 @@ class BooksCommonMergerUtils {
             BookCommon bookCommon = new BookCommon();
             bookCommon.setIsbn(jo.getString("isbn").trim());
             bookCommon.setUid(UID_COUNTER);
-            bookCommon.setDescription(jo.getString("opis"));
-            bookCommon.setTitle(jo.getString("naslov"));
+            bookCommon.setDescription(LatCyrUtils.toCyrillic(jo.getString("opis")));
+            bookCommon.setTitle(LatCyrUtils.toCyrillic(jo.getString("naslov")));
             return bookCommon;
         } catch (Exception e) {
             e.printStackTrace();
