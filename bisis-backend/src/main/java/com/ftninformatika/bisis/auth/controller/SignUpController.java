@@ -58,7 +58,8 @@ public class SignUpController {
         // Creating account on new email for user who already had account
         if (newMember.getIndex() != null) {
             LibraryMember oldAccount = libraryMemberRepository.findByIndex(newMember.getIndex());
-            libraryMemberRepository.delete(oldAccount);
+            if (oldAccount != null)
+                libraryMemberRepository.delete(oldAccount);
         }
 
         // ADMIN - Creating account on new email for user who already had account
