@@ -47,9 +47,10 @@ public class BookCommonService {
         }
         else if (bookCommon.get_id() == null && bookCommon.getUid() != null) {
             BookCommon bookCommon1 = bookCommonRepository.findByUid(bookCommon.getUid());
-            if (bookCommon1 == null) return null;
-            bookCommon.set_id(bookCommon1.get_id());
-            bookCommon.setImageUrl(bookCommon1.getImageUrl());
+            if (bookCommon1 != null) {
+                bookCommon.set_id(bookCommon1.get_id());
+                bookCommon.setImageUrl(bookCommon1.getImageUrl());
+            }
         }
         if (bookCommon.getUid() == null || (bookCommon.getIsbn() == null && bookCommon.getIssn() == null))
             return null;

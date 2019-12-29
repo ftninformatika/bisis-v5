@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.books_common_merger;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.config.MongoTransactionalConfiguration;
+import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.controller.RecordsController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCommonController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCoverController;
@@ -47,9 +48,11 @@ public class BooksCommonMerger {
         root.setLevel(ch.qos.logback.classic.Level.INFO);
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+        ctx.getEnvironment().setActiveProfiles("production");
         ctx.register(LibraryPrefixProvider.class);
         ctx.register(MongoTransactionalConfiguration.class);
         ctx.register(CommonMergerConfigMongo.class);
+        ctx.register(YAMLConfig.class);
         ctx.register(CommonMergerConfigElastic.class);
         ctx.refresh();
         ctx.scan("com.ftninformatika");
@@ -68,14 +71,14 @@ public class BooksCommonMerger {
                 BookCommon bookCommon = BooksCommonMergerUtils.getBookCommonFromPath(fileName);
                 if (bookCommon == null) {
                     log.warn("Cannot make BookCommon from path: " + fileName);
-                    System.out.println("Cannot make BookCommon from path: " + fileName);
+//                    System.out.println("Cannot make BookCommon from path: " + fileName);
                     continue;
                 }
                 if (!recordsPair.pairBookCommon(bookCommon)) continue;
                 if(!recordsPair.getBookCommonController().saveModifyBookCommon(bookCommon)
                         .getStatusCode().equals(HttpStatus.OK)) {
                     log.error("BookCommon: " + bookCommon.getIsbn() + " is not saved");
-                    System.out.println("BookCommon: " + bookCommon.getIsbn() + " is not saved");
+//                    System.out.println("BookCommon: " + bookCommon.getIsbn() + " is not saved");
                 }
                 BooksCommonMergerUtils.UID_COUNTER++;
 
@@ -87,11 +90,11 @@ public class BooksCommonMerger {
                 MultipartFile coverMultipart = getCoverMultipart(fileName, files);
                 if (!recordsPair.getBookCoverController().uploadImage(bookCommon.getUid(), coverMultipart).getStatusCode().equals(HttpStatus.OK)) {
                     log.info("No cover image for file: " + fileName);
-                    System.out.println("No cover image for file: " + fileName);
+//                    System.out.println("No cover image for file: " + fileName);
                 }
                 else {
                     log.info("Saved image for file: " + fileName);
-                    System.out.println("Saved image for file: " + fileName);
+//                    System.out.println("Saved image for file: " + fileName);
                 }
             }
         } catch (IOException e) {
