@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.pal;
+package com.ftninformatika.bisis.bmb;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,8 +11,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import com.ftninformatika.bisis.LibraryCoders;
-import com.ftninformatika.bisis.ReportApplication;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;

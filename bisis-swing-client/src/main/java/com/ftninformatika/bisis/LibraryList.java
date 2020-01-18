@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis;
 
 public class LibraryList {
-    public static final String[] LIB_PREFIXES = {"bs", "gbns", "bgb", "msk", "pal"};
+    public static final String[] LIB_PREFIXES = {"bs", "gbns", "bgb", "msk", "bmb"};
 
     public static boolean isRegistryEnabled(String lib){
         if (!lib.equals("bgb"))

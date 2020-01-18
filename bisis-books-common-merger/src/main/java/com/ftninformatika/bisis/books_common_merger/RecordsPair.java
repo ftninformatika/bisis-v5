@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.controller.RecordsController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCommonController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCoverController;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
 import lombok.AllArgsConstructor;
@@ -28,22 +29,31 @@ import java.util.List;
 class RecordsPair {
 
     private static Logger log = Logger.getLogger(RecordsPair.class);
-    static String[] LIB_PREFIXES = {"bgb", "gbns", "bs", "msk"};
+    static String[] LIB_PREFIXES = {"bgb", "gbns", "bs", "msk", "bmb"};
 
     private BookCommonController bookCommonController;
     private BookCoverController bookCoverController;
     private RecordsController recordsController;
     private RecordsRepository recordsRepository;
+    private LibraryConfigurationRepository libraryConfigurationRepository;
 
     boolean pairBookCommon(BookCommon bookCommon) {
+        return pairBookCommonWithSelectedLib(bookCommon, LIB_PREFIXES);
+    }
+
+    boolean pairBookCommonWithSelectedLib(BookCommon bookCommon, String[] libPrefixes) {
+        if (libPrefixes != null && libPrefixes.length == 1 && libPrefixes[0].equals("all")) {
+            libPrefixes = LIB_PREFIXES;
+        }
         boolean isPaired = false;
         List<String> isbnPairs = generateIsbnPair(bookCommon.getIsbn());
-        if (isbnPairs == null) {
+        if (isbnPairs == null || libPrefixes == null) {
             log.warn("ISBN invalid: " + (bookCommon.getIsbn() == null ? "null" : bookCommon.getIsbn()));
             System.out.println("ISBN invalid: " + (bookCommon.getIsbn() == null ? "null" : bookCommon.getIsbn()));
             return false;
         }
-        for (String libPref: LIB_PREFIXES) {
+//        TODO: check if passed LibPrefixes exists in config
+        for (String libPref: libPrefixes) {
             LibraryPrefixProvider.setPrefix(libPref);
             for (String isbn: isbnPairs) {
                 SearchModel query = generateIsbnSearchModel(isbn);
@@ -53,11 +63,25 @@ class RecordsPair {
                     System.out.println("No records in library: " + libPref + " for ISBN: " + isbn);
                     continue;
                 }
-                mergeCommonBookUID(records, libPref);
+                mergeCommonBookUID(records, libPref, bookCommon.getUid());
                 isPaired = true;
             }
         }
         return isPaired;
+    }
+
+    private void mergeCommonBookUID(List<Record> records, String libPref, int bcId) {
+        for (Record r: records) {
+            if (r.getCommonBookUid() != null) {
+                log.info("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
+                System.out.println("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
+                continue;
+            }
+            r.setCommonBookUid(bcId);
+            recordsRepository.save(r);
+            log.info("Paired bookCommonUID: " + bcId + " with (" + libPref + ") RN: " + r.getRN());
+            System.out.println("Paired bookCommonUID: " + bcId + " with (" + libPref + ") RN: " + r.getRN());
+        }
     }
 
     private void mergeCommonBookUID(List<Record> records, String libPref) {

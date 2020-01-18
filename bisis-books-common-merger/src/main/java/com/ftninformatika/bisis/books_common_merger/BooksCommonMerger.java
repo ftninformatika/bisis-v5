@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.controller.RecordsController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCommonController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCoverController;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -34,12 +35,13 @@ public class BooksCommonMerger {
     private static Logger log = Logger.getLogger(BooksCommonMerger.class);
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("Please enter path to directory with files as argument!");
+        if (args.length != 2 || (!args[0].equals("m") && !args[0].equals("i"))) {
+            System.out.println("Please enter arguments, if [1]:mode, [2]if mode == i -> path do dir, if mode = m then library suffix!");
             System.exit(0);
         }
+        String mode = args[0];
+        String path = args[1];
 
-        String path = args[0];
         PropertyConfigurator.configure(
                 BooksCommonMerger.class.getResourceAsStream("/log4j.properties"));
         Logger.getLogger(BooksCommonMerger.class).info("\n\n###STARTING\nBISIS5 merging book covers and sinopsis via isbn starting...");
@@ -51,6 +53,7 @@ public class BooksCommonMerger {
         ctx.getEnvironment().setActiveProfiles("production");
         ctx.register(LibraryPrefixProvider.class);
         ctx.register(MongoTransactionalConfiguration.class);
+        ctx.register(LibraryConfigurationRepository.class);
         ctx.register(CommonMergerConfigMongo.class);
         ctx.register(YAMLConfig.class);
         ctx.register(CommonMergerConfigElastic.class);
@@ -62,43 +65,72 @@ public class BooksCommonMerger {
         recordsPair.setRecordsController(ctx.getBean(RecordsController.class));
         recordsPair.setRecordsRepository(ctx.getBean(RecordsRepository.class));
 
-        try (Stream<Path> walk = Files.walk(Paths.get(path))) {
-            List<String> files = walk.filter(Files::isRegularFile).map(Objects::toString).collect(Collectors.toList());
-
-            for (String fileName: files) {
-                if (!fileName.endsWith(".json")) continue;
-
-                BookCommon bookCommon = BooksCommonMergerUtils.getBookCommonFromPath(fileName);
-                if (bookCommon == null) {
-                    log.warn("Cannot make BookCommon from path: " + fileName);
-//                    System.out.println("Cannot make BookCommon from path: " + fileName);
-                    continue;
+        if (mode.equals("m")) {
+            String[] selectedLibs = {path};
+            int sucessCnt = 0;
+            int bcId = 1;
+            while (bcId != 0) {
+                try {
+                    BookCommon bc = recordsPair.getBookCommonController().getBookCommon(bcId).getBody();
+                    if (bc == null) {
+                        bcId = 0;
+                        continue;
+                    }
+                    if (!recordsPair.pairBookCommonWithSelectedLib(bc, selectedLibs)) {
+                        System.out.println("Coulnd pair book common: " + bc.getUid() + " for lib: " + path);
+                        log.warn("Coulnd pair book common: " + bc.getUid() + " for lib: " + path);
+                    } else {
+                        System.out.println("Paired book common " + bc.getUid() + " for lib: " + path);
+                        log.info("Paired book common " + bc.getUid() + " for lib: " + path);
+                        sucessCnt++;
+                    }
+                    bcId++;
                 }
-                if (!recordsPair.pairBookCommon(bookCommon)) continue;
-                if(!recordsPair.getBookCommonController().saveModifyBookCommon(bookCommon)
-                        .getStatusCode().equals(HttpStatus.OK)) {
-                    log.error("BookCommon: " + bookCommon.getIsbn() + " is not saved");
-//                    System.out.println("BookCommon: " + bookCommon.getIsbn() + " is not saved");
-                }
-                BooksCommonMergerUtils.UID_COUNTER++;
-
-                if (!(BooksCommonMergerUtils.bookCoverValid(fileName))) {
-                    log.info("No cover image for file: " + fileName);
-                    System.out.println("No cover image for file: " + fileName);
-                    continue;
-                }
-                MultipartFile coverMultipart = getCoverMultipart(fileName, files);
-                if (!recordsPair.getBookCoverController().uploadImage(bookCommon.getUid(), coverMultipart).getStatusCode().equals(HttpStatus.OK)) {
-                    log.info("No cover image for file: " + fileName);
-//                    System.out.println("No cover image for file: " + fileName);
-                }
-                else {
-                    log.info("Saved image for file: " + fileName);
-//                    System.out.println("Saved image for file: " + fileName);
+                catch (Exception e) {
+                    e.printStackTrace();
+                    bcId = 0;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            log.info("Merged " + sucessCnt + " book common objects with " + path + "libraries!");
+            System.out.println("Merged " + sucessCnt + " book common objects with " + path + "libraries!");
+        }
+        else {
+            try (Stream<Path> walk = Files.walk(Paths.get(path))) {
+                List<String> files = walk.filter(Files::isRegularFile).map(Objects::toString).collect(Collectors.toList());
+                for (String fileName : files) {
+                    if (!fileName.endsWith(".json")) continue;
+
+                    BookCommon bookCommon = BooksCommonMergerUtils.getBookCommonFromPath(fileName);
+                    if (bookCommon == null) {
+                        log.warn("Cannot make BookCommon from path: " + fileName);
+//                    System.out.println("Cannot make BookCommon from path: " + fileName);
+                        continue;
+                    }
+                    if (!recordsPair.pairBookCommon(bookCommon)) continue;
+                    if (!recordsPair.getBookCommonController().saveModifyBookCommon(bookCommon)
+                            .getStatusCode().equals(HttpStatus.OK)) {
+                        log.error("BookCommon: " + bookCommon.getIsbn() + " is not saved");
+//                    System.out.println("BookCommon: " + bookCommon.getIsbn() + " is not saved");
+                    }
+                    BooksCommonMergerUtils.UID_COUNTER++;
+
+                    if (!(BooksCommonMergerUtils.bookCoverValid(fileName))) {
+                        log.info("No cover image for file: " + fileName);
+                        System.out.println("No cover image for file: " + fileName);
+                        continue;
+                    }
+                    MultipartFile coverMultipart = getCoverMultipart(fileName, files);
+                    if (!recordsPair.getBookCoverController().uploadImage(bookCommon.getUid(), coverMultipart).getStatusCode().equals(HttpStatus.OK)) {
+                        log.info("No cover image for file: " + fileName);
+//                    System.out.println("No cover image for file: " + fileName);
+                    } else {
+                        log.info("Saved image for file: " + fileName);
+//                    System.out.println("Saved image for file: " + fileName);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
