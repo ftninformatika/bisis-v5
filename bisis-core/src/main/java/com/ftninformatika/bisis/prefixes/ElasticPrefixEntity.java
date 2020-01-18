@@ -22,6 +22,7 @@ public class ElasticPrefixEntity {
 
     @Id
     String id;
+    long _score;
 
     private Map<String, List<String>> prefixes;
     @Override

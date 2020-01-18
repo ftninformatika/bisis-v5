@@ -1,8 +1,11 @@
-plugins {
-    id 'java'
-}
+apply plugin: 'application'
+apply plugin: 'java'
 
-version 'unspecified'
+version = '5.0.0'
+
+jar {
+    enabled = true
+}
 
 sourceCompatibility = 1.8
 
@@ -19,4 +22,14 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '2.4'
     compile group: 'org.springframework', name: 'spring-mock', version: '2.0'
 
+}
+jar {
+    mainClassName = 'com.ftninformatika.bisis.books_common_merger.BooksCommonMerger'
+    manifest {
+
+        attributes 'Implementation-Title': 'Merging book covers and descriptions by ISBN',
+                'Implementation-Version': version,
+                'Main-Class': 'com.ftninformatika.bisis.books_common_merger.BooksCommonMerger',
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+    }
 }

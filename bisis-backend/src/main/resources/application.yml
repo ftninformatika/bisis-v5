@@ -44,7 +44,7 @@ spring:
       cluster-name: bisis5
       cluster-nodes: localhost:9300
 serverOrigin: https://test.bisis.rs/bisisWS/
-opacOrigin: https://bisis5-opac2.firebaseapp.com/
+opacOrigin: https://opactest.bisis.rs/
 logging:
   level:
     com.ftninformatika: INFO
@@ -86,8 +86,8 @@ spring:
     elasticsearch:
       cluster-name: bisis5
       cluster-nodes: 192.168.45.20:9300, 192.168.45.21:9300
-serverOrigin: https://app.bisis.rs/bisisWS/
-opacOrigin: https://app.bisis.rs/
+serverOrigin: https://opac.bisis.rs/bisisWS/
+opacOrigin: https://opac.bisis.rs/
 logging:
   level:
     com.ftninformatika: INFO
