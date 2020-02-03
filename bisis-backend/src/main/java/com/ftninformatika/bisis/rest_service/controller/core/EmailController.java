@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.controller;
+package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;

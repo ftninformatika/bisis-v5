@@ -1,11 +1,10 @@
-package com.ftninformatika.bisis.rest_service.controller;
+package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ChangePasswordDTO;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
-import com.ftninformatika.bisis.circ.pojo.PasswordResetDTO;
 import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;

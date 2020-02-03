@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.controller;
+package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.pojo.Warning;
@@ -8,7 +8,6 @@ import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
-import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.service.implementations.MemberService;

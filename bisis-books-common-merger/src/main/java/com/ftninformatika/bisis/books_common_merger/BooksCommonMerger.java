@@ -4,7 +4,7 @@ import com.ftninformatika.bisis.opac2.books.BookCommon;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.config.MongoTransactionalConfiguration;
 import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
-import com.ftninformatika.bisis.rest_service.controller.RecordsController;
+import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCommonController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCoverController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;

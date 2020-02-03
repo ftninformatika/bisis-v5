@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.controller;
+package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;

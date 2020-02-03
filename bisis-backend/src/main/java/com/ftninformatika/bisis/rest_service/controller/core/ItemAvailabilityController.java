@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.controller;
+package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;

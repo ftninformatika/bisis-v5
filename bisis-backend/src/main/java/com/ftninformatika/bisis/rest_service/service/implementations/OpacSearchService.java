@@ -11,7 +11,7 @@ import com.ftninformatika.bisis.opac2.books.Item;
 import com.ftninformatika.bisis.opac2.search.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
-import com.ftninformatika.bisis.rest_service.controller.CodersController;
+import com.ftninformatika.bisis.rest_service.controller.core.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;

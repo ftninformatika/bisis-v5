@@ -44,6 +44,7 @@ export class BisisSearchComponent implements OnInit {
     this.libList.push({label: 'Градска библиотека у Новом Саду', value: 'gbns'});
     this.libList.push({label: 'Библиотека шабачка', value: 'bs'});
     this.libList.push({label: 'Библиотека Града Београда', value: 'bgb'});
+    this.libList.push({label: 'Библиотека Милутин Бојић', value: 'bmb'});
   }
 
   ngOnInit() {
@@ -68,7 +69,7 @@ export class BisisSearchComponent implements OnInit {
                                       const labelDesc = (this.selectedLibrary === 'bgb' ) ? this.convert(d.description) : d.description;
                                       this.departmentList.push({label: labelDesc, value: d.coder_id});
                                   });
-                              if (this.selectedLibrary === 'bgb') {
+                              if (this.selectedLibrary === 'bgb' || this.selectedLibrary === 'bmb') {
                                   let selectedDepId = responseDeps[0]['coder_id'];
                                   if (arrayify(responseDeps).some(d => d.coder_id === dep)) {
                                       selectedDepId = dep;
@@ -77,8 +78,6 @@ export class BisisSearchComponent implements OnInit {
                                   }
                                   this.selectedDepartments[0] = selectedDepId;
                                   this.selectionChangedBranch({'value': selectedDepId});
-                              } else {
-                                  this.router.navigate(['/bisis-search']);
                               }
                           }
                       );
