@@ -12,4 +12,5 @@ import lombok.Setter;
 public class UnikatBookRef {
     private String _id;
     private String lib;
+    private String fullLibraryName;
 }

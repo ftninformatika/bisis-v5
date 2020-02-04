@@ -11,6 +11,7 @@ import com.ftninformatika.bisis.unikat.UnikatBook;
 import com.ftninformatika.bisis.unikat.UnikatBookRef;
 import com.ftninformatika.bisis.unikat.UnikatSearchRequest;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import com.ftninformatika.utils.RecordUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,13 @@ public class UnikatService {
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired OpacSearchService opacSearchService;
 
-    public PageImpl<List<UnikatBookRef>> unkatSearch(UnikatSearchRequest unikatSearchRequest, Integer pageNumber, Integer pageSize) {
-        List<UnikatBookRef> retVal = new ArrayList<>();
+    public PageImpl<List<UnikatBook>> unkatSearch(UnikatSearchRequest unikatSearchRequest, Integer pageNumber, Integer pageSize) {
+        List<UnikatBook> retVal;
 
         if (unikatSearchRequest == null || unikatSearchRequest.getSearchModel() == null)
             return null;
 
-        String[] indicesRequestString = null;
+        String[] indicesRequestString;
         // Search selected libs at once
         if(unikatSearchRequest.getSelectedLibs().size() > 0) {
             indicesRequestString = new String[unikatSearchRequest.getSelectedLibs().size()];
@@ -72,33 +73,15 @@ public class UnikatService {
                 .withSort(SortBuilders.fieldSort("prefixes.BN"));
 
         Iterable<ElasticPrefixEntity> ii = elasticsearchTemplate.queryForPage(searchQuery.build(), ElasticPrefixEntity.class);
-
-//        ii.forEach(
-//                elasticPrefixEntity -> {
-//                    String recMongoId = elasticPrefixEntity.getId();
-//                    try {
-//                        String lib = elasticPrefixEntity.getPrefixes().get("libName").get(0);
-//                        LibraryPrefixProvider.setPrefix(lib);
-//                        Optional<Record> r = recordsRepository.findById(recMongoId);
-//                        if (!r.isPresent()) {
-//                            System.out.println("Error getting record: " + recMongoId);
-//                        } else {
-//                            Book b = opacSearchService.getBookByRec(r.get());
-//                            UnikatBookRef ub = new UnikatBookRef(recMongoId, lib);
-//                            retVal.add(ub);
-//                        }
-//                    }
-//                    catch (Exception e) {
-//                        System.out.println("Exception getting record: " + recMongoId);
-//                    }
-//                }
-//        );
         retVal = mergeResults(ii);
 
         return new PageImpl(retVal, p, ((Page<ElasticPrefixEntity>) ii).getTotalElements());
     }
 
-    private List<UnikatBookRef> mergeResults(Iterable<ElasticPrefixEntity> esResults) {
+    private List<UnikatBook> mergeResults(Iterable<ElasticPrefixEntity> esResults) {
+        Map<String, String> libNamesMap = libraryConfigurationRepository.findAll().stream()
+                .filter(lc -> lc.getLibraryName() != null && lc.getLibraryFullName() != null)
+                .collect(Collectors.toMap(LibraryConfiguration::getLibraryName, LibraryConfiguration::getLibraryFullName));
         List<UnikatBook> retVal = new ArrayList<>();
         Map<String, List<UnikatBookRef>> resMap = new HashMap<>();
         esResults.forEach(
@@ -109,22 +92,36 @@ public class UnikatService {
                         isbn = e.getPrefixes().get("BN").get(0);
                     }
                     catch (NullPointerException ne) {
-                        ne.printStackTrace();
+                        return;
                     }
+                    List<String> isbnPair = RecordUtils.generateIsbnPair(isbn);
+                    if (isbnPair == null || isbnPair.size() == 0 && isbn != null)
+                        isbnPair = Arrays.asList(isbn);
                     String library = e.getPrefixes().get("libName").get(0);
-                    List<UnikatBookRef> mapVal = resMap.get(isbn);
-                    if (mapVal == null) {
-                        mapVal = new ArrayList<>();
-                        mapVal.add(new UnikatBookRef(record_id, library));
-                        resMap.put(isbn, mapVal);
+                    String isbn0 = isbnPair.get(0);
+                    String isbn1 = isbnPair.size() == 2 ? isbnPair.get(1) : null;
+                    List<UnikatBookRef> mapVal0 = resMap.get(isbn0);
+                    List<UnikatBookRef> mapVal1 = resMap.get(isbn1);
+                    if (mapVal0 == null && mapVal1 == null) {
+                        List<UnikatBookRef> mapVal = new ArrayList<>();
+                        mapVal.add(new UnikatBookRef(record_id, library, libNamesMap.get(library)));
+                        resMap.put(isbn0, mapVal);
                     }
-                    else {
-                        resMap.get(isbn).add(new UnikatBookRef(record_id, library));
-                    }
+                    else if (mapVal0 != null && mapVal1 == null)
+                        resMap.get(isbn0).add(new UnikatBookRef(record_id, library, libNamesMap.get(library)));
+                    else
+                        resMap.get(isbn1).add(new UnikatBookRef(record_id, library, libNamesMap.get(library)));
                 }
         );
 
 //        TODO: make UnikatBooks from map entries
-        return null;
+        for (String key: resMap.keySet()) {
+            List<UnikatBookRef> bookRefs = resMap.get(key);
+            LibraryPrefixProvider.setPrefix(bookRefs.get(0).getLib());
+            Record r = recordsRepository.findById(bookRefs.get(0).get_id()).get();
+            Book b = opacSearchService.getBookByRec(r);
+            retVal.add(new UnikatBook(b, bookRefs));
+        }
+        return retVal;
     }
 }
