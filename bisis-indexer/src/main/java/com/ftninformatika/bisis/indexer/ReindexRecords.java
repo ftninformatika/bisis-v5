@@ -107,7 +107,7 @@ public class ReindexRecords {
         for (int i = 0; i < pages; i++) {
             List<ElasticPrefixEntity> ep = new ArrayList<>();
             for (Record rec : lr) {
-                Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
+                Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null, libraryName);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id(), prefixes);
                 ep.add(ee);
             }

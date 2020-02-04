@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/book/multiple",
                         "/book/collection",
                         "/opac/**",
+                        "/unikat/search",
                         "/external_hit/**",
                         "/auth",
                         "/book_cover/retrieve/**",

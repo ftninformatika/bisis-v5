@@ -21,8 +21,15 @@ public class PrefixConverter {
 //  }
 
   public static Map<String, List<String>> toMap(Record rec, String stRashod) {
+    return toMap(rec, stRashod, null);
+  }
+
+  public static Map<String, List<String>> toMap(Record rec, String stRashod, String lib) {
     HashMap<String, List<String>> retVal = new HashMap<>();
     List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
+    if (lib != null) {
+      retVal.put("libName", Arrays.asList(lib));
+    }
     for (PrefixValue pv: prefixes) {
       String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value.toLowerCase());
       if (retVal.containsKey(pv.prefName)){
