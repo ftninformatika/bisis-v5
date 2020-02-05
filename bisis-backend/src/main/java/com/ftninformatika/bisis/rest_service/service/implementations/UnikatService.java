@@ -107,10 +107,14 @@ public class UnikatService {
                         mapVal.add(new UnikatBookRef(record_id, library, libNamesMap.get(library)));
                         resMap.put(isbn0, mapVal);
                     }
-                    else if (mapVal0 != null && mapVal1 == null)
-                        resMap.get(isbn0).add(new UnikatBookRef(record_id, library, libNamesMap.get(library)));
-                    else
-                        resMap.get(isbn1).add(new UnikatBookRef(record_id, library, libNamesMap.get(library)));
+                    else if (mapVal0 != null && mapVal1 == null) {
+                        if (!alreadyExist(mapVal0, mapVal1, library))
+                            resMap.get(isbn0).add(new UnikatBookRef(record_id, library, libNamesMap.get(library)));
+                    }
+                    else{
+                        if (!alreadyExist(mapVal0, mapVal1, library))
+                            resMap.get(isbn1).add(new UnikatBookRef(record_id, library, libNamesMap.get(library)));
+                    }
                 }
         );
 
@@ -123,5 +127,11 @@ public class UnikatService {
             retVal.add(new UnikatBook(b, bookRefs));
         }
         return retVal;
+    }
+
+    private boolean alreadyExist(List<UnikatBookRef> refList0, List<UnikatBookRef> refList1, String lib ) {
+        boolean contains0 = (refList0 != null && refList0.stream().anyMatch(i -> i.getLib().equals(lib)));
+        boolean contains1 = (refList1 != null && refList1.stream().anyMatch(i -> i.getLib().equals(lib)));
+        return contains0 || contains1;
     }
 }
