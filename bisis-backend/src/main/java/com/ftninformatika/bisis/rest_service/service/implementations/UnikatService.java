@@ -121,7 +121,6 @@ public class UnikatService {
                 }
         );
 
-//        TODO: make UnikatBooks from map entries
         for (String key: resMap.keySet()) {
             List<UnikatBookRef> bookRefs = resMap.get(key);
             LibraryPrefixProvider.setPrefix(bookRefs.get(0).getLib());
