@@ -87,17 +87,20 @@ public class UnikatService {
         esResults.forEach(
                 e -> {
                     String record_id = e.getId();
-                    String isbn = null;
+                    String isbn;
+                    String library;
                     try {
                         isbn = e.getPrefixes().get("BN").get(0);
+                        library = e.getPrefixes().get("libName").get(0);
                     }
                     catch (NullPointerException ne) {
+                        ne.printStackTrace();
                         return;
                     }
                     List<String> isbnPair = RecordUtils.generateIsbnPair(isbn);
                     if (isbnPair == null || isbnPair.size() == 0 && isbn != null)
                         isbnPair = Arrays.asList(isbn);
-                    String library = e.getPrefixes().get("libName").get(0);
+
                     String isbn0 = isbnPair.get(0);
                     String isbn1 = isbnPair.size() == 2 ? isbnPair.get(1) : null;
                     List<UnikatBookRef> mapVal0 = resMap.get(isbn0);
