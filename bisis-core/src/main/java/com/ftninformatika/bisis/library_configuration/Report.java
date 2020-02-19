@@ -25,5 +25,6 @@ public class Report {
     private String jasper;
     private String subjasper;
     private String reportTitle;
+    private String optionalParam;
 
 }
