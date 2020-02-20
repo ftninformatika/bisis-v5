@@ -1,7 +1,8 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.auth.model.Authority;
-import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
@@ -41,7 +42,45 @@ public class LibraryMemberService {
     @Autowired RecordsRepository recordsRepository;
     @Autowired MemberRepository memberRepository;
     @Autowired LibrarianRepository librarianRepository;
+    @Autowired LendingRepository lendingRepository;
 
+
+    public boolean prolongLending(String authToken, String lendingId) {
+        LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
+        if (libraryMember == null || libraryMember.getIndex() == null)
+            return false;
+
+        Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
+        Optional<Lending> lending = lendingRepository.findById(lendingId);
+        if (!member.isPresent() || !lending.isPresent()
+                || lending.get().getResumeDate() != null || lending.get().getDeadline() == null) return false;
+
+        UserCategory category = member.get().getUserCategory();
+
+        Date deadLineDate = lending.get().getDeadline();
+        Date today = new Date();
+        Date prolongDate = DateUtils.incDecDays(deadLineDate, category.getPeriod());
+        Date maxDate = DateUtils.incDecDays(deadLineDate, category.getMaxPeriod());
+
+        Lending l = lending.get();
+
+        if (prolongDate.before(today))
+            return false;
+
+        if (maxDate.before(prolongDate)) {
+            l.setResumeDate(new Date());
+            l.setDeadline(maxDate);
+            l.setLibrarianResume("member");
+            lendingRepository.save(l);
+            return true;
+        }
+
+        l.setResumeDate(new Date());
+        l.setDeadline(prolongDate);
+        l.setLibrarianResume("member");
+        lendingRepository.save(l);
+        return true;
+    }
 
     /**
      * Gets wrapper object that contains library member (OPAC)

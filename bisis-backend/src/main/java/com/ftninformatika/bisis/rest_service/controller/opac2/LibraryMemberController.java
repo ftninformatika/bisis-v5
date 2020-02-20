@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.controller.core;
+package com.ftninformatika.bisis.rest_service.controller.opac2;
 
 import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
 import com.ftninformatika.bisis.opac2.books.Book;
@@ -35,6 +35,14 @@ public class LibraryMemberController {
     @Autowired LibraryMemberService libraryMemberService;
     @Autowired EmailService emailService;
 
+    @PostMapping("/prolong_lending")
+    public ResponseEntity prolongLending(@RequestHeader("Authorization") String authToken,
+                                         @RequestBody String lendingId) {
+        if (libraryMemberService.prolongLending(authToken, lendingId)) {
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+    }
     @PostMapping("/activate_account")
     public ResponseEntity<Boolean> activateAccount(@RequestBody LibraryMember libraryMember) {
         if (libraryMember == null || libraryMember.getPassword() == null)
