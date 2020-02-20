@@ -96,7 +96,7 @@ public class LibraryMemberController {
         libraryMemberRepository.save(libraryMember);
         try {
             emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("PASSWORD_RESTART_HEADING"),
-                    Texts.getString("PASSWORD_RESTART_BODY") + libraryMember.getActivationToken());
+                    Texts.getString("PASSWORD_RESTART_BODY.0") + libraryMember.getActivationToken());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
