@@ -45,6 +45,9 @@ public class LibraryMemberService {
     @Autowired LendingRepository lendingRepository;
 
 
+    /**
+     * Resume lending for authenticated OPAC user
+     */
     public boolean prolongLending(String authToken, String lendingId) {
         LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
         if (libraryMember == null || libraryMember.getIndex() == null)
@@ -53,7 +56,8 @@ public class LibraryMemberService {
         Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
         Optional<Lending> lending = lendingRepository.findById(lendingId);
         if (!member.isPresent() || !lending.isPresent()
-                || lending.get().getResumeDate() != null || lending.get().getDeadline() == null) return false;
+                || lending.get().getResumeDate() != null || lending.get().getDeadline() == null)
+            return false;
 
         UserCategory category = member.get().getUserCategory();
 

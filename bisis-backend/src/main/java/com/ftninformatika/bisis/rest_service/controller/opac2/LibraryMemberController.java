@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.opac2.dto.ChangePasswordDTO;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
+import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
@@ -18,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -34,6 +37,7 @@ public class LibraryMemberController {
     @Autowired JsonWebTokenAuthenticationService jsonWebTokenAuthenticationService;
     @Autowired LibraryMemberService libraryMemberService;
     @Autowired EmailService emailService;
+    @Autowired YAMLConfig yamlConfig;
 
     @PostMapping("/prolong_lending")
     public ResponseEntity prolongLending(@RequestHeader("Authorization") String authToken,
@@ -68,7 +72,7 @@ public class LibraryMemberController {
         return new ResponseEntity<>(libraryMember, HttpStatus.OK);
     }
 
-    @PostMapping("change_password")
+    @PostMapping("/change_password")
     public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
         if (changePasswordDTO == null || changePasswordDTO.getNewPassword() == null
                 || changePasswordDTO.getUsername() == null)
@@ -86,7 +90,7 @@ public class LibraryMemberController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @PostMapping("forgot_password")
+    @PostMapping("/forgot_password")
     public ResponseEntity<Boolean> forgotPassword(@RequestBody String username) {
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(username);
         if (libraryMember == null)
@@ -96,7 +100,7 @@ public class LibraryMemberController {
         libraryMemberRepository.save(libraryMember);
         try {
             emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("PASSWORD_RESTART_HEADING"),
-                    Texts.getString("PASSWORD_RESTART_BODY.0") + libraryMember.getActivationToken());
+                    MessageFormat.format(Texts.getString("PASSWORD_RESTART_BODY.0"), yamlConfig.getOpacOrigin()) + libraryMember.getActivationToken());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -123,17 +127,5 @@ public class LibraryMemberController {
         if (retVal == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(retVal, HttpStatus.OK);
-    }
-
-    private String randomStringGenerator(){
-        char[] chars = "ABCDEFGIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789".toCharArray();
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 100; i++) {
-            char c = chars[random.nextInt(chars.length)];
-            sb.append(c);
-        }
-        //System.out.println(sb.toString());
-        return sb.toString();
     }
 }
