@@ -186,8 +186,12 @@ public class PrefixConverter {
       dest.add(new PrefixValue("PR", String.valueOf(p.getCena())));
       if (p.getStatus() != null)
           dest.add(new PrefixValue("ST", p.getStatus()));
-      if (p.getInvBroj() != null)
-          dest.add(new PrefixValue("IN", p.getInvBroj()));
+      if (p.getInvBroj() != null) {
+        dest.add(new PrefixValue("IN", p.getInvBroj()));
+//        if (p.getStatus() != null)
+//          dest.add(new PrefixValue("IN_status", p.getStatus() + p.getInvBroj()));
+
+      }
       if (p.getNacinNabavke() != null)
           dest.add(new PrefixValue("AM", p.getNacinNabavke()));
       if (p.getDatumInventarisanja() != null)
@@ -202,6 +206,9 @@ public class PrefixConverter {
           dest.add(new PrefixValue("IR", p.getNapomene()));
       if (p.getOdeljenje() != null)
           dest.add(new PrefixValue("OD",p.getOdeljenje()));
+
+      if (p.getStatus() != null && p.getOdeljenje() != null)
+        dest.add(new PrefixValue("OD_showable",p.getStatus() + p.getOdeljenje()));
 
       ///TODO proveriti kako da se indeksira signatura!!! Trenutno je onako kako se vidi u editoru
       List<PrefixValue> signaturePrefixes = getSignaturePrefixes(p);
@@ -220,6 +227,7 @@ public class PrefixConverter {
       dest.add(new PrefixValue("BI", s.getInventator()));
     if (s.getStatus() != null) {
       dest.add(new PrefixValue("ST", s.getStatus()));
+//      dest.add(new PrefixValue("IN_status", s.getStatus() + s.getInvBroj()));
       if (s.getDatumStatusa() != null)
             dest.add(new PrefixValue("DS", dateFormat.format(s.getDatumStatusa())));
     }
@@ -303,7 +311,7 @@ public class PrefixConverter {
   }
 
     private static List<PrefixValue> getSignaturePrefixes(Primerak p) {
-        return getSignaturePrefixes(p.getSigFormat(), p.getSigPodlokacija(), p.getSigIntOznaka(),
+        return getSignaturePrefixes(p.getStatus(), p.getSigFormat(), p.getSigPodlokacija(), p.getSigIntOznaka(),
                 p.getSigDublet(), p.getSigNumerusCurens(), p.getSigUDK(), null);
     }
 
@@ -312,13 +320,20 @@ public class PrefixConverter {
                 g.getSigDublet(), g.getSigNumerusCurens(), g.getSigUDK(), g.getSigNumeracija());
     }
 
-    private static List<PrefixValue> getSignaturePrefixes(String sigFormat, String sigPodlokacija,
+  private static List<PrefixValue> getSignaturePrefixes(String sigFormat, String sigPodlokacija,
+                                                        String sigIntOznaka, String sigDublet, String sigNumerusCurens, String sigUDK, String sigNumeracija) {
+    return getSignaturePrefixes(null, sigFormat, sigPodlokacija, sigIntOznaka, sigDublet, sigNumerusCurens, sigUDK, sigNumeracija);
+  }
+    private static List<PrefixValue> getSignaturePrefixes(String status, String sigFormat, String sigPodlokacija,
                                                           String sigIntOznaka, String sigDublet, String sigNumerusCurens, String sigUDK, String sigNumeracija) {
         List<PrefixValue> retVal = new ArrayList<>();
         if (sigFormat != null && sigFormat.trim().length() > 0)
             retVal.add(new PrefixValue("SF", sigFormat.trim()));
-        if (sigPodlokacija != null && sigPodlokacija.trim().length() > 0)
-            retVal.add(new PrefixValue("SL", sigPodlokacija.trim()));
+        if (sigPodlokacija != null && sigPodlokacija.trim().length() > 0) {
+          retVal.add(new PrefixValue("SL", sigPodlokacija.trim()));
+          if (status != null)
+            retVal.add(new PrefixValue("SL_showable", status + sigPodlokacija.trim()));
+        }
         if (sigIntOznaka != null && sigIntOznaka.trim().length() > 0)
             retVal.add(new PrefixValue("SW", sigIntOznaka.trim()));
         if (sigDublet != null && sigDublet.trim().length() > 0)

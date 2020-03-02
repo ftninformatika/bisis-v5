@@ -77,8 +77,11 @@ public class OpacSearchService {
 
         BoolQueryBuilder query = ElasticUtility.makeQuery(searchRequest.getSearchModel());
 
+        List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(lib);
+        itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
+
         if (searchRequest.getOptions() != null && searchRequest.getOptions().getFilters() != null)
-            query = ElasticUtility.filterSearch(query, searchRequest.getOptions().getFilters());
+            query = ElasticUtility.filterSearch(query, searchRequest.getOptions().getFilters(), itemStatusList);
         Pageable p = new PageRequest(page, pSize);
 
         NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder()
@@ -197,7 +200,7 @@ public class OpacSearchService {
         return b;
     }
 
-    public List<Item> getItems(Record r, String lib) {
+    List<Item> getItems(Record r, String lib) {
         List<Item> retVal = new ArrayList<>();
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
         Map<String, Sublocation> sublocationMap = sublocationRepository.getCoders(lib).stream().collect(Collectors.toMap(Sublocation::getCoder_id, sl -> sl));
@@ -291,8 +294,11 @@ public class OpacSearchService {
         BoolQueryBuilder query = ElasticUtility.makeQuery(filterRequest.getSearchModel());
         FiltersReq filtersReq = null;
 
+        List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(library);
+        itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
+
         if (filterRequest.getOptions() != null && filterRequest.getOptions().getFilters() != null) {
-            query = ElasticUtility.filterSearch(query, filterRequest.getOptions().getFilters());
+            query = ElasticUtility.filterSearch(query, filterRequest.getOptions().getFilters(), itemStatusList);
             filtersReq = filterRequest.getOptions().getFilters();
         }
 
@@ -310,9 +316,17 @@ public class OpacSearchService {
 
     private Filters extractFiltersFromResults(CloseableIterator<ElasticPrefixEntity> results, FiltersReq filtersReq, String lib) {
         Filters filters = new Filters();
-        List<String> prefixes = Arrays.asList("authors_raw", "PY", "DT", "LA", "OD", "SL", "subjects_raw");
+        List<String> prefixes = Arrays.asList("authors_raw", "PY", "DT", "LA", "OD_showable", "SL_showable", "subjects_raw");
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
         Map<String, Sublocation> sublocationMap = sublocationRepository.getCoders(lib).stream().collect(Collectors.toMap(Sublocation::getCoder_id, sl -> sl));
+
+        List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(lib);
+        itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
+        String activeStatusesRegex = "";
+        if (itemStatusList != null && itemStatusList.size() > 0) {
+            activeStatusesRegex = "(" + itemStatusList.stream().map(ItemStatus::getCoder_id).collect(Collectors.joining("|")) + ").*";
+        }
+
         for (String key: locationMap.keySet()) {
             Location l = locationMap.get(key);
             l.setDescription(LatCyrUtils.toCyrillic(l.getDescription()));
@@ -395,9 +409,11 @@ public class OpacSearchService {
                             }
                         }
                         break;
-                    case "OD":
+                    case "OD_showable":
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
-                            String val = ee.getPrefixes().get(prefix).get(i);
+                            String fullVal = ee.getPrefixes().get(prefix).get(i);
+                            if (!fullVal.matches(activeStatusesRegex)) continue;
+                            String val = fullVal.substring(1);
                             if (filters.getLocationByValue(val) == null) {
                                 Location l = locationMap.get(val);
                                 if (l == null) continue;
@@ -409,10 +425,12 @@ public class OpacSearchService {
                             }
                         }
                         break;
-                    case "SL": {
+                    case "SL_showable": {
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
-                            String val = ee.getPrefixes().get(prefix).get(i);
-                            if (subLocationCount.get(val) != null)
+                            String fullVal = ee.getPrefixes().get(prefix).get(i);
+                            if (!fullVal.matches(activeStatusesRegex)) continue;
+                            String val = fullVal.substring(1);
+                            if (val != null && val.length() > 1 && subLocationCount.get(val) != null)
                                 subLocationCount.put(val, subLocationCount.get(val) + 1);
                         }
                     } break;
@@ -437,7 +455,7 @@ public class OpacSearchService {
             String loc = null;
             int count = subLocationCount.get(slKey);
 //            TODO- change this to read from some config prop if it is higher hierarchy with sub locations, like BGB
-            if (slKey.length() == 4)
+            if (slKey.length() == 4 && slKey.matches("[0-9]+"))
                 loc = slKey.substring(0, 2);
             else continue;
             if (filters.getLocationByValue(loc) != null && count > 0)
@@ -472,7 +490,7 @@ public class OpacSearchService {
     private String getPubTypeLabel(String val) {
         String lbl = null;
         switch (val) {
-            case "a": lbl = "Аналитичке"; break;
+            case "a": lbl = "Чланци"; break;
             case "c": lbl = "Збирке- нумерисана";break;
             case "d": lbl = "Изведени радови";break;
             case "e": lbl = "Збирке- ненумерисана";break;

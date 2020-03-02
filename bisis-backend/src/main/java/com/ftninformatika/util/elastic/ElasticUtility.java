@@ -1,5 +1,6 @@
 package com.ftninformatika.util.elastic;
 
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.opac2.search.FiltersReq;
 import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
 import com.ftninformatika.bisis.opac2.search.SelectedFilter;
@@ -280,16 +281,19 @@ public class ElasticUtility {
         return retVal;
     }
 
-    public static BoolQueryBuilder filterSearch(BoolQueryBuilder queryBuilder, FiltersReq filtersReq) {
+    public static BoolQueryBuilder filterSearch(BoolQueryBuilder queryBuilder, FiltersReq filtersReq, List<ItemStatus> itemStatusList) {
         if (queryBuilder == null) return null;
-//        BoolQueryBuilder retVal = queryBuilder;
         if (filtersReq == null) return queryBuilder;
+
+        String activeStatusesRegex = "";
+        if (itemStatusList != null && itemStatusList.size() > 0) {
+            activeStatusesRegex = "(" + itemStatusList.stream().map(ItemStatus::getCoder_id).collect(Collectors.joining("|")) + ")";
+        }
 
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
         retVal.must(queryBuilder);
 
         if (filtersReq.getLanguages() != null && filtersReq.getLanguages().size() > 0) {
-            BoolQueryBuilder bq = null;
             for (SelectedFilter lan: filtersReq.getLanguages()) {
                 if (lan.getItem() != null && lan.isValid() && !lan.getItem().getValue().equals(FiltersReq.MERGE_FILTER_SERBIAN)) {
                     retVal.must(QueryBuilders.matchQuery("prefixes.LA", lan.getItem().getValue()));
@@ -316,15 +320,23 @@ public class ElasticUtility {
 
         if (filtersReq.getLocations() != null && filtersReq.getLocations().size() > 0) {
             for (SelectedFilter e: filtersReq.getLocations()) {
-                if (e.getItem() != null && e.isValid())
+                if (e.getItem() != null && e.isValid()) {
                     retVal.must(QueryBuilders.matchQuery("prefixes.OD", e.getItem().getValue()));
+                    if (e.getItem().getValue().matches("[0-9]+") && e.getItem().getValue().length() == 2) {
+                        retVal.must(QueryBuilders.regexpQuery("prefixes.OD_showable", activeStatusesRegex + e.getItem().getValue()));
+                    }
+                }
             }
         }
 
         if (filtersReq.getSubLocations() != null && filtersReq.getSubLocations().size() > 0) {
             for (SelectedFilter e: filtersReq.getSubLocations()) {
-                if (e.getItem() != null && e.isValid())
+                if (e.getItem() != null && e.isValid()) {
                     retVal.must(QueryBuilders.matchQuery("prefixes.SL", e.getItem().getValue()));
+                    if (e.getItem().getValue().matches("[0-9]+") && e.getItem().getValue().length() == 4) {
+                        retVal.must(QueryBuilders.regexpQuery("prefixes.SL_showable", activeStatusesRegex + e.getItem().getValue()));
+                    }
+                }
             }
         }
 
