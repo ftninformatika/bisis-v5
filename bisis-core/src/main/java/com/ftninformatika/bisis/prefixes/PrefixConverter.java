@@ -50,7 +50,7 @@ public class PrefixConverter {
         String acPrefRaw = acPref + AUTOCOMPLETE_RAW_SUFFIX;
         if (acPref.equals("authors")) {
           valueUnaccented = StringUtils.removeDigitsFromString(valueUnaccented);
-          pv.value = WordUtils.capitalizeFully(StringUtils.removeDigitsFromString(pv.value).replace("-", ""));
+          pv.value = WordUtils.capitalizeFully(StringUtils.removeDigitsFromString(pv.value).replace("-", " "));
         }
         if (retVal.containsKey(acPref) && retVal.containsKey(acPrefRaw)){
           List listNormalized = retVal.get(acPref);
