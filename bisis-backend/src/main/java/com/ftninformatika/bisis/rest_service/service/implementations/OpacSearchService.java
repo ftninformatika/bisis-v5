@@ -149,6 +149,7 @@ public class OpacSearchService {
             Book retVal = getBookByRec(record.get());
             retVal.setItems(getItems(record.get(), lib));
             retVal.setRecord(record.get());
+            fillMasterRecordInfo(record.get(), retVal);
             String isbdHtml = ReportCore.makeOne(record.get(), false, libraryConfiguration);
             retVal.setIsbdHtml(isbdHtml);
             return retVal;
@@ -156,7 +157,55 @@ public class OpacSearchService {
         return null;
     }
 
-    public Book getBookByRec(Record r) {
+    void fillMasterRecordInfo(Record r, Book b) {
+        if (r == null || b == null)
+            return;
+        Integer masterRN = null;
+        List<Field> _464s = r.getFields("464");
+        List<Field> _474s = r.getFields("474");
+        for (Field f: _464s) {
+            if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
+                continue;
+                String _4641 = f.getSubfieldContent('1').trim();
+                if (_4641.split(" ").length > 1)
+                    _4641 = _4641.split(" ")[0];
+                if (_4641.matches("[0-9]+")) {
+                    masterRN = Integer.parseInt(_4641);
+                    break;
+                }
+        }
+        if (masterRN == null) {
+            for (Field f: _474s) {
+                if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
+                    continue;
+                String _4741 = f.getSubfieldContent('1').trim();
+                if (_4741.split(" ").length > 1)
+                    _4741 = _4741.split(" ")[0];
+                if (!_4741.matches("[0-9]+"))
+                    continue;
+                masterRN = Integer.parseInt(_4741);
+                break;
+
+            }
+        }
+        if (masterRN == null)
+            return;
+        Record masterRecord = recordsRepository.getByRn(masterRN);
+        if (masterRecord == null)
+            return;
+        b.setMasterRecordId(masterRecord.get_id());
+        RecordPreview rp = new RecordPreview();
+        rp.init(masterRecord);
+        String masterTitle = rp.getTitle();
+        if (r.getSubfieldContent("001d") != null && r.getSubfieldContent("001d").equals("2")
+            && r.getSubfieldContent("215a") != null) {
+            masterTitle += " " + LatCyrUtils.toCyrillic(r.getSubfieldContent("215a").trim());
+        }
+        b.setMasterRecordTitle(masterTitle);
+    }
+
+
+    Book getBookByRec(Record r) {
         Book b = new Book();
         b.set_id(r.get_id());
         RecordPreview rp = new RecordPreview();
@@ -184,19 +233,7 @@ public class OpacSearchService {
                 b.setCommonBookUID(bc.getUid());
             }
         }
-        Optional<ElasticPrefixEntity> ee = elasticRecordsRepository.findById(r.get_id());
-        if (!ee.isPresent()) return b;
-        Set<String> otherAuthorsUnique = new HashSet<>();
-        String authorUniq = getAuthorNormalizedStr(rp.getAuthor());
-        if (ee.get().getPrefixes().get("authors_raw") != null && ee.get().getPrefixes().get("authors_raw").size() > 0) {
-            for (String au: ee.get().getPrefixes().get("authors_raw")) {
-                String uniq = getAuthorNormalizedStr(au);
-                if (authorUniq == null || uniq == null || otherAuthorsUnique.contains(uniq)
-                        || authorUniq.equals(uniq) || au.equals("")) continue;
-                b.getOtherAuthors().add(au);
-                otherAuthorsUnique.add(uniq);
-            }
-        }
+        b.setOtherAuthors(rp.getOtherAuthors());
         return b;
     }
 

@@ -39,6 +39,8 @@ public class Book {
     private List<Item> items = null;
     private int totalRatings;
     private AvgRecordRating avgRating;
+    private String masterRecordTitle;
+    private String masterRecordId;
 //    Data from books_common collection
     private String imageUrl;
     private String description;

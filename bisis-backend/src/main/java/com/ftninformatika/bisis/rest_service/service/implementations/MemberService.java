@@ -55,6 +55,8 @@ public class MemberService {
 
         for(Lending l:lendings){
             r = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
+            if (r == null)
+                continue;
             book = opacSearchService.getBookByRec(r);
 
             Report report = new Report();
