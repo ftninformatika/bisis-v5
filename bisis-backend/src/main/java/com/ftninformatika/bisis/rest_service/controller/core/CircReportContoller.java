@@ -308,6 +308,8 @@ public class CircReportContoller {
                     r = records.get(0);
                 e.printStackTrace();
             }
+            if (r == null)
+                continue;
             String rn = r.getSubfieldContent("001e");
             String udk = r.getSubfieldContent("675a");
             if (report == null || rn == null || udk == null)
