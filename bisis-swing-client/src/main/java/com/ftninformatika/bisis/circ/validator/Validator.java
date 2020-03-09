@@ -215,8 +215,13 @@ public class Validator {
       	 if (ctlgno.startsWith("P")){
       		 return ctlgno.substring(1);
       	 }
+
+      	 int ctlgnoLength = Cirkulacija.getApp().getEnvironment().getCtlgnoLength();
+
+      	 if (ctlgno.length() == ctlgnoLength && ctlgno.matches("[0-9]+")) {
+      	     return ctlgno;
+         }
       	 
-         int ctlgnoLength = Cirkulacija.getApp().getEnvironment().getCtlgnoLength();
          int locLength = Cirkulacija.getApp().getEnvironment().getCtlgnoLocationLength();
          int bookLength = Cirkulacija.getApp().getEnvironment().getCtlgnoBookLength();
          int locDef = Cirkulacija.getApp().getEnvironment().getCtlgnoDefaultLocation();
