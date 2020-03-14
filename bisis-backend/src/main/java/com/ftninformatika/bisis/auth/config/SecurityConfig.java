@@ -59,6 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/library_members/forgot_password/**",
                         "/library_members/activate_account/**",
                         "/coders/location**",
+                        "/coders/sublocation**",
+                        "/coders/sublocation/**",
                         "/coders/item_status**",
                         "/coders/sublocation/get_by_location**").permitAll()
                 .antMatchers(

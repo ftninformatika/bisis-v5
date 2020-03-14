@@ -10,4 +10,8 @@ public interface SublocationRepository extends MongoRepository<Sublocation, Stri
 
     @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
     public List<Sublocation> getCoders(String libName);
+
+
+    @Query("{'coder_id': ?0, 'library': ?1}")
+    Sublocation getByCoder_Id(String coder_id, String lib);
 }

@@ -6,9 +6,9 @@ import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,63 +21,34 @@ import java.util.stream.Collectors;
 public class CodersController {
 
     @Autowired AcquisitionRepository acqrep;
-
     @Autowired AvailabilityRepository availrep;
-
     @Autowired AccessionRegisterRepository accregrep;
-
     @Autowired BindingRepository bindrep;
-
     @Autowired FormatRepository formrep;
-
     @Autowired InternalMarkRepository intmrep;
-
     @Autowired ItemStatusRepository statrep;
-
     @Autowired LocationRepository locrep;
-
     @Autowired SublocationRepository sublocrep;
-
     @Autowired TaskRepository taskrep;
-
     @Autowired EducationLvlRepository edurep;
-
     @Autowired LanguageRepository langrep;
-
-    @Autowired
-    MembershipRepository mbrshiprep;
-
-    @Autowired
-    MembershipTypeRepository mbrtyperep;
-
+    @Autowired MembershipRepository mbrshiprep;
+    @Autowired MembershipTypeRepository mbrtyperep;
     @Autowired PlaceRepository placerep;
-
     @Autowired UserCategRepository usrcategrep;
-
     @Autowired WarningTypeRepository warnrep;
-
     @Autowired WarningCounterRepository warncountrep;
-
-    @Autowired
-    OrganizationRepository orgrep;
-
+    @Autowired OrganizationRepository orgrep;
     @Autowired ProcessTypeRepository processTypeRepository;
-
     @Autowired CircLocationRepository circLocationRepository;
-
-    @Autowired
-    CorporateMemberRepository corporateMemberRepository;
-
-    @Autowired
-    LibraryConfigurationRepository libraryConfigurationRepository;
-
+    @Autowired CorporateMemberRepository corporateMemberRepository;
+    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired CounterRepository counterRepository;
 
     @RequestMapping( path = "process_types")
     public ProcessTypeDTO addProcessType(@RequestBody ProcessTypeDTO pt){
       //  ProcessTypeDTO processTypeDTO = processTypeRepository.findByNameAndLibName(pt.getName(),pt.getLibName());
         return processTypeRepository.save(pt);
-
     }
 
     @RequestMapping(path = "process_types/getByLibrary")
@@ -135,6 +106,15 @@ public class CodersController {
         return sublocrep.getCoders(libName);
     }
 
+    @RequestMapping(path = "sublocation/get_by_coder_id")
+    public Sublocation getSublocationByCoderId(@RequestParam("coderId") String coderId, @RequestParam("lib") String lib) {
+        Sublocation sl = sublocrep.getByCoder_Id(coderId, lib);
+        if (sl != null && sl.getDescription() != null) {
+            sl.setDescription(LatCyrUtils.toCyrillic(sl.getDescription()));
+        }
+        return sl;
+    }
+
     @RequestMapping(path = "sublocation/get_by_location")
     public List<Sublocation> getSublocationsByLocation(@RequestParam("loc") String loc, @RequestParam("lib") String lib) {
         List<Sublocation> retVal = sublocrep.getCoders(lib).stream().filter(s -> s.getCoder_id().startsWith(loc)).collect(Collectors.toList());
@@ -157,11 +137,9 @@ public class CodersController {
     @RequestMapping(path = "education", method = RequestMethod.POST)
     public ArrayList<Object> insertUpdateEduLvl(@RequestBody EducationLvl educationLvl){
         ArrayList<Object> retVal = new ArrayList<>();
-
         EducationLvl el = edurep.save(educationLvl);
         retVal.add(0, el.get_id());
         retVal.add(1, el.getDescription());
-
         return retVal;
     }
 
@@ -190,12 +168,10 @@ public class CodersController {
     @RequestMapping(path = "place", method = RequestMethod.POST)
     public ArrayList<Object> insertEditPlace(@RequestBody Place newPlace) {
         ArrayList<Object> retVal = new ArrayList<>();
-
         Place place = placerep.save(newPlace);
         retVal.add(0, place.get_id());
         retVal.add(1, place.getZip());
         retVal.add(2, place.getCity());
-
         return retVal;
     }
 
@@ -222,15 +198,12 @@ public class CodersController {
 
     @RequestMapping(path = "warning_counter", method = RequestMethod.POST)
     public ArrayList<Object> insertEditWarningCounters(@RequestBody WarningCounter newWC){
-
         warncountrep.save(newWC);
-
         ArrayList<Object> retVal = new ArrayList<>();
         retVal.add(0, newWC.get_id());
         retVal.add(1, newWC.getWarnYear());
         retVal.add(2, newWC.getWarningType());
         retVal.add(3, newWC.getLastNo());
-
         return retVal;
     }
 
@@ -246,14 +219,12 @@ public class CodersController {
     @RequestMapping(path = "organization", method = RequestMethod.POST)
     public ArrayList<Object> insertEditOrganization(@RequestBody Organization organization){
         ArrayList<Object> retVal = new ArrayList<>();
-
         Organization org = orgrep.save(organization);
         retVal.add(0, org.get_id());
         retVal.add(1, org.getName());
         retVal.add(2, org.getAddress());
         retVal.add(3, org.getCity());
         retVal.add(4, org.getZip());
-
         return retVal;
     }
 
