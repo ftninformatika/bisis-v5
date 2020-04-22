@@ -13,6 +13,7 @@ import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
@@ -31,7 +32,10 @@ public interface BisisService {
     @POST("auth")
     Call<ResponseBody> getToken(@Body UserCredentials creds);
 
-    @GET("configs/search/getByLibraryName")
+//    @GET("configs/search/getByLibraryName")
+//    Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
+
+    @GET("library_configuration/forLib")
     Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
 
     @GET("library_configuration/findAllByLibraryNameNotLike")
@@ -89,8 +93,8 @@ public interface BisisService {
     @GET("librarians/getByUsername")
     Call<LibrarianDTO> getLibrarianByUsername(@Query("username") String username);
 
-    @GET("mongo_repository_librarians/search/getByUsername")
-    Call<LibrarianDTO> getLibrarian(@Query("username") String username);
+//    @GET("mongo_repository_librarians/search/getByUsername")
+//    Call<LibrarianDTO> getLibrarian(@Query("username") String username);
 
     @GET("librarians/getByLibrary")
     Call<List<LibrarianDTO>> getAllLibrarinasInThisLibrary(@Query("library") String library);
@@ -281,7 +285,10 @@ public interface BisisService {
     @GET("coders/organization/delete")
     Call<Boolean> deleteOrganization(@Query("_id")String _id);
 
-    @GET("circ_configs/search/findByLibrary")
+//    @GET("circ_configs/search/findByLibrary")
+//    Call<CircConfig> getCircConfigs(@Query("libname") String libName);
+
+    @GET("circ_configuration/get_by_library")
     Call<CircConfig> getCircConfigs(@Query("libname") String libName);
 
     @POST("circ_configuration/save")
@@ -441,5 +448,6 @@ public interface BisisService {
     @POST("registries")
     Call<GenericRegistry> addRegistryForType(@Body GenericRegistry obj);
 
-
+    @POST("signup/opac")
+    Call<LibraryMember> createWebAccount(@Body LibraryMember libraryMember);
 }

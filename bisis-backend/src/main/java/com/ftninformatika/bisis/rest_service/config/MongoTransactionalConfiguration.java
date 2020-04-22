@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 @Configuration
 @EnableConfigurationProperties
@@ -23,8 +24,16 @@ public class MongoTransactionalConfiguration extends AbstractMongoConfiguration 
     }
 
     @Bean
+    public GridFsTemplate gridFsTemplate() throws Exception {
+        return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
+    }
+
+    @Bean
     @Override
     public MongoClient mongoClient() {
+        String profile = environment.getProperty("spring.profiles.active");
+        if ("developmentSingle".equals(profile)) return new MongoClient();
+
         MongoClientURI dbURI = new MongoClientURI(environment.getProperty("spring.data.mongodb.uri"));
         MongoClient client = new MongoClient(dbURI);
         return client;

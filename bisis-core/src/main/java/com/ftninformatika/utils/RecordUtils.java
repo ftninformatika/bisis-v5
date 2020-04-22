@@ -75,4 +75,63 @@ public class RecordUtils {
 
         return retVal;
     }
+
+    /**
+     * Neki isbn su uneti u formatu [10] a neki u formatu [13]
+     * pretragu vrsimo za obe varijante jer referenciraju isti zapis
+     */
+    public static List<String> generateIsbnPair(String isbn) {
+        List<String> isbnPair = new ArrayList<>();
+        if (!validateIsbn(isbn)) return null;
+        isbnPair.add(isbn);
+        String isbnSecFormat;
+        if (!validateIsbn10(isbn)) {
+            isbnSecFormat = isbn.substring(3).replaceAll("-", "").trim();
+            isbnPair.add(isbnSecFormat);
+            return isbnPair;
+        }
+        if (!validateIsbn13(isbn)) {
+            isbnSecFormat = 978 + isbn.replaceAll("-", "").trim();
+            isbnPair.add(isbnSecFormat);
+            return isbnPair;
+        }
+        return isbnPair;
+    }
+
+    private static boolean validateIsbn(String isbn) {
+        return  validateIsbn10(isbn) || validateIsbn13(isbn);
+    }
+
+    private static boolean validateIsbn10(String isbn) {
+        if (isbn == null) {
+            return false;
+        }
+        isbn = isbn.replaceAll( "-", "" ).trim().replace(" ", "");
+        if (isbn.length() != 10) {
+            return false;
+        }
+        try {
+            Double.parseDouble(isbn.substring(0, 9));
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
+
+    private static boolean validateIsbn13(String isbn) {
+        if ( isbn == null ) {
+            return false;
+        }
+        isbn = isbn.replaceAll( "-", "" ).trim().replace(" ", "");
+        if (isbn.length() != 13) {
+            return false;
+        }
+        try {
+            Double.parseDouble(isbn.substring(0, 12));
+            return true;
+        }
+        catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
 }

@@ -5,7 +5,7 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.search.SearchModelMember;
-import com.ftninformatika.utils.RegeexUtils;
+import com.ftninformatika.utils.RegexUtils;
 import com.ftninformatika.utils.date.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -312,7 +312,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         if (text != null && !text.equals("") && !fromLendings.contains(prefix)) {
 
             if (SearchModelMember.PREDEFINED_VALUE_PREFIXES.contains(prefix)) {
-                text = RegeexUtils.escapeSpecialRegexChars(text);
+                text = RegexUtils.escapeSpecialRegexChars(text);
             }
             if (!text.startsWith("*")) {
                 text = "^" + text;

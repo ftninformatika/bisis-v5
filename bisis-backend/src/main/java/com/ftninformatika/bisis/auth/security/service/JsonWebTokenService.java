@@ -1,8 +1,9 @@
 package com.ftninformatika.bisis.auth.security.service;
 
 import com.ftninformatika.bisis.auth.exception.model.ServiceException;
+import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.auth.model.LibrarianUser;
-import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -10,6 +11,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,7 +24,7 @@ import java.util.Map;
 @Service
 public class JsonWebTokenService implements TokenService {
 
-    private static int tokenExpirationTime = 30;
+    private static int tokenExpirationTime = 480;
 
     @Value("security.token.secret.key")
     private String tokenKey;
@@ -34,8 +36,7 @@ public class JsonWebTokenService implements TokenService {
         this.userDetailsService = userDetailsService;
     }
 
-    @Autowired
-    LibraryMemberRepository libraryMemberRepository;
+    @Autowired LibraryMemberRepository libraryMemberRepository;
 
     @Override
     public String getToken(final String username, final String password) {
@@ -67,8 +68,13 @@ public class JsonWebTokenService implements TokenService {
             return null;
         }
         final LibraryMember user = libraryMemberRepository.findByUsername(username); //email im je username
+
+        if (user == null || !BCrypt.checkpw(password, user.getPassword()))
+            return null;
+
         Map<String, Object> tokenData = new HashMap<>();
-        if (password.equals(user.getPassword())) {
+        if (BCrypt.checkpw(password, user.getPassword())) {
+//            if (user.getAuthorities().contains(Authority.ROLE_ADMIN)) tokenData.put("clientType", "librarian");
             tokenData.put("clientType", "member");
             tokenData.put("userID", user.get_id());
             tokenData.put("username", user.getUsername());
@@ -81,9 +87,7 @@ public class JsonWebTokenService implements TokenService {
             //jwtBuilder.setExpiration(calendar.getTime());
             jwtBuilder.setClaims(tokenData);
             String encriptedToken = jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
-
-
-            user.setToken(encriptedToken);
+            user.setAuthToken(encriptedToken);
             user.setLastActivity(new Date());
             libraryMemberRepository.save(user);
             return encriptedToken;

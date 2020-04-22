@@ -3,6 +3,8 @@ package com.ftninformatika.bisis.prefixes;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
+import com.ftninformatika.utils.string.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,11 +19,17 @@ public class PrefixConverter {
 //    }
 //    return retVal;
 //  }
-//  public static String endPhraseFlag = " 0end0";
 
   public static Map<String, List<String>> toMap(Record rec, String stRashod) {
+    return toMap(rec, stRashod, null);
+  }
+
+  public static Map<String, List<String>> toMap(Record rec, String stRashod, String lib) {
     HashMap<String, List<String>> retVal = new HashMap<>();
     List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
+    if (lib != null) {
+      retVal.put("libName", Arrays.asList(lib));
+    }
     for (PrefixValue pv: prefixes) {
       String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value.toLowerCase());
       if (retVal.containsKey(pv.prefName)){
@@ -30,15 +38,58 @@ public class PrefixConverter {
          retVal.get(pv.prefName).add(valueUnaccented);
         }
       } else {
-        List list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         list.add(valueUnaccented);
         retVal.put(pv.prefName, list);
+      }
+//      Posebna vrsta indeksiranih polja, namenjena za autocomplete
+//      ne koristimo iste indekse jer treba da budu tretirane kao
+//      keywords prilikom pretrage
+      if (autocompletePrefixMap.keySet().contains(pv.prefName)) {
+        String acPref = autocompletePrefixMap.get(pv.prefName);
+        String acPrefRaw = acPref + AUTOCOMPLETE_RAW_SUFFIX;
+        if (acPref.equals("authors")) {
+          valueUnaccented = StringUtils.removeDigitsFromString(valueUnaccented);
+          pv.value = WordUtils.capitalizeFully(StringUtils.removeDigitsFromString(pv.value).replace("-", " "));
+        }
+        if (retVal.containsKey(acPref) && retVal.containsKey(acPrefRaw)){
+          List listNormalized = retVal.get(acPref);
+          List listRaw = retVal.get(acPrefRaw);
+          if (!listNormalized.contains(valueUnaccented)) {
+            retVal.get(acPref).add(valueUnaccented);
+          }
+          if (!listRaw.contains(pv.value)) {
+            retVal.get(acPrefRaw).add(pv.value);
+          }
+        } else {
+          List<String> listNormalized = new ArrayList<>();
+          listNormalized.add(valueUnaccented);
+          List<String> listRaw = new ArrayList<>();
+          listRaw.add(pv.value);
+          retVal.put(acPref, listNormalized);
+          retVal.put(acPrefRaw, listRaw);
+        }
+      }
+//      Posebni indeksi za sortiranje, moraju da sadrze po jednu vrenost
+      if (sortPrefixMap.keySet().contains(pv.prefName)) {
+        String sortPref = sortPrefixMap.get(pv.prefName);
+        List<String> singleValList = new ArrayList<>();
+        List<String> valList = retVal.get(pv.prefName);
+        if (valList != null && valList.size() > 0) {
+          switch (pv.prefName) {
+            case "AU": singleValList.add(StringUtils.removeDigitsFromString(valList.get(0))); break;
+            case "PY": singleValList.add(StringUtils.removeNonDigitsFromString(valList.get(0))); break;
+            case "PU": singleValList.add(valList.get(0)); break;
+            case "TI": singleValList.add(valList.get(0)); break;
+          }
+        }
+        if (singleValList.get(0) != null)
+          retVal.put(sortPref, singleValList);
       }
     }
     if (retVal.get("IN") != null && retVal.get("IN").size() > 1) {
       retVal.get("IN").sort(Comparator.naturalOrder());
     }
-
     return retVal;
   }
 
@@ -135,8 +186,12 @@ public class PrefixConverter {
       dest.add(new PrefixValue("PR", String.valueOf(p.getCena())));
       if (p.getStatus() != null)
           dest.add(new PrefixValue("ST", p.getStatus()));
-      if (p.getInvBroj() != null)
-          dest.add(new PrefixValue("IN", p.getInvBroj()));
+      if (p.getInvBroj() != null) {
+        dest.add(new PrefixValue("IN", p.getInvBroj()));
+//        if (p.getStatus() != null)
+//          dest.add(new PrefixValue("IN_status", p.getStatus() + p.getInvBroj()));
+
+      }
       if (p.getNacinNabavke() != null)
           dest.add(new PrefixValue("AM", p.getNacinNabavke()));
       if (p.getDatumInventarisanja() != null)
@@ -151,6 +206,9 @@ public class PrefixConverter {
           dest.add(new PrefixValue("IR", p.getNapomene()));
       if (p.getOdeljenje() != null)
           dest.add(new PrefixValue("OD",p.getOdeljenje()));
+
+      if (p.getStatus() != null && p.getOdeljenje() != null)
+        dest.add(new PrefixValue("OD_showable",p.getStatus() + p.getOdeljenje()));
 
       ///TODO proveriti kako da se indeksira signatura!!! Trenutno je onako kako se vidi u editoru
       List<PrefixValue> signaturePrefixes = getSignaturePrefixes(p);
@@ -169,6 +227,7 @@ public class PrefixConverter {
       dest.add(new PrefixValue("BI", s.getInventator()));
     if (s.getStatus() != null) {
       dest.add(new PrefixValue("ST", s.getStatus()));
+//      dest.add(new PrefixValue("IN_status", s.getStatus() + s.getInvBroj()));
       if (s.getDatumStatusa() != null)
             dest.add(new PrefixValue("DS", dateFormat.format(s.getDatumStatusa())));
     }
@@ -252,7 +311,7 @@ public class PrefixConverter {
   }
 
     private static List<PrefixValue> getSignaturePrefixes(Primerak p) {
-        return getSignaturePrefixes(p.getSigFormat(), p.getSigPodlokacija(), p.getSigIntOznaka(),
+        return getSignaturePrefixes(p.getStatus(), p.getSigFormat(), p.getSigPodlokacija(), p.getSigIntOznaka(),
                 p.getSigDublet(), p.getSigNumerusCurens(), p.getSigUDK(), null);
     }
 
@@ -261,13 +320,20 @@ public class PrefixConverter {
                 g.getSigDublet(), g.getSigNumerusCurens(), g.getSigUDK(), g.getSigNumeracija());
     }
 
-    private static List<PrefixValue> getSignaturePrefixes(String sigFormat, String sigPodlokacija,
+  private static List<PrefixValue> getSignaturePrefixes(String sigFormat, String sigPodlokacija,
+                                                        String sigIntOznaka, String sigDublet, String sigNumerusCurens, String sigUDK, String sigNumeracija) {
+    return getSignaturePrefixes(null, sigFormat, sigPodlokacija, sigIntOznaka, sigDublet, sigNumerusCurens, sigUDK, sigNumeracija);
+  }
+    private static List<PrefixValue> getSignaturePrefixes(String status, String sigFormat, String sigPodlokacija,
                                                           String sigIntOznaka, String sigDublet, String sigNumerusCurens, String sigUDK, String sigNumeracija) {
         List<PrefixValue> retVal = new ArrayList<>();
         if (sigFormat != null && sigFormat.trim().length() > 0)
             retVal.add(new PrefixValue("SF", sigFormat.trim()));
-        if (sigPodlokacija != null && sigPodlokacija.trim().length() > 0)
-            retVal.add(new PrefixValue("SL", sigPodlokacija.trim()));
+        if (sigPodlokacija != null && sigPodlokacija.trim().length() > 0) {
+          retVal.add(new PrefixValue("SL", sigPodlokacija.trim()));
+          if (status != null)
+            retVal.add(new PrefixValue("SL_showable", status + sigPodlokacija.trim()));
+        }
         if (sigIntOznaka != null && sigIntOznaka.trim().length() > 0)
             retVal.add(new PrefixValue("SW", sigIntOznaka.trim()));
         if (sigDublet != null && sigDublet.trim().length() > 0)
@@ -283,17 +349,27 @@ public class PrefixConverter {
 
 
   static PrefixConfig prefixConfig;
-
   static PrefixHandler prefixHandler;
-
   static PrefixMap prefixMap;
+  static String AUTOCOMPLETE_RAW_SUFFIX = "_raw";
+  static Map<String, String> autocompletePrefixMap = new HashMap<>();
+  static Map<String, String> sortPrefixMap = new HashMap<>();
   private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-
   static {
     try {
       prefixConfig = PrefixConfigFactory.getPrefixConfig();
       prefixHandler = prefixConfig.getPrefixHandler();
       prefixMap = prefixConfig.getPrefixMap();
+      autocompletePrefixMap.put("AU", "authors");
+      autocompletePrefixMap.put("SB", "subjects");
+      autocompletePrefixMap.put("PU", "publishers");
+      autocompletePrefixMap.put("TI", "titles");
+      autocompletePrefixMap.put("KW", "keywords");
+
+      sortPrefixMap.put("AU", "AU_sort");
+      sortPrefixMap.put("TI", "TI_sort");
+      sortPrefixMap.put("PY", "PY_sort");
+      sortPrefixMap.put("PU", "PU_sort");
     } catch (Exception ex) {
       ex.printStackTrace();
     }

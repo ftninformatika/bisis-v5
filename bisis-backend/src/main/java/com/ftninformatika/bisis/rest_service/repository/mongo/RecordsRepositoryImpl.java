@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.utils.RegeexUtils;
+import com.ftninformatika.utils.RegexUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -56,7 +56,7 @@ public class RecordsRepositoryImpl implements RecordsRepositoryCustom {
         if(!validateInvNumHolesInput(invFrom, invTo))
             return retVal;
 
-        RegeexUtils regexGenerator = new RegeexUtils();
+        RegexUtils regexGenerator = new RegexUtils();
         List<String> regexes = regexGenerator.getRegex(invFrom.substring(4), invTo.substring(4));
         regexes = regexes.stream().map(r -> invFrom.substring(0,4) + r).collect(Collectors.toList());
         List<Criteria> regexCr = new ArrayList<>();

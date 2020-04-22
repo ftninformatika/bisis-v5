@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
-import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -9,6 +9,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface LibraryMemberRepository extends MongoRepository<LibraryMember, String> {
 
     LibraryMember findByUsername(String username);
-
     LibraryMember findByPasswordResetString(String passwordResetString);
+    LibraryMember findByActivationToken(String activationToken);
+    LibraryMember findByIndex(String user_id);
+    LibraryMember findByLibrarianIndex(String librarian_id);
+    LibraryMember findByAuthToken(String authToken);
 }

@@ -33,4 +33,6 @@ public interface RecordsRepository extends MongoRepository<Record, String>, Reco
 
     @Query("{'primerci.invBroj':{$in : ?0}}")
     List<Record> getRecordsForCtlgNoList(List ctlgNos);
+
+    Record getByRn(int rn);
 }

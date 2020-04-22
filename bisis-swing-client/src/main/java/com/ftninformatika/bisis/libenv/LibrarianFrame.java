@@ -4,6 +4,7 @@
 package com.ftninformatika.bisis.libenv;
 
 import com.ftninformatika.bisis.circ.CircLocation;
+import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.utils.Messages;
 
@@ -170,6 +171,14 @@ public class LibrarianFrame extends JInternalFrame {
         } else {
             circDepartmentCombo.setSelectedIndex(0);
         }
+        if (lib.isOpacAdmin()) {
+            opacAdminCheckBox.setEnabled(false);
+            opacAdminCheckBox.setSelected(true);
+        }
+        else {
+            opacAdminCheckBox.setSelected(false);
+            opacAdminCheckBox.setEnabled(true);
+        }
     }
 
     private void setComboValue(JComboBox comboBox, String value) {
@@ -206,6 +215,7 @@ public class LibrarianFrame extends JInternalFrame {
         lib.setEmail(emailTxtFld.getText());
         lib.setNapomena(notesTxtArea.getText());
         lib.setBiblioteka(BisisApp.appConfig.getLibrary());
+        lib.setOpacAdmin(opacAdminCheckBox.isSelected());
         lib.getContext().setProcessTypes((ArrayList<ProcessType>) libProcTypesListModel.getProcessTypes());
         lib.getContext().setDefaultProcessType(libProcTypesListModel.getDefaultProcessType());
         if (defaultDepartmentCombo.getSelectedItem() instanceof Location) {
@@ -229,9 +239,11 @@ public class LibrarianFrame extends JInternalFrame {
     private void handleSaveLibrarian() {
         if (validateFormData().equals("")) {
             boolean saved = librariansTableModel.updateLibrarian(getLibrarianFromForm());
-            if (!saved)
+            if (!saved) {
                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-        } else
+            }
+        }
+        else
             JOptionPane.showMessageDialog(BisisApp.getMainFrame(), validateFormData(), Messages.getString("LIBENV_ERROR"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
     }
 
@@ -359,9 +371,36 @@ public class LibrarianFrame extends JInternalFrame {
         privilegePanel.add(redaktorRadioBtn, "wrap"); //$NON-NLS-1$
         privilegePanel.add(inventatorRadioBtn, "wrap"); //$NON-NLS-1$
         privilegePanel.add(cirkulacijaCheckBox, "wrap");
-        privilegePanel.add(cirkulacijaPlusCheckBox);
+        privilegePanel.add(cirkulacijaPlusCheckBox, "wrap");
+        privilegePanel.add(opacAdminCheckBox);
         redaktorRadioBtn.setEnabled(false);
         inventatorRadioBtn.setEnabled(false);
+
+        opacAdminCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (opacAdminCheckBox.isSelected() && getSelectedLibrarian() != null && !getSelectedLibrarian().isOpacAdmin()) {
+                    if (getSelectedLibrarian() == null) {
+                        opacAdminCheckBox.setSelected(false);
+                        return;
+                    }
+                    try {
+
+                        String retMessage = LibEnvProxy.createOpacWebAccount(getSelectedLibrarian());
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(), retMessage, Messages.getString("circulation.webacccreated"), JOptionPane.INFORMATION_MESSAGE);
+                        opacAdminCheckBox.setSelected(false);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(), e1.getMessage(), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
+                        opacAdminCheckBox.setSelected(false);
+                    }
+                }
+//                else {
+//                    opacAdminCheckBox.setSelected(false);
+//                }
+            }
+        });
+
         obradaCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -488,6 +527,8 @@ public class LibrarianFrame extends JInternalFrame {
     private JRadioButton inventatorRadioBtn = new JRadioButton(Messages.getString("LibrarianEnvironment.INVENTATOR"));     //$NON-NLS-1$
     private JCheckBox cirkulacijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATION")); //$NON-NLS-1$
     private JCheckBox cirkulacijaPlusCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATIONPLUS")); //$NON-NLS-1$
+    private JCheckBox opacAdminCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CREATE_OPAC"));
+
     private ButtonGroup invRedGroup = new ButtonGroup();
 
     private JPanel additionalDataPanel = new JPanel();
@@ -523,6 +564,7 @@ public class LibrarianFrame extends JInternalFrame {
     private JPanel buttonsPanel = new JPanel();
     private JButton sacuvajButton = new JButton(Messages.getString("LibrarianEnvironment.SAVE")); //$NON-NLS-1$
     private JButton ponistiButton = new JButton(Messages.getString("LibrarianEnvironment.NEW_LIBRARIAN")); //$NON-NLS-1$
+
 
     private JPopupMenu processTypePopupMenu = new JPopupMenu();
     private boolean popupMenuCreated = false;

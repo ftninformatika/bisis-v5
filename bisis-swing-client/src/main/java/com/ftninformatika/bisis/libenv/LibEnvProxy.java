@@ -13,7 +13,13 @@ import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.ProcessTypeBuilder;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.validators.memberdata.DataErrors;
+import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -99,6 +105,29 @@ public class LibEnvProxy {
 
 	}
 
+	public static String createOpacWebAccount(Librarian librarian) throws Exception {
+		if (librarian == null)
+			throw new Exception(Messages.getString("USER_MANAGER_USER_NOT_LOADED"));
+		if (DataValidator.validateEmail(librarian.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
+			throw new Exception(Messages.getString(DataErrors.EMAIL_FORMAT_INVALID.getMessageKey()));
+		if (librarian.isOpacAdmin())
+			throw new Exception(Messages.getString(""));
+		LibraryMember libraryMember = new LibraryMember();
+		libraryMember.setAuthorities(new ArrayList<>(Arrays.asList(Authority.ROLE_ADMIN)));
+		libraryMember.setUsername(librarian.getEmail());
+		libraryMember.setLibraryPrefix(BisisApp.appConfig.getLibrary());
+//		libraryMember.setIndex();
+        libraryMember.setLibrarianIndex(librarian.get_id());
+		libraryMember.setProfileActivated(false);
+		Response<LibraryMember> createdMemberResp = BisisApp.bisisService.createWebAccount(libraryMember).execute();
+		if (createdMemberResp.code() == HttpStatus.CONFLICT.value())
+			throw new Exception(Messages.getString("USER_MANAGER_EMAIL_ALREADY_EXIST"));
+		if (createdMemberResp.code() == HttpStatus.EXPECTATION_FAILED.value())
+			throw new Exception(Messages.getString("USER_MANAGER_INVALID_USER_DATA"));
+		if (createdMemberResp.body() == null)
+			throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));
+		return Messages.getString("USER_MANAGER_ACTIVATION_EMAIL_SENT");
+	}
 	
 	public static boolean updateLibrarian(Librarian lib){
 

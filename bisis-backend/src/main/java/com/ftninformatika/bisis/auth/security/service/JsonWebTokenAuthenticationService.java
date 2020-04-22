@@ -5,7 +5,7 @@ import com.ftninformatika.bisis.auth.model.LibrarianUser;
 import com.ftninformatika.bisis.auth.model.MemberAuthentication;
 import com.ftninformatika.bisis.auth.model.UserAuthentication;
 import com.ftninformatika.bisis.auth.security.constants.SecurityConstants;
-import com.ftninformatika.bisis.circ.LibraryMember;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,25 +46,24 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
                 }
             }
             if ("member".equals(tokenData.getBody().get("clientType").toString())) { //autentifikacija korisnika (membera)
-                LibraryMember member = getMememberFromToken(tokenData);
-                if (tokenExpired(token, member)){  //pitamo da li je istekao token?
-                    System.out.println("Your token has expired!");
-                    return null;
-                }
-
-                if (member != null ) {
+                LibraryMember member = getMemberFromToken(tokenData);
+//                if (tokenExpired(token, member)){  //pitamo da li je istekao token?
+//                    System.out.println("Your token has expired!");
+//                    return null;
+//                }
+//                if (member != null ) {
                     member.setLastActivity(new Date());
                     libraryMemberRepository.save(member);
                     return new MemberAuthentication(member);
                 }
-            }
+//            }
         }
         return null;
     }
 
 
 
-    private Jws<Claims> parseToken(final String token) {
+    public Jws<Claims> parseToken(final String token) {
         if (token != null) {
             try {
                 return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
@@ -76,7 +75,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
         return null;
     }
 
-    private LibraryMember getMememberFromToken(final Jws<Claims> tokenData){
+    private LibraryMember getMemberFromToken(final Jws<Claims> tokenData){
           try{
             return libraryMemberRepository.findById(tokenData.getBody().get("userID").toString()).get();
         }catch (UsernameNotFoundException e) {
@@ -98,7 +97,7 @@ public class JsonWebTokenAuthenticationService implements TokenAuthenticationSer
     private boolean tokenExpired(final String token, LibraryMember member){
         Date now = new Date();
 
-        if (token.equals(member.getToken())) {
+        if (token.equals(member.getAuthToken())) {
 
            long ONE_MINUTE_IN_MILLIS=60000;//millisecs
 

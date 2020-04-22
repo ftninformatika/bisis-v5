@@ -1,0 +1,35 @@
+apply plugin: 'application'
+apply plugin: 'java'
+
+version = '5.0.0'
+
+jar {
+    enabled = true
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(":bisis-backend")
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.8.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons-core', version: '1.4.1.RELEASE'
+    compile group: 'org.json', name: 'json', version: '20171018'
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+    compile group: 'org.springframework', name: 'spring-mock', version: '2.0'
+
+}
+jar {
+    mainClassName = 'com.ftninformatika.bisis.books_common_merger.BooksCommonMerger'
+    manifest {
+
+        attributes 'Implementation-Title': 'Merging book covers and descriptions by ISBN',
+                'Implementation-Version': version,
+                'Main-Class': 'com.ftninformatika.bisis.books_common_merger.BooksCommonMerger',
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+    }
+}

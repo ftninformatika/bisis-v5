@@ -12,6 +12,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JDateChooserCellEditor;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -25,20 +26,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -119,11 +107,14 @@ public class UserData {
     private JButton btnBlock = null;
     private JButton btnPrint = null;
     private JButton btnPin = null;
+    private JLabel lblWebAccount = null;
+    private JButton btnCreateWebAccount = null;
     private User parent = null;
     private ComboBoxRenderer cmbRenderer = null;
     private ZipPlaceDlg zipplace = null;
     private CmbKeySelectionManager cmbKeySelectionManager = null;
     private boolean blocked;
+    private boolean hasActiveWebAccount;
     private Note note;
     private String blockedReason;
     private String pincode;
@@ -173,6 +164,8 @@ public class UserData {
             pMain0.add(getTfPhone(), cc.xyw(8, 8, 5));
             pMain0.add(getEmailLabel(), cc.xy(6, 10));
             pMain0.add(getTfEmail(), cc.xyw(8, 10, 5));
+            pMain0.add(getWebAccountIndicatorLabel(), cc.xyw(4, 11, 4));
+            pMain0.add(getBtnCreateWebAccount(), cc.xyw(8, 11, 6));
 
             pMain0.addSeparator(Messages.getString("circulation.gender"), cc.xyw(6, 12, 3)); //$NON-NLS-1$
             pMain0.addSeparator(Messages.getString("circulation.age"), cc.xyw(11, 12, 2)); //$NON-NLS-1$
@@ -302,6 +295,13 @@ public class UserData {
             });
         }
         return tfAddress;
+    }
+
+    private JLabel getWebAccountIndicatorLabel() {
+        if (lblWebAccount == null) {
+            lblWebAccount = new JLabel();
+        }
+        return lblWebAccount;
     }
 
     public JLabel getAddressLabel() {
@@ -1158,6 +1158,41 @@ public class UserData {
         return btnBlock;
     }
 
+    private JButton getBtnCreateWebAccount() {
+        if (btnCreateWebAccount == null) {
+            btnCreateWebAccount = new JButton();
+            btnCreateWebAccount.setText(Messages.getString("circulation.createwebacc"));
+            btnCreateWebAccount.setSize(200, 28);
+            btnCreateWebAccount.setFocusable(false);
+            btnCreateWebAccount.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        if (hasActiveWebAccount) {
+                            int dialogButton = JOptionPane.YES_NO_OPTION;
+                            int dialogResult = JOptionPane.showConfirmDialog (null, "Већ постоји веб налог за овог корнисника, овиме ћете обрисати његов тренутни и послати захтев за прављење новог.","Упозорење",dialogButton);
+                            if(dialogResult == JOptionPane.YES_OPTION){
+                                // Saving code here
+                                String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount();
+                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"),JOptionPane.INFORMATION_MESSAGE);
+
+                            }
+                            else {
+                                return;
+                            }
+                        }
+                        String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount();
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"),JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),Messages.getString("circulation.error"),JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+        }
+        return btnCreateWebAccount;
+    }
+
     private JButton getBtnPrint() {
         if (btnPrint == null) {
             btnPrint = new JButton();
@@ -1398,7 +1433,7 @@ public class UserData {
                          String gender, String age, String tmpAddress, String tmpCity, String tmpZip,
                          String tmpPhone, String jmbg, Date birthday, int docId, String docNo, String docCity, String country,
                          String title, String occupation, String indexNo, String classNo, Organization org,
-                         String eduLvl, String languages, String note, String oldNumbers, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode) {
+                         String eduLvl, String languages, String note, String oldNumbers, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode, boolean activatedWebProfile) {
         getTfFirstName().setText(firstName);
         getTfLastName().setText(lastName);
         getTfParentName().setText(parentName);
@@ -1451,6 +1486,18 @@ public class UserData {
         }
         getDuplicateTableModel().setData(duplicates);
         this.pincode = pincode;
+        if (activatedWebProfile) {
+//            btnCreateWebAccount.setEnabled(false);
+            this.hasActiveWebAccount = true;
+            btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
+            getWebAccountIndicatorLabel().setText("Веб налог је активан");
+            getWebAccountIndicatorLabel().setBackground(Color.green);
+//            tfEmail.setEnabled(false);
+        }
+        else {
+            this.hasActiveWebAccount = false;
+            getWebAccountIndicatorLabel().setText("Веб налог није креиран");
+        }
     }
 
     public void loadEduLvl(List data) {

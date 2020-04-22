@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Membership;
@@ -11,10 +12,15 @@ import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.validators.memberdata.DataErrors;
+import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.*;
@@ -50,19 +56,19 @@ public class UserManager {
             } catch (Exception e) {
                 log.error(e);
                 e.printStackTrace();
-                return "Gre\u0161ka u konekciji s bazom podataka!";
+                return Messages.getString("USER_MANAGER_CONNECTION_ERROR");
             }
 
             if (member == null) {
                 if (memberExists != null && !memberExists.equals("")) {
                     log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
-                    return "Broj korisnika vec postoji!";
+                    return Messages.getString("USER_MANAGER_USER_ALREADY_EXIST");
                 }
                 member = new Member();
             } else {
                 if (memberExists != null && !memberExists.equals("") && !memberExists.equals(member.get_id())) {
                     log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
-                    return "Broj korisnika vec postoji!";
+                    return Messages.getString("USER_MANAGER_USER_ALREADY_EXIST");
                 }
             }
             member = toObjectModel(user, member);
@@ -93,7 +99,7 @@ public class UserManager {
                 e.printStackTrace();
                 log.error("Greska pri cuvanju korisnika: " + user.getMmbrship().getUserID());
                 log.error(e);
-                return "Gre\u0161ka u konekciji s bazom podataka!";
+                return Messages.getString("USER_MANAGER_CONNECTION_ERROR");
             }
 
 
@@ -116,7 +122,7 @@ public class UserManager {
                 return "ok";
             } else {
                 log.error("Greska pri cuvanju podataka: " + user.getMmbrship().getUserID());
-                return "Gre\u0161ka u konekciji s bazom podataka!";
+                return Messages.getString("USER_MANAGER_CONNECTION_ERROR");
             }
         } else {
             return "ok";
@@ -171,7 +177,7 @@ public class UserManager {
         if (saved) {
             return "ok";
         } else {
-            return "Gre\u0161ka u konekciji s bazom podataka!";
+            return Messages.getString("USER_MANAGER_CONNECTION_ERROR");
         }
     }
 
@@ -326,7 +332,7 @@ public class UserManager {
                 member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
                 member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
                 member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(), member.getOldNumbers(),
-                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin());
+                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin(), member.isActivatedWebProfile());
 
         user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), member.getSignings());
 
@@ -399,6 +405,29 @@ public class UserManager {
 
         user.getLending().refreshInfo(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo);
 
+    }
+
+    public String createWebAccount() throws Exception {
+        if (member == null)
+            throw new Exception(Messages.getString("USER_MANAGER_USER_NOT_LOADED"));
+        if (DataValidator.validateEmail(member.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
+            throw new Exception(Messages.getString(DataErrors.EMAIL_FORMAT_INVALID.getMessageKey()));
+        if (member.isActivatedWebProfile())
+            throw new Exception(Messages.getString(""));
+        LibraryMember libraryMember = new LibraryMember();
+        libraryMember.setAuthorities(new ArrayList<>(Arrays.asList(Authority.ROLE_USER)));
+        libraryMember.setUsername(member.getEmail());
+        libraryMember.setLibraryPrefix(BisisApp.appConfig.getLibrary());
+        libraryMember.setIndex(member.get_id());
+        libraryMember.setProfileActivated(false);
+        Response<LibraryMember> createdMemberResp = BisisApp.bisisService.createWebAccount(libraryMember).execute();
+        if (createdMemberResp.code() == HttpStatus.CONFLICT.value())
+            throw new Exception(Messages.getString("USER_MANAGER_EMAIL_ALREADY_EXIST"));
+        if (createdMemberResp.code() == HttpStatus.EXPECTATION_FAILED.value())
+            throw new Exception(Messages.getString("USER_MANAGER_INVALID_USER_DATA"));
+        if (createdMemberResp.body() == null)
+            throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));
+        return Messages.getString("USER_MANAGER_ACTIVATION_EMAIL_SENT");
     }
 
 

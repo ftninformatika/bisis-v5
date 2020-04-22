@@ -51,8 +51,49 @@
       },
       "prefixes.SZ": {
         "type": "keyword"
+      },
+      "prefixes.authors": {
+        "type": "keyword"
+      },
+      "prefixes.authors_raw": {
+        "type": "keyword"
+      },
+      "prefixes.publishers": {
+        "type": "keyword"
+      },
+      "prefixes.publishers_raw": {
+        "type": "keyword"
+      },
+      "prefixes.titles": {
+        "type": "keyword"
+      },
+      "prefixes.titles_raw": {
+        "type": "keyword"
+      },
+      "prefixes.keywords": {
+        "type": "keyword"
+      },
+      "prefixes.keywords_raw": {
+        "type": "keyword"
+      },
+      "prefixes.subjects": {
+        "type": "keyword"
+      },
+      "prefixes.subjects_raw": {
+        "type": "keyword"
+      },
+      "prefixes.AU_sort": {
+        "type": "keyword"
+      },
+      "prefixes.PU_sort": {
+        "type": "keyword"
+      },
+      "prefixes.TI_sort": {
+        "type": "keyword"
+      },
+      "prefixes.PY_sort": {
+        "type": "keyword"
       }
-
     }
   }
 }

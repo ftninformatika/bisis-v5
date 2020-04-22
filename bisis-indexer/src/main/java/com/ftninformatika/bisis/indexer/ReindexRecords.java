@@ -37,12 +37,12 @@ public class ReindexRecords {
         }
         String library_prefix = args[0];
 
-//        PropertyConfigurator.configure(
-//                ReindexRecords.class.getResourceAsStream("/log4j.properties"));
-//        Logger.getLogger(ReindexRecords.class).info("BISIS5 record indexer starting...");
-//
-//        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-//        root.setLevel(ch.qos.logback.classic.Level.INFO);
+        PropertyConfigurator.configure(
+                ReindexRecords.class.getResourceAsStream("/log4j.properties"));
+        Logger.getLogger(ReindexRecords.class).info("BISIS5 record indexer starting...");
+
+        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+        root.setLevel(ch.qos.logback.classic.Level.INFO);
 
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
@@ -107,7 +107,7 @@ public class ReindexRecords {
         for (int i = 0; i < pages; i++) {
             List<ElasticPrefixEntity> ep = new ArrayList<>();
             for (Record rec : lr) {
-                Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null);
+                Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null, libraryName);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id(), prefixes);
                 ep.add(ee);
             }
@@ -123,5 +123,4 @@ public class ReindexRecords {
         }
         elasticsearchTemplate.getClient().admin().indices().prepareForceMerge(libraryName + INDEX_SUFFIX).setMaxNumSegments(1).execute().actionGet();
     }
-
 }

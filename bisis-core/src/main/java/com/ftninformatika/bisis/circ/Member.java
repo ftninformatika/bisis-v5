@@ -29,7 +29,6 @@ import java.util.List;
 @ToString(of = {"userId","firstName"})
 public class Member implements java.io.Serializable {
 
-
 	@Id
     private String _id;
 	private String inUseBy;
@@ -71,9 +70,9 @@ public class Member implements java.io.Serializable {
 	private Integer classNo;
 	private String blockReason;
 	private String pin;
+	private boolean activatedWebProfile;
 
 	private List<Signing> signings = new ArrayList<>();
-	//private List<Lending> lendings = new ArrayList<>();
 	private List<Duplicate> duplicates = new ArrayList<>();
 	private List<PictureBook> picturebooks = new ArrayList<>();
 

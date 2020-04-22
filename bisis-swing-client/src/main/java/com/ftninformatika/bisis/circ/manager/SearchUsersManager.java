@@ -3,7 +3,6 @@ package com.ftninformatika.bisis.circ.manager;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.Member;
-import com.ftninformatika.bisis.circ.common.SearchOperandModel;
 import com.ftninformatika.bisis.circ.common.UsersPrefix;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.validator.Validator;
@@ -13,9 +12,7 @@ import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.utils.Messages;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 
 
@@ -131,7 +128,7 @@ public class SearchUsersManager {
 	      if (up.getDbname().equals("userId"))
 	        temp = Validator.convertUserId2DB((String)temp);
 	      if (up.getDbname().equals("ctlgNo"))
-	          temp = Validator.convertCtlgNo2DB((String)temp);
+	      	temp = Validator.convertCtlgNo2DB((String)temp);
 
             searchModel.setPref5(up.getDbname());
             searchModel.setText5((String)temp);
@@ -184,10 +181,7 @@ public class SearchUsersManager {
         }
         Cirkulacija.getApp().getMainFrame().getSearchUsersResults().setResult(l, search.getSearchQuery());
         Cirkulacija.getApp().getMainFrame().showPanel("searchUsersResultsPanel");
-
 	}
-
-	
 
 	private void initComboList() {
 		comboBoxList = new ArrayList<String>();
@@ -197,7 +191,5 @@ public class SearchUsersManager {
 		comboBoxList.add(Messages.getString("circulation.organization"));
 		comboBoxList.add(Messages.getString("circulation.language"));
 		comboBoxList.add(Messages.getString("circulation.corporate"));
-
 	}
-
 }

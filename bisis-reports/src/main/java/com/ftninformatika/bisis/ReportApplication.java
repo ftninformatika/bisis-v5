@@ -38,6 +38,12 @@ public class ReportApplication {
     Logger.getLogger(ReportApplication.class).info("BISIS5 Report generator starting...");
 
 
+    if (args.length < 1) {
+      System.out.println("enter library prefix, for example all (for all libraries), bgb, gbns, bs,..");
+      return;
+    }
+    String library_prefix = args[0];
+
     ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
     root.setLevel(ch.qos.logback.classic.Level.INFO);
 
@@ -57,7 +63,12 @@ public class ReportApplication {
       reportRep.deleteAll();
     }
     libconfigs.sort(Comparator.comparing(LibraryConfiguration::getLibraryName));
+
     for (LibraryConfiguration lc : libconfigs) {
+
+      if (!lc.getLibraryName().equals(library_prefix) && !library_prefix.equals("all")) {
+        continue;
+      }
 
       LibraryCoders libCoders = new LibraryCoders();
       libCoders.setAccRegCoders(ctx.getBean(AccessionRegisterRepository.class).getCoders(lc.getLibraryName())

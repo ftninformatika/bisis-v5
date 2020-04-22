@@ -47,6 +47,7 @@ public class RecordPreview {
     private String udk;
     private String issn;
     private String format;
+    private List<String> otherAuthors;
 
     public void init(Record r){
         this.author = getAuthor(r);
@@ -65,9 +66,35 @@ public class RecordPreview {
         this.issn = getISSN(r);
         this.format = getFormat(r);
         this.keywords = getKeywords(r);
+        this.otherAuthors = getOtherAuthors(r);
     }
 
-
+    public List<String> getOtherAuthors(Record r) {
+        List<String> retVal = new ArrayList<>();
+        Field _701 = r.getField("701");
+        List<Field> _702s = r.getFields("702");
+        String singleAuthor = "";
+        if (_701 != null) {
+            if (_701.getSubfield('a') != null)
+                singleAuthor = _701.getSubfieldContent('a');
+            if (_701.getSubfield('b') != null)
+                singleAuthor += " " + _701.getSubfieldContent('b');
+            if (!singleAuthor.trim().equals(""))
+                retVal.add(singleAuthor.trim());
+        }
+        singleAuthor = "";
+        if (_702s != null && _702s.size() > 0) {
+            for (Field f: _702s) {
+                if (f.getSubfield('a') != null)
+                    singleAuthor = f.getSubfieldContent('a');
+                if (f.getSubfield('b') != null)
+                    singleAuthor += " " + f.getSubfieldContent('b');
+                if (!singleAuthor.trim().equals("") && !retVal.contains(singleAuthor.trim()))
+                    retVal.add(singleAuthor.trim());
+            }
+        }
+        return retVal;
+    }
 
     public String getKeywords(Record rec){
         StringBuffer retVal = new StringBuffer();

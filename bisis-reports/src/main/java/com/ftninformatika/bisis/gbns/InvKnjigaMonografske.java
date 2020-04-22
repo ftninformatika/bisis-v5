@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.gbns;
 
-
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
@@ -83,6 +82,7 @@ public class InvKnjigaMonografske extends Report {
 	    
 	    for (String key : itemMap.keySet()) {
 	      List<Item> list = itemMap.get(key);
+
 	      StringBuilder out = getWriter(key);
 	      for (Item i : list){
 	    	   out.append(i.toString());
@@ -102,7 +102,14 @@ public class InvKnjigaMonografske extends Report {
            gr.setFullReportName(key);
            gr.setContent(out.toString());
            gr.setReportType(getType().name().toLowerCase());
-           getReportRepository().save(gr);
+           try {
+               getReportRepository().save(gr);
+           }
+           catch (Exception e) {
+               System.out.println(e.getMessage());
+               log.error("Error saving report: " + key);
+               log.error("With message: " + e.getMessage());
+           }
 
 	    }
 	   
@@ -181,11 +188,11 @@ public class InvKnjigaMonografske extends Report {
       i.invbr =  nvl(p.getInvBroj());
       i.datum = p.getDatumInventarisanja();
       i.opis = opis.toString();
-        i.povez="";
+      i.povez="";
       if (getCoders().getBinCoders().get(p.getPovez())!=null)
        i.povez = getCoders().getBinCoders().get(p.getPovez()).getDescription();
 
-        i.dim = dim;
+      i.dim = dim;
       String dobavljac=nvl(p.getDobavljac());
       String vrnab = nvl(p.getNacinNabavke());
       String nabavka=" ";
@@ -220,7 +227,6 @@ public class InvKnjigaMonografske extends Report {
       i.napomena = nvl(p.getNapomene());
       String key = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());
       getList(key).add(i);
-      
       }
   }
 

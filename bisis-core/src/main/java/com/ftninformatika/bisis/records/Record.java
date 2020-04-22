@@ -6,22 +6,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -469,9 +459,22 @@ public class Record implements Serializable {
       primerci.set(primerci.indexOf(getPrimerak(primerak.getInvBroj())), primerak);
   }
 
+  @JsonIgnore
+  public AvgRecordRating getAvgRating() {
+      if (recordRatings == null || recordRatings.size() == 0)
+          return null;
+      Long ratesSum = new Long(0);
+      for (RecordRating rating: recordRatings) {
+          ratesSum += rating.getGivenRating();
+      }
+      return new AvgRecordRating(((float)ratesSum / recordRatings.size()), recordRatings.size());
+  }
+
   @Id private String _id;
   /** record identifier */
   private int recordID;
+  /** id in books_common collection */
+  private Integer commonBookUid;
   /** publication type */
   private int pubType;
   /** the list of fields */
@@ -498,6 +501,8 @@ public class Record implements Serializable {
   private int rn;
   /** locked by redactor */
   private boolean lockedByRedactor = false;
+  /** user ratings collection of current record */
+  private List<RecordRating> recordRatings = new ArrayList<>();
 
 
 }

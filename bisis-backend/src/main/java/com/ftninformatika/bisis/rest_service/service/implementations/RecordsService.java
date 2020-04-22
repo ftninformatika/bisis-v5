@@ -4,10 +4,7 @@ import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
-import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.records.MergeRecordsWrapper;
-import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.RecordModification;
+import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
@@ -26,10 +23,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordsService implements RecordsServiceInterface {
@@ -44,6 +39,32 @@ public class RecordsService implements RecordsServiceInterface {
     @Autowired MongoClient mongoClient;
 
     private Logger log = Logger.getLogger(RecordsService.class);
+
+    public AvgRecordRating rateRecord(RecordRating recordRating, String recordId) {
+        if (recordRating.getGivenRating() == null || recordRating.getLibraryMemberId() == null
+        || recordRating.getUsername() == null || recordId == null)
+            return null;
+        Optional<Record> rOpt = recordsRepository.findById(recordId);
+        if (!rOpt.isPresent()) return null;
+        Record r = rOpt.get();
+        if (r.getRecordRatings() != null && r.getRecordRatings().size() > 0
+                && r.getRecordRatings().stream().map(RecordRating::getLibraryMemberId)
+                .collect(Collectors.toList()).stream().anyMatch(recordRating.getLibraryMemberId()::equals)) {
+            for (RecordRating rating: r.getRecordRatings()) {
+                if (rating.getLibraryMemberId().equals(recordRating.getLibraryMemberId())) {
+                    r.getRecordRatings().remove(rating);
+                    r.getRecordRatings().add(recordRating);
+                    if (recordsRepository.save(r) == null) return null;
+                    return r.getAvgRating();
+                }
+            }
+        }
+        if (r.getRecordRatings() == null) r.setRecordRatings(new ArrayList<>());
+        r.getRecordRatings().add(recordRating);
+        if (recordsRepository.save(r) == null) return null;
+        return r.getAvgRating();
+    }
+
 
     @Transactional
     public boolean mergeRecords(MergeRecordsWrapper mergeRecordsWrapper, String lib) {

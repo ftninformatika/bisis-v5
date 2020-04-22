@@ -38,6 +38,7 @@ public class LibrarianDTO {
     private boolean redaktor;
     private boolean inventator;
     private boolean cirkulacijaPlus;
+    private boolean opacAdmin;
     private LibrarianContextDTO context = new LibrarianContextDTO();
     private String biblioteka;
     private ProcessTypeDTO curentProcessType;

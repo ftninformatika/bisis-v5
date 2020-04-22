@@ -1,11 +1,16 @@
 package com.ftninformatika.util.elastic;
 
+import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.opac2.search.FiltersReq;
+import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
+import com.ftninformatika.bisis.opac2.search.SelectedFilter;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.lucene.search.WildcardQuery;
 import org.elasticsearch.index.query.*;
+import org.springframework.data.redis.connection.SortParameters;
+import org.springframework.data.redis.core.query.SortQueryBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +24,8 @@ public class ElasticUtility {
 
     private static List<String> NOT_TOKENIZED = Arrays.asList("DC", "UG", "675a", "675u", "UG", "675b", "IN", "BN"
     , "010a", "010z", "SN", "011a", "011z", "SP", "011e", "011c", "SY", "SZ");
+    public static List<String> AUTOCOMPLETE_PREFIXES = Arrays.asList("authors", "publishers","titles", "keywords");
+    public static String RAW_SUFFIX = "_raw";
 
     public static List<String> getIdsFromElasticIterable(Iterable<ElasticPrefixEntity> elasticResponse) {
         return StreamSupport.stream(elasticResponse.spliterator(), false)
@@ -159,6 +166,21 @@ public class ElasticUtility {
         return retVal.toString();
     }
 
+    /**
+     * Ako treba formirati query za pretragu po id-jevima onda je searchModel null a recordIds popunjen
+     */
+    public static BoolQueryBuilder makeQueryWrapper(ResultPageSearchRequest searchRequest) {
+        if (searchRequest.getSearchModel() != null) return makeQuery(searchRequest.getSearchModel());
+        else if (searchRequest.getRecordsIds() != null && searchRequest.getRecordsIds().size() > 0)
+            return makeQueryByIds(searchRequest.getRecordsIds());
+        return null;
+    }
+
+    private static BoolQueryBuilder makeQueryByIds(List<String> ids) {
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("_id", ids);
+        return QueryBuilders.boolQuery().must(termQueryBuilder);
+    }
+
     //formiranje Query-ja za glavnu pretragu zapisa
     public static BoolQueryBuilder makeQuery(SearchModel sm) {
 
@@ -259,16 +281,90 @@ public class ElasticUtility {
         return retVal;
     }
 
+    public static BoolQueryBuilder filterSearch(BoolQueryBuilder queryBuilder, FiltersReq filtersReq, List<ItemStatus> itemStatusList) {
+        if (queryBuilder == null) return null;
+        if (filtersReq == null) return queryBuilder;
+
+        String activeStatusesRegex = "";
+        if (itemStatusList != null && itemStatusList.size() > 0) {
+            activeStatusesRegex = "(" + itemStatusList.stream().map(ItemStatus::getCoder_id).collect(Collectors.joining("|")) + ")";
+        }
+
+        BoolQueryBuilder retVal = QueryBuilders.boolQuery();
+        retVal.must(queryBuilder);
+
+        if (filtersReq.getLanguages() != null && filtersReq.getLanguages().size() > 0) {
+            for (SelectedFilter lan: filtersReq.getLanguages()) {
+                if (lan.getItem() != null && lan.isValid() && !lan.getItem().getValue().equals(FiltersReq.MERGE_FILTER_SERBIAN)) {
+                    retVal.must(QueryBuilders.matchQuery("prefixes.LA", lan.getItem().getValue()));
+                } else {
+//                    TODO: If needed make map with filters for merging and their regexes
+                    retVal.must(QueryBuilders.regexpQuery("prefixes.LA", "((srp)|(scr)|(scc))"));
+                }
+            }
+        }
+
+        if (filtersReq.getAuthors() != null && filtersReq.getAuthors().size() > 0) {
+            for (SelectedFilter e: filtersReq.getAuthors()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.authors_raw", e.getItem().getValue()).operator(Operator.AND).analyzer("keyword"));
+            }
+        }
+
+        if (filtersReq.getSubjects() != null && filtersReq.getSubjects().size() > 0) {
+            for (SelectedFilter e: filtersReq.getSubjects()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.subjects_raw", e.getItem().getValue()).operator(Operator.AND).analyzer("keyword"));
+            }
+        }
+
+        if (filtersReq.getLocations() != null && filtersReq.getLocations().size() > 0) {
+            for (SelectedFilter e: filtersReq.getLocations()) {
+                if (e.getItem() != null && e.isValid()) {
+                    retVal.must(QueryBuilders.matchQuery("prefixes.OD", e.getItem().getValue()));
+                    if (e.getItem().getValue().matches("[0-9]+") && e.getItem().getValue().length() == 2) {
+                        retVal.must(QueryBuilders.regexpQuery("prefixes.OD_showable", activeStatusesRegex + e.getItem().getValue()));
+                    }
+                }
+            }
+        }
+
+        if (filtersReq.getSubLocations() != null && filtersReq.getSubLocations().size() > 0) {
+            for (SelectedFilter e: filtersReq.getSubLocations()) {
+                if (e.getItem() != null && e.isValid()) {
+                    retVal.must(QueryBuilders.matchQuery("prefixes.SL", e.getItem().getValue()));
+                    if (e.getItem().getValue().matches("[0-9]+") && e.getItem().getValue().length() == 4) {
+                        retVal.must(QueryBuilders.regexpQuery("prefixes.SL_showable", activeStatusesRegex + e.getItem().getValue()));
+                    }
+                }
+            }
+        }
+
+        if (filtersReq.getPubTypes() != null && filtersReq.getPubTypes().size() > 0) {
+            for (SelectedFilter e: filtersReq.getPubTypes()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.DT", e.getItem().getValue()));
+            }
+        }
+
+        if (filtersReq.getPubYears() != null && filtersReq.getPubYears().size() > 0) {
+            for (SelectedFilter e: filtersReq.getPubYears()) {
+                if (e.getItem() != null && e.isValid())
+                    retVal.must(QueryBuilders.matchQuery("prefixes.PY", e.getItem().getValue()));
+            }
+        }
+        return retVal;
+    }
+
 
     //expand search query
     public static BoolQueryBuilder makeExpandQuery(String prefName, String prefValue) {
         BoolQueryBuilder retVal = new BoolQueryBuilder();
-
         try {
             if ("".equals(prefName) || "".equals(prefValue))
                 return null;
 
-            if (prefName.equals("IN") && prefValue.length() >= 4) {
+            if ((prefName.equals("IN") && prefValue.length() >= 4) || (AUTOCOMPLETE_PREFIXES.contains(prefName))) {
                 retVal.must(QueryBuilders.wildcardQuery("prefixes." + prefName, prefValue + "*"));
             } else {
                 retVal.must(QueryBuilders.matchPhrasePrefixQuery("prefixes." + prefName, LatCyrUtils.toLatinUnaccented(prefValue)));
@@ -280,6 +376,7 @@ public class ElasticUtility {
 
         return retVal;
     }
+
 
 
 }

@@ -7,6 +7,23 @@ package com.ftninformatika.utils.string;
  */
 public class StringUtils {
 
+  public static String removeNonDigitsFromString(String s) {
+    if (s == null)
+      return null;
+    return s.replaceAll("[^\\d]", "");
+  }
+
+   /**
+   * Removes all digits from string
+   * @param s String to change
+   * @return
+   */
+  public static String removeDigitsFromString(String s) {
+    if (s == null)
+      return null;
+    return s.replaceAll("\\d", "").trim();
+  }
+
   /** Returns an array of bytes extracted from a Unicode string
    *  ordered as <higher-byte>,<lower-byte>,...
    *
