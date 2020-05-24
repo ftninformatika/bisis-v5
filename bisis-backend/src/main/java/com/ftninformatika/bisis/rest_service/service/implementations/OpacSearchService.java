@@ -360,8 +360,17 @@ public class OpacSearchService {
         List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(lib);
         itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
         String activeStatusesRegex = "";
-        if (itemStatusList != null && itemStatusList.size() > 0) {
-            activeStatusesRegex = "(" + itemStatusList.stream().map(ItemStatus::getCoder_id).collect(Collectors.joining("|")) + ").*";
+        if (itemStatusList.size() > 0) {
+            activeStatusesRegex = "(" + itemStatusList.stream().map(
+                    code -> {
+                        List<String> ops = Arrays.asList("+", "-", "*");
+                        String retVal = code.getCoder_id();
+                        if (retVal != null && ops.contains(retVal)) {
+                            retVal = "\\" + retVal;
+                        }
+                        return retVal;
+                    }
+            ).collect(Collectors.joining("|")) + ").*";
         }
 
         for (String key: locationMap.keySet()) {

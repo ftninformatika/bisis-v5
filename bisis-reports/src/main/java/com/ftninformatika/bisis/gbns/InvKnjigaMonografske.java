@@ -9,6 +9,7 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
 import org.apache.log4j.Logger;
+import org.bson.BsonMaximumSizeExceededException;
 
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -41,28 +42,28 @@ public class InvKnjigaMonografske extends Report {
 
 	    public String toString() {
 	      StringBuffer buf = new StringBuffer();
-	      buf.append("\n  <item>\n    <rbr>");
+	      buf.append("<item><rbr>");
 	      buf.append(invbr);
-	      buf.append("</rbr>\n    <datum>");
+	      buf.append("</rbr><datum>");
 	      buf.append(datum == null ? "" : sdf.format(datum));
-	      buf.append("</datum>\n    <opis>");
+	      buf.append("</datum><opis>");
 	      buf.append(opis==null ? "": StringUtils.adjustForHTML(opis));
-	      buf.append("</opis>\n    <povez>");
+	      buf.append("</opis><povez>");
 	      buf.append(povez);
-	      buf.append("</povez>\n    <dim>");
+	      buf.append("</povez><dim>");
 	      buf.append(dim);
-	      buf.append("</dim>\n    <nabavka>");
+	      buf.append("</dim><nabavka>");
 	      buf.append(nabavka==null ? "" :nabavka);
-	      buf.append("</nabavka>\n    <cena>");
+	      buf.append("</nabavka><cena>");
 	      buf.append(cena==null ? "" : cena);
-	      buf.append("</cena>\n    <signatura>");
+	      buf.append("</cena><signatura>");
 	      buf.append(sig==null ? "" : sig);
-	      buf.append("</signatura>\n    <napomena>");
+	      buf.append("</signatura><napomena>");
 	      buf.append(napomena==null ? "" :napomena);
-	      buf.append("</napomena>\n");
+	      buf.append("</napomena>");
 	      buf.append ("<sortinv>");
 	      buf.append(invbr.substring(4));
-	      buf.append("</sortinv>\n    </item>");
+	      buf.append("</sortinv></item>");
 	      return buf.toString();
 	    }
 	  }
@@ -105,10 +106,60 @@ public class InvKnjigaMonografske extends Report {
            try {
                getReportRepository().save(gr);
            }
-           catch (Exception e) {
+           catch (BsonMaximumSizeExceededException e) {
                System.out.println(e.getMessage());
                log.error("Error saving report: " + key);
                log.error("With message: " + e.getMessage());
+               log.info("Generating 2 reports");
+
+               String key1 = key + "_I_deo";
+               String key2 = key + "_II_deo";
+               StringBuilder out1 = getWriter(key1);
+               StringBuilder out2 = getWriter(key2);
+
+               int halfIndex = list.size() / 2;
+               if (list.size() % 2 == 1) {
+                   halfIndex++;
+               }
+               List<Item> list1 = list.subList(0, halfIndex);
+               List<Item> list2 = list.subList(halfIndex, list.size());
+
+               for (Item i : list1){ out1.append(i.toString()); }
+               out1.append("</report>");
+               for (Item i : list2){ out2.append(i.toString()); }
+               out2.append("</report>");
+
+               GeneratedReport gr1=new GeneratedReport();
+               if (key1.indexOf("-") >= 0){
+                   gr1.setReportName(key1.substring(0,key1.indexOf("-")));
+                   gr1.setPeriod(key1.substring(key1.indexOf("-")+1));
+               }
+               else{
+                   gr1.setReportName(key1);
+                   gr1.setPeriod(LatCyrUtils.toCyrillic("ceo fond I"));
+
+               }
+               gr1.setFullReportName(key1);
+               gr1.setContent(out1.toString());
+               gr1.setReportType(getType().name().toLowerCase());
+               getReportRepository().save(gr1);
+               log.info("Generated first part of huge report");
+
+               GeneratedReport gr2 =new GeneratedReport();
+               if (key2.indexOf("-") >= 0){
+                   gr2.setReportName(key2.substring(0,key2.indexOf("-")));
+                   gr2.setPeriod(key2.substring(key2.indexOf("-")+1));
+               }
+               else{
+                   gr2.setReportName(key2);
+                   gr2.setPeriod(LatCyrUtils.toCyrillic("ceo fond II"));
+
+               }
+               gr2.setFullReportName(key2);
+               gr2.setContent(out2.toString());
+               gr2.setReportType(getType().name().toLowerCase());
+               getReportRepository().save(gr2);
+               log.info("Generated second part of huge report");
            }
 
 	    }
