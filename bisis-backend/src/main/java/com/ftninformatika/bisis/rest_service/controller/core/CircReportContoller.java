@@ -74,7 +74,9 @@ public class CircReportContoller {
         List<String> visitorsUserIds = memberRepository.getVisitorsUserIds(start, end, location, lib);
         List<Member> members = visitorsUserIds.stream().map(
                 m -> memberRepository.getMemberByUserId(m)
-        ).collect(Collectors.toList());
+        )
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
         Map<String, Integer> vrstaUclanjenja = new HashMap<>();
         Map<String, Integer> pol = new HashMap<>();
