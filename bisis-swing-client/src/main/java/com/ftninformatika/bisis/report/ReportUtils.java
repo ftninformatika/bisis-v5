@@ -19,9 +19,12 @@ public class ReportUtils {
     /** Za izvestaje u kojima koristimo jasper table, prosledjujemo root xml
      *  izgenerisanog izvestaja. Ovo je lista imena klasa u kojima je to primenjeno.
      */
-      public static final List<String> ROOT_NODE_CLASSES = new ArrayList<>(Arrays.asList(
+    static final List<String> ROOT_NODE_CLASSES = new ArrayList<>(Arrays.asList(
           "com.ftninformatika.bisis.bgb.InvKnjigaMonografske",
           "com.ftninformatika.bisis.bgb.StatistikaInventatora"));
+
+      static final List<String> ROOT_NODE_JASPERS = new ArrayList<>(Arrays.asList(
+              "/jaspers/general/InvKnjigaMonografske.jasper"));
 
       public static GeneratedReport loadReport(Report report) {
         try {
@@ -54,7 +57,8 @@ public class ReportUtils {
                         .getResource(reportSpec.getSubjasper()));
                 params.put("subjasper", subreport);
             }
-            if (ROOT_NODE_CLASSES.contains(reportSpec.getClassName())) {
+            if (ROOT_NODE_CLASSES.contains(reportSpec.getClassName()) ||
+                ROOT_NODE_JASPERS.contains(reportSpec.getJasper())) {
                 selectExpression = "*";
                 File f = new File("./tmp");
                 f.mkdir();

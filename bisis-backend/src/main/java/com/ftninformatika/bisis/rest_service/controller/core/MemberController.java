@@ -221,8 +221,8 @@ public class MemberController {
     @RequestMapping(path = "/getWarnMembers")
     public List<MemberData> getWarnMembers(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false) String location) {
         List<Lending> overdueLendings = lendingRepository.getOverdueLendings(start, end, location);
-        List<String> userIds = overdueLendings.stream().map(l -> l.getUserId()).collect(Collectors.toList());
-        Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));
+        List<String> userIds = overdueLendings.stream().map(Lending::getUserId).filter(Objects::nonNull).collect(Collectors.toList());
+        Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().filter(Objects::nonNull).collect(Collectors.toMap(Member::getUserId, member -> member));
 
         Map<String, MemberData> memberMap = new HashMap<>();
 
