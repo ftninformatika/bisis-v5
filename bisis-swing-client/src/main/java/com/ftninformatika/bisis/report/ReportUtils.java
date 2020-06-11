@@ -66,6 +66,7 @@ public class ReportUtils {
                 params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
             }
             params.put("library",BisisApp.appConfig.getClientConfig().getPincodeLibrary());
+            params.put("biblioteka",BisisApp.appConfig.getClientConfig().getLibraryFullName());
             params.put("period", report.getPeriod());
             params.put("title",reportSpec.getMenuitem().replace("|", " "));
             params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
