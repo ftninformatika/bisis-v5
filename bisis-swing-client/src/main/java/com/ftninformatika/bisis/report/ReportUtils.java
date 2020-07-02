@@ -21,7 +21,8 @@ public class ReportUtils {
      */
     static final List<String> ROOT_NODE_CLASSES = new ArrayList<>(Arrays.asList(
           "com.ftninformatika.bisis.bgb.InvKnjigaMonografske",
-          "com.ftninformatika.bisis.bgb.StatistikaInventatora"));
+          "com.ftninformatika.bisis.bgb.StatistikaInventatora",
+          "com.ftninformatika.bisis.general.StatistikaInventatora"));
 
       static final List<String> ROOT_NODE_JASPERS = new ArrayList<>(Arrays.asList(
               "/jaspers/general/InvKnjigaMonografske.jasper"));
