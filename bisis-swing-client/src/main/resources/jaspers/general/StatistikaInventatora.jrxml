@@ -85,7 +85,7 @@
 				<textElement>
 					<font fontName="SansSerif"/>
 				</textElement>
-				<text><![CDATA[Библиотека града Београда]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<textField>
 				<reportElement key="staticText" x="1" y="10" width="553" height="20" uuid="599ec39d-51fa-406f-969c-37c2651a9957"/>
