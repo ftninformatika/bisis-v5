@@ -220,50 +220,10 @@ public class InvKnjigaMonografske extends Report {
       if (dobavljac == null)
         dobavljac = "";
       String vrnab = p.getNacinNabavke();
-      if (vrnab == null || vrnab.equals(""))
-        vrnab = " ";
-      if (vrnab.equals("p")) {
-        i.nabavka = "\u043F\u043E\u043A\u043B\u043E\u043D"; //poklon
-        if (dobavljac.length() > 0)
-           i.nabavka += ", " + dobavljac;
-      }else if (vrnab.equals("k")) {
-        i.nabavka = "\u043A\u0443\u043F\u043E\u0432\u0438\u043D\u0430"; // kupovina
-        String brRacuna=p.getBrojRacuna();
-        String part1 = "";
-        String part2 = "";
-        if (brRacuna != null)
-          part1 = nvl(brRacuna);
-          //broj dostavnice!? 
-      /*    Subsubfield ssf9961g = sf9961.getSubsubfield('g');
-          if (ssf9961g != null)
-            part2 = nvl(ssf9961g.getContent());
-       */
-          if (part1.length() > 0 || part2.length() > 0)
-            i.nabavka += '\n';
-          if (part1.length() > 0)
-            i.nabavka += part1;
-          if (part2.length() > 0)
-            i.nabavka += " / " + part2;
-      } else if (vrnab.equals("a")) {
-        i.nabavka = "\u0440\u0430\u0437\u043C\u0435\u043D\u0430";  // razmena
-      } else if (vrnab.equals("i")) {
-        i.nabavka = "\u0438\u0437\u0434\u0430\u045a\u0430 \u0411\u0413\u0411"; // izdanja BGB
-      } else if (vrnab.equals("o")) {
-        i.nabavka = "\u043e\u0442\u043a\u0443\u043f \u0421\u0413"; // otkup SG
-      } else if (vrnab.equals("r")) {
-        i.nabavka = "\u043e\u0442\u043a\u0443\u043f \u0420\u0421"; // otkup RS
-      } else if (vrnab.equals("l")) {
-        i.nabavka = "\u043f\u043e\u043a\u043b\u043e\u043d \u0438\u0437\u0434\u0430\u0432\u0430\u0447\u0430"; // poklon izdavaca
-      } else if (vrnab.equals("m")) {
-        i.nabavka = "\u043c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433"; // marketing
-      } else if (vrnab.equals("n")) {
-        i.nabavka = "\u041e\u041f \u041d\u0411\u0421"; // OP NBS
-      } else if (vrnab.equals("t")) {
-        i.nabavka = "\u0437\u0430\u0442\u0435\u0447\u0435\u043d\u043e"; // zateceno
-      } else if (vrnab.equals("z")) {
-        i.nabavka = "\u0437\u0430\u043c\u0435\u043d\u0430"; // zamena
+      if (vrnab == null || getCoders().getAcqCoders().get(vrnab) == null) {
+          i.nabavka = "";
       } else {
-    	  i.nabavka=" ";
+          i.nabavka = LatCyrUtils.toCyrillic(getCoders().getAcqCoders().get(vrnab).getDescription().toLowerCase());
       }
         DecimalFormat df2 = new DecimalFormat(".##");
       i.cena = p.getCena() == null ? " " : df2.format(p.getCena()).toString();

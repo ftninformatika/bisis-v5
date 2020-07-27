@@ -71,7 +71,7 @@ jnlp {
     usePack200 = false
     withXml {
         information {
-            title 'BISIS aplikacija'
+            title 'BISIS5 aplikacija'
             vendor 'FTN Informatika'
         }
         shortcut {
