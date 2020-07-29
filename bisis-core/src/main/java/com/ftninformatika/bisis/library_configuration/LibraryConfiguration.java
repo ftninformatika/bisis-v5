@@ -26,6 +26,7 @@ public class LibraryConfiguration {
     private String libraryName;
     private String networkServerList;
     private String libraryFullName;
+    private String shortName;
 
     private String cataloguingPrimerciModel;
     private String cataloguingGodineModel;
