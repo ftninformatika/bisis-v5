@@ -5,6 +5,8 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.pojo.Organization;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
+import com.ftninformatika.bisis.ecard.ElCardReader;
 import com.ftninformatika.utils.Messages;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -109,6 +111,7 @@ public class UserData {
     private JButton btnPin = null;
     private JLabel lblWebAccount = null;
     private JButton btnCreateWebAccount = null;
+    private JButton btnReadFromECard = null;
     private User parent = null;
     private ComboBoxRenderer cmbRenderer = null;
     private ZipPlaceDlg zipplace = null;
@@ -192,7 +195,7 @@ public class UserData {
             pMain0.addLabel(Messages.getString("circulation.indicator"), cc.xyw(6, 22, 3)); //$NON-NLS-1$
             pMain0.add(getChkWarning(), cc.xyw(9, 22, 2));
             pMain0.add(getBtnPrint(), cc.xy(12, 22, "right, center")); //$NON-NLS-1$
-
+            pMain0.add(getReadFromECardBtn(), cc.xy(12, 24, "right, center"));
         }
     }
 
@@ -1191,6 +1194,40 @@ public class UserData {
             });
         }
         return btnCreateWebAccount;
+    }
+
+    private JButton getReadFromECardBtn() {
+        if (btnReadFromECard == null) {
+            btnReadFromECard = new JButton();
+            btnReadFromECard.setText("Procitaj sa kartice"); //todo in messages
+            btnReadFromECard.setSize(200, 28);
+            btnReadFromECard.setFocusable(false);
+            btnReadFromECard.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ElCardReader reader = ElCardReader.getInstance();
+                    ElCardInfo elCardInfo = reader.getInfo();
+                    if (!elCardInfo.isSuccess()) {
+                        JOptionPane.showMessageDialog(null, elCardInfo.getMessage(), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                        return;
+                    }
+                    tfFirstName.setText(elCardInfo.getInfo().getGivenName());
+                    tfLastName.setText(elCardInfo.getInfo().getSurname());
+                    tfDocNo.setText(elCardInfo.getInfo().getDocRegNo());
+                    tfJmbg.setText(elCardInfo.getInfo().getPersonalNumber());
+                    tfParentName.setText(elCardInfo.getInfo().getParentGivenName());
+                    tfAddress.setText(elCardInfo.getInfo().getStreet() + ", " + elCardInfo.getInfo().getHouseNumber());
+                    tfCity.setText(elCardInfo.getInfo().getPlace());
+                    cmbDocID.setSelectedIndex(0);
+                    tfBirthday.setDateFormatString(elCardInfo.getInfo().getDateOfBirth());
+                    tfDocCity.setText(elCardInfo.getInfo().getCommunity());
+                    tfCountry.setText(elCardInfo.getInfo().getState());
+                    //todo pol
+                }
+            });
+        }
+        return btnReadFromECard;
     }
 
     private JButton getBtnPrint() {
