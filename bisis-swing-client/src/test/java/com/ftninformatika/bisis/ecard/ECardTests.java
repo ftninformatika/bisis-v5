@@ -6,7 +6,6 @@ import org.junit.Test;
 import javax.smartcardio.CardTerminal;
 import javax.smartcardio.TerminalFactory;
 import java.util.List;
-import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
