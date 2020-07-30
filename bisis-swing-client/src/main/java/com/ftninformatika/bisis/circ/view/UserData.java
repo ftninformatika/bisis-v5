@@ -192,7 +192,7 @@ public class UserData {
             pMain0.add(getTfDocCity(), cc.xy(4, 22));
             pMain0.add(getCountryLabel(), cc.xy(2, 24));
             pMain0.add(getTfCountry(), cc.xy(4, 24));
-            pMain0.add(getReadFromECardBtn(), cc.xyw(4, 25, 6));
+            pMain0.add(getReadFromECardBtn(), cc.xy(4, 25));
 
             pMain0.addSeparator("", cc.xyw(6, 20, 7)); //$NON-NLS-1$
             pMain0.addLabel(Messages.getString("circulation.indicator"), cc.xyw(6, 22, 3)); //$NON-NLS-1$
@@ -1204,33 +1204,31 @@ public class UserData {
             btnReadFromECard.setText(Messages.getString("circulation.btnReadFromECard"));
             btnReadFromECard.setSize(200, 28);
             btnReadFromECard.setFocusable(false);
-            btnReadFromECard.setIcon(new ImageIcon(getClass().getResource("/icons/chip24.png")));
+            btnReadFromECard.setIcon(new ImageIcon(getClass().getResource("/icons/chip16.png")));
             btnReadFromECard.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     ElCardReader reader = ElCardReader.getInstance();
-                    ElCardInfo elCardInfo = reader.getInfo();
+                    boolean circLocaleLatn = BisisApp.appConfig.getClientConfig().getCircLocaleLatn() == null ?
+                            true : BisisApp.appConfig.getClientConfig().getCircLocaleLatn();
+                    ElCardInfo elCardInfo = reader.getInfo(circLocaleLatn);
                     if (!elCardInfo.isSuccess()) {
-                        JOptionPane.showMessageDialog(null, elCardInfo.getMessage(), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
-                                new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                        JOptionPane.showMessageDialog(null, Messages.getString(elCardInfo.getMessageKey()), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png")));
                         return;
                     }
-                    tfFirstName.setText(elCardInfo.getInfo().getGivenName());
-                    tfLastName.setText(elCardInfo.getInfo().getSurname());
-                    tfDocNo.setText(elCardInfo.getInfo().getDocRegNo());
-                    tfJmbg.setText(elCardInfo.getInfo().getPersonalNumber());
-                    tfParentName.setText(elCardInfo.getInfo().getParentGivenName());
-                    tfAddress.setText(elCardInfo.getInfo().getStreet() + ", " + elCardInfo.getInfo().getHouseNumber());
-                    tfCity.setText(elCardInfo.getInfo().getPlace());
+                    tfFirstName.setText(elCardInfo.getFirstName());
+                    tfLastName.setText(elCardInfo.getLastName());
+                    tfDocNo.setText(elCardInfo.getDocNo());
+                    tfJmbg.setText(elCardInfo.getJmbg());
+                    tfParentName.setText(elCardInfo.getParentName());
+                    tfAddress.setText(elCardInfo.getAddress());
+                    tfCity.setText(elCardInfo.getCity());
                     cmbDocID.setSelectedIndex(0);
-                    try {
-                        tfBirthday.setDate(new SimpleDateFormat("dd.MM.yyyy").parse(elCardInfo.getInfo().getDateOfBirth()));
-                    } catch (ParseException parseException) {
-                        parseException.printStackTrace();
-                    }
-                    tfDocCity.setText(elCardInfo.getInfo().getCommunity());
-                    tfCountry.setText(elCardInfo.getInfo().getState());
-                    if (java.util.Objects.equals(elCardInfo.getInfo().getSex(),"M")) {
+                    tfBirthday.setDate(elCardInfo.getBirthDay());
+                    tfDocCity.setText(elCardInfo.getDocCity());
+                    tfCountry.setText(elCardInfo.getCountry());
+                    if (java.util.Objects.equals(elCardInfo.getGender(),"M")) {
                         rbGenderM.setSelected(true);
                         rbGenderF.setSelected(false);
                     } else {

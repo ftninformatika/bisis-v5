@@ -72,6 +72,7 @@ public class LibraryConfiguration {
     private String pincodeLibrary;
 
     private String locale;
+    private Boolean circLocaleLatn;
 
     private List<Report> reports;
 

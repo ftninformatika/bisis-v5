@@ -1,15 +1,10 @@
 package com.ftninformatika.bisis.ecard;
 
-
-import lombok.Getter;
-import lombok.Setter;
 import net.devbase.jfreesteel.EidCard;
 import net.devbase.jfreesteel.EidInfo;
 
 import javax.smartcardio.*;
 
-@Getter
-@Setter
 public class ElCardReader {
 
     private static ElCardReader instance;
@@ -18,10 +13,18 @@ public class ElCardReader {
     private ElCardReader() {}
 
     public static ElCardReader getInstance() {
-        if (instance == null) {
+        if (instance == null || instance.cardTerminal == null) {
             instance = new ElCardReader();
             TerminalFactory factory = TerminalFactory.getDefault();
             instance.cardTerminal = pickTerminal(factory.terminals());
+        }
+        else {
+            try {
+                if (TerminalFactory.getDefault().terminals().list().isEmpty())
+                    instance.cardTerminal = null;
+            } catch (CardException e) {
+                instance.cardTerminal = null;
+            }
         }
         return instance;
     }
@@ -41,10 +44,11 @@ public class ElCardReader {
         }
     }
 
-    public ElCardInfo getInfo() {
+    public ElCardInfo getInfo(boolean latnLocale) {
         ElCardInfo retVal = new ElCardInfo();
+        retVal.setLatnLocale(latnLocale);
         if (instance.cardTerminal == null) {
-            retVal.setMessage("Citac nije pronadjen"); //TODO move strings to resources
+            retVal.setMessageKey("ecard.readernotfound");
             return retVal;
         }
         try {
@@ -53,17 +57,20 @@ public class ElCardReader {
             EidInfo info = eidCard.readEidInfo();
             retVal.setInfo(info);
             if (info == null) {
-                retVal.setMessage("Nije bilo moguce procitati podatke sa licne karte");
+                retVal.setMessageKey("ecard.datanotred");
                 return retVal;
             }
 
         } catch (CardException exception) {
             exception.printStackTrace();
-            retVal.setMessage("Molimo vas ubacite licnu kartu");
+            retVal.setMessageKey("ecard.cardnotfound");
+            return retVal;
+        } catch (IllegalArgumentException ex2) {
+            ex2.printStackTrace();
+            retVal.setMessageKey("ecard.wrongcard");
             return retVal;
         }
 
-        // TODO set locale from config cyrl/latn
         retVal.setSuccess(true);
         return retVal;
     }
