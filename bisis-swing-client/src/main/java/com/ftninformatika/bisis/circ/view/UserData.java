@@ -5,6 +5,8 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.pojo.Organization;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
+import com.ftninformatika.bisis.ecard.ElCardReader;
 import com.ftninformatika.utils.Messages;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -23,6 +25,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -109,6 +113,7 @@ public class UserData {
     private JButton btnPin = null;
     private JLabel lblWebAccount = null;
     private JButton btnCreateWebAccount = null;
+    private JButton btnReadFromECard = null;
     private User parent = null;
     private ComboBoxRenderer cmbRenderer = null;
     private ZipPlaceDlg zipplace = null;
@@ -187,13 +192,13 @@ public class UserData {
             pMain0.add(getTfDocCity(), cc.xy(4, 22));
             pMain0.add(getCountryLabel(), cc.xy(2, 24));
             pMain0.add(getTfCountry(), cc.xy(4, 24));
+            pMain0.add(getReadFromECardBtn(), cc.xy(4, 25));
 
             pMain0.addSeparator("", cc.xyw(6, 20, 7)); //$NON-NLS-1$
             pMain0.addLabel(Messages.getString("circulation.indicator"), cc.xyw(6, 22, 3)); //$NON-NLS-1$
             pMain0.add(getChkWarning(), cc.xyw(9, 22, 2));
             pMain0.add(getBtnPrint(), cc.xy(12, 22, "right, center")); //$NON-NLS-1$
-
-        }
+            }
     }
 
     public JPanel getPMain0() {
@@ -1191,6 +1196,49 @@ public class UserData {
             });
         }
         return btnCreateWebAccount;
+    }
+
+    private JButton getReadFromECardBtn() {
+        if (btnReadFromECard == null) {
+            btnReadFromECard = new JButton();
+            btnReadFromECard.setText(Messages.getString("circulation.btnReadFromECard"));
+            btnReadFromECard.setSize(200, 28);
+            btnReadFromECard.setFocusable(false);
+            btnReadFromECard.setIcon(new ImageIcon(getClass().getResource("/icons/chip16.png")));
+            btnReadFromECard.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ElCardReader reader = ElCardReader.getInstance();
+                    boolean circLocaleLatn = BisisApp.appConfig.getClientConfig().getCircLocaleLatn() == null ?
+                            true : BisisApp.appConfig.getClientConfig().getCircLocaleLatn();
+                    ElCardInfo elCardInfo = reader.getInfo(circLocaleLatn);
+                    if (!elCardInfo.isSuccess()) {
+                        JOptionPane.showMessageDialog(null, Messages.getString(elCardInfo.getMessageKey()), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+                        return;
+                    }
+                    tfFirstName.setText(elCardInfo.getFirstName());
+                    tfLastName.setText(elCardInfo.getLastName());
+                    tfDocNo.setText(elCardInfo.getDocNo());
+                    tfJmbg.setText(elCardInfo.getJmbg());
+                    tfParentName.setText(elCardInfo.getParentName());
+                    tfAddress.setText(elCardInfo.getAddress());
+                    tfCity.setText(elCardInfo.getCity());
+                    cmbDocID.setSelectedIndex(0);
+                    tfBirthday.setDate(elCardInfo.getBirthDay());
+                    tfDocCity.setText(elCardInfo.getDocCity());
+                    tfCountry.setText(elCardInfo.getCountry());
+                    if (java.util.Objects.equals(elCardInfo.getGender(),"M")) {
+                        rbGenderM.setSelected(true);
+                        rbGenderF.setSelected(false);
+                    } else {
+                        rbGenderF.setSelected(true);
+                        rbGenderM.setSelected(false);
+                    }
+                }
+            });
+        }
+        return btnReadFromECard;
     }
 
     private JButton getBtnPrint() {
