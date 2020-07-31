@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
@@ -156,6 +157,32 @@ public class MemberController {
         retVal.setMember(m);
         retVal.setLendings(lendings);
         log.info("(getAndLockByMemberId) zakljucan i vracen korisnik ID: " + userId);
+        return retVal;
+    }
+
+    @RequestMapping(value = "/getAndLockByECard/{librarianId}", method = RequestMethod.POST)
+    public MemberData getAndLockByECard(@RequestBody ElCardInfo memberInfo
+            , @PathVariable("librarianId") String librarianId) {
+
+        MemberData retVal = new MemberData();
+        if (memberInfo == null)
+            return null;
+        Optional<LibrarianDTO> l = librarianRepository.findById(librarianId);
+        Member m = memberService.getMebeByEcardCriteria(memberInfo);
+
+        if (m == null || !l.isPresent())
+            return null;
+
+        if (m.getInUseBy() != null) {
+            retVal.setInUseBy(m.getInUseBy());
+            return retVal;
+        }
+
+        m.setInUseBy(librarianId);
+        memberRep.save(m);
+        List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(m.getUserId());
+        retVal.setMember(m);
+        retVal.setLendings(lendings);
         return retVal;
     }
 

@@ -22,6 +22,14 @@ public interface MemberRepository extends MongoRepository<Member,String>, Member
 
     Member getMemberByEmail(String email);
 
+    List<Member> findByJmbg(String jmbg);
+
+    List<Member> findByDocNo(String docNo);
+
+    List<Member> findByFirstNameAndLastNameAndBirthday(String firstName, String lastName, Date birthday);
+
+    List<Member> findByFirstNameAndLastNameAndParentName(String firstName, String lastName, String parentName);
+
     @Query("{'signings':{ $elemMatch: {'signDate':{ $gte :?0,$lte:?1},'location':?2 }}}.count()")
     int getNumberOfMembersByPeriod(Date startDate, Date endDate, String location);
 

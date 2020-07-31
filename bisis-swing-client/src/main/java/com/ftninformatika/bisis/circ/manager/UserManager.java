@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
@@ -307,6 +308,36 @@ public class UserManager {
             found = 2;
             return found;
         }
+        return found;
+    }
+
+    public int getUserByECard(User user, Group group, ElCardInfo info) {
+        int found = 0;
+
+        try {
+            MemberData memberData = BisisApp.bisisService.getAndLockByECard(info, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
+            if (memberData != null) {
+                if (memberData.getInUseBy() == null) {
+                    member = memberData.getMember();
+                    member.getSignings().sort(Comparator.comparing(Signing::getSignDate));
+                    lendings = memberData.getLendings();
+                    if (member != null) {
+                        Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
+                        loadUser(user, member, lendings);
+                        found = 1;
+                        return found;
+                    }
+                } else {
+                    found = 3;
+                    return found;
+                }
+            }
+
+        } catch (Exception e) {
+            log.error(e);
+            e.printStackTrace();
+        }
+
         return found;
     }
 

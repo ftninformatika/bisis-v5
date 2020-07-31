@@ -1,10 +1,7 @@
 package com.ftninformatika.bisis.ecard;
 
 import com.ftninformatika.utils.string.LatCyrUtils;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import net.devbase.jfreesteel.EidInfo;
 
 import java.text.ParseException;
@@ -14,35 +11,51 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ElCardInfo {
 
     private String messageKey;
     private boolean success = false;
     private boolean latnLocale = true;
 
-    @Getter(AccessLevel.PRIVATE)
-    private EidInfo info = null;
+    private String firstName;
+    private String lastName;
+    private String jmbg;
+    private String docNo;
+    private String parentName;
+    private Date birthday;
 
-    public String getFirstName() {
-        return latnLocale ? LatCyrUtils.toLatin(info.getGivenName())
+    @Getter(AccessLevel.PRIVATE)
+    private EidInfo info;
+
+    public void set() {
+        setFirstName();
+        setLastName();
+        setJmbg();
+        setDocNo();
+        setBirthDay();
+    }
+
+    public void setFirstName() {
+        firstName = latnLocale ? LatCyrUtils.toLatin(info.getGivenName())
                 : LatCyrUtils.toCyrillic(info.getGivenName());
     }
 
-    public String getLastName() {
-        return latnLocale ? LatCyrUtils.toLatin(info.getSurname())
+    public void setLastName() {
+        lastName =  latnLocale ? LatCyrUtils.toLatin(info.getSurname())
                 : LatCyrUtils.toCyrillic(info.getSurname());
     }
 
-    public String getDocNo() {
-        return info.getDocRegNo();
+    public void setDocNo() {
+        docNo = info.getDocRegNo();
     }
 
-    public String getJmbg() {
-        return info.getPersonalNumber();
+    public void setJmbg() {
+        jmbg =  info.getPersonalNumber();
     }
 
-    public String getParentName() {
-        return latnLocale ? LatCyrUtils.toLatin(info.getParentGivenName())
+    public void setParentName() {
+        parentName = latnLocale ? LatCyrUtils.toLatin(info.getParentGivenName())
                 : LatCyrUtils.toCyrillic(info.getParentGivenName());
     }
 
@@ -57,11 +70,11 @@ public class ElCardInfo {
                 : LatCyrUtils.toCyrillic(info.getPlace());
     }
 
-    public Date getBirthDay() {
+    public void setBirthDay() {
         try {
-            return new SimpleDateFormat("dd.MM.yyyy").parse(info.getDateOfBirth());
+            birthday = new SimpleDateFormat("dd.MM.yyyy").parse(info.getDateOfBirth());
         } catch (ParseException e) {
-            return null;
+            birthday = null;
         }
     }
 

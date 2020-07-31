@@ -1217,6 +1217,7 @@ public class UserData {
                                 new ImageIcon(getClass().getResource("/circ-images/x32.png")));
                         return;
                     }
+                    elCardInfo.set();
                     tfFirstName.setText(elCardInfo.getFirstName());
                     tfLastName.setText(elCardInfo.getLastName());
                     tfDocNo.setText(elCardInfo.getDocNo());
@@ -1225,7 +1226,7 @@ public class UserData {
                     tfAddress.setText(elCardInfo.getAddress());
                     tfCity.setText(elCardInfo.getCity());
                     cmbDocID.setSelectedIndex(0);
-                    tfBirthday.setDate(elCardInfo.getBirthDay());
+                    tfBirthday.setDate(elCardInfo.getBirthday());
                     tfDocCity.setText(elCardInfo.getDocCity());
                     tfCountry.setText(elCardInfo.getCountry());
                     if (java.util.Objects.equals(elCardInfo.getGender(),"M")) {

@@ -1,7 +1,9 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
@@ -77,6 +79,28 @@ public class MemberService {
         }
 
         return retVal;
+    }
+
+    public Member getMebeByEcardCriteria(ElCardInfo memberInfo) {
+        List<Member> searchedMembers = memberRep.findByJmbg(memberInfo.getJmbg());
+        if (searchedMembers != null && searchedMembers.size() == 1) {
+            return   searchedMembers.get(0);
+        }
+        searchedMembers = memberRep.findByDocNo(memberInfo.getDocNo());
+        if (searchedMembers != null && searchedMembers.size() == 1) {
+            return searchedMembers.get(0);
+        }
+        searchedMembers = memberRep.findByFirstNameAndLastNameAndBirthday(
+                memberInfo.getFirstName(), memberInfo.getLastName(), memberInfo.getBirthday());
+        if (searchedMembers != null && searchedMembers.size() == 1) {
+            return searchedMembers.get(0);
+        }
+        searchedMembers = memberRep.findByFirstNameAndLastNameAndParentName(
+                memberInfo.getFirstName(), memberInfo.getLastName(), memberInfo.getParentName());
+        if (searchedMembers != null && searchedMembers.size() == 1) {
+            return searchedMembers.get(0);
+        }
+        return null;
     }
 
 }
