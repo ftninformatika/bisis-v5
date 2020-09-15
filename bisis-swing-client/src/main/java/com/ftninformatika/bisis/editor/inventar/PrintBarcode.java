@@ -60,7 +60,8 @@ public class PrintBarcode {
     String[] wrapparts = wrap.split(",");
     String libName, ogr, libraryName;
     for (int i = 0; i < library.length; i++) {
-      libName = BisisApp.appConfig.getClientConfig().getLibraryFullName();
+//      libName = BisisApp.appConfig.getClientConfig().getLibraryFullName();
+      libName = BisisApp.appConfig.getClientConfig().getBarcodeLibrary1();
       int crta = libName.indexOf("-");
       if (crta != -1) {
         ogr = libName.substring(0, crta);
