@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.records.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -116,6 +117,9 @@ public class BooksTreeModel implements Serializable, TreeModel{
           if (wrapper.getFullRecord() != null){
               if (library != null) {
                   List<Primerak> primerci = new ArrayList();
+                  wrapper.getFullRecord().getPrimerci()
+                          .sort(Comparator.comparing(p -> Double.parseDouble(p.getInvBroj())));
+                  wrapper.getListOfItems().sort(Comparator.comparing(i -> Double.parseDouble(i.getCtlgNo())));
                   for (Primerak p : wrapper.getFullRecord().getPrimerci()) {
                       String invStart = p.getInvBroj().substring(0, 2);
                       if (invStart.equals(library)) {

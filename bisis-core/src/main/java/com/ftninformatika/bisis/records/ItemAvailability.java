@@ -21,4 +21,11 @@ public class ItemAvailability implements java.io.Serializable{
     private String recordID;
     private Integer rn;
     private String libDepartment;
+
+    @Override
+    public String toString() {
+        return "{" +
+                "ctlgNo='" + ctlgNo + '\'' +
+                '}';
+    }
 }
