@@ -115,11 +115,11 @@ public class BooksTreeModel implements Serializable, TreeModel{
       List<RecordResponseWrapper> list = BisisApp.recMgr.getRecordsAllData(recIDs);
       for (RecordResponseWrapper wrapper : list){
           if (wrapper.getFullRecord() != null){
+            wrapper.getFullRecord().getPrimerci()
+                    .sort(Comparator.comparing(p -> Double.parseDouble(p.getInvBroj())));
+            wrapper.getListOfItems().sort(Comparator.comparing(i -> Double.parseDouble(i.getCtlgNo())));
               if (library != null) {
                   List<Primerak> primerci = new ArrayList();
-                  wrapper.getFullRecord().getPrimerci()
-                          .sort(Comparator.comparing(p -> Double.parseDouble(p.getInvBroj())));
-                  wrapper.getListOfItems().sort(Comparator.comparing(i -> Double.parseDouble(i.getCtlgNo())));
                   for (Primerak p : wrapper.getFullRecord().getPrimerci()) {
                       String invStart = p.getInvBroj().substring(0, 2);
                       if (invStart.equals(library)) {
