@@ -4,6 +4,7 @@
 package com.ftninformatika.bisis.libenv;
 
 import com.ftninformatika.bisis.librarian.ProcessType;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 
 import java.awt.Color;
 import java.awt.Component;

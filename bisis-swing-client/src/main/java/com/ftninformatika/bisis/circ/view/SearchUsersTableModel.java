@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.circ.Member;
 
@@ -30,7 +31,7 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
         columnIdentifiers.add(Messages.getString("circulation.umcn"));
         columnIdentifiers.add(Messages.getString("circulation.place"));
         columnIdentifiers.add(Messages.getString("circulation.address"));
-        if (BisisApp.appConfig.getLibrarian().isAdministracija()) {
+        if (BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.ADMINISTRACIJA)) {
             columnIdentifiers.add(Messages.getString("circulation.select"));
         }
         data = new ArrayList<Member>();

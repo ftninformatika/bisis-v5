@@ -1,13 +1,13 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.Librarian2Repository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
@@ -33,7 +33,7 @@ public class RecordsService implements RecordsServiceInterface {
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired LocationRepository locationRepository;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired Librarian2Repository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired SublocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
@@ -122,7 +122,7 @@ public class RecordsService implements RecordsServiceInterface {
                     if (deletedInvs.size() > 0)
                         itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
                     //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
-                    LibrarianDTO modificator = null;
+                    LibrarianDB modificator = null;
                     //null ce biti iz grupnog inventarisanja, zato ova provera
                     if (record.getInUseBy() != null)
                         modificator = librarianRepository.findById(record.getInUseBy()).get();

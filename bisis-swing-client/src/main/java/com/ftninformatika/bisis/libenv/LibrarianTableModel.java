@@ -5,6 +5,7 @@ package com.ftninformatika.bisis.libenv;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.utils.Messages;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class LibrarianTableModel extends AbstractTableModel {
 
-	private List<Librarian> libList = new ArrayList<Librarian>();
+	private List<LibrarianDB> libList = new ArrayList<>();
 	private String[] columns;
 	
 	private String[] defaultPrefixes = {"AU","TI","PU","PY","KW"}; 
@@ -60,7 +61,7 @@ public class LibrarianTableModel extends AbstractTableModel {
 	}
 	
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Librarian lib = libList.get(rowIndex);
+		LibrarianDB lib = libList.get(rowIndex);
 		switch(columnIndex){
 		case 0: return lib.getUsername();
 		case 1: return lib.getIme();
@@ -75,11 +76,11 @@ public class LibrarianTableModel extends AbstractTableModel {
 		return columns[column];
 	}	
 	
-	public Librarian getRow(int rowIndex){
+	public LibrarianDB getRow(int rowIndex){
 		return libList.get(rowIndex);
 	}
 	
-	public boolean updateLibrarian(Librarian lib){
+	public boolean updateLibrarian(LibrarianDB lib){
 		boolean updateSuccesful = false;
 		if(lib.getContext().getPref1()==null)
 			setDefaultPrefixes(lib);
@@ -106,13 +107,13 @@ public class LibrarianTableModel extends AbstractTableModel {
 	}
 	
 	public boolean deleteLibrarian(int index){
-		Librarian lib = libList.get(index);
+		LibrarianDB lib = libList.get(index);
 		libList.remove(index);
 		fireTableDataChanged();
 		return LibEnvProxy.deleteLibrarian(lib);		
 	}
 	
-	public boolean deleteLibrarian(Librarian lib){	
+	public boolean deleteLibrarian(LibrarianDB lib){
 		boolean deleted = LibEnvProxy.deleteLibrarian(lib);
 		if(deleted){
 			libList.remove(lib);
@@ -121,22 +122,22 @@ public class LibrarianTableModel extends AbstractTableModel {
 		return deleted ;		
 	}
 	
-	private String getUlogeString(Librarian lib) {
+	private String getUlogeString(LibrarianDB lib) {
 		StringBuffer ret = new StringBuffer();
-		if(lib.isAdministration())			
+		if(lib.hasRole(Librarian.Role.ADMINISTRACIJA))
 			ret.append("A");
-		if(lib.isCataloguing()){
+		if(lib.hasRole(Librarian.Role.OBRADA)){
 			if(!ret.toString().equals("")) ret.append(",");
 			ret.append("O");
 		}
-		if(lib.isCirculation()){
+		if(lib.hasRole(Librarian.Role.CIRKULACIJA)){
 			if(!ret.toString().equals("")) ret.append(",");
 			ret.append("C");
 		}	
 		return ret.toString();		
 	}
 	
-	private void setDefaultPrefixes(Librarian lib){
+	private void setDefaultPrefixes(LibrarianDB lib){
 		lib.getContext().setPref1(defaultPrefixes[0]);
 		lib.getContext().setPref2(defaultPrefixes[1]);
 		lib.getContext().setPref3(defaultPrefixes[2]);

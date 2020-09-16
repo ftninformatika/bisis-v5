@@ -63,7 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/coders/sublocation**",
                         "/coders/sublocation/**",
                         "/coders/item_status**",
-                        "/coders/sublocation/get_by_location**").permitAll()
+                        "/coders/sublocation/get_by_location**",
+                        "/librarians/**").permitAll()
                 .antMatchers(
                         "/members_repository/**",
                         "/circ_report/**",

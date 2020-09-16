@@ -1,15 +1,13 @@
 package com.ftninformatika.bisis;
 
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.coders.*;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.reports.ReportCollection;
 import com.ftninformatika.bisis.reports.ReportRunner;
 import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -89,8 +87,8 @@ public class ReportApplication {
           .stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i)));
       libCoders.setLocCoders(ctx.getBean(LocationRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(Location::getCoder_id, i -> i)));
-      libCoders.setLibrarians(ctx.getBean(LibrarianRepository.class).findAll()
-          .stream().collect(Collectors.toMap(LibrarianDTO::get_id, i -> i)));
+      libCoders.setLibrarians(ctx.getBean(Librarian2Repository.class).findAll()
+          .stream().collect(Collectors.toMap(LibrarianDB::get_id, i -> i)));
 
 
       libProvider.setPrefix(lc.getLibraryName());

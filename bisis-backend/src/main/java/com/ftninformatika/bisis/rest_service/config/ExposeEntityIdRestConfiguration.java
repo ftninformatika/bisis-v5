@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.config;
 
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
-import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.ItemAvailability;
@@ -19,18 +19,17 @@ public class ExposeEntityIdRestConfiguration extends RepositoryRestConfigurerAda
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config){
-        config.exposeIdsFor(LibrarianDTO.class)
+        config.exposeIdsFor(LibrarianDB.class)
               .exposeIdsFor(Record.class)
               .exposeIdsFor(Member.class)
               .exposeIdsFor(Membership.class)
               .exposeIdsFor(CircLocation.class)
               .exposeIdsFor(ItemAvailability.class)
               .exposeIdsFor(Lending.class)
-              .exposeIdsFor(ProcessTypeDTO.class)
+              .exposeIdsFor(ProcessTypeDB.class)
               .exposeIdsFor(ElasticPrefixEntity.class)
               .exposeIdsFor(CircConfig.class)
               .exposeIdsFor(Organization.class)
-              .exposeIdsFor(GenericRegistry.class)
-              .exposeIdsFor(ProcessTypeDTO.class);
+              .exposeIdsFor(GenericRegistry.class);
     }
 }

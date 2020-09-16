@@ -4,10 +4,10 @@ import com.ftninformatika.bisis.auth.dto.LoginDTO;
 import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.auth.security.service.TokenService;
 import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.Librarian2Repository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,8 @@ public class MemberAuthenticationController {
     }
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired
+    Librarian2Repository librarianRepository;
 
     @PostMapping
     public ResponseEntity<?> authenticate(@RequestBody LoginDTO loginDTO) {
@@ -64,8 +65,8 @@ public class MemberAuthenticationController {
         if (libraryMember == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         // If admin account
         if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN.getAuthority())) {
-            LibrarianDTO librarian = librarianRepository.findById(libraryMember.getLibrarianIndex()).get();
-            librarian.setOpacAdmin(true);
+            LibrarianDB librarian = librarianRepository.findById(libraryMember.getLibrarianIndex()).get();
+            librarian.setRole(Librarian.Role.OPACADMIN);
             librarianRepository.save(librarian);
         }
         libraryMember.setActivationToken(null);
