@@ -54,6 +54,7 @@ public class InventarPanel extends JPanel{
   protected JButton ponistiButton;
   protected JButton raspodelaButton;
   protected JButton printBarcodeButton;
+  protected JButton printBarcodeLargeSigButton;
   
   //signatura
   protected JTextField sigDubletTxtFld = new JTextField();

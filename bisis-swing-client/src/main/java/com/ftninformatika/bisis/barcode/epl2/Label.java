@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.barcode.epl2;
 
 import static com.ftninformatika.bisis.barcode.epl2.Rotation.R0;
+import static com.ftninformatika.bisis.barcode.epl2.Rotation.R90;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,19 @@ public class Label {
 
   public Label() {
   }
+
+  public void setCurrentY(int currentY) {
+    this.currentY = currentY;
+  }
   
   public void appendText(String text,int size) {
     Text t = new Text(20, currentY, R0, size, text,pageCode);
+    currentY += 22;
+    components.add(t);
+  }
+
+  public void appendR90Text(String text, int size) {
+    Text t = new Text(width + 5, currentY - 80, R90, size, text,pageCode);
     currentY += 22;
     components.add(t);
   }
@@ -45,6 +56,14 @@ public class Label {
     Code128 code128 = new Code128(20, currentY, R0,widebar, narrowbar, 
         barwidth, code);
     currentY += 82;
+    components.add(code128);
+  }
+
+  public void appendCode128WithoutNum(String code) {
+    Code128 code128 = new Code128(20, currentY, R0,widebar, narrowbar,
+            barwidth, code);
+    currentY += 82;
+    code128.disableNumbers();
     components.add(code128);
   }
   

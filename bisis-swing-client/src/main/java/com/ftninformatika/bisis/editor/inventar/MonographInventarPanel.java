@@ -339,11 +339,13 @@ public class MonographInventarPanel extends InventarPanel {
         "/icons/edit.gif")));
 		
 		printBarcodeButton = new JButton(Messages.getString("BARCODE"));
+		printBarcodeLargeSigButton = new JButton(Messages.getString("BARCODE") + " 2");
 		
 		MigLayout layout = new MigLayout("","5[]5[]300[right]5[right]","");
 		buttonsPanel.setLayout(layout);		
 		buttonsPanel.add(raspodelaButton);
 		buttonsPanel.add(printBarcodeButton);
+		buttonsPanel.add(printBarcodeLargeSigButton);
   		buttonsPanel.add(Box.createGlue());
 		buttonsPanel.add(sacuvajButton);   
 		buttonsPanel.add(ponistiButton);		
@@ -370,6 +372,11 @@ public class MonographInventarPanel extends InventarPanel {
 			public void actionPerformed(ActionEvent e) {			
 				handlePrintBarcode();
 			}			
+		});
+		printBarcodeLargeSigButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				handlePrintBarcodeLargeSig();
+			}
 		});
 	}	
 
@@ -560,6 +567,14 @@ public class MonographInventarPanel extends InventarPanel {
   		PrintBarcode.printBarcodeForPrimerak(p, null);
   	} 		
   }
+
+	private void handlePrintBarcodeLargeSig() {
+		int[] selectedPrimerci =  primerciTable.getSelectedRows();
+		for(int i:selectedPrimerci){
+			Primerak p = primerciTableModel.getRow(primerciTable.convertRowIndexToModel(i));
+			PrintBarcode.printBarcodeForPrimerakSmallLabel(p, true);
+		}
+	}
   
   private PrintersDlg getPrintersDlg() {
 	    if (printersDlg == null) {

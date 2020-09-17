@@ -6,7 +6,7 @@ public class Test {
   public static void main(String[] args) throws Exception {
     //IPrinter printer = new RemotePrinter("localhost", "7000");
     IPrinter printer = Printer2.getInstance();
-    Label label = new Label(300, 0, 203, 2, 2, 10, "1250");
+    Label label = new Label(300, 0, 203, 2, 3, 30, "1250");
   /*  label.appendText("Gradska biblioteka");
     label.appendText("Novi Sad");
     label.appendBlankLine();
@@ -23,9 +23,10 @@ public class Test {
     printer.print(label);*/
 
     //label = new Label(0, 0, 203,3,2,50,"1250");
-    label.appendText("Test Test",3);
-    label.appendBlankLine();
-    label.appendCode128("K00000001540");
+    label.appendText("0427- 821.111-93-31",4);
+//    label.appendBlankLine();
+    label.appendCode128("P01000001540");
+//    label.appendR90Text("BGB",3);
     printer.print(label,"1250");
     System.out.println(label.getCommands());
     System.out.println(String.format("%x", 
