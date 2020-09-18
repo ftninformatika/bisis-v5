@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.circ.validator;
 import javax.swing.JLabel;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.StringUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.validator.Field;
@@ -210,7 +211,7 @@ public class Validator {
      
      public static String convertCtlgNo2DB(String ctlgno) {
        if (!ctlgno.equals("")){
-      	 
+      	 ctlgno = LatCyrUtils.toLatin(ctlgno);
       	 //barcode
       	 if (ctlgno.startsWith("P")){
       		 return ctlgno.substring(1);

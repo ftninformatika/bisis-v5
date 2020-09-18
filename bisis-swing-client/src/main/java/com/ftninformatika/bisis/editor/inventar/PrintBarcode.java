@@ -131,27 +131,50 @@ public class PrintBarcode {
       System.out.println("Error parsing barcode wrapparts, using 19");
     }
     if (largeSignature) {
-      sigFontSize ++;
-      wrapChars -= 4;
-      barWidthSize -= 20;
+      sigFontSize++;
+      wrapChars -= 10;
+      barWidthSize -= 40;
     }
+
+    String subLoc = p.getSigPodlokacija();
+    String intOzn = p.getSigIntOznaka();
+    String udk = p.getSigUDK();
+    String format = p.getSigFormat();
+    String numerusCurrens = p.getSigNumerusCurens();
+    String shortLib = BisisApp.appConfig.getClientConfig().getLibraryName().toUpperCase();
 
     Label label = new Label(labelWidth, labelHeight, labelResolution, widebar, narrowbar, barWidthSize, pageCode);
-    label.setCurrentY(10);
+    label.setCurrentY(5);
 
-    String shortLib = BisisApp.appConfig.getClientConfig().getLibraryName().toUpperCase();
-    String signature = Signature.format(p).toUpperCase().replace("\"", " ").trim();
-    String[] signatureChunks = signature.split("(?<=\\G.{" + wrapChars + "})");
-    for(String chunk: signatureChunks) {
-      label.appendText(chunk, sigFontSize);
-    }
     if (!largeSignature) {
+      String signature = ((intOzn != null ? intOzn + "-" : "")  + (udk != null ? udk : "")).trim();
+      signature = signature.replace("\"", " ").trim().replace(" ", "").toUpperCase();
+      String[] signatureChunks = signature.split("(?<=\\G.{" + wrapChars + "})");
+      if (signatureChunks.length > 2) {
+        label.setBarwidth(label.getBarwidth() - 30);
+      }
+      for (String chunk: signatureChunks) {
+        label.appendText(chunk, sigFontSize);
+        label.appendSpace(6);
+      }
       label.appendCode128("P" + p.getInvBroj());
-    } else {
-      label.appendBlankLine();
+      if (subLoc != null && !subLoc.equals("")) {
+        label.appendCode128RsideText(subLoc, 3);
+      }
+      label.appendR90Text(shortLib, 3);
+    }
+    else {
+      String signature = (((intOzn != null && !intOzn.trim().equals("")) ? intOzn + "-" : "")
+              + ((format != null && !format.trim().equals("")) ? format + "-" : "")
+              + ((numerusCurrens != null && !numerusCurrens.trim().equals("")) ? numerusCurrens : ""))
+              .trim();
+      String[] chunks = signature.split("(?<=\\G.{" + wrapChars + "})");
+      for (String chunk: chunks) {
+        label.appendText(chunk, sigFontSize);
+        label.appendSpace(30);
+      }
       label.appendCode128WithoutNum("P" + p.getInvBroj());
     }
-    label.appendR90Text(shortLib, 3);
     printer.print(label, pageCode);
   }
 

@@ -43,13 +43,22 @@ public class Label {
   }
 
   public void appendR90Text(String text, int size) {
-    Text t = new Text(width + 5, currentY - 80, R90, size, text,pageCode);
+    Text t = new Text(width, currentY - 80, R90, size, text,pageCode);
     currentY += 22;
+    components.add(t);
+  }
+
+  public void appendCode128RsideText(String text, int size) {
+    Text t = new Text(width  - 65, currentY - 18, R0, size, text,pageCode);
     components.add(t);
   }
   
   public void appendBlankLine() {
     currentY += 22;
+  }
+
+  public void appendSpace(int space) {
+    currentY += space;
   }
   
   public void appendCode128(String code) {
@@ -78,6 +87,14 @@ public class Label {
     }
     buff.append("P1\n");
     return buff.toString();
+  }
+
+  public int getBarwidth() {
+    return barwidth;
+  }
+
+  public void setBarwidth(int barwidth) {
+    this.barwidth = barwidth;
   }
 
   public int getWidth() {
