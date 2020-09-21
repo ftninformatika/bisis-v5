@@ -132,8 +132,8 @@ public class PrintBarcode {
     }
     if (largeSignature) {
       sigFontSize++;
-      wrapChars -= 10;
-      barWidthSize -= 40;
+      wrapChars = 7;
+      barWidthSize -= 30;
     }
 
     String subLoc = p.getSigPodlokacija();
@@ -144,36 +144,44 @@ public class PrintBarcode {
     String shortLib = BisisApp.appConfig.getClientConfig().getLibraryName().toUpperCase();
 
     Label label = new Label(labelWidth, labelHeight, labelResolution, widebar, narrowbar, barWidthSize, pageCode);
-    label.setCurrentY(5);
+    label.setCurrentY(1);
 
     if (!largeSignature) {
       String signature = ((intOzn != null ? intOzn + "-" : "")  + (udk != null ? udk : "")).trim();
-      signature = signature.replace("\"", " ").trim().replace(" ", "").toUpperCase();
+      signature = signature
+              .replace("\"", "\\\"")
+              .replace("\'", "\\\'")
+              .trim().replace(" ", "").toUpperCase();
       String[] signatureChunks = signature.split("(?<=\\G.{" + wrapChars + "})");
-      if (signatureChunks.length > 2) {
+      int sigRowsCount = signatureChunks.length;
+      if (sigRowsCount > 2) {
         label.setBarwidth(label.getBarwidth() - 30);
       }
       for (String chunk: signatureChunks) {
-        label.appendText(chunk, sigFontSize);
+        label.appendText(chunk, sigFontSize, 0);
         label.appendSpace(6);
       }
-      label.appendCode128("P" + p.getInvBroj());
+      label.appendCode128("P" + p.getInvBroj(), 0);
       if (subLoc != null && !subLoc.equals("")) {
-        label.appendCode128RsideText(subLoc, 3);
+        if (sigRowsCount < 3) {
+          label.appendCode128RsideText(subLoc, 3);
+        } else {
+          label.appendCode128RsideText2(subLoc, 3);
+        }
       }
       label.appendR90Text(shortLib, 3);
     }
     else {
-      String signature = (((intOzn != null && !intOzn.trim().equals("")) ? intOzn + "-" : "")
-              + ((format != null && !format.trim().equals("")) ? format + "-" : "")
-              + ((numerusCurrens != null && !numerusCurrens.trim().equals("")) ? numerusCurrens : ""))
-              .trim();
-      String[] chunks = signature.split("(?<=\\G.{" + wrapChars + "})");
+      String _1stRow =  (((intOzn != null && !intOzn.trim().equals("")) ? intOzn + "-" : "") + ((format != null && !format.trim().equals("")) ? format + "-" : "")).trim();
+      label.appendText(_1stRow, sigFontSize);
+      label.appendSpace(30);
+      String _2ndRow =((numerusCurrens != null && !numerusCurrens.trim().equals("")) ? numerusCurrens : "").trim();
+      String[] chunks = _2ndRow.split("(?<=\\G.{" + wrapChars + "})");
       for (String chunk: chunks) {
         label.appendText(chunk, sigFontSize);
         label.appendSpace(30);
       }
-      label.appendCode128WithoutNum("P" + p.getInvBroj());
+      label.appendCode128WithoutNum("P" + p.getInvBroj(), 5);
     }
     printer.print(label, pageCode);
   }

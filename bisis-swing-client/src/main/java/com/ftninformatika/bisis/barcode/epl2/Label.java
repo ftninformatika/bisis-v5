@@ -42,6 +42,12 @@ public class Label {
     components.add(t);
   }
 
+  public void appendText(String text,int size, int originX) {
+    Text t = new Text(originX, currentY, R0, size, text,pageCode);
+    currentY += 22;
+    components.add(t);
+  }
+
   public void appendR90Text(String text, int size) {
     Text t = new Text(width, currentY - 80, R90, size, text,pageCode);
     currentY += 22;
@@ -49,7 +55,12 @@ public class Label {
   }
 
   public void appendCode128RsideText(String text, int size) {
-    Text t = new Text(width  - 65, currentY - 18, R0, size, text,pageCode);
+    Text t = new Text(width  - 70, currentY - 18, R0, size, text,pageCode);
+    components.add(t);
+  }
+
+  public void appendCode128RsideText2(String text, int size) {
+    Text t = new Text(width  - 70, this.currentY - 40, R0, size, text,pageCode);
     components.add(t);
   }
   
@@ -62,8 +73,15 @@ public class Label {
   }
   
   public void appendCode128(String code) {
-    Code128 code128 = new Code128(20, currentY, R0,widebar, narrowbar, 
+    Code128 code128 = new Code128(20, currentY, R0,widebar, narrowbar,
         barwidth, code);
+    currentY += 82;
+    components.add(code128);
+  }
+
+  public void appendCode128(String code, int originX) {
+    Code128 code128 = new Code128(originX, currentY, R0,widebar, narrowbar,
+            barwidth, code);
     currentY += 82;
     components.add(code128);
   }
@@ -71,7 +89,15 @@ public class Label {
   public void appendCode128WithoutNum(String code) {
     Code128 code128 = new Code128(20, currentY, R0,widebar, narrowbar,
             barwidth, code);
-    currentY += 82;
+    currentY += 60;
+    code128.disableNumbers();
+    components.add(code128);
+  }
+
+  public void appendCode128WithoutNum(String code, int originX) {
+    Code128 code128 = new Code128(originX, currentY, R0,widebar, narrowbar,
+            barwidth, code);
+    currentY += 60;
     code128.disableNumbers();
     components.add(code128);
   }
