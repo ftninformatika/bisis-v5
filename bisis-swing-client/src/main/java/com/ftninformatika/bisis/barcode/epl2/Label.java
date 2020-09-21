@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.barcode.epl2;
 
 import static com.ftninformatika.bisis.barcode.epl2.Rotation.R0;
+import static com.ftninformatika.bisis.barcode.epl2.Rotation.R90;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,21 +31,48 @@ public class Label {
 
   public Label() {
   }
+
+  public void setCurrentY(int currentY) {
+    this.currentY = currentY;
+  }
   
   public void appendText(String text,int size) {
     Text t = new Text(20, currentY, R0, size, text,pageCode);
     currentY += 22;
     components.add(t);
   }
+
+  public void appendR90Text(String text, int size) {
+    Text t = new Text(width, currentY - 80, R90, size, text,pageCode);
+    currentY += 22;
+    components.add(t);
+  }
+
+  public void appendCode128RsideText(String text, int size) {
+    Text t = new Text(width  - 65, currentY - 18, R0, size, text,pageCode);
+    components.add(t);
+  }
   
   public void appendBlankLine() {
     currentY += 22;
+  }
+
+  public void appendSpace(int space) {
+    currentY += space;
   }
   
   public void appendCode128(String code) {
     Code128 code128 = new Code128(20, currentY, R0,widebar, narrowbar, 
         barwidth, code);
     currentY += 82;
+    components.add(code128);
+  }
+
+  public void appendCode128WithoutNum(String code) {
+    Code128 code128 = new Code128(20, currentY, R0,widebar, narrowbar,
+            barwidth, code);
+    currentY += 82;
+    code128.disableNumbers();
     components.add(code128);
   }
   
@@ -59,6 +87,14 @@ public class Label {
     }
     buff.append("P1\n");
     return buff.toString();
+  }
+
+  public int getBarwidth() {
+    return barwidth;
+  }
+
+  public void setBarwidth(int barwidth) {
+    this.barwidth = barwidth;
   }
 
   public int getWidth() {

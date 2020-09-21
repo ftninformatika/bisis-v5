@@ -1,26 +1,20 @@
 package com.ftninformatika.bisis.circ.view;
 
 
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
+import com.ftninformatika.bisis.ecard.ElCardReader;
 import com.ftninformatika.utils.Messages;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Frame;
 import java.awt.BorderLayout;
 
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-
 import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class UserID extends JDialog {
 
@@ -29,6 +23,7 @@ public class UserID extends JDialog {
 	private JTextField tfUserID = null;
 	private JPanel pSouth = null;
 	private JButton btnOK = null;
+	private JButton btnSerachECard = null;
 	private PanelBuilder pCenter = null;
 	private JButton btnCancel = null;
 	private JButton btnSearch = null;
@@ -82,6 +77,8 @@ public class UserID extends JDialog {
 			pSouth.add(getBtnOK(), null);
 			pSouth.add(getBtnCancel(), null);
 			pSouth.add(getBtnSearch(), null);
+			// todo uncomment
+//			pSouth.add(getBtnSerachECard(), null);
 		}
 		return pSouth;
 	}
@@ -93,6 +90,15 @@ public class UserID extends JDialog {
 			btnOK.setIcon(new ImageIcon(getClass().getResource("/circ-images/Check16.png"))); //$NON-NLS-1$
 		}
 		return btnOK;
+	}
+
+	private JButton getBtnSerachECard() {
+		if (btnSerachECard == null) {
+			btnSerachECard = new JButton();
+			btnSerachECard.setText(Messages.getString("circulation.btnReadFromECard"));
+			btnSerachECard.setIcon(new ImageIcon(getClass().getResource("/icons/chip16.png")));
+		}
+		return btnSerachECard;
 	}
 
 	private JPanel getPCenter() {
@@ -138,6 +144,10 @@ public class UserID extends JDialog {
 	
 	public void addSearchListener(ActionListener l){
 		getBtnSearch().addActionListener(l);
+	}
+
+	public void addEsearchListener(ActionListener l){
+		getBtnSerachECard().addActionListener(l);
 	}
 	
 	public void clear(){

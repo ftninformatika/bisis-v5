@@ -2,7 +2,6 @@ package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import com.ftninformatika.bisis.search.SearchModelCirc;
@@ -10,7 +9,13 @@ import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -25,16 +30,24 @@ public class CircSearchController {
 
     @Autowired LendingRepository lendingRepository;
     @Autowired MemberRepository memberRepository;
-    @Autowired ElasticRecordsRepository elasticRecordsRepository;
+    @Autowired ElasticsearchTemplate elasticsearchTemplate;
 
     @RequestMapping(value = "/circ/recordIds", method = RequestMethod.POST )
-    public List<String> searchCircRecordIds(@RequestBody SearchModelCirc search) {
+    public List<String> searchCircRecordIds(@RequestHeader("Library") String lib, @RequestBody SearchModelCirc search) {
         BoolQueryBuilder query= ElasticUtility.makeQuery(search);
+        Pageable pageable = PageRequest.of(0, 5000);
         if (search.getStartDateLend()!=null || search.getStartDateRet() != null) {
             List<String> ctlgNos=lendingRepository.getLendingsCtlgNo(search.getStartDateLend(),search.getEndDateLend(),search.getStartDateRet(),search.getEndDateRet(),search.getLocation());
-            query =query.filter(QueryBuilders.termsQuery("prefixes.IN", ctlgNos));
+            query = query.filter(QueryBuilders.termsQuery("prefixes.IN", ctlgNos));
         }
-        Iterable<ElasticPrefixEntity> ii = elasticRecordsRepository.search(query);
+        NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(query)
+                .withIndices(lib + "library_domain")
+                .withTypes("record")
+                .withPageable(pageable)
+                .withSort(SortBuilders.fieldSort("prefixes.PY_sort").order(SortOrder.DESC));
+
+        Iterable<ElasticPrefixEntity> ii = elasticsearchTemplate.queryForPage(searchQuery.build(), ElasticPrefixEntity.class);
         return ElasticUtility.getIdsFromElasticIterable(ii);
     }
 

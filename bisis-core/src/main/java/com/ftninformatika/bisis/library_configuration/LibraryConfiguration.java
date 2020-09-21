@@ -45,6 +45,7 @@ public class LibraryConfiguration {
     private String bookcardsBrRedova;
     private String bookcardsLocale;
 
+    private String barcodeLabelFormat;
     private String barcodePort;
     private String barcodeOptionName;
     private String barcodeLibrary1;
@@ -72,6 +73,7 @@ public class LibraryConfiguration {
     private String pincodeLibrary;
 
     private String locale;
+    private Boolean circLocaleLatn;
 
     private List<Report> reports;
 

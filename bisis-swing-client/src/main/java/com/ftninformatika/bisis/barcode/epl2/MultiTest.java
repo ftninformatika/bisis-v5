@@ -20,14 +20,14 @@ public class MultiTest {
 	            System.out.println(services[i] );
 	            }
 	            Label label = new Label(456, 0, 203,3,2,140,"1250");
-	            label.appendText("Danijela Boberic ",3);
+	            label.appendText("Danijela Boberic ",2);
 	            label.appendBlankLine();
 	            label.appendCode128("K00000001540"); 
 	            byte[] by = label.getCommands().getBytes();
 
 	           // ByteArrayInputStream is = new ByteArrayInputStream(label.getCommands().getBytes());
 	           
-	            DocPrintJob job = services[1].createPrintJob();
+	            DocPrintJob job = services[0].createPrintJob();
 
 				DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 	 

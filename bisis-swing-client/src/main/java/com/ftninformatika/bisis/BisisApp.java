@@ -83,12 +83,12 @@ public class BisisApp {
         while (!correct) {
             if (login.isConfirmed()) {
 
-                if (!LibraryList.isValidUsername(login.getUsername())){
-                    JOptionPane.showMessageDialog(null, Messages.getString("VALID_USERNAME_INFO"),
-                            Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
-                    login.setVis(true);
-                    continue;
-                }
+//                if (!LibraryList.isValidUsername(login.getUsername())){
+//                    JOptionPane.showMessageDialog(null, Messages.getString("VALID_USERNAME_INFO"),
+//                            Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
+//                    login.setVis(true);
+//                    continue;
+//                }
 
 
                 splashScreen = new SplashScreen();
