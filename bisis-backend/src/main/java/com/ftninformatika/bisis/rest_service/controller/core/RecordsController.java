@@ -646,16 +646,20 @@ public class RecordsController {
     @PostMapping("/multiple_ids_wrapper")
     public List<RecordResponseWrapper> getRecordsAllDataByIds(@RequestBody List<String> idList) {
         List<RecordResponseWrapper> retVal = new ArrayList<>();
-        Iterable<Record> recs = recordsRepository.findAllById(idList);
-        recs.forEach(
-                record -> {
-                    RecordResponseWrapper wrapper = new RecordResponseWrapper();
-                    wrapper.setFullRecord(record);
-                    List<ItemAvailability> items = itemAvailabilityRepository.findByRecordID("" + record.getRecordID());
-                    wrapper.setListOfItems(items);
-                    retVal.add(wrapper);
-                }
-        );
+        if (idList == null || idList.size() == 0) {
+            return retVal;
+        }
+        for (String _id: idList) {
+            Optional<Record> optionalRecord = recordsRepository.findById(_id);
+            if (!optionalRecord.isPresent()) {
+                continue;
+            }
+            RecordResponseWrapper wrapper = new RecordResponseWrapper();
+            wrapper.setFullRecord(optionalRecord.get());
+            List<ItemAvailability> items = itemAvailabilityRepository.findByRecordID("" + optionalRecord.get().getRecordID());
+            wrapper.setListOfItems(items);
+            retVal.add(wrapper);
+        }
         return retVal;
     }
 

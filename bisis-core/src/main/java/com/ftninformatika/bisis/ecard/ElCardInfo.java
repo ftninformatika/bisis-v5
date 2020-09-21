@@ -34,6 +34,7 @@ public class ElCardInfo {
         setJmbg();
         setDocNo();
         setBirthDay();
+        setParentName();
     }
 
     public void setFirstName() {

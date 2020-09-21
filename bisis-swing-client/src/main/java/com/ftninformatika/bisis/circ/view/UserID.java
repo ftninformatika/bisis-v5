@@ -77,7 +77,8 @@ public class UserID extends JDialog {
 			pSouth.add(getBtnOK(), null);
 			pSouth.add(getBtnCancel(), null);
 			pSouth.add(getBtnSearch(), null);
-			pSouth.add(getBtnSerachECard(), null);
+			// todo uncomment
+//			pSouth.add(getBtnSerachECard(), null);
 		}
 		return pSouth;
 	}

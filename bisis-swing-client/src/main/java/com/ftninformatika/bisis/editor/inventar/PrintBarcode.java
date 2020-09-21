@@ -49,8 +49,20 @@ public class PrintBarcode {
     list.addAll(printers.keySet());
     return list;
   }
+  public static void printBarcodeForPrimerak(Primerak p, String printer) {
+    String labelFormat = BisisApp.appConfig.getClientConfig().getBarcodeLabelFormat();
+    if (labelFormat == null) {
+      printBarcodeForPrimerakStandard(p);
+      return;
+    }
+    switch (labelFormat) {
+      case "small": printBarcodeForPrimerakSmallLabel(p, false); break; //todo put enum
+      case "standard": printBarcodeForPrimerakStandard(p); break;
+      default: printBarcodeForPrimerakStandard(p);
+    }
+  }
 
-  public static void printBarcodeForPrimerak(Primerak p, String printerName) {
+  private static void printBarcodeForPrimerakStandard(Primerak p) {
     IPrinter printer;
     //novi nacin za stampanje bar koda
     printer = Printer2.getInstance();
@@ -60,7 +72,7 @@ public class PrintBarcode {
     String[] wrapparts = wrap.split(",");
     String libName, ogr, libraryName;
     for (int i = 0; i < library.length; i++) {
-      libName = BisisApp.appConfig.getClientConfig().getLibraryFullName();
+      libName = BisisApp.appConfig.getClientConfig().getBarcodeLibrary1();
       int crta = libName.indexOf("-");
       if (crta != -1) {
         ogr = libName.substring(0, crta);
@@ -105,4 +117,65 @@ public class PrintBarcode {
     printer.print(label, pageCode);
 
   }
+
+  public static void printBarcodeForPrimerakSmallLabel(Primerak p, boolean largeSignature) {
+    IPrinter printer;
+    printer = Printer2.getInstance();
+    int sigFontSize = sigfont;
+    int barWidthSize = barwidth;
+    int wrapChars = 19;
+    String[] wrapparts = wrap.split(",");
+    try {
+      wrapChars = Integer.parseInt(wrapparts[0]);
+    } catch (Exception e) {
+      System.out.println("Error parsing barcode wrapparts, using 19");
+    }
+    if (largeSignature) {
+      sigFontSize++;
+      wrapChars -= 10;
+      barWidthSize -= 40;
+    }
+
+    String subLoc = p.getSigPodlokacija();
+    String intOzn = p.getSigIntOznaka();
+    String udk = p.getSigUDK();
+    String format = p.getSigFormat();
+    String numerusCurrens = p.getSigNumerusCurens();
+    String shortLib = BisisApp.appConfig.getClientConfig().getLibraryName().toUpperCase();
+
+    Label label = new Label(labelWidth, labelHeight, labelResolution, widebar, narrowbar, barWidthSize, pageCode);
+    label.setCurrentY(5);
+
+    if (!largeSignature) {
+      String signature = ((intOzn != null ? intOzn + "-" : "")  + (udk != null ? udk : "")).trim();
+      signature = signature.replace("\"", " ").trim().replace(" ", "").toUpperCase();
+      String[] signatureChunks = signature.split("(?<=\\G.{" + wrapChars + "})");
+      if (signatureChunks.length > 2) {
+        label.setBarwidth(label.getBarwidth() - 30);
+      }
+      for (String chunk: signatureChunks) {
+        label.appendText(chunk, sigFontSize);
+        label.appendSpace(6);
+      }
+      label.appendCode128("P" + p.getInvBroj());
+      if (subLoc != null && !subLoc.equals("")) {
+        label.appendCode128RsideText(subLoc, 3);
+      }
+      label.appendR90Text(shortLib, 3);
+    }
+    else {
+      String signature = (((intOzn != null && !intOzn.trim().equals("")) ? intOzn + "-" : "")
+              + ((format != null && !format.trim().equals("")) ? format + "-" : "")
+              + ((numerusCurrens != null && !numerusCurrens.trim().equals("")) ? numerusCurrens : ""))
+              .trim();
+      String[] chunks = signature.split("(?<=\\G.{" + wrapChars + "})");
+      for (String chunk: chunks) {
+        label.appendText(chunk, sigFontSize);
+        label.appendSpace(30);
+      }
+      label.appendCode128WithoutNum("P" + p.getInvBroj());
+    }
+    printer.print(label, pageCode);
+  }
+
 }
