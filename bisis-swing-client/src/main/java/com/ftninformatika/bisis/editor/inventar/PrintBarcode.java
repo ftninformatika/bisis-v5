@@ -7,6 +7,7 @@ import java.util.List;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.barcode.epl2.*;
 import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import org.apache.log4j.Logger;
 
@@ -148,10 +149,10 @@ public class PrintBarcode {
 
     if (!largeSignature) {
       String signature = ((intOzn != null ? intOzn + "-" : "")  + (udk != null ? udk : "")).trim();
-      signature = signature
+      signature = LatCyrUtils.toLatin(signature
               .replace("\"", "\\\"")
               .replace("\'", "\\\'")
-              .trim().replace(" ", "").toUpperCase();
+              .trim().replace(" ", "").toUpperCase());
       String[] signatureChunks = signature.split("(?<=\\G.{" + wrapChars + "})");
       int sigRowsCount = signatureChunks.length;
       if (sigRowsCount > 2) {
@@ -174,12 +175,12 @@ public class PrintBarcode {
     else {
       String _1stRow =  (((intOzn != null && !intOzn.trim().equals("")) ? intOzn + "-" : "") + ((format != null && !format.trim().equals("")) ? format + "-" : "")).trim();
       label.appendText(_1stRow, sigFontSize);
-      label.appendSpace(30);
+      label.appendSpace(35);
       String _2ndRow =((numerusCurrens != null && !numerusCurrens.trim().equals("")) ? numerusCurrens : "").trim();
       String[] chunks = _2ndRow.split("(?<=\\G.{" + wrapChars + "})");
       for (String chunk: chunks) {
         label.appendText(chunk, sigFontSize);
-        label.appendSpace(30);
+        label.appendSpace(35);
       }
       label.appendCode128WithoutNum("P" + p.getInvBroj(), 5);
     }
