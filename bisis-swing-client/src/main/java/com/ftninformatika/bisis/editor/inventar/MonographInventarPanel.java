@@ -341,11 +341,11 @@ public class MonographInventarPanel extends InventarPanel {
 		printBarcodeButton = new JButton(Messages.getString("BARCODE"));
 		printBarcodeLargeSigButton = new JButton(Messages.getString("BARCODE_SIG"));
 		
-		MigLayout layout = new MigLayout("","5[]5[]300[right]5[right]","");
+		MigLayout layout = new MigLayout("","5[]5[]5[]300[right]5[right]","");
 		buttonsPanel.setLayout(layout);
 		buttonsPanel.add(raspodelaButton);
-		buttonsPanel.add(printBarcodeButton);
 		buttonsPanel.add(printBarcodeLargeSigButton);
+		buttonsPanel.add(printBarcodeButton);
   		buttonsPanel.add(Box.createGlue());
 		buttonsPanel.add(sacuvajButton);   
 		buttonsPanel.add(ponistiButton);		

@@ -1,8 +1,6 @@
 package com.ftninformatika.bisis.editor.inventar;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.barcode.epl2.*;
@@ -23,11 +21,7 @@ public class PrintBarcode {
   static private int barwidth, sigfont, labelfont;
   static private String pageCode;
   static private String optionName;
-  static private String port;
-  static private boolean remote;
-  static private HashMap<String, List<String>> printers;
-  static private List<String> socket;
-  static private int printersNo = 0;
+  static private Map<String, String> barcodeLibraries;
   private static Logger log = Logger.getLogger(PrintBarcode.class);
 
   static {
@@ -42,14 +36,9 @@ public class PrintBarcode {
     barwidth = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeBarwidth());;
     sigfont = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeSigfont());
     labelfont = Integer.parseInt(BisisApp.appConfig.getClientConfig().getBarcodeLabelfont());
-    port = BisisApp.appConfig.getClientConfig().getBarcodePort();
+    barcodeLibraries = BisisApp.appConfig.getClientConfig().getBarcodeLibraries();
   }
 
-  public static List<String> getPrinters() {
-    List<String> list = new ArrayList<String>();
-    list.addAll(printers.keySet());
-    return list;
-  }
   public static void printBarcodeForPrimerak(Primerak p, String printer) {
     String labelFormat = BisisApp.appConfig.getClientConfig().getBarcodeLabelFormat();
     if (labelFormat == null) {
@@ -64,46 +53,31 @@ public class PrintBarcode {
   }
 
   private static void printBarcodeForPrimerakStandard(Primerak p) {
-    IPrinter printer;
-    //novi nacin za stampanje bar koda
-    printer = Printer2.getInstance();
+    IPrinter printer = Printer2.getInstance();
 
     Label label = new Label(labelWidth, labelHeight, labelResolution, widebar, narrowbar, barwidth, pageCode);
-    String[] library = optionName.split(",");
     String[] wrapparts = wrap.split(",");
-    String libName, ogr, libraryName;
-    for (int i = 0; i < library.length; i++) {
-      libName = BisisApp.appConfig.getClientConfig().getBarcodeLibrary1();
-      int crta = libName.indexOf("-");
-      if (crta != -1) {
-        ogr = libName.substring(0, crta);
-        libraryName = libName.substring(crta + 1);
-        if (p.getInvBroj().startsWith(ogr)) {
-          if ((Integer.parseInt(wrapparts[0]) != 0) && (libraryName.length() > Integer.parseInt(wrapparts[0]))) {
-            label.appendText(libraryName.substring(0, Integer.parseInt(wrapparts[0])), labelfont);
-            for (int w = 0; w < wrapparts.length - 1; w++) {
-              label.appendText(
-                  libraryName.substring(Integer.parseInt(wrapparts[w]) + 1, Integer.parseInt(wrapparts[w + 1])),
-                  labelfont);
-            }
-            label.appendText(libraryName.substring(Integer.parseInt(wrapparts[wrapparts.length - 1]) + 1), labelfont);
-          } else {
-            label.appendText(libraryName, labelfont);
-          }
-          continue;
-        }
-      } else {
-        if ((Integer.parseInt(wrapparts[0]) != 0) && (libName.length() > Integer.parseInt(wrapparts[0]))) {
-          label.appendText(libName.substring(0, Integer.parseInt(wrapparts[0])), labelfont);
-          for (int w = 0; w < wrapparts.length - 1; w++) {
-            label.appendText(libName.substring(Integer.parseInt(wrapparts[w]) + 1, Integer.parseInt(wrapparts[w + 1])),
+    if (p.getInvBroj() == null || p.getInvBroj().length() < 11) {
+      log.error("Invenarni broj je neispravan za primerak!");
+      return;
+    }
+
+    String ogr = p.getInvBroj().substring(0,2);
+    String libraryName = BisisApp.appConfig.getClientConfig().getBarcodeLibrary1();
+    if (barcodeLibraries != null && barcodeLibraries.get(ogr) != null) {
+      libraryName = barcodeLibraries.get(ogr);
+    }
+
+    if ((Integer.parseInt(wrapparts[0]) != 0) && (libraryName.length() > Integer.parseInt(wrapparts[0]))) {
+      label.appendText(libraryName.substring(0, Integer.parseInt(wrapparts[0])), labelfont);
+      for (int w = 0; w < wrapparts.length - 1; w++) {
+        label.appendText(
+                libraryName.substring(Integer.parseInt(wrapparts[w]) + 1, Integer.parseInt(wrapparts[w + 1])),
                 labelfont);
-          }
-          label.appendText(libName.substring(Integer.parseInt(wrapparts[wrapparts.length - 1]) + 1), labelfont);
-        } else {
-          label.appendText(libName, labelfont);
-        }
       }
+      label.appendText(libraryName.substring(Integer.parseInt(wrapparts[wrapparts.length - 1]) + 1), labelfont);
+    } else {
+      label.appendText(libraryName, labelfont);
     }
 
     label.appendBlankLine();
