@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author badf00d21  29.7.19.
@@ -41,6 +43,7 @@ public class Book {
     private AvgRecordRating avgRating;
     private String masterRecordTitle;
     private String masterRecordId;
+    private Map<String, String> refRecsBrief = new HashMap<>();
 //    Data from books_common collection
     private String imageUrl;
     private String description;
