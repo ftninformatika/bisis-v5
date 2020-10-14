@@ -6,7 +6,6 @@ import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.catalina.valves.ExtendedAccessLogValve;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

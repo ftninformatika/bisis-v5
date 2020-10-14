@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.gbzz;
 
-import com.ftninformatika.bisis.general.InvKnjigaMonografske;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
@@ -9,7 +8,6 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
