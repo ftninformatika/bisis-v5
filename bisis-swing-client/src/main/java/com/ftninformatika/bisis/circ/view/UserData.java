@@ -192,8 +192,7 @@ public class UserData {
             pMain0.add(getTfDocCity(), cc.xy(4, 22));
             pMain0.add(getCountryLabel(), cc.xy(2, 24));
             pMain0.add(getTfCountry(), cc.xy(4, 24));
-            // todo uncomment
-//            pMain0.add(getReadFromECardBtn(), cc.xy(4, 25));
+            pMain0.add(getReadFromECardBtn(), cc.xy(4, 25));
 
             pMain0.addSeparator("", cc.xyw(6, 20, 7)); //$NON-NLS-1$
             pMain0.addLabel(Messages.getString("circulation.indicator"), cc.xyw(6, 22, 3)); //$NON-NLS-1$
