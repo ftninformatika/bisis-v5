@@ -24,6 +24,7 @@ import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicTreeUI;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import net.miginfocom.swing.MigLayout;
 
 public class GroupInvFrame extends JInternalFrame {
@@ -241,7 +242,14 @@ public class GroupInvFrame extends JInternalFrame {
     }
 
     private void handleAddItem() {
-        tableModel.addItem(invBrojTextField.getText());
+        if (invBrojTextField.getText() == null || invBrojTextField.getText().equals("")) {
+            return;
+        }
+        String inv = LatCyrUtils.toLatin(invBrojTextField.getText());
+        if (inv.startsWith("P")) {
+            inv = inv.substring(1);
+        }
+        tableModel.addItem(inv);
         invBrojTextField.setText("");
     }
 
