@@ -8,7 +8,6 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,6 +16,7 @@ import java.util.regex.Pattern;
 
 public class NabavkaPoUDK extends Report {
 
+	private static final String UDK_DOMACA_PREFIX = "821.163.41";
   @Override
   public void init() {
 	    nf = NumberFormat.getInstance(Locale.GERMANY);
@@ -69,16 +69,17 @@ public class NabavkaPoUDK extends Report {
 
   @Override
   public void handleRecord(Record rec) {
+  	boolean onlyChildLiterature = false;
+  	if ("childLiterature".equals(getReportSettings().getOptionalParam())) {
+		onlyChildLiterature = true;
+  	}
 	  if (rec == null)
-	      return;
+		  return;
 	  boolean sig=false;
 	  String signature="";
 	  char c=' ';
 	  String greske=" ";
 	  for (Primerak p : rec.getPrimerci()) {
-		 /* String signature = Signature.format(p.getSigDublet(), p.getSigPodlokacija(), 
-		          p.getSigIntOznaka(), p.getSigFormat(), p.getSigNumerusCurens(), 
-		          p.getSigUDK());*/
 		  signature = p.getSigUDK();
 		  if (signature==null || signature.equals("")){
 			  signature=rec.getSubfieldContent("675a");
@@ -86,66 +87,74 @@ public class NabavkaPoUDK extends Report {
 		  if (signature!=null && !signature.equals("")){
 			 sig=true;
 		  }
-			  		  
 	  }
-	  if (sig==false){
+	  if (!sig){
 		  log.info("Nema UDK broja. Record ID : "+rec.getRecordID());
-		  
-	  }else{  
+	  }else{
 		  for (Primerak p : rec.getPrimerci()) {
 			  String invbr=p.getInvBroj();
 			  String sigla;
-	    
+			  if (onlyChildLiterature && !isUdkChildLiterature(signature)) {
+				continue;
+			  }
 			  if (p.getStatus()!=null) {
-	        	if(p.getStatus().equals("9")) //ne broji rashodovane
-	        		continue; 
-			  } 
+				if(p.getStatus().equals("9")) //ne broji rashodovane
+					continue;
+			  }
 			  Date  invDate;
 			  String status=p.getStatus();
-			  if (status==null) 
-	        	status="A";
+			  if (status==null)
+				status="A";
 			  if(status.compareToIgnoreCase("5")==0){
-	        	 invDate = p.getDatumStatusa(); 
-	        	 sigla=p.getOdeljenje();
+				 invDate = p.getDatumStatusa();
+				 sigla=p.getOdeljenje();
 			  }else{
-	        	 invDate=p.getDatumInventarisanja();
-	        	 sigla=invbr.substring(0,2);
-	          } 	
-	        	
+				 invDate=p.getDatumInventarisanja();
+				 sigla=invbr.substring(0,2);
+			  }
+
 			  String key = settings.getReportName() + getFilenameSuffix(invDate);
 			  Item item=getItem(getList(key),sigla);
 			  if (item == null ){
-	         	item=new Item(sigla);
-	         	getList(key).add(item);
-	         	
+				item=new Item(sigla);
+				getList(key).add(item);
 			  }
-	      	
-	          if (signature.startsWith("0")) {
-	             item.add(1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-	          }else if (signature.startsWith("1")) {
-	              item.add(0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-	          }else if (signature.startsWith("2")) {
-	              item.add(0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
-	          }else if (signature.startsWith("3")) {
-	              item.add(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
-	          }else if (signature.startsWith("5")) {
-	              item.add(0, 0, 0, 0, 1, 0, 0, 0, 0,0);
-	          }else if (signature.startsWith("6")) {
-	              item.add(0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
-	          }else if (signature.startsWith("7")) {
-	              item.add(0, 0, 0, 0, 0, 0, 1, 0, 0, 0);
-	          }else if (signature.startsWith("886")) {
-	              item.add(0, 0, 0, 0, 0, 0, 0, 1, 0, 0);
-	          }else if (signature.startsWith("8")) {
-		              item.add(0, 0, 0, 0, 0, 0, 0, 0,1, 0);
-	          }else if (signature.startsWith("9")) {
-	              item.add(0, 0, 0, 0, 0, 0, 0, 0, 0,1);
-	          }
-	        
-	    }
-        
-    }
-  } 
+
+			  if (signature.startsWith("0")) {
+				 item.add(1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+			  }else if (signature.startsWith("1")) {
+				  item.add(0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+			  }else if (signature.startsWith("2")) {
+				  item.add(0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
+			  }else if (signature.startsWith("3")) {
+				  item.add(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
+			  }else if (signature.startsWith("5")) {
+				  item.add(0, 0, 0, 0, 1, 0, 0, 0, 0,0);
+			  }else if (signature.startsWith("6")) {
+				  item.add(0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
+			  }else if (signature.startsWith("7")) {
+				  item.add(0, 0, 0, 0, 0, 0, 1, 0, 0, 0);
+			  }else if (signature.startsWith(UDK_DOMACA_PREFIX)) {
+				  item.add(0, 0, 0, 0, 0, 0, 0, 1, 0, 0);
+			  }else if (signature.startsWith("8")) {
+					  item.add(0, 0, 0, 0, 0, 0, 0, 0,1, 0);
+			  }else if (signature.startsWith("9")) {
+				  item.add(0, 0, 0, 0, 0, 0, 0, 0, 0,1);
+			  }
+		}
+	}
+  }
+
+  // Posebni izvestaji za knjige koje pripadaju decjoj literaturi, izdvajamo ih ovako
+  private boolean isUdkChildLiterature(String udk) {
+  	if (udk == null) {
+  		return false;
+	} else if (udk.startsWith("087.5")) {
+  		return true;
+	} else if (udk.contains("-93")) {
+  		return true;
+	} else return udk.contains("(02.053.2)");
+  }
   
   public List<Item> getList(String key) {
 	    List<Item> list = itemMap.get(key);

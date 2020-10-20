@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NabavkaPoUDK" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="4">
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NabavkaPoUDK" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="4" uuid="45c07af6-0aaa-4374-a4b0-f8f657f05fea">
 	<property name="com.jasperassistant.designer.GridHeight" value="3"/>
 	<property name="com.jasperassistant.designer.GridWidth" value="3"/>
 	<property name="com.jasperassistant.designer.Rulers" value="true"/>
@@ -96,7 +97,7 @@
 	<title>
 		<band height="37" splitType="Stretch">
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="44" y="16" width="407" height="16"/>
+				<reportElement key="staticText" positionType="Float" x="44" y="16" width="407" height="16" uuid="d5c4622c-2202-4a83-b133-3ee2faed6844"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -109,7 +110,7 @@
 				<text><![CDATA[Nabavljene knjige po UDK za period]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="false">
-				<reportElement key="textField" positionType="Float" x="461" y="16" width="100" height="16"/>
+				<reportElement key="textField" positionType="Float" x="461" y="16" width="100" height="16" uuid="b9ea5ca5-6f8c-4af6-91ff-4d9d51033a10"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -119,10 +120,10 @@
 				<textElement>
 					<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{period}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{period}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement key="staticText-14" x="0" y="0" width="162" height="29"/>
+				<reportElement key="staticText-14" x="0" y="0" width="162" height="29" uuid="1af2da50-0a6a-403d-a7ac-60eb5d40a051"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -139,7 +140,7 @@
 	<pageHeader>
 		<band height="37" splitType="Stretch">
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="1" y="12" width="81" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="1" y="12" width="81" height="25" uuid="0fc3fd2e-f424-4711-9bda-21bc036153a4"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -152,7 +153,7 @@
 				<text><![CDATA[Odeljenje]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="83" y="12" width="43" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="83" y="12" width="43" height="25" uuid="042caaf3-03c6-49c5-a22f-0c2b4f053607"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -165,7 +166,7 @@
 				<text><![CDATA[0]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="128" y="12" width="41" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="128" y="12" width="41" height="25" uuid="171ac513-1dbf-4575-8d1c-440db34ca103"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -178,7 +179,7 @@
 				<text><![CDATA[1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="171" y="12" width="40" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="171" y="12" width="40" height="25" uuid="a3407dbb-2bcb-4f23-8279-c8afdb2e8d09"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -191,7 +192,7 @@
 				<text><![CDATA[2]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="216" y="12" width="39" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="216" y="12" width="39" height="25" uuid="850aad81-ea77-4c06-9a1c-0da496bfab7d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -204,7 +205,7 @@
 				<text><![CDATA[3]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="256" y="12" width="42" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="256" y="12" width="42" height="25" uuid="0186c25e-fc73-4c3d-8524-56a44059ae94"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -217,7 +218,7 @@
 				<text><![CDATA[5]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="340" y="12" width="40" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="340" y="12" width="40" height="25" uuid="1ab4244b-9e77-40ff-8b88-1916a65a7825"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -230,7 +231,7 @@
 				<text><![CDATA[7]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="382" y="12" width="41" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="382" y="12" width="41" height="25" uuid="9855cdf9-1324-4798-b5df-8f375493af85"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -240,10 +241,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[8]]></text>
+				<text><![CDATA[8 strane]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="425" y="12" width="46" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="425" y="12" width="46" height="25" uuid="461b6783-e268-41af-a14e-5d0dbdfebe22"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -253,10 +254,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[886]]></text>
+				<text><![CDATA[8 domaće]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="474" y="12" width="51" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="474" y="12" width="51" height="25" uuid="ffbcbc1d-f540-4d67-8af9-5c938dc0e4b9"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -269,14 +270,14 @@
 				<text><![CDATA[9]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="527" y="12" width="62" height="25"/>
+				<reportElement x="527" y="12" width="62" height="25" uuid="6d34e848-c8f9-424a-909d-15d8c0068089"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[UKUPNO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="staticText" positionType="Float" x="298" y="12" width="39" height="25"/>
+				<reportElement key="staticText" positionType="Float" x="298" y="12" width="39" height="25" uuid="2f18d3cb-1f6a-48f5-9f6d-66bf0d4a2874"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -289,46 +290,46 @@
 				<text><![CDATA[6]]></text>
 			</staticText>
 			<line>
-				<reportElement key="line-2" x="0" y="12" width="590" height="1"/>
+				<reportElement key="line-2" x="0" y="12" width="590" height="1" uuid="655518e7-f790-4772-bb67-7d722ff0f131"/>
 			</line>
 			<line>
-				<reportElement x="0" y="13" width="1" height="24"/>
+				<reportElement x="0" y="13" width="1" height="24" uuid="ae5d4765-11b7-47a9-b9cf-515d65a1cf32"/>
 			</line>
 			<line>
-				<reportElement x="81" y="13" width="1" height="24"/>
+				<reportElement x="81" y="13" width="1" height="24" uuid="0882c87d-966c-4b51-bff3-a0424849656c"/>
 			</line>
 			<line>
-				<reportElement x="127" y="13" width="1" height="24"/>
+				<reportElement x="127" y="13" width="1" height="24" uuid="193adc08-3da6-45ad-9449-4a806b04bddd"/>
 			</line>
 			<line>
-				<reportElement x="214" y="13" width="1" height="24"/>
+				<reportElement x="214" y="13" width="1" height="24" uuid="4545c6f8-ff63-4bba-ac08-2a0544ba97ff"/>
 			</line>
 			<line>
-				<reportElement x="168" y="13" width="1" height="24"/>
+				<reportElement x="168" y="13" width="1" height="24" uuid="d3e8638e-764e-4723-85d9-c741790f64e0"/>
 			</line>
 			<line>
-				<reportElement x="255" y="13" width="1" height="24"/>
+				<reportElement x="255" y="13" width="1" height="24" uuid="4f742251-9986-4c1e-a27d-7fb62b17dea2"/>
 			</line>
 			<line>
-				<reportElement x="296" y="13" width="1" height="24"/>
+				<reportElement x="296" y="13" width="1" height="24" uuid="b904b827-64c4-4151-8dec-1059373cfe46"/>
 			</line>
 			<line>
-				<reportElement x="338" y="13" width="1" height="24"/>
+				<reportElement x="338" y="13" width="1" height="24" uuid="7258ee98-1289-499e-8dd4-a44c390f3cec"/>
 			</line>
 			<line>
-				<reportElement x="380" y="13" width="1" height="24"/>
+				<reportElement x="380" y="13" width="1" height="24" uuid="9ff7bc17-5728-4b2b-97a4-fa1b2b35df31"/>
 			</line>
 			<line>
-				<reportElement x="423" y="13" width="1" height="24"/>
+				<reportElement x="423" y="13" width="1" height="24" uuid="5f30c011-58d5-4962-b13b-4ca0913ecf2e"/>
 			</line>
 			<line>
-				<reportElement x="473" y="13" width="1" height="24"/>
+				<reportElement x="473" y="13" width="1" height="24" uuid="d2382292-ffa6-4646-9bb2-3198da8c4f5b"/>
 			</line>
 			<line>
-				<reportElement x="526" y="13" width="1" height="24"/>
+				<reportElement x="526" y="13" width="1" height="24" uuid="75ceb0e5-5db5-47b0-a058-2f81e3121148"/>
 			</line>
 			<line>
-				<reportElement x="589" y="13" width="1" height="24"/>
+				<reportElement x="589" y="13" width="1" height="24" uuid="9200cc30-8847-4286-bfe2-43b1913794f3"/>
 			</line>
 		</band>
 	</pageHeader>
@@ -338,10 +339,10 @@
 	<detail>
 		<band height="16" splitType="Stretch">
 			<line>
-				<reportElement key="line" positionType="Float" x="0" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="0" y="0" width="1" height="16" uuid="a7459ec6-2655-489e-9f1a-1f10c246d070"/>
 			</line>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" positionType="Float" x="2" y="0" width="77" height="16"/>
+				<reportElement key="textField" positionType="Float" x="2" y="0" width="77" height="16" uuid="a211a9b6-4af4-4559-9923-9571cc4b5fe4"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -351,123 +352,123 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{ogranak}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ogranak}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line" positionType="Float" x="81" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="81" y="0" width="1" height="16" uuid="10c506ab-1d15-459a-a16e-ddab0268fbb5"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="127" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="127" y="0" width="1" height="16" uuid="7d714057-d3b9-471e-96e3-a38f3048d749"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="423" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="423" y="0" width="1" height="16" uuid="b6e40ab6-df95-4373-83ce-227ffe8496e3"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="168" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="168" y="0" width="1" height="16" uuid="7dd517f5-aacf-49ed-ac36-397d3cce6a54"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="214" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="214" y="0" width="1" height="16" uuid="25169d3c-1333-4cb5-a397-a8ceae9c4f6f"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="255" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="255" y="0" width="1" height="16" uuid="7e7949cf-1034-4cfd-b4d1-68a273f9833a"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="338" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="338" y="0" width="1" height="16" uuid="b9f9a63e-15d6-49b5-bd05-5c5cc7151119"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="473" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="473" y="0" width="1" height="16" uuid="89b219ff-345b-4b3f-97a4-d86cdc797f73"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="296" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="296" y="0" width="1" height="16" uuid="ed4b4f8d-61b1-4fdf-bd2f-6952af5ba7c3"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="380" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="380" y="0" width="1" height="16" uuid="ea795bce-2053-4ef3-903e-f856883cdc67"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="526" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="526" y="0" width="1" height="16" uuid="ef079c77-99f2-4d59-b126-9e12d58ace35"/>
 			</line>
 			<textField>
-				<reportElement x="527" y="1" width="62" height="15"/>
+				<reportElement x="527" y="1" width="62" height="15" uuid="3ea04a64-8ac3-4543-8e61-0a11e430930b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{tot}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tot}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="83" y="1" width="43" height="15"/>
+				<reportElement x="83" y="1" width="43" height="15" uuid="9b40e23d-b420-4513-98aa-c0b4680bdc8c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a0}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a0}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="171" y="1" width="40" height="15"/>
+				<reportElement x="171" y="1" width="40" height="15" uuid="98989c9f-469c-44d0-ae42-1bed30f8f337"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="129" y="0" width="39" height="16"/>
+				<reportElement x="129" y="0" width="39" height="16" uuid="0319de57-008b-4fdb-b342-3ce3cc52fb63"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="216" y="0" width="39" height="16"/>
+				<reportElement x="216" y="0" width="39" height="16" uuid="1b5a0ee4-8d9d-454d-aec8-44562f6631aa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a3}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="257" y="1" width="38" height="15"/>
+				<reportElement x="257" y="1" width="38" height="15" uuid="480974d3-9e1b-4a9c-bf71-7f79ae2c28a2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a4}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a4}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line-2" x="1" y="-1" width="588" height="1"/>
+				<reportElement key="line-2" x="1" y="-1" width="588" height="1" uuid="1a5361d4-5b5e-43e1-946d-fbaf8331c496"/>
 			</line>
 			<textField>
-				<reportElement x="298" y="1" width="39" height="13"/>
+				<reportElement x="298" y="1" width="39" height="13" uuid="00d1c848-0480-4d3d-b849-70da35d70b4f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a5}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a5}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="339" y="1" width="41" height="15"/>
+				<reportElement x="339" y="1" width="41" height="15" uuid="23c6c995-83cb-437d-886e-b7a202339043"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a6}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a6}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="382" y="1" width="41" height="15"/>
+				<reportElement x="382" y="1" width="41" height="15" uuid="e1559c33-fa7c-4a49-ad0e-59b4fa91fe64"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a7}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a7}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="425" y="1" width="46" height="15"/>
+				<reportElement x="425" y="1" width="46" height="15" uuid="f530187f-a49e-4558-9b1a-8305191fcd8a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a8}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a8}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="474" y="0" width="51" height="16"/>
+				<reportElement x="474" y="0" width="51" height="16" uuid="9f625c9b-b92c-448c-9512-659d54ac6b5c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{a9}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{a9}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line" positionType="Float" x="589" y="0" width="1" height="16"/>
+				<reportElement key="line" positionType="Float" x="589" y="0" width="1" height="16" uuid="2d32cda1-0d05-4fb2-a587-0997ab7be15a"/>
 			</line>
 		</band>
 	</detail>
@@ -480,7 +481,7 @@
 	<summary>
 		<band height="46" splitType="Stretch">
 			<staticText>
-				<reportElement key="staticText-2" x="2" y="0" width="76" height="12"/>
+				<reportElement key="staticText-2" x="2" y="0" width="76" height="12" uuid="b48ce9b0-a420-48fa-b660-787a0658aedc"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -493,126 +494,126 @@
 				<text><![CDATA[UKUPNO:]]></text>
 			</staticText>
 			<line>
-				<reportElement key="line-1" x="0" y="-7" width="1" height="20"/>
+				<reportElement key="line-1" x="0" y="-7" width="1" height="20" uuid="658a7264-be04-418a-b097-80fee2c8ffc5"/>
 			</line>
 			<line>
-				<reportElement key="line-2" x="0" y="12" width="590" height="1"/>
+				<reportElement key="line-2" x="0" y="12" width="590" height="1" uuid="d99bb57a-d312-4ccf-9ed7-b460722b386f"/>
 			</line>
 			<line>
-				<reportElement key="line-4" x="81" y="-2" width="1" height="15"/>
+				<reportElement key="line-4" x="81" y="-2" width="1" height="15" uuid="1f130da0-ce55-4e4d-a0be-b2460b753270"/>
 			</line>
 			<line>
-				<reportElement key="line-5" x="127" y="1" width="1" height="11"/>
+				<reportElement key="line-5" x="127" y="1" width="1" height="11" uuid="7ebbb60b-48ce-48da-af0d-655cca0808e7"/>
 			</line>
 			<line>
-				<reportElement key="line-6" x="168" y="1" width="1" height="11"/>
+				<reportElement key="line-6" x="168" y="1" width="1" height="11" uuid="4fc90267-6a4d-4c3c-9b9b-b480bf3f748f"/>
 			</line>
 			<line>
-				<reportElement key="line-7" x="255" y="1" width="1" height="11"/>
+				<reportElement key="line-7" x="255" y="1" width="1" height="11" uuid="e36d2145-7fa7-4b89-b0f0-97ecb9cfc320"/>
 			</line>
 			<line>
-				<reportElement key="line-8" x="214" y="0" width="1" height="12"/>
+				<reportElement key="line-8" x="214" y="0" width="1" height="12" uuid="d06db15c-3484-49db-86a0-e06ac0cd53c4"/>
 			</line>
 			<line>
-				<reportElement key="line-10" x="296" y="1" width="1" height="11"/>
+				<reportElement key="line-10" x="296" y="1" width="1" height="11" uuid="335665c0-aa44-42c8-9521-0ab3bd90c81b"/>
 			</line>
 			<line>
-				<reportElement key="line-11" x="338" y="1" width="1" height="11"/>
+				<reportElement key="line-11" x="338" y="1" width="1" height="11" uuid="2ceae61f-e221-4e02-be7f-e4aed86c1ec9"/>
 			</line>
 			<line>
-				<reportElement key="line-12" x="380" y="1" width="1" height="11"/>
+				<reportElement key="line-12" x="380" y="1" width="1" height="11" uuid="721360b6-4f5e-479d-94cd-7b4c8d496bb0"/>
 			</line>
 			<line>
-				<reportElement key="line-13" x="423" y="1" width="1" height="11"/>
+				<reportElement key="line-13" x="423" y="1" width="1" height="11" uuid="57b3811b-4248-475b-a8e5-3326bac6cc7d"/>
 			</line>
 			<line>
-				<reportElement key="line-14" x="526" y="1" width="1" height="11"/>
+				<reportElement key="line-14" x="526" y="1" width="1" height="11" uuid="5d48f432-d69d-4cb8-9db0-84ad67fc958d"/>
 			</line>
 			<line>
-				<reportElement key="line-15" x="473" y="1" width="1" height="11"/>
+				<reportElement key="line-15" x="473" y="1" width="1" height="11" uuid="7d37b5df-1d6f-469c-b458-2345baa84011"/>
 			</line>
 			<line>
-				<reportElement key="line-24" x="589" y="0" width="1" height="12"/>
+				<reportElement key="line-24" x="589" y="0" width="1" height="12" uuid="0d991f97-76ab-47ed-a5c9-7ae65fa7e408"/>
 			</line>
 			<line>
-				<reportElement key="line" positionType="Float" x="0" y="0" width="589" height="1"/>
+				<reportElement key="line" positionType="Float" x="0" y="0" width="589" height="1" uuid="d678731b-3a98-4102-8271-5821bc95457b"/>
 			</line>
 			<textField>
-				<reportElement x="84" y="0" width="43" height="12"/>
+				<reportElement x="84" y="0" width="43" height="12" uuid="4fe55a4a-675c-47c6-91a7-92b750bef183"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a0}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a0}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="129" y="0" width="39" height="12"/>
+				<reportElement x="129" y="0" width="39" height="12" uuid="d4c84891-25d4-4ede-8b6c-d3a8faa26da7"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="171" y="0" width="43" height="12"/>
+				<reportElement x="171" y="0" width="43" height="12" uuid="6df7e973-1d94-478b-b48d-e87e9d8ccfe3"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="215" y="0" width="40" height="12"/>
+				<reportElement x="215" y="0" width="40" height="12" uuid="2ec89c71-c2b5-42fa-a7f5-c6df7b5fd348"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a3}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="257" y="1" width="39" height="12"/>
+				<reportElement x="257" y="1" width="39" height="12" uuid="f83964d8-5cba-4eb5-a12d-2f214fe1ac3d"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a4}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a4}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="298" y="0" width="41" height="12"/>
+				<reportElement x="298" y="0" width="41" height="12" uuid="2442d769-2b2a-43e0-bedc-aa546ec8a3d7"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a5}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a5}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="338" y="0" width="43" height="12"/>
+				<reportElement x="338" y="0" width="43" height="12" uuid="dffa3fa1-ce4c-416d-aec5-6687c5c7c53d"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a6}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a6}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="382" y="0" width="42" height="12"/>
+				<reportElement x="382" y="0" width="42" height="12" uuid="30800cf0-51cc-417f-bbcf-5978201bf703"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a7}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a7}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="425" y="0" width="46" height="12"/>
+				<reportElement x="425" y="0" width="46" height="12" uuid="46c159dd-32b6-4b4c-a1fe-07c7dfeb2a38"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a8}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a8}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="474" y="1" width="52" height="12"/>
+				<reportElement x="474" y="1" width="52" height="12" uuid="a989e6d5-7628-4f6a-9cb1-8a4128a44c5c"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{a9}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{a9}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="528" y="1" width="61" height="12"/>
+				<reportElement x="528" y="1" width="61" height="12" uuid="b2f8da81-8f3f-4bca-85aa-218fcd8b8afb"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{tot}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{tot}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
