@@ -77,6 +77,11 @@ public class LibraryConfiguration {
     private String locale;
     private Boolean circLocaleLatn;
 
+    private String locationAddress;
+    private String locationZip;
+    private String locationCity;
+    private String websiteUrl;
+
     private List<Report> reports;
 
     public String toString(){
