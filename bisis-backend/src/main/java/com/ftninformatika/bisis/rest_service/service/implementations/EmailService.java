@@ -44,17 +44,6 @@ public class EmailService {
     @Bean("gmail")
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.gmail.com");
-        javaMailSender.setPort(587);
-
-        javaMailSender.setUsername("bisis.mailer@gmail.com");
-        javaMailSender.setPassword("KE4z6Wp6TVnpfvyw");
-
-        Properties props = javaMailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "false");
 
         return javaMailSender;
     }
@@ -78,7 +67,7 @@ public class EmailService {
             return;
         }
 
-        fmConfig.setClassForTemplateLoading(this.getClass(), "/");
+        fmConfig.setClassForTemplateLoading(this.getClass(), "/templates/");
         try {
 
             Map<String, Object> root = new HashMap<>();
@@ -98,10 +87,10 @@ public class EmailService {
             root.put("opacLibAddr", opacUrl);
             root.put("libraryFullName", StringUtils.convertToHtmlUtf8(libraryConfiguration.getLibraryFullName()));
 
-            Template t = fmConfig.getTemplate("opac-welcome-template.ftl");
+            Template t = fmConfig.getTemplate("templates/opac-welcome-template.ftl");
             libraryConfiguration.setLibraryFullName(StringUtils.convertToHtmlUtf8(libraryConfiguration.getLibraryFullName()));
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, root);
-            helper.setTo("jiricekova31@gmail.com"); //todo put email libraryMember.getUsername();
+            helper.setTo(libraryMember.getUsername());
             helper.setText(text, true);
             helper.setSubject(Texts.getString("OPAC.WELCOME.MAIL.SUBJECT"));
             javaMailSender().send(message);
