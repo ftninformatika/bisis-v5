@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
+import com.ftninformatika.bisis.reservations.PendingReservation;
+import com.ftninformatika.bisis.reservations.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +21,6 @@ import java.util.*;
 @JsonIgnoreProperties( ignoreUnknown = true )
 @Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_records")
 public class Record implements Serializable {
-
   /**
    * Default constructor.
    */
@@ -30,6 +31,7 @@ public class Record implements Serializable {
     fields = new ArrayList<>();
     primerci = new ArrayList<>();
     godine = new ArrayList<>();
+    reservations = new LinkedList<>();
   }
 
 
@@ -45,15 +47,16 @@ public class Record implements Serializable {
     fields = new ArrayList<>();
     primerci = new ArrayList<>();
     godine = new ArrayList<>();
+    reservations = new LinkedList<>();
   }
 
   /**
    * Initializes the new record with the given record id and the list of fields.
    * @param recordID The given record identifier
-   * @param fields The initial list of fields 
+   * @param fields The initial list of fields
    * @param primerci Lista primeraka
    */
-  public Record(int recordID, List<Field> fields, List<Primerak> primerci, 
+  public Record(int recordID, List<Field> fields, List<Primerak> primerci,
       List<Godina> godine) {
     this.recordID = recordID;
     pubType = 0;
@@ -71,7 +74,7 @@ public class Record implements Serializable {
   public int getFieldCount() {
     return fields.size();
   }
-  
+
   /**
    * Retrieves a field by its current index in the field list.
    * @param index The index of the field
@@ -82,7 +85,7 @@ public class Record implements Serializable {
       return null;
     return fields.get(index);
   }
-  
+
   /**
    * Retrives the first field with given name from this record.
    * @param name The field name
@@ -97,7 +100,7 @@ public class Record implements Serializable {
     }
     return null;
   }
-  
+
   /**
    * Retrieves all fields with the given name from this record.
    * @param name The field name
@@ -112,7 +115,7 @@ public class Record implements Serializable {
     }
     return retVal;
   }
-  
+
   /**
    * Retrieves the first subfield of the first field with the given name.
    * @param name The name of the subfield
@@ -128,7 +131,7 @@ public class Record implements Serializable {
     Subfield sf = f.getSubfield(name.charAt(3));
     return sf;
   }
-  
+
   /**
    * Retrieves all subfields with the given name from this record.
    * @param name The name of the subfield
@@ -149,7 +152,7 @@ public class Record implements Serializable {
     }
     return retVal;
   }
-  
+
   /**
    * Retrieves the content of the first subfield with the given name.
    * @param name The name of the first subfield
@@ -162,7 +165,7 @@ public class Record implements Serializable {
     else
       return sf.getContent();
   }
-  
+
   /**
    * Retrieves the list of contents of all subfields with the given name.
    * @param name The name of the subfield
@@ -177,7 +180,7 @@ public class Record implements Serializable {
     }
     return retVal;
   }
-  
+
   /**
    * Appends the given field to the end of the list.
    * @param field The field to append
@@ -185,7 +188,7 @@ public class Record implements Serializable {
   public void add(Field field) {
     fields.add(field);
   }
-  
+
   /**
    * Removes the given field from the list.
    * @param field The field to remove
@@ -213,8 +216,8 @@ public class Record implements Serializable {
       f.sort();
     }
   }
-  
-  
+
+
   public  void sortFields(){
    for (int i = 1; i < getFields().size(); i++) {
     for (int j = 0; j < getFields().size() - i; j++) {
@@ -225,11 +228,11 @@ public class Record implements Serializable {
          getFields().set(j+1, f1);
        }
      }
-   }   
+   }
   }
-  
+
   /**
-   * Removes empty fields, subfields, and subsubfields from this record. 
+   * Removes empty fields, subfields, and subsubfields from this record.
    */
   public void pack() {
     Iterator it = fields.iterator();
@@ -240,7 +243,7 @@ public class Record implements Serializable {
         it.remove();
     }
   }
-  
+
   /**
    * Trims all subfield and subsubfield contents in this record. Returns this
    * record.
@@ -268,15 +271,15 @@ public class Record implements Serializable {
       retVal.append(g.toString());
     return retVal.toString();
   }
-  
+
   public Record primerciUPolja() {
     return PrimerakSerializer.primerciUPolja(this);
   }
-  
+
   public Record poljaUPrimerke() {
     return PrimerakSerializer.poljaUPrimerke(this);
   }
-  
+
   public Record godineUPolja() {
     return PrimerakSerializer.godineUPolja(this);
   }
@@ -284,24 +287,24 @@ public class Record implements Serializable {
   public Record poljaUGodine() {
     return PrimerakSerializer.poljaUGodine(this);
   }
-  
+
   public Record polje000UMetapodatke() {
     return PrimerakSerializer.polje000UMetapodatke(this);
   }
-  
+
   public Record metapodaciUPolje000() {
     return PrimerakSerializer.metapodaciUPolje000(this);
   }
 
-  public int getRN(){  	
+  public int getRN(){
   	try{
   		return Integer.parseInt(getSubfieldContent("001e"));
   	}catch(Exception e){
   		return 0;
   	}
-  } 
-  
-  
+  }
+
+
   public void setRN(int rn){
   	Field f001;
   	Subfield sfRN;
@@ -327,9 +330,9 @@ public class Record implements Serializable {
   	}catch(Exception e){
   		return 0;
   	}
-  	
+
   }
-  
+
   // set master record number
   public void setMR(int mr){
   	Field f474 = getField("474");
@@ -347,31 +350,31 @@ public class Record implements Serializable {
 	  for(Primerak p:primerci){
 		  if(p.getInvBroj().equals(invBroj))
 			  return p;
-		  
+
 	  }
 	  return null;
   }
-  
+
   public Godina getGodinaForInvBRSveske(String invBrojSveske){
 	  for(Godina g:godine){
 		  for(Sveska s:g.getSveske())
 			  if(s.getInvBroj().equals(invBrojSveske))
-			  return g;		  
+			  return g;
 	  }
 	  return null;
   }
-  
-  
+
+
   public Godina getGodina(String invBroj){
       if (invBroj == null)
           return null;
 	  for(Godina g:godine){
 		  if(g.getInvBroj() != null && g.getInvBroj().equals(invBroj))
-		  return g;		  
+		  return g;
 	  }
 	  return null;
   }
-  
+
 
   public Record copy(){
   	Record rec = new Record();
@@ -417,7 +420,7 @@ public class Record implements Serializable {
       }
       return retVal.toString();
   }
-  
+
   /*
    * kopija zapisa bez polja
    */
@@ -430,7 +433,7 @@ public class Record implements Serializable {
   	rec.setLastModifiedDate(lastModifiedDate);
   	return rec;
   }
-  
+
   /*
    * kopira zapis bez inventarnih podataka
    */
@@ -443,7 +446,7 @@ public class Record implements Serializable {
   	rec.setLastModifiedDate(lastModifiedDate);
   	for(Field f:fields)
   		rec.add(f.copy());
-  	return rec;  	
+  	return rec;
   }
 
   public List<Sveska> getAllSveske(){
@@ -470,7 +473,24 @@ public class Record implements Serializable {
       return new AvgRecordRating(((float)ratesSum / recordRatings.size()), recordRatings.size());
   }
 
-  @Id private String _id;
+    /**
+     * Appends the given reservation to the end of the queue.
+     *
+     * @param reservation The reservation to append
+     */
+    public void appendReservation(PendingReservation reservation) {
+        reservations.add(reservation);
+    }
+
+    /**
+     * Retrieves and removes the head (first element) of this list.
+     */
+    public Reservation removeReservation() {
+        return this.reservations.remove();
+    }
+
+
+    @Id private String _id;
   /** record identifier */
   private int recordID;
   /** id in books_common collection */
@@ -503,6 +523,8 @@ public class Record implements Serializable {
   private boolean lockedByRedactor = false;
   /** user ratings collection of current record */
   private List<RecordRating> recordRatings = new ArrayList<>();
+  /** list of reservations */
+  private LinkedList<PendingReservation> reservations = new LinkedList<>();
 
 
 }
