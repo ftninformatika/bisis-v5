@@ -25,7 +25,8 @@ public class ReportUtils {
           "com.ftninformatika.bisis.general.StatistikaInventatora"));
 
       static final List<String> ROOT_NODE_JASPERS = new ArrayList<>(Arrays.asList(
-              "/jaspers/general/InvKnjigaMonografske.jasper"));
+              "/jaspers/general/InvKnjigaMonografske.jasper",
+              "/jaspers/bmb/InvKnjigaMonografske.jasper"));
 
       public static GeneratedReport loadReport(Report report) {
         try {
