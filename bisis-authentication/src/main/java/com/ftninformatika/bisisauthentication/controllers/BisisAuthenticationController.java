@@ -1,6 +1,6 @@
 package com.ftninformatika.bisisauthentication.controllers;
 
-import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;

@@ -1,8 +1,6 @@
 package com.ftninformatika.bisis.librarian.dto;
 
-import com.ftninformatika.bisis.auth.model.Authority;
-import com.ftninformatika.bisis.librarian.LibrarianContext;
-import com.ftninformatika.bisis.librarian.ProcessType;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +8,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

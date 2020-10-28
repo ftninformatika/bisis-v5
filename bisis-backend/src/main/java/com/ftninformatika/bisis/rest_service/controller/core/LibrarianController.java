@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
-import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.LibrarianRoleDB;

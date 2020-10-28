@@ -1,11 +1,12 @@
-package com.ftninformatika.bisis.auth.controller;
+package com.ftninformatika.bisis.rest_service.controller.opac2;
 
-import com.ftninformatika.bisis.auth.converter.ConverterFacade;
-import com.ftninformatika.bisis.auth.dto.UserDTO;
-import com.ftninformatika.bisis.auth.service.UserService;
+import com.ftninformatika.bisis.librarian.db.Authority;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
+import com.ftninformatika.bisis.rest_service.repository.mongo.Librarian2Repository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
@@ -14,36 +15,21 @@ import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.MessageFormat;
 
 @RestController
-@RequestMapping("/signup")
+@RequestMapping()
 public class SignUpController {
 
-    private final UserService service;
-    private final ConverterFacade converterFacade;
     @Autowired EmailService emailService;
     @Autowired LibraryMemberService libraryMemberService;
     @Autowired YAMLConfig yamlConfig;
     @Autowired LibraryMemberRepository libraryMemberRepository;
+    @Autowired Librarian2Repository librarianRepository;
 
-    @Autowired
-    public SignUpController(final UserService service,
-                            final ConverterFacade converterFacade) {
-        this.service = service;
-        this.converterFacade = converterFacade;
-    }
-
-    @PostMapping
-    public ResponseEntity<?> signUp(@RequestBody final UserDTO dto) {
-        return new ResponseEntity<>(service.create(converterFacade.convert(dto)), HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/opac")
+    @PostMapping(value = "/signup/opac")
     public ResponseEntity<?> signForOpac(@RequestBody LibraryMember newMember) {
         if (DataValidator.validateEmail(newMember.getUsername()) == DataErrors.EMAIL_FORMAT_INVALID)
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -85,7 +71,7 @@ public class SignUpController {
         return new ResponseEntity<>(createdMember, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "/opac/resend-email")
+    @PostMapping(value = "/signup/opac/resend-email")
     public ResponseEntity<?> resendEmail(@RequestBody String username)  {
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(username);
         if (libraryMember == null || libraryMember.getActivationToken() == null)
@@ -97,6 +83,23 @@ public class SignUpController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/memauth/activate-account")
+    public ResponseEntity<?> activateOpacAccount(@RequestBody String acitvateToken) {
+        if (acitvateToken == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        LibraryMember libraryMember = libraryMemberRepository.findByActivationToken(acitvateToken);
+        if (libraryMember == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        // If admin account
+        if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN.getAuthority())) {
+            LibrarianDB librarian = librarianRepository.findById(libraryMember.getLibrarianIndex()).get();
+            librarian.setRole(Librarian.Role.OPACADMIN);
+            librarianRepository.save(librarian);
+        }
+        libraryMember.setActivationToken(null);
+        libraryMember.setProfileActivated(true);
+        libraryMemberRepository.save(libraryMember);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

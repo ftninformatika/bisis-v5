@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
-import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.librarian.Librarian;

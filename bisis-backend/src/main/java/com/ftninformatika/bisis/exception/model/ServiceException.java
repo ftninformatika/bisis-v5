@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.auth.exception.model;
+package com.ftninformatika.bisis.exception.model;
 
 
 public class ServiceException extends RuntimeException {

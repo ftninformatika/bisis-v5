@@ -4,7 +4,7 @@
 package com.ftninformatika.bisis.libenv;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.CircLocation;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.librarian.Librarian;

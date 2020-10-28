@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.librarian.db;
 
-import com.ftninformatika.bisis.auth.model.Authority;
 import com.ftninformatika.bisis.librarian.Librarian;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

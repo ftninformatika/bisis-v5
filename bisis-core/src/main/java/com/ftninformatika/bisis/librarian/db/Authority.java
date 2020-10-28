@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.auth.model;
+package com.ftninformatika.bisis.librarian.db;
 
 import org.springframework.security.core.GrantedAuthority;
 

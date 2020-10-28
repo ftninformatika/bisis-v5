@@ -1,7 +1,7 @@
-package com.ftninformatika.bisis.auth.exception.handler;
+package com.ftninformatika.bisis.exception.handler;
 
-import com.ftninformatika.bisis.auth.exception.model.ServiceException;
-import com.ftninformatika.bisis.auth.exception.model.UserNotFoundException;
+import com.ftninformatika.bisis.exception.model.ServiceException;
+import com.ftninformatika.bisis.exception.model.UserNotFoundException;
 import com.mongodb.MongoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
