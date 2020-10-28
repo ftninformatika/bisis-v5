@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.rest_service.controller.opac2;
 
-import com.ftninformatika.bisis.auth.security.service.JsonWebTokenAuthenticationService;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ChangePasswordDTO;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
@@ -10,6 +9,7 @@ import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
+import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import com.ftninformatika.utils.validators.security.PasswordCodes;
 import com.ftninformatika.utils.validators.security.PasswordValidator;
 import io.jsonwebtoken.Claims;
@@ -34,7 +34,9 @@ import java.util.Random;
 public class LibraryMemberController {
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
-    @Autowired JsonWebTokenAuthenticationService jsonWebTokenAuthenticationService;
+    @Autowired
+    JWTUtil jwtUtil;
+//    @Autowired JsonWebTokenAuthenticationService jsonWebTokenAuthenticationService;
     @Autowired LibraryMemberService libraryMemberService;
     @Autowired EmailService emailService;
     @Autowired YAMLConfig yamlConfig;
@@ -63,7 +65,7 @@ public class LibraryMemberController {
     public ResponseEntity<LibraryMember> getMemberByActivationToken(@RequestBody String activationToken) {
         if (activationToken == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        Jws<Claims> claimsJws = jsonWebTokenAuthenticationService.parseToken(activationToken);
+        Jws<Claims> claimsJws = jwtUtil.parseToken(activationToken);
         if (claimsJws != null && claimsJws.getBody().getExpiration().before(new Date()))
             return new ResponseEntity<>(HttpStatus.GONE);
         LibraryMember libraryMember = libraryMemberRepository.findByActivationToken(activationToken);

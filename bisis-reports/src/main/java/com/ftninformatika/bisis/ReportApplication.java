@@ -6,7 +6,7 @@ import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.reports.ReportCollection;
 import com.ftninformatika.bisis.reports.ReportRunner;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
 import org.apache.log4j.Logger;

@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRoleRepos
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ProcessType2Repository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ProcessTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class LibrarianController {
     @Autowired private ProcessType2Repository proctype2Rep;
     @Autowired private Librarian2Repository librarian2Repository;
     @Autowired private LibrarianRoleRepository librarianRoleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 //    @GetMapping("/getByUsername")
 //    public LibrarianDTO getByUsername(@RequestParam (value = "username") String username){
@@ -96,6 +99,7 @@ public class LibrarianController {
         List<LibrarianDTO> librarians = librarianRepository.findAll();
         librarians.forEach(librarianDTO -> {
             LibrarianDB librarianDB = LibrarianManager.initializeLibrarianDBFromDTO(librarianDTO);
+            librarianDB.setPassword(passwordEncoder.encode(librarianDTO.getPassword()));
             String libName = librarianDB.getBiblioteka();
             if (librarianDB.getCurentProcessType()!=null){
                 String curentPT = librarianDB.getCurentProcessType().getName();

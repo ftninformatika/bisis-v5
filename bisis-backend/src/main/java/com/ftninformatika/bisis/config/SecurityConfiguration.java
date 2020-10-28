@@ -1,8 +1,9 @@
-package com.ftninformatika.bisis.auth.config;
+package com.ftninformatika.bisis.config;
 
-import com.ftninformatika.bisis.auth.security.filter.AuthenticationTokenFilter;
-import com.ftninformatika.bisis.auth.security.service.TokenAuthenticationService;
+import com.ftninformatika.bisisauthentication.filters.AuthenticationTokenFilter;
+import com.ftninformatika.bisisauthentication.security.BisisUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,25 +11,27 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final TokenAuthenticationService tokenAuthenticationService;
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    protected SecurityConfig(final TokenAuthenticationService tokenAuthenticationService) {
-        super();
-        this.tokenAuthenticationService = tokenAuthenticationService;
+    BisisUserDetailsService userDetailsService;
+
+    @Autowired
+    AuthenticationTokenFilter authenticationTokenFilter;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-
-//TODO: update security config before deploy!
+    protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(
@@ -40,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/unikat/search**",
                         "/external_hit/**",
                         "/auth",
+                        "/authenticate",
                         "/book_cover/retrieve/**",
                         "/book_common/**",
                         "/memauth",
@@ -72,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/members/active_lendings/**",
                         "/members/lending_history/**",
                         "/records/rate_record/**"
-                        )
+                )
                 .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers(
 
@@ -81,25 +85,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()
                 //.anyRequest().permitAll()
                 .and()
-                .addFilterBefore(new AuthenticationTokenFilter(tokenAuthenticationService),
+                .addFilterBefore(authenticationTokenFilter,
                         UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .csrf().disable();
     }
 
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+        //return NoOpPasswordEncoder.getInstance();
     }
 
+    @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
     }
 }

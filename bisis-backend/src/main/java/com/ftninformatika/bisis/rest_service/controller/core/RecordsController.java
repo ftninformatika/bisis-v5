@@ -5,7 +5,7 @@ import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.sort.SearchResultsSorter;
 import com.ftninformatika.bisis.records.sort.SortingRecElement;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.exceptions.LockException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotFoundException;

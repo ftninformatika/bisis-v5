@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.auth.config;
+package com.ftninformatika.bisis.config;
 
 import org.springframework.stereotype.Component;
 

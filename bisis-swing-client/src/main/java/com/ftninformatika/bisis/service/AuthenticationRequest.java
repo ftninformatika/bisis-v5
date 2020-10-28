@@ -5,11 +5,11 @@ package com.ftninformatika.bisis.service;
 /**
  * Created by Petar on 6/15/2017.
  */
-public class UserCredentials {
+public class AuthenticationRequest {
     final String username;
     final String password;
     
-    public UserCredentials(String u, String p){
+    public AuthenticationRequest(String u, String p){
     	username = u;
     	password = p;
     }

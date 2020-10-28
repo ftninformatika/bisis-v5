@@ -1,12 +1,9 @@
 package com.ftninformatika.bisis.auth.controller;
 
-import com.ftninformatika.bisis.auth.dto.LoginDTO;
 import com.ftninformatika.bisis.auth.model.Authority;
-import com.ftninformatika.bisis.auth.security.service.TokenService;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
-import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
 import com.ftninformatika.bisis.rest_service.repository.mongo.Librarian2Repository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
@@ -14,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by Petar on 10/13/2017.
@@ -27,32 +26,17 @@ public class MemberAuthenticationController {
     @Value("security.token.secret.key")
     private String secretKey;
 
-    private final TokenService tokenService;
+    //private final TokenService tokenService;
     @Autowired LibraryMemberService libraryMemberService;
 
-    @Autowired
-    public MemberAuthenticationController(final TokenService tokenService) {
-        this.tokenService = tokenService;
-    }
+//    @Autowired
+//    public MemberAuthenticationController(final TokenService tokenService) {
+//        this.tokenService = tokenService;
+//    }
 
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired
     Librarian2Repository librarianRepository;
-
-    @PostMapping
-    public ResponseEntity<?> authenticate(@RequestBody LoginDTO loginDTO) {
-        String token = tokenService.getMemberToken(loginDTO.getUsername(), loginDTO.getPassword());
-        LibraryMember libraryMember = libraryMemberRepository.findByUsername(loginDTO.getUsername());
-        if (token == null || libraryMember == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (!BCrypt.checkpw(loginDTO.getPassword(), libraryMember.getPassword()))
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        OpacMemberWrapper retVal = libraryMemberService.getOpacWrapperMember(libraryMember);
-        if (retVal == null)
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(retVal, HttpStatus.OK);
-    }
-
     /**
      *
      * @param acitvateToken

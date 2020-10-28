@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service;
+package com.ftninformatika.bisisauthentication;
 
 import org.springframework.stereotype.Component;
 

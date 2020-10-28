@@ -30,8 +30,8 @@ import java.util.Vector;
 
 public interface BisisService {
 
-    @POST("auth")
-    Call<ResponseBody> getToken(@Body UserCredentials creds);
+    @POST("authenticate")
+    Call<AuthenticationResponse> authenticate(@Body AuthenticationRequest authenticationRequest);
 
 //    @GET("configs/search/getByLibraryName")
 //    Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
