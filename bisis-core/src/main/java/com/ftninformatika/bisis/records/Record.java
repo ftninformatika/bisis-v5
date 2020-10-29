@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
-import com.ftninformatika.bisis.reservations.PendingReservation;
+import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -478,7 +478,7 @@ public class Record implements Serializable {
      *
      * @param reservation The reservation to append
      */
-    public void appendReservation(PendingReservation reservation) {
+    public void appendReservation(ReservationInQueue reservation) {
         reservations.add(reservation);
     }
 
@@ -524,7 +524,7 @@ public class Record implements Serializable {
   /** user ratings collection of current record */
   private List<RecordRating> recordRatings = new ArrayList<>();
   /** list of reservations */
-  private LinkedList<PendingReservation> reservations = new LinkedList<>();
+  private LinkedList<ReservationInQueue> reservations = new LinkedList<>();
 
 
 }

@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PendingReservation extends Reservation {
+public class ReservationInQueue extends Reservation {
     private String userId;
 }

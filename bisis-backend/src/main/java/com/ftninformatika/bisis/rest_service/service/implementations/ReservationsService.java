@@ -4,13 +4,16 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
+import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.reservations.PendingReservation;
+import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
+import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.bisis.rest_service.exceptions.ReservationNotAllowedException;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
@@ -18,6 +21,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRep
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.service.interfaces.ReservationsServiceInterface;
 import com.ftninformatika.util.constants.ReservationsConstants;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +52,11 @@ public class ReservationsService implements ReservationsServiceInterface {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    OpacSearchService opacSearchService;
+
     @Override
-    public Object reserveBook(String authToken, String library, String mongoRecordId, String coderId) throws ReservationNotAllowedException {
+    public Object reserveBook(String authToken, String library, String record_id, String coderId) {
         boolean isBgb = false;
 
         LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
@@ -78,8 +85,7 @@ public class ReservationsService implements ReservationsServiceInterface {
             Location location = locationRepository.getByCoder_Id(coderId, library);
         }
 
-        // na frontu je recordId u stvari mongo id
-        Optional<Record> record = recordsRepository.findById(mongoRecordId);
+        Optional<Record> record = recordsRepository.findById(record_id);
 
         if (record.isPresent()) {
             List<Primerak> primerci = record.get().getPrimerci();
@@ -92,12 +98,85 @@ public class ReservationsService implements ReservationsServiceInterface {
                 if (filteredBooks.size() == 0) {
                     return ReservationsConstants.NORESERVATION;
                 } else {
-                    return createNewReservation(member.get(), record.get());
+                    return createNewReservation(member.get(), record.get(), coderId);
                 }
 
             }
         }
         return null;
+    }
+
+    @Override
+    public List<ReservationDTO> getReservationsByUser(String library, String authToken) {
+        LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
+        if (libraryMember == null || libraryMember.getIndex() == null)
+            return null;
+
+        Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
+        if (!member.isPresent()) {
+            return null;
+        }
+
+        List<ReservationOnProfile> reservations = member.get().getReservations();
+        List<ReservationDTO> reservationDTOS = new ArrayList<>();
+
+        for (ReservationOnProfile reservation : reservations) {
+            if (!reservation.isBookPickedUp()) {                        // get only active reservations
+                Optional<Record> record = recordsRepository.findById(reservation.getRecord_id());
+                if (record.isPresent()) {
+                    // get the name of a branch of a particular library
+                    String locationDescription = "";
+                    if (library.equals("bgb") || library.equals("bmb")) {
+                        Sublocation sublocation = sublocationRepository.getByCoder_Id(reservation.getCoderId(), library);
+                        locationDescription = sublocation.getDescription();
+                    } else {
+                        Location location = locationRepository.getByCoder_Id(reservation.getCoderId(), library);
+                        locationDescription = location.getDescription();
+                    }
+
+                    // get a book for a given record to extract title and authors
+                    Book book = opacSearchService.getBookByRec(record.get());
+
+                    ReservationDTO reservationDTO = ReservationDTO.convertToDto(reservation, book, locationDescription);
+                    reservationDTOS.add(reservationDTO);
+                }
+            }
+        }
+        return reservationDTOS;
+    }
+
+    @Override
+    public Boolean deleteReservation(String authToken, String reservationId) {
+        LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
+        Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
+        if (!member.isPresent()) {
+            return false;
+        }
+
+        String record_id = "";
+        List<ReservationOnProfile> activeReservations = member.get().getReservations();
+
+        // delete the reservation from the user's reservations list
+        Iterator<ReservationOnProfile> iter = activeReservations.iterator();
+
+        while (iter.hasNext()) {
+            ReservationOnProfile reservationOnProfile = iter.next();
+            if (reservationOnProfile.get_id().equals(reservationId)) {
+                record_id = reservationOnProfile.getRecord_id();
+                iter.remove();
+                memberRepository.save(member.get());
+            }
+        }
+
+        // delete the reservation from the queue
+        Optional<Record> record = recordsRepository.findById(record_id);
+        if (record.isPresent()) {
+            LinkedList<ReservationInQueue> reservations = record.get().getReservations();
+            reservations.removeIf(pr -> pr.getUserId().equals(member.get().getUserId()));
+            recordsRepository.save(record.get());
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -109,15 +188,18 @@ public class ReservationsService implements ReservationsServiceInterface {
      * @param isBgb    The boolean indicates whether the reservation process is intended for bgb libraries
      * @return The list of filtered books
      */
-    private List<Primerak> filterBooksByLocationAndBorrowedBooks(List<Primerak> primerci, String library, String coderId, boolean isBgb) {
+    private List<Primerak> filterBooksByLocationAndBorrowedBooks(List<Primerak> primerci, String library,
+                                                                 String coderId, boolean isBgb) {
         // Sifrarnici ItemStatus-a za trenutnu bibl
-        Map<String, ItemStatus> itemStatusMap = itemStatusRepository.getCoders(library).stream().collect(Collectors.toMap(ItemStatus::getCoder_id, sl -> sl));
+        Map<String, ItemStatus> itemStatusMap = itemStatusRepository.getCoders(library).stream()
+                .collect(Collectors.toMap(ItemStatus::getCoder_id, sl -> sl));
+
         List<Primerak> filteredBooks = new ArrayList<>();
 
-        // za bgb se uzima podlok, za sve druge odeljenje.
         for (Primerak p : primerci) {
+            // check if location is the same
             boolean sameLocation = false;
-            if (isBgb) {                                        // todo: i bmb (citanje iz konfiguracije biblioteke)
+            if (isBgb) {                       // todo: i bmb (citanje iz konfiguracije biblioteke)
                 if (p.getSigPodlokacija().equals(coderId)) {
                     sameLocation = true;
                 }
@@ -127,7 +209,7 @@ public class ReservationsService implements ReservationsServiceInterface {
                 }
             }
             if (sameLocation) {
-                // Dobavljanje IS za odredjenu sifru statusa u datoj bibl
+                // check if the book is already borrowed
                 ItemStatus is = itemStatusMap.get(p.getStatus());
                 if (is != null && is.isLendable() && is.isShowable()) {
                     ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(p.getInvBroj());
@@ -147,21 +229,28 @@ public class ReservationsService implements ReservationsServiceInterface {
      * @param record The record in which the reservation will be saved
      * @return The created reservation
      */
-    private Reservation createNewReservation(Member member, Record record) {
-        PendingReservation pendingReservation = new PendingReservation();
-        pendingReservation.setReservationDate(new Date());
-        pendingReservation.setUserId(member.getUserId());
+    private Reservation createNewReservation(Member member, Record record, String coderId) {
+        ReservationInQueue reservationInQueue = new ReservationInQueue();
+        reservationInQueue.set_id(String.valueOf(new ObjectId()));
+        reservationInQueue.setReservationDate(new Date());
+        reservationInQueue.setUserId(member.getUserId());
+        reservationInQueue.setCoderId(coderId);
 
-        record.appendReservation(pendingReservation);
+        record.appendReservation(reservationInQueue);
         recordsRepository.save(record);
 
         ReservationOnProfile reservationOnProfile = new ReservationOnProfile();
-        reservationOnProfile.setReservationDate(pendingReservation.getReservationDate());
-        reservationOnProfile.setRecordId(record.get_id());
+        reservationOnProfile.set_id(String.valueOf(new ObjectId()));
+        reservationOnProfile.setReservationDate(reservationInQueue.getReservationDate());
+        reservationOnProfile.setRecord_id(record.get_id());
+        reservationOnProfile.setCoderId(coderId);
+        reservationOnProfile.setReservationStatus(ReservationStatus.WAITING_IN_QUEUE);
 
         member.appendReservation(reservationOnProfile);
         memberRepository.save(member);
 
-        return pendingReservation;
+        return reservationInQueue;
     }
+
+
 }

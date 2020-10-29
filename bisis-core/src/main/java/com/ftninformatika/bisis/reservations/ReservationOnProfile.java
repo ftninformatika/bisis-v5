@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservationOnProfile extends Reservation {
-    private String recordId;
+    private String record_id;
     private boolean isBookPickedUp = false;
+    private ReservationStatus reservationStatus;
 }
