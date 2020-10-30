@@ -37,7 +37,8 @@ public class ReservationsController {
                 reservationRequestDTO.getCoderId());
 
         if (reservation != null) {
-            if (reservation.equals(ReservationsConstants.NORESERVATION) || reservation.equals(ReservationsConstants.LIMITEXCEEDED)) {
+            if (reservation.equals(ReservationsConstants.NORESERVATION) || reservation.equals(ReservationsConstants.LIMITEXCEEDED)
+                    || reservation.equals(ReservationsConstants.ALREADYRESERVED)) {
                 return new ResponseEntity<>(new ReservationResponseDTO(reservation.toString()), HttpStatus.OK);
             }
             return new ResponseEntity<>(reservation, HttpStatus.OK);
@@ -45,6 +46,7 @@ public class ReservationsController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 
+        // todo transakcije handler
 //         Object reservation = null;
 //
 //            reservation = reservationsService.reserveBook(authToken, library, reservationRequestDTO.getRecordId(),

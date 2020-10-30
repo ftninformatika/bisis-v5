@@ -24,6 +24,7 @@ import com.ftninformatika.util.constants.ReservationsConstants;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,6 +67,15 @@ public class ReservationsService implements ReservationsServiceInterface {
         Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
         if (!member.isPresent()) {
             return ReservationsConstants.UNKNOWNMEMBER;
+        }
+
+        // check if user has already reserved this book
+        long numberOfSameReservations = member.get().getReservations().stream()
+                .filter(reservation -> reservation.getRecord_id().equals(record_id))
+                .count();
+
+        if (numberOfSameReservations > 0){
+            return ReservationsConstants.ALREADYRESERVED;
         }
 
         // check if user already has 3 reservations that are not picked up yet
@@ -146,6 +156,7 @@ public class ReservationsService implements ReservationsServiceInterface {
     }
 
     @Override
+    @Transactional
     public Boolean deleteReservation(String authToken, String reservationId) {
         LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
         Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
@@ -245,6 +256,7 @@ public class ReservationsService implements ReservationsServiceInterface {
         reservationOnProfile.setRecord_id(record.get_id());
         reservationOnProfile.setCoderId(coderId);
         reservationOnProfile.setReservationStatus(ReservationStatus.WAITING_IN_QUEUE);
+        reservationOnProfile.setPickUpDeadline(new Date());
 
         member.appendReservation(reservationOnProfile);
         memberRepository.save(member);
