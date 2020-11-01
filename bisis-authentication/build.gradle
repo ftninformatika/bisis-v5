@@ -28,11 +28,6 @@ dependencies {
     implementation group: 'org.glassfish.jaxb', name: 'jaxb-core', version: '2.3.0.1'
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0'
     compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {

@@ -7,4 +7,4 @@ include 'bisis-angular-client'
 include 'bisis-indexer'
 include 'bisis-books-common-merger'
 include 'bisis-authentication'
-
+include 'bisis-ris'

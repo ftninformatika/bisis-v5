@@ -18,5 +18,6 @@ public class AuthenticationResponse implements Serializable {
     private List<String> roles;
     private String library;
     private String department;
+    private String sublocation;
 
 }

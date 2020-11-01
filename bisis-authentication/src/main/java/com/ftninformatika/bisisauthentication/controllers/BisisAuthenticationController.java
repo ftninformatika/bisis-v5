@@ -79,6 +79,7 @@ public class BisisAuthenticationController {
         authenticationResponse.setUsername(userDetails.getUsername());
         authenticationResponse.setLibrary(userDetails.getLibrary());
         authenticationResponse.setDepartment(userDetails.getDepartment());
+        authenticationResponse.setSublocation(userDetails.getCircDepartment());
         authenticationResponse.setRoles(userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
