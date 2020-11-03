@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
@@ -92,6 +93,13 @@ public interface BisisService {
 
     @POST("members/addUpdateMemberData")
     Call<MemberData> addUpdateMemberData(@Body MemberData memberData);
+
+// -------------------------------- reservations -----------------------------------
+
+    @POST("reservations/reservations-for-returned-books")
+    Call<List<ReservationDTO>> getReservationsForReturnedBooks(@Body List<String> returnedBooks);
+
+
 
 //librarians------------------------------------------------------------
 

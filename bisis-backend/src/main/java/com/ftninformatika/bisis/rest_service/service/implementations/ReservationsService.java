@@ -14,13 +14,14 @@ import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
-import com.ftninformatika.bisis.rest_service.exceptions.ReservationNotAllowedException;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.service.interfaces.ReservationsServiceInterface;
 import com.ftninformatika.util.constants.ReservationsConstants;
+import com.ftninformatika.utils.LocationHelper;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,9 @@ public class ReservationsService implements ReservationsServiceInterface {
     @Autowired
     OpacSearchService opacSearchService;
 
+    @Autowired
+    CircConfigRepository circConfigRepository;
+
     @Override
     public Object reserveBook(String authToken, String library, String record_id, String coderId) {
         boolean isBgb = false;
@@ -74,7 +78,7 @@ public class ReservationsService implements ReservationsServiceInterface {
                 .filter(reservation -> reservation.getRecord_id().equals(record_id))
                 .count();
 
-        if (numberOfSameReservations > 0){
+        if (numberOfSameReservations > 0) {
             return ReservationsConstants.ALREADYRESERVED;
         }
 
@@ -88,7 +92,7 @@ public class ReservationsService implements ReservationsServiceInterface {
         }
 
         // todo smestiti negde u config
-        if (library.equals("bgb") || library.equals("bmb")) {
+        if (library.equals("bgb") || library.equals("bmb") || library.equals("bvao")) {
             isBgb = true;
             Sublocation sublocation = sublocationRepository.getByCoder_Id(coderId, library);
         } else {
@@ -190,6 +194,43 @@ public class ReservationsService implements ReservationsServiceInterface {
         return false;
     }
 
+    @Override
+    public List<ReservationDTO> getReservationsForReturnedBooks(List<String> returnedBooks, String library) {
+        List<ReservationDTO> reservationDTOS = new ArrayList<>();
+        for (String returnedBook : returnedBooks) {
+            Record record = recordsRepository.getRecordByPrimerakInvNum(returnedBook);
+
+            // get location code for returned book
+            String locationCode = LocationHelper.getLocationCodeByPrimerak(record, returnedBook, library);
+
+            // check if there is at least one reservation for the record at the same location
+            ReservationInQueue firstReservation = getFirstReservationForGivenLocation(record, locationCode);
+
+            // there is at least one reservation for the book that is being returned
+            if (firstReservation != null) {
+                // get additional data from the book and the member who reserved it
+                Book book = opacSearchService.getBookByRec(record);
+                Member member = memberRepository.getMemberByUserId(firstReservation.getUserId());
+
+                ReservationDTO reservationDTO = ReservationDTO.convertFirstReservationToDto(firstReservation,
+                        book, member, locationCode);
+                reservationDTOS.add(reservationDTO);
+            }
+        }
+        return reservationDTOS;
+    }
+
+    public ReservationInQueue getFirstReservationForGivenLocation(Record record, String locationCode) {
+        if (record.getReservations() != null && record.getReservations().size() > 0) {
+            for (ReservationInQueue reservationInQueue : record.getReservations()) {
+                if (reservationInQueue.getCoderId().equals(locationCode)) {
+                    return reservationInQueue;
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Filters books by location and status = borrowed
      *
@@ -214,7 +255,7 @@ public class ReservationsService implements ReservationsServiceInterface {
                 if (p.getSigPodlokacija().equals(coderId)) {
                     sameLocation = true;
                 }
-            } else {
+            } else {                                // todo ako odeljenje nije popunjeno
                 if (p.getOdeljenje().equals(coderId)) {
                     sameLocation = true;
                 }

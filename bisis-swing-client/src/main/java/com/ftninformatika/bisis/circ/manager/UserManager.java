@@ -13,7 +13,9 @@ import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
+import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;
@@ -40,11 +42,26 @@ public class UserManager {
     private static Logger log = Logger.getLogger(UserManager.class);
     private String defaultLocation;
 
+    // list of returned books
+    private List<String> returnedBooks;
+
     public UserManager() {
     }
 
     public Member getMember() {
         return member;
+    }
+
+    /**
+     * If there is at least one returned book, get first reservation from queue for that book
+     */
+    public List<ReservationDTO> getReservationsForReturnedBooks() throws IOException {
+        List<ReservationDTO> reservationDTOS = new ArrayList<>();
+        if (this.returnedBooks.size() > 0){
+            reservationDTOS =  BisisApp.bisisService.getReservationsForReturnedBooks(this.returnedBooks).execute().body();
+            this.returnedBooks.clear();
+        }
+        return reservationDTOS;
     }
 
     public String saveUser(User user) {
@@ -93,8 +110,16 @@ public class UserManager {
             if (errorInDates != MemberDateError.NO_ERROR) {
                 return Messages.getString(errorInDates.getMessageKey());
             }
-
             try {
+                // before updating member data, check if there are any books that are being returned
+                this.returnedBooks = new ArrayList<>();
+                for (ItemAvailability ia : memberData.getBooks()){
+                    if (!ia.getBorrowed()){
+                        this.returnedBooks.add(ia.getCtlgNo());
+                    }
+                }
+
+                // update member's data
                 memberData = BisisApp.bisisService.addUpdateMemberData(memberData).execute().body();
             } catch (Exception e) {
                 e.printStackTrace();

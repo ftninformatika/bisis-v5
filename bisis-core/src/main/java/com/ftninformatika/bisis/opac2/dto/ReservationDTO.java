@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.opac2.dto;
 
+import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
 import lombok.AllArgsConstructor;
@@ -25,9 +27,14 @@ public class ReservationDTO implements Serializable {
     private List<String> authors;
     private ReservationStatus reservationStatus;
     private Date pickUpDeadline;
-    private String location;
+    private String locationDescription;
+    private String locationCode;
+    private String memberFirstName;
+    private String memberLastName;
 
-    public static ReservationDTO convertToDto(ReservationOnProfile reservation, Book book, String location){
+
+    public static ReservationDTO convertToDto(ReservationOnProfile reservation, Book book,
+                                              String locationDescription){
         ReservationDTO reservationDTO = new ReservationDTO();
 
         reservationDTO.set_id(reservation.get_id());
@@ -36,9 +43,27 @@ public class ReservationDTO implements Serializable {
         reservationDTO.setReservationDate(reservation.getReservationDate());
         reservationDTO.setReservationStatus(reservation.getReservationStatus());
         reservationDTO.setPickUpDeadline(reservation.getPickUpDeadline());
-        reservationDTO.setLocation(location);
+        reservationDTO.setLocationDescription(locationDescription);
         reservationDTO.setTitle(book.getTitle());
         reservationDTO.setAuthors(book.getAuthors());
+
+        return reservationDTO;
+    }
+
+
+    public static ReservationDTO convertFirstReservationToDto(ReservationInQueue reservation, Book book, Member member,
+                                                              String locationCode){
+        ReservationDTO reservationDTO = new ReservationDTO();
+
+        reservationDTO.set_id(reservation.get_id());
+        reservationDTO.setRecord_id(book.get_id());
+        reservationDTO.setReservationDate(reservation.getReservationDate());
+        reservationDTO.setPickUpDeadline(reservation.getPickUpDeadline());
+        reservationDTO.setMemberFirstName(member.getFirstName());
+        reservationDTO.setMemberLastName(member.getLastName());
+        reservationDTO.setTitle(book.getTitle());
+        reservationDTO.setAuthors(book.getAuthors());
+        reservationDTO.setLocationCode(locationCode);
 
         return reservationDTO;
     }

@@ -69,9 +69,8 @@ public class ReservationsController {
     /**
      * Returns all reservations of the logged user.
      *
-     * @param library               the library in which the logged user is a member
-     * @param authToken             user authentication token
-
+     * @param library   the library in which the logged user is a member
+     * @param authToken user authentication token
      * @return list of all reservations
      */
     @GetMapping(value = "/active-reservations")
@@ -85,10 +84,9 @@ public class ReservationsController {
      * Deletes reservation that has the specified reservation ID.
      * Returns true if reservation is successfully deleted.
      *
-     * @param library               the library in which the logged user is a member
-     * @param authToken             user authentication token
-     * @param reservationId         the reservation ID to be deleted
-
+     * @param library       the library in which the logged user is a member
+     * @param authToken     user authentication token
+     * @param reservationId the reservation ID to be deleted
      * @return true if reservation is deleted, otherwise false
      */
     @RequestMapping(value = "/delete/{reservationId}", method = RequestMethod.DELETE)
@@ -103,7 +101,21 @@ public class ReservationsController {
         } else {
             return new ResponseEntity<>(false, HttpStatus.NOT_MODIFIED);
         }
+    }
 
+
+    /**
+     * Returns first reservations, from queues, of each returned book to the library.
+     *
+     * @param library       the library in which the librarian is logged in
+     * @param returnedBooks list of ctlg numbers of the books that are returned to the library
+     * @return list containing first reservation of each book that is returned
+     */
+    @PostMapping("/reservations-for-returned-books")
+    public ResponseEntity<List<ReservationDTO>> getReservationsForReturnedBooks(@RequestHeader("Library") String library,
+                                                                                @RequestBody List<String> returnedBooks) {
+        List<ReservationDTO> reservationDTOS = reservationsService.getReservationsForReturnedBooks(returnedBooks, library);
+        return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
 
