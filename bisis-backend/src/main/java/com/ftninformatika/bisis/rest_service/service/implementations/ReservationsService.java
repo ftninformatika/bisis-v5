@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
@@ -220,6 +221,33 @@ public class ReservationsService implements ReservationsServiceInterface {
         return reservationDTOS;
     }
 
+    @Override
+    @Transactional
+    public boolean confirmReservation(ConfirmReservationDTO confirmReservationDTO) {
+        // remove reservation from record's queue
+        Optional<Record> record = recordsRepository.findById(confirmReservationDTO.getRecord_id());
+        if (record.isPresent() && record.get().getReservations() != null && record.get().getReservations().size() > 0) {
+            for (ReservationInQueue reservationInQueue : record.get().getReservations()) {
+                if (reservationInQueue.get_id().equals(confirmReservationDTO.getReservation_id())) {
+                    record.get().getReservations().remove(reservationInQueue);
+                    recordsRepository.save(record.get());
+
+                    // change status of reservation in list of user's reservations
+                    Member member = memberRepository.getMemberByUserId(reservationInQueue.getUserId());
+                    for (ReservationOnProfile reservationOnProfile : member.getReservations()) {
+                        if (reservationOnProfile.getRecord_id().equals(confirmReservationDTO.getRecord_id())) {
+                            reservationOnProfile.setPickUpDeadline(new Date());   // todo +3 working days
+                            reservationOnProfile.setReservationStatus(ReservationStatus.ASSIGNED_BOOK);
+                            memberRepository.save(member);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public ReservationInQueue getFirstReservationForGivenLocation(Record record, String locationCode) {
         if (record.getReservations() != null && record.getReservations().size() > 0) {
             for (ReservationInQueue reservationInQueue : record.getReservations()) {
@@ -297,7 +325,6 @@ public class ReservationsService implements ReservationsServiceInterface {
         reservationOnProfile.setRecord_id(record.get_id());
         reservationOnProfile.setCoderId(coderId);
         reservationOnProfile.setReservationStatus(ReservationStatus.WAITING_IN_QUEUE);
-        reservationOnProfile.setPickUpDeadline(new Date());
 
         member.appendReservation(reservationOnProfile);
         memberRepository.save(member);

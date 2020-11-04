@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Membership;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.pojo.Warning;
@@ -62,6 +63,12 @@ public class UserManager {
             this.returnedBooks.clear();
         }
         return reservationDTOS;
+    }
+
+    public boolean confirmReservationAndAssignBook(ReservationDTO r) throws IOException {
+        ConfirmReservationDTO confirmReservationDTO = new ConfirmReservationDTO(r.get_id(), r.getRecord_id(),
+                r.getReservationDate(), r.getLocationCode());
+        return BisisApp.bisisService.confirmReservation(confirmReservationDTO).execute().body();
     }
 
     public String saveUser(User user) {

@@ -129,30 +129,8 @@ public class User extends JPanel {
 								getTpMain().setEnabledAt(3, true);
 							dirty = false;
 
-							// display info if book is reserved
-							List<ReservationDTO> reservationDTOList = new ArrayList<>();
-							try {
-								reservationDTOList = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks();
-							} catch (IOException ioException) {
-								ioException.printStackTrace();
-							}
-
-							if (reservationDTOList.size() > 0) {
-								for (ReservationDTO r : reservationDTOList) {
-									String[] options = {Messages.getString("circulation.yes"),Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
-									String reservationMessage = Messages.getString("circulation.book_is_reserved") + " " + r.getMemberFirstName() +
-											" " + r.getMemberLastName() + ". \n" + Messages.getString("circulation.confirm_reservation");
-									int option = JOptionPane.showOptionDialog(null, reservationMessage,
-											Messages.getString("circulation.info"),
-											JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-											new ImageIcon(getClass().getResource("/circ-images/book24.png")), options, options[1]);
-									if (option == JOptionPane.YES_OPTION) {
-										JOptionPane.showMessageDialog(null, "Opcija Da");
-									} else {
-										JOptionPane.showMessageDialog(null, "Opcija Ne");
-									}
-								}
-							}
+							// if there are reservations for the books, that are returned, display information
+							displayReservationInfoDialog();
 
 						}else{
 							JOptionPane.showMessageDialog(null, Messages.getString("circulation.saveerror") + " " + message, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
@@ -164,7 +142,56 @@ public class User extends JPanel {
 		}
 		return btnSave;
 	}
-  
+
+  public void displayReservationInfoDialog(){
+	  // check if there are any reservations for returned books
+	  List<ReservationDTO> reservationDTOList = new ArrayList<>();
+	  try {
+		  reservationDTOList = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks();
+	  } catch (IOException ioException) {
+		  ioException.printStackTrace();
+	  }
+
+	  // if there is at least one reservation for returned book, display dialog
+	  if (reservationDTOList.size() > 0) {
+		  for (ReservationDTO r : reservationDTOList) {
+			  String[] options = {Messages.getString("circulation.yes"), Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
+			  String reservationMessage = Messages.getString("circulation.book") + r.getTitle() +
+					  Messages.getString("circulation.book_is_reserved") + " " + r.getMemberFirstName() + " "
+					  + r.getMemberLastName() + ". \n" + Messages.getString("circulation.confirm_reservation");
+
+			  int option = JOptionPane.showOptionDialog(null, reservationMessage,
+					  Messages.getString("circulation.info"),
+					  JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+					  new ImageIcon(getClass().getResource("/circ-images/book24.png")), options, options[0]);
+
+			  if (option == JOptionPane.YES_OPTION) {
+				confirmReservation(r);
+			  } else {
+			  	  // todo sta raditi kada je bibliotekar izabrao opciju ne?
+				  System.out.println("Izabrana je opcija NE");
+			  }
+		  }
+	  }
+  }
+
+  public void confirmReservation(ReservationDTO r){
+	  boolean isReservationConfirmed = false;
+	  try {
+	  		isReservationConfirmed = Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(r);
+	  } catch (IOException ioException) {
+		  ioException.printStackTrace();
+	  }
+
+	  if (isReservationConfirmed) {
+		  JOptionPane.showMessageDialog(null, Messages.getString("circulation.reservation_confirmed"),
+				  Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+	  } else {
+		  JOptionPane.showMessageDialog(null, Messages.getString("circulation.reservation_error"),
+				  Messages.getString("circulation.info"), JOptionPane.ERROR_MESSAGE);
+	  }
+  }
+
   public void save(){
     getBtnSave().doClick();
   }

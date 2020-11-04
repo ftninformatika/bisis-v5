@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationRequestDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationResponseDTO;
@@ -118,5 +119,18 @@ public class ReservationsController {
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
+    /**
+     * Confirms reservation and assigns book to member.
+     * Changes status of the reservation in the list of all member's reservations.
+     * Deletes reservation from the record's queue.
+     *
+     * @param confirmReservationDTO dto contains reservation's and record's ID
+     * @return true if reservation is successfully confirmed and it's status is changed, otherwise returns false
+     */
+    @PostMapping("/confirm-reservation")
+    public ResponseEntity<Boolean> confirmReservation(@RequestBody ConfirmReservationDTO confirmReservationDTO) {
+        boolean isReservationConfirmed = reservationsService.confirmReservation(confirmReservationDTO);
+        return new ResponseEntity<>(isReservationConfirmed, HttpStatus.OK);
+    }
 
 }
