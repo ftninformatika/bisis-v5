@@ -107,13 +107,18 @@ public class LibrarianController {
             LibrarianDB librarianDB = LibrarianManager.initializeLibrarianDBFromDTO(librarianDTO);
             librarianDB.setPassword(passwordEncoder.encode(librarianDTO.getPassword()));
             List<Authority> authorities = new ArrayList<Authority>();
-            librarianRoles.forEach(role -> {
+            /*librarianRoles.forEach(role -> {
                 if (librarianDB.hasRole(role.getName())) {
                     if(authorities.indexOf(Authority.valueOf(role.getSpringRole())) == -1) {
                         authorities.add(Authority.valueOf(role.getSpringRole()));
                     }
                 }
-            });
+            });*/
+            authorities = librarianRoles.stream().
+                    filter(role ->librarianDB.hasRole(role.getName())).
+                    map(role ->Authority.valueOf(role.getSpringRole())).
+                    distinct().
+                    collect(Collectors.toList());
 
             librarianDB.setAuthorities(authorities);
             String libName = librarianDB.getBiblioteka();
@@ -233,15 +238,12 @@ public class LibrarianController {
             }
             //TODO mapirati role na authorities
             List<Authority> authorities = new ArrayList<Authority>();
-            librarianRoles.forEach(role -> {
-                if (librarianDB.hasRole(role.getName())) {
-                    if(authorities.indexOf(Authority.valueOf(role.getSpringRole())) == -1) {
-                        authorities.add(Authority.valueOf(role.getSpringRole()));
-                    }
-                }
-            });
+            authorities = librarianRoles.stream().
+                    filter(role ->librarianDB.hasRole(role.getName())).
+                    map(role ->Authority.valueOf(role.getSpringRole())).
+                    distinct().
+                    collect(Collectors.toList());
             librarianDB.setAuthorities(authorities);
-            librarianDB.setAuthorities(Arrays.asList(Authority.ROLE_ADMIN));
             LibrarianDB newlibrarianDB = librarian2Repository.save(librarianDB);
             return ResponseEntity.ok(newlibrarianDB);
         } else {
