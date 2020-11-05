@@ -172,9 +172,17 @@ public class LibrarianController {
     }
 
     @RequestMapping( value = "/update", method = RequestMethod.POST)
-    public Boolean createUpdateLibrarian(@RequestBody LibrarianDB lib){
-        lib.setAuthorities(Arrays.asList(Authority.ROLE_ADMIN));
-        librarian2Repository.save(lib);
+    public Boolean createUpdateLibrarian(@RequestBody LibrarianDB librarianDB){
+        List<LibrarianRoleDB> librarianRoles = librarianRoleRepository.findAll();
+        List<Authority> authorities = new ArrayList<Authority>();
+        authorities = librarianRoles.stream().
+                filter(role ->librarianDB.hasRole(role.getName())).
+                map(role ->Authority.valueOf(role.getSpringRole())).
+                distinct().
+                collect(Collectors.toList());
+
+        librarianDB.setAuthorities(authorities);
+        librarian2Repository.save(librarianDB);
 
         return true;
     }
