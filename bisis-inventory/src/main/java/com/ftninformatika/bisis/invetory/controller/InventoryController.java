@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/inventory")
 public class InventoryController {
 
     private InventoryService inventoryService;
@@ -37,7 +38,7 @@ public class InventoryController {
         return null; //todo implement
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<Inventory> create(@RequestBody Inventory inventory) {
         Inventory inventory1 = inventoryService.create(inventory);
         if (inventory1 == null) {

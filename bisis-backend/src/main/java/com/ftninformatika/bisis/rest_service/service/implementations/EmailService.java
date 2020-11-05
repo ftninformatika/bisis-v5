@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import org.apache.log4j.Logger;
 
 /**
@@ -34,6 +33,8 @@ public class EmailService {
     private Configuration fmConfig;
     private YAMLConfig yamlConfig;
     private Logger log = Logger.getLogger(EmailService.class);
+    private static final String ACTIVATE_ACC_URL_CHUNK = "user/activate-account/";
+    private static final String LIB_URL_CHUNK = "lib/";
 
     @Autowired
     public EmailService(Configuration fmConfig,  YAMLConfig yamlConfig) {
@@ -44,6 +45,7 @@ public class EmailService {
     @Bean("gmail")
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+
 
         return javaMailSender;
     }
@@ -59,15 +61,17 @@ public class EmailService {
     public void sendOpacWelcomeTemplate(LibraryMember libraryMember, LibraryConfiguration libraryConfiguration) {
         MimeMessage message = javaMailSender().createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        String opacUrl = yamlConfig.getOpacOrigin();
 
-        if (libraryConfiguration == null || opacUrl == null || libraryMember == null || libraryMember.getActivationToken() == null) {
+        if (libraryConfiguration == null || yamlConfig.getOpacOrigin() == null || libraryMember == null || libraryMember.getActivationToken() == null) {
             System.out.println("Activation email not sent: libraryConfiguration == null || opacUrl == null || libraryMember == null || libraryMember.getActivationToken() == null");
             log.error("Activation email not sent: libraryConfiguration == null || opacUrl == null || libraryMember == null || libraryMember.getActivationToken() == null");
             return;
         }
 
-        fmConfig.setClassForTemplateLoading(this.getClass(), "/templates/");
+        String opacUrl = yamlConfig.getOpacOrigin() + LIB_URL_CHUNK + libraryConfiguration.getLibraryName();
+        String activateAccountUrl = yamlConfig.getOpacOrigin() + ACTIVATE_ACC_URL_CHUNK;
+
+        fmConfig.setClassForTemplateLoading(this.getClass(), "/");
         try {
 
             Map<String, Object> root = new HashMap<>();
@@ -83,11 +87,11 @@ public class EmailService {
             root.put("locationCity", StringUtils.convertToHtmlUtf8(libraryConfiguration.getLocationCity() != null ? libraryConfiguration.getLocationCity() : ""));
             root.put("locationZip", StringUtils.convertToHtmlUtf8(libraryConfiguration.getLocationZip() != null ? libraryConfiguration.getLocationZip() : ""));
             root.put("websiteUrl", libraryConfiguration.getWebsiteUrl() != null ? libraryConfiguration.getWebsiteUrl() : "");
-            root.put("activationLink", opacUrl + libraryMember.getActivationToken());
+            root.put("activationLink", activateAccountUrl + libraryMember.getActivationToken());
             root.put("opacLibAddr", opacUrl);
             root.put("libraryFullName", StringUtils.convertToHtmlUtf8(libraryConfiguration.getLibraryFullName()));
 
-            Template t = fmConfig.getTemplate("templates/opac-welcome-template.ftl");
+            Template t = fmConfig.getTemplate("opac-welcome-template.ftl");
             libraryConfiguration.setLibraryFullName(StringUtils.convertToHtmlUtf8(libraryConfiguration.getLibraryFullName()));
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, root);
             helper.setTo(libraryMember.getUsername());
