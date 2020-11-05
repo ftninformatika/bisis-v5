@@ -106,18 +106,16 @@ public class LibrarianController {
         librarians.forEach(librarianDTO -> {
             LibrarianDB librarianDB = LibrarianManager.initializeLibrarianDBFromDTO(librarianDTO);
             librarianDB.setPassword(passwordEncoder.encode(librarianDTO.getPassword()));
-            List<String> authorities = new ArrayList<>();
+            List<Authority> authorities = new ArrayList<Authority>();
             librarianRoles.forEach(role -> {
                 if (librarianDB.hasRole(role.getName())) {
-                    if(authorities.indexOf(role.getSpringRole()) != -1) {
-                        authorities.add(role.getSpringRole());
+                    if(authorities.indexOf(Authority.valueOf(role.getSpringRole())) == -1) {
+                        authorities.add(Authority.valueOf(role.getSpringRole()));
                     }
                 }
             });
 
-            //TODO konvertovai niz authorities u Authority objekte
-            List<Authority> authorityList = authorities.stream().map(a ->Authority.valueOf(a)).collect(Collectors.toList());
-            librarianDB.setAuthorities(authorityList);
+            librarianDB.setAuthorities(authorities);
             String libName = librarianDB.getBiblioteka();
             if (librarianDB.getCurentProcessType()!=null){
                 String curentPT = librarianDB.getCurentProcessType().getName();
@@ -225,7 +223,8 @@ public class LibrarianController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveLibrarian(@RequestHeader(name="Authorization") String token, @RequestBody LibrarianDB librarianDB){
+    public ResponseEntity<?> saveLibrarian(@RequestHeader(name="Authorization") String token, @RequestBody final LibrarianDB librarianDB){
+        List<LibrarianRoleDB> librarianRoles = librarianRoleRepository.findAll();
         String library = jwtUtil.extractLibrary(token.substring(7));
         if (librarianDB.getBiblioteka().equals(library)) {
             if (librarianDB.get_id() == null) {
@@ -233,9 +232,18 @@ public class LibrarianController {
                 librarianDB.setPassword(password);
             }
             //TODO mapirati role na authorities
+            List<Authority> authorities = new ArrayList<Authority>();
+            librarianRoles.forEach(role -> {
+                if (librarianDB.hasRole(role.getName())) {
+                    if(authorities.indexOf(Authority.valueOf(role.getSpringRole())) == -1) {
+                        authorities.add(Authority.valueOf(role.getSpringRole()));
+                    }
+                }
+            });
+            librarianDB.setAuthorities(authorities);
             librarianDB.setAuthorities(Arrays.asList(Authority.ROLE_ADMIN));
-            librarianDB = librarian2Repository.save(librarianDB);
-            return ResponseEntity.ok(librarianDB);
+            LibrarianDB newlibrarianDB = librarian2Repository.save(librarianDB);
+            return ResponseEntity.ok(newlibrarianDB);
         } else {
             return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("No permission!");
         }
