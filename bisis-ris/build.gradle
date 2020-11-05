@@ -2,7 +2,6 @@
         id "org.springframework.boot" version "2.1.2.RELEASE"
     }
     apply plugin: 'war'
-
     war {
         enabled = true
         baseName = 'bisis-ris'
@@ -10,13 +9,6 @@
     }
     bootWar {
         baseName = 'bisis-ris'
-    }
-    bootJar {
-        enabled = false
-    }
-
-    jar {
-        enabled = true
     }
 
     dependencies {
