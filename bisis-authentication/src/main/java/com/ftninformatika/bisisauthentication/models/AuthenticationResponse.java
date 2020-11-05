@@ -16,6 +16,7 @@ public class AuthenticationResponse implements Serializable {
     private String name;
     private String token;
     private List<String> roles;
+    private List<String> authorities;
     private String library;
     private String department;
     private String sublocation;

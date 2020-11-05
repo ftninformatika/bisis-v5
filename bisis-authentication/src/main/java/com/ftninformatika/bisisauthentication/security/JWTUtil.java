@@ -28,6 +28,11 @@ public class JWTUtil {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    public String extractLibrary(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("library", String.class);
+    }
+
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -47,6 +52,7 @@ public class JWTUtil {
         claims.put("clientType", bisisUserDetails.getClientType());
         claims.put("userID", bisisUserDetails.getID());
         claims.put("username", bisisUserDetails.getUsername());
+        claims.put("library", bisisUserDetails.getLibrary());
         claims.put("token_create_date", LocalDateTime.now());
         return createToken(claims, userDetails.getUsername());
     }

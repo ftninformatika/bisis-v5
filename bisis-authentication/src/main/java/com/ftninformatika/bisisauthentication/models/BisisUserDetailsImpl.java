@@ -5,7 +5,9 @@ import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 public class BisisUserDetailsImpl implements UserDetails {
@@ -20,6 +22,7 @@ public class BisisUserDetailsImpl implements UserDetails {
     String defaultDepartment;
     String circDepartment;
     String clientType;
+    List<String> roles;
 
     public BisisUserDetailsImpl(LibrarianDB librarianDB) {
         this.id = librarianDB.get_id();
@@ -31,6 +34,7 @@ public class BisisUserDetailsImpl implements UserDetails {
         this.library = librarianDB.getBiblioteka();
         this.defaultDepartment = librarianDB.getDefaultDepartment();
         this.circDepartment = librarianDB.getCircDepartment();
+        this.roles = librarianDB.getLibrarianRoles();
         this.clientType = "librarian";
     }
 
@@ -44,6 +48,7 @@ public class BisisUserDetailsImpl implements UserDetails {
         this.library = libraryMember.getLibraryPrefix();
         this.defaultDepartment = "";
         this.circDepartment = "";
+        this.roles = new ArrayList<>();
         this.clientType = "member";
     }
 
@@ -104,5 +109,9 @@ public class BisisUserDetailsImpl implements UserDetails {
 
     public String getID() {
         return id;
+    }
+
+    public List<String> getRoles() {
+        return this.roles;
     }
 }

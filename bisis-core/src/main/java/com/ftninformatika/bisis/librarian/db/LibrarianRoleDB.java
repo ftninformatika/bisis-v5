@@ -19,4 +19,5 @@ public class LibrarianRoleDB {
     @Indexed(unique = true)
     private String name;
     private String description;
+    private String springRole;
 }

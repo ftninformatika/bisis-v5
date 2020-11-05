@@ -80,13 +80,14 @@ public class BisisAuthenticationController {
         authenticationResponse.setLibrary(userDetails.getLibrary());
         authenticationResponse.setDepartment(userDetails.getDepartment());
         authenticationResponse.setSublocation(userDetails.getCircDepartment());
-        authenticationResponse.setRoles(userDetails.getAuthorities().stream()
+        authenticationResponse.setAuthorities(userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
+        authenticationResponse.setRoles(userDetails.getRoles());
         return ResponseEntity.ok(authenticationResponse);
     }
 
-    @PostMapping(value = "/opacAuthenticate")
+    @PostMapping(value = "/memauth")
     public ResponseEntity<?> opacAuthenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(

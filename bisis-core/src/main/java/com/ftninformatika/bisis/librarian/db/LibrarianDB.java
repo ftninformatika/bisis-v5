@@ -57,7 +57,7 @@ public class LibrarianDB {
         if (librarian.getContext() != null) {
             this.context = new LibrarianContextDB(librarian.getContext());
         }
-        this.authorities = Arrays.asList(new Authority[]{Authority.ROLE_ADMIN});
+        this.authorities = Arrays.asList(Authority.ROLE_ADMIN);
     }
 
 
