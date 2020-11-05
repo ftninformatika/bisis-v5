@@ -116,7 +116,8 @@ public class LibrarianController {
             });
 
             //TODO konvertovai niz authorities u Authority objekte
-
+            List<Authority> authorityList = authorities.stream().map(a ->Authority.valueOf(a)).collect(Collectors.toList());
+            librarianDB.setAuthorities(authorityList);
             String libName = librarianDB.getBiblioteka();
             if (librarianDB.getCurentProcessType()!=null){
                 String curentPT = librarianDB.getCurentProcessType().getName();
