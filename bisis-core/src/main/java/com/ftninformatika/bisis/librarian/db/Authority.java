@@ -8,7 +8,8 @@ public enum Authority implements GrantedAuthority {
     ROLE_ADMIN,
     ROLE_RIS_USER,
     ROLE_RIS_ADMIN,
-    ANONYMOUS;
+    ROLE_NABAVKA_DEZIDERATI,
+    ROLE_NABAVKA_ADMIN;
 
     @Override
     public String getAuthority() {

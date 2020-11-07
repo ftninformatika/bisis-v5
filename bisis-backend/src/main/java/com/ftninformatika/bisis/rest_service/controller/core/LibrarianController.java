@@ -90,7 +90,7 @@ public class LibrarianController {
     @GetMapping("/insertLibrarianRoles")
     public void insertLibrarianRoles(){
         String[] roles = {"obrada", "cirkulacija", "administracija", "redaktor", "inventator", "cirkulacijaPlus", "opacAdmin", "deziderati", "nabavka", "RIS", "RISAdmin"};
-        String[] springRoles = {"ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_DEZIDERATI", "ROLE_NABAVKA", "ROLE_RIS_USER", "ROLE_RIS_ADMIN"};
+        String[] springRoles = {"ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_ADMIN", "ROLE_NABAVKA_DEZIDERATI", "ROLE_NABAVKA_ADMIN", "ROLE_RIS_USER", "ROLE_RIS_ADMIN"};
         for (int i = 0; i < roles.length; i++) {
             LibrarianRoleDB librarianRoleDB = new LibrarianRoleDB();
             librarianRoleDB.setName(roles[i]);
@@ -105,16 +105,9 @@ public class LibrarianController {
         List<LibrarianRoleDB> librarianRoles = librarianRoleRepository.findAll();
         librarians.forEach(librarianDTO -> {
             LibrarianDB librarianDB = LibrarianManager.initializeLibrarianDBFromDTO(librarianDTO);
+            librarianDB.setNapomena("Lozinka koja je bila vidljiva: " + librarianDTO.getPassword());
             librarianDB.setPassword(passwordEncoder.encode(librarianDTO.getPassword()));
-            List<Authority> authorities = new ArrayList<Authority>();
-            /*librarianRoles.forEach(role -> {
-                if (librarianDB.hasRole(role.getName())) {
-                    if(authorities.indexOf(Authority.valueOf(role.getSpringRole())) == -1) {
-                        authorities.add(Authority.valueOf(role.getSpringRole()));
-                    }
-                }
-            });*/
-            authorities = librarianRoles.stream().
+            List<Authority> authorities = librarianRoles.stream().
                     filter(role ->librarianDB.hasRole(role.getName())).
                     map(role ->Authority.valueOf(role.getSpringRole())).
                     distinct().
@@ -187,14 +180,14 @@ public class LibrarianController {
         return true;
     }
 
-    @RequestMapping( value = "/delete", method = RequestMethod.POST)
-    public Boolean deleteLibrarian(@RequestBody LibrarianDB lib){
-        LibrarianDB librarian = librarian2Repository.getByUsername(lib.getUsername());
-        if (librarian == null)
-            return false;
-        librarian2Repository.delete(librarian);
-        return true;
-    }
+//    @RequestMapping( value = "/delete", method = RequestMethod.POST)
+//    public Boolean deleteLibrarian(@RequestBody LibrarianDB lib){
+//        LibrarianDB librarian = librarian2Repository.getByUsername(lib.getUsername());
+//        if (librarian == null)
+//            return false;
+//        librarian2Repository.delete(librarian);
+//        return true;
+//    }
 
 
     // new
@@ -236,7 +229,7 @@ public class LibrarianController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveLibrarian(@RequestHeader(name="Authorization") String token, @RequestBody final LibrarianDB librarianDB){
+    public ResponseEntity<?> saveLibrarian(@RequestHeader(name="Authorization") String token, @RequestBody LibrarianDB librarianDB){
         List<LibrarianRoleDB> librarianRoles = librarianRoleRepository.findAll();
         String library = jwtUtil.extractLibrary(token.substring(7));
         if (librarianDB.getBiblioteka().equals(library)) {
@@ -244,9 +237,7 @@ public class LibrarianController {
                 String password = passwordEncoder.encode(librarianDB.getPassword());
                 librarianDB.setPassword(password);
             }
-            //TODO mapirati role na authorities
-            List<Authority> authorities = new ArrayList<Authority>();
-            authorities = librarianRoles.stream().
+            List<Authority> authorities = librarianRoles.stream().
                     filter(role ->librarianDB.hasRole(role.getName())).
                     map(role ->Authority.valueOf(role.getSpringRole())).
                     distinct().
@@ -257,5 +248,21 @@ public class LibrarianController {
         } else {
             return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("No permission!");
         }
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?>  deleteLibrarian(@RequestHeader(name="Authorization") String token, @RequestBody LibrarianDB librarianDB){
+        String library = jwtUtil.extractLibrary(token.substring(7));
+        if (librarianDB.getBiblioteka().equals(library)) {
+            librarian2Repository.delete(librarianDB);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("No permission!");
+        }
+    }
+
+    @GetMapping("/getRoles")
+    public List<LibrarianRoleDB> getRoles(){
+        return librarianRoleRepository.findAll();
     }
 }

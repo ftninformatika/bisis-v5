@@ -32,8 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+        http.cors().and().csrf().disable().authorizeRequests()
+               // .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(
                         "/book",
                         "/book/multiple",
@@ -87,9 +87,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(authenticationTokenFilter,
                         UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .csrf().disable();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Bean

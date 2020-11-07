@@ -1,15 +1,5 @@
 plugins {
     id 'org.springframework.boot' version '2.1.2.RELEASE'
-    id 'war'
-}
-
-war {
-    baseName = 'bisisAuthentication'
-}
-// gradle build pakuje war aplikaciju
-
-bootWar {
-    baseName = 'bisisAuthentication'
 }
 
 bootJar {
@@ -30,6 +20,3 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
 }
 
-test {
-    useJUnitPlatform()
-}
