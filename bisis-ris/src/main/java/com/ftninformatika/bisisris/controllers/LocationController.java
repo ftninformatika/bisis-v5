@@ -1,10 +1,12 @@
 package com.ftninformatika.bisisris.controllers;
 
+import com.ftninformatika.bisis.circ.CircLocation;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisisris.repositories.LocationRepository;
 import com.ftninformatika.bisisris.repositories.SubLocationRepository;
+import org.apache.lucene.index.DocIDMerger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -45,7 +47,11 @@ public class LocationController {
     @GetMapping("/sublocation/{code}")
     public Sublocation getSubLocation(@PathVariable("code") String code){
         String libPrefix = lpp.getLibPrefix();
-        return slr.findCoder(libPrefix,code);
+        CircLocation circLoc = slr.findCoder(libPrefix,code);
+        Sublocation sublocation = new Sublocation();
+        sublocation.setCoder_id(circLoc.getLocationCode());
+        sublocation.setDescription(circLoc.getDescription());
+        return sublocation;
     }
 
 }

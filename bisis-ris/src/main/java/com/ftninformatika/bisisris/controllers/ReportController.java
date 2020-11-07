@@ -238,7 +238,7 @@ public class ReportController {
                     "return res;\n" +
                     "};";
             Date queryDate = new Date();
-            //pomerimo za jedan dan datum kako bi upala i vrednost tog dana u ponoc
+            //pomerimo za jedan dan datum kako bi upala i vrednost tog dana u ponoctava!cetvrtko
             queryDate.setTime(toDate.getTime()+86400000);
             Query query = new Query(Criteria.where("dateOfService").gte(fromDate).lt(queryDate).andOperator(Criteria.where("location").is(location)));
 
