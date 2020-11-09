@@ -827,6 +827,7 @@ public class UserManager {
         return result;
     }
 
+    // todo ovo je drugi flow za razduzivanje
     public boolean dischargeUser(String ctlgno) {
         Lending lending = null;
         boolean done = false;

@@ -5,6 +5,7 @@ package com.ftninformatika.bisis.service;
  */
 
 import com.ftninformatika.bisis.circ.*;
+import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
@@ -98,6 +99,9 @@ public interface BisisService {
 
     @POST("reservations/reservations-for-returned-books")
     Call<List<ReservationDTO>> getReservationsForReturnedBooks(@Body List<String> returnedBooks);
+
+    @POST("reservations/confirm-reservation")
+    Call<Boolean> confirmReservation(@Body ConfirmReservationDTO confirmReservationDTO);
 
 
 

@@ -1,5 +1,8 @@
 package com.ftninformatika.util.constants;
 
+/**
+ * @author marijakovacevic
+ */
 public class ReservationsConstants {
     public static final String NORESERVATION = "Књига је доступна у библиотеци. Књигу можете преузети без резервације.";
     public static final String LIMITEXCEEDED = "Није могуће резервисати више од 3 књиге.";

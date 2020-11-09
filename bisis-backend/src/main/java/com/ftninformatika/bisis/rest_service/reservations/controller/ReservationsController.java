@@ -1,10 +1,12 @@
-package com.ftninformatika.bisis.rest_service.controller.core;
+package com.ftninformatika.bisis.rest_service.reservations.controller;
 
 import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationRequestDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationResponseDTO;
-import com.ftninformatika.bisis.rest_service.service.interfaces.ReservationsServiceInterface;
+import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
+import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.CreateReservationServiceInterface;
+import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.OpacReservationsServiceInterface;
 import com.ftninformatika.util.constants.ReservationsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +15,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author marijakovacevic
+ */
+
 @RestController
 @RequestMapping("/reservations")
 public class ReservationsController {
     @Autowired
-    private ReservationsServiceInterface reservationsService;
+    private CreateReservationServiceInterface createReservationService;
+
+    @Autowired
+    private OpacReservationsServiceInterface opacReservationsService;
+
+    @Autowired
+    private BisisReservationsServiceInterface bisisReservationsService;
 
     /**
      * This method reserves book for the logged user.
@@ -34,7 +46,7 @@ public class ReservationsController {
                                          @RequestHeader("Authorization") String authToken,
                                          @RequestBody ReservationRequestDTO reservationRequestDTO) {
 
-        Object reservation = reservationsService.reserveBook(authToken, library, reservationRequestDTO.getRecordId(),
+        Object reservation = createReservationService.reserveBook(authToken, library, reservationRequestDTO.getRecordId(),
                 reservationRequestDTO.getCoderId());
 
         if (reservation != null) {
@@ -77,7 +89,7 @@ public class ReservationsController {
     @GetMapping(value = "/active-reservations")
     public ResponseEntity<?> getReservationsByUser(@RequestHeader("Library") String library,
                                                    @RequestHeader("Authorization") String authToken) {
-        List<ReservationDTO> reservationDTOS = reservationsService.getReservationsByUser(library, authToken);
+        List<ReservationDTO> reservationDTOS = opacReservationsService.getReservationsByUser(library, authToken);
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
@@ -85,17 +97,15 @@ public class ReservationsController {
      * Deletes reservation that has the specified reservation ID.
      * Returns true if reservation is successfully deleted.
      *
-     * @param library       the library in which the logged user is a member
      * @param authToken     user authentication token
      * @param reservationId the reservation ID to be deleted
      * @return true if reservation is deleted, otherwise false
      */
     @RequestMapping(value = "/delete/{reservationId}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteReservation(@RequestHeader("Library") String library,
-                                               @RequestHeader("Authorization") String authToken,
+    public ResponseEntity<?> deleteReservation(@RequestHeader("Authorization") String authToken,
                                                @PathVariable("reservationId") String reservationId) {
 
-        Boolean reservationDeleted = reservationsService.deleteReservation(authToken, reservationId);
+        Boolean reservationDeleted = opacReservationsService.deleteReservation(authToken, reservationId);
 
         if (reservationDeleted) {
             return new ResponseEntity<>(true, HttpStatus.OK);
@@ -115,7 +125,7 @@ public class ReservationsController {
     @PostMapping("/reservations-for-returned-books")
     public ResponseEntity<List<ReservationDTO>> getReservationsForReturnedBooks(@RequestHeader("Library") String library,
                                                                                 @RequestBody List<String> returnedBooks) {
-        List<ReservationDTO> reservationDTOS = reservationsService.getReservationsForReturnedBooks(returnedBooks, library);
+        List<ReservationDTO> reservationDTOS = bisisReservationsService.getReservationsForReturnedBooks(returnedBooks, library);
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
@@ -129,7 +139,8 @@ public class ReservationsController {
      */
     @PostMapping("/confirm-reservation")
     public ResponseEntity<Boolean> confirmReservation(@RequestBody ConfirmReservationDTO confirmReservationDTO) {
-        boolean isReservationConfirmed = reservationsService.confirmReservation(confirmReservationDTO);
+        boolean isReservationConfirmed = bisisReservationsService.confirmReservation(confirmReservationDTO.getReservation_id(),
+                confirmReservationDTO.getRecord_id());
         return new ResponseEntity<>(isReservationConfirmed, HttpStatus.OK);
     }
 

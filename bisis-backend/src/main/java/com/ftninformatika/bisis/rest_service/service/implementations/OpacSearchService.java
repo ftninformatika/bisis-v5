@@ -210,7 +210,7 @@ public class OpacSearchService {
     }
 
 
-    Book getBookByRec(Record r) {
+   public Book getBookByRec(Record r) {
         Book b = new Book();
         b.set_id(r.get_id());
         RecordPreview rp = new RecordPreview();
