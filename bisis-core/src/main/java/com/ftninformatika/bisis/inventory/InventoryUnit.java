@@ -1,10 +1,10 @@
 package com.ftninformatika.bisis.inventory;
 
-import com.ftninformatika.bisis.coders.ItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -17,15 +17,22 @@ import java.util.Date;
 public class InventoryUnit {
 
     private String _id;
+    @Indexed
     private Integer rn;
+    @Indexed
     private String inventory_id;
+    @Indexed
     private String invNo;
     private String author;
     private String title;
     private String signature;
     private String publisher;
     private String pubYear;
-    private ItemStatus invStatus;
-    private ItemStatus revisionStatus;
+    @Indexed
+    private String invStatus;
+    @Indexed
+    private String revisionStatus;
     private Date dateModified;
+
+
 }

@@ -1,19 +1,19 @@
 package com.ftninformatika.bisis.inventory;
 
 public enum InventoryStatus {
-    IN_PREPARATION( 0),
-    IN_PROGRESS( 1),
-    FINISHED( 2);
+    IN_PREPARATION( "IN_PREPARATION"),
+    IN_PROGRESS( "IN_PROGRESS"),
+    FINISHED( "FINISHED");
 
-    private int code;
+    private String code;
 
-    InventoryStatus(int code) {
+    InventoryStatus(String code) {
         this.code = code;
     }
 
     @Override
     public String toString() {
-        return this.code + "";
+        return this.code;
     }
 
 }

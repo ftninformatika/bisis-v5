@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.records;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -212,6 +213,28 @@ public class Record implements Serializable {
       Field f = (Field)fields.get(i);
       f.sort();
     }
+  }
+
+
+  public List<Primerak> getPrimerciBySublocations(List<Sublocation> sublocations) {
+      List<Primerak> retVal = new ArrayList<>();
+      for (Sublocation sl: sublocations) {
+          retVal.addAll(getPrimerciBySublocationCode(sl.getCoder_id()));
+      }
+      return retVal;
+  }
+
+  private List<Primerak> getPrimerciBySublocationCode(String sublocationCode) {
+      List<Primerak> retVal = new ArrayList<>();
+      if(sublocationCode == null || this.getPrimerci() == null || this.primerci.size() == 0) {
+          return retVal;
+      }
+      for (Primerak p : primerci) {
+          if (java.util.Objects.equals(p.getSigPodlokacija(), sublocationCode)) {
+              retVal.add(p);
+          }
+      }
+      return retVal;
   }
   
   

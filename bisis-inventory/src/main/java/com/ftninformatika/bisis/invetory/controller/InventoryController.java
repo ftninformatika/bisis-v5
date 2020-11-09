@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.invetory.controller;
 
 import com.ftninformatika.bisis.inventory.Inventory;
+import com.ftninformatika.bisis.invetory.config.PathConstants;
 import com.ftninformatika.bisis.invetory.service.interfaces.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/inventory")
+@RequestMapping(PathConstants.INVENTORY)
 public class InventoryController {
 
     private InventoryService inventoryService;
