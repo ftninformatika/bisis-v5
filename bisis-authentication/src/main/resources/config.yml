@@ -1,4 +1,0 @@
-security:
-  token:
-    secret:
-      key: megaSecretKey

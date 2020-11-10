@@ -207,8 +207,8 @@ public class ReportController {
                 response.setHeader("Content-Disposition", attachment);
                 OutputStream out = response.getOutputStream();
                 JasperExportManager.exportReportToPdfStream(jasperPrint, out);
-            }
-        } catch (Exception e) {
+            }        } catch (Exception e) {
+
             response.setStatus(500);
         }
     }

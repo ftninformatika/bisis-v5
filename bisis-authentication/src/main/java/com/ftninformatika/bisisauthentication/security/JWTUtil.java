@@ -3,6 +3,7 @@ package com.ftninformatika.bisisauthentication.security;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-@PropertySource(value = "classpath:/config.yml")
+@Configuration
+@PropertySource("classpath:config.properties")
 public class JWTUtil {
 
     @Value("${security.token.secret.key}")

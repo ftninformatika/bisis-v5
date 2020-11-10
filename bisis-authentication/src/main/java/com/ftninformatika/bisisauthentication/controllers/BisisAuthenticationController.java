@@ -70,6 +70,10 @@ public class BisisAuthenticationController {
             return new ResponseEntity<>("Disabled user", HttpStatus.BAD_REQUEST);
         } catch (BadCredentialsException e) {
             return new ResponseEntity<>("Incorrect username or password", HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Unknown error", HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
         final BisisUserDetailsImpl userDetails = (BisisUserDetailsImpl)userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtUtil.generateToken(userDetails);

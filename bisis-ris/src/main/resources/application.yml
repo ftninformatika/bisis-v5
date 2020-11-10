@@ -1,13 +1,9 @@
 spring:
   profiles:
     active: development
-security:
-  token:
-    secret:
-      key: megaSecretKey
 server:
   servlet:
-    context-path: /ris
+    context-path: /bisis-ris
 
 logging:
   level:
