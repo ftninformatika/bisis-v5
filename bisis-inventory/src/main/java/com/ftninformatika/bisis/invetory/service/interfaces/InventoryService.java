@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface InventoryService {
 
-    Inventory create(Inventory inventory);
+    Inventory create(Inventory inventory, String lib);
     Inventory update(Inventory inventory);
     void delete(Inventory inventory);
     Inventory getOne(String _id);

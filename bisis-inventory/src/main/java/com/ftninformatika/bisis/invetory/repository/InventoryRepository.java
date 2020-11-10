@@ -11,5 +11,5 @@ import java.util.List;
 public interface InventoryRepository extends MongoRepository<Inventory, String> {
 
     List<Inventory> findAllByLibrary(String library);
-    List<Inventory> findAllByInventoryStatus(InventoryStatus inventoryStatus);
+    List<Inventory> findAllByInventoryStatusAndLibrary(InventoryStatus inventoryStatus, String library);
 }

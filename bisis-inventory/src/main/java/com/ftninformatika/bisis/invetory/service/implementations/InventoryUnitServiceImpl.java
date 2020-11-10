@@ -1,11 +1,37 @@
 package com.ftninformatika.bisis.invetory.service.implementations;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.invetory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.invetory.service.interfaces.InventoryUnitService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class InventoryUnitServiceImpl implements InventoryUnitService {
+
+    private InventoryUnitRepository inventoryUnitRepository;
+
+    public InventoryUnitServiceImpl(InventoryUnitRepository inventoryUnitRepository) {
+        this.inventoryUnitRepository = inventoryUnitRepository;
+    }
+
+    @Override
+    public Page<InventoryUnit> search(String inventory_id, Integer pageSize, Integer pageNumber) {
+        int pSize = 10;
+        int pNum = 0;
+        if (pageSize != null) {
+            pSize = pageSize;
+        }
+        if (pageNumber != null) {
+            pNum = pageNumber;
+        }
+        Pageable pageRequest = PageRequest.of(pNum, pSize); // todo ovde ide search/sort
+        return inventoryUnitRepository.findByInventoryId(inventory_id, pageRequest);
+    }
 
     @Override
     public InventoryUnit create(InventoryUnit inventory) {
@@ -31,4 +57,5 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
     public List<InventoryUnit> getAllForLib(String lib) {
         return null;
     }
+
 }

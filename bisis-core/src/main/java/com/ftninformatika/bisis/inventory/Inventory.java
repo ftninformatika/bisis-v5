@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -41,14 +42,16 @@ public class Inventory {
         rp.init(record);
         // todo ovde location/sublocation kada bude trebalo
         List<Primerak> filteredPrimerci = record.getPrimerciBySublocations(this.sublocations);
+        filteredPrimerci = filteredPrimerci.stream()
+                .filter(fp -> fp.inRangeForAnyInvBook(this.invBooks)).collect(Collectors.toList());
         for (Primerak p: filteredPrimerci) {
             InventoryUnit inventoryUnit = new InventoryUnit();
             inventoryUnit.setRn(record.getRN());
-            inventoryUnit.setInventory_id(this._id);
+            inventoryUnit.setInventoryId(this._id);
             inventoryUnit.setInvNo(p.getInvBroj());
             inventoryUnit.setAuthor(rp.getAuthor());
             inventoryUnit.setTitle(rp.getTitle());
-            inventoryUnit.setSignature(rp.getSignature());
+            inventoryUnit.setSignature(p.getSigUDK()); // todo proveriti da li UDK da se koristi
             inventoryUnit.setPublisher(rp.getPublisher());
             inventoryUnit.setPubYear(rp.getPublishingYear());
             inventoryUnit.setInvStatus(p.getStatus());

@@ -17,8 +17,8 @@ import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.text.html.Option;
+import java.util.*;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -37,24 +37,26 @@ public class InventoryServiceImpl implements InventoryService {
 
 //    @Transactional todo
     @Override
-    public Inventory create(Inventory inventory) {
+    public Inventory create(Inventory inventory, String lib) {
         if (inventory == null || inventory.get_id() != null) {
             return null;
         }
-        if (inventoryRepository.findAllByInventoryStatus(InventoryStatus.IN_PREPARATION).size() > 0) {
+        if (inventoryRepository.findAllByInventoryStatusAndLibrary(InventoryStatus.IN_PREPARATION, lib).size() > 0) {
             // todo Ne moze da se upisuje nova dok ima neka u pripremi (puni kolekciju inventory_unit)
             return null;
         }
         inventory.setInventoryStatus(InventoryStatus.IN_PREPARATION);
         try {
             if (inventory.getYear() == null && inventory.getStartDate() != null) {
-                inventory.setYear(inventory.getStartDate().getYear());
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime( inventory.getStartDate());
+                inventory.setYear(calendar.get(Calendar.YEAR));
             }
             inventory = inventoryRepository.insert(inventory);
             if (inventory != null) {
                 generateInventoryUnits(inventory);
+                inventory.setInventoryStatus(InventoryStatus.IN_PROGRESS);
             }
-            inventory.setInventoryStatus(InventoryStatus.IN_PROGRESS);
             return inventoryRepository.save(inventory);
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +89,11 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory getOne(String _id) {
-        return null;
+        if (_id == null) {
+            throw new IllegalArgumentException("Id of Inventory is not passed");
+        }
+        Optional<Inventory> optionalInventory =  inventoryRepository.findById(_id);
+        return optionalInventory.orElse(null);
     }
 
     @Override
@@ -96,9 +102,8 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     // todo move this somewhere, make nicer query
-    // todo set inv check
     private void generateInventoryUnits(Inventory createdInventory) {
-        Pageable pageRequest = PageRequest.of(0, 1000);
+        Pageable pageRequest = PageRequest.of(0, 1000); // todo ovde mozda pozvati elastic za dovlacenje recorda
         Page<Record> onePage = recordsRepository.findAll(pageRequest);
         int totalPages = recordsRepository.findAll(pageRequest).getTotalPages();
         int count = 1;
@@ -106,9 +111,13 @@ public class InventoryServiceImpl implements InventoryService {
             List<InventoryUnit> invUnitsBulkList = new ArrayList<>();
             for (Record rec : onePage) {
                 List<InventoryUnit> inventoryUnits = createdInventory.initListOfUnitsFromRecord(rec);
-                invUnitsBulkList.addAll(inventoryUnits);
+                if (inventoryUnits != null && inventoryUnits.size() > 0) {
+                    invUnitsBulkList.addAll(inventoryUnits);
+                }
             }
-            inventoryUnitRepository.saveAll(invUnitsBulkList);
+            if (invUnitsBulkList.size() > 0) {
+                inventoryUnitRepository.saveAll(invUnitsBulkList);
+            }
 
             if (!onePage.isLast()) {
                 pageRequest = onePage.nextPageable();
