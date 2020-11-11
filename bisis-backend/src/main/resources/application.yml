@@ -5,28 +5,22 @@ logging:
 
 spring:
   profiles:
-    active: developmentSingle
-
-
-security:
-  token:
-    secret:
-      key: megaSecretKey
+    active: devTestServer
 
 ---
 
 spring:
-  profiles: developmentCluster
+  profiles: devTestServer
   main:
     allow-bean-definition-overriding: true
-  data.mongodb.uri: mongodb://bisis:bisis@192.168.200.1:27017,192.168.200.58:27017,192.168.200.3:27017/?replicaSet=bisis5
+  data.mongodb.uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
   data.mongodb.database: bisis
   data:
     elasticsearch:
       cluster-name: bisis5
-      cluster-nodes: 192.168.200.1:9300, 192.168.200.3:9300
-serverOrigin: http://localhost:8080/
-opacOrigin: http://localhost:4200/
+      cluster-nodes: 127.0.0.1:9300
+serverOrigin: https://opactest.bisis.rs/bisisWS/
+opacOrigin: https://opactest.bisis.rs/
 logging:
   level:
     com.ftninformatika: INFO
@@ -53,12 +47,7 @@ logging:
 
 spring:
   profiles: developmentSingle
-#  data.mongodb.uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
-#  data.mongodb.database: bisis
   data:
-#    redis:
-#      repositories:
-#        enabled: false
     mongodb:
       host: localhost
       port: 27017

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: development
+    active: test
 server:
   servlet:
     context-path: /bisis-ris
@@ -25,6 +25,18 @@ spring:
   data:
     mongodb:
       uri: mongodb://bisis1:27017,bisis2:27017,bisis3:27017/?replicaSet=bisis5
+      database: bisis
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+---
+
+spring:
+  profiles: test
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
       database: bisis
   jackson:
     serialization:

@@ -4,6 +4,7 @@ plugins {
 apply plugin: 'war'
 
 war {
+	enabled = true
 	baseName = 'bisisWS'
 }
 // gradle build pakuje war aplikaciju
