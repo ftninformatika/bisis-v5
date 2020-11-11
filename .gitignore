@@ -62,10 +62,11 @@ bisis-angular-client/static
 
 data/elasticsearch/*
 classes/production/bisis-backend/db/changesets/records.js
-bisis-backend/data
+bisis-backend/data/
 data.rar
 out/
 # bisis-backend/src/main/resources/application.yml
 # bisis-reports/src/main/java/com/ftninformatika/bisis/ReportConfig.java
 *.jasper
 *.jks
+*/opac-secret.properties
