@@ -47,6 +47,7 @@ public class ReportController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public void handleException(Exception ex) {
+    ex.printStackTrace();
     }
 
     @PostMapping("librarians")
@@ -111,7 +112,7 @@ public class ReportController {
                 JasperExportManager.exportReportToPdfStream(jasperPrint, out);
             }
         } catch (Exception e) {
-            response.setStatus(404);
+            response.setStatus(500);
         }
     }
 
@@ -238,7 +239,7 @@ public class ReportController {
                     "return res;\n" +
                     "};";
             Date queryDate = new Date();
-            //pomerimo za jedan dan datum kako bi upala i vrednost tog dana u ponoctava!cetvrtko
+            //pomerimo za jedan dan datum kako bi upala i vrednost tog dana u ponoc
             queryDate.setTime(toDate.getTime()+86400000);
             Query query = new Query(Criteria.where("dateOfService").gte(fromDate).lt(queryDate).andOperator(Criteria.where("location").is(location)));
 

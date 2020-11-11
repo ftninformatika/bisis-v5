@@ -3,6 +3,7 @@ package com.ftninformatika.bisisris.controllers;
 import com.ftninformatika.bisisris.models.Task;
 import com.ftninformatika.bisisris.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
@@ -31,6 +32,7 @@ public class TaskContoller {
         today.set(Calendar.HOUR_OF_DAY,0);
         today.set(Calendar.MINUTE,0);
         today.set(Calendar.SECOND,0);
-     return tr.getTaskByLibrarianAndDateOfServiceAfter(librarian,today.getTime());
+        Sort sort = new Sort(Sort.Direction.DESC, "dateOfService");
+        return tr.getTaskByLibrarianAndDateOfServiceAfter(librarian,today.getTime(),sort);
     }
 }
