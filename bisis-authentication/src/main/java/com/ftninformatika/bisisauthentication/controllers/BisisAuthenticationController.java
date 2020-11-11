@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisisauthentication.models.AuthenticationRequest;
 import com.ftninformatika.bisisauthentication.models.AuthenticationResponse;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
@@ -59,7 +60,8 @@ public class BisisAuthenticationController {
     @Qualifier("librarianAuthenticationRepository")
     LibrarianRepository librarianRepository;
 
-
+    @Autowired
+    LibraryPrefixProvider prefixProvider;
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
@@ -126,6 +128,7 @@ public class BisisAuthenticationController {
         if (libraryMember == null || libraryMember.getLibraryPrefix() == null
                 || !allPrefixes.contains(libraryMember.getLibraryPrefix()))
             return null;
+        prefixProvider.setPrefix(libraryMember.getLibraryPrefix());
         OpacMemberWrapper retVal = new OpacMemberWrapper();
         if (libraryMember.getAuthorities().contains(Authority.ROLE_USER)) {
             Optional<Member> member = memberRepository.findById(libraryMember.getIndex());

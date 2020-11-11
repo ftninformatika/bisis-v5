@@ -55,7 +55,6 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
                             .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     String lib = ((HttpServletRequest) request).getHeader("Library");
-                    //TODO setovanje prefixa za clanove sa OPAC-a
                     if (lib != null && !lib.equals("")) {
                         prefixProvider.setPrefix(lib); //Usmeravanje na odredjenu kolekciju u zavisnosti od hedera (Library)
                     }
