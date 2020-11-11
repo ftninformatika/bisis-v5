@@ -154,24 +154,8 @@ public class User extends JPanel {
 
 	  // if there is at least one reservation for returned book, display dialog
 	  if (reservationDTOList.size() > 0) {
-		  for (ReservationDTO r : reservationDTOList) {
-			  String[] options = {Messages.getString("circulation.yes"), Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
-			  String reservationMessage = Messages.getString("circulation.book") + r.getTitle() +
-					  Messages.getString("circulation.book_is_reserved") + " " + r.getMemberFirstName() + " "
-					  + r.getMemberLastName() + ". \n" + Messages.getString("circulation.confirm_reservation");
-
-			  int option = JOptionPane.showOptionDialog(null, reservationMessage,
-					  Messages.getString("circulation.info"),
-					  JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-					  new ImageIcon(getClass().getResource("/circ-images/book24.png")), options, options[0]);
-
-			  if (option == JOptionPane.YES_OPTION) {
-				confirmReservation(r);
-			  } else {
-			  	  // todo sta raditi kada je bibliotekar izabrao opciju ne?
-				  System.out.println("Izabrana je opcija NE");
-			  }
-		  }
+		  ReservationsDialog dialog = new ReservationsDialog(reservationDTOList);
+		  dialog.setVisible(true);
 	  }
   }
 
