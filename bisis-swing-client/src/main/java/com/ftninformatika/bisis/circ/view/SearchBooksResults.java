@@ -34,6 +34,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.Report;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.editor.inventar.PrintBarcode;
+import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
@@ -336,6 +337,11 @@ public class SearchBooksResults extends JPanel {
                             getBtnUser().setEnabled(false);
                             JOptionPane.showMessageDialog(null, Messages.getString("circulation.ok"), Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                     new ImageIcon(getClass().getResource("/circ-images/hand32.png"))); //$NON-NLS-1$
+
+                            // todo dodala za rezervacije
+                            if (getTree().getLastSelectedPathComponent() instanceof Primerak) {
+                                getReservations();
+                            }
                         } else {
                             JOptionPane.showMessageDialog(null, Messages.getString("circulation.dischargingnotallowed"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                     new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
@@ -345,6 +351,19 @@ public class SearchBooksResults extends JPanel {
             });
         }
         return btnReturn;
+    }
+
+    private void getReservations(){
+        List<ReservationDTO> reservations = new ArrayList<>();
+        try {
+            reservations = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (reservations.size() > 0) {
+            ReservationsDialog dialog = new ReservationsDialog();
+            dialog.setVisible(true);
+        }
     }
 
     private JButton getBtnPrev() {

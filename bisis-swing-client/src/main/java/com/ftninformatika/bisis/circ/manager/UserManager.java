@@ -46,6 +46,8 @@ public class UserManager {
     // list of returned books
     private List<String> returnedBooks;
 
+    private List<ReservationDTO> reservationsForPrint;
+
     public UserManager() {
     }
 
@@ -53,16 +55,27 @@ public class UserManager {
         return member;
     }
 
+    public List<ReservationDTO> getReservationsForPrint(){
+        return this.reservationsForPrint;
+    }
     /**
      * If there is at least one returned book, get first reservation from queue for that book
      */
-    public List<ReservationDTO> getReservationsForReturnedBooks() throws IOException {
-        List<ReservationDTO> reservationDTOS = new ArrayList<>();
-        if (this.returnedBooks.size() > 0){
-            reservationDTOS =  BisisApp.bisisService.getReservationsForReturnedBooks(this.returnedBooks).execute().body();
+    public List<ReservationDTO> getReservationsForReturnedBooks(String ctlgNo) throws IOException {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        this.reservationsForPrint = new ArrayList<>();
+
+        if (!ctlgNo.equals("")){   // razduzivanje jednog primerka iz stabla
+            List<String> oneReturn = new ArrayList<>();
+            oneReturn.add(ctlgNo);
+            reservations =  BisisApp.bisisService.getReservationsForReturnedBooks(oneReturn).execute().body();
+            this.reservationsForPrint = reservations;
+        }else if (this.returnedBooks.size() > 0){
+            reservations =  BisisApp.bisisService.getReservationsForReturnedBooks(this.returnedBooks).execute().body();
             this.returnedBooks.clear();
+            this.reservationsForPrint = reservations;
         }
-        return reservationDTOS;
+        return reservations;
     }
 
     public boolean confirmReservationAndAssignBook(ReservationDTO r) throws IOException {

@@ -129,8 +129,7 @@ public class User extends JPanel {
 								getTpMain().setEnabledAt(3, true);
 							dirty = false;
 
-							// if there are reservations for the books, that are returned, display information
-							displayReservationInfoDialog();
+							getReservations();
 
 						}else{
 							JOptionPane.showMessageDialog(null, Messages.getString("circulation.saveerror") + " " + message, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
@@ -143,38 +142,22 @@ public class User extends JPanel {
 		return btnSave;
 	}
 
-  public void displayReservationInfoDialog(){
-	  // check if there are any reservations for returned books
-	  List<ReservationDTO> reservationDTOList = new ArrayList<>();
-	  try {
-		  reservationDTOList = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks();
-	  } catch (IOException ioException) {
-		  ioException.printStackTrace();
-	  }
+	private void getReservations(){
+		List<ReservationDTO> reservations = new ArrayList<>();
+		try {
+			reservations = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks("");
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
+			log.error(ioException);
+		}
 
-	  // if there is at least one reservation for returned book, display dialog
-	  if (reservationDTOList.size() > 0) {
-		  ReservationsDialog dialog = new ReservationsDialog(reservationDTOList);
-		  dialog.setVisible(true);
-	  }
-  }
+		// if there is at least one reservation for returned book(s), display dialog with info
+		if (reservations.size() > 0) {
+			ReservationsDialog dialog = new ReservationsDialog();
+			dialog.setVisible(true);
+		}
+	}
 
-  public void confirmReservation(ReservationDTO r){
-	  boolean isReservationConfirmed = false;
-	  try {
-	  		isReservationConfirmed = Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(r);
-	  } catch (IOException ioException) {
-		  ioException.printStackTrace();
-	  }
-
-	  if (isReservationConfirmed) {
-		  JOptionPane.showMessageDialog(null, Messages.getString("circulation.reservation_confirmed"),
-				  Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
-	  } else {
-		  JOptionPane.showMessageDialog(null, Messages.getString("circulation.reservation_error"),
-				  Messages.getString("circulation.info"), JOptionPane.ERROR_MESSAGE);
-	  }
-  }
 
   public void save(){
     getBtnSave().doClick();

@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.actions.PrintReservationAction;
+import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.WindowUtils;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
+
 /**
  * @author marijakovacevic
  */
@@ -19,12 +21,12 @@ public class ReservationsDialog extends JDialog {
     private JPanel jContentPane = null;
     private JScrollPane jScrollPane = null;
     private JButton okButton = null;
+    private JPanel pCenter;
+    private JPanel pSouth;
 
-    private List<ReservationDTO> reservationDTOList;
 
-    public ReservationsDialog(List<ReservationDTO> reservationDTOList) {
+    public ReservationsDialog() {
         super(BisisApp.getMainFrame(), Messages.getString("REPORT_CHOSE_REPORT"), true);
-        this.reservationDTOList = reservationDTOList;
         this.initialize();
     }
 
@@ -35,12 +37,12 @@ public class ReservationsDialog extends JDialog {
 
         this.jScrollPane = getJScrollPane();
 
-        JPanel pCenter = new JPanel();
+        this.pCenter = new JPanel();
         add(pCenter, BorderLayout.CENTER);
         pCenter.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pCenter.add(this.jScrollPane, BorderLayout.CENTER);
 
-        JPanel pSouth = new JPanel();
+        this.pSouth = new JPanel();
         add(pSouth, BorderLayout.SOUTH);
         pSouth.setLayout(new FlowLayout());
         okButton = getOkButton();
@@ -70,21 +72,29 @@ public class ReservationsDialog extends JDialog {
         if (jContentPane == null) {
             jContentPane = new JPanel();
             jContentPane.setLayout(new GridBagLayout());
-
             GridBagConstraints c = getGridBagConstraints();
+            List<ReservationDTO> allReservations = Cirkulacija.getApp().getUserManager().getReservationsForPrint();
 
-            for (ReservationDTO r : this.reservationDTOList) {
+            for (ReservationDTO r : allReservations) {
                 JLabel bookTitle = new JLabel(r.getTitle());
                 bookTitle.setPreferredSize(new Dimension(300, 15));
                 jContentPane.add(bookTitle, moveGridBagLeft(c));
 
-                JButton btnPrint = new JButton(Messages.getString("PRINT"));
-                btnPrint.setIcon(new ImageIcon(getClass().getResource("/icons/print_16.png")));
-                btnPrint.addActionListener(new PrintReservationAction());
+                JButton btnPrint = getPrintButton(String.valueOf(allReservations.indexOf(r)));
                 jContentPane.add(btnPrint, moveGridBagCenter(c));
             }
         }
         return jContentPane;
+    }
+
+    private JButton getPrintButton(String reservationIdx) {
+        JButton btnPrint = new JButton(Messages.getString("PRINT"));
+        btnPrint.setIcon(new ImageIcon(getClass().getResource("/icons/print_16.png")));
+        btnPrint.setActionCommand(reservationIdx);
+        btnPrint.setFocusable(false);
+        btnPrint.setToolTipText(Messages.getString("PRINT")); //$NON-NLS-1$
+        btnPrint.addActionListener(new PrintReservationAction());
+        return btnPrint;
     }
 
     private GridBagConstraints moveGridBagCenter(GridBagConstraints c) {
@@ -126,6 +136,4 @@ public class ReservationsDialog extends JDialog {
         }
         return jScrollPane;
     }
-
-
 }
