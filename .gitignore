@@ -69,4 +69,4 @@ out/
 # bisis-reports/src/main/java/com/ftninformatika/bisis/ReportConfig.java
 *.jasper
 *.jks
-*/opac-secret.properties
+opac-secret.properties
