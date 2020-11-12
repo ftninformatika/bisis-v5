@@ -144,7 +144,7 @@ public class ReportController {
             queryDate.setTime(toDate.getTime()+86400000);
             Query query = new Query(Criteria.where("dateOfService").gte(fromDate).lt(queryDate));
 
-            MapReduceResults<MapReduceValueObjectLocation> res = mt.mapReduce(query, libPrefix + "_task", mapF, reduceF, MapReduceValueObjectLocation.class);
+            MapReduceResults<MapReduceValueObjectLocation> res = mt.mapReduce(query, libPrefix + "_task", mapF, reduceF,null, MapReduceValueObjectLocation.class);
             HashMap<String, LocationReport> reportDataSet = new HashMap<String, LocationReport>();
             for (MapReduceValueObjectLocation v : res) {
                 LocationReport locationReport = reportDataSet.get(v.getId().getLocation());
@@ -209,7 +209,7 @@ public class ReportController {
                 OutputStream out = response.getOutputStream();
                 JasperExportManager.exportReportToPdfStream(jasperPrint, out);
             }        } catch (Exception e) {
-
+                    e.printStackTrace();
             response.setStatus(500);
         }
     }
