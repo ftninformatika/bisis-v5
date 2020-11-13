@@ -67,6 +67,7 @@ public class EmailService {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "false");
 
+
         return javaMailSender;
     }
 
