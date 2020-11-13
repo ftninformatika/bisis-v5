@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.cors().and().authorizeRequests()
                 .antMatchers(
                         "/authenticate").permitAll()
                 .antMatchers("/tasks/**","/location/**","/sublocation/**","/reports/tasksByLibrarian/**","/reports/librarians").hasAnyRole("RIS_ADMIN","RIS_USER")
@@ -41,8 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .cors()
                 .and()
                 .csrf().disable();
     }
