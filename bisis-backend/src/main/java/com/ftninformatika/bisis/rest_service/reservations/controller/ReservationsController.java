@@ -140,7 +140,7 @@ public class ReservationsController {
     @PostMapping("/confirm-reservation")
     public ResponseEntity<Boolean> confirmReservation(@RequestBody ConfirmReservationDTO confirmReservationDTO) {
         boolean isReservationConfirmed = bisisReservationsService.confirmReservation(confirmReservationDTO.getReservation_id(),
-                confirmReservationDTO.getRecord_id());
+                confirmReservationDTO.getRecord_id(), confirmReservationDTO.getCtlgNo());
         return new ResponseEntity<>(isReservationConfirmed, HttpStatus.OK);
     }
 

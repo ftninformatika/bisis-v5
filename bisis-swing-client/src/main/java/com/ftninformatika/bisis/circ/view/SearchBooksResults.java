@@ -561,7 +561,10 @@ public class SearchBooksResults extends JPanel {
                         boolean zaduziv = BisisApp.appConfig.getCodersHelper().getItemStatuses().get(primerak.getStatus()).isLendable();
                         String stanje = null;
                         if (zaduziv) {
-                            if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())) {
+                            if (getBooksTreeModel().isReserved(primerak.getInvBroj())) {
+                                stanje = Messages.getString("circulation.reserved"); //$NON-NLS-1$
+                                setForeground(new Color(18, 93, 219, 255));
+                            }else if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())) {
                                 stanje = Messages.getString("circulation.charged"); //$NON-NLS-1$
                                 setForeground(new Color(217, 19, 19));
                             } else {
@@ -579,7 +582,10 @@ public class SearchBooksResults extends JPanel {
                         setText(primerak.getInvBroj() + ", " + statusOpis + ", " + stanje + ", " + Signature.format(primerak)); //$NON-NLS-1$ //$NON-NLS-2$
                     } else {
                         String stanje = null;
-                        if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())) {
+                        if (getBooksTreeModel().isReserved(primerak.getInvBroj())) {
+                            stanje = Messages.getString("circulation.reserved"); //$NON-NLS-1$
+                            setForeground(new Color(18, 93, 219, 255));
+                        } else if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())) {
                             stanje = Messages.getString("circulation.charged"); //$NON-NLS-1$
                             setForeground(new Color(217, 19, 19));
                         } else {

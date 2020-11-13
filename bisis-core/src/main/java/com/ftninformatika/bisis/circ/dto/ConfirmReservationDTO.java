@@ -14,6 +14,7 @@ import java.util.Date;
 public class ConfirmReservationDTO {
     private String reservation_id;
     private String record_id;
+    private String ctlgNo;
     private Date reservationDate;
     private String locationCode;
 }

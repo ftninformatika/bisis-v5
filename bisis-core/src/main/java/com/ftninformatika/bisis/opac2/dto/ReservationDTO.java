@@ -21,6 +21,7 @@ import java.util.List;
 public class ReservationDTO implements Serializable {
     private String _id;
     private String record_id;
+    private String ctlgNo;
     private boolean isBookPickedUp;
     private Date reservationDate;
     private String title;
@@ -34,7 +35,7 @@ public class ReservationDTO implements Serializable {
 
 
     public static ReservationDTO convertToDto(ReservationOnProfile reservation, Book book,
-                                              String locationDescription){
+                                              String locationDescription) {
         ReservationDTO reservationDTO = new ReservationDTO();
 
         reservationDTO.set_id(reservation.get_id());
@@ -51,12 +52,13 @@ public class ReservationDTO implements Serializable {
     }
 
 
-    public static ReservationDTO convertFirstReservationToDto(ReservationInQueue reservation, Book book, Member member,
-                                                              String locationCode){
+    public static ReservationDTO convertFirstReservationToDto(ReservationInQueue reservation, String ctlgNo, Book book,
+                                                              Member member, String locationCode) {
         ReservationDTO reservationDTO = new ReservationDTO();
 
         reservationDTO.set_id(reservation.get_id());
         reservationDTO.setRecord_id(book.get_id());
+        reservationDTO.setCtlgNo(ctlgNo);
         reservationDTO.setReservationDate(reservation.getReservationDate());
         reservationDTO.setPickUpDeadline(reservation.getPickUpDeadline());
         reservationDTO.setMemberFirstName(member.getFirstName());

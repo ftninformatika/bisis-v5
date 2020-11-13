@@ -33,7 +33,7 @@ public class ReservationsDialog extends JDialog {
     private void initialize() {
         this.setResizable(false);
         this.setSize(600, 400);
-        this.setTitle(Messages.getString("circulations.reservations"));
+        this.setTitle(Messages.getString("circulation.reservations"));
 
         this.jScrollPane = getJScrollPane();
 
