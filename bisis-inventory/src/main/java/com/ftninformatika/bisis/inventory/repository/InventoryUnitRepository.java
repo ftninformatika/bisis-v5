@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.invetory.repository;
+package com.ftninformatika.bisis.inventory.repository;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import org.springframework.data.domain.Page;

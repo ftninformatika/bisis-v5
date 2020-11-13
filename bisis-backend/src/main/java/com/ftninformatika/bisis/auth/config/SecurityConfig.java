@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/book",
                         "/inventory/**",
+                        "/inventory_unit/**",
                         "/book/multiple",
                         "/book/collection",
                         "/opac/**",

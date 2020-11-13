@@ -1,23 +1,19 @@
-package com.ftninformatika.bisis.invetory.service.implementations;
+package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
-import com.ftninformatika.bisis.invetory.repository.InventoryRepository;
-import com.ftninformatika.bisis.invetory.repository.InventoryUnitRepository;
-import com.ftninformatika.bisis.invetory.service.interfaces.InventoryService;
+import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
+import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
+import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 @Service
@@ -107,6 +103,9 @@ public class InventoryServiceImpl implements InventoryService {
         Page<Record> onePage = recordsRepository.findAll(pageRequest);
         int totalPages = recordsRepository.findAll(pageRequest).getTotalPages();
         int count = 1;
+        if (this.inventoryUnitRepository.count() == 0) {
+            this.createIndexes();
+        }
         for (int i = 0; i < totalPages; i++) {
             List<InventoryUnit> invUnitsBulkList = new ArrayList<>();
             for (Record rec : onePage) {
@@ -130,6 +129,11 @@ public class InventoryServiceImpl implements InventoryService {
             count++;
         }
     }
+
+    private void createIndexes() {
+        //todo implement
+    }
+
 
 
 }

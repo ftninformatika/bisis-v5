@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.invetory.repository;
+package com.ftninformatika.bisis.inventory.repository;
 
 import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.InventoryStatus;

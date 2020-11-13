@@ -1,8 +1,8 @@
-package com.ftninformatika.bisis.invetory.controller;
+package com.ftninformatika.bisis.inventory.controller;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
-import com.ftninformatika.bisis.invetory.config.PathConstants;
-import com.ftninformatika.bisis.invetory.service.interfaces.InventoryUnitService;
+import com.ftninformatika.bisis.inventory.config.PathConstants;
+import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

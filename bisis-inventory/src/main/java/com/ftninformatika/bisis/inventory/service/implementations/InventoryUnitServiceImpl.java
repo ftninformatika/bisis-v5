@@ -1,8 +1,8 @@
-package com.ftninformatika.bisis.invetory.service.implementations;
+package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
-import com.ftninformatika.bisis.invetory.repository.InventoryUnitRepository;
-import com.ftninformatika.bisis.invetory.service.interfaces.InventoryUnitService;
+import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
+import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

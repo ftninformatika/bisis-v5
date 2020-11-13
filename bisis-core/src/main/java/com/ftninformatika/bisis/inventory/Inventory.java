@@ -55,7 +55,7 @@ public class Inventory {
             inventoryUnit.setPublisher(rp.getPublisher());
             inventoryUnit.setPubYear(rp.getPublishingYear());
             inventoryUnit.setInvStatus(p.getStatus());
-            inventoryUnit.setRevisionStatus("U_REVUZIJI");
+            inventoryUnit.setRevisionStatus("U_REViZIJI");
             inventoryUnit.setDateModified(new Date());
             retVal.add(inventoryUnit);
         }
