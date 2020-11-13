@@ -49,6 +49,8 @@ public class BisisApp {
             appConfig = ConfigFactory.getConfig(ConfigType.PRODUCTION);
         } else if (profile != null && profile.equals("test")) {
             appConfig = ConfigFactory.getConfig(ConfigType.TEST);
+        } else if (profile != null && profile.equals("devtest")) {
+            appConfig = ConfigFactory.getConfig(ConfigType.DEV_TEST);
         } else {
             appConfig = ConfigFactory.getConfig(ConfigType.DEVELOPMENT);
         }
