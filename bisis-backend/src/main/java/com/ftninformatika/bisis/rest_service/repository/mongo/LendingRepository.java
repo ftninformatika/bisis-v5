@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.records.Record;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,5 +37,8 @@ public interface LendingRepository extends MongoRepository<Lending, String>,Lend
 
     @Query("{'warnings':{ $elemMatch: {'deadline':{ $gte :?0,$lte:?1},'warningType':?2 }}}")
     public List<Lending> findLendingsByWarningHistory(Date startDate, Date endDate, String warningType);
+
+    @Query("{'ctlgNo':{$in : ?0}}")
+    List<Lending> getLendingsForCtlgNoList(List ctlgNos);
 
 }

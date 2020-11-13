@@ -1,9 +1,10 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
-import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
@@ -11,7 +12,7 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.utils.date.DateUtils;
 import io.jsonwebtoken.JwtBuilder;
@@ -41,7 +42,7 @@ public class LibraryMemberService {
     @Autowired OpacSearchService opacSearchService;
     @Autowired RecordsRepository recordsRepository;
     @Autowired MemberRepository memberRepository;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired Librarian2Repository librarianRepository;
     @Autowired LendingRepository lendingRepository;
 
 
@@ -106,10 +107,10 @@ public class LibraryMemberService {
             else return null;
         }
         else if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN)) {
-            Optional<LibrarianDTO> librarianDTO = librarianRepository.findById(libraryMember.getLibrarianIndex());
+            Optional<LibrarianDB> librarianDTO = librarianRepository.findById(libraryMember.getLibrarianIndex());
             if (librarianDTO.isPresent()) {
                 Member tmpMem = new Member();
-                LibrarianDTO librarian = librarianDTO.get();
+                LibrarianDB librarian = librarianDTO.get();
                 tmpMem.setFirstName(librarian.getIme());
                 tmpMem.setLastName(librarian.getPrezime());
                 tmpMem.setAddress("");
@@ -160,12 +161,12 @@ public class LibraryMemberService {
     public boolean activateAdmin(LibraryMember libraryMember) {
         String hashedPass = BCrypt.hashpw(libraryMember.getPassword(), BCrypt.gensalt());
 
-        LibrarianDTO librarian = librarianRepository.findById(libraryMember.getLibrarianIndex()).get();
+        LibrarianDB librarian = librarianRepository.findById(libraryMember.getLibrarianIndex()).get();
         libraryMember.setPassword(hashedPass);
         libraryMember.setProfileActivated(true);
         libraryMember.setActivationToken(null);
         LibraryMember savedLm = libraryMemberRepository.save(libraryMember);
-        librarian.setOpacAdmin(true);
+        librarian.setRole(Librarian.Role.OPACADMIN);
         librarian = librarianRepository.save(librarian);
         return (savedLm != null && librarian != null);
     }

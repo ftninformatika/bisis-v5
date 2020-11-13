@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.merge.MergeFrame;
 import com.ftninformatika.bisis.circ.report.SearchReport;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.utils.Messages;
 
 import java.awt.FlowLayout;
@@ -188,7 +189,7 @@ public class SearchUsersResults {
             buttonPanel.add(getBtnShow());
             buttonPanel.add(getBtnPrint());
             buttonPanel.add(getBtnCancel());
-            if (BisisApp.appConfig.getLibrarian().isAdministracija()) {
+            if (BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.ADMINISTRACIJA)) {
                 buttonPanel.add(getBtnMerge());
             }
         }

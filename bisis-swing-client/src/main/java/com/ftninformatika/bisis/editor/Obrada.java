@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.editor.groupinv.GroupInvFrame;
 import com.ftninformatika.bisis.editor.invholes.InvNumberHolesFrame;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
 import java.beans.PropertyVetoException;
@@ -50,7 +51,7 @@ public class Obrada {
             showEditorFrame();
             editorFrame.setRecordUpdated(false);
             editorFrame.setUploadEnabled(true);
-            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().isRedaktor())
+            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.REDAKTOR))
                 editorFrame.disableZapisPanel();
             else
                 editorFrame.enableZapisPanel();
@@ -87,7 +88,7 @@ public class Obrada {
             editorFrame.editorInitialize(articleRec);
             showEditorFrame();
             editorFrame.setRecordUpdated(false);
-            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().isRedaktor())
+            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.REDAKTOR))
                 editorFrame.disableZapisPanel();
             else
                 editorFrame.enableZapisPanel();

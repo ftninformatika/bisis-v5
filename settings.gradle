@@ -8,3 +8,6 @@ include 'bisis-indexer'
 include 'bisis-books-common-merger'
 include 'bisis-inventory'
 
+
+include 'bisis-authentication'
+include 'bisis-ris'

@@ -37,7 +37,7 @@ public class LibEnvironment {
 	}
 	
 	public static void updateLibrarian(Librarian lib){
-		LibEnvProxy.updateLibrarian(lib);		
+		LibEnvProxy.updateLibrarianContext(lib);
 	}
 	
 	static{

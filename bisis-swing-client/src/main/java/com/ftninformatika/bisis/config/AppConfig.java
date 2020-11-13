@@ -78,7 +78,7 @@ public abstract class AppConfig {
     okHttpClient.addInterceptor(chain -> {
       Request req = chain.request();
       Request.Builder newRequest = req.newBuilder()
-          .header("Authorization", finalToken)
+          .header("Authorization", "Bearer " + finalToken)
           .header("Library", domain);
       return chain.proceed(newRequest.build());
     });

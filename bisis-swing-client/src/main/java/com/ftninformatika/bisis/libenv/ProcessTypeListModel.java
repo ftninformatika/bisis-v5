@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.libenv;
 
 import com.ftninformatika.bisis.librarian.ProcessType;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +11,13 @@ import javax.swing.AbstractListModel;
 
 public class ProcessTypeListModel extends AbstractListModel {
 	
-	private List<ProcessType> procTypeList = new ArrayList<ProcessType>();
+	private List<ProcessType> procTypeList = new ArrayList<>();
 	private ProcessType defaultProcessType;
 	
-	public ProcessTypeListModel(List<ProcessType> procTypeList, 
-			ProcessType defaultProcessType){	
+	public ProcessTypeListModel(List<ProcessType> procTypeList,
+			ProcessType defaultProcessType){
 		if(procTypeList==null)
-			this.procTypeList = new ArrayList<ProcessType>();
+			this.procTypeList = new ArrayList<>();
 		else
 			this.procTypeList = procTypeList;
 		this.defaultProcessType = defaultProcessType;
@@ -56,13 +57,13 @@ public class ProcessTypeListModel extends AbstractListModel {
 		fireDataChanged();
 	}
 	
-	public boolean addProcessType(ProcessType pt){		
+	public boolean addProcessType(ProcessType pt){
 		boolean added = procTypeList.add(pt);
 		fireDataChanged();		
 		return added;
 	}
 	
-	public boolean containsProcessType(ProcessType pt){		
+	public boolean containsProcessType(ProcessType pt){
 		for(ProcessType ptIt:procTypeList)
 				if(ptIt.getName().equals(pt.getName()))
 					return true;		

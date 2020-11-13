@@ -4,15 +4,13 @@
 package com.ftninformatika.bisis.libenv;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.CircLocation;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.librarian.LibrarianManager;
 import com.ftninformatika.bisis.librarian.ProcessType;
-import com.ftninformatika.bisis.librarian.ProcessTypeBuilder;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
-import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
@@ -25,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -39,13 +36,12 @@ public class LibEnvProxy {
 	 *
 	 * @return list of all Librarians in current Library or null
 	 */
-	public static List<Librarian> getAllLibrarians(){
-		List<Librarian> librarians = null;
+	public static List<LibrarianDB> getAllLibrarians(){
+		List<LibrarianDB> librarians = new ArrayList<>();
 		try {
-			List<LibrarianDTO> libList = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
-
-			librarians = libList.stream().map(i -> LibrarianManager.initializeLibrarianFromDTO(i))
-										 .collect(Collectors.toList());
+			librarians = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
+//			librarians = libList.stream().map(i -> new Librarian(i))
+//										 .collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,17 +51,17 @@ public class LibEnvProxy {
 	public static List<ProcessType> getAllProcTypes(){
 		List<ProcessType> processTypeList = new ArrayList<ProcessType>();
 		try {
-			List<ProcessTypeDTO> processTypeListDTO = BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body();
+			List<ProcessTypeDB> processTypeListDB = BisisApp.bisisService.getProcessTypesForLibrary(BisisApp.appConfig.getLibrary()).execute().body();
 
-			for(ProcessTypeDTO ptDTO:processTypeListDTO){
-				processTypeList.add(ProcessTypeBuilder.buildProcessTypeFromDTO(ptDTO));
+			for(ProcessTypeDB ptDB:processTypeListDB){
+				processTypeList.add(new ProcessType(ptDB));
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return processTypeList;
-		}
+	}
 
 
 	public static List<Location> getLocations(){
@@ -89,28 +85,47 @@ public class LibEnvProxy {
 	}
 
 	
-	public static boolean addLibrarian(Librarian lib){		
+	public static boolean addLibrarian(LibrarianDB lib){
 
-		String napomena = lib.getNapomena().replace("'", "").replace("\"", "");
-		lib.setNapomena(napomena);
-		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
-		librarianDTO.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
+		if (lib.getNapomena() != null) {
+			String napomena = lib.getNapomena().replace("'", "").replace("\"", "");
+			lib.setNapomena(napomena);
+		}
 		try {
-			 BisisApp.bisisService.createLibrarian(librarianDTO).execute();
+			 BisisApp.bisisService.createLibrarian(lib).execute();
 			 return true;
 		} catch (IOException e) {
 			 e.printStackTrace();
 			 return false;
 		}
-
 	}
 
-	public static String createOpacWebAccount(Librarian librarian) throws Exception {
+	public static boolean updateLibrarian(LibrarianDB lib){
+
+		if (lib.getNapomena() != null) {
+			String napomena = lib.getNapomena().replace("'", "").replace("\"", "");
+			lib.setNapomena(napomena);
+		}
+		try {
+			BisisApp.bisisService.updateLibrarian(lib).execute().body();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public static boolean updateLibrarianContext(Librarian lib) {
+		LibrarianDB librarianDB = new LibrarianDB(lib);
+		return updateLibrarian(librarianDB);
+	}
+
+	public static String createOpacWebAccount(LibrarianDB librarian) throws Exception {
 		if (librarian == null)
 			throw new Exception(Messages.getString("USER_MANAGER_USER_NOT_LOADED"));
 		if (DataValidator.validateEmail(librarian.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
 			throw new Exception(Messages.getString(DataErrors.EMAIL_FORMAT_INVALID.getMessageKey()));
-		if (librarian.isOpacAdmin())
+		if (librarian.hasRole(Librarian.Role.OPACADMIN))
 			throw new Exception(Messages.getString(""));
 		LibraryMember libraryMember = new LibraryMember();
 		libraryMember.setAuthorities(new ArrayList<>(Arrays.asList(Authority.ROLE_ADMIN)));
@@ -128,17 +143,11 @@ public class LibEnvProxy {
 			throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));
 		return Messages.getString("USER_MANAGER_ACTIVATION_EMAIL_SENT");
 	}
-	
-	public static boolean updateLibrarian(Librarian lib){
 
-		String napomena = "";
-		if (lib.getNapomena() != null)
-			napomena = lib.getNapomena().replace("'", "").replace("\"", "");
-		lib.setNapomena(napomena);
-		LibrarianDTO librarianDTO = LibrarianManager.initializeDTOFromLibrarian(lib);
-		librarianDTO.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
+	public static boolean deleteLibrarian(LibrarianDB lib){
+
 		try {
-			BisisApp.bisisService.updateLibrarian(librarianDTO).execute().body();
+			BisisApp.bisisService.deleteLibraian(lib).execute();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -147,52 +156,19 @@ public class LibEnvProxy {
 
 	}
 	
-	public static boolean deleteLibrarian(Librarian lib){
-
+	public static ProcessType saveProcessType(ProcessType pt){
+		ProcessTypeDB processTypeDB = new ProcessTypeDB(pt);
 		try {
-			BisisApp.bisisService.deleteLibraian(LibrarianManager.initializeDTOFromLibrarian(lib)).execute();
-			return true;
+			return new ProcessType(BisisApp.bisisService.saveProcessType(processTypeDB).execute().body());
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-
 	}
-	
-	public static boolean addProcessType(ProcessType pt){	
-
-		pt.setLibName(BisisApp.appConfig.getLibrary());
-		ProcessTypeDTO processTypeDTO = ProcessTypeBuilder.buildDTOFromProcessType(pt);
-		try {
-			BisisApp.bisisService.addProcessType(processTypeDTO).execute();
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-	}
-	
-	public static boolean updateProcessType(ProcessType pt){
-		ProcessTypeDTO processTypeDTO = ProcessTypeBuilder.buildDTOFromProcessType(pt);
-		try {
-			BisisApp.bisisService.addProcessType(processTypeDTO).execute();
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-		}
 	
 	public static boolean deleteProcessType(ProcessType pt){
 		
  		return false;
-	}
-	
-	private static int getNextTipobrId(){
-
-		return -1;
-
 	}
 		
 	

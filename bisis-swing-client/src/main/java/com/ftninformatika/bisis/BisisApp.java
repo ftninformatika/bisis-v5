@@ -2,9 +2,8 @@ package com.ftninformatika.bisis;
 
 import ch.randelshofer.quaqua.QuaquaManager;
 import ch.randelshofer.quaqua.leopard.Quaqua15LeopardCrossPlatformLookAndFeel;
-import ch.randelshofer.quaqua.tiger.Quaqua15TigerCrossPlatformLookAndFeel;
-import com.ftninformatika.bisis.librarian.LibrarianManager;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.login.*;
 import com.ftninformatika.bisis.login.SplashScreen;
 import com.ftninformatika.bisis.service.BisisService;
@@ -17,7 +16,6 @@ import com.ftninformatika.utils.RetrofitUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.LoggerFactory;
-import retrofit2.Call;
 
 import javax.swing.*;
 import java.awt.*;
@@ -113,17 +111,15 @@ public class BisisApp {
                     login.disp();
                     appConfig.setRetrofit(token, getDomainFromUsername(login.getUsername()));
                     bisisService = appConfig.getRetrofit().create(BisisService.class);
-
-                    Call<LibrarianDTO> lib = bisisService.getLibrarianByUsername(login.getUsername());
-                    LibrarianDTO response = null;
+                    LibrarianDB librarianDB = null;
                     try {
-                        response = lib.execute().body();
-                        log.info("Prijavljen bibliotekar: " + response.getUsername());
+                        librarianDB = bisisService.getLibrarianByUsername(login.getUsername()).execute().body();
+                        log.info("Prijavljen bibliotekar: " + librarianDB.getUsername());
                     } catch (IOException e) {
                         System.err.println(e);
                     }
-                    appConfig.setLibrarian(LibrarianManager.initializeLibrarianFromDTO(response));
-                    appConfig.setLibrary(response.getBiblioteka());
+                    appConfig.setLibrarian(new Librarian(librarianDB));
+                    appConfig.setLibrary(librarianDB.getBiblioteka());
                     appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
                     Messages.setLocale(appConfig.getClientConfig().getLocale());
                     appConfig.initCoders();

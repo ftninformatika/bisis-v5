@@ -5,7 +5,7 @@ import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public class MemberController {
 
     @Autowired MemberRepository memberRep;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired Librarian2Repository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
@@ -139,7 +139,7 @@ public class MemberController {
     public MemberData getAndLockMemberById(@RequestParam("userId") String userId, @RequestParam("librarianId") String librarianId) {
         MemberData retVal = new MemberData();
         Member m = memberRep.getMemberByUserId(userId);
-        LibrarianDTO l = librarianRepository.findById(librarianId).get();
+        LibrarianDB l = librarianRepository.findById(librarianId).get();
 
         if (m == null || l == null) { //nema tog clana (ili nekim cudom bibliotekara)
             log.info("(getAndLockMemberById) nije pronadjen korisnik ID: " + userId + " ili bibliotekar ID: " + librarianId);
@@ -167,7 +167,7 @@ public class MemberController {
         MemberData retVal = new MemberData();
         if (memberInfo == null)
             return null;
-        Optional<LibrarianDTO> l = librarianRepository.findById(librarianId);
+        Optional<LibrarianDB> l = librarianRepository.findById(librarianId);
         Member m = memberService.getMebeByEcardCriteria(memberInfo);
 
         if (m == null || !l.isPresent())

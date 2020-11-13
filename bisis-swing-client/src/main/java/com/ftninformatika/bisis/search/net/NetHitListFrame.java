@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.search.net;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.BriefInfoModel;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchFrame;
@@ -77,7 +78,7 @@ public class NetHitListFrame extends JInternalFrame {
         add(spHitList, "span 5, grow, wrap");
         add(btnNew, "");
           pack();
-        if(!BisisApp.appConfig.getLibrarian().isCataloguing()){
+        if(!BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.OBRADA)){
           btnNew.setEnabled(false);
         }
 

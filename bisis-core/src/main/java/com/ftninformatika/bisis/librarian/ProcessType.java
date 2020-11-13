@@ -4,6 +4,8 @@ import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UFormat;
 import com.ftninformatika.bisis.format.UIndicator;
 import com.ftninformatika.bisis.format.USubfield;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
+import com.ftninformatika.bisis.librarian.db.USubfieldDB;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -11,9 +13,9 @@ import org.springframework.data.annotation.Id;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
-//@Document(collection = "coders.process_types")
 @Getter
 @Setter
 public class ProcessType implements Serializable {
@@ -60,6 +62,29 @@ public class ProcessType implements Serializable {
     this.mandatorySubfields = mandatorySubfields;
     this.indicators = indicators;
     this.libName = libName;
+  }
+
+  public ProcessType(ProcessTypeDB processTypeDB) {
+      this._id = processTypeDB.get_id();
+      this.name = processTypeDB.getName();
+      this.libName = processTypeDB.getLibName();
+      this.pubType = PubTypes.getPubType(processTypeDB.getPubType());
+      this.initialSubfields = new ArrayList<USubfield>();
+      this.mandatorySubfields = new ArrayList<USubfield>();
+      this.indicators = new ArrayList<UIndicator>();
+      if (processTypeDB.getInitialFields() != null){
+          for (USubfieldDB uSubfieldDB : processTypeDB.getInitialFields()){
+              USubfield sub = this.pubType.getSubfield(uSubfieldDB.getFieldName()+uSubfieldDB.getSubfieldName()).shallowCopy();
+              sub.setDefaultValue(uSubfieldDB.getDefaultValue());
+              initialSubfields.add(sub);
+          }
+      }
+      if (processTypeDB.getMandatoryFields() != null) {
+          this.mandatorySubfields = processTypeDB.getMandatoryFields().stream().
+                  map(i -> this.pubType.getSubfield(i.getFieldName()+i.getSubfieldName()).shallowCopy()).
+                  collect(Collectors.toList());
+
+      }
   }
 
 
