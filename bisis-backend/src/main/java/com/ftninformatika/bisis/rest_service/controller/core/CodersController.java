@@ -62,7 +62,7 @@ public class CodersController {
     }
 
     @RequestMapping(path = "accession_register")
-    public List<AccessionRegister> getAccessionRegs(String libName){
+    public List<AccessionRegister> getAccessionRegs(@RequestHeader("Library") String libName){
         return accregrep.getCoders(libName);
     }
 
@@ -92,17 +92,17 @@ public class CodersController {
     }
 
     @RequestMapping(path = "item_status")
-    public List<ItemStatus> getStatuses(String libName){
+    public List<ItemStatus> getStatuses(@RequestHeader("Library") String libName){
         return statrep.getCoders(libName);
     }
 
     @RequestMapping(path = "location")
-    public List<Location> getLocations(String libName){
+    public List<Location> getLocations(@RequestHeader("Library") String libName){
         return locrep.getCoders(libName);
     }
 
     @RequestMapping(path = "sublocation")
-    public List<Sublocation> getSublocations(String libName){
+    public List<Sublocation> getSublocations(@RequestHeader("Library") String libName){
         return sublocrep.getCoders(libName);
     }
 

@@ -1,7 +1,9 @@
 package com.ftninformatika.bisis.barcode.epl2;
 
 public class Code128 extends Component {
-  
+
+  private String defaultNumPrint = "B";
+
   public Code128() { 
     super();
     code = "";
@@ -10,6 +12,10 @@ public class Code128 extends Component {
   public Code128(int originX, int originY, Rotation rotation, int widebar, int narrowbar,int barwidth,String code) {
     super(originX, originY, rotation,widebar,narrowbar,barwidth);
     this.code = code;
+  }
+
+  public void disableNumbers() {
+    defaultNumPrint = "N";
   }
   
   public String getCommand() {
@@ -26,7 +32,9 @@ public class Code128 extends Component {
     buff.append(narrowbar);
     buff.append(',');
     buff.append(barwidth);
-    buff.append(",B,\"");
+    buff.append(",");
+    buff.append(defaultNumPrint);
+    buff.append(",\"");
     buff.append(code);
     buff.append('\"');
     return buff.toString();

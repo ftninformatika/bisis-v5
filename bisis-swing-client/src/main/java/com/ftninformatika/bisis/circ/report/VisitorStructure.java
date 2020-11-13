@@ -24,7 +24,7 @@ public class VisitorStructure {
 			params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 			String loc = "";
 			if (location instanceof com.ftninformatika.bisis.circ.pojo.CircLocation) {
-				params.put("nazivogr", Messages.getString("DEPATMENT_COLON")
+				params.put("nazivogr", Messages.getString("DEPARTMENT_COLON")
 						+ ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription());
 				loc = ((com.ftninformatika.bisis.circ.pojo.CircLocation) location).getDescription();
 			} else {

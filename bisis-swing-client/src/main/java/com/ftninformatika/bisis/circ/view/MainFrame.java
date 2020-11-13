@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.ecard.ElCardInfo;
+import com.ftninformatika.bisis.ecard.ElCardReader;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.actions.*;
@@ -59,6 +61,7 @@ public class MainFrame extends JInternalFrame {
     private ActionListener userIDOK = null;
     private ActionListener userIDCancel = null;
     private ActionListener userIDSearch = null;
+    private ActionListener userECARD = null;
     private int requestedPanel;
     private boolean blank = true;
     private HashMap<String, JPanel> panels = null;
@@ -104,6 +107,7 @@ public class MainFrame extends JInternalFrame {
             userIDPanel.addOKListener(getUserIDOK());
             userIDPanel.addCancelListener(getUserIDCancel());
             userIDPanel.addSearchListener(getUserIDSearch());
+            userIDPanel.addEsearchListener(getSearchByEcard());
         }
         return userIDPanel;
     }
@@ -164,6 +168,56 @@ public class MainFrame extends JInternalFrame {
             };
         }
         return userIDOK;
+    }
+
+    private ActionListener getSearchByEcard() {
+        if (userECARD == null) {
+            userECARD = new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ElCardReader reader = ElCardReader.getInstance();
+                    boolean circLocaleLatn = BisisApp.appConfig.getClientConfig().getCircLocaleLatn() == null ?
+                            true : BisisApp.appConfig.getClientConfig().getCircLocaleLatn();
+                    ElCardInfo elCardInfo = reader.getInfo(circLocaleLatn);
+                    if (!elCardInfo.isSuccess()) {
+                        JOptionPane.showMessageDialog(null, Messages.getString(elCardInfo.getMessageKey()), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE,
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+                        return;
+                    }
+                    elCardInfo.set();
+                    int found = Cirkulacija.getApp().getUserManager().getUserByECard(getUserPanel(), getGroupPanel(), elCardInfo);
+                    if (found == 1) {
+                        getUserIDPanel().clear();
+                        getUserIDPanel().setVisible(false);
+                        switch (requestedPanel) {
+                            case 1:
+                                getUserPanel().showData();
+                                break;
+                            case 2:
+                                getUserPanel().showMmbrship();
+                                break;
+                            case 3:
+                                getUserPanel().showLending();
+                                break;
+                            case 4:
+                                getUserPanel().showPicturebooks();
+                                break;
+                        }
+                        showPanel("userPanel");
+                    } else if (found == 2) {
+                        getUserIDPanel().clear();
+                        getUserIDPanel().setVisible(false);
+                        showPanel("groupPanel");
+                    } else if (found == 3) {
+                        JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.userinuse"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+                    } else {
+                        JOptionPane.showMessageDialog(getUserIDPanel(), Messages.getString("circulation.cantbefounde"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png")));
+                    }
+                }
+            };
+        }
+        return userECARD;
     }
 
     private ActionListener getUserIDCancel() {

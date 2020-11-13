@@ -151,6 +151,8 @@ public class LibrarianFrame extends JInternalFrame {
         }
         redaktorRadioBtn.setSelected(lib.isRedaktor());
         inventatorRadioBtn.setSelected(lib.isInventator());
+        dezideratiCheckBox.setSelected(lib.isDeziderati());
+        nabavkaCheckBox.setSelected(lib.isNabavka());
         if (lib.getIme() != null) nameTxtFld.setText(lib.getIme());
         else nameTxtFld.setText(""); //$NON-NLS-1$
         if (lib.getPrezime() != null) lastnameTxtFld.setText(lib.getPrezime());
@@ -216,6 +218,8 @@ public class LibrarianFrame extends JInternalFrame {
         lib.setNapomena(notesTxtArea.getText());
         lib.setBiblioteka(BisisApp.appConfig.getLibrary());
         lib.setOpacAdmin(opacAdminCheckBox.isSelected());
+        lib.setDeziderati(dezideratiCheckBox.isSelected());
+        lib.setNabavka(nabavkaCheckBox.isSelected());
         lib.getContext().setProcessTypes((ArrayList<ProcessType>) libProcTypesListModel.getProcessTypes());
         lib.getContext().setDefaultProcessType(libProcTypesListModel.getDefaultProcessType());
         if (defaultDepartmentCombo.getSelectedItem() instanceof Location) {
@@ -362,7 +366,7 @@ public class LibrarianFrame extends JInternalFrame {
         loginDataPanel.add(new JLabel(Messages.getString("LibrarianEnvironment.PASSWORD")), "wrap"); //$NON-NLS-1$ //$NON-NLS-2$
         loginDataPanel.add(passwordTxtFld, "grow"); //$NON-NLS-1$
 
-        privilegePanel.setLayout(new MigLayout("", "", "[]10[]10[]10[]10[]10[]10[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        privilegePanel.setLayout(new MigLayout("", "", "[]10[]10[]10[]10[]10[]10[]10[]10[]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         privilegePanel.setBorder(BorderFactory.createTitledBorder(Messages.getString("LibrarianEnvironment.ROLES")));         //$NON-NLS-1$
         privilegePanel.add(administracijaCheckBox, "wrap"); //$NON-NLS-1$
         privilegePanel.add(obradaCheckBox, "wrap"); //$NON-NLS-1$
@@ -372,7 +376,9 @@ public class LibrarianFrame extends JInternalFrame {
         privilegePanel.add(inventatorRadioBtn, "wrap"); //$NON-NLS-1$
         privilegePanel.add(cirkulacijaCheckBox, "wrap");
         privilegePanel.add(cirkulacijaPlusCheckBox, "wrap");
-        privilegePanel.add(opacAdminCheckBox);
+        privilegePanel.add(opacAdminCheckBox, "wrap");
+        privilegePanel.add(dezideratiCheckBox, "wrap");
+        privilegePanel.add(nabavkaCheckBox);
         redaktorRadioBtn.setEnabled(false);
         inventatorRadioBtn.setEnabled(false);
 
@@ -528,6 +534,8 @@ public class LibrarianFrame extends JInternalFrame {
     private JCheckBox cirkulacijaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATION")); //$NON-NLS-1$
     private JCheckBox cirkulacijaPlusCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CIRCULATIONPLUS")); //$NON-NLS-1$
     private JCheckBox opacAdminCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.CREATE_OPAC"));
+    private JCheckBox nabavkaCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.DESIDERATE"));
+    private JCheckBox dezideratiCheckBox = new JCheckBox(Messages.getString("LibrarianEnvironment.NABAVKA"));
 
     private ButtonGroup invRedGroup = new ButtonGroup();
 

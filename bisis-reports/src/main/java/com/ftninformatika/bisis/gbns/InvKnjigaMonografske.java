@@ -9,6 +9,7 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
 import org.apache.log4j.Logger;
+import org.bson.BsonMaximumSizeExceededException;
 
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -41,28 +42,28 @@ public class InvKnjigaMonografske extends Report {
 
 	    public String toString() {
 	      StringBuffer buf = new StringBuffer();
-	      buf.append("\n  <item>\n    <rbr>");
+	      buf.append("<item><rbr>");
 	      buf.append(invbr);
-	      buf.append("</rbr>\n    <datum>");
+	      buf.append("</rbr><datum>");
 	      buf.append(datum == null ? "" : sdf.format(datum));
-	      buf.append("</datum>\n    <opis>");
+	      buf.append("</datum><opis>");
 	      buf.append(opis==null ? "": StringUtils.adjustForHTML(opis));
-	      buf.append("</opis>\n    <povez>");
+	      buf.append("</opis><povez>");
 	      buf.append(povez);
-	      buf.append("</povez>\n    <dim>");
+	      buf.append("</povez><dim>");
 	      buf.append(dim);
-	      buf.append("</dim>\n    <nabavka>");
+	      buf.append("</dim><nabavka>");
 	      buf.append(nabavka==null ? "" :nabavka);
-	      buf.append("</nabavka>\n    <cena>");
+	      buf.append("</nabavka><cena>");
 	      buf.append(cena==null ? "" : cena);
-	      buf.append("</cena>\n    <signatura>");
+	      buf.append("</cena><signatura>");
 	      buf.append(sig==null ? "" : sig);
-	      buf.append("</signatura>\n    <napomena>");
+	      buf.append("</signatura><napomena>");
 	      buf.append(napomena==null ? "" :napomena);
-	      buf.append("</napomena>\n");
+	      buf.append("</napomena>");
 	      buf.append ("<sortinv>");
 	      buf.append(invbr.substring(4));
-	      buf.append("</sortinv>\n    </item>");
+	      buf.append("</sortinv></item>");
 	      return buf.toString();
 	    }
 	  }
@@ -102,14 +103,8 @@ public class InvKnjigaMonografske extends Report {
            gr.setFullReportName(key);
            gr.setContent(out.toString());
            gr.setReportType(getType().name().toLowerCase());
-           try {
-               getReportRepository().save(gr);
-           }
-           catch (Exception e) {
-               System.out.println(e.getMessage());
-               log.error("Error saving report: " + key);
-               log.error("With message: " + e.getMessage());
-           }
+           getReportRepository().save(gr);
+
 
 	    }
 	   
@@ -187,6 +182,11 @@ public class InvKnjigaMonografske extends Report {
       Item i = new Item();
       i.invbr =  nvl(p.getInvBroj());
       i.datum = p.getDatumInventarisanja();
+
+      if (settings.getReportName().equals("InvKnjigaMonografskeSve") && i.datum == null) {
+          continue;
+      }
+
       i.opis = opis.toString();
       i.povez="";
       if (getCoders().getBinCoders().get(p.getPovez())!=null)

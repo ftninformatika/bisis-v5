@@ -38,8 +38,8 @@
       <Label layoutX="17.0" layoutY="447.0" text="Шифра:" />
       <TextField fx:id="selectedCoderId" layoutX="88.0" layoutY="442.0" prefHeight="32.0" prefWidth="251.0" />
       <Label layoutX="17.0" layoutY="485.0" text="Опис:" />
-      <Button layoutX="363.0" layoutY="442.0" mnemonicParsing="false" onAction="#deleteCoder" prefHeight="32.0" prefWidth="110.0" text="Обриши" />
-      <Button layoutX="363.0" layoutY="531.0" mnemonicParsing="false" onAction="#addUpdateCoder" text="Додај/Измени" />
+<!--      <Button layoutX="363.0" layoutY="442.0" mnemonicParsing="false" onAction="#deleteCoder" prefHeight="32.0" prefWidth="110.0" text="Обриши" />-->
+<!--      <Button layoutX="363.0" layoutY="531.0" mnemonicParsing="false" onAction="#addUpdateCoder" text="Додај/Измени" />-->
       <TextArea fx:id="selectedCoderDescription" layoutX="90.0" layoutY="484.0" prefHeight="79.0" prefWidth="251.0" />
    </children>
 </AnchorPane>

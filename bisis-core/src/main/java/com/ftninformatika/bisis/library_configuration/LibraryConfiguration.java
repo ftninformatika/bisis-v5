@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Petar on 6/30/2017.
@@ -26,6 +27,7 @@ public class LibraryConfiguration {
     private String libraryName;
     private String networkServerList;
     private String libraryFullName;
+    private String shortName;
 
     private String cataloguingPrimerciModel;
     private String cataloguingGodineModel;
@@ -44,9 +46,11 @@ public class LibraryConfiguration {
     private String bookcardsBrRedova;
     private String bookcardsLocale;
 
+    private String barcodeLabelFormat;
     private String barcodePort;
     private String barcodeOptionName;
     private String barcodeLibrary1;
+    private Map<String, String> barcodeLibraries;
     private String barcodeLabelWidth;
     private String barcodeLabelHeight;
     private String barcodeLabelResolution;
@@ -71,6 +75,12 @@ public class LibraryConfiguration {
     private String pincodeLibrary;
 
     private String locale;
+    private Boolean circLocaleLatn;
+
+    private String locationAddress;
+    private String locationZip;
+    private String locationCity;
+    private String websiteUrl;
 
     private List<Report> reports;
 

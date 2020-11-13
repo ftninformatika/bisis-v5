@@ -149,7 +149,7 @@ public class OpacSearchService {
             Book retVal = getBookByRec(record.get());
             retVal.setItems(getItems(record.get(), lib));
             retVal.setRecord(record.get());
-            fillMasterRecordInfo(record.get(), retVal);
+            fillReferencedRecords(record.get(), retVal);
             String isbdHtml = ReportCore.makeOne(record.get(), false, libraryConfiguration);
             retVal.setIsbdHtml(isbdHtml);
             return retVal;
@@ -157,24 +157,25 @@ public class OpacSearchService {
         return null;
     }
 
-    void fillMasterRecordInfo(Record r, Book b) {
+    void fillReferencedRecords (Record r, Book b) {
         if (r == null || b == null)
             return;
-        Integer masterRN = null;
+        Map<String, String> refRecsBrief = new HashMap<>();
+        List<Integer> refRns = new ArrayList<>();
         List<Field> _464s = r.getFields("464");
         List<Field> _474s = r.getFields("474");
         for (Field f: _464s) {
             if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
                 continue;
-                String _4641 = f.getSubfieldContent('1').trim();
-                if (_4641.split(" ").length > 1)
-                    _4641 = _4641.split(" ")[0];
-                if (_4641.matches("[0-9]+")) {
-                    masterRN = Integer.parseInt(_4641);
-                    break;
-                }
+            String _4641 = f.getSubfieldContent('1').trim();
+            if (_4641.split(" ").length > 1)
+                _4641 = _4641.split(" ")[0];
+            if (_4641.matches("[0-9]+")) {
+                refRns.add(Integer.parseInt(_4641));
+            }
         }
-        if (masterRN == null) {
+
+        if (refRns.size() == 0) {
             for (Field f: _474s) {
                 if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
                     continue;
@@ -183,25 +184,29 @@ public class OpacSearchService {
                     _4741 = _4741.split(" ")[0];
                 if (!_4741.matches("[0-9]+"))
                     continue;
-                masterRN = Integer.parseInt(_4741);
-                break;
+                refRns.add(Integer.parseInt(_4741));
 
             }
         }
-        if (masterRN == null)
+        if (refRns.size() == 0)
             return;
-        Record masterRecord = recordsRepository.getByRn(masterRN);
-        if (masterRecord == null)
-            return;
-        b.setMasterRecordId(masterRecord.get_id());
-        RecordPreview rp = new RecordPreview();
-        rp.init(masterRecord);
-        String masterTitle = rp.getTitle();
-        if (r.getSubfieldContent("001d") != null && r.getSubfieldContent("001d").equals("2")
-            && r.getSubfieldContent("215a") != null) {
-            masterTitle += " " + LatCyrUtils.toCyrillic(r.getSubfieldContent("215a").trim());
+
+        for (Integer rn: refRns) {
+            Record rec = recordsRepository.getByRn(rn);
+            if (rec == null)
+                return;
+            b.setMasterRecordId(rec.get_id());
+            RecordPreview rp = new RecordPreview();
+            rp.init(rec);
+            String recTitle = rp.getTitle();
+            if (r.getSubfieldContent("001d") != null && r.getSubfieldContent("001d").equals("2")
+                    && r.getSubfieldContent("215a") != null) {
+                recTitle += " " + LatCyrUtils.toCyrillic(r.getSubfieldContent("215a").trim());
+            }
+            b.setMasterRecordTitle(recTitle);
+            refRecsBrief.put(rec.get_id(), recTitle);
         }
-        b.setMasterRecordTitle(masterTitle);
+        b.setRefRecsBrief(refRecsBrief);
     }
 
 
@@ -360,8 +365,17 @@ public class OpacSearchService {
         List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(lib);
         itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
         String activeStatusesRegex = "";
-        if (itemStatusList != null && itemStatusList.size() > 0) {
-            activeStatusesRegex = "(" + itemStatusList.stream().map(ItemStatus::getCoder_id).collect(Collectors.joining("|")) + ").*";
+        if (itemStatusList.size() > 0) {
+            activeStatusesRegex = "(" + itemStatusList.stream().map(
+                    code -> {
+                        List<String> ops = Arrays.asList("+", "-", "*");
+                        String retVal = code.getCoder_id();
+                        if (retVal != null && ops.contains(retVal)) {
+                            retVal = "\\" + retVal;
+                        }
+                        return retVal;
+                    }
+            ).collect(Collectors.joining("|")) + ").*";
         }
 
         for (String key: locationMap.keySet()) {

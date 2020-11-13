@@ -32,6 +32,8 @@ public class LibrarianManager {
         retVal.setDefaultDepartment(librarianDTO.getDefaultDepartment());
         retVal.setCircDepartment(librarianDTO.getCircDepartment());
         retVal.setOpacAdmin(librarianDTO.isOpacAdmin());
+        retVal.setDeziderati(librarianDTO.isDeziderati());
+        retVal.setNabavka(librarianDTO.isNabavka());
         return retVal;
     }
 
@@ -57,6 +59,8 @@ public class LibrarianManager {
         retVal.setDefaultDepartment(lib.getDefaultDepartment());
         retVal.setCircDepartment(lib.getCircDepartment());
         retVal.setOpacAdmin(lib.isOpacAdmin());
+        retVal.setDeziderati(lib.isDeziderati());
+        retVal.setNabavka(lib.isNabavka());
         return retVal;
     }
 

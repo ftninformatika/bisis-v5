@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.circ.validator;
 import javax.swing.JLabel;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.StringUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.validator.Field;
@@ -167,7 +168,7 @@ public class Validator {
      }
      
      public static String convertUserId2DB(String userid) {
-    	 
+    	 userid = LatCyrUtils.toLatin(userid).toUpperCase();
     	 //barcode
     	 if (userid.startsWith("K")){
     		 return userid.substring(1);
@@ -210,7 +211,7 @@ public class Validator {
      
      public static String convertCtlgNo2DB(String ctlgno) {
        if (!ctlgno.equals("")){
-      	 
+      	 ctlgno = LatCyrUtils.toLatin(ctlgno).toUpperCase();
       	 //barcode
       	 if (ctlgno.startsWith("P")){
       		 return ctlgno.substring(1);

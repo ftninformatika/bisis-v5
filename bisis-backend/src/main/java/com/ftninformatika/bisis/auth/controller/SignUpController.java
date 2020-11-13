@@ -3,9 +3,11 @@ package com.ftninformatika.bisis.auth.controller;
 import com.ftninformatika.bisis.auth.converter.ConverterFacade;
 import com.ftninformatika.bisis.auth.dto.UserDTO;
 import com.ftninformatika.bisis.auth.service.UserService;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
@@ -14,8 +16,6 @@ import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.MessageFormat;
@@ -30,7 +30,7 @@ public class SignUpController {
     @Autowired LibraryMemberService libraryMemberService;
     @Autowired YAMLConfig yamlConfig;
     @Autowired LibraryMemberRepository libraryMemberRepository;
-
+    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired
     public SignUpController(final UserService service,
                             final ConverterFacade converterFacade) {
@@ -44,7 +44,8 @@ public class SignUpController {
     }
 
     @PostMapping(value = "/opac")
-    public ResponseEntity<?> signForOpac(@RequestBody LibraryMember newMember) {
+    public ResponseEntity<?> signForOpac(@RequestHeader("Library") String library, @RequestBody LibraryMember newMember) {
+
         if (DataValidator.validateEmail(newMember.getUsername()) == DataErrors.EMAIL_FORMAT_INVALID)
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 
@@ -76,8 +77,8 @@ public class SignUpController {
         LibraryMember createdMember = libraryMemberRepository.save(newMember);
 
         try {
-            emailService.sendSimpleMail(createdMember.getUsername(), Texts.getString("EMAIL_ACITVATE_PROFILE_HEADING"),
-                    MessageFormat.format(Texts.getString("EMAIL_ACTIVATE_PROFILE_BODY.0"), yamlConfig.getOpacOrigin()) + createdMember.getActivationToken());
+            LibraryConfiguration libConf = libraryConfigurationRepository.getByLibraryName(library);
+            emailService.sendOpacWelcomeTemplate(newMember, libConf);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

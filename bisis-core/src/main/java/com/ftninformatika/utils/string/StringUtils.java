@@ -385,6 +385,24 @@ public class StringUtils {
     }
   }
 
+  /** Convert all chars to HTML UTF-8 decimal format
+   *
+   * @param text
+   * @return
+   */
+  public static String convertToHtmlUtf8(String text) {
+    if (text == null || "".equals(text)) {
+      return "";
+    }
+    StringBuilder sb = new StringBuilder();
+    for (char c: text.toCharArray()) {
+      sb.append("&#");
+      sb.append((int) c);
+      sb.append(";");
+    }
+    return sb.toString();
+  }
+
   /** Replaces one substring with another in a given string.
    *
    *  @param s Container string

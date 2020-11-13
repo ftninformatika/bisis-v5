@@ -209,23 +209,13 @@ public class StatistikaPoInventarnimKnjigama extends Report {
   public String getName(String code) {
     if (code == null || code.equals(""))
       return "nerazvrstano";
-    if (code.equals("00"))
-      return "X";
-    if (code.equals("20"))
-      return "B";
-    if (code.equals("30"))
-      return "D";
-    if (code.equals("60"))
-      return "L";
     if(code.equalsIgnoreCase("UKUPNO"))
       return "UKUPNO";
-    else
-      return code + " - nerazvrstano";
+    if (coders.getAccRegCoders().get(code) != null) {
+        return code + " - " + coders.getAccRegCoders().get(code).getDescription();
+    }
+    return "nerazvrstano";
   }
-
-
-
-
 
   int totalRecords = 0;
   int noInvDate = 0;

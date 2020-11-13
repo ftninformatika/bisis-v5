@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.coders.*;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -72,6 +73,10 @@ public interface BisisService {
      */
     @GET("members/getAndLock")
     Call<MemberData> getAndLockMemberById(@Query("userId") String userId, @Query("librarianId") String librarianId);
+
+
+    @POST ("members/getAndLockByECard/{librarianId}")
+    Call<MemberData> getAndLockByECard(@Body ElCardInfo memberInfo, @Path("librarianId") String librarianId);
 
     /**
      *

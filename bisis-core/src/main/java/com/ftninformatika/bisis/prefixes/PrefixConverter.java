@@ -31,6 +31,10 @@ public class PrefixConverter {
       retVal.put("libName", Arrays.asList(lib));
     }
     for (PrefixValue pv: prefixes) {
+      if (pv == null || pv.value == null) {
+        System.out.println("Record no value" + rec.getRN());
+        continue;
+      }
       String valueUnaccented = LatCyrUtils.toLatinUnaccented(pv.value.toLowerCase());
       if (retVal.containsKey(pv.prefName)){
         List list = retVal.get(pv.prefName);

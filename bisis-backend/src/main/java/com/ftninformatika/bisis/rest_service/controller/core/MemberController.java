@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
@@ -159,6 +160,32 @@ public class MemberController {
         return retVal;
     }
 
+    @RequestMapping(value = "/getAndLockByECard/{librarianId}", method = RequestMethod.POST)
+    public MemberData getAndLockByECard(@RequestBody ElCardInfo memberInfo
+            , @PathVariable("librarianId") String librarianId) {
+
+        MemberData retVal = new MemberData();
+        if (memberInfo == null)
+            return null;
+        Optional<LibrarianDTO> l = librarianRepository.findById(librarianId);
+        Member m = memberService.getMebeByEcardCriteria(memberInfo);
+
+        if (m == null || !l.isPresent())
+            return null;
+
+        if (m.getInUseBy() != null) {
+            retVal.setInUseBy(m.getInUseBy());
+            return retVal;
+        }
+
+        m.setInUseBy(librarianId);
+        memberRep.save(m);
+        List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(m.getUserId());
+        retVal.setMember(m);
+        retVal.setLendings(lendings);
+        return retVal;
+    }
+
     /**
      * @param userId
      * @return false - ako ne postoji korisnik za taj userId
@@ -221,8 +248,8 @@ public class MemberController {
     @RequestMapping(path = "/getWarnMembers")
     public List<MemberData> getWarnMembers(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end, @RequestParam(name = "location", required = false) String location) {
         List<Lending> overdueLendings = lendingRepository.getOverdueLendings(start, end, location);
-        List<String> userIds = overdueLendings.stream().map(l -> l.getUserId()).collect(Collectors.toList());
-        Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));
+        List<String> userIds = overdueLendings.stream().map(Lending::getUserId).filter(Objects::nonNull).collect(Collectors.toList());
+        Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().filter(Objects::nonNull).collect(Collectors.toMap(Member::getUserId, member -> member));
 
         Map<String, MemberData> memberMap = new HashMap<>();
 
