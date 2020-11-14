@@ -32,6 +32,7 @@ public class ReservationDTO implements Serializable {
     private String locationCode;
     private String memberFirstName;
     private String memberLastName;
+    private String userId;
 
 
     public static ReservationDTO convertToDto(ReservationOnProfile reservation, Book book,
@@ -66,6 +67,7 @@ public class ReservationDTO implements Serializable {
         reservationDTO.setTitle(book.getTitle());
         reservationDTO.setAuthors(book.getAuthors());
         reservationDTO.setLocationCode(locationCode);
+        reservationDTO.setReservationStatus(ReservationStatus.WAITING_IN_QUEUE);
 
         return reservationDTO;
     }

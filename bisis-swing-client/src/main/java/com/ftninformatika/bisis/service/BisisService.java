@@ -6,6 +6,7 @@ package com.ftninformatika.bisis.service;
 
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
+import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
@@ -103,6 +104,8 @@ public interface BisisService {
     @POST("reservations/confirm-reservation")
     Call<Boolean> confirmReservation(@Body ConfirmReservationDTO confirmReservationDTO);
 
+    @POST("reservations/current-reservation")
+    Call<ReservationDTO> getCurrentReservationByPrimerak(@Body CurrentReservationDTO currentReservationDTO);
 
 
 //librarians------------------------------------------------------------
@@ -347,6 +350,9 @@ public interface BisisService {
 
     @GET ("members/getCharged")
     Call<Member> getChargedUser(@Query("ctlgNo") String ctlgNo);
+
+    @GET ("members/getAssigned")
+    Call<Member> getAssignedUser(@Query("ctlgNo") String ctlgNo);
 
     @GET ("members/getLending")
     Call<Lending> getLending(@Query("ctlgNo") String ctlgNo);

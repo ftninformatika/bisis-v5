@@ -2,15 +2,16 @@ package com.ftninformatika.bisis.circ.view;
 
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.actions.PrintReservationAction;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -23,17 +24,17 @@ public class ReservationsDialog extends JDialog {
     private JButton okButton = null;
     private JPanel pCenter;
     private JPanel pSouth;
-
+    private List<ReservationDTO> reservationsForPrint;
 
     public ReservationsDialog() {
-        super(BisisApp.getMainFrame(), Messages.getString("REPORT_CHOSE_REPORT"), true);
+        super(BisisApp.getMainFrame(), Messages.getString("circulation.reservations"), true);
+        this.reservationsForPrint = Cirkulacija.getApp().getUserManager().getReservationsForPrint();
         this.initialize();
     }
 
     private void initialize() {
         this.setResizable(false);
         this.setSize(600, 400);
-        this.setTitle(Messages.getString("circulation.reservations"));
 
         this.jScrollPane = getJScrollPane();
 
@@ -73,14 +74,13 @@ public class ReservationsDialog extends JDialog {
             jContentPane = new JPanel();
             jContentPane.setLayout(new GridBagLayout());
             GridBagConstraints c = getGridBagConstraints();
-            List<ReservationDTO> allReservations = Cirkulacija.getApp().getUserManager().getReservationsForPrint();
 
-            for (ReservationDTO r : allReservations) {
+            for (ReservationDTO r : reservationsForPrint) {
                 JLabel bookTitle = new JLabel(r.getTitle());
                 bookTitle.setPreferredSize(new Dimension(300, 15));
                 jContentPane.add(bookTitle, moveGridBagLeft(c));
 
-                JButton btnPrint = getPrintButton(String.valueOf(allReservations.indexOf(r)));
+                JButton btnPrint = getPrintButton(String.valueOf(reservationsForPrint.indexOf(r)));
                 jContentPane.add(btnPrint, moveGridBagCenter(c));
             }
         }
@@ -93,7 +93,20 @@ public class ReservationsDialog extends JDialog {
         btnPrint.setActionCommand(reservationIdx);
         btnPrint.setFocusable(false);
         btnPrint.setToolTipText(Messages.getString("PRINT")); //$NON-NLS-1$
-        btnPrint.addActionListener(new PrintReservationAction());
+        btnPrint.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                int idx = Integer.parseInt(event.getActionCommand());
+                ReservationDTO reservation = reservationsForPrint.get(idx);
+                try {
+                    if (reservation.getReservationStatus().equals(ReservationStatus.WAITING_IN_QUEUE)) {
+                        Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(reservationsForPrint.get(idx));
+                    }
+                    // todo prikazati formu sa info o rezervaciji za stampanje
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         return btnPrint;
     }
 

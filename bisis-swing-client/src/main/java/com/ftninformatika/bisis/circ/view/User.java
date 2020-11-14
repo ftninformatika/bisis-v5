@@ -28,8 +28,6 @@ import org.apache.log4j.Logger;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,16 +141,10 @@ public class User extends JPanel {
 	}
 
 	private void getReservations(){
-		List<ReservationDTO> reservations = new ArrayList<>();
-		try {
-			reservations = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks("");
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
-			log.error(ioException);
-		}
+		List<ReservationDTO> reservations = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks("");
 
 		// if there is at least one reservation for returned book(s), display dialog with info
-		if (reservations.size() > 0) {
+		if (reservations != null && reservations.size() > 0) {
 			ReservationsDialog dialog = new ReservationsDialog();
 			dialog.setVisible(true);
 		}

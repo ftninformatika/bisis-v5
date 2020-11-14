@@ -215,6 +215,11 @@ public class MemberController {
         }
     }
 
+    @RequestMapping(path = "/getAssigned")
+    public Member getAssignedMember(@RequestParam("ctlgNo") String ctlgNo) {
+        return memberService.getAssignedMember(ctlgNo);
+    }
+
     @RequestMapping(path = "/getLending")
     public Lending getLending(@RequestParam("ctlgNo") String ctlgNo) {
         Lending lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);

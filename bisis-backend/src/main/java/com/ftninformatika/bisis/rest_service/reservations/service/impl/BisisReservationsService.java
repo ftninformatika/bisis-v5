@@ -99,11 +99,32 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                     record.get().getReservations().remove(reservationInQueue);
                     recordsRepository.save(record.get());
                     setItemStatusReserved(ctlgNo);
-                    if (changeStatusToAssignedBook(record_id, reservationInQueue.getUserId())) return true;
+                    if (changeStatusToAssignedBook(record_id, reservationInQueue.getUserId(), ctlgNo)) return true;
                 }
             }
         }
         return  false;
+    }
+
+    @Override
+    public ReservationDTO getCurrentReservation(String userId, String ctlgNo) {
+        Member member = memberRepository.getMemberByUserId(userId);
+        for (ReservationOnProfile reservation : member.getReservations()){
+            if (reservation.getCtlgNo().equals(ctlgNo) && reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)){
+                Record record = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
+                Book book = opacSearchService.getBookByRec(record);
+                ReservationDTO reservationDTO = new ReservationDTO();
+                reservationDTO.setCtlgNo(ctlgNo);
+                reservationDTO.setTitle(book.getTitle());
+                reservationDTO.setAuthors(book.getAuthors());
+                reservationDTO.setMemberLastName(member.getLastName());
+                reservationDTO.setMemberFirstName(member.getFirstName());
+                reservationDTO.setUserId(userId);
+                reservationDTO.setReservationStatus(ReservationStatus.ASSIGNED_BOOK);
+                return reservationDTO;
+            }
+        }
+        return null;
     }
 
     private void setItemStatusReserved(String ctlgNo) {
@@ -112,7 +133,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         itemAvailabilityRepository.save(ia);
     }
 
-    private boolean changeStatusToAssignedBook(String record_id, String userId) {
+    private boolean changeStatusToAssignedBook(String record_id, String userId, String ctlgNo) {
         Member member = memberRepository.getMemberByUserId(userId);
         for (ReservationOnProfile reservationOnProfile : member.getReservations()) {
             if (reservationOnProfile.getRecord_id().equals(record_id) &&
@@ -120,6 +141,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
 
                 reservationOnProfile.setPickUpDeadline(new Date());   // todo +3 working days
                 reservationOnProfile.setReservationStatus(ReservationStatus.ASSIGNED_BOOK);
+                reservationOnProfile.setCtlgNo(ctlgNo);
                 memberRepository.save(member);
                 return true;
             }

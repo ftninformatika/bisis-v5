@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.reservations.controller;
 
 import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
+import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationRequestDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationResponseDTO;
@@ -142,6 +143,13 @@ public class ReservationsController {
         boolean isReservationConfirmed = bisisReservationsService.confirmReservation(confirmReservationDTO.getReservation_id(),
                 confirmReservationDTO.getRecord_id(), confirmReservationDTO.getCtlgNo());
         return new ResponseEntity<>(isReservationConfirmed, HttpStatus.OK);
+    }
+
+    @PostMapping("/current-reservation")
+    public ResponseEntity<ReservationDTO> getCurrentReservation(@RequestBody CurrentReservationDTO currentReservation) {
+        ReservationDTO reservation = bisisReservationsService.getCurrentReservation(currentReservation.getUserId(),
+                currentReservation.getCtlgNo());
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
 }

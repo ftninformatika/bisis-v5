@@ -5,12 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author marijakovacevic
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConfirmReservationDTO {
-    private String reservation_id;
-    private String record_id;
+public class CurrentReservationDTO {
+    private String userId;
     private String ctlgNo;
 }

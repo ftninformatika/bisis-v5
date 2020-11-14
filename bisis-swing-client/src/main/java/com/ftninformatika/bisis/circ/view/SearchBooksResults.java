@@ -79,6 +79,9 @@ public class SearchBooksResults extends JPanel {
     private Configuration cfg = null;
     private Template template = null;
     private String library;
+    private JLabel rightPanelLabel = null;
+    private boolean isBookReserved;
+    private String assignedUserId;
 
     public SearchBooksResults() {
         super();
@@ -153,7 +156,7 @@ public class SearchBooksResults extends JPanel {
             CellConstraints cc = new CellConstraints();
             rightPanel = new PanelBuilder(layout);
             rightPanel.setDefaultDialogBorder();
-            rightPanel.addLabel(Messages.getString("circulation.chargedto"), cc.xy(2, 2)); //$NON-NLS-1$
+            rightPanelLabel = rightPanel.addLabel(Messages.getString("circulation.chargedto"), cc.xy(2, 2)); //$NON-NLS-1$
             rightPanel.add(getLUser(), cc.xy(2, 4));
             rightPanel.add(getBtnUser(), cc.xy(3, 4));
             rightPanel.addSeparator("", cc.xyw(2, 6, 2)); //$NON-NLS-1$
@@ -185,6 +188,8 @@ public class SearchBooksResults extends JPanel {
                     getBtnUser().setEnabled(false);
                     getBtnReturn().setEnabled(false);
                     getBtnLend().setEnabled(false);
+                    rightPanelLabel.setText(Messages.getString("circulation.chargedto"));
+                    isBookReserved = false;
                     Object node = tree.getLastSelectedPathComponent();
                     if (node == null) return;
                     if (node instanceof Record) {
@@ -199,8 +204,17 @@ public class SearchBooksResults extends JPanel {
                         Primerak primerak = (Primerak) node;
                         getBtnPrintInv().setEnabled(true);
                         getBtnPrintInv2().setEnabled(true);
-                        if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())) {
-                            getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(primerak.getInvBroj()) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
+                        // kad se klikne na primerak u stablu koji je rezervisan
+                        if (getBooksTreeModel().isReserved(primerak.getInvBroj())) {
+                            rightPanelLabel.setText(Messages.getString("circulation.reservedFor"));
+                            getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(primerak.getInvBroj(), true) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
+                            isBookReserved = true;
+                            assignedUserId = Cirkulacija.getApp().getUserManager().getChargedUserId();
+                            getBtnUser().setEnabled(true);
+                            getBtnLend().setEnabled(true);
+                        }
+                        else if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())) {
+                            getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(primerak.getInvBroj(), false) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
                             if (!Cirkulacija.getApp().getUserManager().gotUser())
                                 getBtnUser().setEnabled(true);
                             getBtnReturn().setEnabled(true);
@@ -219,7 +233,7 @@ public class SearchBooksResults extends JPanel {
                         getBtnPrintInv().setEnabled(false);
                         getBtnPrintInv2().setEnabled(false);
                         if (getBooksTreeModel().isBorrowed(sveska.getInvBroj())) {
-                            getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(sveska.getInvBroj()) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
+                            getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(sveska.getInvBroj(), false) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
                             if (!Cirkulacija.getApp().getUserManager().gotUser())
                                 getBtnUser().setEnabled(true);
                             getBtnReturn().setEnabled(true);
@@ -338,7 +352,7 @@ public class SearchBooksResults extends JPanel {
                             JOptionPane.showMessageDialog(null, Messages.getString("circulation.ok"), Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                     new ImageIcon(getClass().getResource("/circ-images/hand32.png"))); //$NON-NLS-1$
 
-                            // todo dodala za rezervacije
+                            // dodala za rezervacije
                             if (getTree().getLastSelectedPathComponent() instanceof Primerak) {
                                 getReservations();
                             }
@@ -353,14 +367,10 @@ public class SearchBooksResults extends JPanel {
         return btnReturn;
     }
 
-    private void getReservations(){
-        List<ReservationDTO> reservations = new ArrayList<>();
-        try {
-            reservations = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (reservations.size() > 0) {
+    private void getReservations() {
+        List<ReservationDTO> reservations = Cirkulacija.getApp().getUserManager()
+                .getReservationsForReturnedBooks(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj());
+        if (reservations != null && reservations.size() > 0) {
             ReservationsDialog dialog = new ReservationsDialog();
             dialog.setVisible(true);
         }
@@ -472,6 +482,15 @@ public class SearchBooksResults extends JPanel {
         return textPaneList;
     }
 
+    private void getCurrentReservation(){
+        ReservationDTO reservation = Cirkulacija.getApp().getUserManager()
+                .getCurrentReservationByPrimerak(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj(), assignedUserId);
+        if (reservation != null) {
+            ReservationsDialog dialog = new ReservationsDialog();
+            dialog.setVisible(true);
+        }
+    }
+
     private JButton getBtnUser() {
         if (btnUser == null) {
             btnUser = new JButton();
@@ -480,10 +499,15 @@ public class SearchBooksResults extends JPanel {
             btnUser.setIcon(new ImageIcon(getClass().getResource("/circ-images/user16.png"))); //$NON-NLS-1$
             btnUser.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    int found = Cirkulacija.getApp().getUserManager().showChargedUser(Cirkulacija.getApp().getMainFrame().getUserPanel());
-                    if (found == 1) {
-                        Cirkulacija.getApp().getMainFrame().getUserPanel().showLending();
-                        Cirkulacija.getApp().getMainFrame().showPanel("userPanel"); //$NON-NLS-1$
+                    if (isBookReserved) {
+                        getCurrentReservation();
+                        isBookReserved = false;
+                    } else {
+                        int found = Cirkulacija.getApp().getUserManager().showChargedUser(Cirkulacija.getApp().getMainFrame().getUserPanel());
+                        if (found == 1) {
+                            Cirkulacija.getApp().getMainFrame().getUserPanel().showLending();
+                            Cirkulacija.getApp().getMainFrame().showPanel("userPanel"); //$NON-NLS-1$
+                        }
                     }
                 }
             });

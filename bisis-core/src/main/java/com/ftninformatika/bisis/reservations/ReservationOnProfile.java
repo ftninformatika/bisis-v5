@@ -13,4 +13,5 @@ public class ReservationOnProfile extends Reservation {
     private String record_id;
     private boolean isBookPickedUp = false;
     private ReservationStatus reservationStatus;
+    private String ctlgNo;
 }
