@@ -68,6 +68,8 @@ public class ReservationDTO implements Serializable {
         reservationDTO.setAuthors(book.getAuthors());
         reservationDTO.setLocationCode(locationCode);
         reservationDTO.setReservationStatus(ReservationStatus.WAITING_IN_QUEUE);
+        reservationDTO.setUserId(member.getUserId());
+
 
         return reservationDTO;
     }
