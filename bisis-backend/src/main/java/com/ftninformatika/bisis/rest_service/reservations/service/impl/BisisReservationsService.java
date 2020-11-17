@@ -120,11 +120,27 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                 reservationDTO.setMemberLastName(member.getLastName());
                 reservationDTO.setMemberFirstName(member.getFirstName());
                 reservationDTO.setUserId(userId);
-                reservationDTO.setReservationStatus(ReservationStatus.ASSIGNED_BOOK);
+                reservationDTO.setReservationStatus(reservation.getReservationStatus());
                 return reservationDTO;
             }
         }
         return null;
+    }
+
+    @Override
+    @Transactional
+    public ItemAvailability finishReservationProcess(ItemAvailability ia, Member member) {
+        ia.setReserved(false);
+        itemAvailabilityRepository.save(ia);
+
+        for (ReservationOnProfile r : member.getReservations()){
+            if (r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK) && r.getCtlgNo().equals(ia.getCtlgNo())){
+                r.setReservationStatus(ReservationStatus.PICKED_UP);
+                r.setBookPickedUp(true);
+                memberRepository.save(member);
+            }
+        }
+        return ia;
     }
 
     private void setItemStatusReserved(String ctlgNo) {

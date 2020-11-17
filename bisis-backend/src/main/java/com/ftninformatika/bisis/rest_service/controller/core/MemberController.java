@@ -11,6 +11,7 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.MemberService;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
@@ -41,6 +42,8 @@ public class MemberController {
     @Autowired WarningCounterRepository warningCounterRepository;
     @Autowired MongoClient mongoClient;
     @Autowired MemberService memberService;
+    @Autowired
+    BisisReservationsServiceInterface reservationsService;
 
     @GetMapping("/lending_history/{memberNo}")
     public ResponseEntity<List<Report>> getUserLendingHistory(@PathVariable("memberNo") String memberNo) {
@@ -96,6 +99,11 @@ public class MemberController {
                     memberData.setMember(memberRep.save(memberData.getMember()));
                 }
                 if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
+                    for (ItemAvailability ia : memberData.getBooks()){
+                        if (ia.getReserved() != null && ia.getReserved() && ia.getBorrowed()) {
+                            ia = reservationsService.finishReservationProcess(ia, memberData.getMember());
+                        }
+                    }
                     lendingRepository.saveAll(memberData.getLendings());
                     List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(memberData.getMember().getUserId());
                     memberData.setLendings(lendings);
