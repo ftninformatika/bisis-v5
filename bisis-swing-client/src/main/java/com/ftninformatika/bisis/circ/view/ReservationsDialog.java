@@ -32,7 +32,7 @@ public class ReservationsDialog extends JDialog {
     }
 
     private void initialize() {
-        this.setSize(900, 400);
+        this.setSize(900, 300);
         setLayout(new BorderLayout());
 
         this.jScrollPane = getJScrollPane();
@@ -69,7 +69,7 @@ public class ReservationsDialog extends JDialog {
         if (jContentPane == null) {
             jContentPane = new JPanel();
             jContentPane.setLayout(new MigLayout("insets 10 10 10 10",
-                    "[][grow][grow][grow]30[][]", "[][]30"));
+                    "[][grow, center][grow, center][grow, center]30[][]", "[][]10"));
 
             createHeader();
 
@@ -81,9 +81,6 @@ public class ReservationsDialog extends JDialog {
     }
 
     private void createRow(ReservationDTO r) {
-        JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
-        jContentPane.add(separator, "growx, spanx, wrap");
-
         JLabel bookInvBr = new JLabel(r.getCtlgNo());
         jContentPane.add(bookInvBr, "width 20:30:null, growx, growy");
 
@@ -101,6 +98,8 @@ public class ReservationsDialog extends JDialog {
 
         JButton btnGetNext = getBtnNext(String.valueOf(reservationsForPrint.indexOf(r)));
         jContentPane.add(btnGetNext, "wrap");
+
+        addHorizontalSeparator();
     }
 
     private void createHeader() {
@@ -113,7 +112,14 @@ public class ReservationsDialog extends JDialog {
         jContentPane.add(headerTitle);
         jContentPane.add(headerAuthor);
         jContentPane.add(headerReservedFor, "wrap");
+        addHorizontalSeparator();
     }
+
+    private void addHorizontalSeparator() {
+        JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
+        jContentPane.add(separator, "growx, spanx, wrap");
+    }
+
 
     private JButton getBtnPrint(String reservationIdx) {
         JButton btnPrint = new JButton(Messages.getString("PRINT"));
@@ -162,7 +168,7 @@ public class ReservationsDialog extends JDialog {
     private JScrollPane getJScrollPane() {
         if (jScrollPane == null) {
             jScrollPane = new JScrollPane();
-            jScrollPane.setPreferredSize(new Dimension(900, 330));
+            jScrollPane.setPreferredSize(new Dimension(900, 230));
             jScrollPane.getViewport().setView(getJContentPane());
             jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
