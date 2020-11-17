@@ -3,11 +3,13 @@ package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
+import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
@@ -18,12 +20,15 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRep
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.LocationServiceInterface;
+import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -68,6 +73,10 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     @Autowired
     LibraryMemberService libraryMemberService;
 
+    @Autowired
+    EmailService emailService;
+
+
     @Override
     public List<ReservationDTO> getReservationsForReturnedBooks(List<String> returnedBooks, String library) {
         List<ReservationDTO> reservationDTOS = new ArrayList<>();
@@ -99,7 +108,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                     record.get().getReservations().remove(reservationInQueue);
                     recordsRepository.save(record.get());
                     setItemStatusReserved(ctlgNo);
-                    if (changeStatusToAssignedBook(record_id, reservationInQueue.getUserId(), ctlgNo)) return true;
+                    if (changeStatusToAssignedBook(record.get(), reservationInQueue.getUserId(), ctlgNo)) return true;
                 }
             }
         }
@@ -149,20 +158,32 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         itemAvailabilityRepository.save(ia);
     }
 
-    private boolean changeStatusToAssignedBook(String record_id, String userId, String ctlgNo) {
+    private boolean changeStatusToAssignedBook(Record record, String userId, String ctlgNo) {
         Member member = memberRepository.getMemberByUserId(userId);
         for (ReservationOnProfile reservationOnProfile : member.getReservations()) {
-            if (reservationOnProfile.getRecord_id().equals(record_id) &&
+            if (reservationOnProfile.getRecord_id().equals(record.get_id()) &&
                     reservationOnProfile.getReservationStatus().equals(ReservationStatus.WAITING_IN_QUEUE)) {
 
                 reservationOnProfile.setPickUpDeadline(new Date());   // todo +3 working days
                 reservationOnProfile.setReservationStatus(ReservationStatus.ASSIGNED_BOOK);
                 reservationOnProfile.setCtlgNo(ctlgNo);
                 memberRepository.save(member);
+
+                // sendEmail(member, record);
                 return true;
             }
         }
         return false;
+    }
+
+    private void sendEmail(Member member, Record record) {
+        Book book = opacSearchService.getBookByRec(record);
+
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(member.getEmail());
+        // todo promeniti na libraryMember.getUsername()
+        emailService.sendSimpleMail("userEmail@", Texts.getString("RESERVATION_CONFIRMED_HEADING"),
+                MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.0"), book.getTitle()));
+
     }
 
     public ReservationInQueue getFirstByLocation(Record record, String locationCode) {

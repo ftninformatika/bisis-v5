@@ -113,7 +113,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
 
     private String checkIfBookReserved(String record_id, Member member) {
         long numberOfSameReservations = member.getReservations().stream()
-                .filter(reservation -> reservation.getRecord_id().equals(record_id))
+                .filter(reservation -> reservation.getRecord_id().equals(record_id) && !reservation.isBookPickedUp())
                 .count();
 
         if (numberOfSameReservations > 0) {
