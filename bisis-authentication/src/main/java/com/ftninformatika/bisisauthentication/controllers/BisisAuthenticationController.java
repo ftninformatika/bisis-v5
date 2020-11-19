@@ -109,10 +109,10 @@ public class BisisAuthenticationController {
         Optional<LibraryMember> libraryMemberOptional = libraryMemberRepository.findByUsername(userDetails.getUsername());
         if (libraryMemberOptional.isPresent()) {
             LibraryMember libraryMember = libraryMemberOptional.get();
-            OpacMemberWrapper retVal = getOpacWrapperMember(libraryMember);
             libraryMember.setAuthToken(token);
             libraryMember.setLastActivity(new Date());
             libraryMemberRepository.save(libraryMember);
+            OpacMemberWrapper retVal = getOpacWrapperMember(libraryMember);
             return new ResponseEntity<>(retVal, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -152,6 +152,5 @@ public class BisisAuthenticationController {
         retVal.setLibraryMember(libraryMember);
         return retVal;
     }
-
 
 }
