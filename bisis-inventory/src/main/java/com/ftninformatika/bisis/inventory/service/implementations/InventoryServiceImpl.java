@@ -101,7 +101,7 @@ public class InventoryServiceImpl implements InventoryService {
     private void generateInventoryUnits(Inventory createdInventory) {
         Pageable pageRequest = PageRequest.of(0, 1000); // todo ovde mozda pozvati elastic za dovlacenje recorda
         Page<Record> onePage = recordsRepository.findAll(pageRequest);
-        int totalPages = recordsRepository.findAll(pageRequest).getTotalPages();
+        int totalPages = onePage.getTotalPages();
         int count = 1;
         if (this.inventoryUnitRepository.count() == 0) {
             this.createIndexes();

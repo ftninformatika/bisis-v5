@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.inventory;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.records.Primerak;
@@ -28,7 +29,9 @@ public class Inventory {
     private String name;
     private Integer year;
     private String library;
+    @JsonFormat(pattern="dd.MM.yyyy.")
     private Date startDate;
+    @JsonFormat(pattern="dd.MM.yyyy.")
     private Date endDate;
     private List<Sublocation> sublocations;
     private List<Location> locations;
