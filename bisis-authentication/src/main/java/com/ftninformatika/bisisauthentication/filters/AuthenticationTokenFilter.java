@@ -54,14 +54,14 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
                     usernamePasswordAuthenticationToken
                             .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                    String lib = ((HttpServletRequest) request).getHeader("Library");
-                    if (lib != null && !lib.equals("")) {
-                        prefixProvider.setPrefix(lib); //Usmeravanje na odredjenu kolekciju u zavisnosti od hedera (Library)
-                    }
-                    else {
-                        prefixProvider.setPrefix("exile");
-                    }
                 }
+            }
+            String lib = ((HttpServletRequest) request).getHeader("Library");
+            if (lib != null && !lib.equals("")) {
+                prefixProvider.setPrefix(lib); //Usmeravanje na odredjenu kolekciju u zavisnosti od hedera (Library)
+            }
+            else {
+                prefixProvider.setPrefix("exile");
             }
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {

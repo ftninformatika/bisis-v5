@@ -1,8 +1,5 @@
 package com.ftninformatika.bisis.rest_service.controller.opac2;
 
-import com.ftninformatika.bisis.auth.converter.ConverterFacade;
-import com.ftninformatika.bisis.auth.dto.UserDTO;
-import com.ftninformatika.bisis.auth.service.UserService;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -35,9 +32,10 @@ public class SignUpController {
     @Autowired YAMLConfig yamlConfig;
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired Librarian2Repository librarianRepository;
+    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
 
     @PostMapping(value = "/signup/opac")
-    public ResponseEntity<?> signForOpac(@RequestBody LibraryMember newMember) {
+    public ResponseEntity<?> signForOpac(@RequestHeader("Library") String library, @RequestBody LibraryMember newMember) {
         if (DataValidator.validateEmail(newMember.getUsername()) == DataErrors.EMAIL_FORMAT_INVALID)
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 
