@@ -80,7 +80,6 @@ public class SearchBooksResults extends JPanel {
     private Template template = null;
     private String library;
     private JLabel rightPanelLabel = null;
-    private boolean isBookReserved;
     private String assignedUserId;
 
     public SearchBooksResults() {
@@ -189,7 +188,6 @@ public class SearchBooksResults extends JPanel {
                     getBtnReturn().setEnabled(false);
                     getBtnLend().setEnabled(false);
                     rightPanelLabel.setText(Messages.getString("circulation.chargedto"));
-                    isBookReserved = false;
                     Object node = tree.getLastSelectedPathComponent();
                     if (node == null) return;
                     if (node instanceof Record) {
@@ -208,7 +206,6 @@ public class SearchBooksResults extends JPanel {
                         if (getBooksTreeModel().isReserved(primerak.getInvBroj())) {
                             rightPanelLabel.setText(Messages.getString("circulation.reservedFor"));
                             getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(primerak.getInvBroj(), true) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            isBookReserved = true;
                             assignedUserId = Cirkulacija.getApp().getUserManager().getChargedUserId();
                             getBtnUser().setEnabled(true);
                             getBtnLend().setEnabled(true);
@@ -499,14 +496,17 @@ public class SearchBooksResults extends JPanel {
             btnUser.setIcon(new ImageIcon(getClass().getResource("/circ-images/user16.png"))); //$NON-NLS-1$
             btnUser.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if (isBookReserved) {
-                        getCurrentReservation();
-                        isBookReserved = false;
-                    } else {
-                        int found = Cirkulacija.getApp().getUserManager().showChargedUser(Cirkulacija.getApp().getMainFrame().getUserPanel());
-                        if (found == 1) {
-                            Cirkulacija.getApp().getMainFrame().getUserPanel().showLending();
-                            Cirkulacija.getApp().getMainFrame().showPanel("userPanel"); //$NON-NLS-1$
+                    Object node = tree.getLastSelectedPathComponent();
+                    if (node instanceof Primerak) {
+                        Primerak primerak = (Primerak) node;
+                        if (getBooksTreeModel().isReserved(primerak.getInvBroj())) {
+                            getCurrentReservation();
+                        } else {
+                            int found = Cirkulacija.getApp().getUserManager().showChargedUser(Cirkulacija.getApp().getMainFrame().getUserPanel());
+                            if (found == 1) {
+                                Cirkulacija.getApp().getMainFrame().getUserPanel().showLending();
+                                Cirkulacija.getApp().getMainFrame().showPanel("userPanel"); //$NON-NLS-1$
+                            }
                         }
                     }
                 }
