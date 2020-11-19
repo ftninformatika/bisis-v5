@@ -8,12 +8,18 @@ import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.WindowUtils;
 import net.miginfocom.swing.MigLayout;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -69,7 +75,7 @@ public class ReservationsDialog extends JDialog {
         if (jContentPane == null) {
             jContentPane = new JPanel();
             jContentPane.setLayout(new MigLayout("insets 10 10 10 10",
-                    "[][grow, center][grow, center][grow, center]30[][]", "[][]10"));
+                    "[][grow][grow][grow]30[][]", "[][]10"));
 
             createHeader();
 
@@ -135,7 +141,9 @@ public class ReservationsDialog extends JDialog {
                     if (reservation.getReservationStatus().equals(ReservationStatus.WAITING_IN_QUEUE)) {
                         Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(reservationsForPrint.get(idx));
                     }
-                    // todo prikazati formu sa info o rezervaciji za stampanje
+                    PrintReservationDialog p = new PrintReservationDialog();
+                    p.setJasper(getReservationForPrint(reservation));
+                    p.setVisible(true);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -160,6 +168,25 @@ public class ReservationsDialog extends JDialog {
         return btnNext;
     }
 
+    private JasperPrint getReservationForPrint(ReservationDTO reservation){
+        try {
+            Map<String, Object> params = new HashMap<String, Object>(9);
+            params.put("biblioteka", Cirkulacija.getApp().getEnvironment().getReversLibraryName()); //$NON-NLS-1$
+            params.put("korisnik", reservation.getUserId()); //$NON-NLS-1$
+            params.put("bibliotekar", Cirkulacija.getApp().getLibrarian().getIme()+" "+Cirkulacija.getApp().getLibrarian().getPrezime()); //$NON-NLS-1$ //$NON-NLS-2$
+            params.put("adresa", Cirkulacija.getApp().getEnvironment().getReversLibraryAddress()); //$NON-NLS-1$
+            params.put("naslov", reservation.getTitle()); //$NON-NLS-1$
+            params.put("invBroj", reservation.getCtlgNo()); //$NON-NLS-1$
+            params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
+
+            return JasperFillManager.fillReport(Thread.currentThread().getContextClassLoader()
+                            .getResourceAsStream("cirkulacija/jaspers/reservation.jasper"),  //$NON-NLS-1$
+                    params, new JREmptyDataSource());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     private void handleOk() {
         dispose();
