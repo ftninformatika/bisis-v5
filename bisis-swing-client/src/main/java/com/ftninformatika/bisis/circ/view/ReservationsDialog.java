@@ -136,6 +136,7 @@ public class ReservationsDialog extends JDialog {
         btnPrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 int idx = Integer.parseInt(event.getActionCommand());
+                // TODO
                 ReservationDTO reservation = reservationsForPrint.get(idx);
                 try {
                     if (reservation.getReservationStatus().equals(ReservationStatus.WAITING_IN_QUEUE)) {
@@ -161,19 +162,31 @@ public class ReservationsDialog extends JDialog {
         btnNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 int idx = Integer.parseInt(event.getActionCommand());
+                // TODO
                 ReservationDTO reservation = reservationsForPrint.get(idx);
-                // todo dobaviti sledeceg
+                ReservationDTO nextReservation = Cirkulacija.getApp().getUserManager().getNextReservation(reservation.getUserId(), reservation.getCtlgNo());
+                if (nextReservation != null) {
+                    reservationsForPrint.add(idx, nextReservation);
+                } else {
+                    JOptionPane.showMessageDialog(null, Messages.getString("circulation.noMoreReservations"),
+                            Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                    // TODO
+                    //  reservationsForPrint.remove(idx);
+                    if (reservationsForPrint.size() == 0) {
+                        handleOk();
+                    }
+                }
             }
         });
         return btnNext;
     }
 
-    private JasperPrint getReservationForPrint(ReservationDTO reservation){
+    private JasperPrint getReservationForPrint(ReservationDTO reservation) {
         try {
             Map<String, Object> params = new HashMap<String, Object>(9);
             params.put("biblioteka", Cirkulacija.getApp().getEnvironment().getReversLibraryName()); //$NON-NLS-1$
             params.put("korisnik", reservation.getUserId()); //$NON-NLS-1$
-            params.put("bibliotekar", Cirkulacija.getApp().getLibrarian().getIme()+" "+Cirkulacija.getApp().getLibrarian().getPrezime()); //$NON-NLS-1$ //$NON-NLS-2$
+            params.put("bibliotekar", Cirkulacija.getApp().getLibrarian().getIme() + " " + Cirkulacija.getApp().getLibrarian().getPrezime()); //$NON-NLS-1$ //$NON-NLS-2$
             params.put("adresa", Cirkulacija.getApp().getEnvironment().getReversLibraryAddress()); //$NON-NLS-1$
             params.put("naslov", reservation.getTitle()); //$NON-NLS-1$
             params.put("invBroj", reservation.getCtlgNo()); //$NON-NLS-1$

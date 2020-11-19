@@ -165,6 +165,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
         reservationOnProfile.setRecord_id(record.get_id());
         reservationOnProfile.setCoderId(coderId);
         reservationOnProfile.setReservationStatus(ReservationStatus.WAITING_IN_QUEUE);
+        reservationOnProfile.setCtlgNo("");
 
         member.appendReservation(reservationOnProfile);
         memberRepository.save(member);

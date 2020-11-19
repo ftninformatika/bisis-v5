@@ -29,10 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author marijakovacevic
@@ -103,23 +100,25 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     public boolean confirmReservation(String reservation_id, String record_id, String ctlgNo) {
         Optional<Record> record = recordsRepository.findById(record_id);
         if (record.isPresent() && record.get().getReservations() != null && record.get().getReservations().size() > 0) {
-            for (ReservationInQueue reservationInQueue : record.get().getReservations()) {
-                if (reservationInQueue.get_id().equals(reservation_id)) {
-                    record.get().getReservations().remove(reservationInQueue);
+            Iterator<ReservationInQueue> iter = record.get().getReservations().iterator();
+            while (iter.hasNext()) {
+                ReservationInQueue r = iter.next();
+                if (r.get_id() != null && r.get_id().equals(reservation_id)) {
+                    iter.remove();
                     recordsRepository.save(record.get());
                     setItemStatusReserved(ctlgNo);
-                    if (changeStatusToAssignedBook(record.get(), reservationInQueue.getUserId(), ctlgNo)) return true;
+                    if (changeStatusToAssignedBook(record.get(), r.getUserId(), ctlgNo)) return true;
                 }
             }
         }
-        return  false;
+        return false;
     }
 
     @Override
-    public ReservationDTO getCurrentReservation(String userId, String ctlgNo) {
+    public ReservationDTO getCurrentAssignedReservation(String userId, String ctlgNo) {
         Member member = memberRepository.getMemberByUserId(userId);
-        for (ReservationOnProfile reservation : member.getReservations()){
-            if (reservation.getCtlgNo().equals(ctlgNo) && reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)){
+        for (ReservationOnProfile reservation : member.getReservations()) {
+            if (reservation.getCtlgNo() != null && reservation.getCtlgNo().equals(ctlgNo) && reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
                 Record record = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
                 Book book = opacSearchService.getBookByRec(record);
                 ReservationDTO reservationDTO = new ReservationDTO();
@@ -142,8 +141,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         ia.setReserved(false);
         itemAvailabilityRepository.save(ia);
 
-        for (ReservationOnProfile r : member.getReservations()){
-            if (r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK) && r.getCtlgNo().equals(ia.getCtlgNo())){
+        for (ReservationOnProfile r : member.getReservations()) {
+            if (r.getCtlgNo() != null && r.getCtlgNo().equals(ia.getCtlgNo()) && r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
                 r.setReservationStatus(ReservationStatus.PICKED_UP);
                 r.setBookPickedUp(true);
                 memberRepository.save(member);
@@ -152,9 +151,48 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         return ia;
     }
 
+
+    @Override
+    @Transactional
+    public ReservationDTO getNextReservation(String userId, String ctlgNo, String library) {
+        deleteExpiredReservation(userId, ctlgNo);
+
+        List<String> currentBook = new ArrayList<>();
+        currentBook.add(ctlgNo);
+
+        List<ReservationDTO> reservationDTOs = getReservationsForReturnedBooks(currentBook, library);
+
+        if (reservationDTOs != null && reservationDTOs.size() > 0) {
+            return reservationDTOs.get(0);
+        } else {
+            setItemStatusNotReserved(ctlgNo);
+        }
+        return null;
+    }
+
+    private void deleteExpiredReservation(String userId, String ctlgNo) {
+        Member currentAssigned = memberRepository.getMemberByUserId(userId);
+        Iterator<ReservationOnProfile> iter = currentAssigned.getReservations().iterator();
+
+        while (iter.hasNext()) {
+            ReservationOnProfile r = iter.next();
+            // todo sta ako knjiga prethodno nije bila dodeljena, vec samo click na Sledeci
+            if (r.getCtlgNo() != null && r.getCtlgNo().equals(ctlgNo) && r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
+                iter.remove();
+                memberRepository.save(currentAssigned);
+            }
+        }
+    }
+
     private void setItemStatusReserved(String ctlgNo) {
         ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(ctlgNo);
         ia.setReserved(true);
+        itemAvailabilityRepository.save(ia);
+    }
+
+    private void setItemStatusNotReserved(String ctlgNo) {
+        ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(ctlgNo);
+        ia.setReserved(false);
         itemAvailabilityRepository.save(ia);
     }
 

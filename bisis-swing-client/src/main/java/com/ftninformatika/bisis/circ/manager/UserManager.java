@@ -109,6 +109,22 @@ public class UserManager {
         return null;
     }
 
+    public ReservationDTO getNextReservation(String  userId, String ctlgNo){
+        this.reservationsForPrint = new ArrayList<>();
+        CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
+        try {
+            ReservationDTO nextReservation =  BisisApp.bisisService.getNextReservation(currentReservation).execute().body();
+            if (nextReservation != null){
+                this.reservationsForPrint.add(nextReservation);
+                return nextReservation;
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            log.error(ioException);
+        }
+        return null;
+    }
+
     public String saveUser(User user) {
         if (user.getDirty()) {
             String memberExists;

@@ -14,7 +14,9 @@ public interface BisisReservationsServiceInterface {
 
     boolean confirmReservation(String reservation_id, String record_id, String ctlgNo);
 
-    ReservationDTO getCurrentReservation(String userId, String ctlgNo);
+    ReservationDTO getCurrentAssignedReservation(String userId, String ctlgNo);
 
     ItemAvailability finishReservationProcess(ItemAvailability ia, Member member);
+
+    ReservationDTO getNextReservation(String userId, String ctlgNo, String library);
 }

@@ -22,7 +22,7 @@ public class PrintReservationDialog extends JDialog {
     private void initialize() {
         this.setModal(true);
         this.setLayout(new BorderLayout());
-        this.setSize(700, 450);
+        this.setSize(800, 450);
         this.add(getPanel(), java.awt.BorderLayout.CENTER);
 
         WindowUtils.centerOnScreen(this);

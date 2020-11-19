@@ -107,6 +107,8 @@ public interface BisisService {
     @POST("reservations/current-reservation")
     Call<ReservationDTO> getCurrentReservationByPrimerak(@Body CurrentReservationDTO currentReservationDTO);
 
+    @POST("reservations/next-reservation")
+    Call<ReservationDTO> getNextReservation(@Body CurrentReservationDTO currentReservationDTO);
 
 //librarians------------------------------------------------------------
 

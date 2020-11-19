@@ -146,9 +146,17 @@ public class ReservationsController {
     }
 
     @PostMapping("/current-reservation")
-    public ResponseEntity<ReservationDTO> getCurrentReservation(@RequestBody CurrentReservationDTO currentReservation) {
-        ReservationDTO reservation = bisisReservationsService.getCurrentReservation(currentReservation.getUserId(),
+    public ResponseEntity<ReservationDTO> getCurrentAssignedReservation(@RequestBody CurrentReservationDTO currentReservation) {
+        ReservationDTO reservation = bisisReservationsService.getCurrentAssignedReservation(currentReservation.getUserId(),
                 currentReservation.getCtlgNo());
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
+    }
+
+    @PostMapping("/next-reservation")
+    public ResponseEntity<ReservationDTO> getNextReservation(@RequestBody CurrentReservationDTO currentReservation,
+                                                             @RequestHeader("Library") String library) {
+        ReservationDTO reservation = bisisReservationsService.getNextReservation(currentReservation.getUserId(),
+                currentReservation.getCtlgNo(), library);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
