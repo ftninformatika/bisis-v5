@@ -12,7 +12,7 @@ import java.util.List;
 public interface BisisReservationsServiceInterface {
     List<ReservationDTO> getReservationsForReturnedBooks(List<String> returnedBooks, String library);
 
-    boolean confirmReservation(String reservation_id, String record_id, String ctlgNo);
+    ReservationDTO confirmReservation(String reservation_id, String record_id, String ctlgNo);
 
     ReservationDTO getCurrentAssignedReservation(String userId, String ctlgNo);
 

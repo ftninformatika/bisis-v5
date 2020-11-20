@@ -87,7 +87,7 @@ public class UserManager {
         return this.reservationsForPrint;
     }
 
-    public boolean confirmReservationAndAssignBook(ReservationDTO r) throws IOException {
+    public ReservationDTO confirmReservationAndAssignBook(ReservationDTO r) throws IOException {
         ConfirmReservationDTO confirmReservationDTO = new ConfirmReservationDTO(r.get_id(), r.getRecord_id(), r.getCtlgNo());
         return BisisApp.bisisService.confirmReservation(confirmReservationDTO).execute().body();
     }

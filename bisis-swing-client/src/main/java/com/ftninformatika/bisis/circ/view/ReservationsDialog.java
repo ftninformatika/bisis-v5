@@ -38,7 +38,7 @@ public class ReservationsDialog extends JDialog {
     }
 
     private void initialize() {
-        this.setSize(900, 300);
+        this.setSize(600, 270);
         setLayout(new BorderLayout());
 
         this.jScrollPane = getJScrollPane();
@@ -75,18 +75,21 @@ public class ReservationsDialog extends JDialog {
         if (jContentPane == null) {
             jContentPane = new JPanel();
             jContentPane.setLayout(new MigLayout("insets 10 10 10 10",
-                    "[][grow][grow][grow]30[][]", "[][]10"));
+                    "[][grow][grow][grow]", "[][]10"));
 
             createHeader();
 
+            int i = 0;
+
             for (ReservationDTO r : reservationsForPrint) {
-                createRow(r);
+                i = createRow(r, i);
             }
         }
         return jContentPane;
     }
 
-    private void createRow(ReservationDTO r) {
+    private int createRow(ReservationDTO r, int i) {
+        i = i + 3;
         JLabel bookInvBr = new JLabel(r.getCtlgNo());
         jContentPane.add(bookInvBr, "width 20:30:null, growx, growy");
 
@@ -97,15 +100,17 @@ public class ReservationsDialog extends JDialog {
         jContentPane.add(bookAuthor, "width 20:60:null,	growx, growy");
 
         JLabel reservedFor = new JLabel(r.getUserId() + ", " + r.getMemberFirstName() + " " + r.getMemberLastName());
-        jContentPane.add(reservedFor, "width 20:150:null, growx, growy");
+        jContentPane.add(reservedFor, "width 20:150:null, growx, growy, wrap");
 
         JButton btnPrint = getBtnPrint(String.valueOf(reservationsForPrint.indexOf(r)));
-        jContentPane.add(btnPrint);
+        jContentPane.add(btnPrint, "cell 3 " + i + ", span 4 1, align right");
 
         JButton btnGetNext = getBtnNext(String.valueOf(reservationsForPrint.indexOf(r)));
-        jContentPane.add(btnGetNext, "wrap");
+        jContentPane.add(btnGetNext, "cell 3 " + i + ", align right, wrap");
 
         addHorizontalSeparator();
+
+        return i;
     }
 
     private void createHeader() {
@@ -136,11 +141,11 @@ public class ReservationsDialog extends JDialog {
         btnPrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 int idx = Integer.parseInt(event.getActionCommand());
-                // TODO
                 ReservationDTO reservation = reservationsForPrint.get(idx);
                 try {
                     if (reservation.getReservationStatus().equals(ReservationStatus.WAITING_IN_QUEUE)) {
-                        Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(reservationsForPrint.get(idx));
+                        reservation = Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(reservationsForPrint.get(idx));
+                        reservationsForPrint.add(idx, reservation);
                     }
                     PrintReservationDialog p = new PrintReservationDialog();
                     p.setJasper(getReservationForPrint(reservation));
@@ -162,23 +167,35 @@ public class ReservationsDialog extends JDialog {
         btnNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 int idx = Integer.parseInt(event.getActionCommand());
-                // TODO
                 ReservationDTO reservation = reservationsForPrint.get(idx);
                 ReservationDTO nextReservation = Cirkulacija.getApp().getUserManager().getNextReservation(reservation.getUserId(), reservation.getCtlgNo());
                 if (nextReservation != null) {
+                    reservationsForPrint.remove(idx);
                     reservationsForPrint.add(idx, nextReservation);
                 } else {
                     JOptionPane.showMessageDialog(null, Messages.getString("circulation.noMoreReservations"),
                             Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
-                    // TODO
-                    //  reservationsForPrint.remove(idx);
-                    if (reservationsForPrint.size() == 0) {
-                        handleOk();
-                    }
+                    reservationsForPrint.remove(idx);
+                }
+                if (reservationsForPrint.size() == 0) {
+                    handleOk();
+                } else {
+                    updateContentPane();
                 }
             }
         });
         return btnNext;
+    }
+
+    private void updateContentPane() {
+        this.jScrollPane.remove(jContentPane);
+        this.remove(jScrollPane);
+        this.jContentPane = null;
+        this.jScrollPane = null;
+        this.jScrollPane = getJScrollPane();
+        this.add(jScrollPane, BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
     }
 
     private JasperPrint getReservationForPrint(ReservationDTO reservation) {
@@ -190,6 +207,7 @@ public class ReservationsDialog extends JDialog {
             params.put("adresa", Cirkulacija.getApp().getEnvironment().getReversLibraryAddress()); //$NON-NLS-1$
             params.put("naslov", reservation.getTitle()); //$NON-NLS-1$
             params.put("invBroj", reservation.getCtlgNo()); //$NON-NLS-1$
+            params.put("rezervacijaVaziDo", reservation.getPickUpDeadline()); //$NON-NLS-1$
             params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 
             return JasperFillManager.fillReport(Thread.currentThread().getContextClassLoader()
@@ -208,7 +226,7 @@ public class ReservationsDialog extends JDialog {
     private JScrollPane getJScrollPane() {
         if (jScrollPane == null) {
             jScrollPane = new JScrollPane();
-            jScrollPane.setPreferredSize(new Dimension(900, 230));
+            jScrollPane.setPreferredSize(new Dimension(600, 200));
             jScrollPane.getViewport().setView(getJContentPane());
             jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

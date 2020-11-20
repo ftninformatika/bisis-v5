@@ -102,7 +102,7 @@ public interface BisisService {
     Call<List<ReservationDTO>> getReservationsForReturnedBooks(@Body List<String> returnedBooks);
 
     @POST("reservations/confirm-reservation")
-    Call<Boolean> confirmReservation(@Body ConfirmReservationDTO confirmReservationDTO);
+    Call<ReservationDTO> confirmReservation(@Body ConfirmReservationDTO confirmReservationDTO);
 
     @POST("reservations/current-reservation")
     Call<ReservationDTO> getCurrentReservationByPrimerak(@Body CurrentReservationDTO currentReservationDTO);
