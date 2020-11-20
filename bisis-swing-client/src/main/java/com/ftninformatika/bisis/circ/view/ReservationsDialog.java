@@ -144,7 +144,7 @@ public class ReservationsDialog extends JDialog {
                 try {
                     if (reservation.getReservationStatus().equals(ReservationStatus.WAITING_IN_QUEUE)) {
                         reservation = Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(reservationsForPrint.get(idx));
-                        reservationsForPrint.add(idx, reservation);
+                        reservationsForPrint.set(idx, reservation);
                     }
                     PrintReservationDialog p = new PrintReservationDialog();
                     p.setJasper(getReservationForPrint(reservation));
@@ -169,8 +169,7 @@ public class ReservationsDialog extends JDialog {
                 ReservationDTO reservation = reservationsForPrint.get(idx);
                 ReservationDTO nextReservation = Cirkulacija.getApp().getUserManager().getNextReservation(reservation.getUserId(), reservation.getCtlgNo());
                 if (nextReservation != null) {
-                    reservationsForPrint.remove(idx);
-                    reservationsForPrint.add(idx, nextReservation);
+                    reservationsForPrint.set(idx, nextReservation);
                 } else {
                     JOptionPane.showMessageDialog(null, Messages.getString("circulation.noMoreReservations"),
                             Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
