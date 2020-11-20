@@ -79,8 +79,7 @@ public class ReservationsDialog extends JDialog {
 
             createHeader();
 
-            int i = 0;
-
+            int i = 0;          // a counter that helps display two buttons in one field
             for (ReservationDTO r : reservationsForPrint) {
                 i = createRow(r, i);
             }

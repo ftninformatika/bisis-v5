@@ -213,7 +213,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                 reservationOnProfile.setCtlgNo(ctlgNo);
                 memberRepository.save(member);
 
-                // sendEmail(member, record);
+                sendEmail(member, record, reservationOnProfile.getPickUpDeadline());
 
                 Book book = opacSearchService.getBookByRec(record);
                 return getCurentReservationDTO(userId, ctlgNo, member, reservationOnProfile, book);
@@ -222,13 +222,12 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         return null;
     }
 
-    private void sendEmail(Member member, Record record) {
+    private void sendEmail(Member member, Record record, Date deadline) {
         Book book = opacSearchService.getBookByRec(record);
 
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(member.getEmail());
-        // todo promeniti na libraryMember.getUsername()
-        emailService.sendSimpleMail("userEmail@", Texts.getString("RESERVATION_CONFIRMED_HEADING"),
-                MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.0"), book.getTitle()));
+        emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("RESERVATION_CONFIRMED_HEADING"),
+                MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.0"), book.getTitle(), deadline));
 
     }
 
