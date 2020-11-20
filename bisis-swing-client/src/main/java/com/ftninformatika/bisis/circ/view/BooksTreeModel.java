@@ -156,6 +156,18 @@ public class BooksTreeModel implements Serializable, TreeModel{
     }
   }
 
+  public Boolean isReserved(String ctlgno){
+    if (itemAvailabilityMap.get(ctlgno) != null) {
+      ItemAvailability ia = itemAvailabilityMap.get(ctlgno);
+      if (ia.getReserved() != null) {
+        return itemAvailabilityMap.get(ctlgno).getReserved();
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
   public void setBorrowed(String ctlgno, boolean borrowed){
       itemAvailabilityMap.get(ctlgno).setBorrowed(borrowed);
   }

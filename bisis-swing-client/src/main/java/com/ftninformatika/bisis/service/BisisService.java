@@ -5,6 +5,8 @@ package com.ftninformatika.bisis.service;
  */
 
 import com.ftninformatika.bisis.circ.*;
+import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
+import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
@@ -14,6 +16,7 @@ import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
@@ -86,6 +89,20 @@ public interface BisisService {
 
     @POST("members/addUpdateMemberData")
     Call<MemberData> addUpdateMemberData(@Body MemberData memberData);
+
+// -------------------------------- reservations -----------------------------------
+
+    @POST("reservations/reservations-for-returned-books")
+    Call<List<ReservationDTO>> getReservationsForReturnedBooks(@Body List<String> returnedBooks);
+
+    @POST("reservations/confirm-reservation")
+    Call<ReservationDTO> confirmReservation(@Body ConfirmReservationDTO confirmReservationDTO);
+
+    @POST("reservations/current-reservation")
+    Call<ReservationDTO> getCurrentReservationByPrimerak(@Body CurrentReservationDTO currentReservationDTO);
+
+    @POST("reservations/next-reservation")
+    Call<ReservationDTO> getNextReservation(@Body CurrentReservationDTO currentReservationDTO);
 
 //librarians------------------------------------------------------------
     // sa servera se ucitavaju LibrarianDB objekti, a u aplikaciji se po potrebi
@@ -337,6 +354,9 @@ public interface BisisService {
 
     @GET ("members/getCharged")
     Call<Member> getChargedUser(@Query("ctlgNo") String ctlgNo);
+
+    @GET ("members/getAssigned")
+    Call<Member> getAssignedUser(@Query("ctlgNo") String ctlgNo);
 
     @GET ("members/getLending")
     Call<Lending> getLending(@Query("ctlgNo") String ctlgNo);

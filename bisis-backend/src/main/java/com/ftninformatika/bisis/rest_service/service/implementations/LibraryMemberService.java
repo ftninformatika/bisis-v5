@@ -264,4 +264,13 @@ public class LibraryMemberService {
                 shelfDto.getBookId().trim().equals("")));
     }
 
+    public Member checkIfMemberExists(String authToken) {
+        LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
+        if (libraryMember == null || libraryMember.getIndex() == null)
+            return null;
+
+        Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
+        return member.orElse(null);
+    }
+
 }

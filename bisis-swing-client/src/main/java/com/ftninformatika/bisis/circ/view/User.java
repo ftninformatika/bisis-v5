@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.circ.view;
 
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -16,6 +15,7 @@ import com.ftninformatika.bisis.barcode.epl2.Label;
 import com.ftninformatika.bisis.barcode.epl2.Printer2;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.validator.Validate;
+import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -125,6 +126,9 @@ public class User extends JPanel {
 							if (!getTpMain().isEnabledAt(3))
 								getTpMain().setEnabledAt(3, true);
 							dirty = false;
+
+							getReservations();
+
 						}else{
 							JOptionPane.showMessageDialog(null, Messages.getString("circulation.saveerror") + " " + message, Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
 									new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
@@ -135,7 +139,18 @@ public class User extends JPanel {
 		}
 		return btnSave;
 	}
-  
+
+	private void getReservations(){
+		List<ReservationDTO> reservations = Cirkulacija.getApp().getUserManager().getReservationsForReturnedBooks("");
+
+		// if there is at least one reservation for returned book(s), display dialog with info
+		if (reservations != null && reservations.size() > 0) {
+			ReservationsDialog dialog = new ReservationsDialog();
+			dialog.setVisible(true);
+		}
+	}
+
+
   public void save(){
     getBtnSave().doClick();
   }
@@ -152,7 +167,7 @@ public class User extends JPanel {
 			            String[] options = {Messages.getString("circulation.yes"),Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
 			            int op = JOptionPane.showOptionDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.savewarning"), Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION,  //$NON-NLS-1$ //$NON-NLS-2$
 			                JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[0]); //$NON-NLS-1$
-			            if (op == JOptionPane.YES_OPTION){
+						  if (op == JOptionPane.YES_OPTION){
 			              getBtnSave().doClick();
 			            }else{
 			              dirty = false;
