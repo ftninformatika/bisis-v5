@@ -89,6 +89,7 @@ public class UserManager {
 
     public ReservationDTO confirmReservationAndAssignBook(ReservationDTO r) throws IOException {
         ConfirmReservationDTO confirmReservationDTO = new ConfirmReservationDTO(r.get_id(), r.getRecord_id(), r.getCtlgNo());
+        log.info("Potvrda rezervacije za record: " + r.getRecord_id() + " za primerak: " + r.getCtlgNo());
         return BisisApp.bisisService.confirmReservation(confirmReservationDTO).execute().body();
     }
 
@@ -114,7 +115,10 @@ public class UserManager {
         CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
         try {
             ReservationDTO nextReservation =  BisisApp.bisisService.getNextReservation(currentReservation).execute().body();
+            log.info("Get next reservation - Rezervacija za primerak: " + ctlgNo + " je obrisana korisniku: " + userId);
             if (nextReservation != null){
+                log.info("Get next reservation - Prihvacena je rezervacija za primerak: " + nextReservation.getCtlgNo() +
+                        " za korisnika: " + nextReservation.getUserId());
                 this.reservationsForPrint.add(nextReservation);
                 return nextReservation;
             }
