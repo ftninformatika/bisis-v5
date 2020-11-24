@@ -141,7 +141,7 @@ public class Primerak implements Serializable {
   public boolean inRangeForInvBook(String invBookCode, Integer invMaxNo) {
     try {
       if (isInInvBook(invBookCode)
-              && (invMaxNo != null && invMaxNo >= 1 && invMaxNo <= 999999)) {
+              && (invMaxNo != null && invMaxNo >= 1 && invMaxNo <= 9999999)) {
         Integer currInvCount = Integer.parseInt(this.getInvBroj().substring(4));
         return currInvCount <= invMaxNo;
       }

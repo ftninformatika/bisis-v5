@@ -29,14 +29,14 @@ public class Inventory {
     private String name;
     private Integer year;
     private String library;
-    @JsonFormat(pattern="dd.MM.yyyy.")
+//    @JsonFormat(pattern="dd.MM.yyyy.")
     private Date startDate;
-    @JsonFormat(pattern="dd.MM.yyyy.")
+//    @JsonFormat(pattern="dd.MM.yyyy.")
     private Date endDate;
     private List<Sublocation> sublocations;
     private List<Location> locations;
     private List<InventoryBook> invBooks;
-    //todo status map inv - revision
+    private List<InventoryStatusPair> invToRevisionStatuses;
     private InventoryStatus inventoryStatus;
 
     public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
@@ -58,9 +58,22 @@ public class Inventory {
             inventoryUnit.setPublisher(rp.getPublisher());
             inventoryUnit.setPubYear(rp.getPublishingYear());
             inventoryUnit.setInvStatus(p.getStatus());
-            inventoryUnit.setRevisionStatus("U_REViZIJI");
+            inventoryUnit.setRevisionStatus(getRevStatusByInv(p.getStatus()));
             inventoryUnit.setDateModified(new Date());
             retVal.add(inventoryUnit);
+        }
+        return retVal;
+    }
+
+    private String getRevStatusByInv(String invStatus) {
+        String retVal = "U_REVIZIJI"; // todo ovde staviti neki default
+        if (invToRevisionStatuses == null || invStatus == null) {
+            return retVal;
+        }
+        for (InventoryStatusPair pair: invToRevisionStatuses) {
+            if (pair.getFromStatusCoder().equals(invStatus)) {
+                retVal = pair.getToStatusCoder();
+            }
         }
         return retVal;
     }
