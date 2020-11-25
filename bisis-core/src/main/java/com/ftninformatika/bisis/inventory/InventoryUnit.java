@@ -19,20 +19,15 @@ import java.util.Date;
 public class InventoryUnit {
 
     private String _id;
-    @Indexed(name = "rn_index", direction = IndexDirection.DESCENDING)
     private Integer rn;
-    @Indexed(name = "inventory_id_index")
     private String inventoryId;
-    @TextIndexed()
     private String invNo;
     private String author;
     private String title;
     private String signature;
     private String publisher;
     private String pubYear;
-    @Indexed(name = "inv_status_index")
     private String invStatus;
-    @Indexed(name = "revision_status_index")
     private String revisionStatus;
     private Date dateModified;
 

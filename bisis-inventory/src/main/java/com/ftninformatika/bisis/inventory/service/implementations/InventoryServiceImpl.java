@@ -103,8 +103,9 @@ public class InventoryServiceImpl implements InventoryService {
         Page<Record> onePage = recordsRepository.findAll(pageRequest);
         int totalPages = onePage.getTotalPages();
         int count = 1;
-        if (this.inventoryUnitRepository.count() == 0) {
-            this.createIndexes();
+        if (inventoryUnitRepository.count() == 0) {
+//            inventoryUnitRepository.createCollection();
+            inventoryUnitRepository.indexFields();
         }
         for (int i = 0; i < totalPages; i++) {
             List<InventoryUnit> invUnitsBulkList = new ArrayList<>();
@@ -129,11 +130,5 @@ public class InventoryServiceImpl implements InventoryService {
             count++;
         }
     }
-
-    private void createIndexes() {
-        //todo implement
-    }
-
-
 
 }

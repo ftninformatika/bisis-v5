@@ -7,8 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface InventoryUnitRepository extends MongoRepository<InventoryUnit, String>,
-        PagingAndSortingRepository<InventoryUnit, String> {
+        PagingAndSortingRepository<InventoryUnit, String>, InventoryUnitAdditionalRepository {
 
     Page<InventoryUnit> findByInventoryId(String inventory_id, Pageable pageable);
-//    Page<InventoryUnit> findByInventoryId(String inventory_id);
 }
