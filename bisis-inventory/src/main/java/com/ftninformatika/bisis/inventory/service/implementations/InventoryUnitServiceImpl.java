@@ -40,7 +40,8 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
 
     @Override
     public InventoryUnit update(InventoryUnit inventory) {
-        return null;
+        //todo validate
+        return inventoryUnitRepository.save(inventory);
     }
 
     @Override

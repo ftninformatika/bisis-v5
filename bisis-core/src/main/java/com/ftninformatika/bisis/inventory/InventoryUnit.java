@@ -27,7 +27,7 @@ public class InventoryUnit {
     private String signature;
     private String publisher;
     private String pubYear;
-    private String invStatus;
+    private String invStatus; // todo coder
     private String revisionStatus;
     private Date dateModified;
 
