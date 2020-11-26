@@ -1,9 +1,6 @@
 package com.ftninformatika.bisis.inventory.repository;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.client.model.Indexes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,20 +20,16 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         this.mongoTemplate = mongoTemplate;
     }
 
-    @Override
-    public void createCollection() {
-        mongoTemplate.createCollection(InventoryUnit.class);
-    }
 
     @Override
     public void indexFields() {
 
-//        for (String index: TEXT_INDEX_FIELDS_ARR) {
+        for (String index: TEXT_INDEX_FIELDS_ARR) {
             TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder()
                     .onAllFields()
                     .build();
             mongoTemplate.indexOps(InventoryUnit.class).ensureIndex(textIndex);
-//        }
+        }
         for (String index: STANDARD_INDEX_FIELDS_ARR) {
             mongoTemplate.indexOps(InventoryUnit.class).ensureIndex(new Index(index, Sort.Direction.DESC).background());
         }

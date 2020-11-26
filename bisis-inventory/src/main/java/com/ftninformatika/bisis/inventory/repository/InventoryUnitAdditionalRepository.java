@@ -6,5 +6,4 @@ public interface InventoryUnitAdditionalRepository {
      * Put index on all searcheable fields
      */
     void indexFields();
-    void createCollection();
 }

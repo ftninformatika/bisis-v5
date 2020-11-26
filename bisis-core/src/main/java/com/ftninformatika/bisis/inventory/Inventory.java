@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.inventory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.records.Primerak;
@@ -15,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
@@ -38,6 +41,9 @@ public class Inventory {
     private List<InventoryStatusPair> invToRevisionStatuses;
     private EnumInventoryState inventoryState;
 
+    @JsonIgnore Map<String, ItemStatus> itemStatusesMap;
+    @JsonIgnore Map<String, InventoryStatus> inventoryStatusesMap;
+
     public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
         List<InventoryUnit> retVal = new ArrayList<>();
         RecordPreview rp = new RecordPreview();
@@ -56,22 +62,27 @@ public class Inventory {
             inventoryUnit.setSignature(p.getSigUDK()); // todo proveriti da li UDK da se koristi
             inventoryUnit.setPublisher(rp.getPublisher());
             inventoryUnit.setPubYear(rp.getPublishingYear());
-//            inventoryUnit.setInvStatus(p.getStatus());
-//            inventoryUnit.setRevisionStatus(getRevStatusByInv(p.getStatus()));
+            inventoryUnit.setInvStatus(getItemStatus(p.getStatus()));
+            inventoryUnit.setRevisionStatus(getRevStatusByInv(p.getStatus()));
             inventoryUnit.setDateModified(new Date());
             retVal.add(inventoryUnit);
         }
         return retVal;
     }
 
-    private String getRevStatusByInv(String invStatus) {
-        String retVal = "U_REVIZIJI"; // todo ovde staviti neki default
+    private ItemStatus getItemStatus(String key) {
+        return itemStatusesMap.get(key);
+    }
+
+
+    private InventoryStatus getRevStatusByInv(String invStatus) {
+        InventoryStatus retVal = inventoryStatusesMap.get("2");
         if (invToRevisionStatuses == null || invStatus == null) {
             return retVal;
         }
         for (InventoryStatusPair pair: invToRevisionStatuses) {
             if (pair.getFromStatusCoder().equals(invStatus)) {
-                retVal = pair.getToStatusCoder();
+                retVal = inventoryStatusesMap.get(pair.getToStatusCoder());
             }
         }
         return retVal;

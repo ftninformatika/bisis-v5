@@ -1,13 +1,17 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.EnumInventoryState;
+import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -22,13 +27,18 @@ public class InventoryServiceImpl implements InventoryService {
     private InventoryRepository inventoryRepository;
     private InventoryUnitRepository inventoryUnitRepository;
     private RecordsRepository recordsRepository;
+    private InventoryStatusRepository inventoryStatusRepository;
+    private ItemStatusRepository itemStatusRepository;
 
     @Autowired
     public InventoryServiceImpl(InventoryRepository inventoryRepository,
-                                RecordsRepository recordsRepository, InventoryUnitRepository inventoryUnitRepository){
+                                RecordsRepository recordsRepository, InventoryUnitRepository inventoryUnitRepository,
+                                InventoryStatusRepository inventoryStatusRepository, ItemStatusRepository itemStatusRepository){
         this.inventoryRepository = inventoryRepository;
         this.recordsRepository = recordsRepository;
         this.inventoryUnitRepository = inventoryUnitRepository;
+        this.itemStatusRepository = itemStatusRepository;
+        this.inventoryStatusRepository = inventoryStatusRepository;
     }
 
 //    @Transactional todo
@@ -49,7 +59,7 @@ public class InventoryServiceImpl implements InventoryService {
                 inventory.setYear(calendar.get(Calendar.YEAR));
             }
             inventory = inventoryRepository.insert(inventory);
-            generateInventoryUnits(inventory);
+            generateInventoryUnits(inventory, lib);
             inventory.setInventoryState(EnumInventoryState.IN_PROGRESS);
             return inventoryRepository.save(inventory);
         } catch (Exception e) {
@@ -96,15 +106,18 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     // todo move this somewhere, make nicer query
-    private void generateInventoryUnits(Inventory createdInventory) {
+    private void generateInventoryUnits(Inventory createdInventory, String library) {
         Pageable pageRequest = PageRequest.of(0, 1000); // todo ovde mozda pozvati elastic za dovlacenje recorda
         Page<Record> onePage = recordsRepository.findAll(pageRequest);
         int totalPages = onePage.getTotalPages();
         int count = 1;
         if (inventoryUnitRepository.count() == 0) {
-//            inventoryUnitRepository.createCollection();
             inventoryUnitRepository.indexFields();
         }
+        Map<String, ItemStatus> itemStatusesMap = itemStatusRepository.getCoders(library).stream().collect(Collectors.toMap(ItemStatus::getCoder_id, is -> is));
+        Map<String, InventoryStatus> inventoryStatusesMap = inventoryStatusRepository.getCoders(library).stream().collect(Collectors.toMap(InventoryStatus::getCoder_id, is -> is));
+        createdInventory.setItemStatusesMap(itemStatusesMap);
+        createdInventory.setInventoryStatusesMap(inventoryStatusesMap);
         for (int i = 0; i < totalPages; i++) {
             List<InventoryUnit> invUnitsBulkList = new ArrayList<>();
             for (Record rec : onePage) {
