@@ -93,22 +93,21 @@ public class StatistikaObradjivaca extends Report {
         date = intern.parse(sdate);
         String key = settings.getReportName() + getFilenameSuffix(date);
         Item item = getItem(key, obr);
-        if ("createdRecords".equals(type))
+        if ("cr".equals(type))
           item.add(brPrimeraka, 0, 0, 0,0,0);
-        else if ("createdInv".equals(type)){
+        else if ("dp".equals(type)){
           item.add(0, brPrimeraka, 0, 0,0,0);
         }else if ("rd".equals(type)){
           item.add(0, 0, brPrimeraka, 0,0,0);
         }else if ("sg".equals(type))
           item.add(0, 0, 0, brPrimeraka,0,0);
         else if ("can".equals(type))
-            item.add(0, 0, 0, 0, brPrimeraka,0);
+          item.add(0, 0, 0, 0, brPrimeraka,0);
         else if ("dan".equals(type))
-            item.add(0, 0, 0, 0, 0,brPrimeraka);
-      } catch (Exception ex) {
+          item.add(0, 0, 0, 0, 0,brPrimeraka);
+        } catch (Exception ex) {
           log.warn("problem sa datumom "+sdate +": "+rec.getRecordID());
-      }
-    
+        }
       }
   }
 
@@ -135,18 +134,18 @@ public class StatistikaObradjivaca extends Report {
       sg = 0;
       can=0;
       dan=0;
-      //this.inventator = "";//HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.LIBRARIAN_CODER, inventator); TODO-???
+      this.obr = obr;
       if(this.obr!=null){
     	  this.obr= LatCyrUtils.toCyrillic(this.obr);
      }else{
-    	 this.obr=obr;
+    	 this.obr="Nepoznat";
      }
-    	 
+
     }
 
     public String toString() {
-        return "<item><inventator>"+obr+"</inventator><createdRecords>"+cr+"</createdRecords><createdInv>"+dp+"</createdInv><rd>"+rd+"</rd><sg>"+sg+"</sg><can>"+can+"</can><dan>"+dan+"</dan></item>\n";
-      }
+      return "<item><obr>"+obr+"</obr><cr>"+cr+"</cr><dp>"+dp+"</dp><rd>"+rd+"</rd><sg>"+sg+"</sg><can>"+can+"</can><dan>"+dan+"</dan></item>\n";
+    }
 
     public int hashCode() {
       return obr.hashCode();
@@ -176,7 +175,7 @@ public class StatistikaObradjivaca extends Report {
     Item i = getItem(map, obr);
     return i;
   }
-  
+
   public Item getItem(Map<String, Item> map, String obr) {
     Item i = map.get(obr);
     if (i == null) {
@@ -185,7 +184,7 @@ public class StatistikaObradjivaca extends Report {
     }
     return i;
   }
-  
+
   public Map<String, Item> getItemMap(String key) {
     Map<String, Item> map = itemMap.get(key);
     if (map == null) {
@@ -194,6 +193,7 @@ public class StatistikaObradjivaca extends Report {
     }
     return map;
   }
+
   private Pattern pattern;
 
   private Map<String, Map<String, Item>> itemMap = new HashMap<>();
