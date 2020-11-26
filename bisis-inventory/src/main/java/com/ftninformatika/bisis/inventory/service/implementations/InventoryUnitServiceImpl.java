@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.inventory.service.implementations;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +14,9 @@ import java.util.List;
 @Service
 public class InventoryUnitServiceImpl implements InventoryUnitService {
 
-    private InventoryUnitRepository inventoryUnitRepository;
+    private final InventoryUnitRepository inventoryUnitRepository;
 
+    @Autowired
     public InventoryUnitServiceImpl(InventoryUnitRepository inventoryUnitRepository) {
         this.inventoryUnitRepository = inventoryUnitRepository;
     }
@@ -40,7 +42,6 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
 
     @Override
     public InventoryUnit update(InventoryUnit inventory) {
-        //todo validate
         return inventoryUnitRepository.save(inventory);
     }
 

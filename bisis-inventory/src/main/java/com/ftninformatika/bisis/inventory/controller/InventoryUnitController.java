@@ -8,15 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(PathConstants.INVENTORY_UNIT)
 public class InventoryUnitController {
 
-    private InventoryUnitService inventoryUnitService;
+    private final InventoryUnitService inventoryUnitService;
 
     @Autowired
     public InventoryUnitController(InventoryUnitService inventoryUnitService) {
@@ -32,5 +30,14 @@ public class InventoryUnitController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(searchResults);
+    }
+
+    @PutMapping
+    public ResponseEntity<InventoryUnit> update(@RequestBody InventoryUnit updatedInvUnit) {
+        InventoryUnit retVal =  this.inventoryUnitService.update(updatedInvUnit);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
     }
 }

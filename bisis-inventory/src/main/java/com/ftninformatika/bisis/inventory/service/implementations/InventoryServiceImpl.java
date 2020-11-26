@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.inventory.Inventory;
-import com.ftninformatika.bisis.inventory.InventoryStatus;
+import com.ftninformatika.bisis.inventory.EnumInventoryState;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
@@ -37,11 +37,11 @@ public class InventoryServiceImpl implements InventoryService {
         if (inventory == null || inventory.get_id() != null) {
             return null;
         }
-        if (inventoryRepository.findAllByInventoryStatusAndLibrary(InventoryStatus.IN_PREPARATION, lib).size() > 0) {
+        if (inventoryRepository.findAllByInventoryStatusAndLibrary(EnumInventoryState.IN_PREPARATION, lib).size() > 0) {
             // todo Ne moze da se upisuje nova dok ima neka u pripremi (puni kolekciju inventory_unit)
             return null;
         }
-        inventory.setInventoryStatus(InventoryStatus.IN_PREPARATION);
+        inventory.setInventoryState(EnumInventoryState.IN_PREPARATION);
         try {
             if (inventory.getYear() == null && inventory.getStartDate() != null) {
                 Calendar calendar = new GregorianCalendar();
@@ -51,7 +51,7 @@ public class InventoryServiceImpl implements InventoryService {
             inventory = inventoryRepository.insert(inventory);
             if (inventory != null) {
                 generateInventoryUnits(inventory);
-                inventory.setInventoryStatus(InventoryStatus.IN_PROGRESS);
+                inventory.setInventoryState(EnumInventoryState.IN_PROGRESS);
             }
             return inventoryRepository.save(inventory);
         } catch (Exception e) {

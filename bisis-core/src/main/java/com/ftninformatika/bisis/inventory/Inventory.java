@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.inventory;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.records.Primerak;
@@ -37,7 +36,7 @@ public class Inventory {
     private List<Location> locations;
     private List<InventoryBook> invBooks;
     private List<InventoryStatusPair> invToRevisionStatuses;
-    private InventoryStatus inventoryStatus;
+    private EnumInventoryState inventoryState;
 
     public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
         List<InventoryUnit> retVal = new ArrayList<>();
