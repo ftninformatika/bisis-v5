@@ -56,8 +56,8 @@ public class Inventory {
             inventoryUnit.setSignature(p.getSigUDK()); // todo proveriti da li UDK da se koristi
             inventoryUnit.setPublisher(rp.getPublisher());
             inventoryUnit.setPubYear(rp.getPublishingYear());
-            inventoryUnit.setInvStatus(p.getStatus());
-            inventoryUnit.setRevisionStatus(getRevStatusByInv(p.getStatus()));
+//            inventoryUnit.setInvStatus(p.getStatus());
+//            inventoryUnit.setRevisionStatus(getRevStatusByInv(p.getStatus()));
             inventoryUnit.setDateModified(new Date());
             retVal.add(inventoryUnit);
         }

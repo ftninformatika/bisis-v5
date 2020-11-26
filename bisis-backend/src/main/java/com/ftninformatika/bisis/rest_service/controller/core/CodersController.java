@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -45,6 +46,7 @@ public class CodersController {
     @Autowired CorporateMemberRepository corporateMemberRepository;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired CounterRepository counterRepository;
+    @Autowired InventoryStatusRepository inventoryStatusRepository;
 
     @RequestMapping( path = "process_types")
     public ProcessTypeDB addProcessType(@RequestBody ProcessTypeDB pt){
@@ -55,6 +57,11 @@ public class CodersController {
     @RequestMapping(path = "process_types/getByLibrary")
     public List<ProcessTypeDB> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
         return processTypeRepository.getProcessTypesByLibNameIsNullOrLibName(libName);
+    }
+
+    @RequestMapping(path = "inventory_status")
+    public List<InventoryStatus> getInvetoryStatuses(@RequestHeader("Library") String libName){
+        return inventoryStatusRepository.getCoders(libName);
     }
 
     @RequestMapping(path = "lib_configurations")

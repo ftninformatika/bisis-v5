@@ -37,7 +37,7 @@ public class InventoryServiceImpl implements InventoryService {
         if (inventory == null || inventory.get_id() != null) {
             return null;
         }
-        if (inventoryRepository.findAllByInventoryStatusAndLibrary(EnumInventoryState.IN_PREPARATION, lib).size() > 0) {
+        if (inventoryRepository.findAllByInventoryStateAndLibrary(EnumInventoryState.IN_PREPARATION, lib).size() > 0) {
             // todo Ne moze da se upisuje nova dok ima neka u pripremi (puni kolekciju inventory_unit)
             return null;
         }
@@ -49,10 +49,8 @@ public class InventoryServiceImpl implements InventoryService {
                 inventory.setYear(calendar.get(Calendar.YEAR));
             }
             inventory = inventoryRepository.insert(inventory);
-            if (inventory != null) {
-                generateInventoryUnits(inventory);
-                inventory.setInventoryState(EnumInventoryState.IN_PROGRESS);
-            }
+            generateInventoryUnits(inventory);
+            inventory.setInventoryState(EnumInventoryState.IN_PROGRESS);
             return inventoryRepository.save(inventory);
         } catch (Exception e) {
             e.printStackTrace();

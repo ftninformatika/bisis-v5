@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.inventory;
 
+import com.ftninformatika.bisis.coders.ItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +28,8 @@ public class InventoryUnit {
     private String signature;
     private String publisher;
     private String pubYear;
-    private String invStatus; // todo coder
-    private String revisionStatus;
+    private ItemStatus invStatus;
+    private InventoryStatus revisionStatus;
     private Date dateModified;
 
 
