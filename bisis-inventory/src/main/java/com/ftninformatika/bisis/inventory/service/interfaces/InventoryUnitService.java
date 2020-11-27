@@ -13,4 +13,5 @@ public interface InventoryUnitService {
     InventoryUnit getOne(String _id);
     List<InventoryUnit> getAllForLib(String lib);
     Page<InventoryUnit> search(String inv_id, Integer pageSize, Integer pageNumber);
+    InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
 }

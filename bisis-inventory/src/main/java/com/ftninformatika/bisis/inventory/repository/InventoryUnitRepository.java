@@ -10,4 +10,6 @@ public interface InventoryUnitRepository extends MongoRepository<InventoryUnit, 
         PagingAndSortingRepository<InventoryUnit, String>, InventoryUnitAdditionalRepository {
 
     Page<InventoryUnit> findByInventoryId(String inventory_id, Pageable pageable);
+    InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
+
 }

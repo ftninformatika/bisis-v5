@@ -60,4 +60,8 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         return null;
     }
 
+    @Override
+    public InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo) {
+        return inventoryUnitRepository.findByInventoryIdAndInvNo(inventoryId, invNo);
+    }
 }

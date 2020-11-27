@@ -40,4 +40,13 @@ public class InventoryUnitController {
         }
         return ResponseEntity.ok(retVal);
     }
+    @GetMapping("/findOne")
+    public ResponseEntity<InventoryUnit> findScannedInventoryUnit(@RequestParam("inventoryId") String inventoryId, @RequestParam("invNo") String invNo){
+        InventoryUnit retVal =  this.inventoryUnitService.findByInventoryIdAndInvNo(inventoryId,invNo);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
+    }
+
 }
