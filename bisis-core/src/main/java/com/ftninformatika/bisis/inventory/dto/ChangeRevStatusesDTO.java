@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.inventory;
+package com.ftninformatika.bisis.inventory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestInvUnitMin {
+public class ChangeRevStatusesDTO {
     private String inventoryId;
-    private String invNo;
+    private String fromRevCoderId;
+    private String toRevCoderId;
 }

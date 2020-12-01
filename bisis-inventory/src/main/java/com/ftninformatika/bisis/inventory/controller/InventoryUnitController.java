@@ -1,7 +1,8 @@
 package com.ftninformatika.bisis.inventory.controller;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
-import com.ftninformatika.bisis.inventory.RequestInvUnitMin;
+import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
+import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +53,17 @@ public class InventoryUnitController {
     }
 
     @PutMapping("/changeRevStatusOnPlace")
-    public ResponseEntity<InventoryUnit> changeRevStatusOnPlace(@RequestHeader("Library") String library, @RequestBody RequestInvUnitMin requestInvUnitMin) {
-        InventoryUnit retVal = inventoryUnitService.setOnPlace(requestInvUnitMin, library);
+    public ResponseEntity<InventoryUnit> changeRevStatusOnPlace(@RequestHeader("Library") String library, @RequestBody RevStatusOnPlaceDTO revStatusOnPlaceDTO) {
+        InventoryUnit retVal = inventoryUnitService.setOnPlace(revStatusOnPlaceDTO, library);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
+    }
+
+    @PutMapping("/changeRevStatuses")
+    public ResponseEntity<?> changeRevStatuses(@RequestBody ChangeRevStatusesDTO changeRevStatusesDTO) {
+        Boolean retVal = inventoryUnitService.changeRevStatuses(changeRevStatusesDTO);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
