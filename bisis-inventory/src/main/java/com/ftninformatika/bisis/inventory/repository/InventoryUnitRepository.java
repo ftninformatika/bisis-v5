@@ -11,5 +11,6 @@ public interface InventoryUnitRepository extends MongoRepository<InventoryUnit, 
 
     Page<InventoryUnit> findByInventoryId(String inventory_id, Pageable pageable);
     InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
-
+    Double countAllByInventoryId(String inventoryId);
+    Double countByInventoryIdAndCheckedIsTrue(String inventoryUnit);
 }

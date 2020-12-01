@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.management.remote.rmi._RMIConnection_Stub;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,7 +98,13 @@ public class InventoryServiceImpl implements InventoryService {
             throw new IllegalArgumentException("Id of Inventory is not passed");
         }
         Optional<Inventory> optionalInventory =  inventoryRepository.findById(_id);
-        return optionalInventory.orElse(null);
+        if (optionalInventory.isPresent()) {
+            Double progress = getProgress(_id);
+            Inventory inventory = optionalInventory.get();
+            inventory.setProgress(progress);
+            return inventory;
+        }
+        return null;
     }
 
     @Override
@@ -140,6 +147,15 @@ public class InventoryServiceImpl implements InventoryService {
             }
             count++;
         }
+    }
+
+    private Double getProgress(String inventory_id) {
+        Double total = inventoryUnitRepository.countAllByInventoryId(inventory_id);
+        Double checked = inventoryUnitRepository.countByInventoryIdAndCheckedIsTrue(inventory_id);
+        if (checked == null || checked == 0d) {
+            return 0d;
+        }
+        return (checked / total) * 100;
     }
 
 }

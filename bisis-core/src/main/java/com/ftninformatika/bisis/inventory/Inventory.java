@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ public class Inventory {
     private List<InventoryBook> invBooks;
     private List<InventoryStatusPair> invToRevisionStatuses;
     private EnumInventoryState inventoryState;
+
+    @Transient
+    private Double progress;
 
     @JsonIgnore Map<String, ItemStatus> itemStatusesMap;
     @JsonIgnore Map<String, InventoryStatus> inventoryStatusesMap;

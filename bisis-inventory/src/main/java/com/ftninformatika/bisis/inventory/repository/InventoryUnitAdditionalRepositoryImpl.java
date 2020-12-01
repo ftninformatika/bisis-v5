@@ -19,7 +19,7 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
 
     private static final String[] TEXT_INDEX_FIELDS_ARR = {"invNo", "author", "title", "signature", "publisher",
             "pubYear", "invStatus.coder_id", "revisionStatus.coder_id"};
-    private static final String[] STANDARD_INDEX_FIELDS_ARR = {"rn", "dateModified"};
+    private static final String[] STANDARD_INDEX_FIELDS_ARR = {"rn", "dateModified", "inventoryId"};
     private MongoTemplate mongoTemplate;
 
     @Autowired
