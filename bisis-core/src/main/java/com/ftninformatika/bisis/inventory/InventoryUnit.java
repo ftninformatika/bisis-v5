@@ -31,6 +31,7 @@ public class InventoryUnit {
     private ItemStatus invStatus;
     private InventoryStatus revisionStatus;
     private Date dateModified;
+    private boolean checked;
 
 
 }

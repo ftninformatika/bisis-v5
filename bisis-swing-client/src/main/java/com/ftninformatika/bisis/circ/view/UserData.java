@@ -170,7 +170,7 @@ public class UserData {
             pMain0.add(getEmailLabel(), cc.xy(6, 10));
             pMain0.add(getTfEmail(), cc.xyw(8, 10, 5));
             pMain0.add(getWebAccountIndicatorLabel(), cc.xyw(4, 11, 4));
-            pMain0.add(getBtnCreateWebAccount(), cc.xyw(8, 11, 6));
+            pMain0.add(getBtnCreateWebAccount(), cc.xyw(8, 11, 5));
 
             pMain0.addSeparator(Messages.getString("circulation.gender"), cc.xyw(6, 12, 3)); //$NON-NLS-1$
             pMain0.addSeparator(Messages.getString("circulation.age"), cc.xyw(11, 12, 2)); //$NON-NLS-1$
