@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -32,6 +29,5 @@ public class InventoryUnit {
     private InventoryStatus revisionStatus;
     private Date dateModified;
     private boolean checked;
-
 
 }

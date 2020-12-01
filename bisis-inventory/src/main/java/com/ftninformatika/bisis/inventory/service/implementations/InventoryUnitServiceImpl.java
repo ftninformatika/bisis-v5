@@ -1,8 +1,11 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
+import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.inventory.RequestInvUnitMin;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +18,12 @@ import java.util.List;
 public class InventoryUnitServiceImpl implements InventoryUnitService {
 
     private final InventoryUnitRepository inventoryUnitRepository;
+    private InventoryStatusRepository inventoryStatusRepository;
 
     @Autowired
-    public InventoryUnitServiceImpl(InventoryUnitRepository inventoryUnitRepository) {
+    public InventoryUnitServiceImpl(InventoryUnitRepository inventoryUnitRepository, InventoryStatusRepository inventoryStatusRepository) {
         this.inventoryUnitRepository = inventoryUnitRepository;
+        this.inventoryStatusRepository = inventoryStatusRepository;
     }
 
     @Override
@@ -33,6 +38,20 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         }
         Pageable pageRequest = PageRequest.of(pNum, pSize); // todo ovde ide search/sort
         return inventoryUnitRepository.findByInventoryId(inventory_id, pageRequest);
+    }
+
+    @Override
+    public InventoryUnit setOnPlace(RequestInvUnitMin requestInvUnitMin, String library) {
+        if (requestInvUnitMin == null || requestInvUnitMin.getInventoryId() == null || requestInvUnitMin.getInvNo() == null) {
+            return null;
+        }
+        InventoryUnit inventoryUnit = inventoryUnitRepository.findByInventoryIdAndInvNo(requestInvUnitMin.getInventoryId(), requestInvUnitMin.getInvNo());
+        InventoryStatus onPlaceStatus = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_PLACE, library);
+        if (onPlaceStatus == null || inventoryUnit == null) {
+            return null; //todo logger
+        }
+        inventoryUnit.setRevisionStatus(onPlaceStatus);
+        return inventoryUnitRepository.save(inventoryUnit);
     }
 
     @Override

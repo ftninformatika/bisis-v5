@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.inventory.controller;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.inventory.RequestInvUnitMin;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,19 @@ public class InventoryUnitController {
         }
         return ResponseEntity.ok(retVal);
     }
+
     @GetMapping("/findOne")
     public ResponseEntity<InventoryUnit> findScannedInventoryUnit(@RequestParam("inventoryId") String inventoryId, @RequestParam("invNo") String invNo){
         InventoryUnit retVal =  this.inventoryUnitService.findByInventoryIdAndInvNo(inventoryId,invNo);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
+    }
+
+    @PutMapping("/changeRevStatusOnPlace")
+    public ResponseEntity<InventoryUnit> changeRevStatusOnPlace(@RequestHeader("Library") String library, @RequestBody RequestInvUnitMin requestInvUnitMin) {
+        InventoryUnit retVal = inventoryUnitService.setOnPlace(requestInvUnitMin, library);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

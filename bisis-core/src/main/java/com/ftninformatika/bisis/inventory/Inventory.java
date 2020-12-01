@@ -76,7 +76,7 @@ public class Inventory {
 
 
     private InventoryStatus getRevStatusByInv(String invStatus) {
-        InventoryStatus retVal = inventoryStatusesMap.get("2");
+        InventoryStatus retVal = inventoryStatusesMap.get(InventoryStatus.IN_REVISION);
         if (invToRevisionStatuses == null || invStatus == null) {
             return retVal;
         }
