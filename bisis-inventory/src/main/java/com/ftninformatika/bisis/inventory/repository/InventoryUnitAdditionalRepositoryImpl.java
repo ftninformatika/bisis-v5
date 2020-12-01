@@ -34,6 +34,6 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
             mongoTemplate.indexOps(InventoryUnit.class).ensureIndex(new Index(index, Sort.Direction.DESC).background());
         }
         IndexDefinition uniqueInvNoIndex = new Index("invNo", Sort.Direction.DESC).unique().background();
-        mongoTemplate.indexOps(InventoryUnit.class).ensureIndex(uniqueInvNoIndex);
+//        mongoTemplate.indexOps(InventoryUnit.class).ensureIndex(uniqueInvNoIndex);
     }
 }
