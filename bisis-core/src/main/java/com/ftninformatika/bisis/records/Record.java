@@ -219,8 +219,6 @@ public class Record implements Serializable {
   }
 
 
-
-
   public List<Primerak> getPrimerciBySublocations(List<Sublocation> sublocations) {
       List<Primerak> retVal = new ArrayList<>();
       for (Sublocation sl: sublocations) {

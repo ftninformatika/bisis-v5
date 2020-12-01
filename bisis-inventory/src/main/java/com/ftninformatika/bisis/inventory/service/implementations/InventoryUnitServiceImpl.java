@@ -56,14 +56,14 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
     }
 
     @Override
-    public Boolean changeRevStatuses(ChangeRevStatusesDTO revStatusOnPlaceDTO) {
+    public Boolean changeRevStatuses(String library, ChangeRevStatusesDTO revStatusOnPlaceDTO) {
         if (revStatusOnPlaceDTO == null || revStatusOnPlaceDTO.getFromRevCoderId() == null
                 ||  revStatusOnPlaceDTO.getInventoryId() == null || revStatusOnPlaceDTO.getToRevCoderId() == null) {
             return null;
         }
         InventoryStatus fromInvStaus = inventoryStatusRepository.getByCoder_Id(revStatusOnPlaceDTO.getFromRevCoderId(), null);
         InventoryStatus toInvStatus = inventoryStatusRepository.getByCoder_Id(revStatusOnPlaceDTO.getToRevCoderId(), null);
-        return inventoryUnitRepository.changeRevisionStatuses(fromInvStaus, toInvStatus);
+        return inventoryUnitRepository.changeRevisionStatuses(fromInvStaus, toInvStatus, library);
     }
 
     @Override

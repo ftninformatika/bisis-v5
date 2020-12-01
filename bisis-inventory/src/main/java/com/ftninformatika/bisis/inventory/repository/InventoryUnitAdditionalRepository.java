@@ -13,5 +13,5 @@ public interface InventoryUnitAdditionalRepository {
      *
      * Updates revision statuses from - to
      */
-    Boolean changeRevisionStatuses(InventoryStatus fromStatus, InventoryStatus toStatus);
+    Boolean changeRevisionStatuses(InventoryStatus fromStatus, InventoryStatus toStatus, String library);
 }

@@ -17,5 +17,5 @@ public interface InventoryUnitService {
     Page<InventoryUnit> search(String inv_id, Integer pageSize, Integer pageNumber);
     InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
     InventoryUnit setOnPlace(RevStatusOnPlaceDTO revStatusOnPlaceDTO, String library);
-    Boolean changeRevStatuses(ChangeRevStatusesDTO revStatusOnPlaceDTO);
+    Boolean changeRevStatuses(String library, ChangeRevStatusesDTO revStatusOnPlaceDTO);
 }

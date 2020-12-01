@@ -62,8 +62,8 @@ public class InventoryUnitController {
     }
 
     @PutMapping("/changeRevStatuses")
-    public ResponseEntity<?> changeRevStatuses(@RequestBody ChangeRevStatusesDTO changeRevStatusesDTO) {
-        Boolean retVal = inventoryUnitService.changeRevStatuses(changeRevStatusesDTO);
+    public ResponseEntity<?> changeRevStatuses(@RequestHeader("Library") String library, @RequestBody ChangeRevStatusesDTO changeRevStatusesDTO) {
+        Boolean retVal = inventoryUnitService.changeRevStatuses(library, changeRevStatusesDTO);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

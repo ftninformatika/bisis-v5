@@ -31,10 +31,9 @@ public class Inventory {
     private String name;
     private Integer year;
     private String library;
-//    @JsonFormat(pattern="dd.MM.yyyy.")
     private Date startDate;
-//    @JsonFormat(pattern="dd.MM.yyyy.")
     private Date endDate;
+    private List<String> itemStatuses;
     private List<Sublocation> sublocations;
     private List<Location> locations;
     private List<InventoryBook> invBooks;
@@ -52,6 +51,8 @@ public class Inventory {
         List<Primerak> filteredPrimerci = record.getPrimerciBySublocations(this.sublocations);
         filteredPrimerci = filteredPrimerci.stream()
                 .filter(fp -> fp.inRangeForAnyInvBook(this.invBooks)).collect(Collectors.toList());
+        filteredPrimerci = filteredPrimerci.stream()
+                .filter(p -> p.getStatus() != null && itemStatuses != null && itemStatuses.indexOf(p.getStatus()) > -1).collect(Collectors.toList());
         for (Primerak p: filteredPrimerci) {
             InventoryUnit inventoryUnit = new InventoryUnit();
             inventoryUnit.setRn(record.getRN());
