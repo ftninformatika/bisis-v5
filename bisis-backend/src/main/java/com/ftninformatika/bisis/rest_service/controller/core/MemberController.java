@@ -21,6 +21,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.ClientSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,9 @@ public class MemberController {
     @Autowired MongoClient mongoClient;
     @Autowired MemberService memberService;
     @Autowired BisisReservationsServiceInterface reservationsService;
-    @Autowired InventoryUnitService inventoryUnitService;
+    @Autowired
+    @Qualifier("inventoryUnitBisisService")
+    InventoryUnitService inventoryUnitService;
 
     @GetMapping("/lending_history/{memberNo}")
     public ResponseEntity<List<Report>> getUserLendingHistory(@PathVariable("memberNo") String memberNo) {

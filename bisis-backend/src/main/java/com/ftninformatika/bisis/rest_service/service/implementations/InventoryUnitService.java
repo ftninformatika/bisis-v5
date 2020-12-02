@@ -6,18 +6,16 @@ import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.InventoryUnitRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("inventoryUnitBisisService")
 public class InventoryUnitService {
-    private final InventoryUnitRepository inventoryUnitRepository;
-    private InventoryStatusRepository inventoryStatusRepository;
-
     @Autowired
-    public InventoryUnitService(InventoryUnitRepository inventoryUnitRepository, InventoryStatusRepository inventoryStatusRepository) {
-        this.inventoryUnitRepository = inventoryUnitRepository;
-        this.inventoryStatusRepository = inventoryStatusRepository;
-    }
+    @Qualifier("inventoryUnitBisisRepository")
+    private InventoryUnitRepository inventoryUnitRepository;
+    @Autowired
+    private InventoryStatusRepository inventoryStatusRepository;
 
     public InventoryUnit setOnPlace(String inventoryId, String invNo, String library) {
         if (inventoryId == null || invNo == null) {
