@@ -113,7 +113,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<Inventory> getAllForLib(String lib) {
-        return inventoryRepository.findAllByLibrary(lib);
+        List<Inventory> retVal = inventoryRepository.findAllByLibrary(lib);
+        retVal.forEach(i -> i.setProgress(getProgress(i.get_id())));
+        return retVal;
     }
 
     // todo move this somewhere, make nicer query
