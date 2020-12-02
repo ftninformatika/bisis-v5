@@ -9,6 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface InventoryUnitRepository extends MongoRepository<InventoryUnit, String>,
         PagingAndSortingRepository<InventoryUnit, String>, InventoryUnitAdditionalRepository {
 
+    void deleteAllByInventoryId(String inventoryId);
     Page<InventoryUnit> findByInventoryId(String inventory_id, Pageable pageable);
     InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
     Double countAllByInventoryId(String inventoryId);

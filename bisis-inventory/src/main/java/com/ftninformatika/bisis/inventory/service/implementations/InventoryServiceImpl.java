@@ -8,7 +8,9 @@ import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
@@ -18,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.management.remote.rmi._RMIConnection_Stub;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,9 +31,10 @@ public class InventoryServiceImpl implements InventoryService {
     private RecordsRepository recordsRepository;
     private InventoryStatusRepository inventoryStatusRepository;
     private ItemStatusRepository itemStatusRepository;
+    private ItemAvailabilityRepository itemAvailabilityRepository;
 
     @Autowired
-    public InventoryServiceImpl(InventoryRepository inventoryRepository,
+    public InventoryServiceImpl(InventoryRepository inventoryRepository, ItemAvailabilityRepository itemAvailabilityRepository,
                                 RecordsRepository recordsRepository, InventoryUnitRepository inventoryUnitRepository,
                                 InventoryStatusRepository inventoryStatusRepository, ItemStatusRepository itemStatusRepository){
         this.inventoryRepository = inventoryRepository;
@@ -40,6 +42,7 @@ public class InventoryServiceImpl implements InventoryService {
         this.inventoryUnitRepository = inventoryUnitRepository;
         this.itemStatusRepository = itemStatusRepository;
         this.inventoryStatusRepository = inventoryStatusRepository;
+        this.itemAvailabilityRepository = itemAvailabilityRepository;
     }
 
 //    @Transactional todo
@@ -87,6 +90,7 @@ public class InventoryServiceImpl implements InventoryService {
     public void delete(Inventory inventory) {
         try {
             inventoryRepository.delete(inventory);
+            inventoryUnitRepository.deleteAllByInventoryId(inventory.get_id());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,6 +139,7 @@ public class InventoryServiceImpl implements InventoryService {
             }
             if (invUnitsBulkList.size() > 0) {
                 inventoryUnitRepository.saveAll(invUnitsBulkList);
+                itemAvailabilityUpdate(invUnitsBulkList, createdInventory.get_id());
             }
 
             if (!onePage.isLast()) {
@@ -149,13 +154,20 @@ public class InventoryServiceImpl implements InventoryService {
         }
     }
 
-    private Double getProgress(String inventory_id) {
-        Double total = inventoryUnitRepository.countAllByInventoryId(inventory_id);
-        Double checked = inventoryUnitRepository.countByInventoryIdAndCheckedIsTrue(inventory_id);
+    private void itemAvailabilityUpdate(List<InventoryUnit> inventoryUnits, String inventoryId) {
+        List<String> invNums = inventoryUnits.stream().map(InventoryUnit::getInvNo).collect(Collectors.toList());
+        List<ItemAvailability> itemAvailabilities = itemAvailabilityRepository.findAllByCtlgNoIsIn(invNums);
+        itemAvailabilities.forEach(i -> i.setInventoryId(inventoryId));
+        itemAvailabilityRepository.saveAll(itemAvailabilities);
+    }
+
+    private Double getProgress(String inventoryId) {
+        Double total = inventoryUnitRepository.countAllByInventoryId(inventoryId);
+        Double checked = inventoryUnitRepository.countByInventoryIdAndCheckedIsTrue(inventoryId);
         if (checked == null || checked == 0d) {
             return 0d;
         }
-        return (checked / total) * 100;
+        return (double)Math.round((checked / total) * 100);
     }
 
 }
