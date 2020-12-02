@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -260,6 +261,7 @@ public class Lending {
             btnReturn.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     int[] rows = getTblLending().getSelectedRows();
+                    List<String> inInventory = new ArrayList<>();
                     if (rows.length != 0) {
                         int[] modelrows = new int[rows.length];
                         for (int j = 0; j < rows.length; j++) {
@@ -274,11 +276,19 @@ public class Lending {
                             }
                         }
                         for (int i = 0; i < modelrows.length; i++) {
-                            Cirkulacija.getApp().getRecordsManager().returnBook((String) getTableModel().getValueAt(modelrows[i], 0));
+                            String inventoryCtlg = Cirkulacija.getApp().getRecordsManager().returnBook((String) getTableModel().getValueAt(modelrows[i], 0));
+                            if (inventoryCtlg != null) {
+                                inInventory.add(inventoryCtlg);
+                            }
                         }
                         getTableModel().removeRows(modelrows);
                         handleKeyTyped();
                         pinRequired = true;
+                        if (!inInventory.isEmpty()) {
+                            String ctlgNums =  String.join(",", inInventory);
+                            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.discharginginventory")+ " " + ctlgNums,
+                                    Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                 }
             });
@@ -433,6 +443,10 @@ public class Lending {
                         int op = JOptionPane.showOptionDialog(getPanel(), Messages.getString("circulation.chargingwarning"), Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION,  //$NON-NLS-1$ //$NON-NLS-2$
                                 JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
                         if (op == JOptionPane.YES_OPTION) {
+                            if (Cirkulacija.getApp().getRecordsManager().isInInventory()) {
+                                JOptionPane.showMessageDialog(null, Messages.getString("circulation.discharginginventory")+ " " + ctlgno,
+                                        Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                            }
                             boolean success = Cirkulacija.getApp().getUserManager().dischargeUser(ctlgno);
                             if (success) {
                                 btnLend.doClick();
