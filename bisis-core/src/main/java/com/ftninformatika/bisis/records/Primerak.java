@@ -144,6 +144,8 @@ public class Primerak implements Serializable {
               && (invMaxNo != null && invMaxNo >= 1 && invMaxNo <= 9999999)) {
         Integer currInvCount = Integer.parseInt(this.getInvBroj().substring(4));
         return currInvCount <= invMaxNo;
+      } else if (isInInvBook(invBookCode) && invMaxNo == null) {
+        return true;
       }
     } catch (Exception e) {
       e.printStackTrace();
