@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         if (pageNumber != null) {
             pNum = pageNumber;
         }
-        Pageable pageRequest = PageRequest.of(pNum, pSize); // todo ovde ide search/sort
+        Pageable pageRequest = PageRequest.of(pNum, pSize,Sort.by("invNo")); // todo ovde ide search/sort
         return inventoryUnitRepository.findByInventoryId(inventory_id, pageRequest);
     }
 

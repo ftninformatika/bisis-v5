@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.inventory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,8 @@ public class InventoryUnit {
     private String signature;
     private String publisher;
     private String pubYear;
+    @JsonIgnore
+    private String status;
     private ItemStatus invStatus;
     private InventoryStatus revisionStatus;
     private Date dateModified;

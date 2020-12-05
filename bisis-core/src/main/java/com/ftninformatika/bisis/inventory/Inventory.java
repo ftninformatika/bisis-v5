@@ -47,7 +47,7 @@ public class Inventory {
     @JsonIgnore Map<String, ItemStatus> itemStatusesMap;
     @JsonIgnore Map<String, InventoryStatus> inventoryStatusesMap;
 
-    public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
+   /* public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
         List<InventoryUnit> retVal = new ArrayList<>();
         RecordPreview rp = new RecordPreview();
         rp.init(record);
@@ -73,14 +73,14 @@ public class Inventory {
             retVal.add(inventoryUnit);
         }
         return retVal;
-    }
+    }*/
 
-    private ItemStatus getItemStatus(String key) {
+    public ItemStatus getItemStatus(String key) {
         return itemStatusesMap.get(key);
     }
 
 
-    private InventoryStatus getRevStatusByInv(String invStatus) {
+    public InventoryStatus getRevStatusByInv(String invStatus) {
         InventoryStatus retVal = inventoryStatusesMap.get(InventoryStatus.IN_REVISION);
         if (invToRevisionStatuses == null || invStatus == null) {
             return retVal;
