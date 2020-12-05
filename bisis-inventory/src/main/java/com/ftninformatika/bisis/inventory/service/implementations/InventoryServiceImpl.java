@@ -242,12 +242,18 @@ public class InventoryServiceImpl implements InventoryService {
                             invUnitsBulkList.add(unit);
             }
             count ++;
-            if (count % 1000 == 0){
+            if (count % 1000 == 0 ){
                 inventoryUnitRepository.saveAll(invUnitsBulkList);
                 itemAvailabilityUpdate(invUnitsBulkList, createdInventory.get_id());
                 System.out.println("Processed items: " + count + " of " + totalPages);
                 invUnitsBulkList.clear();
             }
+        }
+        if (!invUnitsBulkList.isEmpty()){
+            inventoryUnitRepository.saveAll(invUnitsBulkList);
+            itemAvailabilityUpdate(invUnitsBulkList, createdInventory.get_id());
+            System.out.println("Processed items: " + count + " of " + totalPages);
+            invUnitsBulkList.clear();
         }
 
         long milliseconds = System.currentTimeMillis();
