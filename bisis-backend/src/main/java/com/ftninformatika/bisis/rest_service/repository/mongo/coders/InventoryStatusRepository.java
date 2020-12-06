@@ -11,6 +11,7 @@ public interface InventoryStatusRepository extends MongoRepository<InventoryStat
     @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
     public List<InventoryStatus> getCoders(String libName);
 
-    @Query("{'coder_id': ?0, '$or': [{'library':{'$exists': false}},{'library':?0}]}")
-    InventoryStatus getByCoder_Id(String coder_id, String lib);
+    @Query("{'coder_id': ?0}")
+    InventoryStatus getByCoder_Id(String coder_id);
+
 }

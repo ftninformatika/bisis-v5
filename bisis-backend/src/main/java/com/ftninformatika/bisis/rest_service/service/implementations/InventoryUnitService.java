@@ -22,7 +22,7 @@ public class InventoryUnitService {
             return null;
         }
         InventoryUnit inventoryUnit = inventoryUnitRepository.findByInventoryIdAndInvNo(inventoryId, invNo);
-        InventoryStatus onPlaceStatus = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_PLACE, library);
+        InventoryStatus onPlaceStatus = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_PLACE);
         if (onPlaceStatus == null || inventoryUnit == null) {
             return null; //todo logger
         }

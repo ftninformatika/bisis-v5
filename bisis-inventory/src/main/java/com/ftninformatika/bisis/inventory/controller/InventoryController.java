@@ -72,4 +72,12 @@ public class InventoryController {
             return ResponseEntity.ok().build();
         }
     }
+    @GetMapping("/updateLendingStatus/{inventoryId}")
+    public ResponseEntity<?> updateLendingStatus(@PathVariable("inventoryId") String inventoryId) {
+        Boolean retVal = inventoryService.updateLendingStatus(inventoryId);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
+    }
 }
