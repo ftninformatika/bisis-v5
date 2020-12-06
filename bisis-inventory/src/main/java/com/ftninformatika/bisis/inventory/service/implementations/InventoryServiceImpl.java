@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.inventory.*;
@@ -10,13 +11,11 @@ import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
@@ -24,6 +23,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,19 +37,21 @@ public class InventoryServiceImpl implements InventoryService {
     private InventoryStatusRepository inventoryStatusRepository;
     private ItemStatusRepository itemStatusRepository;
     private ItemAvailabilityRepository itemAvailabilityRepository;
-    @Autowired
-    MongoTemplate mongoTemplate;
+    private LendingRepository lendingRepository;
+    private MongoTemplate mongoTemplate;
 
     @Autowired
     public InventoryServiceImpl(InventoryRepository inventoryRepository, ItemAvailabilityRepository itemAvailabilityRepository,
                                 RecordsRepository recordsRepository, InventoryUnitRepository inventoryUnitRepository,
-                                InventoryStatusRepository inventoryStatusRepository, ItemStatusRepository itemStatusRepository) {
+                                InventoryStatusRepository inventoryStatusRepository, ItemStatusRepository itemStatusRepository, LendingRepository lendingRepository, MongoTemplate mongoTemplate) {
         this.inventoryRepository = inventoryRepository;
         this.recordsRepository = recordsRepository;
         this.inventoryUnitRepository = inventoryUnitRepository;
         this.itemStatusRepository = itemStatusRepository;
         this.inventoryStatusRepository = inventoryStatusRepository;
         this.itemAvailabilityRepository = itemAvailabilityRepository;
+        this.lendingRepository = lendingRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     //    @Transactional todo
@@ -239,6 +242,7 @@ public class InventoryServiceImpl implements InventoryService {
                             unit.setInvStatus(createdInventory.getItemStatus(unit.getStatus()));
                             unit.setRevisionStatus(createdInventory.getRevStatusByInv(unit.getStatus()));
                             unit.setDateModified(new Date());
+                            unit.setStatus(null);
                             invUnitsBulkList.add(unit);
             }
             count ++;
@@ -324,5 +328,58 @@ public class InventoryServiceImpl implements InventoryService {
         }
         return (double)Math.round((checked / total) * 100);
     }
+    private LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+    public Boolean updateLendingStatus(String inventoryId) {
+        long milliseconds = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+        Date resultdate = new Date(milliseconds);
+        System.out.println("Vreme pocetka azuriranja zaduženih primeraka: " + sdf.format(resultdate));
+        try {
+            List<ItemAvailability> borrowedList = itemAvailabilityRepository.findByInventoryIdAndBorrowedIsTrue(inventoryId);
+            Lending lending;
+            LocalDate lendingDate;
+            LocalDate resumeDate = null;
+            LocalDate dateL2 = LocalDate.now().minusYears(3);
+            InventoryUnit unit;
+            InventoryStatus borrowed = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_LENDING);
+            InventoryStatus borrowedL2 = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_LENDING_L2);
+            List<InventoryUnit> unitsForUpdate = new ArrayList<InventoryUnit>();
+            for (ItemAvailability itemAvailability : borrowedList) {
+                String ctlgNo = itemAvailability.getCtlgNo();
+                unit = inventoryUnitRepository.findByInventoryIdAndInvNo(inventoryId, ctlgNo);
+                if (!unit.isChecked()) {
+                    lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);
+                    lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
+                    if (lending.getResumeDate() != null) {
+                        resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
+                    }
+                    if (resumeDate != null && resumeDate.isBefore(dateL2)) {
+                        unit.setRevisionStatus(borrowedL2);
+                    } else if (lendingDate.isBefore(dateL2)) {
+                        unit.setRevisionStatus(borrowedL2);
+                    } else {
+                        unit.setRevisionStatus(borrowed);
+                    }
+                    unit.setDateModified(new Date());
+                    unitsForUpdate.add(unit);
+                }
+            }
+            if(!unitsForUpdate.isEmpty()){
+                inventoryUnitRepository.saveAll(unitsForUpdate);
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }finally {
+            milliseconds = System.currentTimeMillis();
+            resultdate = new Date(milliseconds);
+            System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
+        }
 
+    }
 }
