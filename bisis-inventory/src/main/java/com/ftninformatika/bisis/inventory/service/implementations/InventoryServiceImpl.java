@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.EnumInventoryState;
 import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
@@ -154,6 +155,13 @@ public class InventoryServiceImpl implements InventoryService {
             }
             count++;
         }
+    }
+
+    @Override
+    public Boolean mapStatusesToItems(MapStatusesToItemsDTO mapStatusesToItems) {
+        // todo ucitaj sve invetoryUnit koji imaju te statuse, iteriraj, za svakog dovuci primerak i promeni status, sacuvaj
+        // todo setuj sve itemAvailabilities koji su iz ove revizije inventoryId na null
+        return null;
     }
 
     private void itemAvailabilityUpdate(List<InventoryUnit> inventoryUnits, String inventoryId) {

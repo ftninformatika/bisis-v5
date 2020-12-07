@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.inventory.controller;
 
 import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
+import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,5 +72,11 @@ public class InventoryController {
             inventoryService.delete(inventory);
             return ResponseEntity.ok().build();
         }
+    }
+
+    @PutMapping("/mapStatusesToItems")
+    public ResponseEntity<?> mapStatusesToItems(@RequestBody MapStatusesToItemsDTO mapStatusesToItems) {
+
+        return null;
     }
 }

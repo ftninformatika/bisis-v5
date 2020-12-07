@@ -14,4 +14,5 @@ public interface InventoryUnitRepository extends MongoRepository<InventoryUnit, 
     InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
     Double countAllByInventoryId(String inventoryId);
     Double countByInventoryIdAndCheckedIsTrue(String inventoryUnit);
+
 }
