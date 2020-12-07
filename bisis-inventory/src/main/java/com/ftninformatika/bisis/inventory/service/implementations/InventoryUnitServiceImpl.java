@@ -6,11 +6,13 @@ import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
 import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +39,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         if (pageNumber != null) {
             pNum = pageNumber;
         }
-        Pageable pageRequest = PageRequest.of(pNum, pSize); // todo ovde ide search/sort
+        Pageable pageRequest = PageRequest.of(pNum, pSize,Sort.by("invNo")); // todo ovde ide search/sort
         return inventoryUnitRepository.findByInventoryId(inventory_id, pageRequest);
     }
 
@@ -47,7 +49,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             return null;
         }
         InventoryUnit inventoryUnit = inventoryUnitRepository.findByInventoryIdAndInvNo(revStatusOnPlaceDTO.getInventoryId(), revStatusOnPlaceDTO.getInvNo());
-        InventoryStatus onPlaceStatus = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_PLACE, library);
+        InventoryStatus onPlaceStatus = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_PLACE);
         if (onPlaceStatus == null || inventoryUnit == null) {
             return null; //todo logger
         }
@@ -61,10 +63,11 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
                 ||  revStatusOnPlaceDTO.getInventoryId() == null || revStatusOnPlaceDTO.getToRevCoderId() == null) {
             return null;
         }
-        InventoryStatus fromInvStaus = inventoryStatusRepository.getByCoder_Id(revStatusOnPlaceDTO.getFromRevCoderId(), null);
-        InventoryStatus toInvStatus = inventoryStatusRepository.getByCoder_Id(revStatusOnPlaceDTO.getToRevCoderId(), null);
+        InventoryStatus fromInvStaus = inventoryStatusRepository.getByCoder_Id(revStatusOnPlaceDTO.getFromRevCoderId());
+        InventoryStatus toInvStatus = inventoryStatusRepository.getByCoder_Id(revStatusOnPlaceDTO.getToRevCoderId());
         return inventoryUnitRepository.changeRevisionStatuses(fromInvStaus, toInvStatus, library);
     }
+
 
     @Override
     public InventoryUnit create(InventoryUnit inventory) {

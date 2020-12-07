@@ -2,7 +2,6 @@ package com.ftninformatika.bisis.inventory.controller;
 
 import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
-import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,10 +72,12 @@ public class InventoryController {
             return ResponseEntity.ok().build();
         }
     }
-
-    @PutMapping("/mapStatusesToItems")
-    public ResponseEntity<?> mapStatusesToItems(@RequestBody MapStatusesToItemsDTO mapStatusesToItems) {
-
-        return null;
+    @GetMapping("/updateLendingStatus/{inventoryId}")
+    public ResponseEntity<?> updateLendingStatus(@PathVariable("inventoryId") String inventoryId) {
+        Boolean retVal = inventoryService.updateLendingStatus(inventoryId);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
     }
 }
