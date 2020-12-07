@@ -61,7 +61,6 @@ public class InventoryController {
         return ResponseEntity.ok(inventory1);
     }
 
-
     @DeleteMapping()
     public ResponseEntity<Inventory> delete(@RequestParam("_id") String _id) {
         Inventory inventory =  inventoryService.getOne(_id);
@@ -72,6 +71,7 @@ public class InventoryController {
             return ResponseEntity.ok().build();
         }
     }
+
     @GetMapping("/updateLendingStatus/{inventoryId}")
     public ResponseEntity<?> updateLendingStatus(@PathVariable("inventoryId") String inventoryId) {
         Boolean retVal = inventoryService.updateLendingStatus(inventoryId);

@@ -1,13 +1,20 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
+import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
+import com.ftninformatika.bisis.inventory.dto.StatusMappingEntry;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
+import com.ftninformatika.bisis.records.Primerak;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,18 +22,28 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InventoryUnitServiceImpl implements InventoryUnitService {
 
     private final InventoryUnitRepository inventoryUnitRepository;
+    private ItemStatusRepository itemStatusRepository;
     private InventoryStatusRepository inventoryStatusRepository;
+    private RecordsRepository recordsRepository;
 
     @Autowired
-    public InventoryUnitServiceImpl(InventoryUnitRepository inventoryUnitRepository, InventoryStatusRepository inventoryStatusRepository) {
+    public InventoryUnitServiceImpl(InventoryUnitRepository inventoryUnitRepository, InventoryStatusRepository inventoryStatusRepository,
+                                    ItemStatusRepository itemStatusRepository, RecordsRepository recordsRepository) {
         this.inventoryUnitRepository = inventoryUnitRepository;
         this.inventoryStatusRepository = inventoryStatusRepository;
+        this.itemStatusRepository = itemStatusRepository;
+        this.recordsRepository = recordsRepository;
     }
 
     @Override
@@ -97,5 +114,67 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
     @Override
     public InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo) {
         return inventoryUnitRepository.findByInventoryIdAndInvNo(inventoryId, invNo);
+    }
+
+    @Override
+    public Boolean mapStatusesToItems(MapStatusesToItemsDTO mapStatusesToItems) {
+        long milliseconds = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+        Date resultdate = new Date(milliseconds);
+        System.out.println("Vreme pocetka izvršavanja upita: " + sdf.format(resultdate));
+
+        if (mapStatusesToItems == null || mapStatusesToItems.getInventoryId() == null || mapStatusesToItems.getStatusMapEntryList() == null
+            || mapStatusesToItems.getStatusMapEntryList().size() == 0) {
+            return null;
+        }
+        //todo finishing Inventory set enum
+        Iterator<InventoryUnit> iterator = inventoryUnitRepository.findAllByInventoryStatusesAndInventoryId(mapStatusesToItems.getStatusMapEntryList()
+                .stream().map(StatusMappingEntry::getInventoryStatusCoderId).collect(Collectors.toList()), mapStatusesToItems.getInventoryId());
+
+        if (iterator == null) {
+            return false;
+        }
+
+        int lastRn = -1;
+        List<InventoryUnit> sameRecUnits = new ArrayList<>();
+        while (iterator.hasNext()) {
+            InventoryUnit unit = iterator.next();
+            if (lastRn != unit.getRn() && lastRn != -1) {
+                Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
+                recordsRepository.save(r);
+                sameRecUnits = new ArrayList<>();
+                sameRecUnits.add(unit);
+                lastRn = unit.getRn();
+            } else {
+                sameRecUnits.add(unit);
+                lastRn = unit.getRn();
+            }
+        }
+        inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(mapStatusesToItems.getInventoryId());
+        milliseconds = System.currentTimeMillis();
+        resultdate = new Date(milliseconds);
+        System.out.println("Vreme zavrsetka izvrsavanja: " + sdf.format(resultdate));
+        return null;
+    }
+
+    private Record changeItemStatusesAndGetRec(int rn, List<InventoryUnit> inventoryUnits, MapStatusesToItemsDTO mapStatusesToItemsDTO) {
+        if (rn < 0 || inventoryUnits == null || inventoryUnits.size() == 0) {
+            return null;
+        }
+        Record rec = recordsRepository.getByRn(rn);
+        for (InventoryUnit unit: inventoryUnits) {
+            Primerak p = rec.getPrimerak(unit.getInvNo());
+            StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getRevisionStatus());
+            p.setStatus(statusMappingEntry.getItemStatusCoderId());
+            if (statusMappingEntry.getItemStatusDate() != null) {
+                p.setDatumStatusa(statusMappingEntry.getItemStatusDate());
+            }
+            if (statusMappingEntry.getNote() != null) {
+                String note = p.getNapomene() != null ? (p.getNapomene() + "\n") : "";
+                note += statusMappingEntry.getNote();
+                p.setNapomene(note);
+            }
+        }
+        return rec;
     }
 }

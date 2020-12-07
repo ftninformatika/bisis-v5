@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.inventory.controller;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
+import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
@@ -64,6 +65,15 @@ public class InventoryUnitController {
     @PutMapping("/changeRevStatuses")
     public ResponseEntity<?> changeRevStatuses(@RequestHeader("Library") String library, @RequestBody ChangeRevStatusesDTO changeRevStatusesDTO) {
         Boolean retVal = inventoryUnitService.changeRevStatuses(library, changeRevStatusesDTO);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
+    }
+
+    @PutMapping("/updateItemStatuses")
+    public ResponseEntity<?> updateItemStatuses(@RequestHeader("Library") String library, @RequestBody MapStatusesToItemsDTO mapStatusesToItemsDTO) {
+        Boolean retVal = inventoryUnitService.mapStatusesToItems(mapStatusesToItemsDTO);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

@@ -2,10 +2,7 @@ package com.ftninformatika.bisis.inventory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftninformatika.bisis.coders.ItemStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,6 +12,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_inventory_units")
 public class InventoryUnit {
 
@@ -28,8 +26,8 @@ public class InventoryUnit {
     private String publisher;
     private String pubYear;
     private String status;
-    private ItemStatus invStatus;
-    private InventoryStatus revisionStatus;
+    private ItemStatus invStatus; //todo refactor - itemStatus
+    private InventoryStatus revisionStatus; // todo inventoryStatus
     private Date dateModified;
     private boolean checked;
 

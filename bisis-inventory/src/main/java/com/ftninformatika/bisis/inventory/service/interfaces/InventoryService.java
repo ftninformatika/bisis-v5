@@ -14,5 +14,4 @@ public interface InventoryService {
     List<Inventory> getAllForLib(String lib);
     Boolean updateLendingStatus(String  inventoryId);
 
-    Boolean mapStatusesToItems(MapStatusesToItemsDTO mapStatusesToItems);
 }
