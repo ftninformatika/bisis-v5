@@ -82,6 +82,7 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         Query q = new Query();
         q.addCriteria(criteria);
         q.with(new Sort(Sort.Direction.DESC,"rn"));
+        q.fields().include("rn").include("inventoryId").include("invNo").include("revisionStatus.coder_id");
         return mongoTemplate.stream(q, InventoryUnit.class);
     }
 

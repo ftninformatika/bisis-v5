@@ -23,10 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -135,29 +132,29 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             return false;
         }
 
-        int lastRn = -1;
-        List<InventoryUnit> sameRecUnits = new ArrayList<>();
+        InventoryUnit _0 = iterator.next();
+        Set<InventoryUnit> sameRecUnits = new HashSet<>();
+        sameRecUnits.add(_0);
+        Integer lastRn = _0.getRn();
         while (iterator.hasNext()) {
             InventoryUnit unit = iterator.next();
-            if (lastRn != unit.getRn() && lastRn != -1) {
+            if (!lastRn.equals(unit.getRn())) {
                 Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
                 recordsRepository.save(r);
-                sameRecUnits = new ArrayList<>();
-                sameRecUnits.add(unit);
-                lastRn = unit.getRn();
-            } else {
-                sameRecUnits.add(unit);
-                lastRn = unit.getRn();
+                sameRecUnits = new HashSet<>();
             }
+            sameRecUnits.add(unit);
+            lastRn = unit.getRn();
         }
         inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(mapStatusesToItems.getInventoryId());
+        //todo vrati current action
         milliseconds = System.currentTimeMillis();
         resultdate = new Date(milliseconds);
         System.out.println("Vreme zavrsetka izvrsavanja: " + sdf.format(resultdate));
         return null;
     }
 
-    private Record changeItemStatusesAndGetRec(int rn, List<InventoryUnit> inventoryUnits, MapStatusesToItemsDTO mapStatusesToItemsDTO) {
+    private Record changeItemStatusesAndGetRec(int rn, Set<InventoryUnit> inventoryUnits, MapStatusesToItemsDTO mapStatusesToItemsDTO) {
         if (rn < 0 || inventoryUnits == null || inventoryUnits.size() == 0) {
             return null;
         }
