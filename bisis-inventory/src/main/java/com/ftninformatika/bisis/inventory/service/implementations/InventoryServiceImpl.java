@@ -272,6 +272,7 @@ public class InventoryServiceImpl implements InventoryService {
     private void generateInventoryUnits(Inventory createdInventory, String library) {
         Map inventoryUnits = createInventoryUnits(createdInventory,library);
         updateInventoryUnits(inventoryUnits,createdInventory,library);
+        updateLendingStatus(createdInventory.get_id());
     }
 
 //        // todo move this somewhere, make nicer query
@@ -317,7 +318,6 @@ public class InventoryServiceImpl implements InventoryService {
         List<String> invNums = inventoryUnits.stream().map(InventoryUnit::getInvNo).collect(Collectors.toList());
         List<ItemAvailability> itemAvailabilities = itemAvailabilityRepository.findAllByCtlgNoIsIn(invNums);
         itemAvailabilities.forEach(i -> i.setInventoryId(inventoryId));
-        itemAvailabilityRepository.deleteAll(itemAvailabilities); //pokazano je da saveAll radi brze kada je cist save a ne update
         itemAvailabilityRepository.saveAll(itemAvailabilities);
     }
 
