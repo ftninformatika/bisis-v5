@@ -128,7 +128,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         Iterator<InventoryUnit> iterator = inventoryUnitRepository.findAllByInventoryStatusesAndInventoryId(mapStatusesToItems.getStatusMapEntryList()
                 .stream().map(StatusMappingEntry::getInventoryStatusCoderId).collect(Collectors.toList()), mapStatusesToItems.getInventoryId());
 
-        if (iterator == null) {
+        if (iterator == null || !iterator.hasNext()) {
             return false;
         }
 
@@ -151,7 +151,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         milliseconds = System.currentTimeMillis();
         resultdate = new Date(milliseconds);
         System.out.println("Vreme zavrsetka izvrsavanja: " + sdf.format(resultdate));
-        return null;
+        return true;
     }
 
     private Record changeItemStatusesAndGetRec(int rn, Set<InventoryUnit> inventoryUnits, MapStatusesToItemsDTO mapStatusesToItemsDTO) {
