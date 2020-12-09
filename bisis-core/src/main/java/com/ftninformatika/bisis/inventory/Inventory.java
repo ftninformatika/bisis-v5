@@ -40,6 +40,7 @@ public class Inventory {
     private List<InventoryBook> invBooks;
     private List<InventoryStatusPair> invToRevisionStatuses;
     private EnumInventoryState inventoryState;
+    private EnumActionState currentAction = EnumActionState.NONE;
 
     @Transient
     private Double progress;

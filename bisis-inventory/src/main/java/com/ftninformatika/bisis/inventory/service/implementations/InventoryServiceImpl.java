@@ -141,7 +141,6 @@ public class InventoryServiceImpl implements InventoryService {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
         Date resultdate = new Date(milliseconds);
         System.out.println("Vreme pocetka izvršavanja upita: " + sdf.format(resultdate));
-
         UnwindOperation unwindOp = Aggregation.unwind("primerci");
 
         //upit za podlokaciju i inv knjige, i inv brojeve
@@ -270,49 +269,16 @@ public class InventoryServiceImpl implements InventoryService {
 
 
     private void generateInventoryUnits(Inventory createdInventory, String library) {
-        Map inventoryUnits = createInventoryUnits(createdInventory,library);
-        updateInventoryUnits(inventoryUnits,createdInventory,library);
-        updateLendingStatus(createdInventory.get_id());
+                createdInventory.setCurrentAction(EnumActionState.GENERATING_UNITS);
+                inventoryRepository.save(createdInventory);
+                Map inventoryUnits = createInventoryUnits(createdInventory, library);
+                updateInventoryUnits(inventoryUnits, createdInventory, library);
+                createdInventory.setCurrentAction(EnumActionState.NONE);
+                inventoryRepository.save(createdInventory);
+                updateLendingStatus(createdInventory.get_id());
     }
 
-//        // todo move this somewhere, make nicer query
-//    private void generateInventoryUnits(Inventory createdInventory, String library) {
-//        Pageable pageRequest = PageRequest.of(0, 1000); // todo ovde mozda pozvati elastic za dovlacenje recorda
 //
-//        Page<Record> onePage = recordsRepository.findAll(pageRequest);
-//        int totalPages = onePage.getTotalPages();
-//        int count = 1;
-//        if (inventoryUnitRepository.count() == 0) {
-//            inventoryUnitRepository.indexFields();
-//        }
-//        Map<String, ItemStatus> itemStatusesMap = itemStatusRepository.getCoders(library).stream().collect(Collectors.toMap(ItemStatus::getCoder_id, is -> is));
-//        Map<String, InventoryStatus> inventoryStatusesMap = inventoryStatusRepository.getCoders(library).stream().collect(Collectors.toMap(InventoryStatus::getCoder_id, is -> is));
-//        createdInventory.setItemStatusesMap(itemStatusesMap);
-//        createdInventory.setInventoryStatusesMap(inventoryStatusesMap);
-//        for (int i = 0; i < totalPages; i++) {
-//            List<InventoryUnit> invUnitsBulkList = new ArrayList<>();
-//            for (Record rec : onePage) {
-//                List<InventoryUnit> inventoryUnits = createdInventory.initListOfUnitsFromRecord(rec);
-//                if (inventoryUnits != null && inventoryUnits.size() > 0) {
-//                    invUnitsBulkList.addAll(inventoryUnits);
-//                }
-//            }
-//            if (invUnitsBulkList.size() > 0) {
-//                inventoryUnitRepository.saveAll(invUnitsBulkList);
-//                itemAvailabilityUpdate(invUnitsBulkList, createdInventory.get_id());
-//            }
-//
-//            if (!onePage.isLast()) {
-//                pageRequest = onePage.nextPageable();
-//                onePage = recordsRepository.findAll(pageRequest);
-//            }
-//
-//            if (count % 10 == 0 || count == totalPages) {
-//                System.out.println("Processed pages: " + count + " of " + totalPages);
-//            }
-//            count++;
-//        }
-//    }
 
     private void itemAvailabilityUpdate(List<InventoryUnit> inventoryUnits, String inventoryId) {
         List<String> invNums = inventoryUnits.stream().map(InventoryUnit::getInvNo).collect(Collectors.toList());
@@ -335,10 +301,19 @@ public class InventoryServiceImpl implements InventoryService {
                 .toLocalDate();
     }
     public Boolean updateLendingStatus(String inventoryId) {
+        Optional<Inventory> currentInventory = inventoryRepository.findById(inventoryId);
+        if (!currentInventory.isPresent() || currentInventory.get().getCurrentAction() !=EnumActionState.NONE){
+            //samo jedna akcija se može izvršavati nad zadatom revizjom
+            return null;
+        }
+
         long milliseconds = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
         Date resultdate = new Date(milliseconds);
         System.out.println("Vreme pocetka azuriranja zaduženih primeraka: " + sdf.format(resultdate));
+
+        currentInventory.get().setCurrentAction(EnumActionState.LENDING_FINDING);
+        inventoryRepository.save(currentInventory.get());
         try {
             List<ItemAvailability> borrowedList = itemAvailabilityRepository.findByInventoryIdAndBorrowedIsTrue(inventoryId);
             Lending lending;
@@ -377,6 +352,8 @@ public class InventoryServiceImpl implements InventoryService {
             e.printStackTrace();
             return null;
         }finally {
+            currentInventory.get().setCurrentAction(EnumActionState.NONE);
+            inventoryRepository.save(currentInventory.get());
             milliseconds = System.currentTimeMillis();
             resultdate = new Date(milliseconds);
             System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
