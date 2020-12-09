@@ -69,6 +69,8 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         }
         InventoryUnit inventoryUnit = inventoryUnitRepository.findByInventoryIdAndInvNo(revStatusOnPlaceDTO.getInventoryId(), revStatusOnPlaceDTO.getInvNo());
         InventoryStatus onPlaceStatus = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_PLACE);
+        inventoryUnit.setChecked(true);
+        inventoryUnitRepository.save(inventoryUnit);
         if (onPlaceStatus == null || inventoryUnit == null) {
             return null; //todo logger
         }

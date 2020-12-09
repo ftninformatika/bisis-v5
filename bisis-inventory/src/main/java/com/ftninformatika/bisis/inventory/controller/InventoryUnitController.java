@@ -63,7 +63,7 @@ public class InventoryUnitController {
     }
 
     @PutMapping("/changeRevStatuses")
-    public ResponseEntity<?> changeRevStatuses(@RequestHeader("Library") String library, @RequestBody ChangeRevStatusesDTO changeRevStatusesDTO) {
+    public ResponseEntity<Boolean> changeRevStatuses(@RequestHeader("Library") String library, @RequestBody ChangeRevStatusesDTO changeRevStatusesDTO) {
         Boolean retVal = inventoryUnitService.changeRevStatuses(library, changeRevStatusesDTO);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -72,7 +72,7 @@ public class InventoryUnitController {
     }
 
     @PutMapping("/updateItemStatuses")
-    public ResponseEntity<?> updateItemStatuses(@RequestHeader("Library") String library, @RequestBody MapStatusesToItemsDTO mapStatusesToItemsDTO) {
+    public ResponseEntity<Boolean> updateItemStatuses(@RequestHeader("Library") String library, @RequestBody MapStatusesToItemsDTO mapStatusesToItemsDTO) {
         Boolean retVal = inventoryUnitService.mapStatusesToItems(mapStatusesToItemsDTO);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

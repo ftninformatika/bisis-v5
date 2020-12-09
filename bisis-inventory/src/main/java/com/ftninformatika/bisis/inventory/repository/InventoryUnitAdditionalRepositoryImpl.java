@@ -15,9 +15,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAdditionalRepository {
 
@@ -51,7 +49,10 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
             return null; //todo log
         }
         Document select = new Document("revisionStatus.coder_id", fromStatus.getCoder_id());
-        Document update = new Document("$set", new Document("revisionStatus", getDocumentFromStatus(toStatus)));
+        Set<Document> setDoc = new HashSet<>();
+        setDoc.add(new Document("revisionStatus", getDocumentFromStatus(toStatus)));
+        setDoc.add(new Document("checked", true));
+        Document update = new Document("$set", setDoc);
         UpdateResult updateResult = collection.updateMany(select, update);
         return updateResult.isModifiedCountAvailable();
     }
