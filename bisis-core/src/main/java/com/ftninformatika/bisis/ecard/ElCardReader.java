@@ -5,6 +5,8 @@ import net.devbase.jfreesteel.EidCard;
 import net.devbase.jfreesteel.EidInfo;
 
 import javax.smartcardio.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class ElCardReader {
 
@@ -18,9 +20,9 @@ public class ElCardReader {
         if (osType == OsCheck.OSType.Linux) {
             String archModel = System.getProperty(ARCH_MODEL_PARAM);
             if (archModel != null) {
-                if (archModel.equals("32"))
+                if ("32".equals(ARCH_MODEL_PARAM) && Files.exists(Paths.get(LINUX_32_LIBPCSLITE_PATH)))
                     System.setProperty(LIBPCS_PARAM, LINUX_32_LIBPCSLITE_PATH);
-                else if (archModel.equals("64"))
+                else if ("64".equals(ARCH_MODEL_PARAM) && Files.exists(Paths.get(LINUX_64_LIBPCSLITE_PATH)))
                     System.setProperty(LIBPCS_PARAM, LINUX_64_LIBPCSLITE_PATH);
             }
         }
