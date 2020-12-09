@@ -1,12 +1,15 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.inventory.EnumActionState;
+import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
 import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.inventory.dto.StatusMappingEntry;
+import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import com.ftninformatika.bisis.records.Primerak;
@@ -32,15 +35,17 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
     private final InventoryUnitRepository inventoryUnitRepository;
     private ItemStatusRepository itemStatusRepository;
     private InventoryStatusRepository inventoryStatusRepository;
+    private InventoryRepository inventoryRepository;
     private RecordsRepository recordsRepository;
 
     @Autowired
     public InventoryUnitServiceImpl(InventoryUnitRepository inventoryUnitRepository, InventoryStatusRepository inventoryStatusRepository,
-                                    ItemStatusRepository itemStatusRepository, RecordsRepository recordsRepository) {
+                                    ItemStatusRepository itemStatusRepository, RecordsRepository recordsRepository, InventoryRepository inventoryRepository) {
         this.inventoryUnitRepository = inventoryUnitRepository;
         this.inventoryStatusRepository = inventoryStatusRepository;
         this.itemStatusRepository = itemStatusRepository;
         this.recordsRepository = recordsRepository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     @Override
@@ -79,7 +84,18 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         }
         InventoryStatus fromInvStaus = inventoryStatusRepository.getByCoder_Id(revStatusOnPlaceDTO.getFromRevCoderId());
         InventoryStatus toInvStatus = inventoryStatusRepository.getByCoder_Id(revStatusOnPlaceDTO.getToRevCoderId());
-        return inventoryUnitRepository.changeRevisionStatuses(fromInvStaus, toInvStatus, library);
+        Optional<Inventory> optionalInventory = inventoryRepository.findById(revStatusOnPlaceDTO.getInventoryId());
+        if (!optionalInventory.isPresent() || optionalInventory.get().getCurrentAction() != EnumActionState.NONE) {
+            return null;
+        }
+        Inventory inventory = optionalInventory.get();
+        inventory.setCurrentAction(EnumActionState.STATUS_CHANGING);
+        inventoryRepository.save(inventory);
+
+        Boolean retVal = inventoryUnitRepository.changeRevisionStatuses(fromInvStaus, toInvStatus, library);
+        inventory.setCurrentAction(EnumActionState.NONE);
+        inventoryRepository.save(inventory);
+        return retVal;
     }
 
 
@@ -124,7 +140,14 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             || mapStatusesToItems.getStatusMapEntryList().size() == 0) {
             return null;
         }
-        //todo finishing Inventory set enum
+        Optional<Inventory> optionalInventory = inventoryRepository.findById(mapStatusesToItems.getInventoryId());
+        if (!optionalInventory.isPresent() || optionalInventory.get().getCurrentAction() != EnumActionState.NONE) {
+            return null;
+        }
+        Inventory inventory = optionalInventory.get();
+        inventory.setCurrentAction(EnumActionState.STATUS_MAPPING_TO_BISIS);
+        inventoryRepository.save(inventory);
+
         Iterator<InventoryUnit> iterator = inventoryUnitRepository.findAllByInventoryStatusesAndInventoryId(mapStatusesToItems.getStatusMapEntryList()
                 .stream().map(StatusMappingEntry::getInventoryStatusCoderId).collect(Collectors.toList()), mapStatusesToItems.getInventoryId());
 
@@ -147,7 +170,8 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             lastRn = unit.getRn();
         }
         inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(mapStatusesToItems.getInventoryId());
-        //todo vrati current action
+        inventory.setCurrentAction(EnumActionState.NONE);
+        inventoryRepository.save(inventory);
         milliseconds = System.currentTimeMillis();
         resultdate = new Date(milliseconds);
         System.out.println("Vreme zavrsetka izvrsavanja: " + sdf.format(resultdate));
