@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 public class InvUnitSearchDTO {
     private Integer rn;
+    private String inventoryId;
     private String invNo;
     private String author;
     private String title;
@@ -28,6 +29,10 @@ public class InvUnitSearchDTO {
     public Criteria generateSearchCriteria() {
         Criteria criteria = new Criteria();
         List<Criteria> criteriaList = new ArrayList<>();
+        if (this.inventoryId == null) {
+            return null;
+        }
+        criteriaList.add(Criteria.where("inventoryId").is(this.inventoryId));
         if(this.invNo != null  && !this.invNo.equals("")) {
             criteriaList.add(Criteria.where("invNo").regex(Pattern.compile("^" + this.invNo)));
         }
