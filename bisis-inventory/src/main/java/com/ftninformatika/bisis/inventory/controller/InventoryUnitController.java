@@ -31,9 +31,10 @@ public class InventoryUnitController {
             @RequestBody InvUnitSearchDTO invUnitSearchDTO) {
         Page<InventoryUnit> searchResults = inventoryUnitService.search(invUnitSearchDTO, pageNumber, pageSize);
 
-        if (searchResults == null || searchResults.isEmpty()) {
+        if (searchResults == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+
         return ResponseEntity.ok(searchResults);
     }
 
