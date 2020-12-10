@@ -45,8 +45,8 @@ public class Inventory {
     @Transient
     private Double progress;
 
-    @JsonIgnore Map<String, ItemStatus> itemStatusesMap;
-    @JsonIgnore Map<String, InventoryStatus> inventoryStatusesMap;
+    @Transient Map<String, ItemStatus> itemStatusesMap;
+    @Transient Map<String, InventoryStatus> inventoryStatusesMap;
 
    /* public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
         List<InventoryUnit> retVal = new ArrayList<>();

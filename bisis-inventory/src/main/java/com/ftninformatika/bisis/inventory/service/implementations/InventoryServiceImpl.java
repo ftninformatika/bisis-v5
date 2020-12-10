@@ -4,7 +4,6 @@ import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.inventory.*;
-import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;

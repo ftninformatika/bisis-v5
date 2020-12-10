@@ -70,12 +70,11 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         MongoCollection<Document> collection = mongoTemplate.getCollection(library + "_inventory_units");
         if (fromStatus == null || fromStatus.getCoder_id() == null || toStatus == null || toStatus.getCoder_id() == null) {
             System.out.println("changeRevisionStatuses ne valjaju statusi");
-            return null; //todo log
+            return null;
         }
         Document select = new Document("revisionStatus.coder_id", fromStatus.getCoder_id());
-        Set<Document> setDoc = new HashSet<>();
-        setDoc.add(new Document("revisionStatus", getDocumentFromStatus(toStatus)));
-        setDoc.add(new Document("checked", true));
+        Document setDoc = new Document("revisionStatus", getDocumentFromStatus(toStatus));
+        setDoc.append("checked", true);
         Document update = new Document("$set", setDoc);
         UpdateResult updateResult = collection.updateMany(select, update);
         return updateResult.isModifiedCountAvailable();
