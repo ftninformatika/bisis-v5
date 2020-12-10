@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
 import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
+import com.ftninformatika.bisis.inventory.dto.InvUnitSearchDTO;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,11 +25,12 @@ public class InventoryUnitController {
         this.inventoryUnitService = inventoryUnitService;
     }
 
-    @GetMapping
-    public ResponseEntity<?> search(@RequestParam("inventory_id") String inventory_id,
-                                    @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
-                                    @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
-        Page<InventoryUnit> searchResults = inventoryUnitService.search(inventory_id, pageSize, pageNumber);
+    @PostMapping("/search")
+    public ResponseEntity<?> search(@RequestParam(required = false) final Integer pageNumber,
+            @RequestParam(required = false) final Integer pageSize,
+            @RequestBody InvUnitSearchDTO invUnitSearchDTO) {
+        Page<InventoryUnit> searchResults = inventoryUnitService.search(invUnitSearchDTO, pageNumber, pageSize);
+
         if (searchResults == null || searchResults.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

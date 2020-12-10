@@ -1,20 +1,15 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
-import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.inventory.EnumActionState;
 import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
-import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
-import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
-import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
-import com.ftninformatika.bisis.inventory.dto.StatusMappingEntry;
+import com.ftninformatika.bisis.inventory.dto.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
@@ -48,8 +43,9 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         this.inventoryRepository = inventoryRepository;
     }
 
+
     @Override
-    public Page<InventoryUnit> search(String inventory_id, Integer pageSize, Integer pageNumber) {
+    public Page<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO, Integer pageNumber, Integer pageSize) {
         int pSize = 10;
         int pNum = 0;
         if (pageSize != null) {
@@ -58,8 +54,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         if (pageNumber != null) {
             pNum = pageNumber;
         }
-        Pageable pageRequest = PageRequest.of(pNum, pSize,Sort.by("invNo")); // todo ovde ide search/sort
-        return inventoryUnitRepository.findByInventoryId(inventory_id, pageRequest);
+        return inventoryUnitRepository.search(invUnitSearchDTO, pNum, pSize);
     }
 
     @Override
