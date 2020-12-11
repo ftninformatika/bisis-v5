@@ -25,11 +25,11 @@ import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemb
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import com.ftninformatika.util.WorkCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -174,7 +174,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
             ReservationOnProfile r = iter.next();
             if (r.getCtlgNo() != null && r.getCtlgNo().equals(ctlgNo) && r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
                 iter.remove();
-            // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
+                // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
             } else if (r.getRecord_id().equals(record.get_id()) && !r.isBookPickedUp()
                     && r.getCoderId().equals(locationCode)) {
                 iter.remove();
@@ -222,12 +222,19 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         return null;
     }
 
+
+    private String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return sdf.format(date);
+    }
+
+
     private void sendEmail(Member member, Record record, Date deadline) {
         Book book = opacSearchService.getBookByRec(record);
-
+        String formattedDate = formatDate(deadline);
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(member.getEmail());
         emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("RESERVATION_CONFIRMED_HEADING"),
-                MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.0"), book.getTitle(), deadline));
+                MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.0"), book.getTitle(), formattedDate));
 
     }
 
