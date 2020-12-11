@@ -72,8 +72,8 @@ public class InventoryController {
         }
     }
 
-    @GetMapping("/updateLendingStatus/{inventoryId}")
-    public ResponseEntity<?> updateLendingStatus(@PathVariable("inventoryId") String inventoryId) {
+    @PutMapping("/updateLendingStatus")
+    public ResponseEntity<?> updateLendingStatus(@RequestBody String inventoryId) {
         Boolean retVal = inventoryService.updateLendingStatus(inventoryId);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

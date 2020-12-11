@@ -42,7 +42,6 @@ public class Inventory {
     private EnumInventoryState inventoryState;
     private EnumActionState currentAction = EnumActionState.NONE;
 
-    @Transient
     private Double progress;
 
     @Transient Map<String, ItemStatus> itemStatusesMap;

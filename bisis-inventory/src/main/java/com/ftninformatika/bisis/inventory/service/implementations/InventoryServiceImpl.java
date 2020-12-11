@@ -64,6 +64,7 @@ public class InventoryServiceImpl implements InventoryService {
             // todo Ne moze da se upisuje nova dok ima neka u pripremi (puni kolekciju inventory_unit)
             return null;
         }
+        inventory.setProgress(0d);
         inventory.setInventoryState(EnumInventoryState.IN_PREPARATION);
         try {
             if (inventory.getYear() == null && inventory.getStartDate() != null) {
@@ -122,9 +123,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<Inventory> getAllForLib(String lib) {
-        List<Inventory> retVal = inventoryRepository.findAllByLibrary(lib);
-        retVal.forEach(i -> i.setProgress(getProgress(i.get_id())));
-        return retVal;
+        return inventoryRepository.findAllByLibrary(lib);
     }
 
     private String createInvNum(String location, String book, String lastNum) {
