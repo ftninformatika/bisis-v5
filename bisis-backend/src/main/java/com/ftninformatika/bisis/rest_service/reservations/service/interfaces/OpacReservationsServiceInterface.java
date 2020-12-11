@@ -12,4 +12,6 @@ public interface OpacReservationsServiceInterface {
     List<ReservationDTO> getReservationsByUser(String library, String authToken);
 
     Boolean deleteReservation(String authToken, String reservationId);
+
+    Boolean isReservationsQueueEmpty(String ctlgNo);
 }

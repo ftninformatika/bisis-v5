@@ -126,4 +126,9 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
         }
         return record_id;
     }
+
+    public Boolean isReservationsQueueEmpty(String ctlgNo) {
+        Record record = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
+        return record.getReservations() != null && record.getReservations().size() == 0;
+    }
 }
