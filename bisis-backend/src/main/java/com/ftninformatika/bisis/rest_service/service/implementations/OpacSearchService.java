@@ -49,17 +49,27 @@ import java.util.stream.Collectors;
 @Service
 public class OpacSearchService {
 
-    @Autowired RecordsRepository recordsRepository;
-    @Autowired ElasticRecordsRepository elasticRecordsRepository;
-    @Autowired BookCommonRepository bookCommonRepository;
-    @Autowired ElasticsearchTemplate elasticsearchTemplate;
-    @Autowired LocationRepository locationRepository;
-    @Autowired SublocationRepository sublocationRepository;
-    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
-    @Autowired ItemStatusRepository itemStatusRepository;
-    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
-//    TODO- refactor this at some point (don't import controllers in service layer)
-    @Autowired CodersController codersController;
+    @Autowired
+    RecordsRepository recordsRepository;
+    @Autowired
+    ElasticRecordsRepository elasticRecordsRepository;
+    @Autowired
+    BookCommonRepository bookCommonRepository;
+    @Autowired
+    ElasticsearchTemplate elasticsearchTemplate;
+    @Autowired
+    LocationRepository locationRepository;
+    @Autowired
+    SublocationRepository sublocationRepository;
+    @Autowired
+    ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired
+    ItemStatusRepository itemStatusRepository;
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
+    //    TODO- refactor this at some point (don't import controllers in service layer)
+    @Autowired
+    CodersController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
 
     public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize) {
@@ -90,7 +100,7 @@ public class OpacSearchService {
                 .withTypes("record")
                 .withPageable(p);
 
-        if(Helper.resolve(() -> searchRequest.getOptions().getSort().getType()).isPresent()) {
+        if (Helper.resolve(() -> searchRequest.getOptions().getSort().getType()).isPresent()) {
             Sort s = searchRequest.getOptions().getSort();
             if (s.getType() != null)
                 searchQuery.withSort(SortBuilders.fieldSort("prefixes." + s.getType().toString()).order(s.getAscending() ? SortOrder.ASC : SortOrder.DESC));
@@ -144,7 +154,7 @@ public class OpacSearchService {
 
     public Book getFullBookById(String _id, String lib) {
         LibraryConfiguration libraryConfiguration = libraryConfigurationRepository.getByLibraryName(lib);
-        Optional<Record> record =  recordsRepository.findById(_id);
+        Optional<Record> record = recordsRepository.findById(_id);
         if (record.isPresent()) {
             Book retVal = getBookByRec(record.get());
             retVal.setItems(getItems(record.get(), lib));
@@ -157,14 +167,14 @@ public class OpacSearchService {
         return null;
     }
 
-    void fillReferencedRecords (Record r, Book b) {
+    void fillReferencedRecords(Record r, Book b) {
         if (r == null || b == null)
             return;
         Map<String, String> refRecsBrief = new HashMap<>();
         List<Integer> refRns = new ArrayList<>();
         List<Field> _464s = r.getFields("464");
         List<Field> _474s = r.getFields("474");
-        for (Field f: _464s) {
+        for (Field f : _464s) {
             if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
                 continue;
             String _4641 = f.getSubfieldContent('1').trim();
@@ -176,7 +186,7 @@ public class OpacSearchService {
         }
 
         if (refRns.size() == 0) {
-            for (Field f: _474s) {
+            for (Field f : _474s) {
                 if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
                     continue;
                 String _4741 = f.getSubfieldContent('1').trim();
@@ -191,7 +201,7 @@ public class OpacSearchService {
         if (refRns.size() == 0)
             return;
 
-        for (Integer rn: refRns) {
+        for (Integer rn : refRns) {
             Record rec = recordsRepository.getByRn(rn);
             if (rec == null)
                 return;
@@ -210,7 +220,7 @@ public class OpacSearchService {
     }
 
 
-   public Book getBookByRec(Record r) {
+    public Book getBookByRec(Record r) {
         Book b = new Book();
         b.set_id(r.get_id());
         RecordPreview rp = new RecordPreview();
@@ -247,11 +257,11 @@ public class OpacSearchService {
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
         Map<String, Sublocation> sublocationMap = sublocationRepository.getCoders(lib).stream().collect(Collectors.toMap(Sublocation::getCoder_id, sl -> sl));
         Map<String, ItemStatus> itemStatusMap = itemStatusRepository.getCoders(lib).stream().collect(Collectors.toMap(ItemStatus::getCoder_id, sl -> sl));
-        for (String key: locationMap.keySet()) {
+        for (String key : locationMap.keySet()) {
             Location l = locationMap.get(key);
             l.setDescription(LatCyrUtils.toCyrillic(l.getDescription()));
         }
-        for (String key: sublocationMap.keySet()) {
+        for (String key : sublocationMap.keySet()) {
             Sublocation sl = sublocationMap.get(key);
             sl.setDescription(LatCyrUtils.toCyrillic(sl.getDescription()));
         }
@@ -259,12 +269,17 @@ public class OpacSearchService {
                 (r.getGodine() == null || r.getGodine().size() == 0)))
             return null;
         if (r.getPrimerci().size() > 0) {
-            for (Primerak p: r.getPrimerci()) {
+            for (Primerak p : r.getPrimerci()) {
                 Item i = new Item();
                 i.setInvNum(p.getInvBroj());
                 ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(i.getInvNum());
                 if (ia == null) continue;
-                String itemStatus = ia.getBorrowed() ? "BORROWED" : "FREE";
+                String itemStatus = "";
+                if (ia.getReserved() != null && ia.getReserved()) {
+                    itemStatus = "RESERVED";
+                } else {
+                    itemStatus = ia.getBorrowed() ? "BORROWED" : "FREE";
+                }
                 ItemStatus is = itemStatusMap.get(p.getStatus());
                 if (is != null && !is.isLendable()) {
                     itemStatus = "NOT_LENDABLE";
@@ -278,9 +293,8 @@ public class OpacSearchService {
                     i.setLocation(sl.getDescription());
                     i.setLocCode(p.getSigPodlokacija());
                     i.setGoogleMapLocationURL(sl.getGoogleMapLocationURL());
-                }
-                else {
-                    Location l = locationMap.get(p.getInvBroj().substring(0,2));
+                } else {
+                    Location l = locationMap.get(p.getInvBroj().substring(0, 2));
                     if (l == null) continue;
                     i.setLocCode(l.getCoder_id());
                     i.setLocation(l.getDescription());
@@ -288,9 +302,8 @@ public class OpacSearchService {
                 }
                 retVal.add(i);
             }
-        }
-        else if (r.getGodine().size() > 0) {
-            for (Godina p: r.getGodine()) {
+        } else if (r.getGodine().size() > 0) {
+            for (Godina p : r.getGodine()) {
                 Item i = new Item();
                 i.setInvNum(p.getInvBroj());
                 ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(i.getInvNum());
@@ -307,9 +320,8 @@ public class OpacSearchService {
                     i.setLocation(sl.getDescription());
                     i.setLocCode(p.getSigPodlokacija());
                     i.setGoogleMapLocationURL(sl.getGoogleMapLocationURL());
-                }
-                else {
-                    Location l = locationMap.get(p.getInvBroj().substring(0,2));
+                } else {
+                    Location l = locationMap.get(p.getInvBroj().substring(0, 2));
                     if (l == null) continue;
                     i.setLocCode(l.getCoder_id());
                     i.setLocation(l.getDescription());
@@ -322,10 +334,8 @@ public class OpacSearchService {
         if (retVal.size() > 0) {
             retVal.sort(Comparator.comparing(Item::getInvNum));
             return retVal;
-        }
-        else return null;
+        } else return null;
     }
-
 
 
     public Filters getFilters(ResultPageSearchRequest filterRequest, String library) {
@@ -378,23 +388,23 @@ public class OpacSearchService {
             ).collect(Collectors.joining("|")) + ").*";
         }
 
-        for (String key: locationMap.keySet()) {
+        for (String key : locationMap.keySet()) {
             Location l = locationMap.get(key);
             l.setDescription(LatCyrUtils.toCyrillic(l.getDescription()));
         }
-        for (String key: sublocationMap.keySet()) {
+        for (String key : sublocationMap.keySet()) {
             Sublocation sl = sublocationMap.get(key);
             sl.setDescription(LatCyrUtils.toCyrillic(sl.getDescription()));
         }
         Map<String, Integer> subLocationCount = new HashMap<>();
-        for (String slKey: sublocationMap.keySet()) {
+        for (String slKey : sublocationMap.keySet()) {
             subLocationCount.put(slKey, 0);
         }
         while (results.hasNext()) {
             ElasticPrefixEntity ee = results.next();
             if (ee.getPrefixes() == null)
                 continue;
-            for (String prefix: prefixes) {
+            for (String prefix : prefixes) {
                 if (ee.getPrefixes().get(prefix) == null || ee.getPrefixes().get(prefix).size() == 0) {
                     continue;
                 }
@@ -484,7 +494,8 @@ public class OpacSearchService {
                             if (val != null && val.length() > 1 && subLocationCount.get(val) != null)
                                 subLocationCount.put(val, subLocationCount.get(val) + 1);
                         }
-                    } break;
+                    }
+                    break;
                     case "subjects_raw": {
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String val = getNormalizedSubject(ee.getPrefixes().get(prefix).get(i));
@@ -498,11 +509,12 @@ public class OpacSearchService {
                                 filters.getSubjectByValue(val).getFilter().setCount(filters.getSubjectByValue(val).getFilter().getCount() + 1);
                             }
                         }
-                    } break;
+                    }
+                    break;
                 }
             }
         }
-        for (String slKey: subLocationCount.keySet()) {
+        for (String slKey : subLocationCount.keySet()) {
             String loc = null;
             int count = subLocationCount.get(slKey);
 //            TODO- change this to read from some config prop if it is higher hierarchy with sub locations, like BGB
@@ -541,14 +553,30 @@ public class OpacSearchService {
     private String getPubTypeLabel(String val) {
         String lbl = null;
         switch (val) {
-            case "a": lbl = "Чланци"; break;
-            case "c": lbl = "Збирке- нумерисана";break;
-            case "d": lbl = "Изведени радови";break;
-            case "e": lbl = "Збирке- ненумерисана";break;
-            case "m": lbl = "Монографске";break;
-            case "s": lbl = "Серијске";break;
-            case "r": lbl = "Разгледнице";break;
-            case "z": lbl = "Збирни записи";break;
+            case "a":
+                lbl = "Чланци";
+                break;
+            case "c":
+                lbl = "Збирке- нумерисана";
+                break;
+            case "d":
+                lbl = "Изведени радови";
+                break;
+            case "e":
+                lbl = "Збирке- ненумерисана";
+                break;
+            case "m":
+                lbl = "Монографске";
+                break;
+            case "s":
+                lbl = "Серијске";
+                break;
+            case "r":
+                lbl = "Разгледнице";
+                break;
+            case "z":
+                lbl = "Збирни записи";
+                break;
         }
         return lbl;
     }
@@ -557,37 +585,82 @@ public class OpacSearchService {
         String lbl = null;
         switch (val) {
 //            case "scc": lbl = "Српски ћирилица"; break;
-            case "srp": lbl = "Српски"; break;
+            case "srp":
+                lbl = "Српски";
+                break;
 //            case "scr": lbl = "Српски латиница"; break;
-            case "hrv": lbl = "Хрватски"; break;
-            case "eng": lbl = "Енглески"; break;
-            case "ger": lbl = "Немачки"; break;
-            case "slv": lbl = "Словеначки"; break;
-            case "bos": lbl = "Босански"; break;
-            case "rus": lbl = "Руски"; break;
-            case "fra": lbl = "Француски"; break;
-            case "cze": lbl = "Чешки"; break;
-            case "hun": lbl = "Мађарски"; break;
-            case "rum": lbl = "Румунски"; break;
-            case "alb": lbl = "Албански"; break;
-            case "ita": lbl = "Италијански"; break;
-            case "pol": lbl = "Пољски"; break;
-            case "slo": lbl = "Словачки"; break;
-            case "bgr": lbl = "Бугарски"; break;
-            case "tur": lbl = "Турски"; break;
-            case "spa": lbl = "Шпански"; break;
-            case "rom": lbl = "Ромски"; break;
-            case "lat": lbl = "Латински"; break;
-            case "mul": lbl = "Вишејезични"; break;
+            case "hrv":
+                lbl = "Хрватски";
+                break;
+            case "eng":
+                lbl = "Енглески";
+                break;
+            case "ger":
+                lbl = "Немачки";
+                break;
+            case "slv":
+                lbl = "Словеначки";
+                break;
+            case "bos":
+                lbl = "Босански";
+                break;
+            case "rus":
+                lbl = "Руски";
+                break;
+            case "fra":
+                lbl = "Француски";
+                break;
+            case "cze":
+                lbl = "Чешки";
+                break;
+            case "hun":
+                lbl = "Мађарски";
+                break;
+            case "rum":
+                lbl = "Румунски";
+                break;
+            case "alb":
+                lbl = "Албански";
+                break;
+            case "ita":
+                lbl = "Италијански";
+                break;
+            case "pol":
+                lbl = "Пољски";
+                break;
+            case "slo":
+                lbl = "Словачки";
+                break;
+            case "bgr":
+                lbl = "Бугарски";
+                break;
+            case "tur":
+                lbl = "Турски";
+                break;
+            case "spa":
+                lbl = "Шпански";
+                break;
+            case "rom":
+                lbl = "Ромски";
+                break;
+            case "lat":
+                lbl = "Латински";
+                break;
+            case "mul":
+                lbl = "Вишејезични";
+                break;
         }
         return lbl;
     }
 
     public String mergeCoderVal(String val) {
         switch (val) {
-            case "scr": return "srp";
-            case "scc": return "srp";
-            default: return val;
+            case "scr":
+                return "srp";
+            case "scc":
+                return "srp";
+            default:
+                return val;
         }
     }
 }
