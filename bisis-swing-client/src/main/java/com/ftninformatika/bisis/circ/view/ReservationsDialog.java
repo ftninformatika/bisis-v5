@@ -132,11 +132,11 @@ public class ReservationsDialog extends JDialog {
 
 
     private JButton getBtnPrint(String reservationIdx) {
-        JButton btnPrint = new JButton(Messages.getString("PRINT"));
+        JButton btnPrint = new JButton(Messages.getString("circulation.sendEmail"));
         btnPrint.setIcon(new ImageIcon(getClass().getResource("/icons/print_16.png")));
         btnPrint.setActionCommand(reservationIdx);
         btnPrint.setFocusable(false);
-        btnPrint.setToolTipText(Messages.getString("PRINT")); //$NON-NLS-1$
+        btnPrint.setToolTipText(Messages.getString("circulation.sendEmail")); //$NON-NLS-1$
         btnPrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 int idx = Integer.parseInt(event.getActionCommand());
