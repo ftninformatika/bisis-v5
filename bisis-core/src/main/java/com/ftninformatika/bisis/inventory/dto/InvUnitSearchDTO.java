@@ -23,6 +23,7 @@ public class InvUnitSearchDTO {
     private String title;
     private String publisher;
     private String pubYear;
+    private String sortBy;
     private InventoryStatus inventoryStatus;
 
 

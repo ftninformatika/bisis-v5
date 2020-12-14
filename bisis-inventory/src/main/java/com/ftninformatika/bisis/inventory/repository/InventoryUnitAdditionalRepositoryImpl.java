@@ -53,7 +53,9 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         if (invUnitSearchDTO != null && invUnitSearchDTO.generateSearchCriteria() != null) {
             query.addCriteria(invUnitSearchDTO.generateSearchCriteria());
         }
-
+        if (invUnitSearchDTO != null && invUnitSearchDTO.getSortBy() != null) {
+            query.with(new Sort(new Sort.Order(Sort.Direction.ASC, invUnitSearchDTO.getSortBy())));
+        }
         query.with(pageable);
         List<InventoryUnit> results = mongoTemplate.find(query, InventoryUnit.class);
 
