@@ -168,6 +168,14 @@ public class BooksTreeModel implements Serializable, TreeModel{
     return false;
   }
 
+  public Boolean isInInventory(String ctlgno){
+    if (itemAvailabilityMap.get(ctlgno) != null) {
+      return itemAvailabilityMap.get(ctlgno).getInventoryId() != null;
+    } else {
+      return false;
+    }
+  }
+
   public void setBorrowed(String ctlgno, boolean borrowed){
       itemAvailabilityMap.get(ctlgno).setBorrowed(borrowed);
   }

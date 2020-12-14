@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.inventory;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.records.Primerak;
@@ -11,11 +12,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
@@ -29,17 +32,22 @@ public class Inventory {
     private String name;
     private Integer year;
     private String library;
-    @JsonFormat(pattern="dd.MM.yyyy.")
     private Date startDate;
-    @JsonFormat(pattern="dd.MM.yyyy.")
     private Date endDate;
+    private List<String> itemStatuses;
     private List<Sublocation> sublocations;
     private List<Location> locations;
     private List<InventoryBook> invBooks;
-    //todo status map inv - revision
-    private InventoryStatus inventoryStatus;
+    private List<InventoryStatusPair> invToRevisionStatuses;
+    private EnumInventoryState inventoryState;
+    private EnumActionState currentAction = EnumActionState.NONE;
 
-    public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
+    private Double progress;
+
+    @Transient Map<String, ItemStatus> itemStatusesMap;
+    @Transient Map<String, InventoryStatus> inventoryStatusesMap;
+
+   /* public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
         List<InventoryUnit> retVal = new ArrayList<>();
         RecordPreview rp = new RecordPreview();
         rp.init(record);
@@ -47,6 +55,8 @@ public class Inventory {
         List<Primerak> filteredPrimerci = record.getPrimerciBySublocations(this.sublocations);
         filteredPrimerci = filteredPrimerci.stream()
                 .filter(fp -> fp.inRangeForAnyInvBook(this.invBooks)).collect(Collectors.toList());
+        filteredPrimerci = filteredPrimerci.stream()
+                .filter(p -> p.getStatus() != null && itemStatuses != null && itemStatuses.indexOf(p.getStatus()) > -1).collect(Collectors.toList());
         for (Primerak p: filteredPrimerci) {
             InventoryUnit inventoryUnit = new InventoryUnit();
             inventoryUnit.setRn(record.getRN());
@@ -57,10 +67,28 @@ public class Inventory {
             inventoryUnit.setSignature(p.getSigUDK()); // todo proveriti da li UDK da se koristi
             inventoryUnit.setPublisher(rp.getPublisher());
             inventoryUnit.setPubYear(rp.getPublishingYear());
-            inventoryUnit.setInvStatus(p.getStatus());
-            inventoryUnit.setRevisionStatus("U_REViZIJI");
+            inventoryUnit.setInvStatus(getItemStatus(p.getStatus()));
+            inventoryUnit.setRevisionStatus(getRevStatusByInv(p.getStatus()));
             inventoryUnit.setDateModified(new Date());
             retVal.add(inventoryUnit);
+        }
+        return retVal;
+    }*/
+
+    public ItemStatus getItemStatus(String key) {
+        return itemStatusesMap.get(key);
+    }
+
+
+    public InventoryStatus getRevStatusByInv(String invStatus) {
+        InventoryStatus retVal = inventoryStatusesMap.get(InventoryStatus.IN_REVISION);
+        if (invToRevisionStatuses == null || invStatus == null) {
+            return retVal;
+        }
+        for (InventoryStatusPair pair: invToRevisionStatuses) {
+            if (pair.getFromStatusCoder().equals(invStatus)) {
+                retVal = inventoryStatusesMap.get(pair.getToStatusCoder());
+            }
         }
         return retVal;
     }

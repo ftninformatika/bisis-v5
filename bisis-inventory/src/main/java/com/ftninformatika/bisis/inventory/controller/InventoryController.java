@@ -61,13 +61,23 @@ public class InventoryController {
         return ResponseEntity.ok(inventory1);
     }
 
-
     @DeleteMapping()
-    public ResponseEntity<Inventory> delete(@RequestBody Inventory inventory) {
-        Inventory inventory1 = inventoryService.update(inventory);
-        if (inventory1 == null) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+    public ResponseEntity<Inventory> delete(@RequestParam("_id") String _id) {
+        Inventory inventory =  inventoryService.getOne(_id);
+        if (inventory == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            inventoryService.delete(inventory);
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.ok(inventory1);
+    }
+
+    @PutMapping("/updateLendingStatus")
+    public ResponseEntity<?> updateLendingStatus(@RequestBody String inventoryId) {
+        Boolean retVal = inventoryService.updateLendingStatus(inventoryId);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
     }
 }

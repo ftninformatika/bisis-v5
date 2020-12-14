@@ -2,13 +2,13 @@ plugins {
     id 'java'
 }
 
-version 'unspecified'
+apply plugin: 'war'
 
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
+war {
+    enabled = true
+    baseName = 'bisisInventory'
 }
+
 
 dependencies {
     compile project(":bisis-backend") //todo napravi kontroler koji radi sa sifranicima

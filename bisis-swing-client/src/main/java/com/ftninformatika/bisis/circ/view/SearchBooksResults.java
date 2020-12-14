@@ -329,19 +329,19 @@ public class SearchBooksResults extends JPanel {
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
                     if (op == JOptionPane.YES_OPTION) {
                         boolean success = false;
+                        String ctlgNo = null;
                         if (getTree().getLastSelectedPathComponent() instanceof Primerak) {
-                            success = Cirkulacija.getApp().getUserManager().dischargeUser(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj());
+                            ctlgNo = ((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj();
                         } else if (getTree().getLastSelectedPathComponent() instanceof Sveska) {
-                            success = Cirkulacija.getApp().getUserManager().dischargeUser(((Sveska) getTree().getLastSelectedPathComponent()).getInvBroj());
+                            ctlgNo = ((Sveska) getTree().getLastSelectedPathComponent()).getInvBroj();
                         }
+                        if (getBooksTreeModel().isInInventory(ctlgNo)) {
+                            JOptionPane.showMessageDialog(null, Messages.getString("circulation.discharginginventory")+ " " + ctlgNo,
+                                    Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        success = Cirkulacija.getApp().getUserManager().dischargeUser(ctlgNo);
                         if (success) {
-                            if (getTree().getLastSelectedPathComponent() instanceof Primerak) {
-                                getBooksTreeModel().setBorrowed(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj(), false);
-                                //((Primerak)getTree().getLastSelectedPathComponent()).setStanje(0);
-                            } else if (getTree().getLastSelectedPathComponent() instanceof Sveska) {
-                                getBooksTreeModel().setBorrowed(((Sveska) getTree().getLastSelectedPathComponent()).getInvBroj(), false);
-                                //((Sveska)getTree().getLastSelectedPathComponent()).setStanje(0);
-                            }
+                            getBooksTreeModel().setBorrowed(ctlgNo, false);
                             btnReturn.setEnabled(false);
                             getBtnLend().setEnabled(true);
                             getLUser().setText(""); //$NON-NLS-1$
