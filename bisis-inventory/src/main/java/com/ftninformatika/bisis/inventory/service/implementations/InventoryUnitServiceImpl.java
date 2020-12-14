@@ -97,13 +97,14 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
 
 
     @Override
-    public InventoryUnit create(InventoryUnit inventory) {
+    public InventoryUnit create(InventoryUnit inventoryUnit) {
         return null;
     }
 
     @Override
-    public InventoryUnit update(InventoryUnit inventory) {
-        return inventoryUnitRepository.save(inventory);
+    public InventoryUnit update(InventoryUnit inventoryUnit) {
+        inventoryUnit.uncheckInRevision();
+        return inventoryUnitRepository.save(inventoryUnit);
     }
 
     @Override

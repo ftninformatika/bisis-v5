@@ -76,7 +76,9 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         }
         Document select = new Document("revisionStatus.coder_id", fromStatus.getCoder_id());
         Document setDoc = new Document("revisionStatus", getDocumentFromStatus(toStatus));
-        setDoc.append("checked", true);
+        if (!toStatus.getCoder_id().equals(InventoryStatus.IN_REVISION)) {
+            setDoc.append("checked", true);
+        }
         Document update = new Document("$set", setDoc);
         UpdateResult updateResult = collection.updateMany(select, update);
         return updateResult.isModifiedCountAvailable();

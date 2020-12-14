@@ -31,4 +31,10 @@ public class InventoryUnit {
     private Date dateModified;
     private boolean checked;
 
+    public void uncheckInRevision() {
+        if (this.revisionStatus != null &&
+                this.revisionStatus.getCoder_id().equals(InventoryStatus.IN_REVISION)) {
+            this.setChecked(false);
+        }
+    }
 }
