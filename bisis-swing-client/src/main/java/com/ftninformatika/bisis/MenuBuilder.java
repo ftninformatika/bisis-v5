@@ -115,26 +115,26 @@ public class MenuBuilder extends JMenuBar {
 
     public MenuBuilder(Librarian lib) {
         super();
-        if (lib.isObrada()) {
+        if (lib.hasRole(Librarian.Role.OBRADA)) {
             this.add(getMObrada());
-        } else if (lib.isCirkulacijaPlus()){
+        } else if (lib.hasRole(Librarian.Role.CIRKULACIJAPLUS)){
             this.add(getMObradaPlus());
         } else {
             this.add(getMObradaDefault());
         }
-        if (lib.isObrada() && lib.isCirkulacija()) {
+        if (lib.hasRole(Librarian.Role.OBRADA) && lib.hasRole(Librarian.Role.CIRKULACIJA)) {
             this.add(getMCirculation());
             this.add(getMAllReport());
 
-        } else if (lib.isObrada()) {
+        } else if (lib.hasRole(Librarian.Role.OBRADA)) {
             this.add(getMAllObradaReport());
 
-        } else if (lib.isCirkulacija()) {
+        } else if (lib.hasRole(Librarian.Role.CIRKULACIJA)) {
             this.add(getMUsers());
             this.add(getMSearch());
             this.add(getMCircReport());
         }
-        if (lib.isAdministracija()) {
+        if (lib.hasRole(Librarian.Role.ADMINISTRACIJA)) {
             this.add(getMAdministration());
         }
         this.add(Box.createHorizontalGlue());

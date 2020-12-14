@@ -8,7 +8,9 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.StringUtils;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -23,12 +25,14 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import org.apache.log4j.Logger;
 
 /**
  * @author badf00d21  24.7.19.
  */
 @Service
+@PropertySource(value = "classpath:opac-secret.properties")
 public class EmailService {
 
     private Configuration fmConfig;
@@ -36,6 +40,11 @@ public class EmailService {
     private Logger log = Logger.getLogger(EmailService.class);
     private static final String ACTIVATE_ACC_URL_CHUNK = "user/activate-account/";
     private static final String LIB_URL_CHUNK = "lib/";
+
+    @Value("${opac.email.username}")
+    private String opacUsername;
+    @Value("${opac.email.password}")
+    private String opacPassword;
 
     @Autowired
     public EmailService(Configuration fmConfig,  YAMLConfig yamlConfig) {
@@ -46,6 +55,17 @@ public class EmailService {
     @Bean("gmail")
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        javaMailSender.setHost("smtp.gmail.com");
+        javaMailSender.setPort(587);
+
+        javaMailSender.setUsername(opacUsername);
+        javaMailSender.setPassword(opacPassword);
+
+        Properties props = javaMailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "false");
 
 
         return javaMailSender;

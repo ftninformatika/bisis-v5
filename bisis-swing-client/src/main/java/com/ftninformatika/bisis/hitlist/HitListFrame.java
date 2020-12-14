@@ -8,6 +8,7 @@ import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatter;
 import com.ftninformatika.bisis.hitlist.formatters.RecordFormatterFactory;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordModification;
 import com.ftninformatika.bisis.search.Result;
@@ -132,7 +133,7 @@ public class HitListFrame extends JInternalFrame {
                     handleUnlockRedactorRecord();
             }
         });
-        if (!BisisApp.appConfig.getLibrarian().isRedaktor())
+        if (!BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.REDAKTOR))
             redacatorLock.setEnabled(false);
         oneResultPanel.add(btnAnalitika, "span 5, split 5, right");
         oneResultPanel.add(btnDelete, "");
@@ -146,7 +147,7 @@ public class HitListFrame extends JInternalFrame {
         splitPane.setDividerLocation(500);
         add(splitPane);
         pack();
-        if (!BisisApp.appConfig.getLibrarian().isObrada()) {
+        if (!BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.OBRADA)) {
             btnEdit.setEnabled(false);
             btnNew.setEnabled(false);
             btnDelete.setEnabled(false);

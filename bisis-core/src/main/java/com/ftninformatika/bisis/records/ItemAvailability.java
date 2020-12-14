@@ -22,6 +22,7 @@ public class ItemAvailability implements java.io.Serializable{
     private Integer rn;
     private String libDepartment;
     private Boolean reserved;
+    private String inventoryId;
 
     @Override
     public String toString() {

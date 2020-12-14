@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.books_common_merger;
 
 import com.ftninformatika.bisis.opac2.books.BookCommon;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.config.MongoTransactionalConfiguration;
 import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;

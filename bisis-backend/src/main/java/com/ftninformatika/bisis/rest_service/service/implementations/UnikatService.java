@@ -4,7 +4,7 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.unikat.UnikatBook;

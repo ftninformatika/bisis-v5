@@ -1,8 +1,7 @@
 package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.coders.*;
-import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +25,7 @@ public class LibraryCoders {
     private Map<String, ItemStatus> stCoders;
     private Map<String, Sublocation> sublocCoders;
     private Map<String, Location> locCoders;
-    private Map<String, LibrarianDTO> librarians;
+    private Map<String, LibrarianDB> librarians;
 
 
 }

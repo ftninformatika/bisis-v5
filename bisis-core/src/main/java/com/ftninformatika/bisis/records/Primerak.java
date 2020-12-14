@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ftninformatika.bisis.inventory.InventoryBook;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -123,6 +123,47 @@ public class Primerak implements Serializable {
         getSigNumerusCurens(),getSigUDK(), getPovez(),
         getNacinNabavke(),getOdeljenje(), getStatus(), this.datumStatusa,
         getDostupnost(), getNapomene(), getInventator());
+  }
+
+  public boolean isInInvBook(String invBookCode) throws InvalidPropertiesFormatException {
+    if (invBookCode == null || invBookCode.length() != 2) {
+      throw new IllegalArgumentException("Wrong argument: " + invBookCode);
+    }
+    if (Objects.equals(invBookCode, this.getOdeljenje())) {
+      return false;
+    }
+    if (this.invBroj == null || this.invBroj.length() != 11) {
+      throw new InvalidPropertiesFormatException("Invalid inv number " + this.invBroj);
+    }
+    return this.getInvBroj().substring(2, 4).equals(invBookCode);
+  }
+
+  public boolean inRangeForInvBook(String invBookCode, Integer invMaxNo) {
+    try {
+      if (isInInvBook(invBookCode)
+              && (invMaxNo != null && invMaxNo >= 1 && invMaxNo <= 9999999)) {
+        Integer currInvCount = Integer.parseInt(this.getInvBroj().substring(4));
+        return currInvCount <= invMaxNo;
+      } else if (isInInvBook(invBookCode) && invMaxNo == null) {
+        return true;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    return false;
+  }
+
+  public boolean inRangeForAnyInvBook(List<InventoryBook> inventoryBooks) {
+    if (inventoryBooks == null || inventoryBooks.size() == 0) {
+      return false;
+    }
+    for (InventoryBook inventoryBook: inventoryBooks) {
+      if ((inRangeForInvBook(inventoryBook.getCode(), inventoryBook.getLastNo()))) {
+        return true;
+      }
+    }
+    return false;
   }
 
 

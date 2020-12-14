@@ -13,8 +13,8 @@ import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
-import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
@@ -33,8 +33,8 @@ import java.util.Vector;
 
 public interface BisisService {
 
-    @POST("auth")
-    Call<ResponseBody> getToken(@Body UserCredentials creds);
+    @POST("authenticate")
+    Call<AuthenticationResponse> authenticate(@Body AuthenticationRequest authenticationRequest);
 
 //    @GET("configs/search/getByLibraryName")
 //    Call<LibraryConfiguration> getConfiguration(@Query("libName") String libName);
@@ -45,20 +45,14 @@ public interface BisisService {
     @GET("library_configuration/findAllByLibraryNameNotLike")
     Call<List<LibraryConfiguration>> getAllConfigurations(@Query("libName") String libName);
 
-    @POST("coders/process_types")
-    Call<Void> addProcessType(@Body ProcessTypeDTO processType);
-
-    @GET("coders/process_types/getByLibrary")
-    Call<List<ProcessTypeDTO>> getProcessTypesForLibrary(@Query("libName") String libName);
-
-    @GET("sveske/{invNum}")
-    Call<Sveska> getSveskaByInvNum(@Path("invNum") String invNum);
-
 
 //primerci--------------------------------------------------------------
 
     @GET("primerci/{ctlgno}")
     Call<Primerak> getPrimerakByInvNum(@Path("ctlgno") String ctlgno);
+
+    @GET("sveske/{invNum}")
+    Call<Sveska> getSveskaByInvNum(@Path("invNum") String invNum);
 
 //members---------------------------------------------------------------
 
@@ -111,24 +105,33 @@ public interface BisisService {
     Call<ReservationDTO> getNextReservation(@Body CurrentReservationDTO currentReservationDTO);
 
 //librarians------------------------------------------------------------
+    // sa servera se ucitavaju LibrarianDB objekti, a u aplikaciji se po potrebi
+    // kreiraju Librarian objekti koji imaju ucitane delove formata iz fajla
 
     @GET("librarians/getByUsername")
-    Call<LibrarianDTO> getLibrarianByUsername(@Query("username") String username);
-
-//    @GET("mongo_repository_librarians/search/getByUsername")
-//    Call<LibrarianDTO> getLibrarian(@Query("username") String username);
+    Call<LibrarianDB> getLibrarianByUsername(@Query("username") String username);
 
     @GET("librarians/getByLibrary")
-    Call<List<LibrarianDTO>> getAllLibrarinasInThisLibrary(@Query("library") String library);
+    Call<List<LibrarianDB>> getAllLibrarinasInThisLibrary(@Query("library") String library);
 
     @POST("librarians/update")//
-    Call<Boolean> createLibrarian(@Body LibrarianDTO librarian);
+    Call<Boolean> createLibrarian(@Body LibrarianDB librarian);
 
     @POST("librarians/update")
-    Call<Boolean> updateLibrarian(@Body LibrarianDTO librarian);
+    Call<Boolean> updateLibrarian(@Body LibrarianDB librarian);
 
     @POST("librarians/delete")//
-    Call<Boolean> deleteLibraian(@Body LibrarianDTO librarian);
+    Call<Boolean> deleteLibraian(@Body LibrarianDB librarian);
+
+//process_types---------------------------------------------------------
+    // sa servera se ucitavaju ProcessTypeDB objekti, a u aplikaciji se
+    // kreiraju ProcessType objekti koji imaju ucitane delove formata iz fajla
+
+    @POST("coders/process_types")
+    Call<ProcessTypeDB> saveProcessType(@Body ProcessTypeDB processType);
+
+    @GET("coders/process_types/getByLibrary")
+    Call<List<ProcessTypeDB>> getProcessTypesForLibrary(@Query("libName") String libName);
 
 //records---------------------------------------------------------------
 
@@ -235,7 +238,6 @@ public interface BisisService {
     Call<List<Task>> getTasks(@Query("libName")String libName);
 
 //coders circulation----------------------------------------------------------
-
 
     @GET("coders/circlocation")
     Call<List<CircLocation>> getCircLocations(@Query("libName")String libName);

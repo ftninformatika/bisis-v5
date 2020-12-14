@@ -95,7 +95,7 @@ public class RecordsManager {
         }
     }
 
-    public void returnBook(String ctlgno){
+    public String returnBook(String ctlgno){
         log.info("Razduzivanje primerka: " + ctlgno);
         try {
             primerak = BisisApp.bisisService.getPrimerakByInvNum(ctlgno).execute().body();
@@ -136,6 +136,12 @@ public class RecordsManager {
                 }
             }
         }
+        if (itemAvailability.getInventoryId() != null) {
+            return itemAvailability.getCtlgNo();
+        } else {
+            return null;
+        }
+
     }
 
     public String getErrorMessage(){
@@ -190,6 +196,10 @@ public class RecordsManager {
         }else{
             return false;
         }
+    }
+
+    public boolean isInInventory() {
+       return itemAvailability.getInventoryId() != null;
     }
 
     public List getListOfItems(){

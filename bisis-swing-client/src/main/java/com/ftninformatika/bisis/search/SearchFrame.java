@@ -289,7 +289,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
 			lib.getContext().setPref3(btnPref3.getText());
 			lib.getContext().setPref4(btnPref4.getText());
 			lib.getContext().setPref5(btnPref5.getText());
-			LibEnvProxy.updateLibrarian(lib);
+			LibEnvProxy.updateLibrarianContext(lib);
 		}
 		setVisible(false);
 	}  
@@ -601,4 +601,3 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   }
   
 }
-          

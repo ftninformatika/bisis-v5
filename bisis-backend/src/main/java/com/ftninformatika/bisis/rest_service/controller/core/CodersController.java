@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.inventory.InventoryStatus;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.circ.*;
@@ -39,21 +41,27 @@ public class CodersController {
     @Autowired WarningTypeRepository warnrep;
     @Autowired WarningCounterRepository warncountrep;
     @Autowired OrganizationRepository orgrep;
-    @Autowired ProcessTypeRepository processTypeRepository;
+    @Autowired ProcessType2Repository processTypeRepository;
     @Autowired CircLocationRepository circLocationRepository;
     @Autowired CorporateMemberRepository corporateMemberRepository;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired CounterRepository counterRepository;
+    @Autowired InventoryStatusRepository inventoryStatusRepository;
 
     @RequestMapping( path = "process_types")
-    public ProcessTypeDTO addProcessType(@RequestBody ProcessTypeDTO pt){
+    public ProcessTypeDB addProcessType(@RequestBody ProcessTypeDB pt){
       //  ProcessTypeDTO processTypeDTO = processTypeRepository.findByNameAndLibName(pt.getName(),pt.getLibName());
         return processTypeRepository.save(pt);
     }
 
     @RequestMapping(path = "process_types/getByLibrary")
-    public List<ProcessTypeDTO> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
+    public List<ProcessTypeDB> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
         return processTypeRepository.getProcessTypesByLibNameIsNullOrLibName(libName);
+    }
+
+    @RequestMapping(path = "inventory_status")
+    public List<InventoryStatus> getInvetoryStatuses(@RequestHeader("Library") String libName){
+        return inventoryStatusRepository.getCoders(libName);
     }
 
     @RequestMapping(path = "lib_configurations")
@@ -62,7 +70,7 @@ public class CodersController {
     }
 
     @RequestMapping(path = "accession_register")
-    public List<AccessionRegister> getAccessionRegs(String libName){
+    public List<AccessionRegister> getAccessionRegs(@RequestHeader("Library") String libName){
         return accregrep.getCoders(libName);
     }
 
@@ -92,17 +100,17 @@ public class CodersController {
     }
 
     @RequestMapping(path = "item_status")
-    public List<ItemStatus> getStatuses(String libName){
+    public List<ItemStatus> getStatuses(@RequestHeader("Library") String libName){
         return statrep.getCoders(libName);
     }
 
     @RequestMapping(path = "location")
-    public List<Location> getLocations(String libName){
+    public List<Location> getLocations(@RequestHeader("Library") String libName){
         return locrep.getCoders(libName);
     }
 
     @RequestMapping(path = "sublocation")
-    public List<Sublocation> getSublocations(String libName){
+    public List<Sublocation> getSublocations(@RequestHeader("Library") String libName){
         return sublocrep.getCoders(libName);
     }
 

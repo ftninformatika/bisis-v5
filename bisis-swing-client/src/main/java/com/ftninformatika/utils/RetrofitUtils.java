@@ -1,8 +1,9 @@
 package com.ftninformatika.utils;
 
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.service.AuthenticationResponse;
 import com.ftninformatika.bisis.service.BisisService;
-import com.ftninformatika.bisis.service.UserCredentials;
+import com.ftninformatika.bisis.service.AuthenticationRequest;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -26,18 +27,14 @@ public class RetrofitUtils {
 
         BisisService bs = rf.create(BisisService.class);
 
-        Call<ResponseBody> ans = bs.getToken(new UserCredentials(username,password));
-        final String[] token = new String[1];
-        Object response = ans.execute().body();
-        if(response == null)
+        Call<AuthenticationResponse> ans = bs.authenticate(new AuthenticationRequest(username,password));
+        AuthenticationResponse authenticationResponse = ans.execute().body();
+
+        if(authenticationResponse == null) {
             return null;
-
-        token[0] = ((ResponseBody)response).string();
-
-        token[0] = token[0].split(":")[1];
-        token[0] = token[0].substring(1, token[0].length()-2);
-
-        return token[0];
+        } else {
+            return authenticationResponse.getToken();
+        }
     }
 
 

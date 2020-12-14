@@ -1,15 +1,11 @@
 package com.ftninformatika.bisis.opac2.members;
 
-import com.ftninformatika.bisis.auth.model.Authority;
-import com.ftninformatika.bisis.auth.model.BaseEntity;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Document(collection = "library_members")
-public class LibraryMember implements UserDetails {
+public class LibraryMember {
 
     @Id String _id;
     private String username; // (email)
@@ -38,28 +34,4 @@ public class LibraryMember implements UserDetails {
     private String passwordResetString; // Represent url path for password reset
     private List<String> myBookshelfBooks = new ArrayList<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return profileActivated != null && profileActivated;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return profileActivated != null && profileActivated;
-    }
 }

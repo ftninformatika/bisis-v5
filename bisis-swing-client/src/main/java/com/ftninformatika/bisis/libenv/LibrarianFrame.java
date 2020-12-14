@@ -6,6 +6,8 @@ package com.ftninformatika.bisis.libenv;
 import com.ftninformatika.bisis.circ.CircLocation;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.utils.Messages;
 
 import java.awt.Component;
@@ -79,8 +81,7 @@ public class LibrarianFrame extends JInternalFrame {
     }
 
     public void initializeForm() {
-        Librarian lib = new Librarian();
-        lib.setContext(new LibrarianContext());
+        LibrarianDB lib = new LibrarianDB();
         loadLibrarian(lib);
         librariansTable.clearSelection();
         allProcTypesListModel.setProcTypeList(LibEnvProxy.getAllProcTypes());
@@ -135,24 +136,24 @@ public class LibrarianFrame extends JInternalFrame {
         LibEnvProxy.getCircLocations().stream().forEach(i -> circDepartmentCombo.addItem(i));
     }
 
-    private void loadLibrarian(Librarian lib) {
+    private void loadLibrarian(LibrarianDB lib) {
         if (lib.getUsername() != null) usernameTxtFld.setText(lib.getUsername());
         else usernameTxtFld.setText(""); //$NON-NLS-1$
         if (lib.getPassword() != null) passwordTxtFld.setText(lib.getPassword());
         else passwordTxtFld.setText(""); //$NON-NLS-1$
-        administracijaCheckBox.setSelected(lib.isAdministration());
-        obradaCheckBox.setSelected(lib.isCataloguing());
-        cirkulacijaCheckBox.setSelected(lib.isCirculation());
-        if (lib.isCirkulacija()) {
+        administracijaCheckBox.setSelected(lib.hasRole(Librarian.Role.ADMINISTRACIJA));
+        obradaCheckBox.setSelected(lib.hasRole(Librarian.Role.OBRADA));
+        cirkulacijaCheckBox.setSelected(lib.hasRole(Librarian.Role.CIRKULACIJA));
+        if (lib.hasRole(Librarian.Role.CIRKULACIJA)) {
             cirkulacijaPlusCheckBox.setEnabled(true);
-            cirkulacijaPlusCheckBox.setSelected(lib.isCirkulacijaPlus());
+            cirkulacijaPlusCheckBox.setSelected(lib.hasRole(Librarian.Role.CIRKULACIJAPLUS));
         } else {
             cirkulacijaPlusCheckBox.setEnabled(false);
         }
-        redaktorRadioBtn.setSelected(lib.isRedaktor());
-        inventatorRadioBtn.setSelected(lib.isInventator());
-        dezideratiCheckBox.setSelected(lib.isDeziderati());
-        nabavkaCheckBox.setSelected(lib.isNabavka());
+        redaktorRadioBtn.setSelected(lib.hasRole(Librarian.Role.REDAKTOR));
+        inventatorRadioBtn.setSelected(lib.hasRole(Librarian.Role.INVENTATOR));
+        dezideratiCheckBox.setSelected(lib.hasRole(Librarian.Role.DEZIDERATI));
+        nabavkaCheckBox.setSelected(lib.hasRole(Librarian.Role.NABAVKA));
         if (lib.getIme() != null) nameTxtFld.setText(lib.getIme());
         else nameTxtFld.setText(""); //$NON-NLS-1$
         if (lib.getPrezime() != null) lastnameTxtFld.setText(lib.getPrezime());
@@ -161,8 +162,11 @@ public class LibrarianFrame extends JInternalFrame {
         else emailTxtFld.setText(""); //$NON-NLS-1$
         if (lib.getNapomena() != null) notesTxtArea.setText(lib.getNapomena());
         else notesTxtArea.setText("");             //$NON-NLS-1$
-        libProcTypesListModel.setProcTypeList(lib.getContext().getProcessTypes());
-        libProcTypesListModel.setDefaultProcessType(lib.getContext().getDefaultProcessType());
+        libProcTypesListModel.setProcTypeList(lib.getContext().getProcessTypes().stream()
+                .map(ProcessType::new).collect(Collectors.toList()));
+        if (lib.getContext().getDefaultProcessType() != null) {
+            libProcTypesListModel.setDefaultProcessType(new ProcessType(lib.getContext().getDefaultProcessType()));
+        }
         if (lib.getDefaultDepartment() != null && !lib.getDefaultDepartment().isEmpty()) {
             setComboValue(defaultDepartmentCombo, lib.getDefaultDepartment());
         } else {
@@ -173,7 +177,7 @@ public class LibrarianFrame extends JInternalFrame {
         } else {
             circDepartmentCombo.setSelectedIndex(0);
         }
-        if (lib.isOpacAdmin()) {
+        if (lib.hasRole(Librarian.Role.OPACADMIN)) {
             opacAdminCheckBox.setEnabled(false);
             opacAdminCheckBox.setSelected(true);
         }
@@ -201,27 +205,45 @@ public class LibrarianFrame extends JInternalFrame {
         }
     }
 
-    private Librarian getLibrarianFromForm() {
-        Librarian lib = new Librarian();
-        lib.setContext(new LibrarianContext());
+    private LibrarianDB getLibrarianFromForm() {
+        LibrarianDB lib = new LibrarianDB();
         lib.setUsername(usernameTxtFld.getText());
         lib.setPassword(passwordTxtFld.getText());
-        lib.setAdministration(administracijaCheckBox.isSelected());
-        lib.setCataloguing(obradaCheckBox.isSelected());
-        lib.setCirculation(cirkulacijaCheckBox.isSelected());
-        lib.setCirkulacijaPlus(cirkulacijaPlusCheckBox.isSelected());
-        lib.setRedaktor(redaktorRadioBtn.isSelected());
-        lib.setInventator(inventatorRadioBtn.isSelected());
         lib.setIme(nameTxtFld.getText());
         lib.setPrezime(lastnameTxtFld.getText());
         lib.setEmail(emailTxtFld.getText());
         lib.setNapomena(notesTxtArea.getText());
         lib.setBiblioteka(BisisApp.appConfig.getLibrary());
-        lib.setOpacAdmin(opacAdminCheckBox.isSelected());
-        lib.setDeziderati(dezideratiCheckBox.isSelected());
-        lib.setNabavka(nabavkaCheckBox.isSelected());
-        lib.getContext().setProcessTypes((ArrayList<ProcessType>) libProcTypesListModel.getProcessTypes());
-        lib.getContext().setDefaultProcessType(libProcTypesListModel.getDefaultProcessType());
+        if (administracijaCheckBox.isSelected()) {
+            lib.setRole(Librarian.Role.ADMINISTRACIJA);
+        }
+        if (obradaCheckBox.isSelected()) {
+            lib.setRole(Librarian.Role.OBRADA);
+        }
+        if (cirkulacijaCheckBox.isSelected()) {
+            lib.setRole(Librarian.Role.CIRKULACIJA);
+        }
+        if (cirkulacijaPlusCheckBox.isSelected()) {
+            lib.setRole(Librarian.Role.CIRKULACIJAPLUS);
+        }
+        if (redaktorRadioBtn.isSelected()) {
+            lib.setRole(Librarian.Role.REDAKTOR);
+        }
+        if (inventatorRadioBtn.isSelected()) {
+            lib.setRole(Librarian.Role.INVENTATOR);
+        }
+        if (opacAdminCheckBox.isSelected()) {
+            lib.setRole(Librarian.Role.OPACADMIN);
+        }
+        if (nabavkaCheckBox.isSelected()) {
+            lib.setRole(Librarian.Role.NABAVKA);
+        }
+        if (dezideratiCheckBox.isSelected()) {
+            lib.setRole(Librarian.Role.DEZIDERATI);
+        }
+        lib.getContext().setProcessTypes(libProcTypesListModel.getProcessTypes().stream()
+                .map(ProcessTypeDB::new).collect(Collectors.toList()));
+        lib.getContext().setDefaultProcessType(new ProcessTypeDB(libProcTypesListModel.getDefaultProcessType()));
         if (defaultDepartmentCombo.getSelectedItem() instanceof Location) {
             lib.setDefaultDepartment(((Location) defaultDepartmentCombo.getSelectedItem()).getCoder_id());
         } else {
@@ -306,12 +328,11 @@ public class LibrarianFrame extends JInternalFrame {
     }
 
     private void handleSetDefault() {
-        libProcTypesListModel.setDefaultProcessType(
-                (ProcessType) libProcTypesList.getSelectedValue());
+        libProcTypesListModel.setDefaultProcessType((ProcessType)libProcTypesList.getSelectedValue());
         libProcTypesList.repaint();
     }
 
-    private Librarian getSelectedLibrarian() {
+    private LibrarianDB getSelectedLibrarian() {
         if (librariansTable.getSelectedRow() > -1 &&
                 librariansTable.getSelectedRow() < librariansTableModel.getRowCount())
             return librariansTableModel.getRow(
@@ -385,7 +406,7 @@ public class LibrarianFrame extends JInternalFrame {
         opacAdminCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (opacAdminCheckBox.isSelected() && getSelectedLibrarian() != null && !getSelectedLibrarian().isOpacAdmin()) {
+                if (opacAdminCheckBox.isSelected() && getSelectedLibrarian() != null && !getSelectedLibrarian().hasRole(Librarian.Role.OPACADMIN)) {
                     if (getSelectedLibrarian() == null) {
                         opacAdminCheckBox.setSelected(false);
                         return;

@@ -3,6 +3,8 @@ package com.ftninformatika.bisis.librarian;
 import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UIndicator;
 import com.ftninformatika.bisis.format.USubfield;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
+import com.ftninformatika.bisis.librarian.db.USubfieldDB;
 import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import com.ftninformatika.bisis.librarian.dto.USubfieldDTO;
 import com.ftninformatika.utils.xml.XMLUtils;
@@ -11,6 +13,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 
@@ -61,58 +64,95 @@ public class ProcessTypeBuilder extends DefaultHandler {
     }
   }
 
-  public static ProcessType buildProcessTypeFromDTO(ProcessTypeDTO ptDTO){
-      if (ptDTO == null)
-          return null;
+//  public static ProcessType buildProcessTypeFromDTO(ProcessTypeDTO ptDTO){
+//      if (ptDTO == null)
+//          return null;
+//
+//      ProcessType retVal = new ProcessType();
+//      retVal.set_id(ptDTO.get_id());
+//      retVal.setPubType(PubTypes.getPubType(ptDTO.getPubType()));
+//      retVal.setName(ptDTO.getName());
+//      retVal.setLibName(ptDTO.getLibName());
+//
+//      if (ptDTO.getInitialFields() != null){
+//          for (USubfieldDTO subDTO : ptDTO.getInitialFields()){
+//              USubfield sub = retVal.getPubType().getSubfield(subDTO.getFieldName()+subDTO.getSubfieldName()).shallowCopy();
+//              sub.setDefaultValue(subDTO.getDefaultValue());
+//              retVal.getInitialSubfields().add(sub);
+//          }
+//      }
+//
+//
+//
+//      if (ptDTO.getMandatoryFields() != null)
+//          retVal.setMandatorySubfields( ptDTO.getMandatoryFields().stream().
+//                  map(i -> retVal.getPubType().getSubfield(i.getFieldName()+i.getSubfieldName()).shallowCopy()).
+//                  collect(Collectors.toList()) );
+//
+//
+//      return retVal;
+//  }
 
-      ProcessType retVal = new ProcessType();
-      retVal.set_id(ptDTO.get_id());
-      retVal.setPubType(PubTypes.getPubType(ptDTO.getPubType()));
-      retVal.setName(ptDTO.getName());
-      retVal.setLibName(ptDTO.getLibName());
+    public static ProcessTypeDB buildProcessTypeDBFromDTO(ProcessTypeDTO ptDTO){
+        if (ptDTO == null)
+            return null;
 
-      if (ptDTO.getInitialFields() != null){
-          for (USubfieldDTO subDTO : ptDTO.getInitialFields()){
-              USubfield sub = retVal.getPubType().getSubfield(subDTO.getFieldName()+subDTO.getSubfieldName()).shallowCopy();
-              sub.setDefaultValue(subDTO.getDefaultValue());
-              retVal.getInitialSubfields().add(sub);
-          }
-      }
+        ProcessTypeDB retVal = new ProcessTypeDB();
+        retVal.set_id(ptDTO.get_id());
+        retVal.setPubType(ptDTO.getPubType());
+        retVal.setName(ptDTO.getName());
+        retVal.setLibName(ptDTO.getLibName());
 
-
-
-      if (ptDTO.getMandatoryFields() != null)
-          retVal.setMandatorySubfields( ptDTO.getMandatoryFields().stream().
-                  map(i -> retVal.getPubType().getSubfield(i.getFieldName()+i.getSubfieldName()).shallowCopy()).
-                  collect(Collectors.toList()) );
-
-
-      return retVal;
-  }
-
-  public static ProcessTypeDTO buildDTOFromProcessType(ProcessType pt){
-      if (pt == null)
-          return null;
-
-      ProcessTypeDTO retVal = new ProcessTypeDTO();
-      retVal.set_id(pt.get_id());
-      retVal.setPubType(pt.getPubType().getPubType());
-      retVal.setName(pt.getName());
-      retVal.setLibName(pt.getLibName());
-
-      if (pt.getInitialSubfields() != null && pt.getInitialSubfields().size() > 0)
-        retVal.setInitialFields(pt.getInitialSubfields().stream()
-                                   .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName(), i.getDefaultValue()))
-                                   .collect(Collectors.toList()));
+        if (ptDTO.getInitialFields() != null){
+            retVal.setInitialFields(new ArrayList<>());
+            for (USubfieldDTO subDTO : ptDTO.getInitialFields()){
+                USubfieldDB sub = new USubfieldDB();
+                sub.setFieldName(subDTO.getFieldName());
+                sub.setSubfieldName(subDTO.getSubfieldName());
+                sub.setDefaultValue(subDTO.getDefaultValue());
+                retVal.getInitialFields().add(sub);
+            }
+        }
 
 
-      if (pt.getMandatorySubfields() != null && pt.getMandatorySubfields().size() > 0)
-          retVal.setMandatoryFields(pt.getMandatorySubfields().stream()
-                  .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName(), i.getDefaultValue()))
-                  .collect(Collectors.toList()));
 
-    return retVal;
-  }
+        if (ptDTO.getMandatoryFields() != null) {
+            retVal.setMandatoryFields(new ArrayList<>());
+            for (USubfieldDTO subDTO : ptDTO.getMandatoryFields()){
+                USubfieldDB sub = new USubfieldDB();
+                sub.setFieldName(subDTO.getFieldName());
+                sub.setSubfieldName(subDTO.getSubfieldName());
+                sub.setDefaultValue(subDTO.getDefaultValue());
+                retVal.getMandatoryFields().add(sub);
+            }
+        }
+
+        return retVal;
+    }
+
+//  public static ProcessTypeDTO buildDTOFromProcessType(ProcessType pt){
+//      if (pt == null)
+//          return null;
+//
+//      ProcessTypeDTO retVal = new ProcessTypeDTO();
+//      retVal.set_id(pt.get_id());
+//      retVal.setPubType(pt.getPubType().getPubType());
+//      retVal.setName(pt.getName());
+//      retVal.setLibName(pt.getLibName());
+//
+//      if (pt.getInitialSubfields() != null && pt.getInitialSubfields().size() > 0)
+//        retVal.setInitialFields(pt.getInitialSubfields().stream()
+//                                   .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName(), i.getDefaultValue()))
+//                                   .collect(Collectors.toList()));
+//
+//
+//      if (pt.getMandatorySubfields() != null && pt.getMandatorySubfields().size() > 0)
+//          retVal.setMandatoryFields(pt.getMandatorySubfields().stream()
+//                  .map(i -> new USubfieldDTO(i.getOwner().getName(), i.getName(), i.getDefaultValue()))
+//                  .collect(Collectors.toList()));
+//
+//    return retVal;
+//  }
   
   ProcessType pt;
   static SAXParserFactory factory = SAXParserFactory.newInstance();

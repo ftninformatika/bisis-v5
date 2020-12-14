@@ -1,8 +1,9 @@
 package com.ftninformatika.bisis.books_common_merger;
 
 import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCommonController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCoverController;
@@ -61,6 +62,20 @@ class RecordsPair {
                 if (records == null) {
                     log.info("No records in library: " + libPref + " for ISBN: " + isbn);
                     System.out.println("No records in library: " + libPref + " for ISBN: " + isbn);
+                    continue;
+                }
+                List<Record> toRemove = new ArrayList<>();
+                for (Record r: records) {
+                    if (!checkIf1st010FieldisIsbn(r, isbn)) {
+                        toRemove.add(r);
+                    }
+                }
+                if (toRemove.size() > 0) {
+                    records.removeAll(toRemove);
+                    log.info("Remove "+ toRemove.size() + " records");
+                    System.out.println("Remove "+ toRemove.size() + " records");
+                }
+                if (records.size() == 0) {
                     continue;
                 }
                 mergeCommonBookUID(records, libPref, bookCommon.getUid());
@@ -123,6 +138,23 @@ class RecordsPair {
         searchModel.setPref5("");
         searchModel.setText5("");
         return searchModel;
+    }
+
+    /**
+     * Proverava da li je prvi 010a zapravo ISBN koji je pronasao (drugi se koristi za izdavacku delatnost - BGB)
+     * Poziva se ako postoji vise 010polja prisutnih
+     */
+    private boolean checkIf1st010FieldisIsbn(Record record, String isbn) {
+        List<Field> _010Fields = record.getFields("010");
+        isbn = isbn.replace("-", "").replace(" ", "").replace("978", "");
+        if (_010Fields.size() >= 2) {
+            String _1stIsbn = _010Fields.get(0).getSubfieldContent('a');
+            if (_1stIsbn != null) {
+                _1stIsbn = _1stIsbn.replace("-", "").replace(" ", "");
+                return _1stIsbn.indexOf(isbn) > 0;
+            }
+        }
+        return true;
     }
 
     /**

@@ -4,6 +4,7 @@ plugins {
 apply plugin: 'war'
 
 war {
+	enabled = true
 	baseName = 'bisisWS'
 }
 // gradle build pakuje war aplikaciju
@@ -22,6 +23,7 @@ jar {
 
 dependencies {
 	compile project(":bisis-core")
+	compile project(":bisis-authentication")
 	// providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.1.2.RELEASE'
 	compile group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '3.1.4.RELEASE'

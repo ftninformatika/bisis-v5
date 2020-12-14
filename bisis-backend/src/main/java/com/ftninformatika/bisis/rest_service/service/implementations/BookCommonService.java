@@ -5,7 +5,7 @@ import com.ftninformatika.bisis.opac2.BookCollection;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
