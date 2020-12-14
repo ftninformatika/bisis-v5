@@ -15,6 +15,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
+import com.ftninformatika.utils.string.Signature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -241,6 +242,8 @@ public class InventoryServiceImpl implements InventoryService {
                             unit.setRevisionStatus(createdInventory.getRevStatusByInv(unit.getStatus()));
                             unit.setDateModified(new Date());
                             unit.setStatus(null);
+                            String signature = Signature.format(record.getPrimerak(unit.getInvNo()));
+                            unit.setSignature(signature);
                             invUnitsBulkList.add(unit);
             }
             count ++;
