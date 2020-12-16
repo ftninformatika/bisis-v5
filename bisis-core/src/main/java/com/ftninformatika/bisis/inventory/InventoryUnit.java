@@ -26,14 +26,19 @@ public class InventoryUnit {
     private String publisher;
     private String pubYear;
     private String status;
-    private ItemStatus invStatus; //todo refactor - itemStatus
-    private InventoryStatus revisionStatus; // todo inventoryStatus
+//    private ItemStatus invStatus; //todo refactor - itemStatus
+//    private InventoryStatus revisionStatus; // todo inventoryStatus
+
+    private String itemStatusCoderId;
+    private String itemStatusDescription;
+    private String inventoryStatusCoderId;
+    private String inventoryStatusDescription;
     private Date dateModified;
     private boolean checked;
 
     public void uncheckInRevision() {
-        if (this.revisionStatus != null &&
-                this.revisionStatus.getCoder_id().equals(InventoryStatus.IN_REVISION)) {
+        if (this.inventoryStatusCoderId != null &&
+                this.inventoryStatusCoderId.equals(InventoryStatus.IN_REVISION)) {
             this.setChecked(false);
         }
     }

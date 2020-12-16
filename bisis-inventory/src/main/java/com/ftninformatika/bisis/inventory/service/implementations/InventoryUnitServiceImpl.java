@@ -69,7 +69,8 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         if (onPlaceStatus == null || inventoryUnit == null) {
             return null; //todo logger
         }
-        inventoryUnit.setRevisionStatus(onPlaceStatus);
+        inventoryUnit.setInventoryStatusCoderId(onPlaceStatus.getCoder_id());
+        inventoryUnit.setInventoryStatusDescription(onPlaceStatus.getDescription());
         return inventoryUnitRepository.save(inventoryUnit);
     }
 
@@ -183,7 +184,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         Record rec = recordsRepository.getByRn(rn);
         for (InventoryUnit unit: inventoryUnits) {
             Primerak p = rec.getPrimerak(unit.getInvNo());
-            StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getRevisionStatus());
+            StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getInventoryStatusCoderId());
             p.setStatus(statusMappingEntry.getItemStatusCoderId());
             if (statusMappingEntry.getItemStatusDate() != null) {
                 p.setDatumStatusa(statusMappingEntry.getItemStatusDate());

@@ -30,7 +30,6 @@ public class Inventory {
     @Id
     private String _id;
     private String name;
-    private Integer year;
     private String library;
     private Date startDate;
     private Date endDate;
@@ -41,44 +40,15 @@ public class Inventory {
     private List<InventoryStatusPair> invToRevisionStatuses;
     private EnumInventoryState inventoryState;
     private EnumActionState currentAction = EnumActionState.NONE;
-
     private Double progress;
+    private Integer totalUnits;
 
-    @Transient Map<String, ItemStatus> itemStatusesMap;
-    @Transient Map<String, InventoryStatus> inventoryStatusesMap;
-
-   /* public List<InventoryUnit> initListOfUnitsFromRecord(Record record) {
-        List<InventoryUnit> retVal = new ArrayList<>();
-        RecordPreview rp = new RecordPreview();
-        rp.init(record);
-        // todo ovde location/sublocation kada bude trebalo
-        List<Primerak> filteredPrimerci = record.getPrimerciBySublocations(this.sublocations);
-        filteredPrimerci = filteredPrimerci.stream()
-                .filter(fp -> fp.inRangeForAnyInvBook(this.invBooks)).collect(Collectors.toList());
-        filteredPrimerci = filteredPrimerci.stream()
-                .filter(p -> p.getStatus() != null && itemStatuses != null && itemStatuses.indexOf(p.getStatus()) > -1).collect(Collectors.toList());
-        for (Primerak p: filteredPrimerci) {
-            InventoryUnit inventoryUnit = new InventoryUnit();
-            inventoryUnit.setRn(record.getRN());
-            inventoryUnit.setInventoryId(this._id);
-            inventoryUnit.setInvNo(p.getInvBroj());
-            inventoryUnit.setAuthor(rp.getAuthor());
-            inventoryUnit.setTitle(rp.getTitle());
-            inventoryUnit.setSignature(p.getSigUDK()); // todo proveriti da li UDK da se koristi
-            inventoryUnit.setPublisher(rp.getPublisher());
-            inventoryUnit.setPubYear(rp.getPublishingYear());
-            inventoryUnit.setInvStatus(getItemStatus(p.getStatus()));
-            inventoryUnit.setRevisionStatus(getRevStatusByInv(p.getStatus()));
-            inventoryUnit.setDateModified(new Date());
-            retVal.add(inventoryUnit);
-        }
-        return retVal;
-    }*/
+    @Transient @JsonIgnore Map<String, ItemStatus> itemStatusesMap;
+    @Transient @JsonIgnore Map<String, InventoryStatus> inventoryStatusesMap;
 
     public ItemStatus getItemStatus(String key) {
         return itemStatusesMap.get(key);
     }
-
 
     public InventoryStatus getRevStatusByInv(String invStatus) {
         InventoryStatus retVal = inventoryStatusesMap.get(InventoryStatus.IN_REVISION);

@@ -74,8 +74,9 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
             System.out.println("changeRevisionStatuses ne valjaju statusi");
             return null;
         }
-        Document select = new Document("revisionStatus.coder_id", fromStatus.getCoder_id());
-        Document setDoc = new Document("revisionStatus", getDocumentFromStatus(toStatus));
+        Document select = new Document("inventoryStatusCoderId", fromStatus.getCoder_id());
+        Document setDoc = new Document("inventoryStatusCoderId", toStatus.getCoder_id());
+        setDoc.append("inventoryStatusDescription", toStatus.getDescription());
         if (!toStatus.getCoder_id().equals(InventoryStatus.IN_REVISION)) {
             setDoc.append("checked", true);
         }
@@ -102,7 +103,7 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         Criteria[] invStatuses = new Criteria[invStatusesCoderIdList.size()];
         int i = 0;
         for (String invStatusCoder: invStatusesCoderIdList) {
-            invStatuses[i] = Criteria.where("revisionStatus.coder_id").is(invStatusCoder); //todo check "revisionStatus" if refactor
+            invStatuses[i] = Criteria.where("inventoryStatusCoderId").is(invStatusCoder);
             i++;
         }
         Criteria or = new Criteria().orOperator(invStatuses);
@@ -110,15 +111,7 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         Query q = new Query();
         q.addCriteria(criteria);
         q.with(new Sort(Sort.Direction.DESC,"rn"));
-        q.fields().include("rn").include("inventoryId").include("invNo").include("revisionStatus.coder_id");
+        q.fields().include("rn").include("inventoryId").include("invNo").include("inventoryStatusCoderId").include("inventoryStatusDescription");
         return mongoTemplate.stream(q, InventoryUnit.class);
-    }
-
-    private Document getDocumentFromStatus(InventoryStatus status) {
-        Document d = new Document("_id", status.get_id());
-        d.append("coder_id", status.getCoder_id());
-        d.append("description", status.getDescription());
-        d.append("library", status.getLibrary());
-        return d;
     }
 }

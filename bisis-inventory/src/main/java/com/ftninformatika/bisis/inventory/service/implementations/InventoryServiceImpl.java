@@ -59,20 +59,16 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public Inventory create(Inventory inventory, String lib) {
         if (inventory == null || inventory.get_id() != null) {
+            System.out.println("(inventory == null || inventory.get_id() != null)");
             return null;
         }
         if (inventoryRepository.findAllByInventoryStateAndLibrary(EnumInventoryState.IN_PREPARATION, lib).size() > 0) {
-            // todo Ne moze da se upisuje nova dok ima neka u pripremi (puni kolekciju inventory_unit)
+            System.out.println("(inventoryRepository.findAllByInventoryStateAndLibrary(EnumInventoryState.IN_PREPARATION, lib).size() > 0)");
             return null;
         }
         inventory.setProgress(0d);
         inventory.setInventoryState(EnumInventoryState.IN_PREPARATION);
         try {
-            if (inventory.getYear() == null && inventory.getStartDate() != null) {
-                Calendar calendar = new GregorianCalendar();
-                calendar.setTime(inventory.getStartDate());
-                inventory.setYear(calendar.get(Calendar.YEAR));
-            }
             inventory = inventoryRepository.insert(inventory);
             generateInventoryUnits(inventory, lib);
             inventory.setInventoryState(EnumInventoryState.IN_PROGRESS);
@@ -164,7 +160,6 @@ public class InventoryServiceImpl implements InventoryService {
         if (sublocationCriteriaList.size() > 0) {
             matchSublocationOp = Aggregation.match(new Criteria().orOperator(sublocationCriteriaList.toArray(new Criteria[sublocationCriteriaList.size()])));
         }
-
         MatchOperation matchInvBooksOp = null;
         if (invBookCriteriaList.size() > 0) {
             matchInvBooksOp = Aggregation.match(new Criteria().orOperator(invBookCriteriaList.toArray(new Criteria[invBookCriteriaList.size()])));
@@ -238,8 +233,12 @@ public class InventoryServiceImpl implements InventoryService {
                             unit.setTitle(rp.getTitle());
                             unit.setPublisher(rp.getPublisher());
                             unit.setPubYear(rp.getPublishingYear());
-                            unit.setInvStatus(createdInventory.getItemStatus(unit.getStatus()));
-                            unit.setRevisionStatus(createdInventory.getRevStatusByInv(unit.getStatus()));
+                            ItemStatus itemStatus = createdInventory.getItemStatus(unit.getStatus());
+                            unit.setItemStatusCoderId(itemStatus.getCoder_id());
+                            unit.setItemStatusDescription(itemStatus.getDescription());
+                            InventoryStatus inventoryStatus = createdInventory.getRevStatusByInv(unit.getStatus());
+                            unit.setInventoryStatusCoderId(inventoryStatus.getCoder_id());
+                            unit.setInventoryStatusDescription(inventoryStatus.getDescription());
                             unit.setDateModified(new Date());
                             unit.setStatus(null);
                             String signature = Signature.format(record.getPrimerak(unit.getInvNo()));
@@ -335,11 +334,15 @@ public class InventoryServiceImpl implements InventoryService {
                         resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
                     }
                     if (resumeDate != null && resumeDate.isBefore(dateL2)) {
-                        unit.setRevisionStatus(borrowedL2);
+                        unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                        unit.setInventoryStatusDescription(borrowedL2.getDescription());
                     } else if (lendingDate.isBefore(dateL2)) {
-                        unit.setRevisionStatus(borrowedL2);
+                        unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                        unit.setInventoryStatusDescription(borrowedL2.getDescription());
                     } else {
-                        unit.setRevisionStatus(borrowed);
+
+                        unit.setInventoryStatusCoderId(borrowed.getCoder_id());
+                        unit.setInventoryStatusDescription(borrowed.getDescription());
                     }
                     unit.setDateModified(new Date());
                     unitsForUpdate.add(unit);
