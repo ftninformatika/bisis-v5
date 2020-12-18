@@ -1,10 +1,12 @@
 package com.ftninformatika.bisis.inventory.dto;
 
+import com.ftninformatika.bisis.inventory.EnumSortByInvUnit;
 import com.ftninformatika.bisis.inventory.InventoryStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 import java.util.ArrayList;
@@ -23,9 +25,12 @@ public class InvUnitSearchDTO {
     private String title;
     private String publisher;
     private String pubYear;
-    private String sortBy;
+    private EnumSortByInvUnit sortBy;
     private InventoryStatus inventoryStatus;
 
+    public Sort getSort() {
+        return this.getSortBy().getSort();
+    }
 
     public Criteria generateSearchCriteria() {
         Criteria criteria = new Criteria();
