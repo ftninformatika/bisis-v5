@@ -32,24 +32,24 @@ public enum EnumSortByInvUnit {
 
     public Sort getSort() {
         switch (text) {
-            case "INV_NO_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "invNo"));
-            case "INV_NO_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "invNo"));
-            case "AUTHOR_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "author"));
-            case "AUTHOR_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "author"));
-            case "TITLE_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "title"));
-            case "TITLE_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "title"));
-            case "SIGNATURE_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "signature"));
-            case "SIGNATURE_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "signature"));
-            case "PUBLISHER_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "publisher"));
-            case "PUBLISHER_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "publisher"));
-            case "PUB_YEAR_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "pubYear"));
-            case "PUB_YEAR_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "pubYear"));
-            case "ITEM_STATUS_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "itemStatus"));
-            case "ITEM_STATUS_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "itemStatus"));
-            case "INVENTORY_STATUS_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "inventoryStatus"));
-            case "INVENTORY_STATUS_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "inventoryStatus"));
-            case "DATE_ASC": return new Sort(new Sort.Order(Sort.Direction.ASC, "date"));
-            case "DATE_DESC": return new Sort(new Sort.Order(Sort.Direction.DESC, "date"));
+            case "INV_NO_ASC": return Sort.by(Sort.Direction.ASC, "invNo");
+            case "INV_NO_DESC": return Sort.by(Sort.Direction.DESC, "invNo");
+            case "AUTHOR_ASC": return Sort.by(Sort.Direction.ASC, "author");
+            case "AUTHOR_DESC": return Sort.by(Sort.Direction.DESC, "author");
+            case "TITLE_ASC": return Sort.by(Sort.Direction.ASC, "title");
+            case "TITLE_DESC": return Sort.by(Sort.Direction.DESC, "title");
+            case "SIGNATURE_ASC": return Sort.by(Sort.Direction.ASC, "signature");
+            case "SIGNATURE_DESC": return Sort.by(Sort.Direction.DESC, "signature");
+            case "PUBLISHER_ASC": return Sort.by(Sort.Direction.ASC, "publisher");
+            case "PUBLISHER_DESC": return Sort.by(Sort.Direction.DESC, "publisher");
+            case "PUB_YEAR_ASC": return Sort.by(Sort.Direction.ASC, "pubYear");
+            case "PUB_YEAR_DESC": return Sort.by(Sort.Direction.DESC, "pubYear");
+            case "ITEM_STATUS_ASC": return Sort.by(Sort.Direction.ASC, "itemStatus");
+            case "ITEM_STATUS_DESC": return Sort.by(Sort.Direction.DESC, "itemStatus");
+            case "INVENTORY_STATUS_ASC": return Sort.by(Sort.Direction.ASC, "inventoryStatus");
+            case "INVENTORY_STATUS_DESC": return Sort.by(Sort.Direction.DESC, "inventoryStatus");
+            case "DATE_ASC": return Sort.by(Sort.Direction.ASC, "date");
+            case "DATE_DESC": return Sort.by(Sort.Direction.DESC, "date");
             default: return null;
         }
     }
