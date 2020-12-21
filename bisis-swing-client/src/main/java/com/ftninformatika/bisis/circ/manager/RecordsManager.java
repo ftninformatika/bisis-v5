@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
+import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import org.apache.log4j.Logger;
@@ -28,6 +29,10 @@ public class RecordsManager {
 
     public RecordsManager(){
         listOfItems = new ArrayList<ItemAvailability>();
+    }
+
+    public ReservationOnProfile reserveBook(String ctlgNo){
+        return null;
     }
 
     public Record lendBook(String ctlgno){

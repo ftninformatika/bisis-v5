@@ -18,6 +18,7 @@ import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
+import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;
@@ -41,6 +42,7 @@ public class UserManager {
     private String env = null;
     private String validator = null;
     private List lendings =  new ArrayList();
+    private ArrayList usersReservation = new ArrayList();
     private static Logger log = Logger.getLogger(UserManager.class);
     private String defaultLocation;
 
@@ -483,6 +485,9 @@ public class UserManager {
 
         user.getLending().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo, lendings, !warnings.isEmpty());
 
+        user.getReservationsPanel().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(),
+                maxDate, member.getNote(), dupno, blockedInfo, member.getReservations(), !warnings.isEmpty());
+
         user.setDirty(false);
 
         if (!chargeBook.equals("")) {
@@ -491,6 +496,15 @@ public class UserManager {
             user.setDirty(true);
         }
 
+    }
+
+    public String getLibraryBranchName(String coderId){
+        try {
+            return BisisApp.bisisService.getLibraryBranchName(coderId).execute().body();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            return coderId;
+        }
     }
 
     public void refreshInfo(User user, Member member) {
@@ -805,6 +819,13 @@ public class UserManager {
     public void addLending(Lending lend) {
         if (!lendings.contains(lend)) {
             lendings.add(lend);
+        }
+
+    }
+
+    public void addReservation(ReservationOnProfile reservation) {
+        if (!usersReservation.contains(reservation)) {
+            usersReservation.add(reservation);
         }
 
     }
