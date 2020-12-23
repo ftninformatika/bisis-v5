@@ -41,10 +41,10 @@ public class UserManager {
     private List warnings = null;
     private String env = null;
     private String validator = null;
-    private List lendings =  new ArrayList();
-    private ArrayList usersReservation = new ArrayList();
+    private List lendings = new ArrayList();
     private static Logger log = Logger.getLogger(UserManager.class);
     private String defaultLocation;
+    private List<String> booksToReserve = new ArrayList<>();
 
     // list of returned books
     private List<String> returnedBooks;
@@ -58,9 +58,13 @@ public class UserManager {
         return member;
     }
 
-    public List<ReservationDTO> getReservationsForPrint(){
+    public List<ReservationDTO> getReservationsForPrint() {
         return this.reservationsForPrint;
     }
+
+
+//   ----------------------------------- RESERVATIONS -----------------------------------
+
     /**
      * This method is called when book(s) is returned to the library.
      * If there is at least one returned book, get first reservation from queue for that book
@@ -68,18 +72,18 @@ public class UserManager {
     public List<ReservationDTO> getReservationsForReturnedBooks(String ctlgNo) {
         this.reservationsForPrint = new ArrayList<>();
 
-        if (!ctlgNo.equals("")){   // razduzivanje jednog primerka iz stabla
+        if (!ctlgNo.equals("")) {   // razduzivanje jednog primerka iz stabla
             List<String> oneReturn = new ArrayList<>();
             oneReturn.add(ctlgNo);
             try {
-                this.reservationsForPrint =  BisisApp.bisisService.getReservationsForReturnedBooks(oneReturn).execute().body();
+                this.reservationsForPrint = BisisApp.bisisService.getReservationsForReturnedBooks(oneReturn).execute().body();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
                 log.error(ioException);
             }
-        }else if (this.returnedBooks.size() > 0){
+        } else if (this.returnedBooks.size() > 0) {
             try {
-                this.reservationsForPrint =  BisisApp.bisisService.getReservationsForReturnedBooks(this.returnedBooks).execute().body();
+                this.reservationsForPrint = BisisApp.bisisService.getReservationsForReturnedBooks(this.returnedBooks).execute().body();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
                 log.error(ioException);
@@ -96,12 +100,12 @@ public class UserManager {
     }
 
     // in tree view, when librarian clicks on button to display reservation info
-    public ReservationDTO getCurrentReservationByPrimerak(String ctlgNo, String userId){
+    public ReservationDTO getCurrentReservationByPrimerak(String ctlgNo, String userId) {
         this.reservationsForPrint = new ArrayList<>();
         CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
         try {
             ReservationDTO reservation = BisisApp.bisisService.getCurrentReservationByPrimerak(currentReservation).execute().body();
-            if (reservation != null){
+            if (reservation != null) {
                 this.reservationsForPrint.add(reservation);
                 return reservation;
             }
@@ -112,13 +116,13 @@ public class UserManager {
         return null;
     }
 
-    public ReservationDTO getNextReservation(String  userId, String ctlgNo){
+    public ReservationDTO getNextReservation(String userId, String ctlgNo) {
         this.reservationsForPrint = new ArrayList<>();
         CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
         try {
-            ReservationDTO nextReservation =  BisisApp.bisisService.getNextReservation(currentReservation).execute().body();
+            ReservationDTO nextReservation = BisisApp.bisisService.getNextReservation(currentReservation).execute().body();
             log.info("Get next reservation - Rezervacija za primerak: " + ctlgNo + " je obrisana korisniku: " + userId);
-            if (nextReservation != null){
+            if (nextReservation != null) {
                 log.info("Get next reservation - Prihvacena je rezervacija za primerak: " + nextReservation.getCtlgNo() +
                         " za korisnika: " + nextReservation.getUserId());
                 this.reservationsForPrint.add(nextReservation);
@@ -130,6 +134,7 @@ public class UserManager {
         }
         return null;
     }
+//   --------------------------------------------------------------------------------------
 
     public String saveUser(User user) {
         if (user.getDirty()) {
@@ -146,13 +151,13 @@ public class UserManager {
 
             if (member == null) {
                 if (memberExists != null && !memberExists.equals("")) {
-                    log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
+                    log.info("Broj korisnika vec postoji:" + (member == null ? "null" : member.getUserId()));
                     return Messages.getString("USER_MANAGER_USER_ALREADY_EXIST");
                 }
                 member = new Member();
             } else {
                 if (memberExists != null && !memberExists.equals("") && !memberExists.equals(member.get_id())) {
-                    log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
+                    log.info("Broj korisnika vec postoji:" + (member == null ? "null" : member.getUserId()));
                     return Messages.getString("USER_MANAGER_USER_ALREADY_EXIST");
                 }
             }
@@ -177,11 +182,17 @@ public class UserManager {
             if (errorInDates != MemberDateError.NO_ERROR) {
                 return Messages.getString(errorInDates.getMessageKey());
             }
+
+            if (!booksToReserve.isEmpty()) {
+                log.info("saveUser - postoje knjige za rezervisanje");
+                memberData.setBooksToReserve(booksToReserve);
+            }
+
             try {
                 // before updating member data, check if there are any books that are being returned
                 this.returnedBooks = new ArrayList<>();
-                for (ItemAvailability ia : memberData.getBooks()){
-                    if (!ia.getBorrowed()){
+                for (ItemAvailability ia : memberData.getBooks()) {
+                    if (!ia.getBorrowed()) {
                         this.returnedBooks.add(ia.getCtlgNo());
                     }
                 }
@@ -196,20 +207,21 @@ public class UserManager {
             }
 
 
-
             if (memberData != null) {
 
                 log.info("Korisnik sacuvan: " + user.getMmbrship().getUserID());
 //                try {
 //                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
-                    member = memberData.getMember();
-                    lendings = memberData.getLendings() != null ? memberData.getLendings() : new ArrayList();
+                member = memberData.getMember();
+                lendings = memberData.getLendings() != null ? memberData.getLendings() : new ArrayList();
+                booksToReserve = new ArrayList<>();
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
 
-                if (member != null){
+                if (member != null) {
                     Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
+                    Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().clear();
                     loadUser(user, member, lendings);
                 }
                 return "ok";
@@ -498,7 +510,7 @@ public class UserManager {
 
     }
 
-    public String getLibraryBranchName(String coderId){
+    public String getLibraryBranchName(String coderId) {
         try {
             return BisisApp.bisisService.getLibraryBranchName(coderId).execute().body();
         } catch (IOException ioException) {
@@ -823,9 +835,9 @@ public class UserManager {
 
     }
 
-    public void addReservation(ReservationOnProfile reservation) {
-        if (!usersReservation.contains(reservation)) {
-            usersReservation.add(reservation);
+    public void addBookToBeReserved(String record_id) {
+        if (!booksToReserve.contains(record_id)) {
+            booksToReserve.add(record_id);
         }
 
     }
@@ -892,9 +904,9 @@ public class UserManager {
     public String getChargedUser(String ctlgno, Boolean isBookReserved) {
         Member m = null;
         try {
-            if (isBookReserved){
+            if (isBookReserved) {
                 m = BisisApp.bisisService.getAssignedUser(ctlgno).execute().body();
-            }else {
+            } else {
                 m = BisisApp.bisisService.getChargedUser(ctlgno).execute().body();
             }
         } catch (Exception e) {
@@ -910,7 +922,7 @@ public class UserManager {
         return result;
     }
 
-    public String getChargedUserId(){
+    public String getChargedUserId() {
         return chargedUser;
     }
 
@@ -942,7 +954,7 @@ public class UserManager {
     public List<MemberData> getUsers(List<String> userIDs) {
         List<MemberData> memberDataList = new ArrayList<>();
         try {
-            for (String userId: userIDs) {
+            for (String userId : userIDs) {
                 MemberData memberData = BisisApp.bisisService.getAndLockMemberById(userId, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
                 if (memberData != null) {
                     memberDataList.add(memberData);
@@ -957,7 +969,7 @@ public class UserManager {
 
     public boolean releaseUsers(List<MemberData> memberDataList) {
         Boolean released = true;
-        for (MemberData memberData: memberDataList) {
+        for (MemberData memberData : memberDataList) {
             if (memberData.getMember() != null) {
                 try {
                     released = BisisApp.bisisService.releaseMemberById(memberData.getMember().getUserId()).execute().body();
@@ -979,10 +991,10 @@ public class UserManager {
         mergeData.setUserId(userId);
         mergeData.setUserList(userList);
         try {
-           done = BisisApp.bisisService.merge(mergeData).execute().body();
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
+            done = BisisApp.bisisService.merge(mergeData).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return done;
     }
 

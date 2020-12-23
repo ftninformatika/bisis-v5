@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.reservations.service.interfaces;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.ItemAvailability;
+import com.ftninformatika.bisis.reservations.Reservation;
 
 import java.util.List;
 
@@ -19,4 +20,7 @@ public interface BisisReservationsServiceInterface {
     ItemAvailability finishReservationProcess(ItemAvailability ia, Member member);
 
     ReservationDTO getNextReservation(String userId, String ctlgNo, String library);
+
+    List<Reservation> reserveBooks(List<String> recordIds, Member member);
+
 }

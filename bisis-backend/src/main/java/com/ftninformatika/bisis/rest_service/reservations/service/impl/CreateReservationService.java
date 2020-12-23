@@ -151,14 +151,15 @@ public class CreateReservationService implements CreateReservationServiceInterfa
         return bookBorrowed;
     }
 
-    private Reservation createNewReservation(Member member, Record record, String coderId) {
+    @Override
+    public Reservation createNewReservation(Member member, Record record, String coderId) {
         ReservationInQueue reservationInQueue = addToQueue(member, record, coderId);
         addToMembersList(member, record, coderId, reservationInQueue);
         return reservationInQueue;
     }
 
     private void addToMembersList(Member member, Record record, String coderId,
-                                             ReservationInQueue reservationInQueue) {
+                                  ReservationInQueue reservationInQueue) {
         ReservationOnProfile reservationOnProfile = new ReservationOnProfile();
         reservationOnProfile.set_id(String.valueOf(new ObjectId()));
         reservationOnProfile.setReservationDate(reservationInQueue.getReservationDate());

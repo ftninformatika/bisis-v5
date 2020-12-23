@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
@@ -73,6 +74,9 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    CreateReservationService createReservationService;
 
 
     @Override
@@ -162,6 +166,24 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
             setItemStatusNotReserved(ctlgNo);
         }
         return null;
+    }
+
+    @Override
+    public List<Reservation> reserveBooks(List<String> recordIds, Member member) {
+        // in BISIS it is already checked if reservation limit is exceeded && if the book is already borrowed (only for ctlgNo)
+        // TODO da li je ogranicenje da mogu da rezervisu samo knjigu koja je crvena ili mora check i za zelene i da li postoji primerak
+        List<Reservation> reservations = new ArrayList<>();
+        if (recordIds != null && !recordIds.isEmpty()) {
+            for (String record_id : recordIds) {
+                Optional<Record> record = recordsRepository.findById(record_id);
+                if (record.isPresent()) {
+                    // todo zakucan coderId
+                    Reservation reservation = createReservationService.createNewReservation(member, record.get(), "0503");
+                    reservations.add(reservation);
+                }
+            }
+        }
+        return reservations;
     }
 
     private void deleteExpiredReservation(String userId, String ctlgNo, String library) {

@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.UserCategory;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
@@ -78,21 +79,27 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
 
     }
 
-//		 Manipulating rows
-
-    public boolean addRow(String ctlgno, Record record, String location, UserCategory usrctg, String userId) {
+    public boolean isBookInTable(String ctlgNo) {
         Iterator<ReservationOnProfile> it = dataView.iterator();
         while (it.hasNext()) {
             ReservationOnProfile row = it.next();
-            if (row.getCtlgNo().equals(ctlgno)) {
+            if (row.getCtlgNo().equals(ctlgNo)) {
                 return true;
             }
         }
+        return false;
+    }
+//		 Manipulating rows
+
+    public boolean addRow(String ctlgno, Record record) {
         int row = getRowCount();
         ReservationOnProfile rowData = new ReservationOnProfile();
+        rowData.setReservationDate(new Date());
+        // todo zakucano
+        rowData.setCoderId("0503");
         dataView.add(rowData);
-        Cirkulacija.getApp().getUserManager().addReservation(rowData);
         if (record != null) {
+            Cirkulacija.getApp().getUserManager().addBookToBeReserved(record.get_id());
             RecordBean bean = new RecordBean(record);
             authors.add(bean.getAutor());
             titles.add(bean.getNaslov());
@@ -158,7 +165,7 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
             case 5:
                 return rowData.getPickUpDeadline() == null ? "-" : rowData.getPickUpDeadline();
             case 6:
-                return rowData.getCoderId();
+                return getLocationDescription(rowData.getCoderId());
             case 7:
                 return getReservationStatus(rowData.getReservationStatus());
             default:
@@ -166,9 +173,13 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
         }
     }
 
+    public String getLocationDescription(String coderId) {
+        return Cirkulacija.getApp().getUserManager().getLibraryBranchName(coderId);
+    }
+
 
     public String getReservationStatus(ReservationStatus status) {
-        if (status.equals(ReservationStatus.ASSIGNED_BOOK)) {
+        if (status != null && status.equals(ReservationStatus.ASSIGNED_BOOK)) {
             return Messages.getString("circulation.assigned").toUpperCase();
         } else {
             return Messages.getString("circulation.onWait").toUpperCase();

@@ -2,6 +2,8 @@ package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.validator.Validator;
+import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.utils.Messages;
@@ -50,10 +52,9 @@ public class Reservation {
     private User parent = null;
     private boolean pinRequired;
 
-
     public Reservation(User parent) {
         this.parent = parent;
-        makePanel();
+        this.makePanel();
     }
 
     private void makePanel() {
@@ -191,56 +192,39 @@ public class Reservation {
         return btnReserve;
     }
 
-    private void reserveBook(String ctlgno) {
+    private void reserveBook(String ctlgNo) {
+        // check if card is blocked
         if (getLBlockCard().getText().equals("") || Cirkulacija.getApp().getEnvironment().getBlockedCard()) { //$NON-NLS-1$
-            if (getTableModel().getRowCount() < parent.getMmbrship().getUserCateg().getTitlesNo()) {
-                ReservationOnProfile reservation = Cirkulacija.getApp().getRecordsManager().reserveBook(ctlgno);
-                handleKeyTyped();
-                if (reservation != null) {
-//                    boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg(), parent.getMmbrship().getUserID());
-//                    pinRequired = true;
-//                    if (exists) {
-//                        JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyInReservationslist"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-//                                new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-//                    }
-//                    getTfCtlgNo().setText(""); //$NON-NLS-1$
+
+            int numberOfReservedBook = getTableModel().getRowCount()
+                    + Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().size();
+
+            // check if reservation limit (3 books) is exceeded
+            if (numberOfReservedBook < 3) {
+                // check if book is already reserved
+                if (getTableModel().isBookInTable(ctlgNo)) {
+                    JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyInReservationslist"),
+                            Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                            new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                 } else {
-//                    if (Cirkulacija.getApp().getEnvironment().getNonCtlgNo() && !Cirkulacija.getApp().getRecordsManager().existBook()) {
-//                        boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg(), parent.getMmbrship().getUserID());
-//                        pinRequired = true;
-//                        if (exists) {
-//                            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyinlist"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-//                                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-//                        }
-//                        getTfCtlgNo().setText(""); //$NON-NLS-1$
-//                    } else if (Cirkulacija.getApp().getEnvironment().getAutoReturn() && Cirkulacija.getApp().getRecordsManager().chargedBook()) {
-//                        String[] options = {Messages.getString("circulation.yes"), Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
-//                        int op = JOptionPane.showOptionDialog(getPanel(), Messages.getString("circulation.chargingwarning"), Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION,  //$NON-NLS-1$ //$NON-NLS-2$
-//                                JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
-//                        if (op == JOptionPane.YES_OPTION) {
-//                            if (Cirkulacija.getApp().getRecordsManager().isInInventory()) {
-//                                JOptionPane.showMessageDialog(null, Messages.getString("circulation.discharginginventory") + " " + ctlgno,
-//                                        Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
-//                            }
-//                            boolean success = Cirkulacija.getApp().getUserManager().dischargeUser(ctlgno);
-//                            if (success) {
-//                                btnLend.doClick();
-//                            } else {
-//                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.dischargingnotallowed"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-//                                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-//                            }
-//                        }
-//                    } else {
-//                        JOptionPane.showMessageDialog(getPanel(), Cirkulacija.getApp().getRecordsManager().getErrorMessage(), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$
-//                                new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-//                    }
+                    System.out.println(Cirkulacija.getApp().getEnvironment().getLocation());
+                    // add the book to the temporary list
+                    Record record = Cirkulacija.getApp().getRecordsManager().reserveBook(ctlgNo);
+                    if (record != null) {
+                        getTableModel().addRow(ctlgNo, record);
+                        pinRequired = true;
+                    }
+                    getTfCtlgNo().setText(""); //$NON-NLS-1$
+                    handleKeyTyped();
                 }
             } else {
-                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.titleno"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.reservationLimitExceeded"),
+                        Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                         new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
             }
         } else {
-            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.blockedcardwarning"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.blockedcardwarning"),
+                    Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                     new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
         }
     }
@@ -287,15 +271,16 @@ public class Reservation {
         getLDuplicate().setText(dupno);
         getLBlockCard().setText(blocked);
 
-        // get only reservations that are in the queue
+        // get only reservations that are in the queue (status != PICKED_UP)
         List<ReservationOnProfile> activeReservations = new ArrayList<>();
         for (ReservationOnProfile r : reservations) {
             if (!r.getReservationStatus().equals(ReservationStatus.PICKED_UP)) {
-                String locationName = Cirkulacija.getApp().getUserManager().getLibraryBranchName(r.getCoderId());
-                r.setCoderId(locationName);
                 activeReservations.add(r);
             }
         }
+
+//        this.reservations = new ArrayList<>();
+//        this.reservations = activeReservations;
 
         // add reservations to the table
         getTableModel().setData(activeReservations);

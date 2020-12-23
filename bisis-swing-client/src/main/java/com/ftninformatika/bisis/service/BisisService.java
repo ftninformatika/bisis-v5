@@ -7,6 +7,7 @@ package com.ftninformatika.bisis.service;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
+import com.ftninformatika.bisis.circ.dto.ReservationsRequestDTO;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
@@ -23,7 +24,6 @@ import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.utils.PathDate;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -105,6 +105,9 @@ public interface BisisService {
 
     @GET("locations/{coderId}")
     Call<String> getLibraryBranchName(@Path("coderId") String coderId);
+
+    @POST("reservations/reserve-books")
+    Call<ReservationDTO> reserveBooks(@Body ReservationsRequestDTO requestDTO);
 
 //librarians------------------------------------------------------------
     // sa servera se ucitavaju LibrarianDB objekti, a u aplikaciji se po potrebi

@@ -20,5 +20,6 @@ public class MemberData {
     private List<Lending> lendings;
     private List<ItemAvailability> books;
     private String inUseBy;
+    private List<String> booksToReserve;
 
 }
