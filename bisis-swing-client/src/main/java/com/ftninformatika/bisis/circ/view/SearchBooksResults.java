@@ -64,6 +64,7 @@ public class SearchBooksResults extends JPanel {
     private JButton btnNext = null;
     private JButton btnPrintInv = null;
     private JButton btnPrintInv2 = null;
+    private JButton btnReserve = null;
     private JLabel lUser = null;
     private JScrollPane rightScrollPaneInfo = null;
     private JScrollPane rightScrollPaneList = null;
@@ -126,7 +127,7 @@ public class SearchBooksResults extends JPanel {
     private JPanel getLeftPanel() {
         if (leftPanel == null) {
             FormLayout layout = new FormLayout(
-                    "0dlu, 15dlu, 18dlu, 15dlu, 18dlu, 30dlu:grow, 10dlu, 5dlu, 10dlu, 5dlu",  //$NON-NLS-1$
+                    "0dlu, 15dlu, 18dlu, 15dlu, 18dlu, 30dlu:grow, 10dlu, 5dlu, 18dlu, 5dlu",  //$NON-NLS-1$
                     "0dlu, pref, 2dlu, pref, 2dlu, 200dlu:grow, 2dlu, pref"); //$NON-NLS-1$
             CellConstraints cc = new CellConstraints();
             leftPanel = new PanelBuilder(layout);
@@ -143,6 +144,7 @@ public class SearchBooksResults extends JPanel {
                     && BisisApp.appConfig.getClientConfig().getBarcodeLabelFormat().equals("small")) {
                 leftPanel.add(getBtnPrintInv2(), cc.xy(6, 8, "fill fill")); //$NON-NLS-1$
             }
+            leftPanel.add(getBtnReserve(), cc.xy(9, 8, "fill fill")); //$NON-NLS-1$
         }
         return leftPanel.getPanel();
     }
@@ -187,6 +189,7 @@ public class SearchBooksResults extends JPanel {
                     getBtnUser().setEnabled(false);
                     getBtnReturn().setEnabled(false);
                     getBtnLend().setEnabled(false);
+                    getBtnReserve().setEnabled(false);
                     rightPanelLabel.setText(Messages.getString("circulation.chargedto"));
                     Object node = tree.getLastSelectedPathComponent();
                     if (node == null) return;
@@ -209,12 +212,14 @@ public class SearchBooksResults extends JPanel {
                             assignedUserId = Cirkulacija.getApp().getUserManager().getChargedUserId();
                             getBtnUser().setEnabled(true);
                             getBtnLend().setEnabled(true);
+                            getBtnReserve().setEnabled(true);
                         }
                         else if (getBooksTreeModel().isBorrowed(primerak.getInvBroj())) {
                             getLUser().setText("<html><b>" + Cirkulacija.getApp().getUserManager().getChargedUser(primerak.getInvBroj(), false) + "</b></html>"); //$NON-NLS-1$ //$NON-NLS-2$
                             if (!Cirkulacija.getApp().getUserManager().gotUser())
                                 getBtnUser().setEnabled(true);
                             getBtnReturn().setEnabled(true);
+                            getBtnReserve().setEnabled(true);
                         } else {
                             if (primerak.getStatus() != null && !primerak.getStatus().equals("")) { //$NON-NLS-1$
                                 boolean zaduziv = BisisApp.appConfig.getCodersHelper().getItemStatuses().get(primerak.getStatus()).isLendable();
@@ -314,6 +319,25 @@ public class SearchBooksResults extends JPanel {
         return btnPrintInv2;
     }
 
+    private JButton getBtnReserve() {
+        if (btnReserve == null) {
+            btnReserve = new JButton();
+            btnReserve.setToolTipText(Messages.getString("circulation.reserve")); //$NON-NLS-1$
+            btnReserve.setIcon(new ImageIcon(getClass().getResource("/circ-images/plusReserve16.png"))); //$NON-NLS-1$
+            btnReserve.setFocusable(false);
+            btnReserve.setPreferredSize(new java.awt.Dimension(28, 28));
+            btnReserve.setEnabled(false);
+            btnReserve.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ev) {
+                    if (getTree().getLastSelectedPathComponent() instanceof Primerak) {
+                        Cirkulacija.getApp().getUserManager().reserveBook(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj());
+                    }
+                }
+            });
+        }
+        return btnReserve;
+    }
+
     private JButton getBtnReturn() {
         if (btnReturn == null) {
             btnReturn = new JButton();
@@ -346,6 +370,7 @@ public class SearchBooksResults extends JPanel {
                             getBtnLend().setEnabled(true);
                             getLUser().setText(""); //$NON-NLS-1$
                             getBtnUser().setEnabled(false);
+                            getBtnReserve().setEnabled(false);
                             JOptionPane.showMessageDialog(null, Messages.getString("circulation.ok"), Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                     new ImageIcon(getClass().getResource("/circ-images/hand32.png"))); //$NON-NLS-1$
 

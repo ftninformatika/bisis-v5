@@ -250,8 +250,10 @@ public class UserManager {
             member = null;
             lendings = null;
             chargeBook = "";
+            booksToReserve = new ArrayList<>();
             Cirkulacija.getApp().getRecordsManager().releaseListOfItems();
             Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
+            Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().clear();
             log.info("Otkljucan korisnik");
         } else {
             log.info("Otkljucavanje nije uspelo");
@@ -326,6 +328,13 @@ public class UserManager {
             Cirkulacija.getApp().getMainFrame().getUserPanel().getLending().lendBook(ctlgno);
             Cirkulacija.getApp().getMainFrame().previousTwoPanels();
             //Cirkulacija.getApp().getMainFrame().showPanel("userPanel");
+        }
+    }
+
+    public void reserveBook(String ctlgno) {
+        if (member != null) {
+            Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().reserveBook(ctlgno);
+            Cirkulacija.getApp().getMainFrame().previousTwoPanels();
         }
     }
 
@@ -840,6 +849,10 @@ public class UserManager {
             booksToReserve.add(record_id);
         }
 
+    }
+
+    public List<String> getBooksToReserve(){
+        return booksToReserve;
     }
 
     public void updateLending(Lending lend) {

@@ -192,7 +192,7 @@ public class Reservation {
         return btnReserve;
     }
 
-    private void reserveBook(String ctlgNo) {
+    public void reserveBook(String ctlgNo) {
         // check if card is blocked
         if (getLBlockCard().getText().equals("") || Cirkulacija.getApp().getEnvironment().getBlockedCard()) { //$NON-NLS-1$
 
@@ -207,7 +207,6 @@ public class Reservation {
                             Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                             new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                 } else {
-                    System.out.println(Cirkulacija.getApp().getEnvironment().getLocation());
                     // add the book to the temporary list
                     Record record = Cirkulacija.getApp().getRecordsManager().reserveBook(ctlgNo);
                     if (record != null) {

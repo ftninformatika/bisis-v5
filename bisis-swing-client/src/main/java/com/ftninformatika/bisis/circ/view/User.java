@@ -171,6 +171,9 @@ public class User extends JPanel {
                             getBtnSave().doClick();
                         } else {
                             dirty = false;
+                            Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().clear();
+                            Cirkulacija.getApp().getUserManager().getBooksToReserve().clear();
+
                         }
                     }
                     if (!dirty) {
