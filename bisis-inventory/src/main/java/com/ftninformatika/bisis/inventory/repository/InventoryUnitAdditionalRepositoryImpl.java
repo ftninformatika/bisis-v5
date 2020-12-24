@@ -24,7 +24,7 @@ import java.util.*;
 
 public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAdditionalRepository {
 
-    private static final String[] STANDARD_INDEX_FIELDS_ARR = {"rn", "dateModified", "inventoryId"};
+    private static final String[] STANDARD_INDEX_FIELDS_ARR = {"rn", "invNo", "inventoryId"};
     private MongoTemplate mongoTemplate;
 
     @Autowired

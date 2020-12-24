@@ -113,7 +113,7 @@ public class InventoryServiceImpl implements InventoryService {
             Double progress = getProgress(_id);
             Inventory inventory = optionalInventory.get();
             inventory.setProgress(progress);
-            return inventory;
+            return inventoryRepository.save(inventory);
         }
         return null;
     }
