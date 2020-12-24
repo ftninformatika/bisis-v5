@@ -24,15 +24,15 @@ public class InventoryController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Inventory>> getAllByLib(@RequestHeader("Library") String library) {
+    public ResponseEntity<List<Inventory>> getAllByLib(@RequestHeader("Library") String library
+            , @RequestParam(value = "locations", required = false) List<String> locations) {
         if (library == null) {
             return ResponseEntity.badRequest().build();
         }
-        List<Inventory> inventories = inventoryService.getAllForLib(library);
+        List<Inventory> inventories = inventoryService.getAllForLibAndLocations(library, locations);
         if (inventories == null || inventories.size() == 0) {
             return ResponseEntity.noContent().build();
         }
-        inventories.sort(Comparator.comparing(Inventory::getStartDate).reversed());
         return ResponseEntity.ok(inventories);
     }
 
@@ -49,7 +49,7 @@ public class InventoryController {
     public ResponseEntity<Inventory> create(@RequestHeader("Library") String library, @RequestBody Inventory inventory) {
         Inventory inventory1 = inventoryService.create(inventory, library);
         if (inventory1 == null) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.ok(inventory1);
     }
@@ -58,7 +58,7 @@ public class InventoryController {
     public ResponseEntity<Inventory> update(@RequestBody Inventory inventory) {
         Inventory inventory1 = inventoryService.update(inventory);
         if (inventory1 == null) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.ok(inventory1);
     }

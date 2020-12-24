@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.inventory.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
@@ -120,7 +121,26 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<Inventory> getAllForLib(String lib) {
-        return inventoryRepository.findAllByLibrary(lib);
+        List<Inventory> inventories = inventoryRepository.findAllByLibrary(lib);
+        inventories.sort(Comparator.comparing(Inventory::getStartDate).reversed());
+        return inventories;
+    }
+
+    @Override
+    public List<Inventory> getAllForLibAndLocations(String lib, List<String> locations) {
+        List<Inventory> inventories = getAllForLib(lib);
+        if (locations != null) {
+            inventories = inventories.stream().filter(i -> locationContained(locations, i.getLocations())).collect(Collectors.toList());
+        }
+        return inventories;
+    }
+
+    private boolean locationContained(List<String> paramLocations, List<Location> invLocations) {
+        if (paramLocations == null || invLocations == null) {
+            return false;
+        }
+        List<String> locations = invLocations.stream().map(Location::get_id).collect(Collectors.toList());;
+        return paramLocations.stream().filter(locations::contains).collect(Collectors.toSet()).size() > 0;
     }
 
     private String createInvNum(String location, String book, String lastNum) {
