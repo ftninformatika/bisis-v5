@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,7 @@ public class InventoryController {
         if (inventories == null || inventories.size() == 0) {
             return ResponseEntity.noContent().build();
         }
+        inventories.sort(Comparator.comparing(Inventory::getStartDate).reversed());
         return ResponseEntity.ok(inventories);
     }
 
