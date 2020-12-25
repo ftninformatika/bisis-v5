@@ -52,7 +52,7 @@ public class InvUnitSearchDTO {
             criteriaList.add(Criteria.where("publisher").regex(Pattern.compile("^" + this.publisher, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
         }
         if (this.inventoryStatus != null && this.inventoryStatus.getCoder_id() != null) {
-            criteriaList.add(Criteria.where("revisionStatus.coder_id").is(this.inventoryStatus.getCoder_id())); //todo refactor if change inv statuses
+            criteriaList.add(Criteria.where("inventoryStatusCoderId").is(this.inventoryStatus.getCoder_id()));
         }
         if (criteriaList.size() == 0) {
             return null;
