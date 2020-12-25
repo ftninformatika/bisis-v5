@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inventoryReportSheet" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="762" leftMargin="40" rightMargin="40" topMargin="20" bottomMargin="20" uuid="97511e85-cfab-4423-8fb7-af09e55dbc53">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.2" value="pageFooter"/>
@@ -26,32 +26,11 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<subDataset name="items" uuid="625c9f44-2d5d-4064-a451-1e865dee568f">
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-		<queryString>
-			<![CDATA[]]>
-		</queryString>
-		<field name="title" class="java.lang.String">
-			<fieldDescription><![CDATA[desideratum.title]]></fieldDescription>
-		</field>
-		<field name="amount" class="java.lang.Integer">
-			<fieldDescription><![CDATA[amount]]></fieldDescription>
-		</field>
-		<field name="author" class="java.lang.String">
-			<fieldDescription><![CDATA[desideratum.author]]></fieldDescription>
-		</field>
-		<variable name="amount" class="java.lang.Integer">
-			<variableExpression><![CDATA[$F{amount}]]></variableExpression>
-		</variable>
-	</subDataset>
 	<parameter name="library" class="java.lang.String"/>
 	<parameter name="query" class="java.lang.String"/>
 	<queryString language="JSON">
 		<![CDATA[]]>
 	</queryString>
-	<field name="items" class="java.lang.Object">
-		<fieldDescription><![CDATA[items]]></fieldDescription>
-	</field>
 	<field name="invNo" class="java.lang.String">
 		<fieldDescription><![CDATA[invNo]]></fieldDescription>
 	</field>
@@ -373,7 +352,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pubYear}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="690" y="0" width="71" height="30" uuid="4c93eac8-a889-4ea1-96b1-325e736dfb0c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b1b4c4de-6227-4ce9-a176-f5ef23da496f"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
