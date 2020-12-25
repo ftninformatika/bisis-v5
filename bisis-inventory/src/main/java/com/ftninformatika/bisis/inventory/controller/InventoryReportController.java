@@ -34,7 +34,6 @@ public class InventoryReportController {
     @PostMapping("/generate")
     public void exportToXLS(@RequestHeader ("Library") String library, HttpServletResponse response, @RequestBody InvUnitSearchDTO invUnitSearchDTO) throws Exception{
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(inventoryUnitService.search(invUnitSearchDTO));
-        JasperCompileManager.compileReportToFile(this.getClass().getResource("/jaspers/inventoryReportSheet.jrxml").getPath(), this.getClass().getResource("/jaspers/inventoryReportSheet.jasper").getPath());
         InputStream inputStream = InventoryReportController.class.getResourceAsStream("/jaspers/inventoryReportSheet.jasper");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("query", invUnitSearchDTO.toString());
