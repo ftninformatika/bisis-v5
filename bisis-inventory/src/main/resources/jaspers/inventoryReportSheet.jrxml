@@ -56,10 +56,19 @@
 		<fieldDescription><![CDATA[rn]]></fieldDescription>
 	</field>
 	<background>
-		<band splitType="Stretch"/>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
 	</background>
-	<pageHeader>
-		<band height="105" splitType="Stretch">
+	<title>
+		<band height="105">
+			<textField>
+				<reportElement x="0" y="0" width="300" height="30" uuid="5f3f5dca-ad07-457a-8f91-d9ad9b9e4579">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{library}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="40" y="30" width="650" height="30" uuid="7f1f8767-bf7a-4808-94b6-37811e86b8bc">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -71,13 +80,6 @@
 				<text><![CDATA[Извештај из ревизије]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="0" width="300" height="30" uuid="5f3f5dca-ad07-457a-8f91-d9ad9b9e4579">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{library}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="0" y="75" width="300" height="30" uuid="0544cfec-7cb7-494a-8bcd-fda4b0d02fcd">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -86,12 +88,14 @@
 				<textFieldExpression><![CDATA[$P{query}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="30">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="40" y="0" width="100" height="30" uuid="67fa8997-0268-4a7d-803d-d7d8c36d30cf"/>
+				<reportElement x="40" y="0" width="100" height="30" uuid="67fa8997-0268-4a7d-803d-d7d8c36d30cf">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -104,7 +108,9 @@
 				<text><![CDATA[Инвенторни број]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="140" y="0" width="70" height="30" uuid="2b51cf17-1d68-4ff3-b563-700387db3567"/>
+				<reportElement x="140" y="0" width="70" height="30" uuid="2b51cf17-1d68-4ff3-b563-700387db3567">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -120,6 +126,7 @@
 				<reportElement x="210" y="0" width="90" height="30" uuid="bb3213d8-4560-4070-8894-680fe93bb0b9">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>
@@ -135,6 +142,7 @@
 			<staticText>
 				<reportElement x="300" y="0" width="100" height="30" uuid="b2300afd-8959-44eb-85cb-4aaa944df911">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>
@@ -148,7 +156,9 @@
 				<text><![CDATA[Аутор]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="690" y="0" width="71" height="30" uuid="1411e375-a58c-4138-9403-4502ee756537"/>
+				<reportElement x="690" y="0" width="71" height="30" uuid="1411e375-a58c-4138-9403-4502ee756537">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -163,6 +173,7 @@
 			<staticText>
 				<reportElement x="610" y="0" width="80" height="30" uuid="cb46f0b3-7367-4f94-b160-380eab627a44">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>
@@ -179,6 +190,7 @@
 				<reportElement x="400" y="0" width="110" height="30" uuid="d55d1887-4782-4e13-83d9-49e78ed4bb22">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>
@@ -192,7 +204,9 @@
 				<text><![CDATA[Наслов]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="510" y="0" width="100" height="30" uuid="b6ae313c-cac8-41ac-81a3-284890e78d67"/>
+				<reportElement x="510" y="0" width="100" height="30" uuid="b6ae313c-cac8-41ac-81a3-284890e78d67">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -207,6 +221,7 @@
 			<staticText>
 				<reportElement x="0" y="0" width="40" height="30" uuid="858d77cc-d969-49b6-8573-09ed2efb0050">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="7">
 					<topPen lineWidth="1.0"/>

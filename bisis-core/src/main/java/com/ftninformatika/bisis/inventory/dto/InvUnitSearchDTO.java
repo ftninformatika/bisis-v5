@@ -68,22 +68,22 @@ public class InvUnitSearchDTO {
     public String toString(){
         StringBuffer query = new StringBuffer("");
         if (rn != null) {
-            query = query.append("рн:" + rn + " ");
+            query = query.append("рн: " + rn + " ");
         }
         if (invNo !=null && !invNo.isEmpty()){
-            query = query.append("инвентарни број:" + rn + " ");
+            query = query.append("инвентарни број: " + rn + " ");
         }
         if (title !=null && !title.isEmpty()){
-            query = query.append("наслов:" + title + " ");
+            query = query.append("наслов: " + title + " ");
         }
         if (author !=null && !author.isEmpty()){
-            query = query.append("аутор:" + author + " ");
+            query = query.append("аутор: " + author + " ");
         }
         if (signature !=null && !signature.isEmpty()){
-            query = query.append("сигнатура:" + signature + " ");
+            query = query.append("сигнатура: " + signature + " ");
         }
         if (inventoryStatus !=null){
-            query = query.append("статус:" + inventoryStatus.getDescription());
+            query = query.append("статус: " + inventoryStatus.getDescription());
         }
         return query.toString();
     }
