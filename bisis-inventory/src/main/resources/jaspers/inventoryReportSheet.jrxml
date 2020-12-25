@@ -76,9 +76,6 @@
 	<field name="rn" class="java.lang.Integer">
 		<fieldDescription><![CDATA[rn]]></fieldDescription>
 	</field>
-	<group name="Group1" preventOrphanFooter="true">
-		<groupExpression><![CDATA[$F{acquisitionGroupTitle}]]></groupExpression>
-	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
