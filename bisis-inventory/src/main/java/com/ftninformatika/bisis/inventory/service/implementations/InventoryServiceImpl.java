@@ -1,12 +1,14 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.inventory.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
+import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
@@ -41,11 +43,13 @@ public class InventoryServiceImpl implements InventoryService {
     private ItemAvailabilityRepository itemAvailabilityRepository;
     private LendingRepository lendingRepository;
     private MongoTemplate mongoTemplate;
+    private InvCodersService invCodersService;
 
     @Autowired
     public InventoryServiceImpl(InventoryRepository inventoryRepository, ItemAvailabilityRepository itemAvailabilityRepository,
                                 RecordsRepository recordsRepository, InventoryUnitRepository inventoryUnitRepository,
-                                InventoryStatusRepository inventoryStatusRepository, ItemStatusRepository itemStatusRepository, LendingRepository lendingRepository, MongoTemplate mongoTemplate) {
+                                InventoryStatusRepository inventoryStatusRepository, ItemStatusRepository itemStatusRepository,
+                                LendingRepository lendingRepository, MongoTemplate mongoTemplate, InvCodersService invCodersService) {
         this.inventoryRepository = inventoryRepository;
         this.recordsRepository = recordsRepository;
         this.inventoryUnitRepository = inventoryUnitRepository;
@@ -54,6 +58,7 @@ public class InventoryServiceImpl implements InventoryService {
         this.itemAvailabilityRepository = itemAvailabilityRepository;
         this.lendingRepository = lendingRepository;
         this.mongoTemplate = mongoTemplate;
+        this.invCodersService = invCodersService;
     }
 
     //    @Transactional todo
@@ -130,16 +135,16 @@ public class InventoryServiceImpl implements InventoryService {
     public List<Inventory> getAllForLibAndLocations(String lib, List<String> locations) {
         List<Inventory> inventories = getAllForLib(lib);
         if (locations != null) {
-            inventories = inventories.stream().filter(i -> locationContained(locations, i.getLocations())).collect(Collectors.toList());
+            inventories = inventories.stream().filter(i -> locationContained(locations, i.getInvLocations())).collect(Collectors.toList());
         }
         return inventories;
     }
 
-    private boolean locationContained(List<String> paramLocations, List<Location> invLocations) {
+    private boolean locationContained(List<String> paramLocations, List<Coder> invLocations) {
         if (paramLocations == null || invLocations == null) {
             return false;
         }
-        List<String> locations = invLocations.stream().map(Location::get_id).collect(Collectors.toList());;
+        List<String> locations = invLocations.stream().map(Coder::getCoder_id).collect(Collectors.toList());;
         return paramLocations.stream().filter(locations::contains).collect(Collectors.toSet()).size() > 0;
     }
 
@@ -157,21 +162,22 @@ public class InventoryServiceImpl implements InventoryService {
         Date resultdate = new Date(milliseconds);
         System.out.println("Vreme pocetka izvršavanja upita: " + sdf.format(resultdate));
         UnwindOperation unwindOp = Aggregation.unwind("primerci");
+        EnumInvLocation enumInvLocation = this.invCodersService.getEnumInvLocation(library);
 
         //upit za podlokaciju i inv knjige, i inv brojeve
         List<Criteria> sublocationCriteriaList = new ArrayList<Criteria>();
         List<Criteria> invBookCriteriaList = new ArrayList<Criteria>();
-        for (Sublocation sublocation : createdInventory.getSublocations()) {
-            Criteria c1 = Criteria.where("primerci.sigPodlokacija").is(sublocation.getCoder_id());
+        for (Coder invLocation : createdInventory.getInvLocations()) {
+            Criteria c1 = Criteria.where(enumInvLocation.getPrimerakField()).is(invLocation.getCoder_id());
             sublocationCriteriaList.add(c1);
             for (InventoryBook book : createdInventory.getInvBooks()) {
                 if (book.getLastNo() != null) {
-                    String firstInvNum = sublocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
-                    String lastInvNum = createInvNum(sublocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
+                    String firstInvNum = invLocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
+                    String lastInvNum = createInvNum(invLocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
                     Criteria c2 = Criteria.where("primerci.invBroj").gte(firstInvNum).lte(lastInvNum);
                     invBookCriteriaList.add(c2);
                 } else {
-                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + sublocation.getCoder_id().substring(0, 2) + book.getCode());
+                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
                     invBookCriteriaList.add(c3);
                 }
             }
