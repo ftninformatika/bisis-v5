@@ -11,5 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class InventoryStatusPair {
     private String fromStatusCoder;
+    private String fromStatusDesc;
     private String toStatusCoder;
+    private String toStatusDesc;
 }

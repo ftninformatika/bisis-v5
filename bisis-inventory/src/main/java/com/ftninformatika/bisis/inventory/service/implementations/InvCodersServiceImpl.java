@@ -48,4 +48,17 @@ public class InvCodersServiceImpl implements InvCodersService {
 
         return results;
     }
+
+
+    public EnumInvLocation getEnumInvLocation(String library) {
+        if (library == null) {
+            return null;
+        }
+        LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
+        if (config.getInvLocation() == null || EnumInvLocation.LOCATION.toString().equals(config.getInvLocation())) {
+            return EnumInvLocation.LOCATION;
+        } else {
+            return EnumInvLocation.SUB_LOCATION;
+        }
+    }
 }
