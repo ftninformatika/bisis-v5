@@ -193,8 +193,8 @@ public class InventoryServiceImpl implements InventoryService {
 
         //upit za status
         List<Criteria> statusCriteriaList = new ArrayList<Criteria>();
-        for (String status : createdInventory.getItemStatuses()) {
-            Criteria c = Criteria.where("primerci.status").is(status);
+        for (Coder status : createdInventory.getItemStatuses()) {
+            Criteria c = Criteria.where("primerci.status").is(status.getCoder_id());
             statusCriteriaList.add(c);
         }
         MatchOperation matchStatusOp = null;

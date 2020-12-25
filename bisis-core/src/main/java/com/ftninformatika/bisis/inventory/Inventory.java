@@ -27,7 +27,7 @@ public class Inventory {
     private String library;
     private Date startDate;
     private Date endDate;
-    private List<String> itemStatuses;
+    private List<Coder> itemStatuses;
     private List<Coder> invLocations;
     private List<InventoryBook> invBooks;
     private List<InventoryStatusPair> invToRevisionStatuses;
