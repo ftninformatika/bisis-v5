@@ -196,11 +196,11 @@ public class InventoryServiceImpl implements InventoryService {
             matchStatusOp = Aggregation.match(new Criteria().orOperator(statusCriteriaList.toArray(new Criteria[statusCriteriaList.size()])));
         }
         //projekcija
-        ProjectionOperation changeNameOp = Aggregation.project("rn", "primerci.invBroj", "primerci.status", "primerci.sigUDK").
+        ProjectionOperation changeNameOp = Aggregation.project("rn", "primerci.invBroj", "primerci.status", "primerci.cena").
                 andExclude("_id").
                 and("primerci.invBroj").as("invNo").
                 and("primerci.status").as("status").
-                and("primerci.sigUDK").as("signature").
+                and("primerci.cena").as("price").
                 and(createdInventory.get_id()).asLiteral().as("inventoryId");
         //sortiranje
         SortOperation sortOp = Aggregation.sort(Sort.by(Sort.Direction.ASC, "rn"));
@@ -253,6 +253,7 @@ public class InventoryServiceImpl implements InventoryService {
                             unit.setTitle(rp.getTitle());
                             unit.setPublisher(rp.getPublisher());
                             unit.setPubYear(rp.getPublishingYear());
+                            unit.setPubPlace(rp.getPublishingPlace());
                             ItemStatus itemStatus = createdInventory.getItemStatus(unit.getStatus());
                             unit.setItemStatusCoderId(itemStatus.getCoder_id());
                             unit.setItemStatusDescription(itemStatus.getDescription());

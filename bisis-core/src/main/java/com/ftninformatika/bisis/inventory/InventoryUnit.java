@@ -25,7 +25,10 @@ public class InventoryUnit {
     private String signature;
     private String publisher;
     private String pubYear;
+    private String pubPlace;
     private String status;
+    private Double price;
+
 //    private ItemStatus invStatus; //todo refactor - itemStatus
 //    private InventoryStatus revisionStatus; // todo inventoryStatus
 
