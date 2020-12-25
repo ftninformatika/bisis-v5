@@ -106,7 +106,7 @@ public class ReportController {
                 JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, dataSource);
                 inputStream.close();
                 response.setContentType("application/octet-stream");
-                String attachment = "attachment; filename=acquisitionSheet.pdf";
+                String attachment = "attachment; filename=tasksSheet.pdf";
                 response.setHeader("Content-Disposition", attachment);
                 OutputStream out = response.getOutputStream();
                 JasperExportManager.exportReportToPdfStream(jasperPrint, out);
