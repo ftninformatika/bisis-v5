@@ -68,6 +68,18 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
     }
 
     @Override
+    public List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO) {
+        Query query = new Query();
+        if (invUnitSearchDTO != null && invUnitSearchDTO.generateSearchCriteria() != null) {
+            query.addCriteria(invUnitSearchDTO.generateSearchCriteria());
+        }
+        if (invUnitSearchDTO != null && invUnitSearchDTO.getSortBy() != null && invUnitSearchDTO.getSort() != null) {
+            query.with(invUnitSearchDTO.getSort());
+        }
+        return mongoTemplate.find(query, InventoryUnit.class);
+    }
+
+    @Override
     public Boolean changeRevisionStatuses(InventoryStatus fromStatus, InventoryStatus toStatus, String library) {
         MongoCollection<Document> collection = mongoTemplate.getCollection(library + "_inventory_units");
         if (fromStatus == null || fromStatus.getCoder_id() == null || toStatus == null || toStatus.getCoder_id() == null) {

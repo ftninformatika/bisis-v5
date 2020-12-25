@@ -56,6 +56,10 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         }
         return inventoryUnitRepository.search(invUnitSearchDTO, pNum, pSize);
     }
+    @Override
+    public List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO) {
+         return inventoryUnitRepository.search(invUnitSearchDTO);
+    }
 
     @Override
     public InventoryUnit setOnPlace(RevStatusOnPlaceDTO revStatusOnPlaceDTO, String library) {

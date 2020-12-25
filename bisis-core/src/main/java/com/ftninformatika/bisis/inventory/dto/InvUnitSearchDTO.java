@@ -25,6 +25,7 @@ public class InvUnitSearchDTO {
     private String title;
     private String publisher;
     private String pubYear;
+    private String signature;
     private EnumSortByInvUnit sortBy;
     private InventoryStatus inventoryStatus;
 
@@ -51,6 +52,9 @@ public class InvUnitSearchDTO {
         if (this.publisher != null && !this.publisher.equals("")) {
             criteriaList.add(Criteria.where("publisher").regex(Pattern.compile("^" + this.publisher, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
         }
+        if (this.signature != null && !this.signature.equals("")) {
+            criteriaList.add(Criteria.where("signature").regex(Pattern.compile("^" + this.signature, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
+        }
         if (this.inventoryStatus != null && this.inventoryStatus.getCoder_id() != null) {
             criteriaList.add(Criteria.where("inventoryStatusCoderId").is(this.inventoryStatus.getCoder_id()));
         }
@@ -60,4 +64,28 @@ public class InvUnitSearchDTO {
         criteria.andOperator(criteriaList.stream().toArray(Criteria[]::new));
         return criteria;
     }
+    @Override
+    public String toString(){
+        StringBuffer query = new StringBuffer("");
+        if (rn != null) {
+            query = query.append("рн:" + rn + " ");
+        }
+        if (invNo !=null && !invNo.isEmpty()){
+            query = query.append("инвентарни број:" + rn + " ");
+        }
+        if (title !=null && !title.isEmpty()){
+            query = query.append("наслов:" + title + " ");
+        }
+        if (author !=null && !author.isEmpty()){
+            query = query.append("аутор:" + author + " ");
+        }
+        if (signature !=null && !signature.isEmpty()){
+            query = query.append("сигнатура:" + signature + " ");
+        }
+        if (inventoryStatus !=null){
+            query = query.append("статус:" + inventoryStatus.getDescription());
+        }
+        return query.toString();
+    }
+
 }
