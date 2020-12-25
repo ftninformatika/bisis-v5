@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/book",
                         "/inventory/**",
                         "/inventory_unit/**",
+                        "/inventory_location/**",
                         "/book/multiple",
                         "/book/collection",
                         "/opac/**",
