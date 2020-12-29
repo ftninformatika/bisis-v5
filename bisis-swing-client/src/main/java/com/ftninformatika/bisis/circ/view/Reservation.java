@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.validator.Validator;
-import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
@@ -11,26 +11,18 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
+import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.JPanel;
-
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JButton;
+import java.util.Objects;
 
 /**
  * @author marijakovacevic
@@ -51,6 +43,15 @@ public class Reservation {
     private JLabel lDuplicate = null;
     private User parent = null;
     private boolean pinRequired;
+    private Record currentRecord = null;
+    private String currentInvNum = "";
+    private JLabel lInvNumber = null;
+    private JLabel lTitle = null;
+    private JLabel lAuthor = null;
+    private JComboBox cmbGroups = null;
+    private CmbKeySelectionManager cmbKeySelectionManager = null;
+    private ComboBoxRenderer cmbRenderer = null;
+    private JButton btnAddToTable = null;
 
     public Reservation(User parent) {
         this.parent = parent;
@@ -60,16 +61,27 @@ public class Reservation {
     private void makePanel() {
         FormLayout layout = new FormLayout(
                 "2dlu:grow, 20dlu, 18dlu, 20dlu, 18dlu, 3dlu, 120dlu, 15dlu, 18dlu, 15dlu, 18dlu, 50dlu, 70dlu, 5dlu, 70dlu, 2dlu:grow", //$NON-NLS-1$
-                "5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 20dlu, pref, 2dlu, pref, 5dlu, pref, 5dlu, pref, 2dlu, 110dlu, 2dlu, 18dlu, 2dlu:grow "); //$NON-NLS-1$
+                "5dlu, pref, 2dlu, pref, 5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 3dlu, pref, 5dlu, pref, 2dlu, pref, 2dlu:grow "); //$NON-NLS-1$
+
         CellConstraints cc = new CellConstraints();
         pb = new PanelBuilder(layout);
         pb.setDefaultDialogBorder();
 
-        pb.addSeparator(Messages.getString("circulation.reserve"), cc.xyw(2, 8, 10)); //$NON-NLS-1$
-        pb.addLabel(Messages.getString("circulation.acquisitionnumber"), cc.xyw(2, 9, 4, "right, center")); //$NON-NLS-1$ //$NON-NLS-2$
-        pb.add(getTfCtlgNo(), cc.xy(7, 9));
-        pb.add(getBtnReserve(), cc.xy(9, 9, "fill, fill")); //$NON-NLS-1$
-        pb.add(getBtnSearch(), cc.xy(11, 9, "fill, fill")); //$NON-NLS-1$
+        pb.addSeparator(Messages.getString("circulation.reserve"), cc.xyw(2, 2, 10)); //$NON-NLS-1$
+        pb.addLabel(Messages.getString("circulation.acquisitionnumber"), cc.xyw(2, 4, 4, "right, center")); //$NON-NLS-1$ //$NON-NLS-2$
+        pb.add(getTfCtlgNo(), cc.xy(7, 4));
+        pb.add(getBtnReserve(), cc.xy(9, 4, "fill, fill")); //$NON-NLS-1$
+        pb.add(getBtnSearch(), cc.xy(11, 4, "fill, fill")); //$NON-NLS-1$
+
+        pb.addSeparator(Messages.getString("circulation.chooseLocation"), cc.xyw(2, 6, 10)); //$NON-NLS-1$
+        pb.addLabel(Messages.getString("circulation.acquisitionnumber"), cc.xyw(2, 8, 4, "right, center")); //$NON-NLS-1$ //$NON-NLS-2$
+        pb.add(getLinvNumber(), cc.xyw(7, 8, 4)); //$NON-NLS-1$ //$NON-NLS-2$
+        pb.addLabel(Messages.getString("circulation.title2"), cc.xyw(2, 10, 4, "right, center")); //$NON-NLS-1$
+        pb.add(getLtitle(), cc.xyw(7, 10, 4)); //$NON-NLS-1$ //$NON-NLS-2$
+        pb.addLabel(Messages.getString("circulation.author2"), cc.xyw(2, 12, 4, "right, center")); //$NON-NLS-1$
+        pb.add(getLauthor(), cc.xyw(7, 12, 4)); //$NON-NLS-1$ //$NON-NLS-2$
+        pb.add(getCmbGroups(), cc.xy(7, 14)); //$NON-NLS-1$
+        pb.add(getBtnAddToTable(), cc.xy(9, 14, "fill, fill")); //$NON-NLS-1$ //$NON-NLS-2$
 
         pb.addSeparator(Messages.getString("circulation.reservations"), cc.xyw(2, 16, 14)); //$NON-NLS-1$
         pb.add(getJScrollPane(), cc.xyw(2, 18, 14));
@@ -77,6 +89,10 @@ public class Reservation {
 
     public JPanel getPanel() {
         return pb.getPanel();
+    }
+
+    public void loadLocation(List data) {
+        Utils.loadCombo(getCmbGroups(), data);
     }
 
     public JTextField getTfCtlgNo() {
@@ -105,35 +121,183 @@ public class Reservation {
         return tfCtlgNo;
     }
 
-    private JLabel getLUser() {
-        if (lUser == null) {
-            lUser = new JLabel();
-            lUser.setForeground(Color.blue);
-            lUser.setText(""); //$NON-NLS-1$
+    private JButton getBtnReserve() {
+        if (btnReserve == null) {
+            btnReserve = new JButton();
+            btnReserve.setToolTipText(Messages.getString("circulation.checkout")); //$NON-NLS-1$
+            btnReserve.setIcon(new ImageIcon(getClass().getResource("/circ-images/plus16.png"))); //$NON-NLS-1$
+            btnReserve.setFocusable(false);
+            btnReserve.setPreferredSize(new java.awt.Dimension(28, 28));
+            btnReserve.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    if (!getTfCtlgNo().getText().equals("")) { //$NON-NLS-1$
+                        String ctlgno = Validator.convertCtlgNo2DB(getTfCtlgNo().getText().trim());
+                        if (!ctlgno.equals("")) { //$NON-NLS-1$
+                            reserveBook(null, ctlgno);
+                        } else {
+                            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.acquisitnowarning"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                        }
+                    }
+                }
+            });
         }
-        return lUser;
+        return btnReserve;
     }
 
-    public String getUser() {
-        return getLUser().getText();
+    public boolean isReservationLimitExceeded(){
+        int numberOfReservedBook = getTableModel().getRowCount()
+                + Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().size();
+        return numberOfReservedBook >= 3;
     }
 
-    private JLabel getLUntilDate() {
-        if (lUntilDate == null) {
-            lUntilDate = new JLabel();
-            lUntilDate.setForeground(Color.blue);
-            lUntilDate.setText(""); //$NON-NLS-1$
+    public void reserveBook(Record record, String ctlgNo) {
+        // check if card is blocked
+        if (getLBlockCard().getText().equals("") || Cirkulacija.getApp().getEnvironment().getBlockedCard()) { //$NON-NLS-1$
+
+            if (!isReservationLimitExceeded()) {
+                // 1. flow - rezervise se preko buttona
+                if (record == null) {
+                    record = Cirkulacija.getApp().getRecordsManager().getRecord(ctlgNo);
+                }
+
+                if (record != null) {
+                    // check if book is already reserved
+                    if (getTableModel().isBookInTable(record)) {
+                        JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyInReservationslist"),
+                                Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                    } else {
+
+                        currentRecord = record;
+                        currentInvNum = ctlgNo;
+                        fillLabels();
+                        pinRequired = true;
+
+                        getTfCtlgNo().setText(""); //$NON-NLS-1$
+                        handleKeyTyped();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.acquisitnowarning"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                            new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                }
+            } else {
+                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.reservationLimitExceeded"),
+                        Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+            }
+        } else {
+            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.blockedcardwarning"),
+                    Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
         }
-        return lUntilDate;
     }
 
-    private JLabel getLNote() {
-        if (lNote == null) {
-            lNote = new JLabel();
-            lNote.setForeground(Color.red);
-            lNote.setText(""); //$NON-NLS-1$
+    private JButton getBtnSearch() {
+        if (btnSearch == null) {
+            btnSearch = new JButton();
+            btnSearch.setToolTipText(Messages.getString("circulation.search")); //$NON-NLS-1$
+            btnSearch.setIcon(new ImageIcon(getClass().getResource("/circ-images/find16.png"))); //$NON-NLS-1$
+            btnSearch.setFocusable(false);
+            btnSearch.setPreferredSize(new java.awt.Dimension(28, 28));
+            btnSearch.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    Cirkulacija.getApp().getMainFrame().showPanel("searchBooksPanel"); //$NON-NLS-1$
+//                    btnAddToTable.setEnabled(true);
+//                    fillLabels();
+                }
+            });
         }
-        return lNote;
+        return btnSearch;
+    }
+
+    private void fillLabels() {
+        RecordBean bean = new RecordBean(currentRecord);
+        lInvNumber.setText(currentInvNum);
+        lTitle.setText(bean.getNaslov());
+        lAuthor.setText(bean.getAutor());
+    }
+
+    public JLabel getLinvNumber() {
+        if (lInvNumber == null) {
+            lInvNumber = new JLabel();
+            lInvNumber.setForeground(Color.blue);
+            lInvNumber.setText(""); //$NON-NLS-1$
+        }
+        return lInvNumber;
+    }
+
+    public JLabel getLtitle() {
+        if (lTitle == null) {
+            lTitle = new JLabel();
+            lTitle.setForeground(Color.blue);
+            lTitle.setText(""); //$NON-NLS-1$
+        }
+        return lTitle;
+    }
+
+    public JLabel getLauthor() {
+        if (lAuthor == null) {
+            lAuthor = new JLabel();
+            lAuthor.setForeground(Color.blue);
+            lAuthor.setText(""); //$NON-NLS-1$
+        }
+        return lAuthor;
+    }
+
+    private JButton getBtnAddToTable() {
+        if (btnAddToTable == null) {
+            btnAddToTable = new JButton();
+            btnAddToTable.setToolTipText(Messages.getString("circulation.addToTable")); //$NON-NLS-1$
+            btnAddToTable.setIcon(new ImageIcon(getClass().getResource("/circ-images/plus16.png"))); //$NON-NLS-1$
+            btnAddToTable.setFocusable(false);
+            btnAddToTable.setEnabled(false);
+            btnAddToTable.setPreferredSize(new java.awt.Dimension(28, 28));
+            btnAddToTable.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    if (currentRecord != null) {
+                        String libraryLocation = Objects.requireNonNull(getCmbGroups().getSelectedItem()).toString();
+                        getTableModel().addRow(currentInvNum, currentRecord, libraryLocation);
+                        // add the book to the temporary list
+                        Cirkulacija.getApp().getRecordsManager().reserveBook(currentRecord);
+                        clear();
+                        btnAddToTable.setEnabled(false);
+                    }
+                }
+            });
+        }
+        return btnAddToTable;
+    }
+
+    private JComboBox getCmbGroups() {
+        if (cmbGroups == null) {
+            cmbGroups = new JComboBox();
+            cmbGroups.setRenderer(getCmbRenderer());
+            cmbGroups.setKeySelectionManager(getCmbKeySelectionManager());
+            cmbGroups.addItemListener(new ItemListener() {
+                public void itemStateChanged(ItemEvent e) {
+                    if (currentRecord != null) {
+                        btnAddToTable.setEnabled(true);
+                    }
+                    handleKeyTyped();
+                }
+            });
+        }
+        return cmbGroups;
+    }
+
+    private CmbKeySelectionManager getCmbKeySelectionManager() {
+        if (cmbKeySelectionManager == null) {
+            cmbKeySelectionManager = new CmbKeySelectionManager();
+        }
+        return cmbKeySelectionManager;
+    }
+
+    private ComboBoxRenderer getCmbRenderer() {
+        if (cmbRenderer == null) {
+            cmbRenderer = new ComboBoxRenderer();
+        }
+        return cmbRenderer;
     }
 
     private JScrollPane getJScrollPane() {
@@ -168,82 +332,6 @@ public class Reservation {
         return reservationTableModel;
     }
 
-    private JButton getBtnReserve() {
-        if (btnReserve == null) {
-            btnReserve = new JButton();
-            btnReserve.setToolTipText(Messages.getString("circulation.checkout")); //$NON-NLS-1$
-            btnReserve.setIcon(new ImageIcon(getClass().getResource("/circ-images/plus16.png"))); //$NON-NLS-1$
-            btnReserve.setFocusable(false);
-            btnReserve.setPreferredSize(new java.awt.Dimension(28, 28));
-            btnReserve.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    if (!getTfCtlgNo().getText().equals("")) { //$NON-NLS-1$
-                        String ctlgno = Validator.convertCtlgNo2DB(getTfCtlgNo().getText().trim());
-                        if (!ctlgno.equals("")) { //$NON-NLS-1$
-                            reserveBook(ctlgno);
-                        } else {
-                            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.acquisitnowarning"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-                                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-                        }
-                    }
-                }
-            });
-        }
-        return btnReserve;
-    }
-
-    public void reserveBook(String ctlgNo) {
-        // check if card is blocked
-        if (getLBlockCard().getText().equals("") || Cirkulacija.getApp().getEnvironment().getBlockedCard()) { //$NON-NLS-1$
-
-            int numberOfReservedBook = getTableModel().getRowCount()
-                    + Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().size();
-
-            // check if reservation limit (3 books) is exceeded
-            if (numberOfReservedBook < 3) {
-                // check if book is already reserved
-                if (getTableModel().isBookInTable(ctlgNo)) {
-                    JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyInReservationslist"),
-                            Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-                            new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-                } else {
-                    // add the book to the temporary list
-                    Record record = Cirkulacija.getApp().getRecordsManager().reserveBook(ctlgNo);
-                    if (record != null) {
-                        getTableModel().addRow(ctlgNo, record);
-                        pinRequired = true;
-                    }
-                    getTfCtlgNo().setText(""); //$NON-NLS-1$
-                    handleKeyTyped();
-                }
-            } else {
-                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.reservationLimitExceeded"),
-                        Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-            }
-        } else {
-            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.blockedcardwarning"),
-                    Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-        }
-    }
-
-    private JButton getBtnSearch() {
-        if (btnSearch == null) {
-            btnSearch = new JButton();
-            btnSearch.setToolTipText(Messages.getString("circulation.search")); //$NON-NLS-1$
-            btnSearch.setIcon(new ImageIcon(getClass().getResource("/circ-images/find16.png"))); //$NON-NLS-1$
-            btnSearch.setFocusable(false);
-            btnSearch.setPreferredSize(new java.awt.Dimension(28, 28));
-            btnSearch.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    Cirkulacija.getApp().getMainFrame().showPanel("searchBooksPanel"); //$NON-NLS-1$
-                }
-            });
-        }
-        return btnSearch;
-    }
-
     private JLabel getLBlockCard() {
         if (lBlockCard == null) {
             lBlockCard = new JLabel();
@@ -262,11 +350,7 @@ public class Reservation {
         return lDuplicate;
     }
 
-    public void loadUser(String userID, String firstName, String lastName, Date untilDate, String note, String dupno, String blocked, java.util.List<ReservationOnProfile> reservations, boolean warnings) {
-        getLUser().setText(userID + ", " + firstName + " " + lastName); //$NON-NLS-1$ //$NON-NLS-2$
-        if (untilDate != null)
-            getLUntilDate().setText(DateFormat.getDateInstance().format(untilDate));
-        getLNote().setText(note);
+    public void loadUser(String dupno, String blocked, java.util.List<ReservationOnProfile> reservations, boolean warnings) {
         getLDuplicate().setText(dupno);
         getLBlockCard().setText(blocked);
 
@@ -293,12 +377,10 @@ public class Reservation {
     }
 
     public void clear() {
-        getLUser().setText(""); //$NON-NLS-1$
-        getLUntilDate().setText(""); //$NON-NLS-1$
-        getLNote().setText(""); //$NON-NLS-1$
-        getLDuplicate().setText(""); //$NON-NLS-1$
-        getLBlockCard().setText(""); //$NON-NLS-1$
-        getTfCtlgNo().setText(""); //$NON-NLS-1$
+        getLinvNumber().setText(""); //$NON-NLS-1$
+        getLtitle().setText(""); //$NON-NLS-1$
+        getLauthor().setText(""); //$NON-NLS-1$
+        getCmbGroups().setSelectedIndex(0);
     }
 
     private void handleKeyTyped() {

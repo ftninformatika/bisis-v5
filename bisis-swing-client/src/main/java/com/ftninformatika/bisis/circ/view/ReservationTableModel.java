@@ -2,8 +2,6 @@ package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.circ.Lending;
-import com.ftninformatika.bisis.circ.UserCategory;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
@@ -79,11 +77,11 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
 
     }
 
-    public boolean isBookInTable(String ctlgNo) {
+    public boolean isBookInTable(Record record) {
         Iterator<ReservationOnProfile> it = dataView.iterator();
         while (it.hasNext()) {
             ReservationOnProfile row = it.next();
-            if (row.getCtlgNo().equals(ctlgNo)) {
+            if (record.get_id().equals(row.getRecord_id())) {
                 return true;
             }
         }
@@ -91,15 +89,14 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
     }
 //		 Manipulating rows
 
-    public boolean addRow(String ctlgno, Record record) {
+    public boolean addRow(String ctlgno, Record record, String location) {
         int row = getRowCount();
         ReservationOnProfile rowData = new ReservationOnProfile();
         rowData.setReservationDate(new Date());
-        // todo zakucano
-        rowData.setCoderId("0503");
+        rowData.setCoderId(location);
         dataView.add(rowData);
         if (record != null) {
-            Cirkulacija.getApp().getUserManager().addBookToBeReserved(record.get_id());
+            Cirkulacija.getApp().getUserManager().addBookForReservation(record.get_id());
             RecordBean bean = new RecordBean(record);
             authors.add(bean.getAutor());
             titles.add(bean.getNaslov());
@@ -174,7 +171,9 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
     }
 
     public String getLocationDescription(String coderId) {
-        return Cirkulacija.getApp().getUserManager().getLibraryBranchName(coderId);
+        // if library branch is null => coderId is library branch name already
+        String libraryBranch = Cirkulacija.getApp().getUserManager().getLibraryBranchName(coderId);
+        return libraryBranch == null ? coderId : libraryBranch;
     }
 
 

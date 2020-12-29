@@ -18,7 +18,7 @@ import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.reservations.ReservationOnProfile;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;
@@ -331,9 +331,9 @@ public class UserManager {
         }
     }
 
-    public void reserveBook(String ctlgno) {
+    public void reserveBook(Record record) {
         if (member != null) {
-            Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().reserveBook(ctlgno);
+            Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().reserveBook(record, "");
             Cirkulacija.getApp().getMainFrame().previousTwoPanels();
         }
     }
@@ -506,8 +506,7 @@ public class UserManager {
 
         user.getLending().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo, lendings, !warnings.isEmpty());
 
-        user.getReservationsPanel().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(),
-                maxDate, member.getNote(), dupno, blockedInfo, member.getReservations(), !warnings.isEmpty());
+        user.getReservationsPanel().loadUser(dupno, blockedInfo, member.getReservations(), !warnings.isEmpty());
 
         user.setDirty(false);
 
@@ -642,6 +641,11 @@ public class UserManager {
         user.getMmbrship().loadLocation(BisisApp.appConfig.getCodersHelper()
                 .getCircLocations().stream()
                 .map(i -> i.getDescription())
+                .collect(Collectors.toList()));
+
+        user.getReservationsPanel().loadLocation(BisisApp.appConfig.getCodersHelper()
+                .getCircLocations().stream()
+                .map(CircLocation::getDescription)
                 .collect(Collectors.toList()));
 
         user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
@@ -844,7 +848,7 @@ public class UserManager {
 
     }
 
-    public void addBookToBeReserved(String record_id) {
+    public void addBookForReservation(String record_id) {
         if (!booksToReserve.contains(record_id)) {
             booksToReserve.add(record_id);
         }

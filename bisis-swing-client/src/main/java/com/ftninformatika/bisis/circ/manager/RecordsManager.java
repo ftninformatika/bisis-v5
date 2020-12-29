@@ -21,7 +21,7 @@ public class RecordsManager {
     private Sveska sveska;
     private ItemAvailability itemAvailability;
     private List<ItemAvailability> listOfItems;
-    private List<ItemAvailability> booksToBeReserved;
+    private List<Record> booksToBeReserved;
     private static Logger log = Logger.getLogger(RecordsManager.class);
 
 
@@ -30,43 +30,9 @@ public class RecordsManager {
         booksToBeReserved = new ArrayList<>();
     }
 
-    public Record reserveBook(String ctlgNo) {
-        log.info("Rezervisanje primerka iz BISIS-a sa inventarnim brojem: " + ctlgNo);
-        boolean zaduziv = false;
-
-        Primerak primerak = null;
-        Record record = null;
-
-        try {
-            primerak = BisisApp.bisisService.getPrimerakByInvNum(ctlgNo).execute().body();
-        } catch (IOException e) {
-            log.error(e);
-            e.printStackTrace();
-        }
-
-        if (primerak != null) {
-            if (primerak.getStatus() == null) {
-                zaduziv = true;
-            } else {
-                zaduziv = BisisApp.appConfig.getCodersHelper().getItemStatuses().get(primerak.getStatus()).isLendable();
-            }
-            try {
-                itemAvailability = BisisApp.bisisService.getItemAvailability(ctlgNo).execute().body();
-            } catch (IOException e) {
-                log.error(e);
-                e.printStackTrace();
-            }
-        }
-
-        // check if book is lendable and currently borrowed
-        if (zaduziv) {
-            if (itemAvailability != null && itemAvailability.getBorrowed()) {
-                log.info("Primerak je stavljen u privremenu listu: " + ctlgNo);
-                this.booksToBeReserved.add(itemAvailability);
-                record = getRecord(ctlgNo);
-            }
-        }
-        return record;
+    public void reserveBook(Record record) {
+        log.info("Rezervisanje knjige iz BISIS-a (knjiga je stavljena u privremenu listu): " + record.get_id());
+        this.booksToBeReserved.add(record);
     }
 
     public Record lendBook(String ctlgno) {
@@ -245,7 +211,7 @@ public class RecordsManager {
         return listOfItems;
     }
 
-    public List<ItemAvailability> getListOfBooksToBeReserved() {
+    public List<Record> getListOfBooksToBeReserved() {
         return booksToBeReserved;
     }
 
