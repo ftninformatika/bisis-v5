@@ -314,16 +314,12 @@ public class Reservation {
                     int[] rows = getTblReservation().getSelectedRows();
                     System.out.println("");
                     if (rows.length != 0) {
-                        int[] modelrows = new int[rows.length];
-                        for (int j = 0; j < rows.length; j++) {
-                            modelrows[j] = getTblReservation().convertRowIndexToModel(rows[j]);
-                        }
-
-                        for (int i = 0; i < modelrows.length; i++) {
+                        for (int i = 0; i < rows.length; i++) {
                             // add the book to the temporary list
-                            Cirkulacija.getApp().getRecordsManager().cancelReservation(getTableModel().getReservation(i));
+                            Cirkulacija.getApp().getRecordsManager().cancelReservation(getTableModel().getReservation(rows[i]));
+                            Cirkulacija.getApp().getUserManager().deleteReservation(getTableModel().getReservation(rows[i]));
                         }
-                        getTableModel().removeRows(modelrows);
+                        getTableModel().removeRows(rows);
                         handleKeyTyped();
                         pinRequired = true;
                     }

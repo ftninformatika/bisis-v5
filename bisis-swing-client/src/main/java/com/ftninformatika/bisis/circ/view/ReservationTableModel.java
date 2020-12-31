@@ -205,9 +205,9 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
     }
 
     public void removeRows(int[] rows) {
-        List<Integer> l = new ArrayList<Integer>();
-        for (int i = 0; i < rows.length; i++){
-            l.add(Integer.valueOf(rows[i]));
+        List<Integer> l = new ArrayList<>();
+        for (int row : rows) {
+            l.add(row);
         }
         Collections.sort(l);
         for (int i = l.size()-1; i >= 0; i--){
@@ -215,8 +215,7 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
             authors.remove(l.get(i).intValue());
             titles.remove(l.get(i).intValue());
             signatures.remove(l.get(i).intValue());
-            Cirkulacija.getApp().getUserManager().deleteReservation(getReservation(i));
-            fireTableRowsDeleted(l.get(i).intValue(), l.get(i).intValue());
+            fireTableRowsDeleted(l.get(i), l.get(i));
         }
     }
 
