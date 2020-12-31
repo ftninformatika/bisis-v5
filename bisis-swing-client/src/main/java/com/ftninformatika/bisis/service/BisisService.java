@@ -17,6 +17,7 @@ import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.*;
@@ -24,6 +25,7 @@ import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.utils.PathDate;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -108,6 +110,9 @@ public interface BisisService {
 
     @POST("reservations/reserve-books")
     Call<ReservationDTO> reserveBooks(@Body ReservationsRequestDTO requestDTO);
+
+    @POST("book")
+    Call<Book> getBookLocations(@Body RequestBody recordId);
 
 //librarians------------------------------------------------------------
     // sa servera se ucitavaju LibrarianDB objekti, a u aplikaciji se po potrebi

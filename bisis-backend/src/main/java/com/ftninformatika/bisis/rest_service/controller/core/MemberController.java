@@ -106,7 +106,8 @@ public class MemberController {
                 }
 
                 // todo Da li treba slati nazad? mozda zbog postavljanja datuma
-                List<Reservation> reservations = reservationsService.reserveBooks(memberData.getBooksToReserve(), memberData.getMember());
+                List<Object> reservations = reservationsService.updateReservations(memberData.getBooksToReserve(),
+                        memberData.getReservationsToDelete(), memberData.getMember());
 
                 if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
                     for (ItemAvailability ia : memberData.getBooks()){

@@ -89,14 +89,14 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
     }
 //		 Manipulating rows
 
-    public boolean addRow(String ctlgno, Record record, String location) {
+    public boolean addRow(String ctlgno, Record record, String locationCode) {
         int row = getRowCount();
         ReservationOnProfile rowData = new ReservationOnProfile();
         rowData.setReservationDate(new Date());
-        rowData.setCoderId(location);
+        rowData.setCoderId(locationCode);
         dataView.add(rowData);
         if (record != null) {
-            Cirkulacija.getApp().getUserManager().addBookForReservation(record.get_id());
+            Cirkulacija.getApp().getUserManager().addBookForReservation(record.get_id(), locationCode);
             RecordBean bean = new RecordBean(record);
             authors.add(bean.getAutor());
             titles.add(bean.getNaslov());
@@ -117,6 +117,10 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
         list.add(titles.get(i));
         list.add(signatures.get(i));
         return list;
+    }
+
+    public ReservationOnProfile getReservation(int i){
+        return dataView.get(i);
     }
 
     public void setRow(List list) {
@@ -173,7 +177,7 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
     public String getLocationDescription(String coderId) {
         // if library branch is null => coderId is library branch name already
         String libraryBranch = Cirkulacija.getApp().getUserManager().getLibraryBranchName(coderId);
-        return libraryBranch == null ? coderId : libraryBranch;
+        return libraryBranch == null || libraryBranch.equals("") ? coderId : libraryBranch;
     }
 
 
@@ -199,5 +203,22 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
                 return String.class;
         }
     }
+
+    public void removeRows(int[] rows) {
+        List<Integer> l = new ArrayList<Integer>();
+        for (int i = 0; i < rows.length; i++){
+            l.add(Integer.valueOf(rows[i]));
+        }
+        Collections.sort(l);
+        for (int i = l.size()-1; i >= 0; i--){
+            dataView.remove(l.get(i).intValue());
+            authors.remove(l.get(i).intValue());
+            titles.remove(l.get(i).intValue());
+            signatures.remove(l.get(i).intValue());
+            Cirkulacija.getApp().getUserManager().deleteReservation(getReservation(i));
+            fireTableRowsDeleted(l.get(i).intValue(), l.get(i).intValue());
+        }
+    }
+
 
 }

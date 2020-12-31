@@ -19,6 +19,7 @@ import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;
@@ -44,7 +45,8 @@ public class UserManager {
     private List lendings = new ArrayList();
     private static Logger log = Logger.getLogger(UserManager.class);
     private String defaultLocation;
-    private List<String> booksToReserve = new ArrayList<>();
+    private HashMap<String, String> booksToReserve = new HashMap<>();
+    private List<ReservationOnProfile> reservationsToDelete = new ArrayList();
 
     // list of returned books
     private List<String> returnedBooks;
@@ -183,9 +185,21 @@ public class UserManager {
                 return Messages.getString(errorInDates.getMessageKey());
             }
 
+            // add books for reservation to memberData
             if (!booksToReserve.isEmpty()) {
                 log.info("saveUser - postoje knjige za rezervisanje");
+                for (Map.Entry<String, String> entry : booksToReserve.entrySet()) {
+                    log.info("Rezervisati knjigu: " + entry.getKey() + ", na lokaciji: " + entry.getValue());
+                }
                 memberData.setBooksToReserve(booksToReserve);
+            }
+
+            if (!reservationsToDelete.isEmpty()) {
+                log.info("saveUser - postoje rezervacije za brisanje");
+                for (ReservationOnProfile reservation : reservationsToDelete) {
+                    log.info("Obrisati rezervaciju: " + reservation.get_id() + ", na lokaciji: " + reservation.getCoderId());
+                }
+                memberData.setReservationsToDelete(reservationsToDelete);
             }
 
             try {
@@ -214,7 +228,9 @@ public class UserManager {
 //                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
                 member = memberData.getMember();
                 lendings = memberData.getLendings() != null ? memberData.getLendings() : new ArrayList();
-                booksToReserve = new ArrayList<>();
+                booksToReserve = new HashMap<>();
+                reservationsToDelete = new ArrayList<>();
+
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
@@ -222,6 +238,7 @@ public class UserManager {
                 if (member != null) {
                     Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
                     Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().clear();
+                    Cirkulacija.getApp().getRecordsManager().getListOfBooksForCancellation().clear();
                     loadUser(user, member, lendings);
                 }
                 return "ok";
@@ -250,10 +267,12 @@ public class UserManager {
             member = null;
             lendings = null;
             chargeBook = "";
-            booksToReserve = new ArrayList<>();
+            booksToReserve = new HashMap<>();
+            reservationsToDelete = new ArrayList<>();
             Cirkulacija.getApp().getRecordsManager().releaseListOfItems();
             Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
             Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().clear();
+            Cirkulacija.getApp().getRecordsManager().getListOfBooksForCancellation().clear();
             log.info("Otkljucan korisnik");
         } else {
             log.info("Otkljucavanje nije uspelo");
@@ -643,11 +662,6 @@ public class UserManager {
                 .map(i -> i.getDescription())
                 .collect(Collectors.toList()));
 
-        user.getReservationsPanel().loadLocation(BisisApp.appConfig.getCodersHelper()
-                .getCircLocations().stream()
-                .map(CircLocation::getDescription)
-                .collect(Collectors.toList()));
-
         user.getMmbrship().loadBranchID(BisisApp.appConfig.getCodersHelper()
                 .getCircLocations().stream()
                 .map(i -> {
@@ -848,15 +862,24 @@ public class UserManager {
 
     }
 
-    public void addBookForReservation(String record_id) {
-        if (!booksToReserve.contains(record_id)) {
-            booksToReserve.add(record_id);
+    public void addBookForReservation(String record_id, String location) {
+        if (!booksToReserve.containsKey(record_id)) {
+            booksToReserve.put(record_id, location);
         }
-
     }
 
-    public List<String> getBooksToReserve(){
+    public void deleteReservation(ReservationOnProfile reservation) {
+        if (!reservationsToDelete.contains(reservation)) {
+            reservationsToDelete.add(reservation);
+        }
+    }
+
+    public HashMap<String, String> getBooksToReserve() {
         return booksToReserve;
+    }
+
+    public List<ReservationOnProfile> getReservationsToDelete() {
+        return reservationsToDelete;
     }
 
     public void updateLending(Lending lend) {

@@ -99,7 +99,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
         return deleteFromQueue(member, record_id);
     }
 
-    private boolean deleteFromQueue(Member member, String record_id) {
+    public boolean deleteFromQueue(Member member, String record_id) {
         Optional<Record> record = recordsRepository.findById(record_id);
         if (record.isPresent()) {
             LinkedList<ReservationInQueue> reservations = record.get().getReservations();
@@ -110,7 +110,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
         return false;
     }
 
-    private String deleteFromMembersList(String reservationId, Member member) {
+    public String deleteFromMembersList(String reservationId, Member member) {
         String record_id = "";
         List<ReservationOnProfile> membersReservations = member.getReservations();
         Iterator<ReservationOnProfile> iter = membersReservations.iterator();

@@ -172,7 +172,9 @@ public class User extends JPanel {
                         } else {
                             dirty = false;
                             Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().clear();
+                            Cirkulacija.getApp().getRecordsManager().getListOfBooksForCancellation().clear();
                             Cirkulacija.getApp().getUserManager().getBooksToReserve().clear();
+                            Cirkulacija.getApp().getUserManager().getReservationsToDelete().clear();
 
                         }
                     }
@@ -275,7 +277,6 @@ public class User extends JPanel {
         return getMmbrship().getPanel();
     }
 
-    //todo
     public Reservation getReservationsPanel() {
         if (pReservations == null) {
             pReservations = new Reservation(this);
@@ -515,6 +516,7 @@ public class User extends JPanel {
         getUserData().clear();
         getMmbrship().clear();
         getLending().clear();
+        getReservationsPanel().clear();
     }
 
     private void fixTables() {

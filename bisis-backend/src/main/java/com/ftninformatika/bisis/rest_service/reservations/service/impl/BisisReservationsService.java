@@ -78,6 +78,9 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     @Autowired
     CreateReservationService createReservationService;
 
+    @Autowired
+    OpacReservationsService opacReservationsService;
+
 
     @Override
     public List<ReservationDTO> getReservationsForReturnedBooks(List<String> returnedBooks, String library) {
@@ -169,21 +172,31 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     }
 
     @Override
-    public List<Reservation> reserveBooks(List<String> recordIds, Member member) {
-        // in BISIS it is already checked if reservation limit is exceeded && if the book is already borrowed (only for ctlgNo)
-        // TODO da li je ogranicenje da mogu da rezervisu samo knjigu koja je crvena ili mora check i za zelene i da li postoji primerak
-        List<Reservation> reservations = new ArrayList<>();
-        if (recordIds != null && !recordIds.isEmpty()) {
-            for (String record_id : recordIds) {
-                Optional<Record> record = recordsRepository.findById(record_id);
+    public List<Object> updateReservations(HashMap<String, String> books, List<ReservationOnProfile> reservationsToCancel, Member member) {
+        // if there are any reservations to delete
+        cancelReservations(reservationsToCancel, member);
+
+        // todo in BISIS it is already checked if reservation limit is exceeded && if the book is already borrowed (only for ctlgNo)
+        List<Object> reservations = new ArrayList<>();
+        if (books != null && !books.isEmpty()) {
+            for (Map.Entry<String, String> pair : books.entrySet()) {
+                Optional<Record> record = recordsRepository.findById(pair.getKey());
                 if (record.isPresent()) {
-                    // todo zakucan coderId
-                    Reservation reservation = createReservationService.createNewReservation(member, record.get(), "0503");
+                    Reservation reservation = createReservationService.createNewReservation(member, record.get(), pair.getValue());
                     reservations.add(reservation);
                 }
             }
         }
         return reservations;
+    }
+
+    private void cancelReservations(List<ReservationOnProfile> reservations, Member member) {
+        if (reservations != null) {
+            for (ReservationOnProfile reservation : reservations) {
+                String record_id = opacReservationsService.deleteFromMembersList(reservation.get_id(), member);
+                opacReservationsService.deleteFromQueue(member, record_id);
+            }
+        }
     }
 
     private void deleteExpiredReservation(String userId, String ctlgNo, String library) {
@@ -255,7 +268,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         Book book = opacSearchService.getBookByRec(record);
         String formattedDate = formatDate(deadline);
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(member.getEmail());
-        emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("RESERVATION_CONFIRMED_HEADING"),
+        // todo libraryMember.getUsername()
+        emailService.sendSimpleMail("marijakovacevic995@gmail.com", Texts.getString("RESERVATION_CONFIRMED_HEADING"),
                 MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.0"), book.getTitle(), formattedDate));
 
     }

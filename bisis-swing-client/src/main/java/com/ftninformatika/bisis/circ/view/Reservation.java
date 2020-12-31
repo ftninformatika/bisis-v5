@@ -1,8 +1,11 @@
 package com.ftninformatika.bisis.circ.view;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.validator.Validator;
+import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac2.books.Item;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
@@ -10,6 +13,8 @@ import com.ftninformatika.utils.Messages;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -19,10 +24,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.IOException;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author marijakovacevic
@@ -39,6 +43,7 @@ public class Reservation {
     private ReservationTableModel reservationTableModel = null;
     private JButton btnReserve = null;
     private JButton btnSearch = null;
+    private JButton btnReturn = null;
     private JLabel lBlockCard = null;
     private JLabel lDuplicate = null;
     private User parent = null;
@@ -48,20 +53,23 @@ public class Reservation {
     private JLabel lInvNumber = null;
     private JLabel lTitle = null;
     private JLabel lAuthor = null;
+    HashMap<String, String> locations = new HashMap<>();
     private JComboBox cmbGroups = null;
     private CmbKeySelectionManager cmbKeySelectionManager = null;
     private ComboBoxRenderer cmbRenderer = null;
     private JButton btnAddToTable = null;
 
+
     public Reservation(User parent) {
         this.parent = parent;
+        this.clear();
         this.makePanel();
     }
 
     private void makePanel() {
         FormLayout layout = new FormLayout(
                 "2dlu:grow, 20dlu, 18dlu, 20dlu, 18dlu, 3dlu, 120dlu, 15dlu, 18dlu, 15dlu, 18dlu, 50dlu, 70dlu, 5dlu, 70dlu, 2dlu:grow", //$NON-NLS-1$
-                "5dlu, pref, 2dlu, pref, 5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 3dlu, pref, 5dlu, pref, 2dlu, pref, 2dlu:grow "); //$NON-NLS-1$
+                "5dlu, pref, 2dlu, pref, 5dlu, pref, 2dlu, pref, 2dlu, pref, 2dlu, pref, 3dlu, pref, 5dlu, pref, 2dlu, 110dlu, 2dlu, 18dlu, 2dlu:grow "); //$NON-NLS-1$
 
         CellConstraints cc = new CellConstraints();
         pb = new PanelBuilder(layout);
@@ -85,14 +93,12 @@ public class Reservation {
 
         pb.addSeparator(Messages.getString("circulation.reservations"), cc.xyw(2, 16, 14)); //$NON-NLS-1$
         pb.add(getJScrollPane(), cc.xyw(2, 18, 14));
+        pb.add(getBtnReturn(), cc.xy(2, 20, "fill, fill")); //$NON-NLS-1$
+
     }
 
     public JPanel getPanel() {
         return pb.getPanel();
-    }
-
-    public void loadLocation(List data) {
-        Utils.loadCombo(getCmbGroups(), data);
     }
 
     public JTextField getTfCtlgNo() {
@@ -145,13 +151,14 @@ public class Reservation {
         return btnReserve;
     }
 
-    public boolean isReservationLimitExceeded(){
+    public boolean isReservationLimitExceeded() {
         int numberOfReservedBook = getTableModel().getRowCount()
                 + Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().size();
         return numberOfReservedBook >= 3;
     }
 
     public void reserveBook(Record record, String ctlgNo) {
+        clear();
         // check if card is blocked
         if (getLBlockCard().getText().equals("") || Cirkulacija.getApp().getEnvironment().getBlockedCard()) { //$NON-NLS-1$
 
@@ -203,8 +210,6 @@ public class Reservation {
             btnSearch.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     Cirkulacija.getApp().getMainFrame().showPanel("searchBooksPanel"); //$NON-NLS-1$
-//                    btnAddToTable.setEnabled(true);
-//                    fillLabels();
                 }
             });
         }
@@ -216,34 +221,31 @@ public class Reservation {
         lInvNumber.setText(currentInvNum);
         lTitle.setText(bean.getNaslov());
         lAuthor.setText(bean.getAutor());
+        loadLocations();
     }
 
-    public JLabel getLinvNumber() {
-        if (lInvNumber == null) {
-            lInvNumber = new JLabel();
-            lInvNumber.setForeground(Color.blue);
-            lInvNumber.setText(""); //$NON-NLS-1$
+    public void loadLocations() {
+        locations.clear();
+        getCmbGroups().removeAllItems();
+        Book book = null;
+        try {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), currentRecord.get_id());
+            book = BisisApp.bisisService.getBookLocations(requestBody).execute().body();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
-        return lInvNumber;
+
+        if (book != null) {
+            for (Item i : book.getItems()) {
+                locations.put(i.getLocation(), i.getLocCode());
+            }
+            List<String> locationsDescriptions = new ArrayList<>(locations.keySet());
+            Collections.sort(locationsDescriptions);
+            Utils.loadCombo(getCmbGroups(), locationsDescriptions);
+            btnAddToTable.setEnabled(false);
+        }
     }
 
-    public JLabel getLtitle() {
-        if (lTitle == null) {
-            lTitle = new JLabel();
-            lTitle.setForeground(Color.blue);
-            lTitle.setText(""); //$NON-NLS-1$
-        }
-        return lTitle;
-    }
-
-    public JLabel getLauthor() {
-        if (lAuthor == null) {
-            lAuthor = new JLabel();
-            lAuthor.setForeground(Color.blue);
-            lAuthor.setText(""); //$NON-NLS-1$
-        }
-        return lAuthor;
-    }
 
     private JButton getBtnAddToTable() {
         if (btnAddToTable == null) {
@@ -256,8 +258,8 @@ public class Reservation {
             btnAddToTable.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     if (currentRecord != null) {
-                        String libraryLocation = Objects.requireNonNull(getCmbGroups().getSelectedItem()).toString();
-                        getTableModel().addRow(currentInvNum, currentRecord, libraryLocation);
+                        String locDescription = Objects.requireNonNull(getCmbGroups().getSelectedItem()).toString();
+                        getTableModel().addRow(currentInvNum, currentRecord, locations.get(locDescription));
                         // add the book to the temporary list
                         Cirkulacija.getApp().getRecordsManager().reserveBook(currentRecord);
                         clear();
@@ -299,6 +301,65 @@ public class Reservation {
         }
         return cmbRenderer;
     }
+
+    private JButton getBtnReturn() {
+        if (btnReturn == null) {
+            btnReturn = new JButton();
+            btnReturn.setToolTipText(Messages.getString("circulation.cancelReservation")); //$NON-NLS-1$
+            btnReturn.setIcon(new ImageIcon(getClass().getResource("/circ-images/minus16.png"))); //$NON-NLS-1$
+            btnReturn.setFocusable(false);
+            btnReturn.setPreferredSize(new java.awt.Dimension(28, 28));
+            btnReturn.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    int[] rows = getTblReservation().getSelectedRows();
+                    System.out.println("");
+                    if (rows.length != 0) {
+                        int[] modelrows = new int[rows.length];
+                        for (int j = 0; j < rows.length; j++) {
+                            modelrows[j] = getTblReservation().convertRowIndexToModel(rows[j]);
+                        }
+
+                        for (int i = 0; i < modelrows.length; i++) {
+                            // add the book to the temporary list
+                            Cirkulacija.getApp().getRecordsManager().cancelReservation(getTableModel().getReservation(i));
+                        }
+                        getTableModel().removeRows(modelrows);
+                        handleKeyTyped();
+                        pinRequired = true;
+                    }
+                }
+            });
+        }
+        return btnReturn;
+    }
+
+    public JLabel getLinvNumber() {
+        if (lInvNumber == null) {
+            lInvNumber = new JLabel();
+            lInvNumber.setForeground(Color.blue);
+            lInvNumber.setText(""); //$NON-NLS-1$
+        }
+        return lInvNumber;
+    }
+
+    public JLabel getLtitle() {
+        if (lTitle == null) {
+            lTitle = new JLabel();
+            lTitle.setForeground(Color.blue);
+            lTitle.setText(""); //$NON-NLS-1$
+        }
+        return lTitle;
+    }
+
+    public JLabel getLauthor() {
+        if (lAuthor == null) {
+            lAuthor = new JLabel();
+            lAuthor.setForeground(Color.blue);
+            lAuthor.setText(""); //$NON-NLS-1$
+        }
+        return lAuthor;
+    }
+
 
     private JScrollPane getJScrollPane() {
         if (jScrollPane == null) {
@@ -380,7 +441,8 @@ public class Reservation {
         getLinvNumber().setText(""); //$NON-NLS-1$
         getLtitle().setText(""); //$NON-NLS-1$
         getLauthor().setText(""); //$NON-NLS-1$
-        getCmbGroups().setSelectedIndex(0);
+        locations.clear();
+        getCmbGroups().removeAllItems();
     }
 
     private void handleKeyTyped() {

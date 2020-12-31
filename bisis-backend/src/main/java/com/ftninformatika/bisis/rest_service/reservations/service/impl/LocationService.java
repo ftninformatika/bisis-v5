@@ -56,10 +56,14 @@ public class LocationService implements LocationServiceInterface {
         String locationDescription = "";
         if (library.equals(LocationConstants.BGB) || library.equals(LocationConstants.BMB) || library.equals(LocationConstants.BVAO)) {
             Sublocation sublocation = sublocationRepository.getByCoder_Id(coderId, library);
-            locationDescription = sublocation.getDescription();
+            if (sublocation != null) {
+                locationDescription = sublocation.getDescription();
+            }
         } else {
             Location location = locationRepository.getByCoder_Id(coderId, library);
-            locationDescription = location.getDescription();
+            if (location != null) {
+                locationDescription = location.getDescription();
+            }
         }
         return locationDescription;
     }

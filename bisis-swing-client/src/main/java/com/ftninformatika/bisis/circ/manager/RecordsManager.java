@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
+import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import org.apache.log4j.Logger;
 
@@ -22,17 +23,24 @@ public class RecordsManager {
     private ItemAvailability itemAvailability;
     private List<ItemAvailability> listOfItems;
     private List<Record> booksToBeReserved;
+    private List<ReservationOnProfile> reservationsForCancellation;
     private static Logger log = Logger.getLogger(RecordsManager.class);
 
 
     public RecordsManager() {
         listOfItems = new ArrayList<>();
         booksToBeReserved = new ArrayList<>();
+        reservationsForCancellation = new ArrayList<>();
     }
 
     public void reserveBook(Record record) {
         log.info("Rezervisanje knjige iz BISIS-a (knjiga je stavljena u privremenu listu): " + record.get_id());
         this.booksToBeReserved.add(record);
+    }
+
+    public void cancelReservation(ReservationOnProfile reservationOnProfile){
+        log.info("Brisanje rezervacije iz BISIS-a (knjiga je stavljena u privremenu listu): " + reservationOnProfile.get_id());
+        this.reservationsForCancellation.add(reservationOnProfile);
     }
 
     public Record lendBook(String ctlgno) {
@@ -215,6 +223,9 @@ public class RecordsManager {
         return booksToBeReserved;
     }
 
+    public List<ReservationOnProfile> getListOfBooksForCancellation() {
+        return reservationsForCancellation;
+    }
     public void releaseListOfItems() {
         listOfItems.clear();
     }
