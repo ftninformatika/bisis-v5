@@ -15,6 +15,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -32,11 +33,9 @@ import java.util.List;
  * @author marijakovacevic
  */
 public class Reservation {
+    private static final Logger log = Logger.getLogger(Reservation.class);
 
     private PanelBuilder pb = null;
-    private JLabel lUser = null;
-    private JLabel lUntilDate = null;
-    private JLabel lNote = null;
     private JTextField tfCtlgNo = null;
     private JScrollPane jScrollPane = null;
     private JTable tblLending = null;
@@ -153,7 +152,8 @@ public class Reservation {
 
     public boolean isReservationLimitExceeded() {
         int numberOfReservedBook = getTableModel().getRowCount()
-                + Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().size();
+                + Cirkulacija.getApp().getReservationsManager().getBooksToReserve().size()
+                - Cirkulacija.getApp().getReservationsManager().getReservationsToDelete().size();
         return numberOfReservedBook >= 3;
     }
 
@@ -163,19 +163,18 @@ public class Reservation {
         if (getLBlockCard().getText().equals("") || Cirkulacija.getApp().getEnvironment().getBlockedCard()) { //$NON-NLS-1$
 
             if (!isReservationLimitExceeded()) {
-                // 1. flow - rezervise se preko buttona
                 if (record == null) {
+                    log.info("reserveBook - 1. tok - knjiga je izabrana tako sto je unet inventarni broj u input polje");
                     record = Cirkulacija.getApp().getRecordsManager().getRecord(ctlgNo);
                 }
 
                 if (record != null) {
-                    // check if book is already reserved
                     if (getTableModel().isBookInTable(record)) {
+                        log.info("reserveBook - knjiga: " + record.get_id() + " je vec rezervisana.");
                         JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyInReservationslist"),
                                 Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                 new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                     } else {
-
                         currentRecord = record;
                         currentInvNum = ctlgNo;
                         fillLabels();
@@ -225,18 +224,20 @@ public class Reservation {
     }
 
     public void loadLocations() {
-        locations.clear();
-        getCmbGroups().removeAllItems();
+        clearComboBox();
+
         Book book = null;
         try {
             RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), currentRecord.get_id());
             book = BisisApp.bisisService.getBookLocations(requestBody).execute().body();
         } catch (IOException ioException) {
             ioException.printStackTrace();
+            log.info("loadLocations - greska prilikom ucitavanja lokacija za knjigu: " + currentRecord.get_id());
         }
 
         if (book != null) {
             for (Item i : book.getItems()) {
+                // load locations, and map each location with its location code
                 locations.put(i.getLocation(), i.getLocCode());
             }
             List<String> locationsDescriptions = new ArrayList<>(locations.keySet());
@@ -244,6 +245,11 @@ public class Reservation {
             Utils.loadCombo(getCmbGroups(), locationsDescriptions);
             btnAddToTable.setEnabled(false);
         }
+    }
+
+    private void clearComboBox() {
+        this.locations.clear();
+        getCmbGroups().removeAllItems();
     }
 
 
@@ -259,9 +265,11 @@ public class Reservation {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     if (currentRecord != null) {
                         String locDescription = Objects.requireNonNull(getCmbGroups().getSelectedItem()).toString();
-                        getTableModel().addRow(currentInvNum, currentRecord, locations.get(locDescription));
-                        // add the book to the temporary list
-                        Cirkulacija.getApp().getRecordsManager().reserveBook(currentRecord);
+                        String locationCode = locations.get(locDescription);
+
+                        getTableModel().addRow(currentInvNum, currentRecord, locationCode);
+                        Cirkulacija.getApp().getReservationsManager().reserveBook(currentRecord.get_id(), locationCode);
+
                         clear();
                         btnAddToTable.setEnabled(false);
                     }
@@ -312,12 +320,10 @@ public class Reservation {
             btnReturn.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     int[] rows = getTblReservation().getSelectedRows();
-                    System.out.println("");
                     if (rows.length != 0) {
                         for (int i = 0; i < rows.length; i++) {
                             // add the book to the temporary list
-                            Cirkulacija.getApp().getRecordsManager().cancelReservation(getTableModel().getReservation(rows[i]));
-                            Cirkulacija.getApp().getUserManager().deleteReservation(getTableModel().getReservation(rows[i]));
+                            Cirkulacija.getApp().getReservationsManager().deleteReservation(getTableModel().getReservation(rows[i]));
                         }
                         getTableModel().removeRows(rows);
                         handleKeyTyped();
@@ -419,18 +425,9 @@ public class Reservation {
             }
         }
 
-//        this.reservations = new ArrayList<>();
-//        this.reservations = activeReservations;
-
-        // add reservations to the table
         getTableModel().setData(activeReservations);
 
         pinRequired = false;
-    }
-
-
-    public void setTableModel(List<ReservationOnProfile> reservations) {
-        getTableModel().setData(reservations);
     }
 
     public void clear() {

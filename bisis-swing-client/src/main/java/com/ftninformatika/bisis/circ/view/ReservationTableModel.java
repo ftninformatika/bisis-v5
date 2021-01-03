@@ -52,15 +52,13 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
             tmp = it.next();
             dataView.add(tmp);
             Record record = null;
-//            if (tmp.getCtlgNo() == null || tmp.getCtlgNo().equals("")) {
-//                record = Cirkulacija.getApp().getRecordsManager().getRecord(tmp.getCtlgNo());
-//            } else {
             try {
                 record = BisisApp.getRecordManager().getRecord(tmp.getRecord_id());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            RecordBean bean = null;
+
+            RecordBean bean;
             if (record != null) {
                 bean = new RecordBean(record);
                 authors.add(bean.getAutor());
@@ -78,16 +76,13 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
     }
 
     public boolean isBookInTable(Record record) {
-        Iterator<ReservationOnProfile> it = dataView.iterator();
-        while (it.hasNext()) {
-            ReservationOnProfile row = it.next();
+        for (ReservationOnProfile row : dataView) {
             if (record.get_id().equals(row.getRecord_id())) {
                 return true;
             }
         }
         return false;
     }
-//		 Manipulating rows
 
     public boolean addRow(String ctlgno, Record record, String locationCode) {
         int row = getRowCount();
@@ -96,7 +91,6 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
         rowData.setCoderId(locationCode);
         dataView.add(rowData);
         if (record != null) {
-            Cirkulacija.getApp().getUserManager().addBookForReservation(record.get_id(), locationCode);
             RecordBean bean = new RecordBean(record);
             authors.add(bean.getAutor());
             titles.add(bean.getNaslov());
@@ -119,7 +113,7 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
         return list;
     }
 
-    public ReservationOnProfile getReservation(int i){
+    public ReservationOnProfile getReservation(int i) {
         return dataView.get(i);
     }
 
@@ -189,10 +183,6 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
         }
     }
 
-    public ReservationOnProfile getItem(int row) {
-        return dataView.get(row);
-    }
-
     public Class getColumnClass(int col) {
         switch (col) {
             case 4:
@@ -210,7 +200,7 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
             l.add(row);
         }
         Collections.sort(l);
-        for (int i = l.size()-1; i >= 0; i--){
+        for (int i = l.size() - 1; i >= 0; i--) {
             dataView.remove(l.get(i).intValue());
             authors.remove(l.get(i).intValue());
             titles.remove(l.get(i).intValue());

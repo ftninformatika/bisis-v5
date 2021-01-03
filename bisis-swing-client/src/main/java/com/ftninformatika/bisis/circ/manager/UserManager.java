@@ -45,8 +45,6 @@ public class UserManager {
     private List lendings = new ArrayList();
     private static Logger log = Logger.getLogger(UserManager.class);
     private String defaultLocation;
-    private HashMap<String, String> booksToReserve = new HashMap<>();
-    private List<ReservationOnProfile> reservationsToDelete = new ArrayList();
 
     // list of returned books
     private List<String> returnedBooks;
@@ -185,22 +183,8 @@ public class UserManager {
                 return Messages.getString(errorInDates.getMessageKey());
             }
 
-            // add books for reservation to memberData
-            if (!booksToReserve.isEmpty()) {
-                log.info("saveUser - postoje knjige za rezervisanje");
-                for (Map.Entry<String, String> entry : booksToReserve.entrySet()) {
-                    log.info("Rezervisati knjigu: " + entry.getKey() + ", na lokaciji: " + entry.getValue());
-                }
-                memberData.setBooksToReserve(booksToReserve);
-            }
-
-            if (!reservationsToDelete.isEmpty()) {
-                log.info("saveUser - postoje rezervacije za brisanje");
-                for (ReservationOnProfile reservation : reservationsToDelete) {
-                    log.info("Obrisati rezervaciju: " + reservation.get_id() + ", na lokaciji: " + reservation.getCoderId());
-                }
-                memberData.setReservationsToDelete(reservationsToDelete);
-            }
+            // if reservations are created or deleted set them to the memberData
+            Cirkulacija.getApp().getReservationsManager().setBooksForReservations(memberData);
 
             try {
                 // before updating member data, check if there are any books that are being returned
@@ -228,8 +212,8 @@ public class UserManager {
 //                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
                 member = memberData.getMember();
                 lendings = memberData.getLendings() != null ? memberData.getLendings() : new ArrayList();
-                booksToReserve = new HashMap<>();
-                reservationsToDelete = new ArrayList<>();
+
+                Cirkulacija.getApp().getReservationsManager().clearLists();
 
 //                } catch (Exception e) {
 //                    e.printStackTrace();
@@ -237,8 +221,6 @@ public class UserManager {
 
                 if (member != null) {
                     Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
-                    Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().clear();
-                    Cirkulacija.getApp().getRecordsManager().getListOfBooksForCancellation().clear();
                     loadUser(user, member, lendings);
                 }
                 return "ok";
@@ -250,6 +232,7 @@ public class UserManager {
             return "ok";
         }
     }
+
 
     public boolean releaseUser() {
         Boolean released = true;
@@ -267,12 +250,9 @@ public class UserManager {
             member = null;
             lendings = null;
             chargeBook = "";
-            booksToReserve = new HashMap<>();
-            reservationsToDelete = new ArrayList<>();
+            Cirkulacija.getApp().getReservationsManager().clearLists();
             Cirkulacija.getApp().getRecordsManager().releaseListOfItems();
             Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
-            Cirkulacija.getApp().getRecordsManager().getListOfBooksToBeReserved().clear();
-            Cirkulacija.getApp().getRecordsManager().getListOfBooksForCancellation().clear();
             log.info("Otkljucan korisnik");
         } else {
             log.info("Otkljucavanje nije uspelo");
@@ -860,26 +840,6 @@ public class UserManager {
             lendings.add(lend);
         }
 
-    }
-
-    public void addBookForReservation(String record_id, String location) {
-        if (!booksToReserve.containsKey(record_id)) {
-            booksToReserve.put(record_id, location);
-        }
-    }
-
-    public void deleteReservation(ReservationOnProfile reservation) {
-        if (!reservationsToDelete.contains(reservation)) {
-            reservationsToDelete.add(reservation);
-        }
-    }
-
-    public HashMap<String, String> getBooksToReserve() {
-        return booksToReserve;
-    }
-
-    public List<ReservationOnProfile> getReservationsToDelete() {
-        return reservationsToDelete;
     }
 
     public void updateLending(Lending lend) {
