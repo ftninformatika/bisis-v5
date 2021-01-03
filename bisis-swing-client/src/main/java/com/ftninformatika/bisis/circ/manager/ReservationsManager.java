@@ -30,11 +30,16 @@ public class ReservationsManager {
     }
 
     public void deleteReservation(ReservationOnProfile reservation) {
-        if (!reservationsToDelete.contains(reservation)) {
-            log.info("deleteReservation - Brisanje rezervacije: " + reservation.get_id() + ", na lokaciji: " + reservation.getCoderId());
+        if (booksToReserve.containsKey(reservation.getRecord_id())) {
+            log.info("deleteReservation - Brisanje privremene rezervacije, koja nije sacuvana u bazi: " + reservation.getRecord_id() +
+                    ", na lokaciji: " + reservation.getCoderId());
+            booksToReserve.remove(reservation.getRecord_id());
+        } else if (!reservationsToDelete.contains(reservation)) {
+            log.info("deleteReservation - Brisanje postojece rezervacije: " + reservation.get_id() + ", na lokaciji: " + reservation.getCoderId());
             reservationsToDelete.add(reservation);
         }
     }
+
 
     public HashMap<String, String> getBooksToReserve() {
         return booksToReserve;

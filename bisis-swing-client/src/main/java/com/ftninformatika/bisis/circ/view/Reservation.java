@@ -38,7 +38,7 @@ public class Reservation {
     private PanelBuilder pb = null;
     private JTextField tfCtlgNo = null;
     private JScrollPane jScrollPane = null;
-    private JTable tblLending = null;
+    private JTable tblReservations = null;
     private ReservationTableModel reservationTableModel = null;
     private JButton btnReserve = null;
     private JButton btnSearch = null;
@@ -151,9 +151,8 @@ public class Reservation {
     }
 
     public boolean isReservationLimitExceeded() {
-        int numberOfReservedBook = getTableModel().getRowCount()
-                + Cirkulacija.getApp().getReservationsManager().getBooksToReserve().size()
-                - Cirkulacija.getApp().getReservationsManager().getReservationsToDelete().size();
+        int numberOfReservedBook = getTableModel().getRowCount();
+
         return numberOfReservedBook >= 3;
     }
 
@@ -264,13 +263,18 @@ public class Reservation {
             btnAddToTable.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     if (currentRecord != null) {
-                        String locDescription = Objects.requireNonNull(getCmbGroups().getSelectedItem()).toString();
-                        String locationCode = locations.get(locDescription);
+                        String locDescription = Objects.requireNonNull(getCmbGroups().getSelectedItem()).toString().trim();
+                        if (locDescription.equals("")) {
+                            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.locationNotSelected"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                        } else {
+                            String locationCode = locations.get(locDescription);
 
-                        getTableModel().addRow(currentInvNum, currentRecord, locationCode);
-                        Cirkulacija.getApp().getReservationsManager().reserveBook(currentRecord.get_id(), locationCode);
+                            getTableModel().addRow(currentInvNum, currentRecord, locationCode);
+                            Cirkulacija.getApp().getReservationsManager().reserveBook(currentRecord.get_id(), locationCode);
 
-                        clear();
+                            clear();
+                        }
                         btnAddToTable.setEnabled(false);
                     }
                 }
@@ -320,12 +324,19 @@ public class Reservation {
             btnReturn.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     int[] rows = getTblReservation().getSelectedRows();
+                    List<Integer> finalRows = new ArrayList<>();
                     if (rows.length != 0) {
                         for (int i = 0; i < rows.length; i++) {
-                            // add the book to the temporary list
-                            Cirkulacija.getApp().getReservationsManager().deleteReservation(getTableModel().getReservation(rows[i]));
+                            ReservationOnProfile reservation = getTableModel().getReservation(rows[i]);
+                            if (reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)){
+                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyAssigned"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                            }else {
+                                Cirkulacija.getApp().getReservationsManager().deleteReservation(reservation);
+                                finalRows.add(i);
+                            }
                         }
-                        getTableModel().removeRows(rows);
+                        getTableModel().removeRows(finalRows);
                         handleKeyTyped();
                         pinRequired = true;
                     }
@@ -372,15 +383,15 @@ public class Reservation {
     }
 
     private JTable getTblReservation() {
-        if (tblLending == null) {
-            tblLending = new JTable();
-            tblLending.setModel(getTableModel());
-            tblLending.putClientProperty("Quaqua.Table.style", "striped");
-            tblLending.setAutoCreateRowSorter(true);
-            tblLending.setDefaultRenderer(Date.class, new MembershipTableModel.CellRenderer());
-            tblLending.setDefaultEditor(Date.class, new MembershipTableModel.CellEditor());
+        if (tblReservations == null) {
+            tblReservations = new JTable();
+            tblReservations.setModel(getTableModel());
+            tblReservations.putClientProperty("Quaqua.Table.style", "striped");
+            tblReservations.setAutoCreateRowSorter(true);
+            tblReservations.setDefaultRenderer(Date.class, new MembershipTableModel.CellRenderer());
+            tblReservations.setDefaultEditor(Date.class, new MembershipTableModel.CellEditor());
         }
-        return tblLending;
+        return tblReservations;
     }
 
     public ReservationTableModel getTableModel() {

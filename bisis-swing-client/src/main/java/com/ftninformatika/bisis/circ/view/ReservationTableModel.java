@@ -89,17 +89,18 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
         ReservationOnProfile rowData = new ReservationOnProfile();
         rowData.setReservationDate(new Date());
         rowData.setCoderId(locationCode);
-        dataView.add(rowData);
         if (record != null) {
             RecordBean bean = new RecordBean(record);
             authors.add(bean.getAutor());
             titles.add(bean.getNaslov());
             signatures.add(bean.getSignatura(ctlgno));
+            rowData.setRecord_id(record.get_id());
         } else {
             authors.add(""); //$NON-NLS-1$
             titles.add(""); //$NON-NLS-1$
             signatures.add(""); //$NON-NLS-1$
         }
+        dataView.add(rowData);
         fireTableRowsInserted(row, row);
         return false;
     }
@@ -194,18 +195,14 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
         }
     }
 
-    public void removeRows(int[] rows) {
-        List<Integer> l = new ArrayList<>();
-        for (int row : rows) {
-            l.add(row);
-        }
-        Collections.sort(l);
-        for (int i = l.size() - 1; i >= 0; i--) {
-            dataView.remove(l.get(i).intValue());
-            authors.remove(l.get(i).intValue());
-            titles.remove(l.get(i).intValue());
-            signatures.remove(l.get(i).intValue());
-            fireTableRowsDeleted(l.get(i), l.get(i));
+    public void removeRows(List<Integer> rows) {
+        Collections.sort(rows);
+        for (int i = rows.size() - 1; i >= 0; i--) {
+            dataView.remove(rows.get(i).intValue());
+            authors.remove(rows.get(i).intValue());
+            titles.remove(rows.get(i).intValue());
+            signatures.remove(rows.get(i).intValue());
+            fireTableRowsDeleted(rows.get(i), rows.get(i));
         }
     }
 
