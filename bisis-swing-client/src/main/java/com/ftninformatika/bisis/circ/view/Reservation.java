@@ -343,12 +343,17 @@ public class Reservation {
     }
 
     private List<Integer> getFinalRows(int[] rows) {
+        int[] modelRows = new int[rows.length];
+        for (int j = 0; j < rows.length; j++) {
+            modelRows[j] = getTblReservation().convertRowIndexToModel(rows[j]);
+        }
+
         List<Integer> finalRows = new ArrayList<>();
-        for (int row : rows) {
-            ReservationOnProfile reservation = getTableModel().getReservation(getTblReservation().convertRowIndexToModel(row));
+        for (int row : modelRows) {
+            ReservationOnProfile reservation = getTableModel().getReservation(row);
 
             // if a book has already been assigned, prohibit its deletion
-            if (reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
+            if (reservation.getReservationStatus() != null && reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
                 JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyAssigned"),
                         Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                         new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
