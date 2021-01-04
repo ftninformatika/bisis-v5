@@ -1,5 +1,8 @@
 package com.ftninformatika.bisisris.controllers;
 
+import com.ftninformatika.bisis.circ.CircLocation;
+import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisisris.dto.LibrarianReport;
 import com.ftninformatika.bisisris.dto.LocationReport;
@@ -7,6 +10,9 @@ import com.ftninformatika.bisisris.dto.MapReduceValueObjectLibrarian;
 import com.ftninformatika.bisisris.dto.MapReduceValueObjectLocation;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisisauthentication.repositories.LibrarianRepository;
+import com.ftninformatika.bisisris.repositories.CircLocationRepository;
+import com.ftninformatika.bisisris.repositories.LocationRepository;
+import com.ftninformatika.bisisris.repositories.SubLocationRepository;
 import com.ftninformatika.bisisris.repositories.TaskRepository;
 
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -40,6 +46,10 @@ public class ReportController {
     LibrarianRepository lr;
     @Autowired
     LibraryPrefixProvider lpp;
+    @Autowired
+    LocationRepository locationRepository;
+    @Autowired
+    CircLocationRepository circLocationRepository;
 
     @Autowired
     MongoTemplate mt;
@@ -147,11 +157,12 @@ public class ReportController {
             MapReduceResults<MapReduceValueObjectLocation> res = mt.mapReduce(query, libPrefix + "_task", mapF, reduceF,null, MapReduceValueObjectLocation.class);
             HashMap<String, LocationReport> reportDataSet = new HashMap<String, LocationReport>();
             for (MapReduceValueObjectLocation v : res) {
-                LocationReport locationReport = reportDataSet.get(v.getId().getLocation());
+                Location location = locationRepository.findCoder(libPrefix,v.getId().getLocation());
+                LocationReport locationReport = reportDataSet.get(location.getDescription());
                 if (locationReport == null) {
                     locationReport = new LocationReport();
-                    locationReport.setLocation(v.getId().getLocation());
-                    reportDataSet.put(v.getId().getLocation(), locationReport);
+                    locationReport.setLocation(location.getDescription());
+                    reportDataSet.put(location.getDescription(), locationReport);
                 }
                 int serviceTypeCode = v.getId().getServiceTypeCode();
                 switch (serviceTypeCode) {
@@ -246,11 +257,12 @@ public class ReportController {
             MapReduceResults<MapReduceValueObjectLocation> res = mt.mapReduce(query, libPrefix + "_task", mapF, reduceF, MapReduceValueObjectLocation.class);
             HashMap<String, LocationReport> reportDataSet = new HashMap<String, LocationReport>();
             for (MapReduceValueObjectLocation v : res) {
-                LocationReport locationReport = reportDataSet.get(v.getId().getLocation());
+                CircLocation sublocation = circLocationRepository.findCoder(libPrefix,v.getId().getLocation());
+                LocationReport locationReport = reportDataSet.get(sublocation.getDescription());
                 if (locationReport == null) {
                     locationReport = new LocationReport();
-                    locationReport.setLocation(v.getId().getLocation());
-                    reportDataSet.put(v.getId().getLocation(), locationReport);
+                    locationReport.setLocation(sublocation.getDescription());
+                    reportDataSet.put(sublocation.getDescription(), locationReport);
                 }
                 int serviceTypeCode = v.getId().getServiceTypeCode();
                 switch (serviceTypeCode) {
