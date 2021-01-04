@@ -1,9 +1,17 @@
 package com.ftninformatika.bisis.circ.manager;
 
+import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.view.RecordBean;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
+import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.constants.ReservationsConstants;
 import org.apache.log4j.Logger;
 
+import javax.swing.*;
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,5 +73,32 @@ public class ReservationsManager {
     public void clearLists() {
         this.booksToReserve.clear();
         this.reservationsToDelete.clear();
+    }
+
+    public void displayFailedReservations(MemberData memberData) {
+        if (memberData.getBooksToReserve() != null) {
+            for (String record_id : memberData.getBooksToReserve().keySet()) {
+                String reservationStatus = memberData.getBooksToReserve().get(record_id);
+                if (reservationStatus.equals(ReservationsConstants.NORESERVATION)) {
+                    String naslovKnjige = "";
+                    try {
+                        Record record = BisisApp.getRecordManager().getRecord(record_id);
+                        if (record != null) {
+                            RecordBean bean = new RecordBean(record);
+                            naslovKnjige = bean.getNaslov();
+                        }
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                        log.error("displayFailedReservations - greska prilikom dobavljanja zapisa");
+                    }
+
+                    log.info("displayFailedReservations - rezervacija nije uspesna jer ne postoji zaduzen primerak knjige: " + naslovKnjige);
+                    JOptionPane.showMessageDialog(null,
+                            MessageFormat.format(Messages.getString("circulation.reservationNotAllowed"), naslovKnjige),
+                            Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                            new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                }
+            }
+        }
     }
 }

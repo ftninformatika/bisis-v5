@@ -22,6 +22,6 @@ public interface BisisReservationsServiceInterface {
 
     ReservationDTO getNextReservation(String userId, String ctlgNo, String library);
 
-    List<Object> updateReservations(HashMap<String, String> books, List<ReservationOnProfile> reservations, Member member);
+    HashMap<String, String> updateReservations(String library, HashMap<String, String> books, List<ReservationOnProfile> reservations, Member member);
 
 }

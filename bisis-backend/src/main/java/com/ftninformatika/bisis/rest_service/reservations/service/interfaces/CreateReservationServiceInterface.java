@@ -10,6 +10,5 @@ import com.ftninformatika.bisis.reservations.Reservation;
 public interface CreateReservationServiceInterface {
     Object reserveBook(String authToken, String library, String recordId, String coderId);
 
-    Reservation createNewReservation(Member member, Record record, String coderId);
-
+    Object checkIfReservationPossible(String library, String record_id, String coderId, Member member);
 }

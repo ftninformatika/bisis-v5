@@ -6,7 +6,6 @@ import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
@@ -25,6 +24,7 @@ import com.ftninformatika.bisis.rest_service.service.implementations.EmailServic
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import com.ftninformatika.util.WorkCalendar;
+import com.ftninformatika.utils.constants.ReservationsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -172,22 +172,36 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     }
 
     @Override
-    public List<Object> updateReservations(HashMap<String, String> books, List<ReservationOnProfile> reservationsToCancel, Member member) {
-        // if there are any reservations to delete
+    public HashMap<String, String> updateReservations(String library, HashMap<String, String> books,
+                                                      List<ReservationOnProfile> reservationsToCancel, Member member) {
+        // if there are reservations to delete, delete them
         cancelReservations(reservationsToCancel, member);
 
-        // todo in BISIS it is already checked if reservation limit is exceeded && if the book is already borrowed (only for ctlgNo)
-        List<Object> reservations = new ArrayList<>();
+        // if there are books for reservation, reserve them
+        HashMap<String, String> reservationsResult = new HashMap<>();
         if (books != null && !books.isEmpty()) {
             for (Map.Entry<String, String> pair : books.entrySet()) {
                 Optional<Record> record = recordsRepository.findById(pair.getKey());
                 if (record.isPresent()) {
-                    Reservation reservation = createReservationService.createNewReservation(member, record.get(), pair.getValue());
-                    reservations.add(reservation);
+
+                    // in BISIS its already checked if the reservation limit is exceeded & if the book is already borrowed
+                    // check if there are borrowed books on the given location
+                    Object reservation = createReservationService.checkIfReservationPossible(library, record.get().get_id(), pair.getValue(), member);
+                    if (reservation != null) {
+                        reservationsResult.put(record.get().get_id(), getReservationResult(reservation));
+                    }
                 }
             }
         }
-        return reservations;
+        return reservationsResult;
+    }
+
+    private String getReservationResult(Object reservation) {
+        if (reservation.equals(ReservationsConstants.NORESERVATION)) {
+            return ReservationsConstants.NORESERVATION;
+        } else {
+            return ReservationsConstants.SUCCESS;
+        }
     }
 
     private void cancelReservations(List<ReservationOnProfile> reservations, Member member) {

@@ -8,7 +8,7 @@ import com.ftninformatika.bisis.opac2.dto.ReservationResponseDTO;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.CreateReservationServiceInterface;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.OpacReservationsServiceInterface;
-import com.ftninformatika.util.constants.ReservationsConstants;
+import com.ftninformatika.utils.constants.ReservationsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

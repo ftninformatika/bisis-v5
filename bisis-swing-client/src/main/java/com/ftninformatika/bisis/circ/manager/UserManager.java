@@ -19,7 +19,6 @@ import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;
@@ -213,6 +212,8 @@ public class UserManager {
                 member = memberData.getMember();
                 lendings = memberData.getLendings() != null ? memberData.getLendings() : new ArrayList();
 
+
+                Cirkulacija.getApp().getReservationsManager().displayFailedReservations(memberData);
                 Cirkulacija.getApp().getReservationsManager().clearLists();
 
 //                } catch (Exception e) {
@@ -232,7 +233,6 @@ public class UserManager {
             return "ok";
         }
     }
-
 
     public boolean releaseUser() {
         Boolean released = true;

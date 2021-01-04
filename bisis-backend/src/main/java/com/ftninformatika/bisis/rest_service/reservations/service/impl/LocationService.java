@@ -7,7 +7,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.LocationServiceInterface;
-import com.ftninformatika.util.constants.LocationConstants;
+import com.ftninformatika.utils.constants.LocationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

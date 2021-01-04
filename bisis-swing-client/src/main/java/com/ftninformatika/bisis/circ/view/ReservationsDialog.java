@@ -147,6 +147,7 @@ public class ReservationsDialog extends JDialog {
                         reservationsForPrint.set(idx, reservation);
                     }
                     PrintReservationDialog p = new PrintReservationDialog();
+                    // todo ako je prazno tj. null nije poslat mejl
                     p.setJasper(getReservationForPrint(reservation));
                     p.setVisible(true);
                 } catch (IOException e) {

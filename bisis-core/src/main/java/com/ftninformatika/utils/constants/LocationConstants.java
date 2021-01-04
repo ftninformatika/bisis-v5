@@ -1,4 +1,4 @@
-package com.ftninformatika.util.constants;
+package com.ftninformatika.utils.constants;
 
 /**
  * @author marijakovacevic

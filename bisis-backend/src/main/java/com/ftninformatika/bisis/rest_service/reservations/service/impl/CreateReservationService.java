@@ -20,7 +20,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.coders.Sublocation
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.CreateReservationServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
-import com.ftninformatika.util.constants.ReservationsConstants;
+import com.ftninformatika.utils.constants.ReservationsConstants;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,7 +81,8 @@ public class CreateReservationService implements CreateReservationServiceInterfa
         return checkIfReservationPossible(library, record_id, coderId, member);
     }
 
-    private Object checkIfReservationPossible(String library, String record_id, String coderId, Member member) {
+    @Override
+    public Object checkIfReservationPossible(String library, String record_id, String coderId, Member member) {
         Optional<Record> record = recordsRepository.findById(record_id);
 
         if (record.isPresent()) {
@@ -151,8 +152,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
         return bookBorrowed;
     }
 
-    @Override
-    public Reservation createNewReservation(Member member, Record record, String coderId) {
+    private Reservation createNewReservation(Member member, Record record, String coderId) {
         ReservationInQueue reservationInQueue = addToQueue(member, record, coderId);
         addToMembersList(member, record, coderId, reservationInQueue);
         return reservationInQueue;

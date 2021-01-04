@@ -92,7 +92,7 @@ public class Reservation {
 
         pb.addSeparator(Messages.getString("circulation.reservations"), cc.xyw(2, 16, 14)); //$NON-NLS-1$
         pb.add(getJScrollPane(), cc.xyw(2, 18, 14));
-        pb.add(getBtnReturn(), cc.xy(2, 20, "fill, fill")); //$NON-NLS-1$
+        pb.add(getBtnDelete(), cc.xy(2, 20, "fill, fill")); //$NON-NLS-1$
 
     }
 
@@ -219,10 +219,10 @@ public class Reservation {
         lInvNumber.setText(currentInvNum);
         lTitle.setText(bean.getNaslov());
         lAuthor.setText(bean.getAutor());
-        loadLocations();
+        getLocations();
     }
 
-    public void loadLocations() {
+    public void getLocations() {
         clearComboBox();
 
         Book book = null;
@@ -235,15 +235,20 @@ public class Reservation {
         }
 
         if (book != null) {
-            for (Item i : book.getItems()) {
-                // load locations, and map each location with its location code
-                locations.put(i.getLocation(), i.getLocCode());
-            }
-            List<String> locationsDescriptions = new ArrayList<>(locations.keySet());
-            Collections.sort(locationsDescriptions);
-            Utils.loadCombo(getCmbGroups(), locationsDescriptions);
-            btnAddToTable.setEnabled(false);
+            loadLocations(book);
         }
+    }
+
+    private void loadLocations(Book book) {
+        for (Item i : book.getItems()) {
+            // load locations, and map each location with its location code
+            locations.put(i.getLocation(), i.getLocCode());
+        }
+
+        List<String> locationsDescriptions = new ArrayList<>(locations.keySet());
+        Collections.sort(locationsDescriptions);
+        Utils.loadCombo(getCmbGroups(), locationsDescriptions);
+        btnAddToTable.setEnabled(false);
     }
 
     private void clearComboBox() {
@@ -314,7 +319,7 @@ public class Reservation {
         return cmbRenderer;
     }
 
-    private JButton getBtnReturn() {
+    private JButton getBtnDelete() {
         if (btnReturn == null) {
             btnReturn = new JButton();
             btnReturn.setToolTipText(Messages.getString("circulation.cancelReservation")); //$NON-NLS-1$
@@ -324,18 +329,9 @@ public class Reservation {
             btnReturn.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     int[] rows = getTblReservation().getSelectedRows();
-                    List<Integer> finalRows = new ArrayList<>();
                     if (rows.length != 0) {
-                        for (int i = 0; i < rows.length; i++) {
-                            ReservationOnProfile reservation = getTableModel().getReservation(rows[i]);
-                            if (reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)){
-                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyAssigned"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-                                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-                            }else {
-                                Cirkulacija.getApp().getReservationsManager().deleteReservation(reservation);
-                                finalRows.add(i);
-                            }
-                        }
+                        List<Integer> finalRows = getFinalRows(rows);
+
                         getTableModel().removeRows(finalRows);
                         handleKeyTyped();
                         pinRequired = true;
@@ -344,6 +340,24 @@ public class Reservation {
             });
         }
         return btnReturn;
+    }
+
+    private List<Integer> getFinalRows(int[] rows) {
+        List<Integer> finalRows = new ArrayList<>();
+        for (int row : rows) {
+            ReservationOnProfile reservation = getTableModel().getReservation(getTblReservation().convertRowIndexToModel(row));
+
+            // if a book has already been assigned, prohibit its deletion
+            if (reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
+                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyAssigned"),
+                        Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+            } else {
+                Cirkulacija.getApp().getReservationsManager().deleteReservation(reservation);
+                finalRows.add(row);
+            }
+        }
+        return finalRows;
     }
 
     public JLabel getLinvNumber() {
@@ -440,6 +454,7 @@ public class Reservation {
 
         pinRequired = false;
     }
+
 
     public void clear() {
         getLinvNumber().setText(""); //$NON-NLS-1$
