@@ -142,6 +142,7 @@ public class ReservationsDialog extends JDialog {
                 int idx = Integer.parseInt(event.getActionCommand());
                 ReservationDTO reservation = reservationsForPrint.get(idx);
                 try {
+                    // Reservation was not confirmed yet (button is clicked for the first time)
                     if (reservation.getReservationStatus().equals(ReservationStatus.WAITING_IN_QUEUE)) {
                         reservation = Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(reservationsForPrint.get(idx));
                         reservationsForPrint.set(idx, reservation);

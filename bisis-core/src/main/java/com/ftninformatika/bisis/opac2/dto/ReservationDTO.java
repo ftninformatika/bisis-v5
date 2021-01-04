@@ -5,12 +5,14 @@ import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,10 +48,18 @@ public class ReservationDTO implements Serializable {
         reservationDTO.setReservationStatus(reservation.getReservationStatus());
         reservationDTO.setPickUpDeadline(reservation.getPickUpDeadline());
         reservationDTO.setLocationDescription(locationDescription);
-        reservationDTO.setTitle(book.getTitle());
-        reservationDTO.setAuthors(book.getAuthors());
+        reservationDTO.setTitle(LatCyrUtils.toCyrillic(book.getTitle()));
+        reservationDTO.setAuthors(getAuthors(book));
 
         return reservationDTO;
+    }
+
+    private static List<String> getAuthors(Book book) {
+        List<String> authors = new ArrayList<>();
+        for (String author : book.getAuthors()){
+            authors.add(LatCyrUtils.toCyrillic(author));
+        }
+        return authors;
     }
 
 
