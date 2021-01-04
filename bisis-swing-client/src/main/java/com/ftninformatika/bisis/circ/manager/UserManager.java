@@ -517,15 +517,6 @@ public class UserManager {
 
     }
 
-    public String getLibraryBranchName(String coderId) {
-        try {
-            return BisisApp.bisisService.getLibraryBranchName(coderId).execute().body();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-            return coderId;
-        }
-    }
-
     public void refreshInfo(User user, Member member) {
         boolean blocked = false;
         String blockedInfo = "";

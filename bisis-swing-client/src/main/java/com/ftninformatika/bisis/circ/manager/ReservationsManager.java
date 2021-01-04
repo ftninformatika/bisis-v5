@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.circ.manager;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.view.RecordBean;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.location.dto.RecordCtlgNoDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.utils.Messages;
@@ -100,5 +101,34 @@ public class ReservationsManager {
                 }
             }
         }
+    }
+
+    public String getLocationCodeByPrimerak(Record record, String ctlgno) {
+        if (record == null){
+            return "";
+        }
+
+        RecordCtlgNoDTO recordCtlgNoDTO = new RecordCtlgNoDTO(record, ctlgno);
+        String location = "";
+        try {
+            location = BisisApp.bisisService.getLocationCodeByPrimerak(recordCtlgNoDTO).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return location;
+    }
+
+
+    public String getLibraryBranchName(String coderId) {
+        String libraryBranch = "";
+
+        try {
+            libraryBranch = BisisApp.bisisService.getLibraryBranchName(coderId).execute().body();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+        // if library branch is null => coderId is library branch name already
+        return libraryBranch == null || libraryBranch.equals("") ? coderId : libraryBranch;
     }
 }

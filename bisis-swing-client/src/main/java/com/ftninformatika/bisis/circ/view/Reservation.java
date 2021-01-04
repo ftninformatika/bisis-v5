@@ -47,8 +47,6 @@ public class Reservation {
     private JLabel lDuplicate = null;
     private User parent = null;
     private boolean pinRequired;
-    private Record currentRecord = null;
-    private String currentInvNum = "";
     private JLabel lInvNumber = null;
     private JLabel lTitle = null;
     private JLabel lAuthor = null;
@@ -58,6 +56,9 @@ public class Reservation {
     private ComboBoxRenderer cmbRenderer = null;
     private JButton btnAddToTable = null;
 
+    private Record currentRecord = null;
+    private String currentInvNum = "";
+    private String primerakLocation = "";
 
     public Reservation(User parent) {
         this.parent = parent;
@@ -165,6 +166,7 @@ public class Reservation {
                 if (record == null) {
                     log.info("reserveBook - 1. tok - knjiga je izabrana tako sto je unet inventarni broj u input polje");
                     record = Cirkulacija.getApp().getRecordsManager().getRecord(ctlgNo);
+                    primerakLocation = Cirkulacija.getApp().getReservationsManager().getLocationCodeByPrimerak(record, ctlgNo);
                 }
 
                 if (record != null) {
@@ -248,7 +250,15 @@ public class Reservation {
         List<String> locationsDescriptions = new ArrayList<>(locations.keySet());
         Collections.sort(locationsDescriptions);
         Utils.loadCombo(getCmbGroups(), locationsDescriptions);
-        btnAddToTable.setEnabled(false);
+
+        // if the book is selected via an inventory number, set the initial location
+        if (primerakLocation != null && !primerakLocation.equals("")) {
+            String locationDescription = Cirkulacija.getApp().getReservationsManager().getLibraryBranchName(primerakLocation);
+            getCmbGroups().setSelectedItem(locationDescription);
+            btnAddToTable.setEnabled(true);
+        } else {
+            btnAddToTable.setEnabled(false);
+        }
     }
 
     private void clearComboBox() {
@@ -467,6 +477,7 @@ public class Reservation {
         getLauthor().setText(""); //$NON-NLS-1$
         locations.clear();
         getCmbGroups().removeAllItems();
+        primerakLocation = "";
     }
 
     private void handleKeyTyped() {

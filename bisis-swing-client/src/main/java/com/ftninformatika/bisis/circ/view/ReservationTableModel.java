@@ -161,20 +161,13 @@ public class ReservationTableModel extends AbstractTableModel implements Seriali
             case 5:
                 return rowData.getPickUpDeadline() == null ? "-" : rowData.getPickUpDeadline();
             case 6:
-                return getLocationDescription(rowData.getCoderId());
+                return Cirkulacija.getApp().getReservationsManager().getLibraryBranchName(rowData.getCoderId());
             case 7:
                 return getReservationStatus(rowData.getReservationStatus());
             default:
                 return null;
         }
     }
-
-    public String getLocationDescription(String coderId) {
-        // if library branch is null => coderId is library branch name already
-        String libraryBranch = Cirkulacija.getApp().getUserManager().getLibraryBranchName(coderId);
-        return libraryBranch == null || libraryBranch.equals("") ? coderId : libraryBranch;
-    }
-
 
     public String getReservationStatus(ReservationStatus status) {
         if (status != null && status.equals(ReservationStatus.ASSIGNED_BOOK)) {

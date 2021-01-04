@@ -17,6 +17,7 @@ import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.location.dto.RecordCtlgNoDTO;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
@@ -107,6 +108,9 @@ public interface BisisService {
 
     @GET("locations/{coderId}")
     Call<String> getLibraryBranchName(@Path("coderId") String coderId);
+
+    @POST("locations/by-primerak")
+    Call<String> getLocationCodeByPrimerak(@Body RecordCtlgNoDTO recordCtlgNo);
 
     @POST("reservations/reserve-books")
     Call<ReservationDTO> reserveBooks(@Body ReservationsRequestDTO requestDTO);
