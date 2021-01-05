@@ -182,27 +182,38 @@ public class ReservationsDialog extends JDialog {
         btnNext.setToolTipText(Messages.getString("circulation.next")); //$NON-NLS-1$
         btnNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                int idx = Integer.parseInt(event.getActionCommand());
-                ReservationDTO reservation = reservationsForPrint.get(idx);
-                ReservationDTO nextReservation = Cirkulacija.getApp().getUserManager().getNextReservation(reservation.getUserId(), reservation.getCtlgNo());
-                if (nextReservation != null) {
-                    log.info("(getBtnNext) - dobavljena je sledeca rezervacija => korisnik: " + nextReservation.getUserId() + "," +
-                            " zapis: " + nextReservation.getRecord_id());
-                    reservationsForPrint.set(idx, nextReservation);
-                } else {
-                    log.info("(getBtnNext) - nema vise rezervacija za zapis: " + reservation.getRecord_id());
-                    JOptionPane.showMessageDialog(null, Messages.getString("circulation.noMoreReservations"),
-                            Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
-                    reservationsForPrint.remove(idx);
-                }
-                if (reservationsForPrint.size() == 0) {
-                    handleOk();
-                } else {
-                    updateContentPane();
+                int op = getConfirmationDialog();
+
+                if (op == JOptionPane.YES_OPTION) {
+                    int idx = Integer.parseInt(event.getActionCommand());
+                    ReservationDTO reservation = reservationsForPrint.get(idx);
+                    ReservationDTO nextReservation = Cirkulacija.getApp().getUserManager().getNextReservation(reservation.getUserId(), reservation.getCtlgNo());
+                    if (nextReservation != null) {
+                        log.info("(getBtnNext) - dobavljena je sledeca rezervacija => korisnik: " + nextReservation.getUserId() + "," +
+                                " zapis: " + nextReservation.getRecord_id());
+                        reservationsForPrint.set(idx, nextReservation);
+                    } else {
+                        log.info("(getBtnNext) - nema vise rezervacija za zapis: " + reservation.getRecord_id());
+                        JOptionPane.showMessageDialog(null, Messages.getString("circulation.noMoreReservations"),
+                                Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                        reservationsForPrint.remove(idx);
+                    }
+                    if (reservationsForPrint.size() == 0) {
+                        handleOk();
+                    } else {
+                        updateContentPane();
+                    }
                 }
             }
         });
         return btnNext;
+    }
+
+    private int getConfirmationDialog() {
+        String[] options = {Messages.getString("circulation.yes"), Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
+        return JOptionPane.showOptionDialog(null, Messages.getString("circulation.confirmNextReservationBtn"), //$NON-NLS-2$
+                Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
     }
 
     private void updateContentPane() {
