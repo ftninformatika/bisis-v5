@@ -156,13 +156,19 @@ public class ReportController {
 
             MapReduceResults<MapReduceValueObjectLocation> res = mt.mapReduce(query, libPrefix + "_task", mapF, reduceF,null, MapReduceValueObjectLocation.class);
             HashMap<String, LocationReport> reportDataSet = new HashMap<String, LocationReport>();
+            String locationDescription;
             for (MapReduceValueObjectLocation v : res) {
                 Location location = locationRepository.findCoder(libPrefix,v.getId().getLocation());
                 LocationReport locationReport = reportDataSet.get(location.getDescription());
+                if (location == null){
+                    locationDescription= v.getId().getLocation();
+                }else{
+                    locationDescription = location.getDescription();
+                }
                 if (locationReport == null) {
                     locationReport = new LocationReport();
-                    locationReport.setLocation(location.getDescription());
-                    reportDataSet.put(location.getDescription(), locationReport);
+                    locationReport.setLocation(locationDescription);
+                    reportDataSet.put(locationDescription, locationReport);
                 }
                 int serviceTypeCode = v.getId().getServiceTypeCode();
                 switch (serviceTypeCode) {
@@ -256,13 +262,19 @@ public class ReportController {
 
             MapReduceResults<MapReduceValueObjectLocation> res = mt.mapReduce(query, libPrefix + "_task", mapF, reduceF, MapReduceValueObjectLocation.class);
             HashMap<String, LocationReport> reportDataSet = new HashMap<String, LocationReport>();
+            String sublocationDescription;
             for (MapReduceValueObjectLocation v : res) {
                 CircLocation sublocation = circLocationRepository.findCoder(libPrefix,v.getId().getLocation());
-                LocationReport locationReport = reportDataSet.get(sublocation.getDescription());
+                if (sublocation == null){
+                    sublocationDescription= v.getId().getLocation();
+                }else{
+                    sublocationDescription = sublocation.getDescription();
+                }
+                LocationReport locationReport = reportDataSet.get(sublocationDescription);
                 if (locationReport == null) {
                     locationReport = new LocationReport();
-                    locationReport.setLocation(sublocation.getDescription());
-                    reportDataSet.put(sublocation.getDescription(), locationReport);
+                    locationReport.setLocation(sublocationDescription);
+                    reportDataSet.put(sublocationDescription, locationReport);
                 }
                 int serviceTypeCode = v.getId().getServiceTypeCode();
                 switch (serviceTypeCode) {
