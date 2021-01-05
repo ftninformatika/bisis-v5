@@ -188,9 +188,11 @@ public class UserManager {
             try {
                 // before updating member data, check if there are any books that are being returned
                 this.returnedBooks = new ArrayList<>();
-                for (ItemAvailability ia : memberData.getBooks()) {
-                    if (!ia.getBorrowed()) {
-                        this.returnedBooks.add(ia.getCtlgNo());
+                if (memberData.getBooks() != null) {
+                    for (ItemAvailability ia : memberData.getBooks()) {
+                        if (!ia.getBorrowed()) {
+                            this.returnedBooks.add(ia.getCtlgNo());
+                        }
                     }
                 }
 

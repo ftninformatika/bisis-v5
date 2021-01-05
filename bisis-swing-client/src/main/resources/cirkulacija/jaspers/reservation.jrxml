@@ -11,6 +11,7 @@
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<parameter name="biblioteka" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="korisnik" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="brojTelefonaKorisnika" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="bibliotekar" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="adresa" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="naslov" class="java.lang.String" isForPrompting="false"/>
@@ -22,7 +23,7 @@
 	<title>
 		<band height="55" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="0" y="1" width="338" height="14" uuid="0ac86f7a-5b3e-4d6b-be29-a646c649c6f8"/>
+				<reportElement key="textField" x="0" y="0" width="338" height="14" uuid="0ac86f7a-5b3e-4d6b-be29-a646c649c6f8"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -73,7 +74,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="92" splitType="Stretch">
+		<band height="158" splitType="Stretch">
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement key="textField-1" x="1" y="9" width="359" height="10" uuid="92c29ce0-5804-4b5a-91b0-1f3606b66bb9"/>
 				<box>
@@ -88,7 +89,7 @@
 				<textFieldExpression><![CDATA[str("INV_NUM") + ": " + $P{invBroj}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField-3" x="1" y="24" width="359" height="10" uuid="3f4205b6-f27f-434a-b776-2066fc75cffc"/>
+				<reportElement key="textField-3" x="1" y="30" width="359" height="10" uuid="3f4205b6-f27f-434a-b776-2066fc75cffc"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -101,10 +102,10 @@
 				<textFieldExpression><![CDATA[str("TITLE") + ": " + $P{naslov}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line-2" mode="Transparent" x="0" y="56" width="360" height="1" isPrintWhenDetailOverflows="true" uuid="4ea36956-e513-4528-8526-af411e60ee5c"/>
+				<reportElement key="line-2" mode="Transparent" x="-2" y="64" width="360" height="1" isPrintWhenDetailOverflows="true" uuid="4ea36956-e513-4528-8526-af411e60ee5c"/>
 			</line>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement key="textField" x="1" y="76" width="340" height="11" uuid="07826e9f-9349-425c-9fe2-a2db95ef7d39"/>
+				<reportElement key="textField" x="-1" y="90" width="340" height="11" uuid="07826e9f-9349-425c-9fe2-a2db95ef7d39"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -129,8 +130,21 @@
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION_MEMBER") +": "+ $P{korisnik}]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-4" x="1" y="50" width="359" height="10" uuid="3f4205b6-f27f-434a-b776-2066fc75cffc"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[str("MEMBER_PHONE") +": "+ $P{brojTelefonaKorisnika}]]></textFieldExpression>
+			</textField>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement key="textField" x="1" y="62" width="340" height="11" uuid="887f3237-c7e5-44dc-bbe8-206ecb2ae4fc"/>
+				<reportElement key="textField" x="-1" y="70" width="340" height="11" uuid="887f3237-c7e5-44dc-bbe8-206ecb2ae4fc"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

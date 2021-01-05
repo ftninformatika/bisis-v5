@@ -35,7 +35,8 @@ public class ReservationDTO implements Serializable {
     private String memberFirstName;
     private String memberLastName;
     private String userId;
-
+    private String phoneNumber;
+    private boolean emailSent;
 
     public static ReservationDTO convertToDto(ReservationOnProfile reservation, Book book,
                                               String locationDescription) {

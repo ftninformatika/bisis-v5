@@ -15,6 +15,7 @@ import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.Loc
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.OpacReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,8 @@ import java.util.*;
 
 @Service
 public class OpacReservationsService implements OpacReservationsServiceInterface {
+    private Logger log = Logger.getLogger(OpacReservationsServiceInterface.class);
+
     @Autowired
     LibraryMemberRepository libraryMemberRepository;
 
@@ -105,6 +108,9 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
             LinkedList<ReservationInQueue> reservations = record.get().getReservations();
             reservations.removeIf(pr -> pr.getUserId().equals(member.getUserId()));
             recordsRepository.save(record.get());
+
+            log.info("(deleteFromQueue) - iz zapisa: " + record_id + " je obrisana rezervacija korisnika: " + member.get_id());
+
             return true;
         }
         return false;
@@ -121,6 +127,9 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
                 record_id = reservationOnProfile.getRecord_id();
                 iter.remove();
                 memberRepository.save(member);
+
+                log.info("(deleteFromMembersList) - rezervacija: " + reservationId + " je obrisana iz liste korisnika: " + member.get_id());
+
                 return record_id;
             }
         }
