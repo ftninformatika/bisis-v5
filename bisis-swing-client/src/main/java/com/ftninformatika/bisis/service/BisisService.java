@@ -7,6 +7,7 @@ package com.ftninformatika.bisis.service;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
+import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.circ.dto.ReservationsRequestDTO;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
@@ -117,6 +118,9 @@ public interface BisisService {
 
     @POST("book")
     Call<Book> getBookLocations(@Body RequestBody recordId);
+
+    @GET("reservations/{recordId}")
+    Call<List<ReservationInQueueDTO>> getReservationsByRecord(@Path("recordId") String recordId);
 
 //librarians------------------------------------------------------------
     // sa servera se ucitavaju LibrarianDB objekti, a u aplikaciji se po potrebi

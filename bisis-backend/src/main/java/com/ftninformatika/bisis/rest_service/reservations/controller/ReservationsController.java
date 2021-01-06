@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.reservations.controller;
 
 import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
+import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationRequestDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationResponseDTO;
@@ -160,4 +161,9 @@ public class ReservationsController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{recordId}")
+    public ResponseEntity<List<ReservationInQueueDTO>> getReservationsByRecord(@RequestHeader("Library") String library, @PathVariable("recordId") String record_id) {
+        List<ReservationInQueueDTO> reservations = bisisReservationsService.getReservationsByRecord(library, record_id);
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
 }

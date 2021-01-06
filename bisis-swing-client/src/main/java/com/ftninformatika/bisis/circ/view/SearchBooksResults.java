@@ -1,11 +1,8 @@
 package com.ftninformatika.bisis.circ.view;
 
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
+import javax.swing.*;
 
 import java.awt.*;
-
-import javax.swing.JLabel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,22 +14,18 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JEditorPane;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTree;
-import javax.swing.JButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeSelectionModel;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.cards.Report;
 import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.editor.inventar.PrintBarcode;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.Godina;
@@ -69,6 +62,7 @@ public class SearchBooksResults extends JPanel {
     private JLabel lUser = null;
     private JScrollPane rightScrollPaneInfo = null;
     private JScrollPane rightScrollPaneList = null;
+    private JScrollPane rightReservationsPaneList = null;
     private JEditorPane textPaneInfo = null;
     private JEditorPane textPaneList = null;
     private JTabbedPane tabPane = null;
@@ -83,6 +77,7 @@ public class SearchBooksResults extends JPanel {
     private String library;
     private JLabel rightPanelLabel = null;
     private String assignedUserId;
+    private JTable reservationsTable;
 
     public SearchBooksResults() {
         super();
@@ -111,6 +106,11 @@ public class SearchBooksResults extends JPanel {
         this.addComponentListener(new ComponentAdapter() {
             public void componentShown(ComponentEvent e) {
                 getTree().requestFocusInWindow();
+                Object node = tree.getLastSelectedPathComponent();
+                if (node instanceof Record) {
+                    makeReservationsList((Record) node);
+                }
+
             }
         });
     }
@@ -201,8 +201,10 @@ public class SearchBooksResults extends JPanel {
                         getBtnReserve().setEnabled(true);
                         if (getTabPane().getSelectedIndex() == 0) {
                             makeInfo((Record) node);
-                        } else {
+                        } else if (tabPane.getSelectedIndex() == 1) {
                             makeList((Record) node);
+                        } else if (tabPane.getSelectedIndex() == 2) {
+                            makeReservationsList((Record) node);
                         }
                     } else if (node instanceof Primerak) {
                         Primerak primerak = (Primerak) node;
@@ -449,6 +451,7 @@ public class SearchBooksResults extends JPanel {
             tabPane = new JTabbedPane();
             tabPane.addTab(Messages.getString("circulation.info"), null, getRightScrollPaneInfo(), null); //$NON-NLS-1$
             tabPane.addTab(Messages.getString("circulation.catalogcard"), null, getRightScrollPaneList(), null); //$NON-NLS-1$
+            tabPane.addTab(Messages.getString("circulation.reservations"), null, getRightReservationsPaneList(), null); //$NON-NLS-1$
             tabPane.addChangeListener(new javax.swing.event.ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     Object node = getTree().getLastSelectedPathComponent();
@@ -456,8 +459,10 @@ public class SearchBooksResults extends JPanel {
                     if (node instanceof Record) {
                         if (tabPane.getSelectedIndex() == 0) {
                             makeInfo((Record) node);
-                        } else {
+                        } else if (tabPane.getSelectedIndex() == 1) {
                             makeList((Record) node);
+                        } else if (tabPane.getSelectedIndex() == 2) {
+                            makeReservationsList((Record) node);
                         }
                     }
                 }
@@ -510,13 +515,38 @@ public class SearchBooksResults extends JPanel {
         return textPaneList;
     }
 
-    private void getCurrentReservation() {
-        ReservationDTO reservation = Cirkulacija.getApp().getUserManager()
-                .getCurrentReservationByPrimerak(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj(), assignedUserId);
-        if (reservation != null) {
-            ReservationsDialog dialog = new ReservationsDialog();
-            dialog.setVisible(true);
+    private JScrollPane getRightReservationsPaneList() {
+        if (rightReservationsPaneList == null) {
+            rightReservationsPaneList = new JScrollPane(getReservationsTable());
         }
+        return rightReservationsPaneList;
+    }
+
+    private JTable getReservationsTable() {
+        if (reservationsTable == null) {
+            String[] columnHeaders = {Messages.getString("circulation.librarycard"), Messages.getString("circulation.firstname"),
+                    Messages.getString("circulation.lastname"), Messages.getString("circulation.location"),
+                    Messages.getString("circulation.reservationDate")};
+            DefaultTableModel model = new DefaultTableModel(null, columnHeaders);
+
+            reservationsTable = new JTable(model);
+            reservationsTable.setRowSelectionAllowed(true);
+            reservationsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            reservationsTable.getTableHeader().setReorderingAllowed(false);
+
+            setColumnSize(0, 180);
+            setColumnSize(1, 100);
+            setColumnSize(2, 150);
+            setColumnSize(3, 300);
+            setColumnSize(4, 220);
+        }
+        return reservationsTable;
+    }
+
+    private void setColumnSize(int rowIdx, int size) {
+        TableColumn column1 = reservationsTable.getColumnModel().getColumn(rowIdx);
+        column1.setPreferredWidth(size);
+        column1.setMaxWidth(size);
     }
 
     private JButton getBtnUser() {
@@ -544,6 +574,15 @@ public class SearchBooksResults extends JPanel {
             });
         }
         return btnUser;
+    }
+
+    private void getCurrentReservation() {
+        ReservationDTO reservation = Cirkulacija.getApp().getUserManager()
+                .getCurrentReservationByPrimerak(((Primerak) getTree().getLastSelectedPathComponent()).getInvBroj(), assignedUserId);
+        if (reservation != null) {
+            ReservationsDialog dialog = new ReservationsDialog();
+            dialog.setVisible(true);
+        }
     }
 
     private JButton getBtnCancel() {
@@ -797,5 +836,21 @@ public class SearchBooksResults extends JPanel {
     private void makeList(Record rec) {
         getTextPaneList().setText(Report.makeOne(rec, true));
         getTextPaneList().setCaretPosition(0);
+    }
+
+    private void makeReservationsList(Record record) {
+        DefaultTableModel tableModel = (DefaultTableModel) reservationsTable.getModel();
+        tableModel.setRowCount(0);          // clear table
+
+        List<ReservationInQueueDTO> reservationsInQueue = Cirkulacija.getApp().getReservationsManager().getReservationsByRecord(record);
+        for (ReservationInQueueDTO reservation : reservationsInQueue) {
+            Object[] rowData = new Object[5];
+            rowData[0] = reservation.getUserId();
+            rowData[1] = reservation.getFirstName();
+            rowData[2] = reservation.getLastName();
+            rowData[3] = reservation.getLocation();
+            rowData[4] = reservation.getReservationDate();
+            tableModel.addRow(rowData);
+        }
     }
 }

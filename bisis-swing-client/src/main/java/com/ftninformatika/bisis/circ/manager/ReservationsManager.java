@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.circ.view.RecordBean;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.location.dto.RecordCtlgNoDTO;
@@ -33,18 +34,18 @@ public class ReservationsManager {
 
     public void reserveBook(String record_id, String location) {
         if (!booksToReserve.containsKey(record_id)) {
-            log.info("addBookForReservation - Rezervisanje knjige: " + record_id + ", na lokaciji: " + location);
+            log.info("(addBookForReservation) - Rezervisanje knjige: " + record_id + ", na lokaciji: " + location);
             booksToReserve.put(record_id, location);
         }
     }
 
     public void deleteReservation(ReservationOnProfile reservation) {
         if (booksToReserve.containsKey(reservation.getRecord_id())) {
-            log.info("deleteReservation - Brisanje privremene rezervacije, koja nije sacuvana u bazi: " + reservation.getRecord_id() +
+            log.info("(deleteReservation) - Brisanje privremene rezervacije, koja nije sacuvana u bazi: " + reservation.getRecord_id() +
                     ", na lokaciji: " + reservation.getCoderId());
             booksToReserve.remove(reservation.getRecord_id());
         } else if (!reservationsToDelete.contains(reservation)) {
-            log.info("deleteReservation - Brisanje postojece rezervacije: " + reservation.get_id() + ", na lokaciji: " + reservation.getCoderId());
+            log.info("(deleteReservation) - Brisanje postojece rezervacije: " + reservation.get_id() + ", na lokaciji: " + reservation.getCoderId());
             reservationsToDelete.add(reservation);
         }
     }
@@ -60,12 +61,12 @@ public class ReservationsManager {
 
     public void setBooksForReservations(MemberData memberData) {
         if (!booksToReserve.isEmpty()) {
-            log.info("setBooksForReservations - postoje knjige za rezervisanje");
+            log.info("(setBooksForReservations) - postoje knjige za rezervisanje");
             memberData.setBooksToReserve(booksToReserve);
         }
 
         if (!reservationsToDelete.isEmpty()) {
-            log.info("setBooksForReservations - postoje rezervacije za brisanje");
+            log.info("(setBooksForReservations) - postoje rezervacije za brisanje");
             memberData.setReservationsToDelete(reservationsToDelete);
         }
 
@@ -90,10 +91,10 @@ public class ReservationsManager {
                         }
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
-                        log.error("displayFailedReservations - greska prilikom dobavljanja zapisa");
+                        log.error("(displayFailedReservations) - greska prilikom dobavljanja zapisa");
                     }
 
-                    log.info("displayFailedReservations - rezervacija nije uspesna jer ne postoji zaduzen primerak knjige: " + naslovKnjige);
+                    log.info("(displayFailedReservations) - rezervacija nije uspesna jer ne postoji zaduzen primerak knjige: " + naslovKnjige);
                     JOptionPane.showMessageDialog(null,
                             MessageFormat.format(Messages.getString("circulation.reservationNotAllowed"), naslovKnjige),
                             Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
@@ -104,7 +105,7 @@ public class ReservationsManager {
     }
 
     public String getLocationCodeByPrimerak(Record record, String ctlgno) {
-        if (record == null){
+        if (record == null) {
             return "";
         }
 
@@ -130,5 +131,16 @@ public class ReservationsManager {
 
         // if library branch is null => coderId is library branch name already
         return libraryBranch == null || libraryBranch.equals("") ? coderId : libraryBranch;
+    }
+
+    public List<ReservationInQueueDTO> getReservationsByRecord(Record record) {
+        List<ReservationInQueueDTO> reservations = new ArrayList<>();
+        try {
+            reservations = BisisApp.bisisService.getReservationsByRecord(record.get_id()).execute().body();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            log.error("(getReservationsByRecord) - greska prilikom dobavljanja rezervacija za zapis");
+        }
+        return reservations;
     }
 }

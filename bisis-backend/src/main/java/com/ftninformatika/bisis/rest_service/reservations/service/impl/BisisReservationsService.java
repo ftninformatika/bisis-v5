@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
@@ -83,6 +84,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
 
     @Autowired
     OpacReservationsService opacReservationsService;
+
 
 
     @Override
@@ -210,6 +212,33 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
             }
         }
         return reservationsResult;
+    }
+
+    // todo da li je lokacija dobra
+    @Override
+    public List<ReservationInQueueDTO> getReservationsByRecord(String library, String record_id) {
+        Optional<Record> record = recordsRepository.findById(record_id);
+        List<ReservationInQueueDTO> reservations = new ArrayList<>();
+        if (record.isPresent()) {
+            if (record.get().getReservations() != null) {
+                for (ReservationInQueue reservation : record.get().getReservations()){
+                    String firstName = "";
+                    String lastname = "";
+
+                    Member m = memberRepository.getMemberByUserId(reservation.getUserId());
+                    if (m != null) {
+                        firstName = m.getFirstName();
+                        lastname = m.getLastName();
+                    }
+                    String location = locationService.getLibraryBranchName(library, reservation.getCoderId());
+
+                    ReservationInQueueDTO reservationInQueueDTO = new ReservationInQueueDTO(reservation.getUserId(),
+                            firstName, lastname, location, reservation.getCoderId(), formatDate(reservation.getReservationDate()));
+                    reservations.add(reservationInQueueDTO);
+                }
+            }
+        }
+        return reservations;
     }
 
     private String getReservationResult(Object reservation) {

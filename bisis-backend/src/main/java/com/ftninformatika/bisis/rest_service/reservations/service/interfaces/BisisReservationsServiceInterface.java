@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.interfaces;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
@@ -24,4 +25,5 @@ public interface BisisReservationsServiceInterface {
 
     HashMap<String, String> updateReservations(String library, HashMap<String, String> books, List<ReservationOnProfile> reservations, Member member);
 
+    List<ReservationInQueueDTO> getReservationsByRecord(String library, String record_id);
 }

@@ -920,7 +920,6 @@ public class UserManager {
     }
 
 
-    // todo ovo je drugi flow za razduzivanje
     public boolean dischargeUser(String ctlgno) {
         Lending lending = null;
         boolean done = false;
@@ -1043,4 +1042,13 @@ public class UserManager {
         return validator;
     }
 
+    public MemberData getUserById(String userId) {
+        MemberData member = null;
+        try {
+            member = BisisApp.bisisService.getMemberDataById(userId).execute().body();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return member;
+    }
 }
