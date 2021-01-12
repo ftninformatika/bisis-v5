@@ -47,8 +47,8 @@ public class UserManager {
 
     // list of returned books
     private List<String> returnedBooks;
-
     private List<ReservationDTO> reservationsForPrint;
+    private Record reserveBook = null;
 
     public UserManager() {
     }
@@ -252,6 +252,7 @@ public class UserManager {
             member = null;
             lendings = null;
             chargeBook = "";
+            reserveBook = null;
             Cirkulacija.getApp().getReservationsManager().clearLists();
             Cirkulacija.getApp().getRecordsManager().releaseListOfItems();
             Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
@@ -332,8 +333,15 @@ public class UserManager {
         }
     }
 
-    public void reserveBook(Record record) {
-        if (member != null) {
+    public void reserveOneBook(Record record) {
+        if (member == null) {
+            if (record != null) {
+                log.info("(reserveOneBook) - knjiga: " + record.get_id() + " se rezervise iz panela za pretragu knjiga (tok kada se u input polje unosi ID korisnika).");
+            }
+            reserveBook = record;
+            Cirkulacija.getApp().getMainFrame().setRequestedPanel(5);
+            Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true);
+        } else {
             Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().reserveBook(record, "");
             Cirkulacija.getApp().getMainFrame().previousTwoPanels();
         }
@@ -514,6 +522,13 @@ public class UserManager {
         if (!chargeBook.equals("")) {
             user.getLending().lendBook(chargeBook);
             chargeBook = "";
+            user.setDirty(true);
+        }
+
+        // if book is reserved from the SearchBooksResults panel
+        if (reserveBook != null){
+            user.getReservationsPanel().reserveBook(reserveBook, "");
+            reserveBook = null;
             user.setDirty(true);
         }
 

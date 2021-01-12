@@ -338,7 +338,7 @@ public class SearchBooksResults extends JPanel {
                                     Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                     new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                         } else {
-                            Cirkulacija.getApp().getUserManager().reserveBook(((Record) getTree().getLastSelectedPathComponent()));
+                            Cirkulacija.getApp().getUserManager().reserveOneBook(((Record) getTree().getLastSelectedPathComponent()));
                         }
                     }
                 }

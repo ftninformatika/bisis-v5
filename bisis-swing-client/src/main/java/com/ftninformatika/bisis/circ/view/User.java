@@ -493,7 +493,6 @@ public class User extends JPanel {
         getTpMain().setSelectedComponent(getPMain3());
     }
 
-    //todo
     public void showReservations() {
         getReservationsPanel().getTfCtlgNo().requestFocusInWindow();
         getTpMain().setSelectedComponent(getPMain6());

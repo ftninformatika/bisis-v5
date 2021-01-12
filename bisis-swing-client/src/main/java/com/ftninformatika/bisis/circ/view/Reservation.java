@@ -172,7 +172,7 @@ public class Reservation {
                 if (record != null) {
                     if (getTableModel().isBookInTable(record)) {
                         log.info("reserveBook - knjiga: " + record.get_id() + " je vec rezervisana.");
-                        JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyInReservationslist"),
+                        JOptionPane.showMessageDialog(null, Messages.getString("circulation.alreadyInReservationslist"),
                                 Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                 new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                     } else {
@@ -189,12 +189,12 @@ public class Reservation {
                             new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                 }
             } else {
-                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.reservationLimitExceeded"),
+                JOptionPane.showMessageDialog(null, Messages.getString("circulation.reservationLimitExceeded"),
                         Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                         new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
             }
         } else {
-            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.blockedcardwarning"),
+            JOptionPane.showMessageDialog(null, Messages.getString("circulation.blockedcardwarning"),
                     Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                     new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
         }
