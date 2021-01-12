@@ -328,7 +328,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
 
 
     private String formatDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
         return sdf.format(date);
     }
 
