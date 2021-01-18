@@ -11,6 +11,7 @@ import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.ItemAvailability;
+import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.InventoryUnitService;
@@ -103,8 +104,16 @@ public class MemberController {
                 if (memberData.getMember() != null) {
                     memberData.setMember(memberRep.save(memberData.getMember()));
                 }
+
+                HashMap<String, String> reservationsResult = reservationsService.updateReservations(library, memberData.getBooksToReserve(),
+                        memberData.getReservationsToDelete(), memberData.getMember());
+
+                memberData.setBooksToReserve(reservationsResult);
+
                 if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
                     for (ItemAvailability ia : memberData.getBooks()){
+
+                        // if the reserved book is lent to the user
                         if (ia.getReserved() != null && ia.getReserved() && ia.getBorrowed()) {
                             ia = reservationsService.finishReservationProcess(ia, memberData.getMember());
                         }

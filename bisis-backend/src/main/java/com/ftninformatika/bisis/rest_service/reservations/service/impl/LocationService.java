@@ -7,7 +7,8 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.LocationServiceInterface;
-import com.ftninformatika.util.constants.LocationConstants;
+import com.ftninformatika.utils.constants.LocationConstants;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,10 +57,17 @@ public class LocationService implements LocationServiceInterface {
         String locationDescription = "";
         if (library.equals(LocationConstants.BGB) || library.equals(LocationConstants.BMB) || library.equals(LocationConstants.BVAO)) {
             Sublocation sublocation = sublocationRepository.getByCoder_Id(coderId, library);
-            locationDescription = sublocation.getDescription();
+            if (sublocation != null) {
+                locationDescription = sublocation.getDescription();
+            }
         } else {
             Location location = locationRepository.getByCoder_Id(coderId, library);
-            locationDescription = location.getDescription();
+            if (location != null) {
+                locationDescription = location.getDescription();
+            }
+        }
+        if (!locationDescription.equals("")) {
+            locationDescription = LatCyrUtils.toCyrillic(locationDescription);
         }
         return locationDescription;
     }

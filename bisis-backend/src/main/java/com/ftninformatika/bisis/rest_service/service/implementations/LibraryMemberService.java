@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.reservations.service.impl.OpacReservationsService;
 import com.ftninformatika.utils.date.DateUtils;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -44,7 +45,8 @@ public class LibraryMemberService {
     @Autowired MemberRepository memberRepository;
     @Autowired Librarian2Repository librarianRepository;
     @Autowired LendingRepository lendingRepository;
-
+    @Autowired
+    OpacReservationsService reservationsService;
 
     /**
      * Resume lending for authenticated OPAC user
@@ -66,6 +68,11 @@ public class LibraryMemberService {
         Date today = new Date();
         Date prolongDate = DateUtils.incDecDays(deadLineDate, category.getPeriod());
         Date maxDate = DateUtils.incDecDays(deadLineDate, category.getMaxPeriod());
+
+        // if there are reservations in the queue, forbid prolonging
+        if (!reservationsService.isReservationsQueueEmpty(lending.get().getCtlgNo())){
+            return false;
+        }
 
         Lending l = lending.get();
 

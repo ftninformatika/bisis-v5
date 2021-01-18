@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
@@ -9,11 +11,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
-import com.ftninformatika.bisis.rest_service.Texts;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
@@ -24,12 +22,13 @@ import com.ftninformatika.bisis.rest_service.service.implementations.EmailServic
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import com.ftninformatika.util.WorkCalendar;
+import com.ftninformatika.utils.constants.ReservationsConstants;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -38,6 +37,8 @@ import java.util.*;
 
 @Service
 public class BisisReservationsService implements BisisReservationsServiceInterface {
+    private Logger log = Logger.getLogger(BisisReservationsService.class);
+
     @Autowired
     LibraryMemberRepository libraryMemberRepository;
 
@@ -74,6 +75,15 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    CreateReservationService createReservationService;
+
+    @Autowired
+    OpacReservationsService opacReservationsService;
+
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
+
 
     @Override
     public List<ReservationDTO> getReservationsForReturnedBooks(List<String> returnedBooks, String library) {
@@ -98,7 +108,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
 
     @Override
     @Transactional
-    public ReservationDTO confirmReservation(String reservation_id, String record_id, String ctlgNo) {
+    public ReservationDTO confirmReservation(String reservation_id, String record_id, String ctlgNo, String library) {
         Optional<Record> record = recordsRepository.findById(record_id);
         if (record.isPresent() && record.get().getReservations() != null && record.get().getReservations().size() > 0) {
             Iterator<ReservationInQueue> iter = record.get().getReservations().iterator();
@@ -107,8 +117,14 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                 if (r.get_id() != null && r.get_id().equals(reservation_id)) {
                     iter.remove();
                     recordsRepository.save(record.get());
-                    setItemStatusReserved(ctlgNo);
-                    return changeStatusToAssignedBook(record.get(), r.getUserId(), ctlgNo);
+
+                    log.info("(confirmReservation) - iz zapisa: " + record_id + " je obrisana rezervacija: " + reservation_id);
+
+                    ReservationDTO reservationDTO = changeStatusToAssignedBook(record.get(), r.getUserId(), ctlgNo, library);
+                    if (reservationDTO != null) {
+                        setItemStatusReserved(ctlgNo);
+                    }
+                    return reservationDTO;
                 }
             }
         }
@@ -122,7 +138,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
             if (reservation.getCtlgNo() != null && reservation.getCtlgNo().equals(ctlgNo) && reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
                 Record record = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
                 Book book = opacSearchService.getBookByRec(record);
-                return getCurentReservationDTO(userId, ctlgNo, member, reservation, book);
+                return getCurentReservationDTO(userId, ctlgNo, member, reservation, book, true);
             }
         }
         return null;
@@ -140,8 +156,13 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                 r.setReservationStatus(ReservationStatus.PICKED_UP);
                 r.setBookPickedUp(true);
                 memberRepository.save(member);
+
+                log.info("(finishReservationProcess) - rezervacija: " + r.get_id() + ". Clan: " + member.get_id()
+                        + " je preuzeo knjigu: " + r.getCtlgNo());
             }
         }
+
+
         return ia;
     }
 
@@ -164,6 +185,79 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         return null;
     }
 
+    @Override
+    @Transactional
+    public HashMap<String, String> updateReservations(String library, HashMap<String, String> books,
+                                                      List<ReservationOnProfile> reservationsToCancel, Member member) {
+        // if there are reservations to delete, delete them
+        cancelReservations(reservationsToCancel, member);
+
+        // if there are books for reservation, reserve them
+        HashMap<String, String> reservationsResult = new HashMap<>();
+        if (books != null && !books.isEmpty()) {
+            for (Map.Entry<String, String> pair : books.entrySet()) {
+                Optional<Record> record = recordsRepository.findById(pair.getKey());
+                if (record.isPresent()) {
+
+                    log.info("(updateReservations) - rezervisanje knjige iz BISIS-a");
+                    // in BISIS its already checked if the reservation limit is exceeded & if the book is already borrowed
+                    // check if there are borrowed books on the given location
+                    Object reservation = createReservationService.checkIfReservationPossible(library, record.get().get_id(), pair.getValue(), member);
+                    if (reservation != null) {
+                        reservationsResult.put(record.get().get_id(), getReservationResult(reservation));
+                    }
+                }
+            }
+        }
+        return reservationsResult;
+    }
+
+    @Override
+    public List<ReservationInQueueDTO> getReservationsByRecord(String library, String record_id) {
+        Optional<Record> record = recordsRepository.findById(record_id);
+        List<ReservationInQueueDTO> reservations = new ArrayList<>();
+        if (record.isPresent()) {
+            if (record.get().getReservations() != null) {
+                for (ReservationInQueue reservation : record.get().getReservations()) {
+                    String firstName = "";
+                    String lastname = "";
+
+                    Member m = memberRepository.getMemberByUserId(reservation.getUserId());
+                    if (m != null) {
+                        firstName = m.getFirstName();
+                        lastname = m.getLastName();
+                    }
+                    String location = locationService.getLibraryBranchName(library, reservation.getCoderId());
+
+                    ReservationInQueueDTO reservationInQueueDTO = new ReservationInQueueDTO(reservation.getUserId(),
+                            firstName, lastname, location, reservation.getCoderId(), formatDate(reservation.getReservationDate()));
+                    reservations.add(reservationInQueueDTO);
+                }
+            }
+        }
+        return reservations;
+    }
+
+    private String getReservationResult(Object reservation) {
+        if (reservation.equals(ReservationsConstants.NORESERVATION)) {
+            return ReservationsConstants.NORESERVATION;
+        } else {
+            return ReservationsConstants.SUCCESS;
+        }
+    }
+
+    private void cancelReservations(List<ReservationOnProfile> reservations, Member member) {
+        if (reservations != null) {
+            for (ReservationOnProfile reservation : reservations) {
+                String record_id = opacReservationsService.deleteFromMembersList(reservation.get_id(), member);
+                opacReservationsService.deleteFromQueue(member, record_id);
+
+                log.info("(cancelReservations) - obrisana rezervacija iz BISIS-a: " + reservation.get_id() + " za zapis: "
+                        + record_id + " i clana: " + member.get_id());
+            }
+        }
+    }
+
     private void deleteExpiredReservation(String userId, String ctlgNo, String library) {
         Member currentAssigned = memberRepository.getMemberByUserId(userId);
         Record record = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
@@ -174,11 +268,14 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
             ReservationOnProfile r = iter.next();
             if (r.getCtlgNo() != null && r.getCtlgNo().equals(ctlgNo) && r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
                 iter.remove();
-            // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
+                // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
             } else if (r.getRecord_id().equals(record.get_id()) && !r.isBookPickedUp()
                     && r.getCoderId().equals(locationCode)) {
                 iter.remove();
                 deleteFirstInQueue(record, locationCode);
+
+                log.info("(deleteExpiredReservation) - knjiga nije dodeljena. Brise se iz liste clana: "
+                        + currentAssigned.get_id() + " i iz liste u okviru zapisa: " + record.get_id());
             }
             memberRepository.save(currentAssigned);
         }
@@ -202,7 +299,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         itemAvailabilityRepository.save(ia);
     }
 
-    private ReservationDTO changeStatusToAssignedBook(Record record, String userId, String ctlgNo) {
+    private ReservationDTO changeStatusToAssignedBook(Record record, String userId, String ctlgNo, String library) {
         Member member = memberRepository.getMemberByUserId(userId);
         for (ReservationOnProfile reservationOnProfile : member.getReservations()) {
             if (reservationOnProfile.getRecord_id().equals(record.get_id()) &&
@@ -213,22 +310,45 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                 reservationOnProfile.setCtlgNo(ctlgNo);
                 memberRepository.save(member);
 
-                sendEmail(member, record, reservationOnProfile.getPickUpDeadline());
+                log.info("(changeStatusToAssignedBook) - u listi rezervacija korisnika: " + member.get_id() + " promenjen je status" +
+                        " rezervacije sa WAITING_IN_QUEUE na ASSIGNED_BOOK i dodeljen je ctlgNo: " + ctlgNo);
+
+                Boolean emailSent = sendEmail(member, record, reservationOnProfile.getPickUpDeadline(), library);
 
                 Book book = opacSearchService.getBookByRec(record);
-                return getCurentReservationDTO(userId, ctlgNo, member, reservationOnProfile, book);
+
+                return getCurentReservationDTO(userId, ctlgNo, member, reservationOnProfile, book, emailSent);
             }
         }
         return null;
     }
 
-    private void sendEmail(Member member, Record record, Date deadline) {
+
+    private String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
+        return sdf.format(date);
+    }
+
+
+    private Boolean sendEmail(Member member, Record record, Date deadline, String library) {
+        boolean emailSent = false;
         Book book = opacSearchService.getBookByRec(record);
-
+        String formattedDate = formatDate(deadline);
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(member.getEmail());
-        emailService.sendSimpleMail(libraryMember.getUsername(), Texts.getString("RESERVATION_CONFIRMED_HEADING"),
-                MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.0"), book.getTitle(), deadline));
+        if (libraryMember != null && libraryMember.getUsername() != null && !libraryMember.getUsername().equals("")) {
+            LibraryConfiguration libConf = libraryConfigurationRepository.getByLibraryName(library);
+            emailService.sendReservationConfirmation(libraryMember.getUsername(), book.getTitle(), formattedDate, libConf);
+            emailSent = true;
 
+            log.info("(sendEmail) - clan: " + member.get_id() + " ima nalog na OPAC-u i email je uspesno poslat za naslov: " + book.getTitle());
+
+        }
+
+        if (!emailSent) {
+            log.info("(sendEmail) - clan nema nalog na OPAC-u: " + member.get_id() + " i email nije poslat za naslov: " + book.getTitle());
+        }
+
+        return emailSent;
     }
 
     public ReservationInQueue getFirstByLocation(Record record, String locationCode) {
@@ -242,7 +362,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         return null;
     }
 
-    private ReservationDTO getCurentReservationDTO(String userId, String ctlgNo, Member member, ReservationOnProfile reservation, Book book) {
+    private ReservationDTO getCurentReservationDTO(String userId, String ctlgNo, Member member,
+                                                   ReservationOnProfile reservation, Book book, boolean emailSent) {
         ReservationDTO reservationDTO = new ReservationDTO();
         reservationDTO.setCtlgNo(ctlgNo);
         reservationDTO.setTitle(book.getTitle());
@@ -252,6 +373,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         reservationDTO.setMemberFirstName(member.getFirstName());
         reservationDTO.setUserId(userId);
         reservationDTO.setReservationStatus(reservation.getReservationStatus());
+        reservationDTO.setEmailSent(emailSent);
+        reservationDTO.setPhoneNumber(member.getPhone());
         return reservationDTO;
     }
 }

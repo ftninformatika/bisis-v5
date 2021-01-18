@@ -12,6 +12,7 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,8 @@ import java.util.Map;
  * @author marijakovacevic
  */
 public class ReservationsDialog extends JDialog {
+    private static final Logger log = Logger.getLogger(ReservationsDialog.class);
+
     private JPanel jContentPane = null;
     private JScrollPane jScrollPane = null;
     private JButton okButton = null;
@@ -132,23 +135,37 @@ public class ReservationsDialog extends JDialog {
 
 
     private JButton getBtnPrint(String reservationIdx) {
-        JButton btnPrint = new JButton(Messages.getString("PRINT"));
+        JButton btnPrint = new JButton(Messages.getString("circulation.sendEmail"));
         btnPrint.setIcon(new ImageIcon(getClass().getResource("/icons/print_16.png")));
         btnPrint.setActionCommand(reservationIdx);
         btnPrint.setFocusable(false);
-        btnPrint.setToolTipText(Messages.getString("PRINT")); //$NON-NLS-1$
+        btnPrint.setToolTipText(Messages.getString("circulation.sendEmail")); //$NON-NLS-1$
         btnPrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 int idx = Integer.parseInt(event.getActionCommand());
                 ReservationDTO reservation = reservationsForPrint.get(idx);
                 try {
+                    // Reservation has not been confirmed yet (button is clicked for the first time)
                     if (reservation.getReservationStatus().equals(ReservationStatus.WAITING_IN_QUEUE)) {
                         reservation = Cirkulacija.getApp().getUserManager().confirmReservationAndAssignBook(reservationsForPrint.get(idx));
-                        reservationsForPrint.set(idx, reservation);
+                        if (reservation != null) {
+                            reservationsForPrint.set(idx, reservation);
+                            if (!reservation.isEmailSent()) {
+                                log.info("(getBtnPrint) - korisnik nema nalog na OPAC-u");
+                                JOptionPane.showMessageDialog(null, Messages.getString("circulation.userWithoutEmail"),
+                                        Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        }
                     }
-                    PrintReservationDialog p = new PrintReservationDialog();
-                    p.setJasper(getReservationForPrint(reservation));
-                    p.setVisible(true);
+                    if (reservation == null) {
+                        log.info("(getBtnPrint) - doslo je do greske, email nije poslat");
+                        JOptionPane.showMessageDialog(null, Messages.getString("circulation.emailNotSent"),
+                                Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        PrintReservationDialog p = new PrintReservationDialog();
+                        p.setJasper(getReservationForPrint(reservation));
+                        p.setVisible(true);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -165,24 +182,38 @@ public class ReservationsDialog extends JDialog {
         btnNext.setToolTipText(Messages.getString("circulation.next")); //$NON-NLS-1$
         btnNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                int idx = Integer.parseInt(event.getActionCommand());
-                ReservationDTO reservation = reservationsForPrint.get(idx);
-                ReservationDTO nextReservation = Cirkulacija.getApp().getUserManager().getNextReservation(reservation.getUserId(), reservation.getCtlgNo());
-                if (nextReservation != null) {
-                    reservationsForPrint.set(idx, nextReservation);
-                } else {
-                    JOptionPane.showMessageDialog(null, Messages.getString("circulation.noMoreReservations"),
-                            Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
-                    reservationsForPrint.remove(idx);
-                }
-                if (reservationsForPrint.size() == 0) {
-                    handleOk();
-                } else {
-                    updateContentPane();
+                int op = getConfirmationDialog();
+
+                if (op == JOptionPane.YES_OPTION) {
+                    int idx = Integer.parseInt(event.getActionCommand());
+                    ReservationDTO reservation = reservationsForPrint.get(idx);
+                    ReservationDTO nextReservation = Cirkulacija.getApp().getUserManager().getNextReservation(reservation.getUserId(), reservation.getCtlgNo());
+                    if (nextReservation != null) {
+                        log.info("(getBtnNext) - dobavljena je sledeca rezervacija => korisnik: " + nextReservation.getUserId() + "," +
+                                " zapis: " + nextReservation.getRecord_id());
+                        reservationsForPrint.set(idx, nextReservation);
+                    } else {
+                        log.info("(getBtnNext) - nema vise rezervacija za zapis: " + reservation.getRecord_id());
+                        JOptionPane.showMessageDialog(null, Messages.getString("circulation.noMoreReservations"),
+                                Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                        reservationsForPrint.remove(idx);
+                    }
+                    if (reservationsForPrint.size() == 0) {
+                        handleOk();
+                    } else {
+                        updateContentPane();
+                    }
                 }
             }
         });
         return btnNext;
+    }
+
+    private int getConfirmationDialog() {
+        String[] options = {Messages.getString("circulation.yes"), Messages.getString("circulation.no")};  //$NON-NLS-1$ //$NON-NLS-2$
+        return JOptionPane.showOptionDialog(null, Messages.getString("circulation.confirmNextReservationBtn"), //$NON-NLS-2$
+                Messages.getString("circulation.warning"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                new ImageIcon(getClass().getResource("/circ-images/critical32.png")), options, options[1]); //$NON-NLS-1$
     }
 
     private void updateContentPane() {
@@ -201,6 +232,7 @@ public class ReservationsDialog extends JDialog {
             Map<String, Object> params = new HashMap<String, Object>(9);
             params.put("biblioteka", Cirkulacija.getApp().getEnvironment().getReversLibraryName()); //$NON-NLS-1$
             params.put("korisnik", reservation.getUserId()); //$NON-NLS-1$
+            params.put("brojTelefonaKorisnika", reservation.getPhoneNumber()); //$NON-NLS-1$
             params.put("bibliotekar", Cirkulacija.getApp().getLibrarian().getIme() + " " + Cirkulacija.getApp().getLibrarian().getPrezime()); //$NON-NLS-1$ //$NON-NLS-2$
             params.put("adresa", Cirkulacija.getApp().getEnvironment().getReversLibraryAddress()); //$NON-NLS-1$
             params.put("naslov", reservation.getTitle()); //$NON-NLS-1$

@@ -2,13 +2,14 @@ package com.ftninformatika.bisis.rest_service.reservations.controller;
 
 import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
+import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationRequestDTO;
 import com.ftninformatika.bisis.opac2.dto.ReservationResponseDTO;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.CreateReservationServiceInterface;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.OpacReservationsServiceInterface;
-import com.ftninformatika.util.constants.ReservationsConstants;
+import com.ftninformatika.utils.constants.ReservationsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -139,9 +140,10 @@ public class ReservationsController {
      * @return true if reservation is successfully confirmed and it's status is changed, otherwise returns false
      */
     @PostMapping("/confirm-reservation")
-    public ResponseEntity<ReservationDTO> confirmReservation(@RequestBody ConfirmReservationDTO confirmReservationDTO) {
+    public ResponseEntity<ReservationDTO> confirmReservation(@RequestBody ConfirmReservationDTO confirmReservationDTO,
+                                                             @RequestHeader("Library") String library) {
         ReservationDTO reservationDTO = bisisReservationsService.confirmReservation(confirmReservationDTO.getReservation_id(),
-                confirmReservationDTO.getRecord_id(), confirmReservationDTO.getCtlgNo());
+                confirmReservationDTO.getRecord_id(), confirmReservationDTO.getCtlgNo(), library);
         return new ResponseEntity<>(reservationDTO, HttpStatus.OK);
     }
 
@@ -160,4 +162,9 @@ public class ReservationsController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{recordId}")
+    public ResponseEntity<List<ReservationInQueueDTO>> getReservationsByRecord(@RequestHeader("Library") String library, @PathVariable("recordId") String record_id) {
+        List<ReservationInQueueDTO> reservations = bisisReservationsService.getReservationsByRecord(library, record_id);
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
 }

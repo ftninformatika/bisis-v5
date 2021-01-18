@@ -20,7 +20,8 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.coders.Sublocation
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.CreateReservationServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
-import com.ftninformatika.util.constants.ReservationsConstants;
+import com.ftninformatika.utils.constants.ReservationsConstants;
+import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CreateReservationService implements CreateReservationServiceInterface {
+    private Logger log = Logger.getLogger(CreateReservationServiceInterface.class);
+
     @Autowired
     LibraryMemberRepository libraryMemberRepository;
 
@@ -81,7 +84,8 @@ public class CreateReservationService implements CreateReservationServiceInterfa
         return checkIfReservationPossible(library, record_id, coderId, member);
     }
 
-    private Object checkIfReservationPossible(String library, String record_id, String coderId, Member member) {
+    @Override
+    public Object checkIfReservationPossible(String library, String record_id, String coderId, Member member) {
         Optional<Record> record = recordsRepository.findById(record_id);
 
         if (record.isPresent()) {
@@ -132,11 +136,30 @@ public class CreateReservationService implements CreateReservationServiceInterfa
             boolean sameLocation = locationService.isSameLocation(coderId, library, primerak);
             if (sameLocation) {
                 boolean isBookBorrowed = isBookBorrowed(itemStatusMap, primerak);
-                if (isBookBorrowed)
+                if (isBookBorrowed) {
                     filteredBooks.add(primerak);
+                } else {
+                    // if the book is reserved, it is counted as borrowed
+                    boolean isBookReserved = isBookReserved(itemStatusMap, primerak);
+                    if (isBookReserved) {
+                        filteredBooks.add(primerak);
+                    }
+                }
             }
         }
         return filteredBooks;
+    }
+
+    private boolean isBookReserved(Map<String, ItemStatus> itemStatusMap, Primerak primerak) {
+        boolean bookBorrowed = false;
+        ItemStatus is = itemStatusMap.get(primerak.getStatus());
+        if (is != null && is.isLendable() && is.isShowable()) {
+            ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(primerak.getInvBroj());
+            if (ia != null && ia.getReserved() != null && ia.getReserved()) {
+                bookBorrowed = true;
+            }
+        }
+        return bookBorrowed;
     }
 
     private boolean isBookBorrowed(Map<String, ItemStatus> itemStatusMap, Primerak primerak) {
@@ -144,7 +167,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
         ItemStatus is = itemStatusMap.get(primerak.getStatus());
         if (is != null && is.isLendable() && is.isShowable()) {
             ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(primerak.getInvBroj());
-            if (ia.getBorrowed()) {
+            if (ia != null && ia.getBorrowed()) {
                 bookBorrowed = true;
             }
         }
@@ -158,7 +181,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
     }
 
     private void addToMembersList(Member member, Record record, String coderId,
-                                             ReservationInQueue reservationInQueue) {
+                                  ReservationInQueue reservationInQueue) {
         ReservationOnProfile reservationOnProfile = new ReservationOnProfile();
         reservationOnProfile.set_id(String.valueOf(new ObjectId()));
         reservationOnProfile.setReservationDate(reservationInQueue.getReservationDate());
@@ -169,6 +192,9 @@ public class CreateReservationService implements CreateReservationServiceInterfa
 
         member.appendReservation(reservationOnProfile);
         memberRepository.save(member);
+
+        log.info("(addToMembersList) - rezervacija za zapis: " + record.get_id() + ", na lokaciji: " + coderId +
+                ", je stavljena u listu kod člana: " + member.getUserId());
     }
 
     private ReservationInQueue addToQueue(Member member, Record record, String coderId) {
@@ -180,6 +206,10 @@ public class CreateReservationService implements CreateReservationServiceInterfa
 
         record.appendReservation(reservationInQueue);
         recordsRepository.save(record);
+
+        log.info("(addToQueue) - rezervacija je kreirana za zapis: " + record.get_id() + ", na lokaciji: " + coderId +
+                ", za clana: " + member.getUserId());
+
         return reservationInQueue;
     }
 }
