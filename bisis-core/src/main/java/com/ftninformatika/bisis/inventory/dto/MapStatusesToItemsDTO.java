@@ -16,12 +16,12 @@ public class MapStatusesToItemsDTO {
     private String inventoryId;
     private List<StatusMappingEntry> statusMapEntryList;
 
-    public StatusMappingEntry getEntryByInventoryStatus(InventoryStatus inventoryStatus) {
-        if (statusMapEntryList == null || statusMapEntryList.size() == 0 || inventoryStatus == null || inventoryStatus.getCoder_id() == null) {
+    public StatusMappingEntry getEntryByInventoryStatus(String invStatusCoderId) {
+        if (statusMapEntryList == null || statusMapEntryList.size() == 0 || invStatusCoderId == null) {
             return null;
         }
         for (StatusMappingEntry entry: statusMapEntryList) {
-            if (entry.getInventoryStatusCoderId().equals(inventoryStatus.getCoder_id())) {
+            if (entry.getInventoryStatusCoderId().equals(invStatusCoderId)) {
                 return entry;
             }
         }

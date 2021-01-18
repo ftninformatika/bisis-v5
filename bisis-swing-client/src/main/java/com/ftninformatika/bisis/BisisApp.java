@@ -96,23 +96,15 @@ public class BisisApp {
                 splashScreen.setVisible(true);
                 splashScreen.getMessage().setText(Messages.getString("MAIN_LOADING_RECORD_MANAGER"));
 
-                String token = null;
-                try {
-                    token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), login.getUsername(), login.getPassword());
-                } catch (IOException e) {
-                    //e.printStackTrace();
-                    splashScreen.setVisible(false);
-                    JOptionPane.showMessageDialog(null, Messages.getString("MAIN_SERVER_UNAVAILABLE"),
-                            Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
-                    System.exit(0);
-                }
+                appConfig.setLoginUsername(login.getUsername());
+                appConfig.setLoginPassword(login.getPassword());
+                createRetrofit(login.getUsername(), login.getPassword());
 
-                if (token != null && !token.equals("")) {
 
+                if (bisisService != null) {
                     correct = true;
                     login.disp();
-                    appConfig.setRetrofit(token, getDomainFromUsername(login.getUsername()));
-                    bisisService = appConfig.getRetrofit().create(BisisService.class);
+
                     LibrarianDB librarianDB = null;
                     try {
                         librarianDB = bisisService.getLibrarianByUsername(login.getUsername()).execute().body();
@@ -152,6 +144,26 @@ public class BisisApp {
             } else {
                 System.exit(0);
             }
+        }
+    }
+
+    public static void createRetrofit(String username, String password) {
+        String token = null;
+        try {
+            token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), username, password);
+        } catch (IOException e) {
+            splashScreen.setVisible(false);
+            JOptionPane.showMessageDialog(null, Messages.getString("MAIN_SERVER_UNAVAILABLE"),
+                    Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+
+        if (token != null && !token.equals("")) {
+            appConfig.setToken(token);
+            appConfig.setRetrofit(getDomainFromUsername(username));
+            bisisService = appConfig.getRetrofit().create(BisisService.class);
+        } else {
+            bisisService = null;
         }
     }
 

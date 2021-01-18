@@ -24,7 +24,7 @@ import java.util.*;
 
 public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAdditionalRepository {
 
-    private static final String[] STANDARD_INDEX_FIELDS_ARR = {"rn", "dateModified", "inventoryId"};
+    private static final String[] STANDARD_INDEX_FIELDS_ARR = {"rn", "invNo", "inventoryId"};
     private MongoTemplate mongoTemplate;
 
     @Autowired
@@ -53,7 +53,9 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         if (invUnitSearchDTO != null && invUnitSearchDTO.generateSearchCriteria() != null) {
             query.addCriteria(invUnitSearchDTO.generateSearchCriteria());
         }
-
+        if (invUnitSearchDTO != null && invUnitSearchDTO.getSortBy() != null && invUnitSearchDTO.getSort() != null) {
+            query.with(invUnitSearchDTO.getSort());
+        }
         query.with(pageable);
         List<InventoryUnit> results = mongoTemplate.find(query, InventoryUnit.class);
 
@@ -66,15 +68,30 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
     }
 
     @Override
+    public List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO) {
+        Query query = new Query();
+        if (invUnitSearchDTO != null && invUnitSearchDTO.generateSearchCriteria() != null) {
+            query.addCriteria(invUnitSearchDTO.generateSearchCriteria());
+        }
+        if (invUnitSearchDTO != null && invUnitSearchDTO.getSortBy() != null && invUnitSearchDTO.getSort() != null) {
+            query.with(invUnitSearchDTO.getSort());
+        }
+        return mongoTemplate.find(query, InventoryUnit.class);
+    }
+
+    @Override
     public Boolean changeRevisionStatuses(InventoryStatus fromStatus, InventoryStatus toStatus, String library) {
         MongoCollection<Document> collection = mongoTemplate.getCollection(library + "_inventory_units");
         if (fromStatus == null || fromStatus.getCoder_id() == null || toStatus == null || toStatus.getCoder_id() == null) {
             System.out.println("changeRevisionStatuses ne valjaju statusi");
             return null;
         }
-        Document select = new Document("revisionStatus.coder_id", fromStatus.getCoder_id());
-        Document setDoc = new Document("revisionStatus", getDocumentFromStatus(toStatus));
-        setDoc.append("checked", true);
+        Document select = new Document("inventoryStatusCoderId", fromStatus.getCoder_id());
+        Document setDoc = new Document("inventoryStatusCoderId", toStatus.getCoder_id());
+        setDoc.append("inventoryStatusDescription", toStatus.getDescription());
+        if (!toStatus.getCoder_id().equals(InventoryStatus.IN_REVISION)) {
+            setDoc.append("checked", true);
+        }
         Document update = new Document("$set", setDoc);
         UpdateResult updateResult = collection.updateMany(select, update);
         return updateResult.isModifiedCountAvailable();
@@ -98,7 +115,7 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         Criteria[] invStatuses = new Criteria[invStatusesCoderIdList.size()];
         int i = 0;
         for (String invStatusCoder: invStatusesCoderIdList) {
-            invStatuses[i] = Criteria.where("revisionStatus.coder_id").is(invStatusCoder); //todo check "revisionStatus" if refactor
+            invStatuses[i] = Criteria.where("inventoryStatusCoderId").is(invStatusCoder);
             i++;
         }
         Criteria or = new Criteria().orOperator(invStatuses);
@@ -106,15 +123,7 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
         Query q = new Query();
         q.addCriteria(criteria);
         q.with(new Sort(Sort.Direction.DESC,"rn"));
-        q.fields().include("rn").include("inventoryId").include("invNo").include("revisionStatus.coder_id");
+        q.fields().include("rn").include("inventoryId").include("invNo").include("inventoryStatusCoderId").include("inventoryStatusDescription");
         return mongoTemplate.stream(q, InventoryUnit.class);
-    }
-
-    private Document getDocumentFromStatus(InventoryStatus status) {
-        Document d = new Document("_id", status.get_id());
-        d.append("coder_id", status.getCoder_id());
-        d.append("description", status.getDescription());
-        d.append("library", status.getLibrary());
-        return d;
     }
 }

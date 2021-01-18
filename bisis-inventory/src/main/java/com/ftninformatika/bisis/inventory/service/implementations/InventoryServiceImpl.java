@@ -1,11 +1,14 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.inventory.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
+import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
@@ -15,6 +18,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
+import com.ftninformatika.utils.string.Signature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -39,11 +43,13 @@ public class InventoryServiceImpl implements InventoryService {
     private ItemAvailabilityRepository itemAvailabilityRepository;
     private LendingRepository lendingRepository;
     private MongoTemplate mongoTemplate;
+    private InvCodersService invCodersService;
 
     @Autowired
     public InventoryServiceImpl(InventoryRepository inventoryRepository, ItemAvailabilityRepository itemAvailabilityRepository,
                                 RecordsRepository recordsRepository, InventoryUnitRepository inventoryUnitRepository,
-                                InventoryStatusRepository inventoryStatusRepository, ItemStatusRepository itemStatusRepository, LendingRepository lendingRepository, MongoTemplate mongoTemplate) {
+                                InventoryStatusRepository inventoryStatusRepository, ItemStatusRepository itemStatusRepository,
+                                LendingRepository lendingRepository, MongoTemplate mongoTemplate, InvCodersService invCodersService) {
         this.inventoryRepository = inventoryRepository;
         this.recordsRepository = recordsRepository;
         this.inventoryUnitRepository = inventoryUnitRepository;
@@ -52,26 +58,23 @@ public class InventoryServiceImpl implements InventoryService {
         this.itemAvailabilityRepository = itemAvailabilityRepository;
         this.lendingRepository = lendingRepository;
         this.mongoTemplate = mongoTemplate;
+        this.invCodersService = invCodersService;
     }
 
     //    @Transactional todo
     @Override
     public Inventory create(Inventory inventory, String lib) {
         if (inventory == null || inventory.get_id() != null) {
+            System.out.println("(inventory == null || inventory.get_id() != null)");
             return null;
         }
         if (inventoryRepository.findAllByInventoryStateAndLibrary(EnumInventoryState.IN_PREPARATION, lib).size() > 0) {
-            // todo Ne moze da se upisuje nova dok ima neka u pripremi (puni kolekciju inventory_unit)
+            System.out.println("(inventoryRepository.findAllByInventoryStateAndLibrary(EnumInventoryState.IN_PREPARATION, lib).size() > 0)");
             return null;
         }
         inventory.setProgress(0d);
         inventory.setInventoryState(EnumInventoryState.IN_PREPARATION);
         try {
-            if (inventory.getYear() == null && inventory.getStartDate() != null) {
-                Calendar calendar = new GregorianCalendar();
-                calendar.setTime(inventory.getStartDate());
-                inventory.setYear(calendar.get(Calendar.YEAR));
-            }
             inventory = inventoryRepository.insert(inventory);
             generateInventoryUnits(inventory, lib);
             inventory.setInventoryState(EnumInventoryState.IN_PROGRESS);
@@ -116,14 +119,33 @@ public class InventoryServiceImpl implements InventoryService {
             Double progress = getProgress(_id);
             Inventory inventory = optionalInventory.get();
             inventory.setProgress(progress);
-            return inventory;
+            return inventoryRepository.save(inventory);
         }
         return null;
     }
 
     @Override
     public List<Inventory> getAllForLib(String lib) {
-        return inventoryRepository.findAllByLibrary(lib);
+        List<Inventory> inventories = inventoryRepository.findAllByLibrary(lib);
+        inventories.sort(Comparator.comparing(Inventory::getStartDate).reversed());
+        return inventories;
+    }
+
+    @Override
+    public List<Inventory> getAllForLibAndLocations(String lib, List<String> locations) {
+        List<Inventory> inventories = getAllForLib(lib);
+        if (locations != null) {
+            inventories = inventories.stream().filter(i -> locationContained(locations, i.getInvLocations())).collect(Collectors.toList());
+        }
+        return inventories;
+    }
+
+    private boolean locationContained(List<String> paramLocations, List<Coder> invLocations) {
+        if (paramLocations == null || invLocations == null) {
+            return false;
+        }
+        List<String> locations = invLocations.stream().map(Coder::getCoder_id).collect(Collectors.toList());;
+        return paramLocations.stream().filter(locations::contains).collect(Collectors.toSet()).size() > 0;
     }
 
     private String createInvNum(String location, String book, String lastNum) {
@@ -140,21 +162,22 @@ public class InventoryServiceImpl implements InventoryService {
         Date resultdate = new Date(milliseconds);
         System.out.println("Vreme pocetka izvršavanja upita: " + sdf.format(resultdate));
         UnwindOperation unwindOp = Aggregation.unwind("primerci");
+        EnumInvLocation enumInvLocation = this.invCodersService.getEnumInvLocation(library);
 
         //upit za podlokaciju i inv knjige, i inv brojeve
         List<Criteria> sublocationCriteriaList = new ArrayList<Criteria>();
         List<Criteria> invBookCriteriaList = new ArrayList<Criteria>();
-        for (Sublocation sublocation : createdInventory.getSublocations()) {
-            Criteria c1 = Criteria.where("primerci.sigPodlokacija").is(sublocation.getCoder_id());
+        for (Coder invLocation : createdInventory.getInvLocations()) {
+            Criteria c1 = Criteria.where(enumInvLocation.getPrimerakField()).is(invLocation.getCoder_id());
             sublocationCriteriaList.add(c1);
             for (InventoryBook book : createdInventory.getInvBooks()) {
                 if (book.getLastNo() != null) {
-                    String firstInvNum = sublocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
-                    String lastInvNum = createInvNum(sublocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
+                    String firstInvNum = invLocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
+                    String lastInvNum = createInvNum(invLocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
                     Criteria c2 = Criteria.where("primerci.invBroj").gte(firstInvNum).lte(lastInvNum);
                     invBookCriteriaList.add(c2);
                 } else {
-                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + sublocation.getCoder_id().substring(0, 2) + book.getCode());
+                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
                     invBookCriteriaList.add(c3);
                 }
             }
@@ -163,7 +186,6 @@ public class InventoryServiceImpl implements InventoryService {
         if (sublocationCriteriaList.size() > 0) {
             matchSublocationOp = Aggregation.match(new Criteria().orOperator(sublocationCriteriaList.toArray(new Criteria[sublocationCriteriaList.size()])));
         }
-
         MatchOperation matchInvBooksOp = null;
         if (invBookCriteriaList.size() > 0) {
             matchInvBooksOp = Aggregation.match(new Criteria().orOperator(invBookCriteriaList.toArray(new Criteria[invBookCriteriaList.size()])));
@@ -171,8 +193,8 @@ public class InventoryServiceImpl implements InventoryService {
 
         //upit za status
         List<Criteria> statusCriteriaList = new ArrayList<Criteria>();
-        for (String status : createdInventory.getItemStatuses()) {
-            Criteria c = Criteria.where("primerci.status").is(status);
+        for (Coder status : createdInventory.getItemStatuses()) {
+            Criteria c = Criteria.where("primerci.status").is(status.getCoder_id());
             statusCriteriaList.add(c);
         }
         MatchOperation matchStatusOp = null;
@@ -180,11 +202,11 @@ public class InventoryServiceImpl implements InventoryService {
             matchStatusOp = Aggregation.match(new Criteria().orOperator(statusCriteriaList.toArray(new Criteria[statusCriteriaList.size()])));
         }
         //projekcija
-        ProjectionOperation changeNameOp = Aggregation.project("rn", "primerci.invBroj", "primerci.status", "primerci.sigUDK").
+        ProjectionOperation changeNameOp = Aggregation.project("rn", "primerci.invBroj", "primerci.status", "primerci.cena").
                 andExclude("_id").
                 and("primerci.invBroj").as("invNo").
                 and("primerci.status").as("status").
-                and("primerci.sigUDK").as("signature").
+                and("primerci.cena").as("price").
                 and(createdInventory.get_id()).asLiteral().as("inventoryId");
         //sortiranje
         SortOperation sortOp = Aggregation.sort(Sort.by(Sort.Direction.ASC, "rn"));
@@ -237,10 +259,17 @@ public class InventoryServiceImpl implements InventoryService {
                             unit.setTitle(rp.getTitle());
                             unit.setPublisher(rp.getPublisher());
                             unit.setPubYear(rp.getPublishingYear());
-                            unit.setInvStatus(createdInventory.getItemStatus(unit.getStatus()));
-                            unit.setRevisionStatus(createdInventory.getRevStatusByInv(unit.getStatus()));
+                            unit.setPubPlace(rp.getPublishingPlace());
+                            ItemStatus itemStatus = createdInventory.getItemStatus(unit.getStatus());
+                            unit.setItemStatusCoderId(itemStatus.getCoder_id());
+                            unit.setItemStatusDescription(itemStatus.getDescription());
+                            InventoryStatus inventoryStatus = createdInventory.getRevStatusByInv(unit.getStatus());
+                            unit.setInventoryStatusCoderId(inventoryStatus.getCoder_id());
+                            unit.setInventoryStatusDescription(inventoryStatus.getDescription());
                             unit.setDateModified(new Date());
                             unit.setStatus(null);
+                            String signature = Signature.format(record.getPrimerak(unit.getInvNo()));
+                            unit.setSignature(signature);
                             invUnitsBulkList.add(unit);
             }
             count ++;
@@ -332,11 +361,15 @@ public class InventoryServiceImpl implements InventoryService {
                         resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
                     }
                     if (resumeDate != null && resumeDate.isBefore(dateL2)) {
-                        unit.setRevisionStatus(borrowedL2);
+                        unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                        unit.setInventoryStatusDescription(borrowedL2.getDescription());
                     } else if (lendingDate.isBefore(dateL2)) {
-                        unit.setRevisionStatus(borrowedL2);
+                        unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                        unit.setInventoryStatusDescription(borrowedL2.getDescription());
                     } else {
-                        unit.setRevisionStatus(borrowed);
+
+                        unit.setInventoryStatusCoderId(borrowed.getCoder_id());
+                        unit.setInventoryStatusDescription(borrowed.getDescription());
                     }
                     unit.setDateModified(new Date());
                     unitsForUpdate.add(unit);

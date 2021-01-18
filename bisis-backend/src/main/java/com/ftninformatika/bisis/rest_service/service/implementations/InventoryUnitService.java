@@ -26,7 +26,8 @@ public class InventoryUnitService {
         if (onPlaceStatus == null || inventoryUnit == null) {
             return null; //todo logger
         }
-        inventoryUnit.setRevisionStatus(onPlaceStatus);
+        inventoryUnit.setInventoryStatusCoderId(onPlaceStatus.getCoder_id());
+        inventoryUnit.setInventoryStatusDescription(onPlaceStatus.getDescription());
         inventoryUnit.setChecked(true);
         return inventoryUnitRepository.save(inventoryUnit);
     }

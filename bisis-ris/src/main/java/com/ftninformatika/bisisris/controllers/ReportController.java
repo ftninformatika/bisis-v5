@@ -1,5 +1,8 @@
 package com.ftninformatika.bisisris.controllers;
 
+import com.ftninformatika.bisis.circ.CircLocation;
+import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisisris.dto.LibrarianReport;
 import com.ftninformatika.bisisris.dto.LocationReport;
@@ -7,6 +10,9 @@ import com.ftninformatika.bisisris.dto.MapReduceValueObjectLibrarian;
 import com.ftninformatika.bisisris.dto.MapReduceValueObjectLocation;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisisauthentication.repositories.LibrarianRepository;
+import com.ftninformatika.bisisris.repositories.CircLocationRepository;
+import com.ftninformatika.bisisris.repositories.LocationRepository;
+import com.ftninformatika.bisisris.repositories.SubLocationRepository;
 import com.ftninformatika.bisisris.repositories.TaskRepository;
 
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -40,6 +46,10 @@ public class ReportController {
     LibrarianRepository lr;
     @Autowired
     LibraryPrefixProvider lpp;
+    @Autowired
+    LocationRepository locationRepository;
+    @Autowired
+    CircLocationRepository circLocationRepository;
 
     @Autowired
     MongoTemplate mt;
@@ -106,7 +116,7 @@ public class ReportController {
                 JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, dataSource);
                 inputStream.close();
                 response.setContentType("application/octet-stream");
-                String attachment = "attachment; filename=acquisitionSheet.pdf";
+                String attachment = "attachment; filename=tasksSheet.pdf";
                 response.setHeader("Content-Disposition", attachment);
                 OutputStream out = response.getOutputStream();
                 JasperExportManager.exportReportToPdfStream(jasperPrint, out);
@@ -146,12 +156,19 @@ public class ReportController {
 
             MapReduceResults<MapReduceValueObjectLocation> res = mt.mapReduce(query, libPrefix + "_task", mapF, reduceF,null, MapReduceValueObjectLocation.class);
             HashMap<String, LocationReport> reportDataSet = new HashMap<String, LocationReport>();
+            String locationDescription;
             for (MapReduceValueObjectLocation v : res) {
-                LocationReport locationReport = reportDataSet.get(v.getId().getLocation());
+                Location location = locationRepository.findCoder(libPrefix,v.getId().getLocation());
+                LocationReport locationReport = reportDataSet.get(location.getDescription());
+                if (location == null){
+                    locationDescription= v.getId().getLocation();
+                }else{
+                    locationDescription = location.getDescription();
+                }
                 if (locationReport == null) {
                     locationReport = new LocationReport();
-                    locationReport.setLocation(v.getId().getLocation());
-                    reportDataSet.put(v.getId().getLocation(), locationReport);
+                    locationReport.setLocation(locationDescription);
+                    reportDataSet.put(locationDescription, locationReport);
                 }
                 int serviceTypeCode = v.getId().getServiceTypeCode();
                 switch (serviceTypeCode) {
@@ -245,12 +262,19 @@ public class ReportController {
 
             MapReduceResults<MapReduceValueObjectLocation> res = mt.mapReduce(query, libPrefix + "_task", mapF, reduceF, MapReduceValueObjectLocation.class);
             HashMap<String, LocationReport> reportDataSet = new HashMap<String, LocationReport>();
+            String sublocationDescription;
             for (MapReduceValueObjectLocation v : res) {
-                LocationReport locationReport = reportDataSet.get(v.getId().getLocation());
+                CircLocation sublocation = circLocationRepository.findCoder(libPrefix,v.getId().getLocation());
+                if (sublocation == null){
+                    sublocationDescription= v.getId().getLocation();
+                }else{
+                    sublocationDescription = sublocation.getDescription();
+                }
+                LocationReport locationReport = reportDataSet.get(sublocationDescription);
                 if (locationReport == null) {
                     locationReport = new LocationReport();
-                    locationReport.setLocation(v.getId().getLocation());
-                    reportDataSet.put(v.getId().getLocation(), locationReport);
+                    locationReport.setLocation(sublocationDescription);
+                    reportDataSet.put(sublocationDescription, locationReport);
                 }
                 int serviceTypeCode = v.getId().getServiceTypeCode();
                 switch (serviceTypeCode) {

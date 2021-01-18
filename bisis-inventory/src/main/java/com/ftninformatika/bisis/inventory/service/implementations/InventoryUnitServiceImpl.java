@@ -56,6 +56,10 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         }
         return inventoryUnitRepository.search(invUnitSearchDTO, pNum, pSize);
     }
+    @Override
+    public List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO) {
+         return inventoryUnitRepository.search(invUnitSearchDTO);
+    }
 
     @Override
     public InventoryUnit setOnPlace(RevStatusOnPlaceDTO revStatusOnPlaceDTO, String library) {
@@ -69,7 +73,8 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         if (onPlaceStatus == null || inventoryUnit == null) {
             return null; //todo logger
         }
-        inventoryUnit.setRevisionStatus(onPlaceStatus);
+        inventoryUnit.setInventoryStatusCoderId(onPlaceStatus.getCoder_id());
+        inventoryUnit.setInventoryStatusDescription(onPlaceStatus.getDescription());
         return inventoryUnitRepository.save(inventoryUnit);
     }
 
@@ -97,13 +102,14 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
 
 
     @Override
-    public InventoryUnit create(InventoryUnit inventory) {
+    public InventoryUnit create(InventoryUnit inventoryUnit) {
         return null;
     }
 
     @Override
-    public InventoryUnit update(InventoryUnit inventory) {
-        return inventoryUnitRepository.save(inventory);
+    public InventoryUnit update(InventoryUnit inventoryUnit) {
+        inventoryUnit.uncheckInRevision();
+        return inventoryUnitRepository.save(inventoryUnit);
     }
 
     @Override
@@ -182,7 +188,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         Record rec = recordsRepository.getByRn(rn);
         for (InventoryUnit unit: inventoryUnits) {
             Primerak p = rec.getPrimerak(unit.getInvNo());
-            StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getRevisionStatus());
+            StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getInventoryStatusCoderId());
             p.setStatus(statusMappingEntry.getItemStatusCoderId());
             if (statusMappingEntry.getItemStatusDate() != null) {
                 p.setDatumStatusa(statusMappingEntry.getItemStatusDate());

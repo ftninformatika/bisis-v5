@@ -12,6 +12,7 @@ public interface InventoryService {
     void delete(Inventory inventory);
     Inventory getOne(String _id);
     List<Inventory> getAllForLib(String lib);
+    List<Inventory> getAllForLibAndLocations(String lib, List<String> locations);
     Boolean updateLendingStatus(String  inventoryId);
 
 }

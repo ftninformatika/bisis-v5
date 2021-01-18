@@ -21,5 +21,6 @@ public interface InventoryUnitService {
     Boolean changeRevStatuses(String library, ChangeRevStatusesDTO revStatusOnPlaceDTO);
     Boolean mapStatusesToItems(MapStatusesToItemsDTO mapStatusesToItems);
     Page<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO, Integer pageNumber, Integer pageSize);
+    List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO);
 
 }

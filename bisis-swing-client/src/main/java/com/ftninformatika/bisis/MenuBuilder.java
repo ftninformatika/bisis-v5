@@ -350,7 +350,7 @@ public class MenuBuilder extends JMenuBar {
             mAdministration.setText(Messages.getString("MENU_ADMINISTRATION"));
             mAdministration.setMnemonic(KeyEvent.VK_A);
             mAdministration.addSeparator();
-            mAdministration.add(getMiBibliotekari());
+            //mAdministration.add(getMiBibliotekari());
             mAdministration.add(getMiTipoviObrade());
             mAdministration.add(getMSifInv());
             mAdministration.addSeparator();

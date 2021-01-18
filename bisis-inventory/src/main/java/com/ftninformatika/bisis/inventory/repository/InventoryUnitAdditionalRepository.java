@@ -23,4 +23,5 @@ public interface InventoryUnitAdditionalRepository {
     Iterator<InventoryUnit> findAllByInventoryStatusesAndInventoryId(List<String> invStatusesCoderIdList, String inventoryId);
     void removeInventoryIdFromItemAvailabilities(String inventoryId);
     Page<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO, int pageNo, int pageSize);
+    List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO);
 }
