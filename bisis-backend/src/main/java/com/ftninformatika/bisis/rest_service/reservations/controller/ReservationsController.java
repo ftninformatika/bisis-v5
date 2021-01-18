@@ -140,9 +140,10 @@ public class ReservationsController {
      * @return true if reservation is successfully confirmed and it's status is changed, otherwise returns false
      */
     @PostMapping("/confirm-reservation")
-    public ResponseEntity<ReservationDTO> confirmReservation(@RequestBody ConfirmReservationDTO confirmReservationDTO) {
+    public ResponseEntity<ReservationDTO> confirmReservation(@RequestBody ConfirmReservationDTO confirmReservationDTO,
+                                                             @RequestHeader("Library") String library) {
         ReservationDTO reservationDTO = bisisReservationsService.confirmReservation(confirmReservationDTO.getReservation_id(),
-                confirmReservationDTO.getRecord_id(), confirmReservationDTO.getCtlgNo());
+                confirmReservationDTO.getRecord_id(), confirmReservationDTO.getCtlgNo(), library);
         return new ResponseEntity<>(reservationDTO, HttpStatus.OK);
     }
 

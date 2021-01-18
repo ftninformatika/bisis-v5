@@ -28,7 +28,7 @@ import java.util.*;
 
 @Service
 public class OpacReservationsService implements OpacReservationsServiceInterface {
-    private Logger log = Logger.getLogger(OpacReservationsServiceInterface.class);
+    private Logger log = Logger.getLogger(OpacReservationsService.class);
 
     @Autowired
     LibraryMemberRepository libraryMemberRepository;
@@ -128,7 +128,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
                 iter.remove();
                 memberRepository.save(member);
 
-                log.info("(deleteFromMembersList) - rezervacija: " + reservationId + " je obrisana iz liste korisnika: " + member.get_id());
+                log.info("(deleteFromMembersList) - rezervacija za zapis: " + record_id + " je obrisana iz liste rezervacija korisnika: " + member.get_id());
 
                 return record_id;
             }

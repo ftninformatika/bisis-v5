@@ -193,8 +193,8 @@ public class CreateReservationService implements CreateReservationServiceInterfa
         member.appendReservation(reservationOnProfile);
         memberRepository.save(member);
 
-        log.info("(addToMembersList) - rezervacija: " + reservationOnProfile.get_id() +
-                " je stavljena u listu kod člana: " + member.get_id());
+        log.info("(addToMembersList) - rezervacija za zapis: " + record.get_id() + ", na lokaciji: " + coderId +
+                ", je stavljena u listu kod člana: " + member.getUserId());
     }
 
     private ReservationInQueue addToQueue(Member member, Record record, String coderId) {
