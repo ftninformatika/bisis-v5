@@ -43,7 +43,8 @@ public class LibraryMemberService {
     @Autowired OpacSearchService opacSearchService;
     @Autowired RecordsRepository recordsRepository;
     @Autowired MemberRepository memberRepository;
-    @Autowired Librarian2Repository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired
     OpacReservationsService reservationsService;

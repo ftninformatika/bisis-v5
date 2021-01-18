@@ -38,7 +38,8 @@ public class CircReportContoller {
     @Autowired RecordsRepository recordsRepository;
     @Autowired CorporateMemberRepository corporateMemberRepository;
     @Autowired LocationRepository locationRepository;
-    @Autowired Librarian2Repository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired UserCategRepository userCategRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;

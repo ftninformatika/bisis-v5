@@ -10,7 +10,7 @@ import com.ftninformatika.bisis.rest_service.exceptions.LockException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotFoundException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.Librarian2Repository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
@@ -51,7 +51,8 @@ public class RecordsController {
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired LocationRepository locationRepository;
-    @Autowired Librarian2Repository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired SublocationRepository sublocrep;
     @Autowired MongoClient mongoClient;

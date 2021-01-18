@@ -2,7 +2,6 @@ package com.ftninformatika.bisis.librarian;
 
 import com.ftninformatika.bisis.librarian.db.LibrarianContextDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
-import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
 import lombok.*;
 
 import java.util.ArrayList;

@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "librarians2")
+@Document(collection = "librarians")
 public class LibrarianDB {
     @Id
     private String _id;

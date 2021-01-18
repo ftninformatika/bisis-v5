@@ -11,7 +11,6 @@ import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.InventoryUnitService;
@@ -39,7 +38,8 @@ import java.util.stream.Collectors;
 public class MemberController {
 
     @Autowired MemberRepository memberRep;
-    @Autowired Librarian2Repository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;

@@ -8,7 +8,7 @@ import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.Librarian2Repository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
@@ -17,8 +17,6 @@ import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.MessageFormat;
@@ -31,7 +29,8 @@ public class SignUpController {
     @Autowired LibraryMemberService libraryMemberService;
     @Autowired YAMLConfig yamlConfig;
     @Autowired LibraryMemberRepository libraryMemberRepository;
-    @Autowired Librarian2Repository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
 
     @PostMapping(value = "/signup/opac")

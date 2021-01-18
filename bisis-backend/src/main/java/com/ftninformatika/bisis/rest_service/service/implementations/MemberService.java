@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
 @Service
 public class MemberService {
     @Autowired MemberRepository memberRep;
-    @Autowired Librarian2Repository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
