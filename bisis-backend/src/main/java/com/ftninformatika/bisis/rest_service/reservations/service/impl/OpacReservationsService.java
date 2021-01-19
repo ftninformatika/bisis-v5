@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
@@ -63,18 +64,19 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
     @Autowired
     LibraryMemberService libraryMemberService;
 
+
     @Override
-    public List<ReservationDTO> getReservationsByUser(String library, String authToken) {
-        Member member = libraryMemberService.checkIfMemberExists(authToken);
-        if (member == null) return null;
-
-        List<ReservationOnProfile> reservations = member.getReservations();
+    public List<ReservationDTO> getReservationsByUser(String library, String memberNo) {
         List<ReservationDTO> reservationDTOS = new ArrayList<>();
+        Member member = memberRepository.getMemberByUserId(memberNo);
 
-        for (ReservationOnProfile reservation : reservations) {
-            if (!reservation.isBookPickedUp()) {
-                ReservationDTO reservationDTO = createReservationDTO(library, reservation);
-                reservationDTOS.add(reservationDTO);
+        if (member != null) {
+            List<ReservationOnProfile> reservations = member.getReservations();
+            for (ReservationOnProfile reservation : reservations) {
+                if (!reservation.isBookPickedUp()) {
+                    ReservationDTO reservationDTO = createReservationDTO(library, reservation);
+                    reservationDTOS.add(reservationDTO);
+                }
             }
         }
         return reservationDTOS;
@@ -93,13 +95,14 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
 
     @Override
     @Transactional
-    public Boolean deleteReservation(String authToken, String reservationId) {
-        Member member = libraryMemberService.checkIfMemberExists(authToken);
-        if (member == null) return false;
-
-        String record_id = deleteFromMembersList(reservationId, member);
-
-        return deleteFromQueue(member, record_id);
+    public Boolean deleteReservation(String memberNo, String reservationId) {
+        Member member = memberRepository.getMemberByUserId(memberNo);
+        if (member != null) {
+            String record_id = deleteFromMembersList(reservationId, member);
+            return deleteFromQueue(member, record_id);
+        } else {
+            return false;
+        }
     }
 
     public boolean deleteFromQueue(Member member, String record_id) {

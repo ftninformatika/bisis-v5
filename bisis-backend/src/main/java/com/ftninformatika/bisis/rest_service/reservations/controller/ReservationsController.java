@@ -85,13 +85,13 @@ public class ReservationsController {
      * Returns all reservations of the logged user.
      *
      * @param library   the library in which the logged user is a member
-     * @param authToken user authentication token
+     * @param memberNo  user ID
      * @return list of all reservations
      */
-    @GetMapping(value = "/active-reservations")
+    @GetMapping(value = "/active-reservations/{memberNo}")
     public ResponseEntity<?> getReservationsByUser(@RequestHeader("Library") String library,
-                                                   @RequestHeader("Authorization") String authToken) {
-        List<ReservationDTO> reservationDTOS = opacReservationsService.getReservationsByUser(library, authToken);
+                                                   @PathVariable("memberNo") String memberNo) {
+        List<ReservationDTO> reservationDTOS = opacReservationsService.getReservationsByUser(library, memberNo);
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
@@ -99,15 +99,15 @@ public class ReservationsController {
      * Deletes reservation that has the specified reservation ID.
      * Returns true if reservation is successfully deleted.
      *
-     * @param authToken     user authentication token
+     * @param memberNo     user ID
      * @param reservationId the reservation ID to be deleted
      * @return true if reservation is deleted, otherwise false
      */
-    @RequestMapping(value = "/delete/{reservationId}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteReservation(@RequestHeader("Authorization") String authToken,
+    @RequestMapping(value = "/delete/{reservationId}/{memberNo}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteReservation(@PathVariable("memberNo") String memberNo,
                                                @PathVariable("reservationId") String reservationId) {
 
-        Boolean reservationDeleted = opacReservationsService.deleteReservation(authToken, reservationId);
+        Boolean reservationDeleted = opacReservationsService.deleteReservation(memberNo, reservationId);
 
         if (reservationDeleted) {
             return new ResponseEntity<>(true, HttpStatus.OK);
