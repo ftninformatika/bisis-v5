@@ -3,7 +3,6 @@ package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
@@ -110,12 +109,11 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
     public boolean deleteFromQueue(Member member, String record_id) {
         Optional<Record> record = recordsRepository.findById(record_id);
         if (record.isPresent()) {
+            log.info("(deleteFromQueue) - iz zapisa: " + record_id + " se brise rezervacija korisnika: " + member.get_id());
+
             LinkedList<ReservationInQueue> reservations = record.get().getReservations();
             reservations.removeIf(pr -> pr.getUserId().equals(member.getUserId()));
             recordsRepository.save(record.get());
-
-            log.info("(deleteFromQueue) - iz zapisa: " + record_id + " je obrisana rezervacija korisnika: " + member.get_id());
-
             return true;
         }
         return false;
