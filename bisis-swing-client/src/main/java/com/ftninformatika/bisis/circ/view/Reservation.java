@@ -130,7 +130,7 @@ public class Reservation {
     private JButton getBtnReserve() {
         if (btnReserve == null) {
             btnReserve = new JButton();
-            btnReserve.setToolTipText(Messages.getString("circulation.checkout")); //$NON-NLS-1$
+            btnReserve.setToolTipText(Messages.getString("circulation.reserve")); //$NON-NLS-1$
             btnReserve.setIcon(new ImageIcon(getClass().getResource("/circ-images/plus16.png"))); //$NON-NLS-1$
             btnReserve.setFocusable(false);
             btnReserve.setPreferredSize(new java.awt.Dimension(28, 28));

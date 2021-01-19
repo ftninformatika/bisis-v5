@@ -83,7 +83,7 @@ public class ReservationsController {
      * Returns all reservations of the logged user.
      *
      * @param library  the library in which the logged user is a member
-     * @param memberNo user ID
+     * @param memberNo member's ID
      * @return list of all reservations
      */
     @GetMapping(value = "/active-reservations/{memberNo}")
@@ -97,7 +97,7 @@ public class ReservationsController {
      * Deletes reservation that has the specified reservation ID.
      * Returns true if reservation is successfully deleted.
      *
-     * @param memberNo      user ID
+     * @param memberNo      member's ID
      * @param reservationId the reservation ID to be deleted
      * @return true if reservation is deleted, otherwise false
      */

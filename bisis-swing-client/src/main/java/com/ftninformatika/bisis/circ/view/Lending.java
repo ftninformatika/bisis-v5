@@ -320,6 +320,16 @@ public class Lending {
                                 return;
                             }
                         }
+                        // if there are reservations for the book, forbid prolonging
+                        for (int i = 0; i < modelrows.length; i++) {
+                            boolean isProlongingPossible = Cirkulacija.getApp().getRecordsManager().checkIfResumePossible((String) getTableModel().getValueAt(modelrows[i], 0));
+                            if (!isProlongingPossible) {
+                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.prolongingnotallowed"),
+                                        Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                                return;                            }
+                        }
+
                         getTableModel().updateRows(modelrows, parent.getMmbrship().getUserCateg());
                         handleKeyTyped();
                         //pinRequired = true;

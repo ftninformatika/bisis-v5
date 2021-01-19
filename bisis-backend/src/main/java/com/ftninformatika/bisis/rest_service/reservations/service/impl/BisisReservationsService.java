@@ -192,7 +192,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         // if there are reservations to delete, delete them
         cancelReservations(reservationsToCancel, member);
 
-        // if there are books for reservation, reserve them
+        // if there are books to reserve, reserve them
         HashMap<String, String> reservationsResult = new HashMap<>();
         if (books != null && !books.isEmpty()) {
             for (Map.Entry<String, String> pair : books.entrySet()) {

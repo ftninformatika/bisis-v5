@@ -96,6 +96,8 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
     @Override
     @Transactional
     public Boolean deleteReservation(String memberNo, String reservationId) {
+        log.info("(deleteReservation) - Brisanje rezervacije, clan: " + memberNo + " rezervacija: " + reservationId);
+
         Member member = memberRepository.getMemberByUserId(memberNo);
         if (member != null) {
             String record_id = deleteFromMembersList(reservationId, member);
@@ -141,6 +143,10 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
 
     public Boolean isReservationsQueueEmpty(String ctlgNo) {
         Record record = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
-        return record.getReservations() != null && record.getReservations().size() == 0;
+        if (record.getReservations() != null) {
+            return record.getReservations().size() == 0;
+        } else {
+            return true;
+        }
     }
 }
