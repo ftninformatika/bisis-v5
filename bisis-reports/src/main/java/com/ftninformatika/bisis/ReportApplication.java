@@ -87,7 +87,7 @@ public class ReportApplication {
           .stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i)));
       libCoders.setLocCoders(ctx.getBean(LocationRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(Location::getCoder_id, i -> i)));
-      libCoders.setLibrarians(ctx.getBean(Librarian2Repository.class).findAll()
+      libCoders.setLibrarians(ctx.getBean(LibrarianRepository.class).findAll()
           .stream().collect(Collectors.toMap(LibrarianDB::get_id, i -> i)));
 
 
