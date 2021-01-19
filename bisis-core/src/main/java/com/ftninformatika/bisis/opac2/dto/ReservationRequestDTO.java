@@ -12,4 +12,5 @@ import lombok.Setter;
 public class ReservationRequestDTO {
     private String recordId;
     private String coderId;
+    private String memberNo;
 }

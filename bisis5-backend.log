@@ -2333,3 +2333,9 @@ freemarker.core._MiscTemplateException: [... Exception message was already print
 18.01.2021. 18:48:53 INFO  [BisisReservationsService] (changeStatusToAssignedBook) - u listi rezervacija korisnika: 5baf849056d169f0e1db2662 promenjen je status rezervacije sa WAITING_IN_QUEUE na ASSIGNED_BOOK i dodeljen je ctlgNo: 02000107087
 18.01.2021. 18:48:54 INFO  [BisisReservationsService] (sendEmail) - clan nema nalog na OPAC-u: 5baf849056d169f0e1db2662 i email nije poslat za naslov: Vrtoglave visine
 18.01.2021. 18:49:20 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100000032
+19.01.2021. 14:20:27 FATAL [ReportCore          ] Не може да нађе директоријум са типовима листића
+19.01.2021. 14:29:52 FATAL [ReportCore          ] Не може да нађе директоријум са типовима листића
+19.01.2021. 14:30:04 INFO  [CreateReservationServiceInterface] (addToQueue) - rezervacija je kreirana za zapis: 5cda8f5888575937f5eb41cf, na lokaciji: 0101, za clana: 00100084923
+19.01.2021. 14:30:04 INFO  [CreateReservationServiceInterface] (addToMembersList) - rezervacija za zapis: 5cda8f5888575937f5eb41cf, na lokaciji: 0101, je stavljena u listu kod člana: 00100084923
+19.01.2021. 14:30:13 INFO  [OpacReservationsService] (deleteFromMembersList) - rezervacija za zapis: 5cda8f5888575937f5eb41cf je obrisana iz liste rezervacija korisnika: 5baf849656d169f0e1dc46b2
+19.01.2021. 14:30:13 INFO  [OpacReservationsService] (deleteFromQueue) - iz zapisa: 5cda8f5888575937f5eb41cf je obrisana rezervacija korisnika: 5baf849656d169f0e1dc46b2

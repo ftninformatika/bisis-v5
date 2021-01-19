@@ -38,18 +38,16 @@ public class ReservationsController {
      * If this process was successful, method will return created reservation.
      *
      * @param library               the library in which the logged user is a member
-     * @param authToken             user authentication token
      * @param reservationRequestDTO the reservation request contains the book ID to be reserved and
      *                              the library location ID
      * @return created reservation
      */
     @PostMapping("/reserve")
     public ResponseEntity<?> reserveBook(@RequestHeader("Library") String library,
-                                         @RequestHeader("Authorization") String authToken,
                                          @RequestBody ReservationRequestDTO reservationRequestDTO) {
 
-        Object reservation = createReservationService.reserveBook(authToken, library, reservationRequestDTO.getRecordId(),
-                reservationRequestDTO.getCoderId());
+        Object reservation = createReservationService.reserveBook(reservationRequestDTO.getMemberNo(), library,
+                reservationRequestDTO.getRecordId(), reservationRequestDTO.getCoderId());
 
         if (reservation != null) {
             if (reservation.equals(ReservationsConstants.NORESERVATION) || reservation.equals(ReservationsConstants.LIMITEXCEEDED)
@@ -84,8 +82,8 @@ public class ReservationsController {
     /**
      * Returns all reservations of the logged user.
      *
-     * @param library   the library in which the logged user is a member
-     * @param memberNo  user ID
+     * @param library  the library in which the logged user is a member
+     * @param memberNo user ID
      * @return list of all reservations
      */
     @GetMapping(value = "/active-reservations/{memberNo}")
@@ -99,7 +97,7 @@ public class ReservationsController {
      * Deletes reservation that has the specified reservation ID.
      * Returns true if reservation is successfully deleted.
      *
-     * @param memberNo     user ID
+     * @param memberNo      user ID
      * @param reservationId the reservation ID to be deleted
      * @return true if reservation is deleted, otherwise false
      */
