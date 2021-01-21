@@ -146,7 +146,10 @@ public class SearchBooksResults extends JPanel {
                     && BisisApp.appConfig.getClientConfig().getBarcodeLabelFormat().equals("small")) {
                 leftPanel.add(getBtnPrintInv2(), cc.xy(6, 8, "fill fill")); //$NON-NLS-1$
             }
-            leftPanel.add(getBtnReserve(), cc.xy(9, 8, "fill fill")); //$NON-NLS-1$
+            // todo: prikaz samo za bgb biblioteku
+            if (BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {
+                leftPanel.add(getBtnReserve(), cc.xy(9, 8, "fill fill")); //$NON-NLS-1$
+            }
         }
         return leftPanel.getPanel();
     }
@@ -451,7 +454,10 @@ public class SearchBooksResults extends JPanel {
             tabPane = new JTabbedPane();
             tabPane.addTab(Messages.getString("circulation.info"), null, getRightScrollPaneInfo(), null); //$NON-NLS-1$
             tabPane.addTab(Messages.getString("circulation.catalogcard"), null, getRightScrollPaneList(), null); //$NON-NLS-1$
-            tabPane.addTab(Messages.getString("circulation.reservations"), null, getRightReservationsPaneList(), null); //$NON-NLS-1$
+            // todo: prikaz samo za bgb biblioteku
+            if (BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {
+                tabPane.addTab(Messages.getString("circulation.reservations"), null, getRightReservationsPaneList(), null); //$NON-NLS-1$
+            }
             tabPane.addChangeListener(new javax.swing.event.ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     Object node = getTree().getLastSelectedPathComponent();
