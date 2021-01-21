@@ -9,6 +9,8 @@
 <p>${body3}</p>
 <br>
 <p>${body4} <a href="${websiteUrl}">${opac}</a>${body5} </p>
-
+<br>
+<p>${body6}</p>
+<p>${body7}</p>
 </body>
 </html>
