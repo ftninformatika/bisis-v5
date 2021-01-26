@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.admin.coders.CodersHelper;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.librarian.Librarian;
@@ -9,6 +10,7 @@ import com.ftninformatika.utils.RetrofitUtils;
 import lombok.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.apache.log4j.Logger;
 import retrofit2.Retrofit;
@@ -32,13 +34,16 @@ public abstract class AppConfig {
   private LibraryConfiguration clientConfig;
   private CodersHelper codersHelper;
   private static Logger log = Logger.getLogger(AppConfig.class);
+  private String loginUsername;
+  private String loginPassword;
+  private String token;
 
   public AppConfig(String serverUrl, Librarian librarian, String library, String token) {
     this.serverUrl = serverUrl;
     this.librarian = librarian;
     this.library = library;
 
-    setRetrofit(token, library);
+    setRetrofit(library);
 
 //    OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
 //
@@ -69,18 +74,26 @@ public abstract class AppConfig {
     this.codersHelper.init();
   }
 
-  public void setRetrofit(String token, String domain) {
+  public void setRetrofit(String domain) {
     OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
     okHttpClient.readTimeout(75, TimeUnit.SECONDS);
 
 
-    String finalToken = token;
     okHttpClient.addInterceptor(chain -> {
       Request req = chain.request();
       Request.Builder newRequest = req.newBuilder()
-          .header("Authorization", finalToken)
+          .header("Authorization", "Bearer " + token)
           .header("Library", domain);
-      return chain.proceed(newRequest.build());
+      Response response = chain.proceed(newRequest.build());
+
+      if (response.code() == 401 || response.code() == 403) {
+        BisisApp.createRetrofit(loginUsername, loginPassword);
+        newRequest = req.newBuilder()
+                .header("Authorization", "Bearer " + token)
+                .header("Library", domain);
+        response = chain.proceed(newRequest.build());
+      }
+      return response;
     });
 
       HttpLoggingInterceptor.Logger fileLogger = new HttpLoggingInterceptor.Logger() {
@@ -104,7 +117,6 @@ public abstract class AppConfig {
         .addConverterFactory(new CustomConverterFactory())
         .addConverterFactory(JacksonConverterFactory.create(jacksonMapper))
         .build();
-
   }
 
   public void setLibraryConfiguration(String libName, Retrofit ret){

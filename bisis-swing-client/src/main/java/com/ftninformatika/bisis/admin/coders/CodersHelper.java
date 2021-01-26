@@ -4,11 +4,12 @@ import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.format.UItem;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -316,9 +317,7 @@ public class CodersHelper {
             List<Location> locCoders=BisisApp.bisisService.getLocations(BisisApp.appConfig.getLibrary()).execute().body();
             List<Counter> countersCoders = BisisApp.bisisService.getCounters(BisisApp.appConfig.getLibrary()).execute().body();
             List<Task> tasksCoders = BisisApp.bisisService.getTasks(BisisApp.appConfig.getLibrary()).execute().body();
-            List<LibrarianDTO> librariansCoders = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
-
-
+            List<LibrarianDB> librariansCoders = BisisApp.bisisService.getAllLibrarinasInThisLibrary(BisisApp.appConfig.getLibrary()).execute().body();
 
             accessionRegs = accRegCoders.stream().collect(Collectors.toMap(AccessionRegister::getCoder_id, i -> i));
             acquisitionTypes = acqCoders.stream().collect(Collectors.toMap(Acquisition::getCoder_id, i -> i));
@@ -331,7 +330,7 @@ public class CodersHelper {
             sublocations = sublocCoders.stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
             counters = countersCoders.stream().collect(Collectors.toMap(Counter::getCounterName, i -> i));
             tasks = tasksCoders.stream().collect(Collectors.toMap(Task::getCoder_id, i -> i));
-            librarians = librariansCoders.stream().collect(Collectors.toMap(LibrarianDTO::getUsername, i -> i));
+            librarians = librariansCoders.stream().collect(Collectors.toMap(LibrarianDB::getUsername, i -> i));
 
             //circkulacija
             circLocations = BisisApp.bisisService.getCircLocations(BisisApp.appConfig.getLibrary()).execute().body();
@@ -403,7 +402,7 @@ public class CodersHelper {
             case INVENTARNAKNJIGA_CODER: retVal = new ArrayList<AccessionRegister>(accessionRegs.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
             case DOSTUPNOST_CODER: retVal = new ArrayList<Availability>(availabilities.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
             case TASK_CODER: retVal = new ArrayList<Task>(tasks.values()).stream().map(i -> new UItem(i.getCoder_id(), i.getDescription())).collect(Collectors.toList());break;
-            case LIBRARIAN_CODER: retVal = new ArrayList<LibrarianDTO>(librarians.values()).stream().map(i -> new UItem(i.getUsername(), i.getIme()+" "+i.getPrezime())).collect(Collectors.toList());
+            case LIBRARIAN_CODER: retVal = new ArrayList<LibrarianDB>(librarians.values()).stream().map(i -> new UItem(i.getUsername(), i.getIme()+" "+i.getPrezime())).collect(Collectors.toList());
 
         }
         return (ArrayList<UItem>) retVal;
@@ -469,7 +468,7 @@ public class CodersHelper {
     private Map<String, Location> locations = new HashMap<>();
     private Map<String, Counter> counters = new HashMap<>();
     private Map<String, Task> tasks = new HashMap<>();
-    private Map<String, LibrarianDTO> librarians = new HashMap<>();
+    private Map<String, LibrarianDB> librarians = new HashMap<>();
 
     //circkulacija-----------------
     private List<CircLocation> circLocations = new ArrayList<>();

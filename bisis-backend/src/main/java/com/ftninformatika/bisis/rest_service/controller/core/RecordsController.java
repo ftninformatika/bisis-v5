@@ -5,7 +5,7 @@ import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.sort.SearchResultsSorter;
 import com.ftninformatika.bisis.records.sort.SortingRecElement;
-import com.ftninformatika.bisis.rest_service.LibraryPrefixProvider;
+import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.exceptions.LockException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotFoundException;
@@ -142,17 +142,20 @@ public class RecordsController {
 
     @GetMapping("/get_by_rn")
     public Record getRecordByRN(@RequestParam("rn") String rn){
-        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn));
+        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchQuery("prefixes.RN", rn));
         List<String> ids = new ArrayList<>();
-        e.forEach(
-                er -> {
-                    ids.add(er.getId());
-                }
-        );
-        if (ids.size() == 1)
-            return recordsRepository.findById(ids.get(0)).get();
-        else
-            return null;
+        e.forEach(er -> ids.add(er.getId()));
+        if (ids.size() == 1) {
+            Optional<Record> record = recordsRepository.findById(ids.get(0));
+            if (record.isPresent()) {
+                return record.get();
+            } else {
+                log.warn("Record with RN:" + rn + "exist in Elastic search Index, but not in DB");
+                return null;
+            }
+        }
+        log.warn("Record with RN:" + rn + " is not found, or multiple instances are returned...");
+        return null;
     }
 
 

@@ -5,12 +5,15 @@ import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
+import com.ftninformatika.bisis.rest_service.service.implementations.InventoryUnitService;
 import com.ftninformatika.bisis.rest_service.service.implementations.MemberService;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
@@ -18,6 +21,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.ClientSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +38,18 @@ import java.util.stream.Collectors;
 public class MemberController {
 
     @Autowired MemberRepository memberRep;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
     @Autowired WarningCounterRepository warningCounterRepository;
     @Autowired MongoClient mongoClient;
     @Autowired MemberService memberService;
+    @Autowired BisisReservationsServiceInterface reservationsService;
+    @Autowired
+    @Qualifier("inventoryUnitBisisService")
+    InventoryUnitService inventoryUnitService;
 
     @GetMapping("/lending_history/{memberNo}")
     public ResponseEntity<List<Report>> getUserLendingHistory(@PathVariable("memberNo") String memberNo) {
@@ -85,7 +94,7 @@ public class MemberController {
 
     @RequestMapping(path = "/addUpdateMemberData", method = RequestMethod.POST)
     @Transactional
-    public MemberData addUpdateMemberData(@RequestBody MemberData memberData) {
+    public MemberData addUpdateMemberData(@RequestBody MemberData memberData, @RequestHeader("Library") String library) {
         try (ClientSession session = mongoClient.startSession()) {
             session.startTransaction();
             try {
@@ -95,7 +104,24 @@ public class MemberController {
                 if (memberData.getMember() != null) {
                     memberData.setMember(memberRep.save(memberData.getMember()));
                 }
+
+                // update reservations (created and/or deleted reservations) from member's profile from BISIS
+                HashMap<String, String> reservationsResult = reservationsService.updateReservations(library, memberData.getBooksToReserve(),
+                        memberData.getReservationsToDelete(), memberData.getMember());
+
+                memberData.setBooksToReserve(reservationsResult);
+
                 if (memberData.getLendings() != null && !memberData.getLendings().isEmpty()) {
+                    for (ItemAvailability ia : memberData.getBooks()){
+
+                        // if the reserved book is lent to the user
+                        if (ia.getReserved() != null && ia.getReserved() && ia.getBorrowed()) {
+                            ia = reservationsService.finishReservationProcess(ia, memberData.getMember());
+                        }
+                        if (ia.getInventoryId() != null && !ia.getBorrowed()) {
+                            InventoryUnit retVal = inventoryUnitService.setOnPlace(ia.getInventoryId(), ia.getCtlgNo(), library);
+                        }
+                    }
                     lendingRepository.saveAll(memberData.getLendings());
                     List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(memberData.getMember().getUserId());
                     memberData.setLendings(lendings);
@@ -139,7 +165,7 @@ public class MemberController {
     public MemberData getAndLockMemberById(@RequestParam("userId") String userId, @RequestParam("librarianId") String librarianId) {
         MemberData retVal = new MemberData();
         Member m = memberRep.getMemberByUserId(userId);
-        LibrarianDTO l = librarianRepository.findById(librarianId).get();
+        LibrarianDB l = librarianRepository.findById(librarianId).get();
 
         if (m == null || l == null) { //nema tog clana (ili nekim cudom bibliotekara)
             log.info("(getAndLockMemberById) nije pronadjen korisnik ID: " + userId + " ili bibliotekar ID: " + librarianId);
@@ -167,7 +193,7 @@ public class MemberController {
         MemberData retVal = new MemberData();
         if (memberInfo == null)
             return null;
-        Optional<LibrarianDTO> l = librarianRepository.findById(librarianId);
+        Optional<LibrarianDB> l = librarianRepository.findById(librarianId);
         Member m = memberService.getMebeByEcardCriteria(memberInfo);
 
         if (m == null || !l.isPresent())
@@ -215,6 +241,11 @@ public class MemberController {
         }
     }
 
+    @RequestMapping(path = "/getAssigned")
+    public Member getAssignedMember(@RequestParam("ctlgNo") String ctlgNo) {
+        return memberService.getAssignedMember(ctlgNo);
+    }
+
     @RequestMapping(path = "/getLending")
     public Lending getLending(@RequestParam("ctlgNo") String ctlgNo) {
         Lending lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);
@@ -223,13 +254,16 @@ public class MemberController {
 
     @RequestMapping(path = "/dischargeBook")
     @Transactional
-    public Boolean dischargeBook(@RequestBody Lending lending) {
+    public Boolean dischargeBook(@RequestBody Lending lending, @RequestHeader("Library") String library) {
         try (ClientSession session = mongoClient.startSession()) {
             session.startTransaction();
             try {
                 Lending l = lendingRepository.save(lending);
                 ItemAvailability item = itemAvailabilityRepository.getByCtlgNo(lending.getCtlgNo());
                 item.setBorrowed(false);
+                if (item.getInventoryId() != null) {
+                    InventoryUnit retVal = inventoryUnitService.setOnPlace(item.getInventoryId(), item.getCtlgNo(), library);
+                }
                 itemAvailabilityRepository.save(item);
                 session.commitTransaction();
                 return true;

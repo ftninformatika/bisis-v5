@@ -82,6 +82,8 @@ public class LibraryConfiguration {
     private String locationCity;
     private String websiteUrl;
 
+    private String invLocation;
+
     private List<Report> reports;
 
     public String toString(){

@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ;
 
+import com.ftninformatika.bisis.circ.manager.ReservationsManager;
 import com.ftninformatika.utils.Messages;
 import java.beans.PropertyVetoException;
 
@@ -29,6 +30,7 @@ public class Cirkulacija {
     private RecordsManager recmng;
     private UserManager usermng;
     private SearchUsersManager susermng;
+    private ReservationsManager reservemng;
 
     private Cirkulacija() {
     }
@@ -75,6 +77,7 @@ public class Cirkulacija {
         usermng = new UserManager();
         recmng = new RecordsManager();
         susermng = new SearchUsersManager();
+        reservemng = new ReservationsManager();
 
         if (usermng.getEnvFile() == null){
             JOptionPane.showMessageDialog(null, Messages.getString("circulation.error_message"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
@@ -159,6 +162,9 @@ public class Cirkulacija {
         return susermng;
     }
 
+    public ReservationsManager getReservationsManager(){
+        return reservemng;
+    }
 
     public void close(){
         if (mf != null && mf.isVisible())

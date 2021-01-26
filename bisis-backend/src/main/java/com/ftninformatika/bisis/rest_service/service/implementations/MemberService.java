@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.utils.date.DateUtils;
 import com.mongodb.MongoClient;
@@ -25,7 +26,8 @@ import java.util.stream.Collectors;
 @Service
 public class MemberService {
     @Autowired MemberRepository memberRep;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
@@ -106,4 +108,7 @@ public class MemberService {
         return null;
     }
 
+    public Member getAssignedMember(String ctlgNo){
+        return memberRep.getMemberByReservationCtlgNo(ctlgNo, ReservationStatus.ASSIGNED_BOOK.name());
+    }
 }

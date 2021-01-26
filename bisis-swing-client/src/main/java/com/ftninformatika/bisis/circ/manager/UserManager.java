@@ -1,11 +1,13 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.auth.model.Authority;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Membership;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
+import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
 import com.ftninformatika.bisis.circ.pojo.Duplicate;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.pojo.Warning;
@@ -13,7 +15,10 @@ import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
+import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.records.ItemAvailability;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;
@@ -36,9 +41,14 @@ public class UserManager {
     private List warnings = null;
     private String env = null;
     private String validator = null;
-    private List lendings =  new ArrayList();
+    private List lendings = new ArrayList();
     private static Logger log = Logger.getLogger(UserManager.class);
     private String defaultLocation;
+
+    // list of returned books
+    private List<String> returnedBooks;
+    private List<ReservationDTO> reservationsForPrint;
+    private Record reserveBook = null;
 
     public UserManager() {
     }
@@ -46,6 +56,84 @@ public class UserManager {
     public Member getMember() {
         return member;
     }
+
+    public List<ReservationDTO> getReservationsForPrint() {
+        return this.reservationsForPrint;
+    }
+
+
+//   ----------------------------------- RESERVATIONS -----------------------------------
+
+    /**
+     * This method is called when book(s) is returned to the library.
+     * If there is at least one returned book, get first reservation from queue for that book
+     */
+    public List<ReservationDTO> getReservationsForReturnedBooks(String ctlgNo) {
+        this.reservationsForPrint = new ArrayList<>();
+
+        if (!ctlgNo.equals("")) {   // razduzivanje jednog primerka iz stabla
+            List<String> oneReturn = new ArrayList<>();
+            oneReturn.add(ctlgNo);
+            try {
+                this.reservationsForPrint = BisisApp.bisisService.getReservationsForReturnedBooks(oneReturn).execute().body();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+                log.error(ioException);
+            }
+        } else if (this.returnedBooks.size() > 0) {
+            try {
+                this.reservationsForPrint = BisisApp.bisisService.getReservationsForReturnedBooks(this.returnedBooks).execute().body();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+                log.error(ioException);
+            }
+            this.returnedBooks.clear();
+        }
+        return this.reservationsForPrint;
+    }
+
+    public ReservationDTO confirmReservationAndAssignBook(ReservationDTO r) throws IOException {
+        ConfirmReservationDTO confirmReservationDTO = new ConfirmReservationDTO(r.get_id(), r.getRecord_id(), r.getCtlgNo());
+        log.info("Potvrda rezervacije za record: " + r.getRecord_id() + " za primerak: " + r.getCtlgNo());
+        return BisisApp.bisisService.confirmReservation(confirmReservationDTO).execute().body();
+    }
+
+    // in tree view, when librarian clicks on button to display reservation info
+    public ReservationDTO getCurrentReservationByPrimerak(String ctlgNo, String userId) {
+        this.reservationsForPrint = new ArrayList<>();
+        CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
+        try {
+            ReservationDTO reservation = BisisApp.bisisService.getCurrentReservationByPrimerak(currentReservation).execute().body();
+            if (reservation != null) {
+                this.reservationsForPrint.add(reservation);
+                return reservation;
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            log.error(ioException);
+        }
+        return null;
+    }
+
+    public ReservationDTO getNextReservation(String userId, String ctlgNo) {
+        this.reservationsForPrint = new ArrayList<>();
+        CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
+        try {
+            ReservationDTO nextReservation = BisisApp.bisisService.getNextReservation(currentReservation).execute().body();
+            log.info("Get next reservation - Rezervacija za primerak: " + ctlgNo + " je obrisana korisniku: " + userId);
+            if (nextReservation != null) {
+                log.info("Get next reservation - Prihvacena je rezervacija za primerak: " + nextReservation.getCtlgNo() +
+                        " za korisnika: " + nextReservation.getUserId());
+                this.reservationsForPrint.add(nextReservation);
+                return nextReservation;
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            log.error(ioException);
+        }
+        return null;
+    }
+//   --------------------------------------------------------------------------------------
 
     public String saveUser(User user) {
         if (user.getDirty()) {
@@ -62,13 +150,13 @@ public class UserManager {
 
             if (member == null) {
                 if (memberExists != null && !memberExists.equals("")) {
-                    log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
+                    log.info("Broj korisnika vec postoji:" + (member == null ? "null" : member.getUserId()));
                     return Messages.getString("USER_MANAGER_USER_ALREADY_EXIST");
                 }
                 member = new Member();
             } else {
                 if (memberExists != null && !memberExists.equals("") && !memberExists.equals(member.get_id())) {
-                    log.info("Broj korisnika vec postoji:" + (member == null? "null" : member.getUserId()));
+                    log.info("Broj korisnika vec postoji:" + (member == null ? "null" : member.getUserId()));
                     return Messages.getString("USER_MANAGER_USER_ALREADY_EXIST");
                 }
             }
@@ -94,7 +182,21 @@ public class UserManager {
                 return Messages.getString(errorInDates.getMessageKey());
             }
 
+            // if reservations are created or deleted set them to the memberData
+            Cirkulacija.getApp().getReservationsManager().setBooksForReservations(memberData);
+
             try {
+                // before updating member data, check if there are any books that are being returned
+                this.returnedBooks = new ArrayList<>();
+                if (memberData.getBooks() != null) {
+                    for (ItemAvailability ia : memberData.getBooks()) {
+                        if (!ia.getBorrowed()) {
+                            this.returnedBooks.add(ia.getCtlgNo());
+                        }
+                    }
+                }
+
+                // update member's data
                 memberData = BisisApp.bisisService.addUpdateMemberData(memberData).execute().body();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -104,19 +206,23 @@ public class UserManager {
             }
 
 
-
             if (memberData != null) {
 
                 log.info("Korisnik sacuvan: " + user.getMmbrship().getUserID());
 //                try {
 //                    memberData =BisisApp.bisisService.getMemberById(member.getUserId()).execute().body();
-                    member = memberData.getMember();
-                    lendings = memberData.getLendings() != null ? memberData.getLendings() : new ArrayList();
+                member = memberData.getMember();
+                lendings = memberData.getLendings() != null ? memberData.getLendings() : new ArrayList();
+
+
+                Cirkulacija.getApp().getReservationsManager().displayFailedReservations(memberData);
+                Cirkulacija.getApp().getReservationsManager().clearLists();
+
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
 
-                if (member != null){
+                if (member != null) {
                     Cirkulacija.getApp().getRecordsManager().getListOfItems().clear();
                     loadUser(user, member, lendings);
                 }
@@ -146,6 +252,8 @@ public class UserManager {
             member = null;
             lendings = null;
             chargeBook = "";
+            reserveBook = null;
+            Cirkulacija.getApp().getReservationsManager().clearLists();
             Cirkulacija.getApp().getRecordsManager().releaseListOfItems();
             Cirkulacija.getApp().getMainFrame().setRequestedPanel(0);
             log.info("Otkljucan korisnik");
@@ -222,6 +330,20 @@ public class UserManager {
             Cirkulacija.getApp().getMainFrame().getUserPanel().getLending().lendBook(ctlgno);
             Cirkulacija.getApp().getMainFrame().previousTwoPanels();
             //Cirkulacija.getApp().getMainFrame().showPanel("userPanel");
+        }
+    }
+
+    public void reserveOneBook(Record record) {
+        if (member == null) {
+            if (record != null) {
+                log.info("(reserveOneBook) - knjiga: " + record.get_id() + " se rezervise iz panela za pretragu knjiga (tok kada se u input polje unosi ID korisnika).");
+            }
+            reserveBook = record;
+            Cirkulacija.getApp().getMainFrame().setRequestedPanel(5);
+            Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true);
+        } else {
+            Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().reserveBook(record, "");
+            Cirkulacija.getApp().getMainFrame().previousTwoPanels();
         }
     }
 
@@ -393,11 +515,20 @@ public class UserManager {
 
         user.getLending().loadUser(member.getUserId(), member.getFirstName(), member.getLastName(), maxDate, member.getNote(), dupno, blockedInfo, lendings, !warnings.isEmpty());
 
+        user.getReservationsPanel().loadUser(dupno, blockedInfo, member.getReservations(), !warnings.isEmpty());
+
         user.setDirty(false);
 
         if (!chargeBook.equals("")) {
             user.getLending().lendBook(chargeBook);
             chargeBook = "";
+            user.setDirty(true);
+        }
+
+        // if book is reserved from the SearchBooksResults panel
+        if (reserveBook != null){
+            user.getReservationsPanel().reserveBook(reserveBook, "");
+            reserveBook = null;
             user.setDirty(true);
         }
 
@@ -778,10 +909,14 @@ public class UserManager {
         }
     }
 
-    public String getChargedUser(String ctlgno) {
+    public String getChargedUser(String ctlgno, Boolean isBookReserved) {
         Member m = null;
         try {
-            m = BisisApp.bisisService.getChargedUser(ctlgno).execute().body();
+            if (isBookReserved) {
+                m = BisisApp.bisisService.getAssignedUser(ctlgno).execute().body();
+            } else {
+                m = BisisApp.bisisService.getChargedUser(ctlgno).execute().body();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -794,6 +929,11 @@ public class UserManager {
 
         return result;
     }
+
+    public String getChargedUserId() {
+        return chargedUser;
+    }
+
 
     public boolean dischargeUser(String ctlgno) {
         Lending lending = null;
@@ -821,7 +961,7 @@ public class UserManager {
     public List<MemberData> getUsers(List<String> userIDs) {
         List<MemberData> memberDataList = new ArrayList<>();
         try {
-            for (String userId: userIDs) {
+            for (String userId : userIDs) {
                 MemberData memberData = BisisApp.bisisService.getAndLockMemberById(userId, BisisApp.appConfig.getLibrarian().get_id()).execute().body();
                 if (memberData != null) {
                     memberDataList.add(memberData);
@@ -836,7 +976,7 @@ public class UserManager {
 
     public boolean releaseUsers(List<MemberData> memberDataList) {
         Boolean released = true;
-        for (MemberData memberData: memberDataList) {
+        for (MemberData memberData : memberDataList) {
             if (memberData.getMember() != null) {
                 try {
                     released = BisisApp.bisisService.releaseMemberById(memberData.getMember().getUserId()).execute().body();
@@ -858,10 +998,10 @@ public class UserManager {
         mergeData.setUserId(userId);
         mergeData.setUserList(userList);
         try {
-           done = BisisApp.bisisService.merge(mergeData).execute().body();
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
+            done = BisisApp.bisisService.merge(mergeData).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return done;
     }
 
@@ -917,4 +1057,13 @@ public class UserManager {
         return validator;
     }
 
+    public MemberData getUserById(String userId) {
+        MemberData member = null;
+        try {
+            member = BisisApp.bisisService.getMemberDataById(userId).execute().body();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return member;
+    }
 }

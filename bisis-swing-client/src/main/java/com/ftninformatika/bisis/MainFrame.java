@@ -54,7 +54,7 @@ public class MainFrame extends JFrame {
 
     public void initialize(Librarian lib){
         statusnaLinija.setText(MessageFormat.format(Messages.getString("MAIN_LIBRARIAN.0"), BisisApp.appConfig.getLibrarian().getUsername()));
-        if (lib.isAdministracija()){
+        if (lib.hasRole(Librarian.Role.ADMINISTRACIJA)){
             desktop.add(getIntOznFrame());
             desktop.add(getNacinFrame());
             desktop.add(getOdeljenjeFrame());
@@ -68,7 +68,7 @@ public class MainFrame extends JFrame {
             desktop.add(getCountersFrame());
             desktop.add(getSearchAdvancedFrame());
         }
-        if (lib.isCirkulacija() && !lib.isAdministracija() && !lib.isObrada()){
+        if (lib.hasRole(Librarian.Role.CIRKULACIJA) && !lib.hasRole(Librarian.Role.ADMINISTRACIJA) && !lib.hasRole(Librarian.Role.OBRADA)){
             Cirkulacija.startApp(lib);
         }else{
             searchFrame.setVisible(true);

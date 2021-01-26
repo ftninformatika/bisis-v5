@@ -1,6 +1,10 @@
 package com.ftninformatika.bisis.inventory.service.interfaces;
 
 import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
+import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
+import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
+import com.ftninformatika.bisis.inventory.dto.InvUnitSearchDTO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -12,5 +16,11 @@ public interface InventoryUnitService {
     void delete(InventoryUnit inventory);
     InventoryUnit getOne(String _id);
     List<InventoryUnit> getAllForLib(String lib);
-    Page<InventoryUnit> search(String inv_id, Integer pageSize, Integer pageNumber);
+    InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
+    InventoryUnit setOnPlace(RevStatusOnPlaceDTO revStatusOnPlaceDTO, String library);
+    Boolean changeRevStatuses(String library, ChangeRevStatusesDTO revStatusOnPlaceDTO);
+    Boolean mapStatusesToItems(MapStatusesToItemsDTO mapStatusesToItems);
+    Page<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO, Integer pageNumber, Integer pageSize);
+    List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO);
+
 }

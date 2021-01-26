@@ -4,7 +4,7 @@ import com.ftninformatika.bisis.circ.CorporateMember;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
@@ -38,7 +38,8 @@ public class CircReportContoller {
     @Autowired RecordsRepository recordsRepository;
     @Autowired CorporateMemberRepository corporateMemberRepository;
     @Autowired LocationRepository locationRepository;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired UserCategRepository userCategRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
@@ -665,7 +666,7 @@ public class CircReportContoller {
         }
 
         for (Map.Entry<String, Report> entry : reportMap.entrySet()){
-            LibrarianDTO m = librarianRepository.getByUsername(entry.getKey() + "@" + lib);
+            LibrarianDB m = librarianRepository.getByUsername(entry.getKey() + "@" + lib);
             Report r = new Report();
             String fullName = "";
             if (m != null) {

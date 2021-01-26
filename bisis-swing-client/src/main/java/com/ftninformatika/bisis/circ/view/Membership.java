@@ -38,7 +38,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import com.ftninformatika.utils.Messages;
 
-public class Membership {
+public class    Membership {
 
 
     private PanelBuilder pb = null;

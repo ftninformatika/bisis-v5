@@ -147,6 +147,13 @@ public class MainFrame extends JInternalFrame {
                                 case 4:
                                     getUserPanel().showPicturebooks();
                                     break;
+                                case 5: {
+                                    // todo: prikaz samo za bgb biblioteku
+                                    if (BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {
+                                        getUserPanel().showReservations();
+                                    }
+                                    break;
+                                }
                             }
                             showPanel("userPanel"); //$NON-NLS-1$
                         } else if (found == 2) {
@@ -200,6 +207,9 @@ public class MainFrame extends JInternalFrame {
                                 break;
                             case 4:
                                 getUserPanel().showPicturebooks();
+                                break;
+                            case 5:
+                                getUserPanel().showReservations();
                                 break;
                         }
                         showPanel("userPanel");

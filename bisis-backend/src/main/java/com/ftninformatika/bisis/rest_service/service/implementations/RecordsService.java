@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.*;
@@ -33,7 +33,8 @@ public class RecordsService implements RecordsServiceInterface {
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired LocationRepository locationRepository;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired SublocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
@@ -122,7 +123,7 @@ public class RecordsService implements RecordsServiceInterface {
                     if (deletedInvs.size() > 0)
                         itemAvailabilityRepository.deleteByCtlgNoIn(deletedInvs);
                     //posto je obradjivan, mora da je inUseBy popunjen mongoId- jem bibliotekara!
-                    LibrarianDTO modificator = null;
+                    LibrarianDB modificator = null;
                     //null ce biti iz grupnog inventarisanja, zato ova provera
                     if (record.getInUseBy() != null)
                         modificator = librarianRepository.findById(record.getInUseBy()).get();

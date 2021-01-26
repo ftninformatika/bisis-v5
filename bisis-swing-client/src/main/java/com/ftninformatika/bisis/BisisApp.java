@@ -2,9 +2,8 @@ package com.ftninformatika.bisis;
 
 import ch.randelshofer.quaqua.QuaquaManager;
 import ch.randelshofer.quaqua.leopard.Quaqua15LeopardCrossPlatformLookAndFeel;
-import ch.randelshofer.quaqua.tiger.Quaqua15TigerCrossPlatformLookAndFeel;
-import com.ftninformatika.bisis.librarian.LibrarianManager;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.login.*;
 import com.ftninformatika.bisis.login.SplashScreen;
 import com.ftninformatika.bisis.service.BisisService;
@@ -17,7 +16,6 @@ import com.ftninformatika.utils.RetrofitUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.LoggerFactory;
-import retrofit2.Call;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,6 +49,8 @@ public class BisisApp {
             appConfig = ConfigFactory.getConfig(ConfigType.PRODUCTION);
         } else if (profile != null && profile.equals("test")) {
             appConfig = ConfigFactory.getConfig(ConfigType.TEST);
+        } else if (profile != null && profile.equals("devtest")) {
+            appConfig = ConfigFactory.getConfig(ConfigType.DEV_TEST);
         } else {
             appConfig = ConfigFactory.getConfig(ConfigType.DEVELOPMENT);
         }
@@ -96,34 +96,24 @@ public class BisisApp {
                 splashScreen.setVisible(true);
                 splashScreen.getMessage().setText(Messages.getString("MAIN_LOADING_RECORD_MANAGER"));
 
-                String token = null;
-                try {
-                    token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), login.getUsername(), login.getPassword());
-                } catch (IOException e) {
-                    //e.printStackTrace();
-                    splashScreen.setVisible(false);
-                    JOptionPane.showMessageDialog(null, Messages.getString("MAIN_SERVER_UNAVAILABLE"),
-                            Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
-                    System.exit(0);
-                }
+                appConfig.setLoginUsername(login.getUsername());
+                appConfig.setLoginPassword(login.getPassword());
+                createRetrofit(login.getUsername(), login.getPassword());
 
-                if (token != null && !token.equals("")) {
 
+                if (bisisService != null) {
                     correct = true;
                     login.disp();
-                    appConfig.setRetrofit(token, getDomainFromUsername(login.getUsername()));
-                    bisisService = appConfig.getRetrofit().create(BisisService.class);
 
-                    Call<LibrarianDTO> lib = bisisService.getLibrarianByUsername(login.getUsername());
-                    LibrarianDTO response = null;
+                    LibrarianDB librarianDB = null;
                     try {
-                        response = lib.execute().body();
-                        log.info("Prijavljen bibliotekar: " + response.getUsername());
+                        librarianDB = bisisService.getLibrarianByUsername(login.getUsername()).execute().body();
+                        log.info("Prijavljen bibliotekar: " + librarianDB.getUsername());
                     } catch (IOException e) {
                         System.err.println(e);
                     }
-                    appConfig.setLibrarian(LibrarianManager.initializeLibrarianFromDTO(response));
-                    appConfig.setLibrary(response.getBiblioteka());
+                    appConfig.setLibrarian(new Librarian(librarianDB));
+                    appConfig.setLibrary(librarianDB.getBiblioteka());
                     appConfig.setLibraryConfiguration(appConfig.getLibrary(), appConfig.getRetrofit());
                     Messages.setLocale(appConfig.getClientConfig().getLocale());
                     appConfig.initCoders();
@@ -154,6 +144,26 @@ public class BisisApp {
             } else {
                 System.exit(0);
             }
+        }
+    }
+
+    public static void createRetrofit(String username, String password) {
+        String token = null;
+        try {
+            token = RetrofitUtils.acquireToken(appConfig.getServerUrl(), username, password);
+        } catch (IOException e) {
+            splashScreen.setVisible(false);
+            JOptionPane.showMessageDialog(null, Messages.getString("MAIN_SERVER_UNAVAILABLE"),
+                    Messages.getString("MAIN_ERROR"), JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+
+        if (token != null && !token.equals("")) {
+            appConfig.setToken(token);
+            appConfig.setRetrofit(getDomainFromUsername(username));
+            bisisService = appConfig.getRetrofit().create(BisisService.class);
+        } else {
+            bisisService = null;
         }
     }
 

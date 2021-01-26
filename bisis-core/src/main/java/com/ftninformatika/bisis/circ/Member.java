@@ -8,6 +8,8 @@ import com.ftninformatika.bisis.circ.pojo.CorporateMember;
 import com.ftninformatika.bisis.circ.pojo.MembershipType;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.circ.pojo.Organization;
+import com.ftninformatika.bisis.reservations.Reservation;
+import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.utils.date.DateUtils;
 import lombok.*;
 import org.springframework.context.annotation.Lazy;
@@ -75,6 +77,11 @@ public class Member implements java.io.Serializable {
 	private List<Signing> signings = new ArrayList<>();
 	private List<Duplicate> duplicates = new ArrayList<>();
 	private List<PictureBook> picturebooks = new ArrayList<>();
+	private List<ReservationOnProfile> reservations = new ArrayList<>();
+
+	public void appendReservation(ReservationOnProfile reservation){
+		reservations.add(reservation);
+	}
 
 	@JsonIgnore
 	public String getLibrarianForSigningDate(Date date){

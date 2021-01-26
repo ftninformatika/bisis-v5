@@ -47,7 +47,7 @@ public class EmailService {
     private String opacPassword;
 
     @Autowired
-    public EmailService(Configuration fmConfig,  YAMLConfig yamlConfig) {
+    public EmailService(Configuration fmConfig, YAMLConfig yamlConfig) {
         this.fmConfig = fmConfig;
         this.yamlConfig = yamlConfig;
     }
@@ -96,7 +96,7 @@ public class EmailService {
         try {
 
             Map<String, Object> root = new HashMap<>();
-            String body1 = MessageFormat.format(Texts.getString("OPAC.WELCOME.MAIL.BODY.1"), LatCyrUtils.toCyrillic(libraryConfiguration.getLibraryName()).toUpperCase() );
+            String body1 = MessageFormat.format(Texts.getString("OPAC.WELCOME.MAIL.BODY.1"), LatCyrUtils.toCyrillic(libraryConfiguration.getLibraryName()).toUpperCase());
             root.put("body1", StringUtils.convertToHtmlUtf8(body1));
             root.put("body2", StringUtils.convertToHtmlUtf8(Texts.getString("OPAC.WELCOME.MAIL.BODY.2")));
             root.put("body3", StringUtils.convertToHtmlUtf8(Texts.getString("OPAC.WELCOME.MAIL.BODY.3")));
@@ -131,4 +131,45 @@ public class EmailService {
 
     }
 
+    public void sendReservationConfirmation(String sendTo, String bookTitle, String deadline, LibraryConfiguration libConf) {
+        MimeMessage message = javaMailSender().createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        String websiteUrl = "https://opac.bisis.rs";
+
+        if (libConf != null && yamlConfig.getOpacOrigin() != null) {
+            websiteUrl = yamlConfig.getOpacOrigin() + LIB_URL_CHUNK + libConf.getLibraryName();
+        }
+
+        fmConfig.setClassForTemplateLoading(this.getClass(), "/");
+        try {
+            Map<String, Object> root = new HashMap<>();
+            root.put("dear", StringUtils.convertToHtmlUtf8(Texts.getString("OPAC.WELCOME.MAIL.DEAR")));
+
+            String body1 = MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.1"),
+                    "\"" + LatCyrUtils.toCyrillic(bookTitle) + "\"");
+            root.put("body1", StringUtils.convertToHtmlUtf8(body1));
+            root.put("body2", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.2")));
+
+            String body3 = MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.3"), LatCyrUtils.toCyrillic(deadline));
+            root.put("body3", StringUtils.convertToHtmlUtf8(body3));
+            root.put("body4", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.4")));
+            root.put("opac", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_OPAC_LINK_TITLE")));
+            root.put("websiteUrl", websiteUrl);
+            root.put("body5", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.5")));
+            root.put("body6", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.6")));
+            root.put("body7", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.7")));
+
+            Template t = fmConfig.getTemplate("opac-reservation-template.ftl");
+            String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, root);
+            helper.setTo(sendTo);
+            helper.setText(text, true);
+            helper.setSubject(Texts.getString("RESERVATION_CONFIRMED_HEADING"));
+            javaMailSender().send(message);
+
+        } catch (MessagingException | IOException | TemplateException e) {
+            log.error("(sendReservationConfirmation) email nije poslat clanu: " + sendTo + ", za knjigu: " + bookTitle);
+            e.printStackTrace();
+        }
+    }
 }

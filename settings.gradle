@@ -3,8 +3,10 @@ include "bisis-core"
 include "bisis-backend"
 include "bisis-swing-client"
 include 'bisis-reports'
-include 'bisis-angular-client'
 include 'bisis-indexer'
 include 'bisis-books-common-merger'
 include 'bisis-inventory'
+include 'bisis-authentication'
+include 'bisis-ris'
+include 'bisis-nabavka'
 

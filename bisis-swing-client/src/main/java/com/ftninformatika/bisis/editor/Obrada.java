@@ -3,10 +3,11 @@ package com.ftninformatika.bisis.editor;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.groupinv.GroupInvFrame;
 import com.ftninformatika.bisis.editor.invholes.InvNumberHolesFrame;
+import com.ftninformatika.bisis.editor.merge.MergeRecordsFrame;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.utils.fx.JFXInternalFrame.JFXInternalFrame;
 import java.beans.PropertyVetoException;
 
 
@@ -15,11 +16,11 @@ public class Obrada {
     public static EditorFrame editorFrame = new EditorFrame();
     public static GroupInvFrame groupInvFrame = new GroupInvFrame();
 	public static InvNumberHolesFrame invHolesFrame = new InvNumberHolesFrame();
-//	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();
+	public static MergeRecordsFrame mergeRecFrame = new MergeRecordsFrame();
 
-    public static JFXInternalFrame mergeRecFrame = new JFXInternalFrame("Merge",
-            "/fx/merge/mergeFrame.fxml",
-            "/fx/merge/css/mergeFrame.css",null);
+//    public static JFXInternalFrame mergeRecFrame = new JFXInternalFrame("Merge",
+//            "/fx/merge/mergeFrame.fxml",
+//            "/fx/merge/css/mergeFrame.css",null);
 
     public static void newRecord(Record rec) {
         boolean editorClosed = true;
@@ -50,7 +51,7 @@ public class Obrada {
             showEditorFrame();
             editorFrame.setRecordUpdated(false);
             editorFrame.setUploadEnabled(true);
-            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().isRedaktor())
+            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.REDAKTOR))
                 editorFrame.disableZapisPanel();
             else
                 editorFrame.enableZapisPanel();
@@ -87,7 +88,7 @@ public class Obrada {
             editorFrame.editorInitialize(articleRec);
             showEditorFrame();
             editorFrame.setRecordUpdated(false);
-            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().isRedaktor())
+            if (rec.isLockedByRedactor() && !BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.REDAKTOR))
                 editorFrame.disableZapisPanel();
             else
                 editorFrame.enableZapisPanel();
@@ -147,7 +148,7 @@ public class Obrada {
         try {
             editorFrame.setMaximum(true);
             groupInvFrame.setMaximum(true);
-            mergeRecFrame.setSize(600, 500);
+            mergeRecFrame.setSize(260, 500);
             mergeRecFrame.setResizable(false);
             mergeRecFrame.setMaximizable(false);
         } catch (PropertyVetoException e) {

@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
-import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.inventory.InventoryStatus;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
@@ -39,21 +40,28 @@ public class CodersController {
     @Autowired WarningTypeRepository warnrep;
     @Autowired WarningCounterRepository warncountrep;
     @Autowired OrganizationRepository orgrep;
-    @Autowired ProcessTypeRepository processTypeRepository;
+    @Autowired
+    ProcessTypeRepository processTypeRepository;
     @Autowired CircLocationRepository circLocationRepository;
     @Autowired CorporateMemberRepository corporateMemberRepository;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired CounterRepository counterRepository;
+    @Autowired InventoryStatusRepository inventoryStatusRepository;
 
     @RequestMapping( path = "process_types")
-    public ProcessTypeDTO addProcessType(@RequestBody ProcessTypeDTO pt){
+    public ProcessTypeDB addProcessType(@RequestBody ProcessTypeDB pt){
       //  ProcessTypeDTO processTypeDTO = processTypeRepository.findByNameAndLibName(pt.getName(),pt.getLibName());
         return processTypeRepository.save(pt);
     }
 
     @RequestMapping(path = "process_types/getByLibrary")
-    public List<ProcessTypeDTO> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
+    public List<ProcessTypeDB> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
         return processTypeRepository.getProcessTypesByLibNameIsNullOrLibName(libName);
+    }
+
+    @RequestMapping(path = "inventory_status")
+    public List<InventoryStatus> getInvetoryStatuses(@RequestHeader("Library") String libName){
+        return inventoryStatusRepository.getCoders(libName);
     }
 
     @RequestMapping(path = "lib_configurations")

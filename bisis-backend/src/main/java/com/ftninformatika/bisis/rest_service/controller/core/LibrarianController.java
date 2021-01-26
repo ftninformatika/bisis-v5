@@ -1,16 +1,20 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
-import com.ftninformatika.bisis.auth.model.Authority;
-import com.ftninformatika.bisis.librarian.dto.LibrarianDTO;
-import com.ftninformatika.bisis.librarian.dto.ProcessTypeDTO;
+import com.ftninformatika.bisis.librarian.db.Authority;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
+import com.ftninformatika.bisis.librarian.db.LibrarianRoleDB;
+import com.ftninformatika.bisis.librarian.web.Librarian;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ProcessTypeRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRoleRepository;
+import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Petar on 8/8/2017.
@@ -21,74 +25,113 @@ import java.util.List;
 public class LibrarianController {
 
     @Autowired private LibrarianRepository librarianRepository;
-    @Autowired private ProcessTypeRepository proctypeRep;
-
-    @GetMapping("/getByUsername")
-    public LibrarianDTO getByUsername(@RequestParam (value = "username") String username){
-        LibrarianDTO retVal = null;
-
-        retVal = librarianRepository.getByUsername(username);
-
-      //Moraju se uzeti tipovi obrade iz sifarnika jer su oni azurirani
-      String libName = retVal.getBiblioteka();
-        if (retVal.getCurentProcessType()!=null){
-          String curentPT = retVal.getCurentProcessType().getName();
-          if (curentPT !=null){
-            retVal.setCurentProcessType(proctypeRep.findByNameAndLibName(curentPT,libName));
-          }
-        }
-
-        if (retVal.getContext().getDefaultProcessType() != null) {
-            String defaultPT = retVal.getContext().getDefaultProcessType().getName();
-            if (defaultPT != null) {
-                retVal.getContext().setDefaultProcessType(proctypeRep.findByNameAndLibName(defaultPT, libName));
-            }
-        }
-        List <ProcessTypeDTO> processTypes = retVal.getContext().getProcessTypes();
-        ArrayList <ProcessTypeDTO> newProcTypes = new ArrayList<ProcessTypeDTO>();
-        for(ProcessTypeDTO pt:processTypes){
-            ProcessTypeDTO processTypeDTO = null;
-            try{
-                processTypeDTO = proctypeRep.findByNameAndLibName(pt.getName(),libName);
-            }
-            catch (Exception e) {
-                processTypeDTO = null;
-                e.printStackTrace();
-            }
-            if (processTypeDTO != null)
-                newProcTypes.add(processTypeDTO);
-        }
-        retVal.getContext().setProcessTypes(newProcTypes);
-
-
-        return retVal;
-    }
+    @Autowired private LibrarianRoleRepository librarianRoleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JWTUtil jwtUtil;
 
 
     @RequestMapping( path ="/getByLibrary" ,method = RequestMethod.GET )
-    public List<LibrarianDTO> getLibrariansForLibrary(@RequestParam (value="library") String libName){
+    public List<LibrarianDB> getLibrariansForLibrary(@RequestParam (value="library") String libName){
 
+//        return librarian2Repository.getLibrariansByBiblioteka(libName).stream().
+//                map(i -> new Librarian(i)).
+//                collect(Collectors.toList());
         return librarianRepository.getLibrariansByBiblioteka(libName);
     }
 
-    @RequestMapping( value = "/update", method = RequestMethod.POST)
-    public Boolean createUpdateLibrarian(@RequestBody LibrarianDTO lib){
-        lib.setAuthorities(Arrays.asList(new Authority[]{Authority.ROLE_ADMIN}));
-        librarianRepository.save(lib);
+//    @RequestMapping( value = "/update", method = RequestMethod.POST)
+//    public Boolean createUpdateLibrarian(@RequestBody LibrarianDB librarianDB){
+//        List<LibrarianRoleDB> librarianRoles = librarianRoleRepository.findAll();
+//        List<Authority> authorities = new ArrayList<Authority>();
+//        authorities = librarianRoles.stream().
+//                filter(role ->librarianDB.hasRole(role.getName())).
+//                map(role ->Authority.valueOf(role.getSpringRole())).
+//                distinct().
+//                collect(Collectors.toList());
+//
+//        librarianDB.setAuthorities(authorities);
+//        librarianRepository.save(librarianDB);
+//
+//        return true;
+//    }
 
-        return true;
+
+
+    // new
+
+    @GetMapping("/getLibrarians")
+    public ResponseEntity<?> getLibrarians(@RequestHeader(name="Authorization") String token, @RequestParam (value="library") String libName){
+        String library = jwtUtil.extractLibrary(token.substring(7));
+        if (library.equals(libName)) {
+            List<Librarian> librarians = librarianRepository.getLibrariansByBiblioteka(libName).stream().
+                    map(Librarian::new).collect(Collectors.toList());
+            return ResponseEntity.ok(librarians);
+        } else {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("No permission!");
+        }
+
     }
 
-    @RequestMapping( value = "/delete", method = RequestMethod.POST)
-    public Boolean deleteLibrarian(@RequestBody LibrarianDTO lib){
+    @GetMapping("/getByUsername")
+    public ResponseEntity<?> getByUsername(@RequestHeader(name="Authorization") String token, @RequestParam (value = "username") String username){
+        String library = jwtUtil.extractLibrary(token.substring(7));
+        LibrarianDB librarianDB = librarianRepository.getByUsername(username);
+        if (librarianDB.getBiblioteka().equals(library)) {
+            return ResponseEntity.ok(librarianDB);
+        } else {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("No permission!");
+        }
 
-        LibrarianDTO librarian = librarianRepository.getByUsername(lib.getUsername());
-
-        if (librarian == null)
-            return false;
-
-        librarianRepository.delete(librarian);
-        return true;
     }
 
+    @PostMapping("/hashPassword")
+    public ResponseEntity<?> hashPassword(@RequestHeader(name="Authorization") String token, @RequestBody Librarian librarian){
+        if (librarian != null) {
+            String password = passwordEncoder.encode(librarian.getPassword());
+            librarian.setPassword(password);
+            return ResponseEntity.ok(librarian);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Empty request");
+        }
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<?> saveLibrarian(@RequestHeader(name="Authorization") String token, @RequestBody LibrarianDB librarianDB){
+        List<LibrarianRoleDB> librarianRoles = librarianRoleRepository.findAll();
+        String library = jwtUtil.extractLibrary(token.substring(7));
+        if (librarianDB.getBiblioteka().equals(library)) {
+            if (librarianDB.get_id() == null) {
+                String password = passwordEncoder.encode(librarianDB.getPassword());
+                librarianDB.setPassword(password);
+            }
+            List<Authority> authorities = librarianRoles.stream().
+                    filter(role ->librarianDB.hasRole(role.getName())).
+                    map(role ->Authority.valueOf(role.getSpringRole())).
+                    distinct().
+                    collect(Collectors.toList());
+            librarianDB.setAuthorities(authorities);
+            LibrarianDB newlibrarianDB = librarianRepository.save(librarianDB);
+            return ResponseEntity.ok(newlibrarianDB);
+        } else {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("No permission!");
+        }
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?>  deleteLibrarian(@RequestHeader(name="Authorization") String token, @RequestBody LibrarianDB librarianDB){
+        String library = jwtUtil.extractLibrary(token.substring(7));
+        if (librarianDB.getBiblioteka().equals(library)) {
+            librarianRepository.delete(librarianDB);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("No permission!");
+        }
+    }
+
+    @GetMapping("/getRoles")
+    public List<LibrarianRoleDB> getRoles(){
+        return librarianRoleRepository.findAll();
+    }
 }
