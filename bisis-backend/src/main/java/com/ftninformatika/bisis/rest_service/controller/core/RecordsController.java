@@ -51,8 +51,7 @@ public class RecordsController {
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired LocationRepository locationRepository;
-    @Autowired
-    LibrarianRepository librarianRepository;
+    @Autowired LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired SublocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
@@ -143,17 +142,20 @@ public class RecordsController {
 
     @GetMapping("/get_by_rn")
     public Record getRecordByRN(@RequestParam("rn") String rn){
-        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchPhrasePrefixQuery("prefixes.RN", rn));
+        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(QueryBuilders.matchQuery("prefixes.RN", rn));
         List<String> ids = new ArrayList<>();
-        e.forEach(
-                er -> {
-                    ids.add(er.getId());
-                }
-        );
-        if (ids.size() == 1)
-            return recordsRepository.findById(ids.get(0)).get();
-        else
-            return null;
+        e.forEach(er -> ids.add(er.getId()));
+        if (ids.size() == 1) {
+            Optional<Record> record = recordsRepository.findById(ids.get(0));
+            if (record.isPresent()) {
+                return record.get();
+            } else {
+                log.warn("Record with RN:" + rn + "exist in Elastic search Index, but not in DB");
+                return null;
+            }
+        }
+        log.warn("Record with RN:" + rn + " is not found, or multiple instances are returned...");
+        return null;
     }
 
 
