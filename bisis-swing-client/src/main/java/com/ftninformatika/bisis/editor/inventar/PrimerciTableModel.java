@@ -116,8 +116,7 @@ public class PrimerciTableModel extends AbstractTableModel {
 		int index = -1;
 		int i = 0;	
 		while(!found && i<CurrRecord.brojPrimeraka()){
-				if(CurrRecord.getPrimerak(i).getInvBroj().substring(2)
-						.equals(invBroj.substring(2))){
+				if(CurrRecord.getPrimerak(i).getInvBroj().equals(invBroj)){
 					found = true;
 					index = i;
 				}else i++;
