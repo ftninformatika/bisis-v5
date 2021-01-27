@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.ftninformatika.bisis.circ.validator.Validator;
 import com.ftninformatika.bisis.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -324,8 +326,11 @@ public class Lending {
                         for (int i = 0; i < modelrows.length; i++) {
                             boolean isProlongingPossible = Cirkulacija.getApp().getRecordsManager().checkIfResumePossible((String) getTableModel().getValueAt(modelrows[i], 0));
                             if (!isProlongingPossible) {
-                                JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.prolongingnotallowed"),
-                                        Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                String title = getTableModel().titles.get(modelrows[i]);
+                                String message = MessageFormat.format(Messages.getString("circulation.prolongingnotallowed"),
+                                        LatCyrUtils.toCyrillic(title));
+                                JOptionPane.showMessageDialog(getPanel(), message, Messages.getString("circulation.error"),
+                                        JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                         new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
                                 return;                            }
                         }
