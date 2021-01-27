@@ -87,6 +87,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
 
     @Override
     public List<ReservationDTO> getReservationsForReturnedBooks(List<String> returnedBooks, String library) {
+        log.info("(getReservationsForReturnedBooks)");
+
         List<ReservationDTO> reservationDTOS = new ArrayList<>();
         for (String returnedBook : returnedBooks) {
             Record record = recordsRepository.getRecordByPrimerakInvNum(returnedBook);
@@ -133,6 +135,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
 
     @Override
     public ReservationDTO getCurrentAssignedReservation(String userId, String ctlgNo) {
+        log.info("(getCurrentAssignedReservation) - dobavljanje trenutno dodeljenog za ctlgNo: " + ctlgNo);
+
         Member member = memberRepository.getMemberByUserId(userId);
         for (ReservationOnProfile reservation : member.getReservations()) {
             if (reservation.getCtlgNo() != null && reservation.getCtlgNo().equals(ctlgNo) && reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
@@ -148,8 +152,12 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     @Override
     @Transactional
     public ItemAvailability finishReservationProcess(ItemAvailability ia, Member member) {
+        log.info("(finishReservationProcess) - knjiga: " + ia.getCtlgNo() + " je rezervisana i vrši se zaduživanje za člana: " + member.get_id());
+
         ia.setReserved(false);
         itemAvailabilityRepository.save(ia);
+
+        log.info("(finishReservationProcess) - status za ia (ctlgNo: " + ia.getCtlgNo() + ") je promenjen na reserved=false");
 
         for (ReservationOnProfile r : member.getReservations()) {
             if (r.getCtlgNo() != null && r.getCtlgNo().equals(ia.getCtlgNo()) && r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
@@ -157,12 +165,10 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                 r.setBookPickedUp(true);
                 memberRepository.save(member);
 
-                log.info("(finishReservationProcess) - rezervacija: " + r.get_id() + ". Clan: " + member.get_id()
-                        + " je preuzeo knjigu: " + r.getCtlgNo());
+                log.info("(finishReservationProcess) - status rezervacije: " + r.get_id() + " je postao PICKED_UP. " +
+                        "Član za kog se zadužuje: " + member.get_id() + " je kreirao rezervaciju i preuzeo knjigu: " + r.getCtlgNo());
             }
         }
-
-
         return ia;
     }
 
@@ -170,6 +176,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     @Override
     @Transactional
     public ReservationDTO getNextReservation(String userId, String ctlgNo, String library) {
+        log.info("(getNextReservation) - provera da li postoji još rezervacija za: " + ctlgNo + " u biblioteci: " + library);
+
         deleteExpiredReservation(userId, ctlgNo, library);
 
         List<String> currentBook = new ArrayList<>();
@@ -178,8 +186,10 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         List<ReservationDTO> reservationDTOs = getReservationsForReturnedBooks(currentBook, library);
 
         if (reservationDTOs != null && reservationDTOs.size() > 0) {
+            log.info("(getNextReservation) - ima još rezervacija za ctlgNo: " + ctlgNo + " u biblioteci: " + library);
             return reservationDTOs.get(0);
         } else {
+            log.info("(getNextReservation) - nema više rezervacija za ctlgNo: " + ctlgNo + " u biblioteci: " + library);
             setItemStatusNotReserved(ctlgNo);
         }
         return null;
@@ -259,6 +269,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     }
 
     private void deleteExpiredReservation(String userId, String ctlgNo, String library) {
+        log.info("(deleteExpiredReservation) - brisanje trenutne rezervacije");
+
         Member currentAssigned = memberRepository.getMemberByUserId(userId);
         Record record = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
         String locationCode = locationService.getLocationCodeByPrimerak(record, ctlgNo, library);
@@ -267,11 +279,14 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         while (iter.hasNext()) {
             ReservationOnProfile r = iter.next();
             if (r.getCtlgNo() != null && r.getCtlgNo().equals(ctlgNo) && r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
+                log.info("(deleteExpiredReservation) - knjiga je dodeljena, ali je član nije preuzeo. Briše se iz liste člana: "
+                        + currentAssigned.get_id());
                 iter.remove();
-                // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
+
+            // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
             } else if (r.getRecord_id().equals(record.get_id()) && !r.isBookPickedUp()
                     && r.getCoderId().equals(locationCode)) {
-                log.info("(deleteExpiredReservation) - knjiga nije dodeljena. Brise se iz liste clana: "
+                log.info("(deleteExpiredReservation) - knjiga nije dodeljena. Briše se iz liste člana: "
                         + currentAssigned.get_id() + " i iz liste u okviru zapisa: " + record.get_id());
 
                 iter.remove();
@@ -282,6 +297,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     }
 
     private void deleteFirstInQueue(Record record, String locationCode) {
+        log.info("(deleteFirstInQueue) - brisanje prve rezervacije iz zapisa: " + record.get_id() + ", location code: " + locationCode);
+
         ReservationInQueue firstReservation = getFirstByLocation(record, locationCode);
         record.getReservations().remove(firstReservation);
         recordsRepository.save(record);
@@ -291,12 +308,16 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(ctlgNo);
         ia.setReserved(true);
         itemAvailabilityRepository.save(ia);
+
+        log.info("(setItemStatusReserved) - status za ia (ctlgNo: " + ctlgNo + ") je promenjen na reserved=true");
     }
 
     private void setItemStatusNotReserved(String ctlgNo) {
         ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(ctlgNo);
         ia.setReserved(false);
         itemAvailabilityRepository.save(ia);
+
+        log.info("(setItemStatusNotReserved) - status za ia (ctlgNo: " + ctlgNo + ") je promenjen na reserved=false");
     }
 
     private ReservationDTO changeStatusToAssignedBook(Record record, String userId, String ctlgNo, String library) {
@@ -340,21 +361,24 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
             emailService.sendReservationConfirmation(libraryMember.getUsername(), book.getTitle(), formattedDate, libConf);
             emailSent = true;
 
-            log.info("(sendEmail) - clan: " + member.get_id() + " ima nalog na OPAC-u i email je uspesno poslat za naslov: " + book.getTitle());
+            log.info("(sendEmail) - član: " + member.get_id() + " ima nalog na OPAC-u i email je uspesno poslat za naslov: " + book.getTitle());
 
         }
 
         if (!emailSent) {
-            log.info("(sendEmail) - clan nema nalog na OPAC-u: " + member.get_id() + " i email nije poslat za naslov: " + book.getTitle());
+            log.info("(sendEmail) - član nema nalog na OPAC-u: " + member.get_id() + " i email nije poslat za naslov: " + book.getTitle());
         }
 
         return emailSent;
     }
 
     public ReservationInQueue getFirstByLocation(Record record, String locationCode) {
+        log.info("(getFirstByLocation) - record: " + record.get_id() + ", location code: " + locationCode);
+
         if (record.getReservations() != null && record.getReservations().size() > 0) {
             for (ReservationInQueue reservationInQueue : record.getReservations()) {
                 if (reservationInQueue.getCoderId().equals(locationCode)) {
+                    log.info("(getFirstByLocation) - postoji rezervacija za zapis: " + record.get_id() + ", za korisnika: " + reservationInQueue.getUserId());
                     return reservationInQueue;
                 }
             }

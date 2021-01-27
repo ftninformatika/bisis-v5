@@ -120,10 +120,10 @@ public class UserManager {
         CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
         try {
             ReservationDTO nextReservation = BisisApp.bisisService.getNextReservation(currentReservation).execute().body();
-            log.info("Get next reservation - Rezervacija za primerak: " + ctlgNo + " je obrisana korisniku: " + userId);
+            log.info("(getNextReservation) - Rezervacija za primerak: " + ctlgNo + " je obrisana korisniku: " + userId);
             if (nextReservation != null) {
-                log.info("Get next reservation - Prihvacena je rezervacija za primerak: " + nextReservation.getCtlgNo() +
-                        " za korisnika: " + nextReservation.getUserId());
+                log.info("(getNextReservation) - dobavljana je sledeća rezervacija za primerak: " + nextReservation.getCtlgNo() +
+                        ", ubačena je u listu za štampanje, i glasi na korisnika: " + nextReservation.getUserId());
                 this.reservationsForPrint.add(nextReservation);
                 return nextReservation;
             }

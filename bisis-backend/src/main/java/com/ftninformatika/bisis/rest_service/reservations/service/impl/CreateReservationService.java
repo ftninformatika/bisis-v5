@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CreateReservationService implements CreateReservationServiceInterface {
-    private Logger log = Logger.getLogger(CreateReservationServiceInterface.class);
+    private Logger log = Logger.getLogger(CreateReservationService.class);
 
     @Autowired
     LibraryMemberRepository libraryMemberRepository;
@@ -177,6 +177,8 @@ public class CreateReservationService implements CreateReservationServiceInterfa
     }
 
     private Reservation createNewReservation(Member member, Record record, String coderId) {
+        log.info("(createNewReservation) - kreiranje rezervacije");
+
         ReservationInQueue reservationInQueue = addToQueue(member, record, coderId);
         addToMembersList(member, record, coderId, reservationInQueue);
         return reservationInQueue;
@@ -184,6 +186,9 @@ public class CreateReservationService implements CreateReservationServiceInterfa
 
     private void addToMembersList(Member member, Record record, String coderId,
                                   ReservationInQueue reservationInQueue) {
+        log.info("(addToMembersList) - rezervacija za zapis: " + record.get_id() + ", na lokaciji: " + coderId +
+                ", je stavljena u listu kod člana: " + member.getUserId());
+
         ReservationOnProfile reservationOnProfile = new ReservationOnProfile();
         reservationOnProfile.set_id(String.valueOf(new ObjectId()));
         reservationOnProfile.setReservationDate(reservationInQueue.getReservationDate());
@@ -194,12 +199,12 @@ public class CreateReservationService implements CreateReservationServiceInterfa
 
         member.appendReservation(reservationOnProfile);
         memberRepository.save(member);
-
-        log.info("(addToMembersList) - rezervacija za zapis: " + record.get_id() + ", na lokaciji: " + coderId +
-                ", je stavljena u listu kod člana: " + member.getUserId());
     }
 
     private ReservationInQueue addToQueue(Member member, Record record, String coderId) {
+        log.info("(addToQueue) - rezervacija je kreirana za zapis: " + record.get_id() + ", na lokaciji: " + coderId +
+                ", za člana: " + member.getUserId());
+
         ReservationInQueue reservationInQueue = new ReservationInQueue();
         reservationInQueue.set_id(String.valueOf(new ObjectId()));
         reservationInQueue.setReservationDate(new Date());
@@ -208,10 +213,6 @@ public class CreateReservationService implements CreateReservationServiceInterfa
 
         record.appendReservation(reservationInQueue);
         recordsRepository.save(record);
-
-        log.info("(addToQueue) - rezervacija je kreirana za zapis: " + record.get_id() + ", na lokaciji: " + coderId +
-                ", za clana: " + member.getUserId());
-
         return reservationInQueue;
     }
 }
