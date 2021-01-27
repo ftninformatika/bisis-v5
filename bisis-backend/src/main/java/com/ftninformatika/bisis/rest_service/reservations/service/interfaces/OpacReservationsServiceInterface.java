@@ -9,9 +9,9 @@ import java.util.List;
  * @author marijakovacevic
  */
 public interface OpacReservationsServiceInterface {
-    List<ReservationDTO> getReservationsByUser(String library, String authToken);
+    List<ReservationDTO> getReservationsByUser(String library, String memberNo);
 
-    Boolean deleteReservation(String authToken, String reservationId);
+    Boolean deleteReservation(String memberNo, String reservationId);
 
     Boolean isReservationsQueueEmpty(String ctlgNo);
 }

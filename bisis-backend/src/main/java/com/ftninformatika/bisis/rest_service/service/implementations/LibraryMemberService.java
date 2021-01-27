@@ -280,5 +280,4 @@ public class LibraryMemberService {
         Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
         return member.orElse(null);
     }
-
 }

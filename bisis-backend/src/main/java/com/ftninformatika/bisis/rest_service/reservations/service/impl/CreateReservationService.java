@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -71,8 +72,9 @@ public class CreateReservationService implements CreateReservationServiceInterfa
     LibraryMemberService libraryMemberService;
 
     @Override
-    public Object reserveBook(String authToken, String library, String record_id, String coderId) {
-        Member member = libraryMemberService.checkIfMemberExists(authToken);
+    @Transactional
+    public Object reserveBook(String memberNo, String library, String record_id, String coderId) {
+        Member member = memberRepository.getMemberByUserId(memberNo);
         if (member == null) return ReservationsConstants.UNKNOWNMEMBER;
 
         String alreadyReservedByMember = checkIfBookReserved(record_id, member);

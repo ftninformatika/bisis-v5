@@ -8,3 +8,5 @@ include 'bisis-books-common-merger'
 include 'bisis-inventory'
 include 'bisis-authentication'
 include 'bisis-ris'
+include 'bisis-nabavka'
+

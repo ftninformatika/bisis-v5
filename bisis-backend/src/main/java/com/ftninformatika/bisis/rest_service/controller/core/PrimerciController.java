@@ -5,7 +5,10 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.OpacReservationsServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public class PrimerciController {
 
     @Autowired private RecordsRepository recordsRepository;
     @Autowired private MemberController memberController;
+    @Autowired private OpacReservationsServiceInterface opacReservationsService;
 
     @RequestMapping( value = "/lendPrimerak", method = RequestMethod.GET)
     public Record lendPrimerak(@RequestParam (value = "ctlgNo") String ctlgNo, @RequestParam (value = "memberId") String memberId){
@@ -38,6 +42,13 @@ public class PrimerciController {
 
         return retVal;
     }
+
+    @GetMapping(value = "/is-prolongable/{ctlgNo}")
+    public ResponseEntity<Boolean> isProlongable(@PathVariable("ctlgNo") String ctlgNo) {
+        boolean isProlongable = opacReservationsService.isReservationsQueueEmpty(ctlgNo);
+        return new ResponseEntity<>(isProlongable, HttpStatus.OK);
+    }
+
 
     @RequestMapping( method = RequestMethod.GET )
     public List<Primerak> getPrimerci(){

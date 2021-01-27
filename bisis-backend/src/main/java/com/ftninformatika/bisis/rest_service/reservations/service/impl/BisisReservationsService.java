@@ -192,7 +192,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         // if there are reservations to delete, delete them
         cancelReservations(reservationsToCancel, member);
 
-        // if there are books for reservation, reserve them
+        // if there are books to reserve, reserve them
         HashMap<String, String> reservationsResult = new HashMap<>();
         if (books != null && !books.isEmpty()) {
             for (Map.Entry<String, String> pair : books.entrySet()) {
@@ -271,11 +271,11 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                 // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
             } else if (r.getRecord_id().equals(record.get_id()) && !r.isBookPickedUp()
                     && r.getCoderId().equals(locationCode)) {
-                iter.remove();
-                deleteFirstInQueue(record, locationCode);
-
                 log.info("(deleteExpiredReservation) - knjiga nije dodeljena. Brise se iz liste clana: "
                         + currentAssigned.get_id() + " i iz liste u okviru zapisa: " + record.get_id());
+
+                iter.remove();
+                deleteFirstInQueue(record, locationCode);
             }
             memberRepository.save(currentAssigned);
         }

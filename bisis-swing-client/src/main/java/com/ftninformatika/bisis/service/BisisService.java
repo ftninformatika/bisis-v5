@@ -122,6 +122,9 @@ public interface BisisService {
     @GET("reservations/{recordId}")
     Call<List<ReservationInQueueDTO>> getReservationsByRecord(@Path("recordId") String recordId);
 
+    @GET("primerci/is-prolongable/{ctlgNo}")
+    Call<Boolean> isProlongable(@Path("ctlgNo") String ctlgNo);
+
 //librarians------------------------------------------------------------
     // sa servera se ucitavaju LibrarianDB objekti, a u aplikaciji se po potrebi
     // kreiraju Librarian objekti koji imaju ucitane delove formata iz fajla

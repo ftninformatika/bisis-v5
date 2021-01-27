@@ -142,6 +142,18 @@ public class RecordsManager {
 
     }
 
+    public Boolean checkIfResumePossible(String ctlgno) {
+        log.info("(checkIfResumePossible) Provera da li postoje rezervacije za primerak: " + ctlgno);
+        Boolean isProlongable = true;
+        try {
+            isProlongable = BisisApp.bisisService.isProlongable(ctlgno).execute().body();
+        } catch (IOException e) {
+            log.error(e);
+            e.printStackTrace();
+        }
+        return isProlongable;
+    }
+
     public String getErrorMessage() {
         String message = "";
         if (primerak == null && sveska == null) {

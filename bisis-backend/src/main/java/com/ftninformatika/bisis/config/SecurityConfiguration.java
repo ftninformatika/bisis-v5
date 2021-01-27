@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-               // .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(
                         "/book",
                         "/inventory/**",
@@ -72,15 +72,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/coders/sublocation/**",
                         "/coders/item_status**",
                         "/coders/sublocation/get_by_location**",
-                        "/librarians/**",
-                        "/reservations/**").permitAll()
+                        "/librarians/**").permitAll()
                 .antMatchers(
                         "/members_repository/**",
                         "/circ_report/**",
                         "/library_members/**",
                         "/members/active_lendings/**",
                         "/members/lending_history/**",
-                        "/records/rate_record/**"
+                        "/records/rate_record/**",
+                        "/reservations/**"
                 )
                 .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers(

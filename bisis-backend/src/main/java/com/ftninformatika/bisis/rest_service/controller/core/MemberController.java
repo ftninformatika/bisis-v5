@@ -105,6 +105,7 @@ public class MemberController {
                     memberData.setMember(memberRep.save(memberData.getMember()));
                 }
 
+                // update reservations (created and/or deleted reservations) from member's profile from BISIS
                 HashMap<String, String> reservationsResult = reservationsService.updateReservations(library, memberData.getBooksToReserve(),
                         memberData.getReservationsToDelete(), memberData.getMember());
 

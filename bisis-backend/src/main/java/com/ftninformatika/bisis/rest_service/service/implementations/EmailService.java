@@ -146,7 +146,8 @@ public class EmailService {
             Map<String, Object> root = new HashMap<>();
             root.put("dear", StringUtils.convertToHtmlUtf8(Texts.getString("OPAC.WELCOME.MAIL.DEAR")));
 
-            String body1 = MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.1"), LatCyrUtils.toCyrillic(bookTitle));
+            String body1 = MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.1"),
+                    "\"" + LatCyrUtils.toCyrillic(bookTitle) + "\"");
             root.put("body1", StringUtils.convertToHtmlUtf8(body1));
             root.put("body2", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.2")));
 
@@ -156,6 +157,8 @@ public class EmailService {
             root.put("opac", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_OPAC_LINK_TITLE")));
             root.put("websiteUrl", websiteUrl);
             root.put("body5", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.5")));
+            root.put("body6", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.6")));
+            root.put("body7", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.7")));
 
             Template t = fmConfig.getTemplate("opac-reservation-template.ftl");
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, root);
