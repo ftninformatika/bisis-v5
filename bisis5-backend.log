@@ -2339,3 +2339,57 @@ freemarker.core._MiscTemplateException: [... Exception message was already print
 19.01.2021. 14:30:04 INFO  [CreateReservationServiceInterface] (addToMembersList) - rezervacija za zapis: 5cda8f5888575937f5eb41cf, na lokaciji: 0101, je stavljena u listu kod člana: 00100084923
 19.01.2021. 14:30:13 INFO  [OpacReservationsService] (deleteFromMembersList) - rezervacija za zapis: 5cda8f5888575937f5eb41cf je obrisana iz liste rezervacija korisnika: 5baf849656d169f0e1dc46b2
 19.01.2021. 14:30:13 INFO  [OpacReservationsService] (deleteFromQueue) - iz zapisa: 5cda8f5888575937f5eb41cf je obrisana rezervacija korisnika: 5baf849656d169f0e1dc46b2
+27.01.2021. 15:27:51 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 15:28:11 INFO  [BisisReservationsService] (getFirstByLocation) - record: 5cf77f3b88575937f544ac68, location code: 0206
+27.01.2021. 15:28:11 INFO  [BisisReservationsService] (getFirstByLocation) - postoji rezervacija za zapis: 5cf77f3b88575937f544ac68, za korisnika: 00100143318
+27.01.2021. 15:28:17 INFO  [BisisReservationsService] (confirmReservation) - iz zapisa: 5cf77f3b88575937f544ac68 je obrisana rezervacija: 60113fd7a6fc5721fd25ef2e
+27.01.2021. 15:28:18 INFO  [BisisReservationsService] (changeStatusToAssignedBook) - u listi rezervacija korisnika: 5baf849156d169f0e1db5106 promenjen je status rezervacije sa WAITING_IN_QUEUE na ASSIGNED_BOOK i dodeljen je ctlgNo: 02000101162
+27.01.2021. 15:28:36 INFO  [BisisReservationsService] (sendEmail) - član: 5baf849156d169f0e1db5106 ima nalog na OPAC-u i email je uspesno poslat za naslov: Vrtoglave visine
+27.01.2021. 15:28:36 INFO  [BisisReservationsService] (setItemStatusReserved) - status za ia (ctlgNo: 02000101162) je promenjen na reserved=true
+27.01.2021. 15:28:51 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 15:28:52 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 15:29:13 INFO  [BisisReservationsService] (getCurrentAssignedReservation) - dobavljanje trenutno dodeljenog za ctlgNo: 02000101162
+27.01.2021. 15:29:47 INFO  [BisisReservationsService] (finishReservationProcess) - knjiga: 02000101162 je rezervisana i vrši se zaduživanje za: 5baf849156d169f0e1db5106
+27.01.2021. 15:29:47 INFO  [BisisReservationsService] (finishReservationProcess) - status za ia (ctlgNo: 02000101162) je promenjen na reserved=false
+27.01.2021. 15:29:47 INFO  [BisisReservationsService] (finishReservationProcess) - status rezervacije: 60113fd7a6fc5721fd25ef2f je postao PICKED_UP. Član za kog se zadužuje: 5baf849156d169f0e1db5106 je kreirao rezervaciju i preuzeo knjigu: 02000101162
+27.01.2021. 15:33:19 INFO  [BisisReservationsService] (getCurrentAssignedReservation) - dobavljanje trenutno dodeljenog za ctlgNo: 02000106334
+27.01.2021. 15:33:23 INFO  [BisisReservationsService] (getFirstByLocation) - record: 5beea1c8f7e24c63ee828944, location code: 0206
+27.01.2021. 15:33:23 INFO  [BisisReservationsService] (getNextReservation) - nema više rezervacija za ctlgNo: 02000106334 u biblioteci: bgb
+27.01.2021. 15:33:23 INFO  [BisisReservationsService] (setItemStatusNotReserved) - status za ia (ctlgNo: 02000106334) je promenjen na reserved=false
+27.01.2021. 15:33:41 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 15:33:43 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 15:52:28 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 15:52:30 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 15:52:47 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 16:04:04 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 16:05:03 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 16:05:04 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 16:05:32 FATAL [ReportCore          ] Не може да нађе директоријум са типовима листића
+27.01.2021. 16:05:44 INFO  [BisisReservationsService] (updateReservations) - rezervisanje knjige iz BISIS-a
+27.01.2021. 16:05:46 INFO  [CreateReservationService] (createNewReservation) - kreiranje rezervacije
+27.01.2021. 16:05:46 INFO  [CreateReservationService] (addToQueue) - rezervacija je kreirana za zapis: 5beea1c8f7e24c63ee828944, na lokaciji: 0201, za člana: 00100143318
+27.01.2021. 16:05:46 INFO  [CreateReservationService] (addToMembersList) - rezervacija za zapis: 5beea1c8f7e24c63ee828944, na lokaciji: 0201, je stavljena u listu kod člana: 00100143318
+27.01.2021. 16:06:20 INFO  [BisisReservationsService] (getReservationsForReturnedBooks)
+27.01.2021. 16:06:20 INFO  [BisisReservationsService] (getFirstByLocation) - record: 5beea1c8f7e24c63ee828944, location code: 0201
+27.01.2021. 16:06:20 INFO  [BisisReservationsService] (getFirstByLocation) - postoji rezervacija za zapis: 5beea1c8f7e24c63ee828944, za korisnika: 00100143318
+27.01.2021. 16:06:28 INFO  [BisisReservationsService] (confirmReservation) - iz zapisa: 5beea1c8f7e24c63ee828944 je obrisana rezervacija: 6011814aa6fc572783e5f6c0
+27.01.2021. 16:06:28 INFO  [BisisReservationsService] (changeStatusToAssignedBook) - u listi rezervacija korisnika: 5baf849156d169f0e1db5106 promenjen je status rezervacije sa WAITING_IN_QUEUE na ASSIGNED_BOOK i dodeljen je ctlgNo: 02000106333
+27.01.2021. 16:06:49 INFO  [BisisReservationsService] (sendEmail) - član: 5baf849156d169f0e1db5106 ima nalog na OPAC-u i email je uspesno poslat za naslov: Soba za snove
+27.01.2021. 16:06:50 INFO  [BisisReservationsService] (setItemStatusReserved) - status za ia (ctlgNo: 02000106333) je promenjen na reserved=true
+27.01.2021. 16:07:12 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 16:07:13 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 16:07:47 INFO  [BisisReservationsService] (getCurrentAssignedReservation) - dobavljanje trenutno dodeljenog za ctlgNo: 02000106333
+27.01.2021. 16:07:58 INFO  [BisisReservationsService] (getNextReservation) - provera da li postoji još rezervacija za: 02000106333 u biblioteci: bgb
+27.01.2021. 16:07:58 INFO  [BisisReservationsService] (deleteExpiredReservation) - brisanje trenutne rezervacije
+27.01.2021. 16:08:26 INFO  [BisisReservationsService] (deleteExpiredReservation) - knjiga je dodeljena, ali je član nije preuzeo. Briše se iz liste člana: 5baf849156d169f0e1db5106
+27.01.2021. 16:08:26 INFO  [BisisReservationsService] (getReservationsForReturnedBooks)
+27.01.2021. 16:08:26 INFO  [BisisReservationsService] (getFirstByLocation) - record: 5beea1c8f7e24c63ee828944, location code: 0201
+27.01.2021. 16:08:26 INFO  [BisisReservationsService] (getNextReservation) - nema više rezervacija za ctlgNo: 02000106333 u biblioteci: bgb
+27.01.2021. 16:08:26 INFO  [BisisReservationsService] (setItemStatusNotReserved) - status za ia (ctlgNo: 02000106333) je promenjen na reserved=false
+27.01.2021. 16:09:32 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 16:09:33 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 16:10:40 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 16:10:41 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100143318
+27.01.2021. 16:10:44 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100143318
+27.01.2021. 16:11:09 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00100102695
+27.01.2021. 16:11:28 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00100102695
