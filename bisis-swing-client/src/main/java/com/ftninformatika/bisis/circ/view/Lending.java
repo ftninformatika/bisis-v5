@@ -323,17 +323,24 @@ public class Lending {
                             }
                         }
                         // if there are reservations for the book, forbid prolonging
+                        StringBuilder message = new StringBuilder(Messages.getString("circulation.prolongingnotallowed"));
+                        boolean prolongingPossible = true;
                         for (int i = 0; i < modelrows.length; i++) {
-                            boolean isProlongingPossible = Cirkulacija.getApp().getRecordsManager().checkIfResumePossible((String) getTableModel().getValueAt(modelrows[i], 0));
-                            if (!isProlongingPossible) {
-                                String title = getTableModel().titles.get(modelrows[i]);
-                                String message = MessageFormat.format(Messages.getString("circulation.prolongingnotallowed"),
-                                        LatCyrUtils.toCyrillic(title));
-                                JOptionPane.showMessageDialog(getPanel(), message, Messages.getString("circulation.error"),
-                                        JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-                                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-                                return;
+                            boolean bookProlongingPossible = Cirkulacija.getApp().getRecordsManager().checkIfResumePossible((String) getTableModel().getValueAt(modelrows[i], 0));
+                            if (!bookProlongingPossible) {
+                                String title = LatCyrUtils.toCyrillic(getTableModel().titles.get(modelrows[i]));
+                                message.append(" \"").append(title).append("\",");
+                                prolongingPossible = false;
                             }
+                        }
+                        if (!prolongingPossible){
+                            if (message.length() > 0) {                     // remove , from the end
+                                message.setLength(message.length() - 1);
+                            }
+                            JOptionPane.showMessageDialog(getPanel(), message.toString(), Messages.getString("circulation.error"),
+                                    JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                            return;
                         }
 
                         getTableModel().updateRows(modelrows, parent.getMmbrship().getUserCateg());
