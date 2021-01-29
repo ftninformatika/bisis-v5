@@ -332,7 +332,8 @@ public class Lending {
                                 JOptionPane.showMessageDialog(getPanel(), message, Messages.getString("circulation.error"),
                                         JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                         new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-                                return;                            }
+                                return;
+                            }
                         }
 
                         getTableModel().updateRows(modelrows, parent.getMmbrship().getUserCateg());
