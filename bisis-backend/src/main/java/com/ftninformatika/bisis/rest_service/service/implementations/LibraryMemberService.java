@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac2.dto.ProlongLendingResponseDTO;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
@@ -15,6 +16,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.reservations.service.impl.OpacReservationsService;
+import com.ftninformatika.utils.constants.ReservationsConstants;
 import com.ftninformatika.utils.date.DateUtils;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -52,17 +54,22 @@ public class LibraryMemberService {
     /**
      * Resume lending for authenticated OPAC user
      */
-    public boolean prolongLending(String authToken, String lendingId) {
-        LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
-        if (libraryMember == null || libraryMember.getIndex() == null)
-            return false;
+    public ProlongLendingResponseDTO prolongLending(String email, String lendingId) {
+        ProlongLendingResponseDTO prolongResponseDTO = new ProlongLendingResponseDTO();
+
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(email);
+        if (libraryMember == null || libraryMember.getIndex() == null){
+            prolongResponseDTO.setProlongable(false);
+            return prolongResponseDTO;
+        }
 
         Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
         Optional<Lending> lending = lendingRepository.findById(lendingId);
         if (!member.isPresent() || !lending.isPresent()
-                || lending.get().getResumeDate() != null || lending.get().getDeadline() == null)
-            return false;
-
+                || lending.get().getResumeDate() != null || lending.get().getDeadline() == null) {
+            prolongResponseDTO.setProlongable(false);
+            return prolongResponseDTO;
+        }
         UserCategory category = member.get().getUserCategory();
 
         Date deadLineDate = lending.get().getDeadline();
@@ -72,27 +79,33 @@ public class LibraryMemberService {
 
         // if there are reservations in the queue, forbid prolonging
         if (!reservationsService.isReservationsQueueEmpty(lending.get().getCtlgNo())){
-            return false;
+            prolongResponseDTO.setProlongable(false);
+            prolongResponseDTO.setMessage(ReservationsConstants.PROLONG_NOT_ALLOWED);
+            return prolongResponseDTO;
         }
 
         Lending l = lending.get();
 
-        if (prolongDate.before(today))
-            return false;
+        if (prolongDate.before(today)) {
+            prolongResponseDTO.setProlongable(false);
+            return prolongResponseDTO;
+        }
 
         if (maxDate.before(prolongDate)) {
             l.setResumeDate(new Date());
             l.setDeadline(maxDate);
             l.setLibrarianResume("member");
             lendingRepository.save(l);
-            return true;
+            prolongResponseDTO.setProlongable(true);
+            return prolongResponseDTO;
         }
 
         l.setResumeDate(new Date());
         l.setDeadline(prolongDate);
         l.setLibrarianResume("member");
         lendingRepository.save(l);
-        return true;
+        prolongResponseDTO.setProlongable(true);
+        return prolongResponseDTO;
     }
 
     /**

@@ -81,7 +81,7 @@ public class ReservationsManager {
         if (memberData.getBooksToReserve() != null) {
             for (String record_id : memberData.getBooksToReserve().keySet()) {
                 String reservationStatus = memberData.getBooksToReserve().get(record_id);
-                if (reservationStatus.equals(ReservationsConstants.NORESERVATION)) {
+                if (reservationStatus.equals(ReservationsConstants.NO_RESERVATION)) {
                     String naslovKnjige = "";
                     try {
                         Record record = BisisApp.getRecordManager().getRecord(record_id);

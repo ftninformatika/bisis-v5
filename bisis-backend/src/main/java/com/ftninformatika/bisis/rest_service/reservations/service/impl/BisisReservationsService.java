@@ -249,8 +249,8 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     }
 
     private String getReservationResult(Object reservation) {
-        if (reservation.equals(ReservationsConstants.NORESERVATION)) {
-            return ReservationsConstants.NORESERVATION;
+        if (reservation.equals(ReservationsConstants.NO_RESERVATION)) {
+            return ReservationsConstants.NO_RESERVATION;
         } else {
             return ReservationsConstants.SUCCESS;
         }

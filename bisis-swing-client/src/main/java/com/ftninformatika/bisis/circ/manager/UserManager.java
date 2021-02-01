@@ -101,7 +101,7 @@ public class UserManager {
 
     /**
      * This method is called when the librarian clicks on the button in the tree view to display reservation info
-     * (Prilaži button)
+     * (Prikaži button)
      */
     public ReservationDTO getCurrentReservationByPrimerak(String ctlgNo, String userId) {
         this.reservationsForPrint = new ArrayList<>();
