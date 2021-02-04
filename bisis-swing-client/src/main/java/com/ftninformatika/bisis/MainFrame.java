@@ -64,7 +64,7 @@ public class MainFrame extends JFrame {
             desktop.add(get992bFrame());
             desktop.add(getStatusFrame());
             desktop.add(getFormatFrame());
-            desktop.add(getUnlockFrame());
+//            desktop.add(getUnlockFrame());
             desktop.add(getCountersFrame());
             desktop.add(getSearchAdvancedFrame());
         }
@@ -280,18 +280,18 @@ public class MainFrame extends JFrame {
         return statusnaLinija;
     }
 
-    public JInternalFrame getUnlockFrame(){
-        if(unlockFrame == null){
-            unlockFrame =  new JFXInternalFrame(Messages.getString("MAINFRAME_UNLOCK_TITLE"),
-                    "/fx/unlock/unlockFrame.fxml",
-                    "/fx/unlock/css/unlockFrame.css",null);
-            unlockFrame.setResizable(false);
-            unlockFrame.setMaximizable(false);
-            unlockFrame.setSize(420, 250);
-            unlockFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        }
-        return unlockFrame;
-    }
+//    public JInternalFrame getUnlockFrame(){
+//        if(unlockFrame == null){
+//            unlockFrame =  new JFXInternalFrame(Messages.getString("MAINFRAME_UNLOCK_TITLE"),
+//                    "/fx/unlock/unlockFrame.fxml",
+//                    "/fx/unlock/css/unlockFrame.css",null);
+//            unlockFrame.setResizable(false);
+//            unlockFrame.setMaximizable(false);
+//            unlockFrame.setSize(420, 250);
+//            unlockFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+//        }
+//        return unlockFrame;
+//    }
 
     public void selectNextInternalFrame(){
         desktop.selectFrame(true);

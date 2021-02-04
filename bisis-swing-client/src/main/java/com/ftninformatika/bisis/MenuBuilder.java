@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.bisis.report.ReportMenuBuilder;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.utils.Messages;
+import com.ftninformatika.bisis.admin.unlock.UnlockFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -107,11 +108,11 @@ public class MenuBuilder extends JMenuBar {
     private CoderFrame organizationFrame = null;
     private CoderFrame placesFrame = null;
     private CoderFrame warnCountersFrame = null;
-    private JFrame unlockFrame = null;
     private MmbrshipCoder mmbrshipFrame = null;
     private WarningsFrame warningsFrame = null;
     private OptionsMainFrame optionsFrame = null;
     private SearchAdvancedFrame searchAdvancedFrame = null;
+    private UnlockFrame unlockFrame = null;
 
     public MenuBuilder(Librarian lib) {
         super();
@@ -302,12 +303,13 @@ public class MenuBuilder extends JMenuBar {
             miUnlock = new JMenuItem(Messages.getString("MENUBUILDER_UNLOCK"));
             miUnlock.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getUnlockFrame().setVisible(true);
+                    getUnclockFrame().setVisible(true);
                 }
             });
         }
         return miUnlock;
     }
+
 
 
     private JMenu getMObradaReport() {
@@ -1027,6 +1029,14 @@ public class MenuBuilder extends JMenuBar {
             BisisApp.getMainFrame().insertFrame(searchAdvancedFrame);
         }
         return searchAdvancedFrame;
+    }
+
+    public UnlockFrame getUnclockFrame() {
+        if (unlockFrame == null) {
+            unlockFrame = new UnlockFrame();
+            BisisApp.getMainFrame().insertFrame(unlockFrame);
+        }
+        return unlockFrame;
     }
 
 }
