@@ -61,7 +61,7 @@ public class UnlockFrame extends JInternalFrame {
     private JLabel getImageLbl() {
         if (imageLbl == null) {
             imageLbl = new JLabel();
-            imageLbl.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/fx/unlock/img/unlock.png"))
+            imageLbl.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/icons/unlock/unlock.png"))
                     .getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
         }
         return imageLbl;
@@ -71,7 +71,7 @@ public class UnlockFrame extends JInternalFrame {
         if (unlockRecord == null) {
             unlockRecord = new JButton();
             unlockRecord.setText(Messages.getString("UNLOCK_RECORD"));
-            unlockRecord.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/fx/unlock/img/record.png"))
+            unlockRecord.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/icons/unlock/record.png"))
                     .getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)));
             unlockRecord.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -86,7 +86,7 @@ public class UnlockFrame extends JInternalFrame {
         if (unlockMember == null) {
             unlockMember = new JButton();
             unlockMember.setText(Messages.getString("UNLOCK_MEMBER"));
-            unlockMember.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/fx/unlock/img/member.png"))
+            unlockMember.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/icons/unlock/member.png"))
                     .getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)));
             unlockMember.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
