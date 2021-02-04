@@ -26,16 +26,16 @@ public class UnlockFrame extends JInternalFrame {
     private JLabel imageLbl = null;
 
     public UnlockFrame() {
-        super(Messages.getString("MAINFRAME_UNLOCK_TITLE"), true, true, false, true);
+        super(Messages.getString("MAINFRAME_UNLOCK_TITLE"), false, true, false, true);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setSize(650, 250);
+        setSize(620, 220);
 
         this.initialize();
     }
 
     private void initialize() {
         JPanel panel = new JPanel();
-        MigLayout layout = new MigLayout("", "[center] 10 [center] 10 [center]", "[] [] [] []");
+        MigLayout layout = new MigLayout("", "[center] [center] [center]", "[] [] [] []");
         panel.setLayout(layout);
 
         JLabel lockUnlockLbl = new JLabel(Messages.getString("UNLOCK_FRAME_LABEL"));
@@ -62,7 +62,7 @@ public class UnlockFrame extends JInternalFrame {
         if (imageLbl == null) {
             imageLbl = new JLabel();
             imageLbl.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/fx/unlock/img/unlock.png"))
-                    .getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT)));
+                    .getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
         }
         return imageLbl;
     }
@@ -71,7 +71,8 @@ public class UnlockFrame extends JInternalFrame {
         if (unlockRecord == null) {
             unlockRecord = new JButton();
             unlockRecord.setText(Messages.getString("UNLOCK_RECORD"));
-            unlockRecord.setIcon(new ImageIcon(getClass().getResource("/fx/unlock/img/record.png")));
+            unlockRecord.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/fx/unlock/img/record.png"))
+                    .getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)));
             unlockRecord.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     clkRecord();
@@ -85,7 +86,8 @@ public class UnlockFrame extends JInternalFrame {
         if (unlockMember == null) {
             unlockMember = new JButton();
             unlockMember.setText(Messages.getString("UNLOCK_MEMBER"));
-            unlockMember.setIcon(new ImageIcon(getClass().getResource("/fx/unlock/img/member.png")));
+            unlockMember.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/fx/unlock/img/member.png"))
+                    .getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)));
             unlockMember.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     clkMember();
@@ -227,5 +229,14 @@ public class UnlockFrame extends JInternalFrame {
             e.printStackTrace();
             return "";
         }
+    }
+        public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.setMinimumSize(new Dimension(640, 480));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Add the Swing JPanel and make visible
+        frame.getContentPane().add(new UnlockFrame());
+        frame.setVisible(true);
     }
 }
