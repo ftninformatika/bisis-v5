@@ -54,7 +54,7 @@ public class LibraryMemberService {
     /**
      * Resume lending for authenticated OPAC user
      */
-    public ProlongLendingResponseDTO prolongLending(String email, String lendingId) {
+    public ProlongLendingResponseDTO prolongLending(String library, String email, String lendingId) {
         ProlongLendingResponseDTO prolongResponseDTO = new ProlongLendingResponseDTO();
 
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(email);
@@ -78,7 +78,7 @@ public class LibraryMemberService {
         Date maxDate = DateUtils.incDecDays(deadLineDate, category.getMaxPeriod());
 
         // if there are reservations in the queue, forbid prolonging
-        if (!reservationsService.isReservationsQueueEmpty(lending.get().getCtlgNo())){
+        if (reservationsService.isReservationPresentOnLocation(library, lending.get().getCtlgNo())){
             prolongResponseDTO.setProlongable(false);
             prolongResponseDTO.setMessage(ReservationsConstants.PROLONG_NOT_ALLOWED);
             return prolongResponseDTO;

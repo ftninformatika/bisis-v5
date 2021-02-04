@@ -44,8 +44,8 @@ public class PrimerciController {
     }
 
     @GetMapping(value = "/is-prolongable/{ctlgNo}")
-    public ResponseEntity<Boolean> isProlongable(@PathVariable("ctlgNo") String ctlgNo) {
-        boolean isProlongable = opacReservationsService.isReservationsQueueEmpty(ctlgNo);
+    public ResponseEntity<Boolean> isProlongable(@RequestHeader("Library") String library, @PathVariable("ctlgNo") String ctlgNo) {
+        boolean isProlongable = opacReservationsService.isReservationPresentOnLocation(library, ctlgNo);
         return new ResponseEntity<>(isProlongable, HttpStatus.OK);
     }
 

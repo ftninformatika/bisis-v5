@@ -44,8 +44,8 @@ public class LibraryMemberController {
     @Autowired YAMLConfig yamlConfig;
 
     @PostMapping("/prolong_lending")
-    public ResponseEntity<ProlongLendingResponseDTO> prolongLending(@RequestBody ProlongLendingRequestDTO requestDTO) {
-        ProlongLendingResponseDTO prolongDTO = libraryMemberService.prolongLending(requestDTO.getEmail(), requestDTO.getLendingId());
+    public ResponseEntity<ProlongLendingResponseDTO> prolongLending(@RequestHeader("Library") String lib, @RequestBody ProlongLendingRequestDTO requestDTO) {
+        ProlongLendingResponseDTO prolongDTO = libraryMemberService.prolongLending(lib, requestDTO.getEmail(), requestDTO.getLendingId());
         return new ResponseEntity<>(prolongDTO, HttpStatus.OK);
     }
 

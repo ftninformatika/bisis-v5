@@ -327,7 +327,7 @@ public class Lending {
                         boolean prolongingPossible = true;
                         for (int i = 0; i < modelrows.length; i++) {
                             boolean bookProlongingPossible = Cirkulacija.getApp().getRecordsManager().checkIfResumePossible((String) getTableModel().getValueAt(modelrows[i], 0));
-                            if (!bookProlongingPossible) {
+                            if (bookProlongingPossible) {
                                 String title = LatCyrUtils.toCyrillic(getTableModel().titles.get(modelrows[i]));
                                 message.append(" \"").append(title).append("\",");
                                 prolongingPossible = false;

@@ -13,5 +13,5 @@ public interface OpacReservationsServiceInterface {
 
     Boolean deleteReservation(String memberNo, String reservationId);
 
-    Boolean isReservationsQueueEmpty(String ctlgNo);
+    Boolean isReservationPresentOnLocation(String library, String ctlgNo);
 }
