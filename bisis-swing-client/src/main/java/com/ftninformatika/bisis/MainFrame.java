@@ -55,15 +55,15 @@ public class MainFrame extends JFrame {
     public void initialize(Librarian lib){
         statusnaLinija.setText(MessageFormat.format(Messages.getString("MAIN_LIBRARIAN.0"), BisisApp.appConfig.getLibrarian().getUsername()));
         if (lib.hasRole(Librarian.Role.ADMINISTRACIJA)){
-            desktop.add(getIntOznFrame());
-            desktop.add(getNacinFrame());
-            desktop.add(getOdeljenjeFrame());
-            desktop.add(getInvknjFrame());
-            desktop.add(getPodlokacijaFrame());
-            desktop.add(getPovezFrame());
-            desktop.add(get992bFrame());
-            desktop.add(getStatusFrame());
-            desktop.add(getFormatFrame());
+//            desktop.add(getIntOznFrame());
+//            desktop.add(getNacinFrame());
+//            desktop.add(getOdeljenjeFrame());
+//            desktop.add(getInvknjFrame());
+//            desktop.add(getPodlokacijaFrame());
+//            desktop.add(getPovezFrame());
+//            desktop.add(get992bFrame());
+//            desktop.add(getStatusFrame());
+//            desktop.add(getFormatFrame());
 //            desktop.add(getUnlockFrame());
             desktop.add(getCountersFrame());
             desktop.add(getSearchAdvancedFrame());
@@ -173,92 +173,92 @@ public class MainFrame extends JFrame {
         return reportChooserDlg;
     }
 
-    public JFXCoderFrame getOdeljenjeFrame(){
-        if (odeljenjeFrame == null){
-            odeljenjeFrame = new JFXCoderFrame(CodersHelper.ODELJENJE_CODER);
-            odeljenjeFrame.setResizable(false);
-            odeljenjeFrame.setMaximizable(false);
-        }
-        return odeljenjeFrame;
-    }
+//    public JFXCoderFrame getOdeljenjeFrame(){
+//        if (odeljenjeFrame == null){
+//            odeljenjeFrame = new JFXCoderFrame(CodersHelper.ODELJENJE_CODER);
+//            odeljenjeFrame.setResizable(false);
+//            odeljenjeFrame.setMaximizable(false);
+//        }
+//        return odeljenjeFrame;
+//    }
 
-    public JFXCoderFrame getIntOznFrame(){
-        if (intOznFrame == null){
-            intOznFrame = new JFXCoderFrame(CodersHelper.INTERNAOZNAKA_CODER);
-            intOznFrame.setMaximizable(false);
-            intOznFrame.setResizable(false);
-        }
-        return intOznFrame;
-    }
+//    public JFXCoderFrame getIntOznFrame(){
+//        if (intOznFrame == null){
+//            intOznFrame = new JFXCoderFrame(CodersHelper.INTERNAOZNAKA_CODER);
+//            intOznFrame.setMaximizable(false);
+//            intOznFrame.setResizable(false);
+//        }
+//        return intOznFrame;
+//    }
 
-    public JFXCoderFrame getNacinFrame(){
-        if (nacinFrame == null){
-            nacinFrame = new JFXCoderFrame(CodersHelper.NACINNABAVKE_CODER);
-            nacinFrame.setResizable(false);
-            nacinFrame.setMaximizable(false);
-        }
-        return nacinFrame;
-    }
+//    public JFXCoderFrame getNacinFrame(){
+//        if (nacinFrame == null){
+//            nacinFrame = new JFXCoderFrame(CodersHelper.NACINNABAVKE_CODER);
+//            nacinFrame.setResizable(false);
+//            nacinFrame.setMaximizable(false);
+//        }
+//        return nacinFrame;
+//    }
+//
+//    public JFXCoderFrame getPodlokacijaFrame(){
+//        if (podlokacijaFrame == null){
+//            podlokacijaFrame = new JFXCoderFrame(CodersHelper.PODLOKACIJA_CODER);
+//            podlokacijaFrame.setMaximizable(false);
+//            podlokacijaFrame.setResizable(false);
+//        }
+//        //zbog reload- a sifarnika TODO- staviti na svako mesto gde su sifarnici koji se filtriraju
+//        try {
+//            podlokacijaFrame.createScene();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        return podlokacijaFrame;
+//    }
 
-    public JFXCoderFrame getPodlokacijaFrame(){
-        if (podlokacijaFrame == null){
-            podlokacijaFrame = new JFXCoderFrame(CodersHelper.PODLOKACIJA_CODER);
-            podlokacijaFrame.setMaximizable(false);
-            podlokacijaFrame.setResizable(false);
-        }
-        //zbog reload- a sifarnika TODO- staviti na svako mesto gde su sifarnici koji se filtriraju
-        try {
-            podlokacijaFrame.createScene();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return podlokacijaFrame;
-    }
+//    public JFXCoderFrame getPovezFrame(){
+//        if (povezFrame == null){
+//            povezFrame = new JFXCoderFrame(CodersHelper.POVEZ_CODER);
+//            povezFrame.setResizable(false);
+//            povezFrame.setMaximizable(false);
+//        }
+//        return povezFrame;
+//    }
+//
+//    public JFXCoderFrame get992bFrame(){
+//        if (_992bFrame == null){
+//            _992bFrame = new JFXCoderFrame(CodersHelper.TASK_CODER);
+//            _992bFrame.setMaximizable(false);
+//            _992bFrame.setResizable(false);
+//        }
+//        return _992bFrame;
+//    }
+//
+//    public JFXCoderFrame getFormatFrame(){
+//        if (formatFrame == null){
+//            formatFrame = new JFXCoderFrame(CodersHelper.FORMAT_CODER);
+//            formatFrame.setResizable(false);
+//            formatFrame.setMaximizable(false);
+//        }
+//        return formatFrame;
+//    }
+//
+//    public JFXCoderFrame getStatusFrame(){
+//        if (statusFrame == null){
+//            statusFrame = new JFXCoderFrame(CodersHelper.STATUS_CODER);
+//            statusFrame.setMaximizable(false);
+//            statusFrame.setResizable(false);
+//        }
+//        return statusFrame;
+//    }
 
-    public JFXCoderFrame getPovezFrame(){
-        if (povezFrame == null){
-            povezFrame = new JFXCoderFrame(CodersHelper.POVEZ_CODER);
-            povezFrame.setResizable(false);
-            povezFrame.setMaximizable(false);
-        }
-        return povezFrame;
-    }
-
-    public JFXCoderFrame get992bFrame(){
-        if (_992bFrame == null){
-            _992bFrame = new JFXCoderFrame(CodersHelper.TASK_CODER);
-            _992bFrame.setMaximizable(false);
-            _992bFrame.setResizable(false);
-        }
-        return _992bFrame;
-    }
-
-    public JFXCoderFrame getFormatFrame(){
-        if (formatFrame == null){
-            formatFrame = new JFXCoderFrame(CodersHelper.FORMAT_CODER);
-            formatFrame.setResizable(false);
-            formatFrame.setMaximizable(false);
-        }
-        return formatFrame;
-    }
-
-    public JFXCoderFrame getStatusFrame(){
-        if (statusFrame == null){
-            statusFrame = new JFXCoderFrame(CodersHelper.STATUS_CODER);
-            statusFrame.setMaximizable(false);
-            statusFrame.setResizable(false);
-        }
-        return statusFrame;
-    }
-
-    public JFXCoderFrame getInvknjFrame(){
-        if (invknjFrame == null){
-            invknjFrame = new JFXCoderFrame(CodersHelper.INVENTARNAKNJIGA_CODER);
-            invknjFrame.setResizable(false);
-            invknjFrame.setMaximizable(false);
-        }
-        return invknjFrame;
-    }
+//    public JFXCoderFrame getInvknjFrame(){
+//        if (invknjFrame == null){
+//            invknjFrame = new JFXCoderFrame(CodersHelper.INVENTARNAKNJIGA_CODER);
+//            invknjFrame.setResizable(false);
+//            invknjFrame.setMaximizable(false);
+//        }
+//        return invknjFrame;
+//    }
 
     public CoderFrame getCountersFrame(){
         if (countersFrame == null){
@@ -291,16 +291,16 @@ public class MainFrame extends JFrame {
     private GrupniPrikazFrame brf=null;
 //    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
-    private JInternalFrame unlockFrame = null;
-    private JFXCoderFrame intOznFrame = null;
-    private JFXCoderFrame nacinFrame = null;
-    private JFXCoderFrame odeljenjeFrame = null;
-    private JFXCoderFrame podlokacijaFrame = null;
-    private JFXCoderFrame povezFrame = null;
-    private JFXCoderFrame _992bFrame = null;
-    private JFXCoderFrame formatFrame = null;
-    private JFXCoderFrame statusFrame = null;
-    private JFXCoderFrame invknjFrame = null;
+//    private JInternalFrame unlockFrame = null;
+//    private JFXCoderFrame intOznFrame = null;
+//    private JFXCoderFrame nacinFrame = null;
+//    private JFXCoderFrame odeljenjeFrame = null;
+//    private JFXCoderFrame podlokacijaFrame = null;
+//    private JFXCoderFrame povezFrame = null;
+//    private JFXCoderFrame _992bFrame = null;
+//    private JFXCoderFrame formatFrame = null;
+//    private JFXCoderFrame statusFrame = null;
+//    private JFXCoderFrame invknjFrame = null;
     private CoderFrame countersFrame = null;
     private SearchAdvancedFrame searchAdvancedFrame= null;
     private JTextField statusnaLinija = null;

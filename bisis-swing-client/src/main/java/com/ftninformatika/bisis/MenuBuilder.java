@@ -108,6 +108,15 @@ public class MenuBuilder extends JMenuBar {
     private CoderFrame organizationFrame = null;
     private CoderFrame placesFrame = null;
     private CoderFrame warnCountersFrame = null;
+    private CoderFrame odeljenjaFrame = null;
+    private CoderFrame invKnjFrame = null;
+    private CoderFrame formatiFrame = null;
+    private CoderFrame statusPrimerkaFrame = null;
+    private CoderFrame povezFrame = null;
+    private CoderFrame podlokacijaFrame = null;
+    private CoderFrame nacinNabavkeFrame = null;
+    private CoderFrame intOznFrame = null;
+    private CoderFrame a992bFrame = null;
     private MmbrshipCoder mmbrshipFrame = null;
     private WarningsFrame warningsFrame = null;
     private OptionsMainFrame optionsFrame = null;
@@ -118,7 +127,7 @@ public class MenuBuilder extends JMenuBar {
         super();
         if (lib.hasRole(Librarian.Role.OBRADA)) {
             this.add(getMObrada());
-        } else if (lib.hasRole(Librarian.Role.CIRKULACIJAPLUS)){
+        } else if (lib.hasRole(Librarian.Role.CIRKULACIJAPLUS)) {
             this.add(getMObradaPlus());
         } else {
             this.add(getMObradaDefault());
@@ -298,8 +307,8 @@ public class MenuBuilder extends JMenuBar {
         return mReport;
     }
 
-    private JMenuItem getMUnlock(){
-        if (miUnlock == null){
+    private JMenuItem getMUnlock() {
+        if (miUnlock == null) {
             miUnlock = new JMenuItem(Messages.getString("MENUBUILDER_UNLOCK"));
             miUnlock.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -309,7 +318,6 @@ public class MenuBuilder extends JMenuBar {
         }
         return miUnlock;
     }
-
 
 
     private JMenu getMObradaReport() {
@@ -619,7 +627,7 @@ public class MenuBuilder extends JMenuBar {
             miOdeljenja = new JMenuItem(Messages.getString("MENU_LOCATIONS"));
             miOdeljenja.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getOdeljenjeFrame().setVisible(true);
+                    getOdeljenjaFrame().setVisible(true);
                 }
             });
         }
@@ -631,7 +639,7 @@ public class MenuBuilder extends JMenuBar {
             miInvknj = new JMenuItem(Messages.getString("INV_BOOK"));
             miInvknj.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getInvknjFrame().setVisible(true);
+                    getInvKnjFrame().setVisible(true);
                 }
             });
         }
@@ -643,7 +651,7 @@ public class MenuBuilder extends JMenuBar {
             miFormati = new JMenuItem(Messages.getString("MENU_FORMATS"));
             miFormati.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getFormatFrame().setVisible(true);
+                    getFormatiFrame().setVisible(true);
                 }
             });
         }
@@ -655,7 +663,7 @@ public class MenuBuilder extends JMenuBar {
             miStatus = new JMenuItem(Messages.getString("MENU_ITEM_STATUS"));
             miStatus.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getStatusFrame().setVisible(true);
+                    getStatusPrimerkaFrame().setVisible(true);
                 }
             });
         }
@@ -667,23 +675,11 @@ public class MenuBuilder extends JMenuBar {
             miPovez = new JMenuItem(Messages.getString("MENU_BINDING"));
             miPovez.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getPovezFrame().setVisible(true);
+                    getPovezFrame().setVisible(true);
                 }
             });
         }
         return miPovez;
-    }
-
-    private JMenuItem getMi992b() {
-        if (mi992b == null) {
-            mi992b = new JMenuItem(Messages.getString("MENU_ACTIONS"));
-            mi992b.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().get992bFrame().setVisible(true);
-                }
-            });
-        }
-        return mi992b;
     }
 
     private JMenuItem getMiPodlokacija() {
@@ -691,7 +687,7 @@ public class MenuBuilder extends JMenuBar {
             miPodlokacija = new JMenuItem(Messages.getString("MENU_SUBLOCATIONS"));
             miPodlokacija.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getPodlokacijaFrame().setVisible(true);
+                    getPodlokacijaFrame().setVisible(true);
                 }
             });
         }
@@ -703,23 +699,36 @@ public class MenuBuilder extends JMenuBar {
             miNacin = new JMenuItem(Messages.getString("MENU_ACQ_TYPE"));
             miNacin.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getNacinFrame().setVisible(true);
+                    getNacinFrame().setVisible(true);
                 }
             });
         }
         return miNacin;
     }
 
+
     private JMenuItem getMiIntOzn() {
         if (miIntOzn == null) {
             miIntOzn = new JMenuItem(Messages.getString("INTERNAL_MARK"));
             miIntOzn.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getIntOznFrame().setVisible(true);
+                    getIntOznFrame().setVisible(true);
                 }
             });
         }
         return miIntOzn;
+    }
+
+    private JMenuItem getMi992b() {
+        if (mi992b == null) {
+            mi992b = new JMenuItem(Messages.getString("MENU_ACTIONS"));
+            mi992b.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    getAkcija992bFrame().setVisible(true);
+                }
+            });
+        }
+        return mi992b;
     }
 
     private JMenuItem getMiBrojaci() {
@@ -1037,6 +1046,78 @@ public class MenuBuilder extends JMenuBar {
             BisisApp.getMainFrame().insertFrame(unlockFrame);
         }
         return unlockFrame;
+    }
+
+    private CoderFrame getOdeljenjaFrame() {
+        if (odeljenjaFrame == null) {
+            odeljenjaFrame = new CoderFrame(TableCatalog.getTable("Odeljenje"));
+            BisisApp.getMainFrame().insertFrame(odeljenjaFrame);
+        }
+        return odeljenjaFrame;
+    }
+
+    private CoderFrame getInvKnjFrame() {
+        if (invKnjFrame == null) {
+            invKnjFrame = new CoderFrame(TableCatalog.getTable("Invknj"));
+            BisisApp.getMainFrame().insertFrame(invKnjFrame);
+        }
+        return invKnjFrame;
+    }
+
+    private CoderFrame getFormatiFrame() {
+        if (formatiFrame == null) {
+            formatiFrame = new CoderFrame(TableCatalog.getTable("SigFormat"));
+            BisisApp.getMainFrame().insertFrame(formatiFrame);
+        }
+        return formatiFrame;
+    }
+
+    private CoderFrame getStatusPrimerkaFrame() {
+        if (statusPrimerkaFrame == null) {
+            statusPrimerkaFrame = new CoderFrame(TableCatalog.getTable("Status_Primerka"));
+            BisisApp.getMainFrame().insertFrame(statusPrimerkaFrame);
+        }
+        return statusPrimerkaFrame;
+    }
+
+    private CoderFrame getPovezFrame() {
+        if (povezFrame == null) {
+            povezFrame = new CoderFrame(TableCatalog.getTable("Povez"));
+            BisisApp.getMainFrame().insertFrame(povezFrame);
+        }
+        return povezFrame;
+    }
+
+    private CoderFrame getPodlokacijaFrame() {
+        if (podlokacijaFrame == null) {
+            podlokacijaFrame = new CoderFrame(TableCatalog.getTable("Podlokacija"));
+            BisisApp.getMainFrame().insertFrame(podlokacijaFrame);
+        }
+        return podlokacijaFrame;
+    }
+
+    private CoderFrame getNacinFrame() {
+        if (nacinNabavkeFrame == null) {
+            nacinNabavkeFrame = new CoderFrame(TableCatalog.getTable("Nacin_nabavke"));
+            BisisApp.getMainFrame().insertFrame(nacinNabavkeFrame);
+        }
+        return nacinNabavkeFrame;
+    }
+
+    private CoderFrame getIntOznFrame() {
+        if (intOznFrame == null) {
+            intOznFrame = new CoderFrame(TableCatalog.getTable("Interna_oznaka"));
+            BisisApp.getMainFrame().insertFrame(intOznFrame);
+        }
+        return intOznFrame;
+    }
+
+    private CoderFrame getAkcija992bFrame() {
+        if (a992bFrame == null) {
+            a992bFrame = new CoderFrame(TableCatalog.getTable("Task"));
+            BisisApp.getMainFrame().insertFrame(a992bFrame);
+        }
+        return a992bFrame;
     }
 
 }
