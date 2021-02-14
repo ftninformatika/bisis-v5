@@ -44,10 +44,10 @@ public enum EnumSortByInvUnit {
             case "PUBLISHER_DESC": return Sort.by(Sort.Direction.DESC, "publisher");
             case "PUB_YEAR_ASC": return Sort.by(Sort.Direction.ASC, "pubYear");
             case "PUB_YEAR_DESC": return Sort.by(Sort.Direction.DESC, "pubYear");
-            case "ITEM_STATUS_ASC": return Sort.by(Sort.Direction.ASC, "itemStatus");
-            case "ITEM_STATUS_DESC": return Sort.by(Sort.Direction.DESC, "itemStatus");
-            case "INVENTORY_STATUS_ASC": return Sort.by(Sort.Direction.ASC, "inventoryStatus");
-            case "INVENTORY_STATUS_DESC": return Sort.by(Sort.Direction.DESC, "inventoryStatus");
+            case "ITEM_STATUS_ASC": return Sort.by(Sort.Direction.ASC, "itemStatusCoderId");
+            case "ITEM_STATUS_DESC": return Sort.by(Sort.Direction.DESC, "itemStatusCoderId");
+            case "INVENTORY_STATUS_ASC": return Sort.by(Sort.Direction.ASC, "inventoryStatusCoderId");
+            case "INVENTORY_STATUS_DESC": return Sort.by(Sort.Direction.DESC, "inventoryStatusCoderId");
             case "DATE_ASC": return Sort.by(Sort.Direction.ASC, "date");
             case "DATE_DESC": return Sort.by(Sort.Direction.DESC, "date");
             default: return null;

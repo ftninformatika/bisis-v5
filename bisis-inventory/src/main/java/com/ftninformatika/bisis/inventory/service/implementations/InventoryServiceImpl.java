@@ -3,8 +3,6 @@ package com.ftninformatika.bisis.inventory.service.implementations;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.coders.ItemStatus;
-import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.inventory.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;

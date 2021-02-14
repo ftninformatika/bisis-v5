@@ -40,8 +40,11 @@ public class InvUnitSearchDTO {
             return null;
         }
         criteriaList.add(Criteria.where("inventoryId").is(this.inventoryId));
-        if(this.invNo != null  && !this.invNo.equals("")) { //todo bug
-            criteriaList.add(Criteria.where("invNo").regex(Pattern.compile("^" + this.invNo + "*")));
+        if(this.invNo != null  && !this.invNo.equals("")) {
+            if (this.invNo.contains("*")) {
+                this.invNo = this.invNo.replace("*", ".*");
+            }
+            criteriaList.add(Criteria.where("invNo").regex(Pattern.compile("^" + this.invNo + "$")));
         }
         if (this.author != null  && !this.author.equals("")) {
             criteriaList.add(Criteria.where("author").regex(Pattern.compile("^" + this.author, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
