@@ -196,15 +196,16 @@ public class ElasticUtility {
             if (sm.getText1() != null && !"".equals(sm.getText1())) {
 
                 QueryBuilder qb = buildQbForField(sm.getText1(), sm.getPref1());
-                if(qb!=null){
-                if ("AND".equals(sm.getOper1()))
-                    retVal.must(qb);
-                if ("OR".equals(sm.getOper1())) {
-                    retVal.should(qb);
-                }
-                if ("NOT".equals(sm.getOper1()))
-                    retVal.mustNot(qb);
-            }
+                retVal.must(qb);
+//                if(qb!=null){
+//                if ("AND".equals(sm.getOper1()))
+//                    retVal.must(qb);
+//                if ("OR".equals(sm.getOper1())) {
+//                    retVal.should(qb);
+//                }
+//                if ("NOT".equals(sm.getOper1()))
+//                    retVal.mustNot(qb);
+//            }
             }
 
             if (sm.getText2() != null && !"".equals(sm.getText2())) {
