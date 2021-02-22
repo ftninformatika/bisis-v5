@@ -76,6 +76,10 @@ public class InventoryServiceImpl implements InventoryService {
             inventory = inventoryRepository.insert(inventory);
             generateInventoryUnits(inventory, lib);
             inventory.setInventoryState(EnumInventoryState.IN_PROGRESS);
+            Double totalUnits = inventoryUnitRepository.countAllByInventoryId(inventory.get_id());
+            Integer numberOfNotActiveInvUnits = inventoryUnitRepository.countAllByInventoryIdAndInventoryStatusCoderId(inventory.get_id(), InventoryStatus.SPENT_OLD_INVENTORY);
+            inventory.setNumberOfInvUnits(totalUnits.intValue());
+            inventory.setNumberOfNotActiveInvUnits(numberOfNotActiveInvUnits);
             return inventoryRepository.save(inventory);
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,6 +121,8 @@ public class InventoryServiceImpl implements InventoryService {
             Double progress = getProgress(_id);
             Inventory inventory = optionalInventory.get();
             inventory.setProgress(progress);
+            Integer numberOfNotActiveInvUnits = inventoryUnitRepository.countAllByInventoryIdAndInventoryStatusCoderId(inventory.get_id(), InventoryStatus.SPENT_OLD_INVENTORY);
+            inventory.setNumberOfNotActiveInvUnits(numberOfNotActiveInvUnits);
             return inventoryRepository.save(inventory);
         }
         return null;
@@ -315,6 +321,7 @@ public class InventoryServiceImpl implements InventoryService {
     private Double getProgress(String inventoryId) {
         Double total = inventoryUnitRepository.countAllByInventoryId(inventoryId);
         Double checked = inventoryUnitRepository.countByInventoryIdAndCheckedIsTrue(inventoryId);
+
         if (checked == null || checked == 0d) {
             return 0d;
         }
@@ -387,6 +394,10 @@ public class InventoryServiceImpl implements InventoryService {
             resultdate = new Date(milliseconds);
             System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
         }
+    }
 
+    public Boolean hasGeneratingInventoryForLib(String library) {
+        Integer cnt = inventoryRepository.countAllByInventoryStateAndLibrary(EnumInventoryState.IN_PREPARATION, library);
+        return cnt > 0;
     }
 }

@@ -14,5 +14,5 @@ public interface InventoryService {
     List<Inventory> getAllForLib(String lib);
     List<Inventory> getAllForLibAndLocations(String lib, List<String> locations);
     Boolean updateLendingStatus(String  inventoryId);
-
+    Boolean hasGeneratingInventoryForLib(String library);
 }

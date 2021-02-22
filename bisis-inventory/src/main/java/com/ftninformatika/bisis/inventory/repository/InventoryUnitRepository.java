@@ -18,6 +18,7 @@ public interface InventoryUnitRepository extends MongoRepository<InventoryUnit, 
     InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
     Double countAllByInventoryId(String inventoryId);
     Double countByInventoryIdAndCheckedIsTrue(String inventoryUnit);
+    Integer countAllByInventoryIdAndInventoryStatusCoderId(String inventory_id, String inventoryStatus);
 
 //    Page<InventoryUnit> findAllByInventoryIdIsAndRevisionStatusIsIn(String inventoryId, List<InventoryStatus> itemStatuses, Pageable pageable);
 }

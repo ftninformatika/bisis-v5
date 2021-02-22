@@ -19,4 +19,5 @@ public class InventoryStatus extends Coder {
     @JsonIgnore public static final String ON_PLACE_DESC = "Na mestu";
     @JsonIgnore public static final String ON_LENDING = "3";
     @JsonIgnore public static final String ON_LENDING_L2 = "5";
+    @JsonIgnore public static final String SPENT_OLD_INVENTORY = "8"; // RASHODOVANO PRETHODNIM REVIZIJAMA
 }
