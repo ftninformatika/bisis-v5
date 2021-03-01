@@ -16,6 +16,7 @@ import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
+import com.ftninformatika.utils.RegexUtils;
 import com.ftninformatika.utils.string.Signature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -176,12 +177,23 @@ public class InventoryServiceImpl implements InventoryService {
             sublocationCriteriaList.add(c1);
             for (InventoryBook book : createdInventory.getInvBooks()) {
                 if (book.getLastNo() != null) {
-                    String firstInvNum = invLocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
-                    String lastInvNum = createInvNum(invLocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
-                    Criteria c2 = Criteria.where("primerci.invBroj").gte(firstInvNum).lte(lastInvNum);
-                    invBookCriteriaList.add(c2);
+                    String firstInvNum =  book.getCode() + "0000000";
+                    RegexUtils rrg = new RegexUtils();
+                    List<String> regexes = rrg.getRegex(firstInvNum , book.getCode() + String.valueOf(book.getLastNo()));
+
+                    //todo ne radi za bmb
+                    List<Criteria> regexCr = new ArrayList<>();
+                    Criteria c2 = new Criteria();
+                    for (String reg: regexes) {
+                        regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
+                    }
+                    Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
+                    invBookCriteriaList.add(cr);
                 } else {
-                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
+                    //todo ne radi za bmb
+                    // Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
+                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^[0-9][0-9]" + book.getCode() + ".*");
+
                     invBookCriteriaList.add(c3);
                 }
             }
