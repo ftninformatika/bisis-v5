@@ -473,7 +473,7 @@ public class OpacSearchService {
                     case "OD_showable":
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String fullVal = ee.getPrefixes().get(prefix).get(i);
-                            if (!fullVal.matches(activeStatusesRegex)) continue;
+                            if (!fullVal.matches(activeStatusesRegex) && !fullVal.matches(activeStatusesRegex.toLowerCase())) continue;
                             String val = fullVal.substring(1);
                             if (filters.getLocationByValue(val) == null) {
                                 Location l = locationMap.get(val);
@@ -489,7 +489,7 @@ public class OpacSearchService {
                     case "SL_showable": {
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String fullVal = ee.getPrefixes().get(prefix).get(i);
-                            if (!fullVal.matches(activeStatusesRegex)) continue;
+                            if (!fullVal.matches(activeStatusesRegex) && !fullVal.matches(activeStatusesRegex.toLowerCase())) continue;
                             String val = fullVal.substring(1);
                             if (val != null && val.length() > 1 && subLocationCount.get(val) != null)
                                 subLocationCount.put(val, subLocationCount.get(val) + 1);

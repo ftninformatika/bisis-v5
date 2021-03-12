@@ -289,6 +289,7 @@ public class ElasticUtility {
         String activeStatusesRegex = "";
         if (itemStatusList != null && itemStatusList.size() > 0) {
             activeStatusesRegex = "(" + itemStatusList.stream().map(ItemStatus::getCoder_id).collect(Collectors.joining("|")) + ")";
+            activeStatusesRegex = activeStatusesRegex.toLowerCase();
         }
 
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();
