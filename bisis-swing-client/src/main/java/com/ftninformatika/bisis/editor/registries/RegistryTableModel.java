@@ -165,7 +165,7 @@ public class RegistryTableModel extends AbstractTableModel {
                 rows.add(item);
             }
             dlg.progressBar.setString("сортирам");
-            sort(RegistryUtils.getLatComparator());
+            sort(RegistryUtils.getCyrComparator());
             dlg.progressBar.setVisible(false);
             dlg.getGlassPane().setVisible(false);
         }
