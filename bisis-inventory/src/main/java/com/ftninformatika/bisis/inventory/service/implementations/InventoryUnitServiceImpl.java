@@ -10,14 +10,12 @@ import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +29,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
     private ItemStatusRepository itemStatusRepository;
     private InventoryStatusRepository inventoryStatusRepository;
     private InventoryRepository inventoryRepository;
+    private ItemAvailabilityRepository itemAvailabilityRepository;
     private RecordsRepository recordsRepository;
 
     @Autowired
@@ -189,7 +188,12 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         for (InventoryUnit unit: inventoryUnits) {
             Primerak p = rec.getPrimerak(unit.getInvNo());
             StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getInventoryStatusCoderId());
+            if (p == null) {
+                System.out.println("Primerak ne postoji za rn: " + rn);
+                continue;
+            }
             p.setStatus(statusMappingEntry.getItemStatusCoderId());
+
             if (statusMappingEntry.getItemStatusDate() != null) {
                 p.setDatumStatusa(statusMappingEntry.getItemStatusDate());
             }
