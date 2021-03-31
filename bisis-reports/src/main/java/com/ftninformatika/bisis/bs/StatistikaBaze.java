@@ -320,15 +320,4 @@ public class StatistikaBaze extends Report {
 	private static Logger log = Logger.getLogger(StatistikaBaze.class);
 	private Pattern pattern;
 
-	//@Override
-	public void finishInv() {
-		// TODO Auto-generated method stub
-
-	}
-
-	//@Override
-	public void finishOnline(StringBuffer buff) {
-		// TODO Auto-generated method stub
-
-	}
 }
