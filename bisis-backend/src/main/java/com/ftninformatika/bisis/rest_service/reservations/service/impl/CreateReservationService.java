@@ -111,7 +111,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
                 .filter(reservation -> !reservation.isBookPickedUp())
                 .count();
 
-        if (numberOfCurrentReservations >= 3) {
+        if (numberOfCurrentReservations >= 5) {
             return ReservationsConstants.LIMIT_EXCEEDED;
         }
         return null;
