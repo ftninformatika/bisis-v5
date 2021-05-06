@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -163,6 +164,7 @@ public class EmailService {
             Template t = fmConfig.getTemplate("opac-reservation-template.ftl");
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, root);
             helper.setTo(sendTo);
+            message.setFrom(new InternetAddress("bisis.mailer@gmail.com", "Библиотека БИСИС"));
             helper.setText(text, true);
             helper.setSubject(Texts.getString("RESERVATION_CONFIRMED_HEADING"));
             javaMailSender().send(message);
