@@ -1,12 +1,16 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.Cirkulacija;
+import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.circ.view.RecordBean;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.location.dto.RecordCtlgNoDTO;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
+import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.constants.ReservationsConstants;
 import org.apache.log4j.Logger;
@@ -142,5 +146,22 @@ public class ReservationsManager {
             log.error("(getReservationsByRecord) - greska prilikom dobavljanja rezervacija za zapis");
         }
         return reservations;
+    }
+
+    public boolean checkIfAssignedToAnother(String ctlgno) {
+        Member member = Cirkulacija.getApp().getUserManager().getMember();
+        ItemAvailability ia = Cirkulacija.getApp().getRecordsManager().getItemAvailability();
+
+        if (ia != null && member != null){
+            if (ia.getReserved() != null && ia.getReserved()){
+                for (ReservationOnProfile rp : member.getReservations()) {
+                    if (rp.getCtlgNo().equals(ctlgno) && rp.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)){
+                        return false;    // primerak je rezervisan i dodeljen članu za kog se zadužuje
+                    }
+                }
+                return true;             // primerak je rezervisan, ali je dodeljen drugom članu
+            }
+        }
+        return false;                    // primerak nije rezervisan
     }
 }

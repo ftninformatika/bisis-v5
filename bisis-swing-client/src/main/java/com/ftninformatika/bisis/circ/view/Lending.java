@@ -439,17 +439,24 @@ public class Lending {
 //    }
     }
 
+
     private void lendAction(String ctlgno) {
         if (getLBlockCard().getText().equals("") || Cirkulacija.getApp().getEnvironment().getBlockedCard()) { //$NON-NLS-1$
             if (getTableModel().getRowCount() < parent.getMmbrship().getUserCateg().getTitlesNo()) {
                 Record record = Cirkulacija.getApp().getRecordsManager().lendBook(ctlgno);
                 handleKeyTyped();
                 if (record != null) {
-                    boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg(), parent.getMmbrship().getUserID());
-                    pinRequired = true;
-                    if (exists) {
-                        JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyinlist"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                    if (Cirkulacija.getApp().getReservationsManager().checkIfAssignedToAnother(ctlgno)) {
+                        JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.assignedToAnotherUser"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                                 new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                        getTfCtlgNo().setText(""); //$NON-NLS-1$
+                    } else {
+                        boolean exists = getTableModel().addRow(ctlgno, record, defaultLocation, parent.getMmbrship().getUserCateg(), parent.getMmbrship().getUserID());
+                        pinRequired = true;
+                        if (exists) {
+                            JOptionPane.showMessageDialog(getPanel(), Messages.getString("circulation.alreadyinlist"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+                        }
                     }
                     getTfCtlgNo().setText(""); //$NON-NLS-1$
                 } else {
