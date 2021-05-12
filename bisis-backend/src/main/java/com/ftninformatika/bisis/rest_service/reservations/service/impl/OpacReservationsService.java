@@ -144,7 +144,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
         String locationCode = locationService.getLocationCodeByPrimerak(record, ctlgNo, library);
 
         if (record.getReservations() != null) {
-            if (record.getReservations().size() != 0) {
+            if (record.getReservations().size() > 0) {
                 for (ReservationInQueue reservation : record.getReservations()) {
                     if (reservation.getCoderId().equals(locationCode)) {
                         return true;
