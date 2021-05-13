@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.repository.mongo;
+package com.ftninformatika.bisis.core.repositories;
 
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.utils.RegexUtils;

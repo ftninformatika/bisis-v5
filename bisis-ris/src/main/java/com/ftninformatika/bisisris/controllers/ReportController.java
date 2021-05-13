@@ -2,17 +2,15 @@ package com.ftninformatika.bisisris.controllers;
 
 import com.ftninformatika.bisis.circ.CircLocation;
 import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.bisis.coders.Sublocation;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
+import com.ftninformatika.bisis.core.repositories.CircLocationRepository;
+import com.ftninformatika.bisis.core.repositories.LocationRepository;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.bisisris.dto.LibrarianReport;
 import com.ftninformatika.bisisris.dto.LocationReport;
 import com.ftninformatika.bisisris.dto.MapReduceValueObjectLibrarian;
 import com.ftninformatika.bisisris.dto.MapReduceValueObjectLocation;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisisauthentication.repositories.LibrarianRepository;
-import com.ftninformatika.bisisris.repositories.CircLocationRepository;
-import com.ftninformatika.bisisris.repositories.LocationRepository;
-import com.ftninformatika.bisisris.repositories.SubLocationRepository;
 import com.ftninformatika.bisisris.repositories.TaskRepository;
 
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -21,7 +19,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Criteria;

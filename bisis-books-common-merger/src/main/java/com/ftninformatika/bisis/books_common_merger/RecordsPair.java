@@ -1,15 +1,15 @@
 package com.ftninformatika.bisis.books_common_merger;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCommonController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCoverController;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

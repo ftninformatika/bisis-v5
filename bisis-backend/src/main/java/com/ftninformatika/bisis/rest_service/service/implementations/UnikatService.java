@@ -1,16 +1,16 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.unikat.UnikatBook;
 import com.ftninformatika.bisis.unikat.UnikatBookRef;
 import com.ftninformatika.bisis.unikat.UnikatSearchRequest;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.utils.RecordUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -29,8 +29,10 @@ import java.util.stream.Collectors;
 @Service
 public class UnikatService {
 
-    @Autowired RecordsRepository recordsRepository;
-    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired OpacSearchService opacSearchService;
 

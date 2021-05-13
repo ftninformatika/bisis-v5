@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
@@ -9,14 +10,9 @@ import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.CreateReservationServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
@@ -42,7 +38,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
     LibraryMemberRepository libraryMemberRepository;
 
     @Autowired
-    SublocationRepository sublocationRepository;
+    SubLocationRepository sublocationRepository;
 
     @Autowired
     LocationRepository locationRepository;

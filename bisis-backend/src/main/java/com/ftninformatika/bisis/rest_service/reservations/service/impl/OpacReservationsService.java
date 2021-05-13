@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.Record;
@@ -8,9 +9,6 @@ import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.LocationServiceInterface;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.OpacReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
@@ -34,7 +32,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
     LibraryMemberRepository libraryMemberRepository;
 
     @Autowired
-    SublocationRepository sublocationRepository;
+    SubLocationRepository sublocationRepository;
 
     @Autowired
     LocationRepository locationRepository;

@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
+import com.ftninformatika.bisis.core.repositories.InventoryStatusRepository;
+import com.ftninformatika.bisis.core.repositories.ItemStatusRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.inventory.EnumActionState;
 import com.ftninformatika.bisis.inventory.Inventory;
 import com.ftninformatika.bisis.inventory.InventoryStatus;
@@ -10,14 +13,8 @@ import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.repository.mongo;
+package com.ftninformatika.bisis.core.repositories;
 
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.LendingDateOption;

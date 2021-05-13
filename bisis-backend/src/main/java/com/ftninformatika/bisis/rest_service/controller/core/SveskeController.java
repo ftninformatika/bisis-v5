@@ -1,9 +1,9 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

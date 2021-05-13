@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.core.repositories.LendingRepository;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LendingRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.SearchModelMember;
@@ -28,7 +28,8 @@ import java.util.List;
 @RequestMapping("/search")
 public class CircSearchController {
 
-    @Autowired LendingRepository lendingRepository;
+    @Autowired
+    LendingRepository lendingRepository;
     @Autowired MemberRepository memberRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
 

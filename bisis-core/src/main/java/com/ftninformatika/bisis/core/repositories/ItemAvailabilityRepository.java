@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.rest_service.repository.mongo;
+package com.ftninformatika.bisis.core.repositories;
 
 import com.ftninformatika.bisis.records.ItemAvailability;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -14,10 +14,8 @@ public interface ItemAvailabilityRepository extends MongoRepository<ItemAvailabi
 
     List<ItemAvailability> findByRecordID(String recId);
     ItemAvailability getByCtlgNo(String ctlno);
-    List<ItemAvailability> findAllByCtlgNo (String ctlgNo);
     List<ItemAvailability> findAllByCtlgNoIsIn(List<String> ctglNos);
     void deleteByCtlgNoIn (List<String> ctlgnos);
-    void deleteByCtlgNoInAndRecordIDIs (List<String> ctlgnos, String recordID);
     void deleteAllByRecordID (String recordID);
     List<ItemAvailability> findByInventoryIdAndBorrowedIsTrue(String inventoryId);
 

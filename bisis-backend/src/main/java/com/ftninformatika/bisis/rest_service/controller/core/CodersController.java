@@ -1,18 +1,15 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
-import com.ftninformatika.bisis.inventory.InventoryStatus;
-import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
-import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
+import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
-import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by dboberic on 26/07/2017.
@@ -27,9 +24,6 @@ public class CodersController {
     @Autowired BindingRepository bindrep;
     @Autowired FormatRepository formrep;
     @Autowired InternalMarkRepository intmrep;
-    @Autowired ItemStatusRepository statrep;
-    @Autowired LocationRepository locrep;
-    @Autowired SublocationRepository sublocrep;
     @Autowired TaskRepository taskrep;
     @Autowired EducationLvlRepository edurep;
     @Autowired LanguageRepository langrep;
@@ -40,13 +34,9 @@ public class CodersController {
     @Autowired WarningTypeRepository warnrep;
     @Autowired WarningCounterRepository warncountrep;
     @Autowired OrganizationRepository orgrep;
-    @Autowired
-    ProcessTypeRepository processTypeRepository;
-    @Autowired CircLocationRepository circLocationRepository;
+    @Autowired ProcessTypeRepository processTypeRepository;
     @Autowired CorporateMemberRepository corporateMemberRepository;
-    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired CounterRepository counterRepository;
-    @Autowired InventoryStatusRepository inventoryStatusRepository;
 
     @RequestMapping( path = "process_types")
     public ProcessTypeDB addProcessType(@RequestBody ProcessTypeDB pt){
@@ -57,16 +47,6 @@ public class CodersController {
     @RequestMapping(path = "process_types/getByLibrary")
     public List<ProcessTypeDB> getProcessTypesForLibrary(@RequestParam (value = "libName") String libName){
         return processTypeRepository.getProcessTypesByLibNameIsNullOrLibName(libName);
-    }
-
-    @RequestMapping(path = "inventory_status")
-    public List<InventoryStatus> getInvetoryStatuses(@RequestHeader("Library") String libName){
-        return inventoryStatusRepository.getCoders(libName);
-    }
-
-    @RequestMapping(path = "lib_configurations")
-    public List<LibraryConfiguration> getConfigs(String libName){
-        return libraryConfigurationRepository.findAll();
     }
 
     @RequestMapping(path = "accession_register")
@@ -97,37 +77,6 @@ public class CodersController {
     @RequestMapping(path = "internal_mark")
     public List<InternalMark> getInterMarks(String libName){
         return intmrep.getCoders(libName);
-    }
-
-    @RequestMapping(path = "item_status")
-    public List<ItemStatus> getStatuses(@RequestHeader("Library") String libName){
-        return statrep.getCoders(libName);
-    }
-
-    @RequestMapping(path = "location")
-    public List<Location> getLocations(@RequestHeader("Library") String libName){
-        return locrep.getCoders(libName);
-    }
-
-    @RequestMapping(path = "sublocation")
-    public List<Sublocation> getSublocations(@RequestHeader("Library") String libName){
-        return sublocrep.getCoders(libName);
-    }
-
-    @RequestMapping(path = "sublocation/get_by_coder_id")
-    public Sublocation getSublocationByCoderId(@RequestParam("coderId") String coderId, @RequestParam("lib") String lib) {
-        Sublocation sl = sublocrep.getByCoder_Id(coderId, lib);
-        if (sl != null && sl.getDescription() != null) {
-            sl.setDescription(LatCyrUtils.toCyrillic(sl.getDescription()));
-        }
-        return sl;
-    }
-
-    @RequestMapping(path = "sublocation/get_by_location")
-    public List<Sublocation> getSublocationsByLocation(@RequestParam("loc") String loc, @RequestParam("lib") String lib) {
-        List<Sublocation> retVal = sublocrep.getCoders(lib).stream().filter(s -> s.getCoder_id().startsWith(loc)).collect(Collectors.toList());
-        System.out.println(retVal);
-        return retVal;
     }
 
     @RequestMapping(path = "tasks")
@@ -240,11 +189,6 @@ public class CodersController {
     public Boolean deleteOrganization(@RequestParam("_id") String org_id){
         orgrep.deleteById(org_id);
         return orgrep.findById(org_id).get() == null;
-    }
-
-    @RequestMapping(path = "circlocation")
-    public List<CircLocation> getCircLocations(String libName){
-        return circLocationRepository.getCoders(libName);
     }
 
     @RequestMapping(path = "corporatemember")

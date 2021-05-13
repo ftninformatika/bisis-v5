@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author marijakovacevic
  */
-@RestController
+@RestController("backendLocationController")
 @RequestMapping("/locations")
 public class LocationController {
 

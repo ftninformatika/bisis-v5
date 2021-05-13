@@ -14,8 +14,9 @@ bootWar {
 
 
 dependencies {
-    compile project(":bisis-core")
+    compile project(":bisis-model")
     compile project(":bisis-authentication")
+    compile project(":bisis-core")
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.1.2.RELEASE'
     compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
     implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.16.0'

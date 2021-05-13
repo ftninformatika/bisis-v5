@@ -3,6 +3,9 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
+import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.core.repositories.LendingRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.Record;
@@ -28,13 +31,16 @@ public class MemberService {
     @Autowired MemberRepository memberRep;
     @Autowired
     LibrarianRepository librarianRepository;
-    @Autowired LendingRepository lendingRepository;
-    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired
+    LendingRepository lendingRepository;
+    @Autowired
+    ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
     @Autowired WarningCounterRepository warningCounterRepository;
     @Autowired MongoClient mongoClient;
     @Autowired OpacSearchService opacSearchService;
-    @Autowired RecordsRepository recordsRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
 
     public List<Report> getOnlyActiveLendingsReport(String memberNo) {
         return getMemberLendingHistoryReport(memberNo, true);

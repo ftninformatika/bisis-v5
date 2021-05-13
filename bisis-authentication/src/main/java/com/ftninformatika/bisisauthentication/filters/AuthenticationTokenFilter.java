@@ -1,6 +1,6 @@
 package com.ftninformatika.bisisauthentication.filters;
 
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.bisisauthentication.security.BisisUserDetailsService;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;

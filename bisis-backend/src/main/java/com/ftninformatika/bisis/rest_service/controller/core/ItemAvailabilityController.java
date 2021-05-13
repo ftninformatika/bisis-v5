@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/itemAvailabilities")
 public class ItemAvailabilityController {
 
-    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired
+    ItemAvailabilityRepository itemAvailabilityRepository;
 
     @RequestMapping( value = "/getByCtlgNo", method = RequestMethod.GET)
     public ItemAvailability getItemAvailabilityByCtlgNo(@RequestParam("ctlgno") String ctlgno){

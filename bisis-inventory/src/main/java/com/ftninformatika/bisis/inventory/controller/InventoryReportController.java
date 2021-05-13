@@ -1,10 +1,9 @@
 package com.ftninformatika.bisis.inventory.controller;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.inventory.dto.InvUnitSearchDTO;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;

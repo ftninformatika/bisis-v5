@@ -1,4 +1,4 @@
-package com.ftninformatika.bisisauthentication;
+package com.ftninformatika.utils;
 
 import org.springframework.stereotype.Component;
 

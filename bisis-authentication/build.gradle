@@ -11,6 +11,7 @@ jar {
 }
 
 dependencies {
+    implementation project(":bisis-model")
     implementation project(":bisis-core")
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.1.2.RELEASE'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'

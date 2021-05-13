@@ -36,9 +36,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(
                         "/book",
-                        "/inventory/**",
-                        "/inventory_unit/**",
-                        "/inventory_location/**",
                         "/book/multiple",
                         "/book/collection",
                         "/opac/**",
