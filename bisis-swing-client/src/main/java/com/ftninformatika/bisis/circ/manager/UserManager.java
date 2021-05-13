@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import retrofit2.Response;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -98,7 +99,10 @@ public class UserManager {
         return BisisApp.bisisService.confirmReservation(confirmReservationDTO).execute().body();
     }
 
-    // in tree view, when librarian clicks on button to display reservation info
+    /**
+     * This method is called when the librarian clicks on the button in the tree view to display reservation info
+     * (Prikaži button)
+     */
     public ReservationDTO getCurrentReservationByPrimerak(String ctlgNo, String userId) {
         this.reservationsForPrint = new ArrayList<>();
         CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
@@ -115,6 +119,10 @@ public class UserManager {
         return null;
     }
 
+    /**
+     * This method is called when the librarian clicks on the button Sledeći to get the next reservation for the book
+     * (Sledeći button)
+     */
     public ReservationDTO getNextReservation(String userId, String ctlgNo) {
         this.reservationsForPrint = new ArrayList<>();
         CurrentReservationDTO currentReservation = new CurrentReservationDTO(userId, ctlgNo);
@@ -132,6 +140,43 @@ public class UserManager {
             log.error(ioException);
         }
         return null;
+    }
+
+    /**
+     * This method is called when the librarian clicks on the button Rezerviši from the SearchBooksResults panel
+     * (+ button)
+     */
+    public void reserveOneBook(Record record) {
+        // Reserve book - the user panel is not previously opened
+        if (member == null) {
+            if (record != null) {
+                log.info("(reserveOneBook) - knjiga: " + record.get_id() + " se rezervise iz panela za pretragu knjiga (tok kada se u input polje unosi ID korisnika).");
+            }
+            reserveBook = record;
+            Cirkulacija.getApp().getMainFrame().setRequestedPanel(5);
+            Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true);
+        }
+
+        // Reserve book - the user panel is previously opened
+        else {
+            // check if reservation limit is exceeded
+            if (Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().isReservationLimitExceeded()) {
+                JOptionPane.showMessageDialog(null, Messages.getString("circulation.reservationLimitExceeded"),
+                        Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
+                        new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
+            } else {
+                Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().reserveBook(record, "");
+                Cirkulacija.getApp().getMainFrame().previousTwoPanels();
+            }
+        }
+    }
+
+    public void setReserveBook(Record record){
+        this.reserveBook = record;
+    }
+
+    public void setChargeBook(String chargeBook){
+        this.chargeBook = chargeBook;
     }
 //   --------------------------------------------------------------------------------------
 
@@ -333,19 +378,6 @@ public class UserManager {
         }
     }
 
-    public void reserveOneBook(Record record) {
-        if (member == null) {
-            if (record != null) {
-                log.info("(reserveOneBook) - knjiga: " + record.get_id() + " se rezervise iz panela za pretragu knjiga (tok kada se u input polje unosi ID korisnika).");
-            }
-            reserveBook = record;
-            Cirkulacija.getApp().getMainFrame().setRequestedPanel(5);
-            Cirkulacija.getApp().getMainFrame().getUserIDPanel().setVisible(true);
-        } else {
-            Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().reserveBook(record, "");
-            Cirkulacija.getApp().getMainFrame().previousTwoPanels();
-        }
-    }
 
     public String archiveUser(User user) {
       /*GetAllUserDataCommand getUserData = new GetAllUserDataCommand(user.getMmbrship().getUserID());
@@ -526,7 +558,7 @@ public class UserManager {
         }
 
         // if book is reserved from the SearchBooksResults panel
-        if (reserveBook != null){
+        if (reserveBook != null) {
             user.getReservationsPanel().reserveBook(reserveBook, "");
             reserveBook = null;
             user.setDirty(true);

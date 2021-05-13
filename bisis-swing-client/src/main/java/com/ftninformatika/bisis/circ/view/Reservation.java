@@ -154,7 +154,7 @@ public class Reservation {
     public boolean isReservationLimitExceeded() {
         int numberOfReservedBook = getTableModel().getRowCount();
 
-        return numberOfReservedBook >= 3;
+        return numberOfReservedBook >= 5;
     }
 
     public void reserveBook(Record record, String ctlgNo) {

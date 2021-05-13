@@ -2,6 +2,8 @@ package com.ftninformatika.bisis.rest_service.controller.opac2;
 
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ChangePasswordDTO;
+import com.ftninformatika.bisis.opac2.dto.ProlongLendingRequestDTO;
+import com.ftninformatika.bisis.opac2.dto.ProlongLendingResponseDTO;
 import com.ftninformatika.bisis.opac2.dto.ShelfDto;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
@@ -42,13 +44,11 @@ public class LibraryMemberController {
     @Autowired YAMLConfig yamlConfig;
 
     @PostMapping("/prolong_lending")
-    public ResponseEntity prolongLending(@RequestHeader("Authorization") String authToken,
-                                         @RequestBody String lendingId) {
-        if (libraryMemberService.prolongLending(authToken, lendingId)) {
-            return ResponseEntity.ok(true);
-        }
-        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+    public ResponseEntity<ProlongLendingResponseDTO> prolongLending(@RequestHeader("Library") String lib, @RequestBody ProlongLendingRequestDTO requestDTO) {
+        ProlongLendingResponseDTO prolongDTO = libraryMemberService.prolongLending(lib, requestDTO.getEmail(), requestDTO.getLendingId());
+        return new ResponseEntity<>(prolongDTO, HttpStatus.OK);
     }
+
     @PostMapping("/activate_account")
     public ResponseEntity<Boolean> activateAccount(@RequestBody LibraryMember libraryMember) {
         if (libraryMember == null || libraryMember.getPassword() == null)

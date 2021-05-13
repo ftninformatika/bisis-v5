@@ -28,6 +28,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
     private ItemStatusRepository itemStatusRepository;
     private InventoryStatusRepository inventoryStatusRepository;
     private InventoryRepository inventoryRepository;
+    private ItemAvailabilityRepository itemAvailabilityRepository;
     private RecordsRepository recordsRepository;
 
     @Autowired
@@ -186,7 +187,12 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         for (InventoryUnit unit: inventoryUnits) {
             Primerak p = rec.getPrimerak(unit.getInvNo());
             StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getInventoryStatusCoderId());
+            if (p == null) {
+                System.out.println("Primerak ne postoji za rn: " + rn);
+                continue;
+            }
             p.setStatus(statusMappingEntry.getItemStatusCoderId());
+
             if (statusMappingEntry.getItemStatusDate() != null) {
                 p.setDatumStatusa(statusMappingEntry.getItemStatusDate());
             }

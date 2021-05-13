@@ -81,4 +81,13 @@ public class InventoryController {
         }
         return ResponseEntity.ok(retVal);
     }
+
+    @GetMapping("/hasGeneratingInventory")
+    public ResponseEntity<Boolean> hasGeneratingInventory(@RequestHeader("Library") String library) {
+        Boolean retVal = inventoryService.hasGeneratingInventoryForLib(library);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
+    }
 }

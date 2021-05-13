@@ -72,6 +72,10 @@ public class InventoryServiceImpl implements InventoryService {
             inventory = inventoryRepository.insert(inventory);
             generateInventoryUnits(inventory, lib);
             inventory.setInventoryState(EnumInventoryState.IN_PROGRESS);
+            Double totalUnits = inventoryUnitRepository.countAllByInventoryId(inventory.get_id());
+            Integer numberOfNotActiveInvUnits = inventoryUnitRepository.countAllByInventoryIdAndInventoryStatusCoderId(inventory.get_id(), InventoryStatus.SPENT_OLD_INVENTORY);
+            inventory.setNumberOfInvUnits(totalUnits.intValue());
+            inventory.setNumberOfNotActiveInvUnits(numberOfNotActiveInvUnits);
             return inventoryRepository.save(inventory);
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,6 +117,8 @@ public class InventoryServiceImpl implements InventoryService {
             Double progress = getProgress(_id);
             Inventory inventory = optionalInventory.get();
             inventory.setProgress(progress);
+            Integer numberOfNotActiveInvUnits = inventoryUnitRepository.countAllByInventoryIdAndInventoryStatusCoderId(inventory.get_id(), InventoryStatus.SPENT_OLD_INVENTORY);
+            inventory.setNumberOfNotActiveInvUnits(numberOfNotActiveInvUnits);
             return inventoryRepository.save(inventory);
         }
         return null;
@@ -166,12 +172,23 @@ public class InventoryServiceImpl implements InventoryService {
             sublocationCriteriaList.add(c1);
             for (InventoryBook book : createdInventory.getInvBooks()) {
                 if (book.getLastNo() != null) {
-                    String firstInvNum = invLocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
-                    String lastInvNum = createInvNum(invLocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
-                    Criteria c2 = Criteria.where("primerci.invBroj").gte(firstInvNum).lte(lastInvNum);
-                    invBookCriteriaList.add(c2);
+                    String firstInvNum =  book.getCode() + "0000000";
+                    RegexUtils rrg = new RegexUtils();
+                    List<String> regexes = rrg.getRegex(firstInvNum , book.getCode() + String.valueOf(book.getLastNo()));
+
+                    //todo ne radi za bmb
+                    List<Criteria> regexCr = new ArrayList<>();
+                    Criteria c2 = new Criteria();
+                    for (String reg: regexes) {
+                        regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
+                    }
+                    Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
+                    invBookCriteriaList.add(cr);
                 } else {
-                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
+                    //todo ne radi za bmb
+                    // Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
+                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^[0-9][0-9]" + book.getCode() + ".*");
+
                     invBookCriteriaList.add(c3);
                 }
             }
@@ -311,6 +328,7 @@ public class InventoryServiceImpl implements InventoryService {
     private Double getProgress(String inventoryId) {
         Double total = inventoryUnitRepository.countAllByInventoryId(inventoryId);
         Double checked = inventoryUnitRepository.countByInventoryIdAndCheckedIsTrue(inventoryId);
+
         if (checked == null || checked == 0d) {
             return 0d;
         }
@@ -383,6 +401,10 @@ public class InventoryServiceImpl implements InventoryService {
             resultdate = new Date(milliseconds);
             System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
         }
+    }
 
+    public Boolean hasGeneratingInventoryForLib(String library) {
+        Integer cnt = inventoryRepository.countAllByInventoryStateAndLibrary(EnumInventoryState.IN_PREPARATION, library);
+        return cnt > 0;
     }
 }

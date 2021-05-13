@@ -137,12 +137,20 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
         return record_id;
     }
 
-    public Boolean isReservationsQueueEmpty(String ctlgNo) {
+    public Boolean isReservationPresentOnLocation(String library, String ctlgNo) {
         Record record = recordsRepository.getRecordByPrimerakInvNum(ctlgNo);
+        String locationCode = locationService.getLocationCodeByPrimerak(record, ctlgNo, library);
+
         if (record.getReservations() != null) {
-            return record.getReservations().size() == 0;
-        } else {
-            return true;
+            if (record.getReservations().size() > 0) {
+                for (ReservationInQueue reservation : record.getReservations()) {
+                    if (reservation.getCoderId().equals(locationCode)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
+        return false;
     }
 }

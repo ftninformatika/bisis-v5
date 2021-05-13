@@ -50,8 +50,8 @@ public class ReservationsController {
                 reservationRequestDTO.getRecordId(), reservationRequestDTO.getCoderId());
 
         if (reservation != null) {
-            if (reservation.equals(ReservationsConstants.NORESERVATION) || reservation.equals(ReservationsConstants.LIMITEXCEEDED)
-                    || reservation.equals(ReservationsConstants.ALREADYRESERVED)) {
+            if (reservation.equals(ReservationsConstants.NO_RESERVATION) || reservation.equals(ReservationsConstants.LIMIT_EXCEEDED)
+                    || reservation.equals(ReservationsConstants.ALREADY_RESERVED)) {
                 return new ResponseEntity<>(new ReservationResponseDTO(reservation.toString()), HttpStatus.OK);
             }
             return new ResponseEntity<>(reservation, HttpStatus.OK);

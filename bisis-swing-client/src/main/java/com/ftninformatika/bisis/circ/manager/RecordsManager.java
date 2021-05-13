@@ -239,6 +239,10 @@ public class RecordsManager {
         }
     }
 
+    public ItemAvailability getItemAvailability() {
+        return itemAvailability;
+    }
+
     public int getRecords(SearchModelCirc searchModel) {
         List<String> recordQueryResultIds = null;
         if (searchModel != null) {

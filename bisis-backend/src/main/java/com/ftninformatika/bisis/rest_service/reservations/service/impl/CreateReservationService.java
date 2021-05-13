@@ -71,7 +71,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
     @Transactional
     public Object reserveBook(String memberNo, String library, String record_id, String coderId) {
         Member member = memberRepository.getMemberByUserId(memberNo);
-        if (member == null) return ReservationsConstants.UNKNOWNMEMBER;
+        if (member == null) return ReservationsConstants.UNKNOWN_MEMBER;
 
         String alreadyReservedByMember = checkIfBookReserved(record_id, member);
         if (alreadyReservedByMember != null) return alreadyReservedByMember;
@@ -93,7 +93,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
                 List<Primerak> borrowedBooks = getBorrowedBooksOnGivenLocation(primerci, library, coderId);
 
                 if (borrowedBooks.size() == 0) {
-                    return ReservationsConstants.NORESERVATION;
+                    return ReservationsConstants.NO_RESERVATION;
                 } else {
                     return createNewReservation(member, record.get(), coderId);
                 }
@@ -107,8 +107,8 @@ public class CreateReservationService implements CreateReservationServiceInterfa
                 .filter(reservation -> !reservation.isBookPickedUp())
                 .count();
 
-        if (numberOfCurrentReservations >= 3) {
-            return ReservationsConstants.LIMITEXCEEDED;
+        if (numberOfCurrentReservations >= 5) {
+            return ReservationsConstants.LIMIT_EXCEEDED;
         }
         return null;
     }
@@ -119,7 +119,7 @@ public class CreateReservationService implements CreateReservationServiceInterfa
                 .count();
 
         if (numberOfSameReservations > 0) {
-            return ReservationsConstants.ALREADYRESERVED;
+            return ReservationsConstants.ALREADY_RESERVED;
         }
         return null;
     }

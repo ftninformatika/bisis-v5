@@ -408,47 +408,6 @@ public class CodersHelper {
         return (ArrayList<UItem>) retVal;
     }
 
-    public Map<String, Coder> getCoderMap(int coderCode) {
-        Map<String, Coder> retVal = new HashMap<>();
-
-        switch (coderCode) {
-            case ODELJENJE_CODER: retVal = locations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            case FORMAT_CODER: retVal = formats.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            case STATUS_CODER: retVal = itemStatuses.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            case POVEZ_CODER: retVal = bindings.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            case PODLOKACIJA_CODER: retVal =  sublocations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            case NACINNABAVKE_CODER: retVal = acquisitionTypes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            case INTERNAOZNAKA_CODER: retVal = internalMarks.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            //case INVENTARNAKNJIGA_CODER: retVal = .entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            case DOSTUPNOST_CODER: retVal = availabilities.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-            case TASK_CODER: retVal = tasks.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> ((Coder) c.getValue()))); break;
-        }
-
-        return retVal;
-    }
-
-
-    public static String getLocaleCoderName(int coderCode){
-        String locale = BisisApp.appConfig.getClientConfig().getLocale();
-        String retVal = "";
-        if(locale == null || locale.equals(""))
-            locale = "rs_CYRL_SR";
-        switch (coderCode){
-            case ODELJENJE_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Одељење": "Odeljenje"; break;
-            case FORMAT_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Формат": "Format"; break;
-            case STATUS_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Статус": "Status"; break;
-            case POVEZ_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Повез": "Povez"; break;
-            case PODLOKACIJA_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Подлокација": "Podlokacija"; break;
-            case NACINNABAVKE_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Начин набавке": "Način nabavke"; break;
-            case INTERNAOZNAKA_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Интерна ознака": "Interna oznaka"; break;
-            case INVENTARNAKNJIGA_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Инвентарна књига": "Inventarna knjiga"; break;
-            case DOSTUPNOST_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Доступност": "Dostupnost"; break;
-            case TASK_CODER: retVal = locale.equals("rs_CYRL_SR") ? "992 Задатак": "992 Zadatak"; break;
-            case LIBRARIAN_CODER: retVal = locale.equals("rs_CYRL_SR") ? "Библиотекар": "Bibliotekar"; break;
-        }
-        return retVal;
-    }
-
     public void refreshWarningCounters() {
         try {
             warningCounters = BisisApp.bisisService.getWarningCounters(BisisApp.appConfig.getLibrary()).execute().body();

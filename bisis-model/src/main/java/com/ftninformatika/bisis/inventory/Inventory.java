@@ -34,7 +34,8 @@ public class Inventory {
     private EnumInventoryState inventoryState;
     private EnumActionState currentAction = EnumActionState.NONE;
     private Double progress;
-    private Integer totalUnits;
+    private Integer numberOfInvUnits;
+    private Integer numberOfNotActiveInvUnits;
 
     @Transient @JsonIgnore Map<String, ItemStatus> itemStatusesMap;
     @Transient @JsonIgnore Map<String, InventoryStatus> inventoryStatusesMap;
