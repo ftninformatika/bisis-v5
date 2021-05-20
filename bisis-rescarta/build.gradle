@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'war'
+
+war {
+    enabled = true
+    baseName = 'bisisResCarta'
+}
+
+
+dependencies {
+    compile project(":bisis-model")
+    compile project(":bisis-core")
+    compile project(":bisis-authentication")
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.2.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.1.2.RELEASE'
+    compileOnly 'org.projectlombok:lombok'
+}

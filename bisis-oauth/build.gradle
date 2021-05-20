@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'war'
+
+war {
+    enabled = true
+    baseName = 'bisisOAuth'
+}
+
+
+dependencies {
+//    compile project(":bisis-model")
+//    compile project(":bisis-core")
+    //compile project(":bisis-authentication")
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.2.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.1.2.RELEASE'
+    implementation group: 'org.springframework.security.experimental', name: 'spring-security-oauth2-authorization-server', version: '0.1.0'
+    //compileOnly 'org.projectlombok:lombok'
+}
