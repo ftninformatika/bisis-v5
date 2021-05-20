@@ -238,7 +238,7 @@ public class StringUtils {
   /** Converts a roman number to arabic. Returns an empty string for
    *  invalid arguments.
    *
-   *  @param a Roman number
+   *  @param r Roman number
    *  @return Arabic equivalent
    */
   public static int romanToArabic(String r) {

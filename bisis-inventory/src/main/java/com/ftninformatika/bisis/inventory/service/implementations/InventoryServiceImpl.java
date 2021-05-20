@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.utils.RegexUtils;
 import com.ftninformatika.utils.string.Signature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

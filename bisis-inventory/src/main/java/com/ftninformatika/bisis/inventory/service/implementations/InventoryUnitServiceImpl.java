@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.core.repositories.InventoryStatusRepository;
+import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.ItemStatusRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.inventory.EnumActionState;

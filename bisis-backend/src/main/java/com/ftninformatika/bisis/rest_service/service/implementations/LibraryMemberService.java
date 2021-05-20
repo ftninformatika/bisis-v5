@@ -41,20 +41,12 @@ public class LibraryMemberService {
     @Value("security.token.secret.key")
     private String tokenKey;
 
-    @Autowired
-    LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired LibraryPrefixProvider libraryPrefixProvider;
     @Autowired OpacSearchService opacSearchService;
-    @Autowired
-    RecordsRepository recordsRepository;
+    @Autowired RecordsRepository recordsRepository;
     @Autowired MemberRepository memberRepository;
-    @Autowired
-    LibrarianRepository librarianRepository;
-    @Autowired
-    LendingRepository lendingRepository;
-    @Autowired
-    OpacReservationsService reservationsService;
     @Autowired LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired OpacReservationsService reservationsService;
