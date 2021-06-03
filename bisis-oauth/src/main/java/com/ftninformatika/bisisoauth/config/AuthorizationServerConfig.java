@@ -4,6 +4,9 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -20,26 +23,37 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
+@ConfigurationProperties(prefix = "oauth2-clients")
+@Getter
+@Setter
 @Import(OAuth2AuthorizationServerConfiguration.class)
 public class AuthorizationServerConfig {
 
+    Map<String, Map<String, String>> clients;
+
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("articles-client")
-                .clientSecret("secret")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://localhost:8080/login/oauth2/code/articles-client-oidc")
-                .redirectUri("http://localhost:8080/authorized")
-                .scope(OidcScopes.OPENID)
-                .scope("articles.read")
-                .build();
-        return new InMemoryRegisteredClientRepository(registeredClient);
+        List<RegisteredClient> registeredClients = new ArrayList<>();
+        for(Map.Entry<String, Map<String, String>> entry : clients.entrySet()) {
+            Map<String, String> value = entry.getValue();
+            RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                    .clientId(value.get("client-id"))
+                    .clientSecret(value.get("client-secret"))
+                    .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
+                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                    .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                    .redirectUri(value.get("redirect-uri"))
+                    .scope(OidcScopes.OPENID)
+                    .build();
+            registeredClients.add(registeredClient);
+        }
+        return new InMemoryRegisteredClientRepository(registeredClients);
     }
 
     @Bean
@@ -73,6 +87,12 @@ public class AuthorizationServerConfig {
 
     @Bean
     public ProviderSettings providerSettings() {
-        return new ProviderSettings().issuer("http://127.0.0.1:9000");
+        return new ProviderSettings().issuer("https://app.bisis.rs/oauth2");
     }
+
+    @Bean("oauth2Clients")
+    public Map<String, Map<String, String>> getOauth2Clients() {
+        return clients;
+    }
+
 }

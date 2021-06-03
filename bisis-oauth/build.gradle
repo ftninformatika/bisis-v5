@@ -1,8 +1,11 @@
 plugins {
     id 'java'
+//    id 'org.springframework.boot' version '2.4.3'
+//    id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
 apply plugin: 'war'
+
 
 war {
     enabled = true
@@ -12,16 +15,18 @@ war {
 
 dependencies {
     compile project(":bisis-model")
-    //compile project(":bisis-core")
     compile project(":bisis-authentication")
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.3'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.4.3'
     implementation group: 'org.springframework.security.experimental', name: 'spring-security-oauth2-authorization-server', version: '0.1.0'
-    //implementation group: 'org.springframework.data', name: 'spring-data-mongodb', version: '3.2.1'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.4.3'
     compile group: 'org.springframework.data', name: 'spring-data-commons', version: '2.4.3'
     implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.31'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.4.3'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.4.3'
+    implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
+//    implementation "io.springfox:springfox-boot-starter:3.0.0"
+//    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:2.4.3"
 
 
 }

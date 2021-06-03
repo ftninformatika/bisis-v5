@@ -339,7 +339,7 @@ public class MemberController {
         if (location == null || location.isEmpty()) {
             lendingsByWarningHistory = lendingRepository.findLendingsByWarningHistory(start, end, warningType);
         } else {
-            lendingsByWarningHistory = lendingRepository.findLendingsByWarningHistory(start, end, warningType, location);
+            lendingsByWarningHistory = lendingRepository.findLendingsByWarningHistoryWithLocation(start, end, warningType, location);
         }
         List<String> userIds = lendingsByWarningHistory.stream().map(l -> l.getUserId()).collect(Collectors.toList());
         Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));
