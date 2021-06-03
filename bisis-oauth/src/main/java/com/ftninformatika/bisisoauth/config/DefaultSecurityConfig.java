@@ -22,6 +22,7 @@ public class DefaultSecurityConfig {
     @Bean
     public DaoAuthenticationProvider authProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        userDetailsService.setLibraryFilter("bgb");
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
         return authProvider;
