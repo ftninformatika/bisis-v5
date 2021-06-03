@@ -3,35 +3,24 @@
  */
 package com.ftninformatika.bisis.libenv;
 
+import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.CircLocation;
-import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.utils.Messages;
-
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.*;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
-
-import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.librarian.LibrarianContext;
-import com.ftninformatika.bisis.librarian.ProcessType;
-import javafx.scene.control.ComboBox;
-import net.miginfocom.swing.MigLayout;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.MessageFormat;
+import java.util.stream.Collectors;
 
 /**
  * @author dimicb
