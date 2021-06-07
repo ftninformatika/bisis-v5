@@ -214,13 +214,12 @@ public class CodersController {
     }
 
     @RequestMapping(path = "/addWarningType", method = RequestMethod.POST)
-    public Boolean addWarningType(@RequestBody WarningType warningType){
+    public WarningType addWarningType(@RequestBody WarningType warningType){
         try {
-            warnrep.save(warningType);
-            return true;
+            return warnrep.save(warningType);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 }

@@ -5,12 +5,12 @@ logging:
 
 spring:
   profiles:
-    active: devTestServer
+    active: development
 
 ---
 
 spring:
-  profiles: devTestServer
+  profiles: development
   main:
     allow-bean-definition-overriding: true
   data.mongodb.uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5

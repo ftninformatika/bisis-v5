@@ -120,14 +120,14 @@ public class WarningsManager {
       return members;
   }
   
-  public boolean saveWarnTypes(WarningType wtype){
-      boolean saved = false;
+  public WarningType saveWarnTypes(WarningType wtype){
+      WarningType savedWarningType = null;
       try {
-          saved = BisisApp.bisisService.addWarningType(wtype).execute().body();
+          savedWarningType = BisisApp.bisisService.addWarningType(wtype).execute().body();
       } catch (IOException e) {
           e.printStackTrace();
       }
-      return saved;
+      return savedWarningType;
   }
 
 }
