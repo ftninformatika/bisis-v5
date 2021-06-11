@@ -186,7 +186,13 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         }
         Record rec = recordsRepository.getByRn(rn);
         for (InventoryUnit unit: inventoryUnits) {
-            Primerak p = rec.getPrimerak(unit.getInvNo());
+            Primerak p = null;
+            try {
+                p = rec.getPrimerak(unit.getInvNo());
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Primerak ne postoji za unit: " + unit.toString());
+            }
             StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getInventoryStatusCoderId());
             if (p == null) {
                 System.out.println("Primerak ne postoji za rn: " + rn);
