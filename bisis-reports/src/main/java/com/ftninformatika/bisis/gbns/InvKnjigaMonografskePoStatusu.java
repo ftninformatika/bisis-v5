@@ -192,7 +192,7 @@ public class InvKnjigaMonografskePoStatusu extends Report {
     	  sig=" ";
       Item i = new Item();
       i.invbr =  nvl(p.getInvBroj());
-      i.datum = p.getDatumInventarisanja();
+      i.datum = p.getDatumStatusa();
       i.opis = opis.toString();
       i.povez="";
       if (getCoders().getBinCoders().get(p.getPovez())!=null)
@@ -231,7 +231,7 @@ public class InvKnjigaMonografskePoStatusu extends Report {
       i.cena = p.getCena() == null ? " " : p.getCena().setScale(0, RoundingMode.HALF_UP).toString();
       i.sig = sig;
       i.napomena = nvl(p.getNapomene());
-      String key = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());
+      String key = settings.getReportName() + getFilenameSuffix(p.getDatumStatusa());
       getList(key).add(i);
       }
   }
