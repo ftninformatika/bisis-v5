@@ -15,13 +15,14 @@ version = "5.0.0"
 repositories {
     maven { url "https://clojars.org/repo" }
     maven { url "https://maven.repository.redhat.com/ga/" }
-    maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/"}
+    //maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/"}
     maven { url "http://services.tidalwave.it/nexus/content/repositories/releases/" }
     mavenCentral()
 }
 
 dependencies {
     compile project(":bisis-model")
+    implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.0.0'
     compile group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.0.0'
     compile group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'

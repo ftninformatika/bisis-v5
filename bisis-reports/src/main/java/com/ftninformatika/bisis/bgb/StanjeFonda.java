@@ -1,22 +1,16 @@
 package com.ftninformatika.bisis.bgb;
 
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.log4j.Logger;
+
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Pattern;
 
 
 public class StanjeFonda extends Report {
@@ -78,11 +72,14 @@ public class StanjeFonda extends Report {
 		}
 	  @Override
 	  public void handleRecord(Record rec) {
+	 	 HashMap<String,Boolean> novZapis = new HashMap<String,Boolean>();
 		  if (rec == null)
 		      return;
-		 /* if (!rec.getSubfieldContent("001c").equalsIgnoreCase("m"))
-		    	return;   */ 
 		    for (Primerak p : rec.getPrimerci()) {
+				if (p.getStatus()!=null) {
+					if (p.getStatus().equals("6")) //ne broji rashodovane
+						continue;
+				}
 		    	String invBr=p.getInvBroj();
 		    	if (invBr == null)
 		    		continue;
@@ -90,27 +87,45 @@ public class StanjeFonda extends Report {
 		    	if(ogr==null){
 		    	   ogr=p.getInvBroj().substring(0,2);
 		    	}
-		    	
-		        if (p.getStatus()!=null) {
-		        	if(p.getStatus().equals("9")) //ne broji rashodovane
-		        		continue; 
-		        }
-					 
+		    	String sublocation = p.getSigPodlokacija();
+				if(sublocation==null){
+					sublocation=p.getInvBroj().substring(0,4);
+				}
 		    	try {
 		    		Date invDate=p.getDatumInventarisanja();
 		        
 		    	String key = settings.getReportName()+ getFilenameSuffix(invDate);
-				Item item = getItem(getList(key), ogr);
+				Item item = getItem(getList(key), sublocation);
 			      if (item == null ){
-			         	item=new Item(ogr);
+			         	item=new Item(sublocation);
 			         	item.primerci++;
-			         	getList(key).add(item);	
+			         	item.location = ogr;
+			         	getList(key).add(item);
 			      }else{
 			    	  item.primerci++;
 			      }
+			      if (novZapis.get(sublocation) == null){
+					  novZapis.put(sublocation,Boolean.TRUE);
+					  item.zapisi++;
+				  }
+					if (novZapis.get(ogr) == null){
+						novZapis.put(ogr,Boolean.TRUE);
+						item.zapisiOpstinska++;
+					}
+					Item item1 = getItem(getList(key), "UKUPNO");
+					if (item1 == null ){
+						item1=new Item("UKUPNO");
+						item1.location = "99";
+						getList(key).add(item1);
+					}
+					if (novZapis.get("UKUPNO") == null){
+						novZapis.put("UKUPNO",Boolean.TRUE);
+						item1.zapisi++;
+					}
+
 		      }
 		    catch(Exception e){
-		    	
+		    	e.printStackTrace();
 		    }
 		  }
 	    }	   
@@ -120,11 +135,11 @@ public class StanjeFonda extends Report {
 	  }
 	 
 	  
-	  public Item getItem(List<Item> iteml, String sigla) {
+	  public Item getItem(List<Item> iteml, String sublocation) {
 			
 			for (Item it : iteml){
 				
-				if (it.sigla.compareToIgnoreCase(sigla)==0){	
+				if (it.sublocation.compareToIgnoreCase(sublocation)==0){
 					return it;
 				}
 			}
@@ -134,18 +149,23 @@ public class StanjeFonda extends Report {
 		  }
 
 	  public class Item implements Comparable  {
-		  String sigla;
-		  int primerci;	    
-		    public Item(String sigla) {
+		  String location;
+		  String sublocation;
+		  int primerci;
+		  int zapisi;
+		  int zapisiOpstinska;
+		    public Item(String sublocation) {
 				super();
-				this.sigla = sigla;
 				this.primerci = 0;
+				this.zapisi = 0;
+				this.zapisiOpstinska = 0;
+				this.sublocation = sublocation;
 			}
 		    
 		    public int compareTo(Object o) {
 			      if (o instanceof Item) {
 			        Item b = (Item)o;
-			        return sigla.compareTo(b.sigla);
+			        return sublocation.compareTo(b.sublocation);
 			      }
 			      return 0;
 			    }
@@ -153,16 +173,29 @@ public class StanjeFonda extends Report {
 		    public String toString() {
 		      StringBuffer buf = new StringBuffer();
 		      buf.append("\n  <item> \n <sigla>");
-		      buf.append(sigla);
+		      if (location.equalsIgnoreCase("99")){
+				  buf.append(location);
+			  }else{
+				  buf.append(location+" - "+LatCyrUtils.toCyrillic(getCoders().getLocCoders().get(location).getDescription()));
+			  }
 		      buf.append("</sigla>\n");
+				buf.append("<sublocation>");
+				buf.append(sublocation);
+				buf.append("</sublocation>\n");
 		      buf.append("<ogranak>");
 		      String sig = LatCyrUtils.toCyrillic("nepoznato");
-		      if(getCoders().getLocCoders().get(sigla) != null)
-		      	sig = LatCyrUtils.toCyrillic(getCoders().getLocCoders().get(sigla).getDescription());
+		      if(getCoders().getSublocCoders().get(sublocation) != null)
+		      	sig = LatCyrUtils.toCyrillic(getCoders().getSublocCoders().get(sublocation).getDescription());
 		      buf.append(sig);
 		      buf.append("</ogranak>\n    <primerci>");
 		      buf.append(primerci);
-		      buf.append("</primerci>\n  </item>");
+		      buf.append("</primerci>\n  ");
+		      buf.append("<zapisi>");
+		      buf.append(zapisi);
+			  buf.append("</zapisi>\n ");
+			  buf.append("<zapisiOpstinska>");
+			  buf.append(zapisiOpstinska);
+			  buf.append("</zapisiOpstinska>\n    </item>");
 		      return buf.toString();
 		    }
 		    		   
