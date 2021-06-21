@@ -41,6 +41,7 @@ public class Report {
 	private JPanel buttonPanel = null;
 	private JLabel lName = null;
 	private JLabel lTfCmb = null;
+	private JLabel lLocation = null;
 	private JTextField tfNumber = null;
 	private JComboBox cmbGroup = null;
 	private CmbKeySelectionManager cmbKeySelectionManager = null;
@@ -73,7 +74,7 @@ public class Report {
 		pb.addLabel("-", cc.xy(5, 10, "center, center"));
 		pb.add(getTfEndDate(), cc.xy(6, 10));
 
-		pb.addLabel(Messages.getString("circulation.location"), cc.xy(2, 12));
+		pb.add(getLblLocation(), cc.xy(2, 12));
 		pb.add(getCmbLocation(), cc.xyw(4, 12, 3));
 
 		pb.add(getButtonPanel(), cc.xyw(2, 14, 8));
@@ -106,6 +107,7 @@ public class Report {
 		listReports.add(Messages.getString("circulation.picturebooksreport"));
 		listReports.add(Messages.getString("circulation.librarianstatistic"));
 		listReports.add(Messages.getString("circulation.firsttimesigned"));
+		listReports.add(Messages.getString("circulation.reservationsreport"));
 		return listReports;
 	}
 	private JComboBox getCmbReport() {
@@ -133,6 +135,8 @@ public class Report {
 				getTfEndDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 2 :
 				getLName().setText(Messages.getString("circulation.case2"));
@@ -141,6 +145,8 @@ public class Report {
 				getTfEndDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				 getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 3 :
 				getLName().setText(Messages.getString("circulation.case3"));
@@ -149,6 +155,8 @@ public class Report {
 				getTfEndDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 4 :
 				getLName().setText(Messages.getString("circulation.case4"));
@@ -157,6 +165,8 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 5:
 				getLName().setText(Messages.getString("circulation.case5"));
@@ -165,6 +175,8 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 6 :
 				getLName().setText(Messages.getString("circulation.case6"));
@@ -173,6 +185,8 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 7 :
 				getLName().setText(Messages.getString("circulation.case7"));
@@ -181,6 +195,8 @@ public class Report {
 				getTfEndDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 8 :
 				getLName().setText(Messages.getString("circulation.case8"));
@@ -189,6 +205,8 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 9 :
 				getLName().setText(Messages.getString("circulation.case9"));
@@ -197,6 +215,8 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 10 :
 				getLName().setText(Messages.getString("circulation.case10"));
@@ -205,6 +225,8 @@ public class Report {
 				getTfStartDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 11 :
 				getLName().setText(Messages.getString("circulation.case11"));
@@ -213,6 +235,8 @@ public class Report {
 				getTfStartDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 12 :
 				getLName().setText(Messages.getString("circulation.case12"));
@@ -221,6 +245,8 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 13 :
 				getLName().setText(Messages.getString("circulation.case13"));
@@ -231,6 +257,8 @@ public class Report {
 				getLTfCmb().setVisible(true);
 				setCmbModel();
 		        getCmbGroup().setVisible(true);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 14 :
 				getLName().setText(Messages.getString("circulation.case14"));
@@ -241,6 +269,8 @@ public class Report {
 				getLTfCmb().setText(Messages.getString("circulation.membernum"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 15 :
 				getLName().setText(Messages.getString("circulation.case15"));
@@ -251,6 +281,8 @@ public class Report {
 				getLTfCmb().setText(Messages.getString("circulation.invnum"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 16 :
 				getLName().setText(Messages.getString("circulation.case16"));
@@ -259,6 +291,8 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 				
 			case 17:
@@ -268,6 +302,8 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 18:
 				getLName().setText(Messages.getString("circulation.case18"));
@@ -278,6 +314,8 @@ public class Report {
 				getLTfCmb().setText(Messages.getString("circulation.udc"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 19:
 				getLName().setText(Messages.getString("circulation.case19"));
@@ -286,6 +324,8 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 20:
 				getLName().setText(Messages.getString("circulation.case20"));
@@ -294,6 +334,8 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 21:
 				getLName().setText(Messages.getString("circulation.case21"));
@@ -302,6 +344,8 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 22:
 				getLName().setText(Messages.getString("circulation.case22"));
@@ -310,6 +354,8 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
 				break;
 			case 23:
 				getLName().setText(Messages.getString("circulation.case23"));
@@ -318,6 +364,18 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(true);
+				getCmbLocation().setVisible(true);
+				break;
+			case 24:
+				getLName().setText(Messages.getString("circulation.case24"));
+				getTfNumber().setVisible(false);
+				getTfEndDate().setVisible(true);
+				getTfStartDate().setVisible(true);
+				getLTfCmb().setVisible(false);
+				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(false);
+				getCmbLocation().setVisible(false);
 				break;
 			default :
 
@@ -388,6 +446,14 @@ public class Report {
 			tfEndDate = new JDateChooser();
 		}
 		return tfEndDate;
+	}
+
+	private JLabel getLblLocation() {
+		if (lLocation == null){
+			lLocation = new JLabel();
+			lLocation.setText(Messages.getString("circulation.location"));
+		}
+		return lLocation;
 	}
 
 	private boolean isValidDateRange(){
