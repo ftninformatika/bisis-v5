@@ -14,6 +14,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
+      database: bisis
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
