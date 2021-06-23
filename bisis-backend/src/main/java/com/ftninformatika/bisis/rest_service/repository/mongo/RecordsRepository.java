@@ -35,4 +35,7 @@ public interface RecordsRepository extends MongoRepository<Record, String>, Reco
     List<Record> getRecordsForCtlgNoList(List ctlgNos);
 
     Record getByRn(int rn);
+
+    @Query("{'reservations': {$exists: true, $type: 'array', $ne: []}}")
+    List<Record> getAllRecordsWithReservations();
 }
