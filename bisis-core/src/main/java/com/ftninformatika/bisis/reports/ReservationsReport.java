@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReservationsOnLocation {
-    List<ReservedBookDTO> reservedBooks;
-    String location;
+public class ReservationsReport {
+    HashMap<String, List<ReservedBookDTO>> reservationsInQueue;
+    HashMap<String, List<ReservedBookDTO>> assignedReservations;
 }

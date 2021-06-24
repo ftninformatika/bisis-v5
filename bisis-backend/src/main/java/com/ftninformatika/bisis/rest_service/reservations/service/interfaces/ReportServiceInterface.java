@@ -1,13 +1,10 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.interfaces;
 
-import com.ftninformatika.bisis.reports.ReservedBookDTO;
-
-import java.util.HashMap;
-import java.util.List;
+import com.ftninformatika.bisis.reports.ReservationsReport;
 
 /**
  * @author marijakovacevic
  */
 public interface ReportServiceInterface {
-    HashMap<String, List<ReservedBookDTO>> getReservationsReport(String library);
+    ReservationsReport getReservationsReport(String library);
 }
