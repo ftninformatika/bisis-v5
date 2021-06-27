@@ -25,6 +25,7 @@ import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
+import com.ftninformatika.bisis.reports.ReservationsReport;
 import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.utils.PathDate;
 import okhttp3.RequestBody;
@@ -485,6 +486,10 @@ public interface BisisService {
 
     @GET("members/getWarnHistory")
     Call<List<MemberData>> getWarnHistory(@Query("start") PathDate start, @Query("end") PathDate end, @Query("warningType") String warningType, @Query("location") String location);
+
+    @GET("reservations-report/")
+    Call<ReservationsReport> getReservationsStatistics(@Query("start") PathDate start, @Query("end") PathDate end);
+
 
     //--GENERICKI REGISTRI
     @GET("registries/{regCode}")

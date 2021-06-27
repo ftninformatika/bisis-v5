@@ -592,6 +592,12 @@ public class Report {
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(FirstTimeSigned.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
+								case 24:
+									Cirkulacija.getApp().getMainFrame().getReportResults()
+											.setJasper(ReservationsStatistics.setPrint(Utils.setMinDate(getTfStartDate().getDate()),
+													Utils.setMaxDate(getTfEndDate().getDate())));
+									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+									break;
 								default:
 									JOptionPane.showMessageDialog(null, Messages.getString("circulation.nodataentered"),
 											Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);

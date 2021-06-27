@@ -3,8 +3,9 @@ package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.reports.ReservationsGroup;
 import com.ftninformatika.bisis.reports.ReservationsReport;
-import com.ftninformatika.bisis.reports.ReservedBookDTO;
+import com.ftninformatika.bisis.reports.ReservedBook;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
@@ -15,10 +16,7 @@ import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchS
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author marijakovacevic
@@ -35,9 +33,9 @@ public class ReportService implements ReportServiceInterface {
     MemberRepository memberRepository;
 
     @Override
-    public ReservationsReport getReservationsReport(String library) {
-        HashMap<String, List<ReservedBookDTO>> reservationsInQueue = getReservationsInQueue();
-        HashMap<String, List<ReservedBookDTO>> assignedReservations = getAssignedReservations();
+    public ReservationsReport getReservationsReport(Date start, Date end, String library) {
+        HashMap<String, ReservationsGroup> reservationsInQueue = getReservationsInQueue();
+        HashMap<String, ReservationsGroup> assignedReservations = getAssignedReservations();
 
         ReservationsReport reservationsReport = new ReservationsReport();
         reservationsReport.setReservationsInQueue(reservationsInQueue);
@@ -45,9 +43,9 @@ public class ReportService implements ReportServiceInterface {
         return reservationsReport;
     }
 
-    private HashMap<String, List<ReservedBookDTO>> getReservationsInQueue() {
+    private HashMap<String, ReservationsGroup> getReservationsInQueue() {
         List<Record> records = recordsRepository.getAllRecordsWithReservations();
-        HashMap<String, List<ReservedBookDTO>> result = new HashMap<>();
+        HashMap<String, ReservationsGroup> result = new HashMap<>();
         boolean bookDtoCreated = false;
         int brojRez = 0;
 
@@ -55,24 +53,25 @@ public class ReportService implements ReportServiceInterface {
             brojRez += record.getReservations().size();
             for (ReservationInQueue r : record.getReservations()) {
                 if (result.containsKey(r.getCoderId())) {
-                    List<ReservedBookDTO> books = result.get(r.getCoderId());
+                    ReservationsGroup rg = result.get(r.getCoderId());
 
-                    for (ReservedBookDTO reservedBookDTO : books) {
+                    for (ReservedBook reservedBook : rg.getReservedBooks()) {
                         // if ReservedBookDTO is already created
-                        if (reservedBookDTO.getRecordId().equals(record.get_id())) {
-                            reservedBookDTO.setTotalCount(reservedBookDTO.getTotalCount() + 1);
+                        if (reservedBook.getRecordId().equals(record.get_id())) {
+                            reservedBook.setTotalCount(reservedBook.getTotalCount() + 1);
                             bookDtoCreated = true;
                             break;
                         }
                     }
 
                     if (!bookDtoCreated) {
-                        books.add(createReservedBookDTO(record));
+                        rg.getReservedBooks().add(createReservedBookDTO(record));
                     }
                 } else {
-                    List<ReservedBookDTO> booksList = new ArrayList<>();
-                    booksList.add(createReservedBookDTO(record));
-                    result.put(r.getCoderId(), booksList);
+                    ReservationsGroup rg = new ReservationsGroup();
+                    rg.setLocation(r.getCoderId());
+                    rg.getReservedBooks().add(createReservedBookDTO(record));
+                    result.put(r.getCoderId(), rg);
                 }
                 bookDtoCreated = false;
             }
@@ -82,9 +81,9 @@ public class ReportService implements ReportServiceInterface {
         return result;
     }
 
-    public HashMap<String, List<ReservedBookDTO>> getAssignedReservations() {
+    public HashMap<String, ReservationsGroup> getAssignedReservations() {
         List<Member> members = memberRepository.getMemberWithAssignedReservation();
-        HashMap<String, List<ReservedBookDTO>> result = new HashMap<>();
+        HashMap<String, ReservationsGroup> result = new HashMap<>();
         int reNum = 0;
 
         for (Member member : members) {
@@ -96,37 +95,39 @@ public class ReportService implements ReportServiceInterface {
 
                         // if location exists in hashmap
                         if (result.containsKey(reservation.getCoderId())) {
-                            List<ReservedBookDTO> booksList = result.get(reservation.getCoderId());
-                            booksList.add(createReservedBookDTO(record.get()));
+                            ReservationsGroup reservationsGroup = result.get(reservation.getCoderId());
+                            reservationsGroup.getReservedBooks().add(createReservedBookDTO(record.get()));
                         }
 
                         // if location doesnt exist in hashmap
                         else {
-                            List<ReservedBookDTO> booksList = new ArrayList<>();
-                            booksList.add(createReservedBookDTO(record.get()));
-                            result.put(reservation.getCoderId(), booksList);
+//                            List<ReservedBook> booksList = new ArrayList<>();
+                            ReservationsGroup reservationsGroup = new ReservationsGroup();
+                            reservationsGroup.setLocation(reservation.getCoderId());
+                            reservationsGroup.getReservedBooks().add(createReservedBookDTO(record.get()));
+                            result.put(reservation.getCoderId(), reservationsGroup);
                         }
                     }
                 }
             }
         }
         System.out.println("Broj dodeljenih rezervacija:" + reNum);
-        racunajUkupno(result);
+//        racunajUkupno(result);
         return result;
     }
 
-    private void racunajUkupno(HashMap<String, List<ReservedBookDTO>> result) {
+    private void racunajUkupno(HashMap<String, ReservationsGroup> result) {
         int suma = 0;
-        for (List<ReservedBookDTO> reservedBooks : result.values()) {
-            for (ReservedBookDTO r : reservedBooks) {
+        for (ReservationsGroup rg : result.values()) {
+            for (ReservedBook r : rg.getReservedBooks()) {
                 suma += r.getTotalCount();
             }
         }
         System.out.println("Suma: " + suma);
     }
 
-    private ReservedBookDTO createReservedBookDTO(Record record) {
+    private ReservedBook createReservedBookDTO(Record record) {
         Book book = opacSearchService.getBookByRec(record);
-        return ReservedBookDTO.createReservedBookDTO(book);
+        return ReservedBook.createReservedBookDTO(book);
     }
 }

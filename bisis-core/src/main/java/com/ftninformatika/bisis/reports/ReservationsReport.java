@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author marijakovacevic
@@ -15,6 +14,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ReservationsReport {
-    HashMap<String, List<ReservedBookDTO>> reservationsInQueue;
-    HashMap<String, List<ReservedBookDTO>> assignedReservations;
+    HashMap<String, ReservationsGroup> reservationsInQueue;
+    HashMap<String, ReservationsGroup> assignedReservations;
 }
