@@ -30,12 +30,15 @@ public class ReportService implements ReportServiceInterface {
     OpacSearchService opacSearchService;
 
     @Autowired
+    LocationService locationService;
+
+    @Autowired
     MemberRepository memberRepository;
 
     @Override
     public ReservationsReport getReservationsReport(Date start, Date end, String library) {
-        HashMap<String, ReservationsGroup> reservationsInQueue = getReservationsInQueue();
-        HashMap<String, ReservationsGroup> assignedReservations = getAssignedReservations();
+        HashMap<String, ReservationsGroup> reservationsInQueue = getReservationsInQueue(library);
+        HashMap<String, ReservationsGroup> assignedReservations = getAssignedReservations(library);
 
         ReservationsReport reservationsReport = new ReservationsReport();
         reservationsReport.setReservationsInQueue(reservationsInQueue);
@@ -43,7 +46,7 @@ public class ReportService implements ReportServiceInterface {
         return reservationsReport;
     }
 
-    private HashMap<String, ReservationsGroup> getReservationsInQueue() {
+    private HashMap<String, ReservationsGroup> getReservationsInQueue(String library) {
         List<Record> records = recordsRepository.getAllRecordsWithReservations();
         HashMap<String, ReservationsGroup> result = new HashMap<>();
         boolean bookDtoCreated = false;
@@ -69,7 +72,7 @@ public class ReportService implements ReportServiceInterface {
                     }
                 } else {
                     ReservationsGroup rg = new ReservationsGroup();
-                    rg.setLocation(r.getCoderId());
+                    rg.setLocation(this.locationService.getLibraryBranchName(library, r.getCoderId()));
                     rg.getReservedBooks().add(createReservedBookDTO(record));
                     result.put(r.getCoderId(), rg);
                 }
@@ -81,38 +84,37 @@ public class ReportService implements ReportServiceInterface {
         return result;
     }
 
-    public HashMap<String, ReservationsGroup> getAssignedReservations() {
+    public HashMap<String, ReservationsGroup> getAssignedReservations(String library) {
         List<Member> members = memberRepository.getMemberWithAssignedReservation();
         HashMap<String, ReservationsGroup> result = new HashMap<>();
         int reNum = 0;
 
         for (Member member : members) {
-            for (ReservationOnProfile reservation : member.getReservations()) {
-                if (reservation.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
+            for (ReservationOnProfile r : member.getReservations()) {
+                if (r.getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {
                     reNum += 1;
-                    Optional<Record> record = recordsRepository.findById(reservation.getRecord_id());
+                    Optional<Record> record = recordsRepository.findById(r.getRecord_id());
                     if (record.isPresent()) {
 
                         // if location exists in hashmap
-                        if (result.containsKey(reservation.getCoderId())) {
-                            ReservationsGroup reservationsGroup = result.get(reservation.getCoderId());
+                        if (result.containsKey(r.getCoderId())) {
+                            ReservationsGroup reservationsGroup = result.get(r.getCoderId());
                             reservationsGroup.getReservedBooks().add(createReservedBookDTO(record.get()));
                         }
 
                         // if location doesnt exist in hashmap
                         else {
-//                            List<ReservedBook> booksList = new ArrayList<>();
                             ReservationsGroup reservationsGroup = new ReservationsGroup();
-                            reservationsGroup.setLocation(reservation.getCoderId());
+                            reservationsGroup.setLocation(this.locationService.getLibraryBranchName(library, r.getCoderId()));
                             reservationsGroup.getReservedBooks().add(createReservedBookDTO(record.get()));
-                            result.put(reservation.getCoderId(), reservationsGroup);
+                            result.put(r.getCoderId(), reservationsGroup);
                         }
                     }
                 }
             }
         }
         System.out.println("Broj dodeljenih rezervacija:" + reNum);
-//        racunajUkupno(result);
+        racunajUkupno(result);
         return result;
     }
 
