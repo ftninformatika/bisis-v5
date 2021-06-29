@@ -38,14 +38,17 @@ public class ReportService implements ReportServiceInterface {
     @Override
     public ReservationsReport getReservationsReport(Date start, Date end, String library) {
         Collection<ReservationsGroup> inQueue = getReservationsInQueue(library);
+        calculateTotalOnLocation(inQueue);
 
         List<Member> members1 = memberRepository.findMembersWithAssignedReservations();
         System.out.println("Ukupno members za assigned " + members1.size());
         Collection<ReservationsGroup> assigned = getReservationsFromMember(members1, library, ReservationStatus.ASSIGNED_BOOK);
+        calculateTotalOnLocation(assigned);
 
         List<Member> members2 = memberRepository.findMembersWithPickedUpReservations();
         System.out.println("Ukupno members za picked up " + members2.size());
         Collection<ReservationsGroup> pickedUp = getReservationsFromMember(members2, library, ReservationStatus.PICKED_UP);
+        calculateTotalOnLocation(pickedUp);
 
         ReservationsReport reservationsReport = new ReservationsReport();
         reservationsReport.setReservationsInQueue(inQueue);
@@ -53,6 +56,12 @@ public class ReportService implements ReportServiceInterface {
         reservationsReport.setPickedUpReservations(pickedUp);
 
         return reservationsReport;
+    }
+
+    private void calculateTotalOnLocation(Collection<ReservationsGroup> rgroup) {
+        for (ReservationsGroup rg : rgroup) {
+            rg.calculateTotal();
+        }
     }
 
     private Collection<ReservationsGroup> getReservationsInQueue(String library) {

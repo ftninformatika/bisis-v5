@@ -14,9 +14,18 @@ import java.util.List;
 @Setter
 public class ReservationsGroup {
     String location;
+    Integer total;
     List<ReservedBook> reservedBooks;
 
-    public ReservationsGroup(){
+    public ReservationsGroup() {
         this.reservedBooks = new ArrayList<>();
+    }
+
+    public void calculateTotal() {
+        int total = 0;
+        for (ReservedBook rb : this.reservedBooks) {
+            total += rb.getTotalCount();
+        }
+        this.total = total;
     }
 }

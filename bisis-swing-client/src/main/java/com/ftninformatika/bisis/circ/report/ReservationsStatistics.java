@@ -18,16 +18,21 @@ public class ReservationsStatistics {
         ReservationsReport results = BisisApp.bisisService.getReservationsStatistics(new PathDate(start), new PathDate(end)).execute().body();
 
         JRBeanCollectionDataSource dataSource = null;
+        Map<String, Object> params = new HashMap<>();
+
         if (results != null) {
             switch (reportType.toString()){
                 case "На чекању":
                     dataSource = new JRBeanCollectionDataSource(results.getReservationsInQueue());
+                    params.put("reportTitle", "Резервације на чекању");
                     break;
                 case "Додељене":
                     dataSource = new JRBeanCollectionDataSource(results.getAssignedReservations());
+                    params.put("reportTitle", "Додељене резервације");
                     break;
                 case "Реализоване":
                     dataSource = new JRBeanCollectionDataSource(results.getPickedUpReservations());
+                    params.put("reportTitle", "Реализоване резервације");
                     break;
                 default:
                     break;
@@ -35,7 +40,6 @@ public class ReservationsStatistics {
         }
         InputStream inputStream = LendReturn.class.getResource("/cirkulacija/jaspers/reservationsReport.jasper").openStream();
 
-        Map<String, Object> params = new HashMap<>();
 
         return JasperFillManager.fillReport(inputStream, params, dataSource);
     }

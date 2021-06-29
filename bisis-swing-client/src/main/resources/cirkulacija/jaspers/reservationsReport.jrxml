@@ -21,6 +21,7 @@
 			<fieldDescription><![CDATA[totalCount]]></fieldDescription>
 		</field>
 	</subDataset>
+	<parameter name="reportTitle" class="java.lang.String"/>
 	<queryString language="JSON">
 		<![CDATA[]]>
 	</queryString>
@@ -28,13 +29,16 @@
 		<property name="net.sf.jasperreports.json.field.expression" value="location"/>
 		<fieldDescription><![CDATA[location]]></fieldDescription>
 	</field>
+	<field name="total" class="java.lang.Integer">
+		<fieldDescription><![CDATA[total]]></fieldDescription>
+	</field>
 	<field name="reservedBooks" class="java.lang.Object">
 		<fieldDescription><![CDATA[reservedBooks]]></fieldDescription>
 	</field>
-	<group name="Group1" isReprintHeaderOnEachPage="true" preventOrphanFooter="true">
+	<group name="Group1" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{reservationsGroupLocation}]]></groupExpression>
 		<groupHeader>
-			<band height="90">
+			<band height="95">
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<componentElement>
 					<reportElement x="0" y="70" width="550" height="20" uuid="422885b6-4558-4f3d-98c9-3c30bff1ccff">
@@ -80,7 +84,7 @@
 								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font fontName="DejaVu Sans" size="9"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{authors}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{authors}.get(0)]]></textFieldExpression>
 							</textField>
 							<textField>
 								<reportElement x="0" y="0" width="25" height="20" uuid="9611d9c2-3829-4be1-abe1-08d2ada1c9fc">
@@ -216,7 +220,7 @@
 					<text><![CDATA[ ]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="0" y="0" width="550" height="20" uuid="217953cf-578b-4c89-a8b9-bc1e17063a18"/>
+					<reportElement x="0" y="0" width="480" height="20" uuid="217953cf-578b-4c89-a8b9-bc1e17063a18"/>
 					<textElement verticalAlignment="Bottom">
 						<paragraph lineSpacing="Single"/>
 					</textElement>
@@ -224,9 +228,30 @@
 				</textField>
 			</band>
 		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<staticText>
+					<reportElement x="450" y="2" width="70" height="20" uuid="18e1dbd8-ca12-4745-ba09-618cc10932eb"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Укупно:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="520" y="2" width="30" height="20" uuid="c8e4261d-4215-44e1-98f5-733e200585e3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
 	</group>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
 	</background>
 	<title>
 		<band splitType="Stretch">
@@ -235,8 +260,8 @@
 	</title>
 	<pageHeader>
 		<band height="112" splitType="Stretch">
-			<staticText>
-				<reportElement x="180" y="40" width="200" height="30" uuid="3e24abfe-4b73-400a-870c-509ef4deb451">
+			<textField>
+				<reportElement x="177" y="41" width="200" height="30" uuid="3e24abfe-4b73-400a-870c-509ef4deb451">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -251,8 +276,8 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="14" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Резервације на чекању]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="-1" y="0" width="220" height="20" uuid="e43a95e9-0147-4aee-994f-acde85d88041"/>
 				<textElement verticalAlignment="Bottom">
