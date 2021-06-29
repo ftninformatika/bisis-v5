@@ -49,6 +49,9 @@ public interface MemberRepository extends MongoRepository<Member, String>, Membe
     Member getMemberByReservationCtlgNo(@Param("ctlgNo") String invNum, @Param("reservationStatus") String reservationStatus);
 
     @Query("{ 'reservations': { $elemMatch: {'reservationStatus': 'ASSIGNED_BOOK'}}}")
-    List<Member> getMemberWithAssignedReservation();
+    List<Member> findMembersWithAssignedReservations();
+
+    @Query("{ 'reservations': { $elemMatch: {'reservationStatus': 'PICKED_UP'}}}")
+    List<Member> findMembersWithPickedUpReservations();
 
 }

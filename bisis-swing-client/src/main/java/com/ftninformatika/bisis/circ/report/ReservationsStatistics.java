@@ -14,14 +14,24 @@ import java.util.*;
  * @author marijakovacevic
  */
 public class ReservationsStatistics {
-    public static JasperPrint setPrint(Date start, Date end) throws JRException, IOException {
+    public static JasperPrint setPrint(Date start, Date end, Object reportType) throws JRException, IOException {
         ReservationsReport results = BisisApp.bisisService.getReservationsStatistics(new PathDate(start), new PathDate(end)).execute().body();
 
         JRBeanCollectionDataSource dataSource = null;
         if (results != null) {
-//            Set<Map.Entry<String, List<ReservedBook>>> set = results.getReservationsInQueue().entrySet();
-
-            dataSource = new JRBeanCollectionDataSource(results.getReservationsInQueue().values());
+            switch (reportType.toString()){
+                case "На чекању":
+                    dataSource = new JRBeanCollectionDataSource(results.getReservationsInQueue());
+                    break;
+                case "Додељене":
+                    dataSource = new JRBeanCollectionDataSource(results.getAssignedReservations());
+                    break;
+                case "Реализоване":
+                    dataSource = new JRBeanCollectionDataSource(results.getPickedUpReservations());
+                    break;
+                default:
+                    break;
+            }
         }
         InputStream inputStream = LendReturn.class.getResource("/cirkulacija/jaspers/reservationsReport.jasper").openStream();
 

@@ -33,6 +33,7 @@ public class Report {
 
 	private JComboBox cmbReport = null;
 	private JComboBox cmbLocation = null;
+	private JComboBox cmbReservations = null;
 	private JDateChooser tfStartDate = null;
 	private JDateChooser tfEndDate = null;
 	private JButton btnSearch = null;
@@ -76,6 +77,7 @@ public class Report {
 
 		pb.add(getLblLocation(), cc.xy(2, 12));
 		pb.add(getCmbLocation(), cc.xyw(4, 12, 3));
+		pb.add(getCmbReservations(), cc.xyw(4, 12, 3));
 
 		pb.add(getButtonPanel(), cc.xyw(2, 14, 8));
 	}
@@ -137,6 +139,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 2 :
 				getLName().setText(Messages.getString("circulation.case2"));
@@ -147,6 +150,7 @@ public class Report {
 				 getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 3 :
 				getLName().setText(Messages.getString("circulation.case3"));
@@ -157,6 +161,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 4 :
 				getLName().setText(Messages.getString("circulation.case4"));
@@ -167,6 +172,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 5:
 				getLName().setText(Messages.getString("circulation.case5"));
@@ -177,6 +183,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 6 :
 				getLName().setText(Messages.getString("circulation.case6"));
@@ -187,6 +194,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 7 :
 				getLName().setText(Messages.getString("circulation.case7"));
@@ -197,6 +205,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 8 :
 				getLName().setText(Messages.getString("circulation.case8"));
@@ -207,6 +216,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 9 :
 				getLName().setText(Messages.getString("circulation.case9"));
@@ -217,6 +227,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 10 :
 				getLName().setText(Messages.getString("circulation.case10"));
@@ -227,6 +238,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 11 :
 				getLName().setText(Messages.getString("circulation.case11"));
@@ -237,6 +249,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 12 :
 				getLName().setText(Messages.getString("circulation.case12"));
@@ -247,6 +260,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 13 :
 				getLName().setText(Messages.getString("circulation.case13"));
@@ -259,6 +273,7 @@ public class Report {
 		        getCmbGroup().setVisible(true);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 14 :
 				getLName().setText(Messages.getString("circulation.case14"));
@@ -271,6 +286,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 15 :
 				getLName().setText(Messages.getString("circulation.case15"));
@@ -283,6 +299,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 16 :
 				getLName().setText(Messages.getString("circulation.case16"));
@@ -293,6 +310,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 				
 			case 17:
@@ -304,6 +322,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 18:
 				getLName().setText(Messages.getString("circulation.case18"));
@@ -316,6 +335,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 19:
 				getLName().setText(Messages.getString("circulation.case19"));
@@ -326,6 +346,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 20:
 				getLName().setText(Messages.getString("circulation.case20"));
@@ -336,6 +357,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 21:
 				getLName().setText(Messages.getString("circulation.case21"));
@@ -346,6 +368,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 22:
 				getLName().setText(Messages.getString("circulation.case22"));
@@ -356,6 +379,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 23:
 				getLName().setText(Messages.getString("circulation.case23"));
@@ -366,6 +390,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(true);
 				getCmbLocation().setVisible(true);
+				getCmbReservations().setVisible(false);
 				break;
 			case 24:
 				getLName().setText(Messages.getString("circulation.case24"));
@@ -376,6 +401,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				getLblLocation().setVisible(false);
 				getCmbLocation().setVisible(false);
+				getCmbReservations().setVisible(true);
 				break;
 			default :
 
@@ -390,6 +416,19 @@ public class Report {
 			cmbLocation.setKeySelectionManager(getCmbKeySelectionManager());
 		}
 		return cmbLocation;
+	}
+
+	private JComboBox getCmbReservations() {
+		if (cmbReservations == null) {
+			cmbReservations = new JComboBox();
+			cmbReservations.setFocusable(false);
+			cmbReservations.setRenderer(getCmbRenderer());
+			cmbReservations.setKeySelectionManager(getCmbKeySelectionManager());
+			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType1"));
+			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType2"));
+			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType3"));
+		}
+		return cmbReservations;
 	}
   
   public void loadCmbLocation(List data){
@@ -595,7 +634,7 @@ public class Report {
 								case 24:
 									Cirkulacija.getApp().getMainFrame().getReportResults()
 											.setJasper(ReservationsStatistics.setPrint(Utils.setMinDate(getTfStartDate().getDate()),
-													Utils.setMaxDate(getTfEndDate().getDate())));
+													Utils.setMaxDate(getTfEndDate().getDate()), getCmbReservations().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
 								default:
