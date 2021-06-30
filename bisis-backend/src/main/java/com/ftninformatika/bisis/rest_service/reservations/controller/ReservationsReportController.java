@@ -21,11 +21,27 @@ public class ReservationsReportController {
     @Autowired
     ReportServiceInterface reportService;
 
-    @RequestMapping
-    public ResponseEntity<?> getReservationsReport(@RequestHeader("Library") String library,
-                                                   @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start,
-                                                   @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end) {
-        ReservationsReport report = reportService.getReservationsReport(start, end, library);
+    @RequestMapping(path = "/in-queue")
+    public ResponseEntity<?> getReservationsInQueue(@RequestHeader("Library") String library,
+                                                    @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start,
+                                                    @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end) {
+        ReservationsReport report = reportService.getReservationsInQueue(start, end, library);
+        return new ResponseEntity<>(report, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/assigned")
+    public ResponseEntity<?> getAssignedReservations(@RequestHeader("Library") String library,
+                                                     @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start,
+                                                     @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end) {
+        ReservationsReport report = reportService.getAssignedReservations(start, end, library);
+        return new ResponseEntity<>(report, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/picked-up")
+    public ResponseEntity<?> getPickedUpReservations(@RequestHeader("Library") String library,
+                                                     @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start,
+                                                     @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end) {
+        ReservationsReport report = reportService.getPickedUpReservations(start, end, library);
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
 }

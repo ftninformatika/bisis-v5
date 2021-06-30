@@ -15,31 +15,33 @@ import java.util.*;
  */
 public class ReservationsStatistics {
     public static JasperPrint setPrint(Date start, Date end, Object reportType) throws JRException, IOException {
-        ReservationsReport results = BisisApp.bisisService.getReservationsStatistics(new PathDate(start), new PathDate(end)).execute().body();
+        ReservationsReport results = null;
 
-        JRBeanCollectionDataSource dataSource = null;
         Map<String, Object> params = new HashMap<>();
 
-        if (results != null) {
-            switch (reportType.toString()){
-                case "На чекању":
-                    dataSource = new JRBeanCollectionDataSource(results.getReservationsInQueue());
-                    params.put("reportTitle", "Резервације на чекању");
-                    break;
-                case "Додељене":
-                    dataSource = new JRBeanCollectionDataSource(results.getAssignedReservations());
-                    params.put("reportTitle", "Додељене резервације");
-                    break;
-                case "Реализоване":
-                    dataSource = new JRBeanCollectionDataSource(results.getPickedUpReservations());
-                    params.put("reportTitle", "Реализоване резервације");
-                    break;
-                default:
-                    break;
-            }
+        switch (reportType.toString()) {
+            case "На чекању":
+                results = BisisApp.bisisService.getReservationsInQueue(new PathDate(start), new PathDate(end)).execute().body();
+                params.put("reportTitle", "Резервације на чекању");
+                break;
+            case "Додељене":
+                results = BisisApp.bisisService.getAssignedReservations(new PathDate(start), new PathDate(end)).execute().body();
+                params.put("reportTitle", "Додељене резервације");
+                break;
+            case "Реализоване":
+                results = BisisApp.bisisService.getPickedUpReservations(new PathDate(start), new PathDate(end)).execute().body();
+                params.put("reportTitle", "Реализоване резервације");
+                break;
+            default:
+                break;
         }
-        InputStream inputStream = LendReturn.class.getResource("/cirkulacija/jaspers/reservationsReport.jasper").openStream();
 
+        JRBeanCollectionDataSource dataSource = null;
+        if (results != null) {
+            dataSource = new JRBeanCollectionDataSource(results.getReservations());
+        }
+
+        InputStream inputStream = LendReturn.class.getResource("/cirkulacija/jaspers/reservationsReport.jasper").openStream();
 
         return JasperFillManager.fillReport(inputStream, params, dataSource);
     }

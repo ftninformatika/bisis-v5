@@ -36,26 +36,39 @@ public class ReportService implements ReportServiceInterface {
     MemberRepository memberRepository;
 
     @Override
-    public ReservationsReport getReservationsReport(Date start, Date end, String library) {
+    public ReservationsReport getReservationsInQueue(Date start, Date end, String library) {
         Collection<ReservationsGroup> inQueue = getReservationsInQueue(library);
         calculateTotalOnLocation(inQueue);
 
+        ReservationsReport reservationsReport = new ReservationsReport();
+        reservationsReport.setReservations(inQueue);
+        return reservationsReport;
+    }
+
+    @Override
+    public ReservationsReport getAssignedReservations(Date start, Date end, String library) {
         List<Member> members1 = memberRepository.findMembersWithAssignedReservations();
         System.out.println("Ukupno members za assigned " + members1.size());
         Collection<ReservationsGroup> assigned = getReservationsFromMember(members1, library, ReservationStatus.ASSIGNED_BOOK);
         calculateTotalOnLocation(assigned);
 
+        ReservationsReport reservationsReport = new ReservationsReport();
+        reservationsReport.setReservations(assigned);
+        return reservationsReport;
+
+    }
+
+    @Override
+    public ReservationsReport getPickedUpReservations(Date start, Date end, String library) {
         List<Member> members2 = memberRepository.findMembersWithPickedUpReservations();
         System.out.println("Ukupno members za picked up " + members2.size());
         Collection<ReservationsGroup> pickedUp = getReservationsFromMember(members2, library, ReservationStatus.PICKED_UP);
         calculateTotalOnLocation(pickedUp);
 
         ReservationsReport reservationsReport = new ReservationsReport();
-        reservationsReport.setReservationsInQueue(inQueue);
-        reservationsReport.setAssignedReservations(assigned);
-        reservationsReport.setPickedUpReservations(pickedUp);
-
+        reservationsReport.setReservations(pickedUp);
         return reservationsReport;
+
     }
 
     private void calculateTotalOnLocation(Collection<ReservationsGroup> rgroup) {
@@ -67,34 +80,12 @@ public class ReportService implements ReportServiceInterface {
     private Collection<ReservationsGroup> getReservationsInQueue(String library) {
         List<Record> records = recordsRepository.getAllRecordsWithReservations();
         HashMap<String, ReservationsGroup> result = new HashMap<>();
-        boolean bookDtoCreated = false;
         int brojRez = 0;
 
         for (Record record : records) {
             brojRez += record.getReservations().size();
             for (ReservationInQueue r : record.getReservations()) {
-                if (result.containsKey(r.getCoderId())) {
-                    ReservationsGroup rg = result.get(r.getCoderId());
-
-                    for (ReservedBook reservedBook : rg.getReservedBooks()) {
-                        // if ReservedBookDTO is already created
-                        if (reservedBook.getRecordId().equals(record.get_id())) {
-                            reservedBook.setTotalCount(reservedBook.getTotalCount() + 1);
-                            bookDtoCreated = true;
-                            break;
-                        }
-                    }
-
-                    if (!bookDtoCreated) {
-                        rg.getReservedBooks().add(createReservedBookDTO(record));
-                    }
-                } else {
-                    ReservationsGroup rg = new ReservationsGroup();
-                    rg.setLocation(this.locationService.getLibraryBranchName(library, r.getCoderId()));
-                    rg.getReservedBooks().add(createReservedBookDTO(record));
-                    result.put(r.getCoderId(), rg);
-                }
-                bookDtoCreated = false;
+                addReservationToResult(library, r.getCoderId(), result, record);
             }
         }
         System.out.println("Broj rezervacija na cekanju: " + brojRez);
@@ -104,7 +95,6 @@ public class ReportService implements ReportServiceInterface {
 
     public Collection<ReservationsGroup> getReservationsFromMember(List<Member> members, String library, ReservationStatus status) {
         HashMap<String, ReservationsGroup> result = new HashMap<>();
-        boolean bookDtoCreated = false;
         int reNum = 0;
 
         for (Member member : members) {
@@ -113,32 +103,7 @@ public class ReportService implements ReportServiceInterface {
                     reNum += 1;
                     Optional<Record> record = recordsRepository.findById(r.getRecord_id());
                     if (record.isPresent()) {
-
-                        // if location exists in hashmap
-                        if (result.containsKey(r.getCoderId())) {
-                            ReservationsGroup rg = result.get(r.getCoderId());
-
-                            for (ReservedBook reservedBook : rg.getReservedBooks()) {
-                                // if ReservedBookDTO is already created
-                                if (reservedBook.getRecordId().equals(r.getRecord_id())) {
-                                    reservedBook.setTotalCount(reservedBook.getTotalCount() + 1);
-                                    bookDtoCreated = true;
-                                    break;
-                                }
-                            }
-                            if (!bookDtoCreated) {
-                                rg.getReservedBooks().add(createReservedBookDTO(record.get()));
-                            }
-                        }
-
-                        // if location doesnt exist in hashmap
-                        else {
-                            ReservationsGroup reservationsGroup = new ReservationsGroup();
-                            reservationsGroup.setLocation(this.locationService.getLibraryBranchName(library, r.getCoderId()));
-                            reservationsGroup.getReservedBooks().add(createReservedBookDTO(record.get()));
-                            result.put(r.getCoderId(), reservationsGroup);
-                        }
-                        bookDtoCreated = false;
+                        addReservationToResult(library, r.getCoderId(), result, record.get());
                     }
                 }
             }
@@ -146,6 +111,43 @@ public class ReportService implements ReportServiceInterface {
         System.out.println("Broj dodeljenih rezervacija:" + reNum);
         racunajUkupno(result);
         return result.values();
+    }
+
+    private void addReservationToResult(String library, String coderId, HashMap<String, ReservationsGroup> result,
+                                        Record record) {
+        // if location exists in hashmap
+        if (result.containsKey(coderId)) {
+            ReservationsGroup rg = result.get(coderId);
+
+            increaseTotalCount(record, rg);
+        }
+
+        // if location doesnt exist in hashmap
+        else {
+            createNewReservationsGroup(library, coderId, result, record);
+        }
+    }
+
+    private void increaseTotalCount(Record record, ReservationsGroup rg) {
+        boolean bookDtoCreated = false;
+
+        for (ReservedBook reservedBook : rg.getReservedBooks()) {
+            if (reservedBook.getRecordId().equals(record.get_id())) {
+                reservedBook.setTotalCount(reservedBook.getTotalCount() + 1);
+                bookDtoCreated = true;
+                break;
+            }
+        }
+        if (!bookDtoCreated) {
+            rg.getReservedBooks().add(createReservedBookDTO(record));
+        }
+    }
+
+    private void createNewReservationsGroup(String library, String coderId, HashMap<String, ReservationsGroup> result, Record record) {
+        ReservationsGroup reservationsGroup = new ReservationsGroup();
+        reservationsGroup.setLocation(this.locationService.getLibraryBranchName(library, coderId));
+        reservationsGroup.getReservedBooks().add(createReservedBookDTO(record));
+        result.put(coderId, reservationsGroup);
     }
 
     private void racunajUkupno(HashMap<String, ReservationsGroup> result) {

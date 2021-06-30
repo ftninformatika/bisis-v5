@@ -14,7 +14,5 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 public class ReservationsReport {
-    Collection<ReservationsGroup> reservationsInQueue;
-    Collection<ReservationsGroup> assignedReservations;
-    Collection<ReservationsGroup> pickedUpReservations;
+    Collection<ReservationsGroup> reservations;
 }

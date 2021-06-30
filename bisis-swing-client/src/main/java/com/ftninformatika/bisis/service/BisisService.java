@@ -487,9 +487,14 @@ public interface BisisService {
     @GET("members/getWarnHistory")
     Call<List<MemberData>> getWarnHistory(@Query("start") PathDate start, @Query("end") PathDate end, @Query("warningType") String warningType, @Query("location") String location);
 
-    @GET("reservations-report/")
-    Call<ReservationsReport> getReservationsStatistics(@Query("start") PathDate start, @Query("end") PathDate end);
+    @GET("reservations-report/in-queue")
+    Call<ReservationsReport> getReservationsInQueue(@Query("start") PathDate start, @Query("end") PathDate end);
 
+    @GET("reservations-report/assigned")
+    Call<ReservationsReport> getAssignedReservations(@Query("start") PathDate start, @Query("end") PathDate end);
+
+    @GET("reservations-report/picked-up")
+    Call<ReservationsReport> getPickedUpReservations(@Query("start") PathDate start, @Query("end") PathDate end);
 
     //--GENERICKI REGISTRI
     @GET("registries/{regCode}")
