@@ -8,7 +8,7 @@ import java.util.Date;
  * @author marijakovacevic
  */
 public interface ReportServiceInterface {
-    ReservationsReport getReservationsInQueue(Date start, Date end, String library);
+    ReservationsReport getReservationsFromQueue(Date start, Date end, String library);
     ReservationsReport getAssignedReservations(Date start, Date end, String library);
     ReservationsReport getPickedUpReservations(Date start, Date end, String library);
 }

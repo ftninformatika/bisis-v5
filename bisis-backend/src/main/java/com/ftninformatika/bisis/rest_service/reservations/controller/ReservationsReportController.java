@@ -22,10 +22,10 @@ public class ReservationsReportController {
     ReportServiceInterface reportService;
 
     @RequestMapping(path = "/in-queue")
-    public ResponseEntity<?> getReservationsInQueue(@RequestHeader("Library") String library,
+    public ResponseEntity<?> getReservationsFromQueue(@RequestHeader("Library") String library,
                                                     @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start,
                                                     @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end) {
-        ReservationsReport report = reportService.getReservationsInQueue(start, end, library);
+        ReservationsReport report = reportService.getReservationsFromQueue(start, end, library);
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
 
