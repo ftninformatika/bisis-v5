@@ -291,7 +291,7 @@ public class Report {
 				getCmbGroup().setVisible(false);
 				showLocationHideReservationFields();
 				break;
-				
+
 			case 17:
 				getLName().setText(Messages.getString("circulation.case17"));
 				getTfNumber().setVisible(false);
@@ -406,7 +406,7 @@ public class Report {
 		}
 		return cmbReservations;
 	}
-  
+
   public void loadCmbLocation(List data){
     Utils.loadCombo(getCmbLocation(), data);
   }
@@ -473,7 +473,7 @@ public class Report {
 
 	private boolean isValidDateRange(){
 		if (tfStartDate.isVisible() && tfEndDate.isVisible() && cmbReport.getSelectedIndex() != 15 && cmbReport.getSelectedIndex() != 14) {
-			if (!DateUtils.inCircReportDateRange(tfStartDate.getDate(), tfEndDate.getDate())){
+			if ((tfStartDate.getDate() == null && tfEndDate.getDate() == null) || (!DateUtils.inCircReportDateRange(tfStartDate.getDate(), tfEndDate.getDate()))){
 				JOptionPane.showMessageDialog(null,
 						Messages.getString("circulation.wrongdates"),
 						Messages.getString("circulation.error"),
@@ -629,7 +629,7 @@ public class Report {
 				}
 				}
 			});
-				
+
 		}
 		return btnSearch;
 	}
@@ -689,7 +689,7 @@ public class Report {
 		getCmbReservations().setVisible(false);
 		Utils.clear(getPanel());
     }
-    
+
     public void selectMemberHistory(String userId){
       getCmbReport().setSelectedIndex(14);
       getTfNumber().setText(userId);
