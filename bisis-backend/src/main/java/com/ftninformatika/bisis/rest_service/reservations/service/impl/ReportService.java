@@ -74,6 +74,7 @@ public class ReportService implements ReportServiceInterface {
     private void calculateTotalOnLocation(Collection<ReservationsGroup> rgroup) {
         for (ReservationsGroup rg : rgroup) {
             rg.calculateTotal();
+            Collections.sort(rg.getReservedBooks());
         }
     }
 

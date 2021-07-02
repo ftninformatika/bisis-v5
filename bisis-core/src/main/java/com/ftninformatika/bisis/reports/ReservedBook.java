@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReservedBook {
+public class ReservedBook implements Comparable<ReservedBook>{
     private String recordId;
     private String title;
     private List<String> authors;
@@ -29,5 +29,10 @@ public class ReservedBook {
         reservedBook.setPublisher(book.getPublisher());
         reservedBook.setTotalCount(1);
         return reservedBook;
+    }
+
+    @Override
+    public int compareTo(ReservedBook rb) {
+        return rb.totalCount.compareTo(this.totalCount);
     }
 }
