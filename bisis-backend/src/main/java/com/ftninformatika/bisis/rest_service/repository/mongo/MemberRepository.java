@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.repository.mongo;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.reservations.ReservationStatus;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -47,5 +48,8 @@ public interface MemberRepository extends MongoRepository<Member, String>, Membe
 
     @Query("{ 'reservations': { $elemMatch: { 'ctlgNo': ?0, 'reservationStatus': ?1 }}}")
     Member getMemberByReservationCtlgNo(@Param("ctlgNo") String invNum, @Param("reservationStatus") String reservationStatus);
+
+    @Query("{ 'reservations': { $elemMatch: {'reservationStatus': ?0, 'reservationDate':{ $gte :?1, $lte:?2}}}}")
+    List<Member> findMembersWithReservations(ReservationStatus status, Date start, Date end);
 
 }

@@ -33,6 +33,7 @@ public class Report {
 
 	private JComboBox cmbReport = null;
 	private JComboBox cmbLocation = null;
+	private JComboBox cmbReservations = null;
 	private JDateChooser tfStartDate = null;
 	private JDateChooser tfEndDate = null;
 	private JButton btnSearch = null;
@@ -41,6 +42,8 @@ public class Report {
 	private JPanel buttonPanel = null;
 	private JLabel lName = null;
 	private JLabel lTfCmb = null;
+	private JLabel lLocation = null;
+	private JLabel lReservationStatus = null;
 	private JTextField tfNumber = null;
 	private JComboBox cmbGroup = null;
 	private CmbKeySelectionManager cmbKeySelectionManager = null;
@@ -73,8 +76,11 @@ public class Report {
 		pb.addLabel("-", cc.xy(5, 10, "center, center"));
 		pb.add(getTfEndDate(), cc.xy(6, 10));
 
-		pb.addLabel(Messages.getString("circulation.location"), cc.xy(2, 12));
+		pb.add(getLblLocation(), cc.xy(2, 12));
 		pb.add(getCmbLocation(), cc.xyw(4, 12, 3));
+
+		pb.add(getLblReservationStatus(), cc.xy(2, 12));
+		pb.add(getCmbReservations(), cc.xyw(4, 12, 3));
 
 		pb.add(getButtonPanel(), cc.xyw(2, 14, 8));
 	}
@@ -106,6 +112,7 @@ public class Report {
 		listReports.add(Messages.getString("circulation.picturebooksreport"));
 		listReports.add(Messages.getString("circulation.librarianstatistic"));
 		listReports.add(Messages.getString("circulation.firsttimesigned"));
+		listReports.add(Messages.getString("circulation.reservationsreport"));
 		return listReports;
 	}
 	private JComboBox getCmbReport() {
@@ -123,6 +130,14 @@ public class Report {
 
 		return cmbReport;
 	}
+
+	void showLocationHideReservationFields() {
+		getLblLocation().setVisible(true);
+		getCmbLocation().setVisible(true);
+		getLblReservationStatus().setVisible(false);
+		getCmbReservations().setVisible(false);
+	}
+
 	void comboChange(ActionEvent e) {
 		int value = cmbReport.getSelectedIndex();
 		switch (value) {
@@ -133,6 +148,7 @@ public class Report {
 				getTfEndDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 2 :
 				getLName().setText(Messages.getString("circulation.case2"));
@@ -140,7 +156,8 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getTfEndDate().setVisible(false);
 				getLTfCmb().setVisible(false);
-				 getCmbGroup().setVisible(false);
+				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 3 :
 				getLName().setText(Messages.getString("circulation.case3"));
@@ -149,6 +166,7 @@ public class Report {
 				getTfEndDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 4 :
 				getLName().setText(Messages.getString("circulation.case4"));
@@ -157,6 +175,7 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 5:
 				getLName().setText(Messages.getString("circulation.case5"));
@@ -165,6 +184,7 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 6 :
 				getLName().setText(Messages.getString("circulation.case6"));
@@ -173,6 +193,7 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 7 :
 				getLName().setText(Messages.getString("circulation.case7"));
@@ -181,6 +202,7 @@ public class Report {
 				getTfEndDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 8 :
 				getLName().setText(Messages.getString("circulation.case8"));
@@ -189,6 +211,7 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 9 :
 				getLName().setText(Messages.getString("circulation.case9"));
@@ -197,6 +220,7 @@ public class Report {
 				getTfEndDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 10 :
 				getLName().setText(Messages.getString("circulation.case10"));
@@ -205,6 +229,7 @@ public class Report {
 				getTfStartDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 11 :
 				getLName().setText(Messages.getString("circulation.case11"));
@@ -213,6 +238,7 @@ public class Report {
 				getTfStartDate().setVisible(false);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 12 :
 				getLName().setText(Messages.getString("circulation.case12"));
@@ -221,6 +247,7 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();;
 				break;
 			case 13 :
 				getLName().setText(Messages.getString("circulation.case13"));
@@ -231,6 +258,7 @@ public class Report {
 				getLTfCmb().setVisible(true);
 				setCmbModel();
 		        getCmbGroup().setVisible(true);
+				showLocationHideReservationFields();
 				break;
 			case 14 :
 				getLName().setText(Messages.getString("circulation.case14"));
@@ -241,6 +269,7 @@ public class Report {
 				getLTfCmb().setText(Messages.getString("circulation.membernum"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 15 :
 				getLName().setText(Messages.getString("circulation.case15"));
@@ -251,6 +280,7 @@ public class Report {
 				getLTfCmb().setText(Messages.getString("circulation.invnum"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();;
 				break;
 			case 16 :
 				getLName().setText(Messages.getString("circulation.case16"));
@@ -259,8 +289,9 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
-				
+
 			case 17:
 				getLName().setText(Messages.getString("circulation.case17"));
 				getTfNumber().setVisible(false);
@@ -268,6 +299,7 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 18:
 				getLName().setText(Messages.getString("circulation.case18"));
@@ -278,6 +310,7 @@ public class Report {
 				getLTfCmb().setText(Messages.getString("circulation.udc"));
 				getLTfCmb().setVisible(true);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 19:
 				getLName().setText(Messages.getString("circulation.case19"));
@@ -286,6 +319,7 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 20:
 				getLName().setText(Messages.getString("circulation.case20"));
@@ -294,6 +328,7 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 21:
 				getLName().setText(Messages.getString("circulation.case21"));
@@ -302,6 +337,7 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 22:
 				getLName().setText(Messages.getString("circulation.case22"));
@@ -310,6 +346,7 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
 				break;
 			case 23:
 				getLName().setText(Messages.getString("circulation.case23"));
@@ -318,6 +355,19 @@ public class Report {
 				getTfStartDate().setVisible(true);
 				getLTfCmb().setVisible(false);
 				getCmbGroup().setVisible(false);
+				showLocationHideReservationFields();
+				break;
+			case 24:
+				getLName().setText(Messages.getString("circulation.case24"));
+				getTfNumber().setVisible(false);
+				getTfEndDate().setVisible(true);
+				getTfStartDate().setVisible(true);
+				getLTfCmb().setVisible(false);
+				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(false);
+				getCmbLocation().setVisible(false);
+				getLblReservationStatus().setVisible(true);
+				getCmbReservations().setVisible(true);
 				break;
 			default :
 
@@ -333,7 +383,30 @@ public class Report {
 		}
 		return cmbLocation;
 	}
-  
+
+	private JLabel getLblReservationStatus() {
+		if (lReservationStatus == null){
+			lReservationStatus = new JLabel();
+			lReservationStatus.setText(Messages.getString("STATUS"));
+			lReservationStatus.setVisible(false);
+		}
+		return lReservationStatus;
+	}
+
+	private JComboBox getCmbReservations() {
+		if (cmbReservations == null) {
+			cmbReservations = new JComboBox();
+			cmbReservations.setFocusable(false);
+			cmbReservations.setRenderer(getCmbRenderer());
+			cmbReservations.setKeySelectionManager(getCmbKeySelectionManager());
+			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType1"));
+			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType2"));
+			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType3"));
+			cmbReservations.setVisible(false);
+		}
+		return cmbReservations;
+	}
+
   public void loadCmbLocation(List data){
     Utils.loadCombo(getCmbLocation(), data);
   }
@@ -390,9 +463,17 @@ public class Report {
 		return tfEndDate;
 	}
 
+	private JLabel getLblLocation() {
+		if (lLocation == null){
+			lLocation = new JLabel();
+			lLocation.setText(Messages.getString("circulation.location"));
+		}
+		return lLocation;
+	}
+
 	private boolean isValidDateRange(){
 		if (tfStartDate.isVisible() && tfEndDate.isVisible() && cmbReport.getSelectedIndex() != 15 && cmbReport.getSelectedIndex() != 14) {
-			if (!DateUtils.inCircReportDateRange(tfStartDate.getDate(), tfEndDate.getDate())){
+			if ((tfStartDate.getDate() == null && tfEndDate.getDate() == null) || (!DateUtils.inCircReportDateRange(tfStartDate.getDate(), tfEndDate.getDate()))){
 				JOptionPane.showMessageDialog(null,
 						Messages.getString("circulation.wrongdates"),
 						Messages.getString("circulation.error"),
@@ -526,6 +607,15 @@ public class Report {
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(FirstTimeSigned.setPrint(Utils.setMinDate(getTfStartDate().getDate()), Utils.setMaxDate(getTfEndDate().getDate()), getCmbLocation().getSelectedItem()));
 									Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									break;
+								case 24:
+									JasperPrint jp = ReservationsStatistics.setPrint(Utils.setMinDate(getTfStartDate().getDate()),
+											Utils.setMaxDate(getTfEndDate().getDate()), getCmbReservations().getSelectedItem());
+									if (jp != null) {
+										Cirkulacija.getApp().getMainFrame().getReportResults()
+												.setJasper(jp);
+										Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+									}
+									break;
 								default:
 									JOptionPane.showMessageDialog(null, Messages.getString("circulation.nodataentered"),
 											Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE);
@@ -539,7 +629,7 @@ public class Report {
 				}
 				}
 			});
-				
+
 		}
 		return btnSearch;
 	}
@@ -595,9 +685,11 @@ public class Report {
 		getTfEndDate().setVisible(true);
 		getLTfCmb().setVisible(false);
 		getCmbGroup().setVisible(false);
+		getLblReservationStatus().setVisible(false);
+		getCmbReservations().setVisible(false);
 		Utils.clear(getPanel());
     }
-    
+
     public void selectMemberHistory(String userId){
       getCmbReport().setSelectedIndex(14);
       getTfNumber().setText(userId);
