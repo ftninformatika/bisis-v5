@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.ReservationsGroup;
@@ -10,7 +11,6 @@ import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.ReportServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import org.springframework.beans.factory.annotation.Autowired;

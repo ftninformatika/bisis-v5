@@ -222,6 +222,7 @@
 				<textField>
 					<reportElement x="0" y="0" width="480" height="20" uuid="217953cf-578b-4c89-a8b9-bc1e17063a18"/>
 					<textElement verticalAlignment="Bottom">
+						<font fontName="DejaVu Sans"/>
 						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{reservationsGroupLocation}]]></textFieldExpression>
@@ -233,7 +234,7 @@
 				<staticText>
 					<reportElement x="450" y="2" width="70" height="20" uuid="18e1dbd8-ca12-4745-ba09-618cc10932eb"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="9" isBold="true"/>
+						<font fontName="DejaVu Sans" size="9"/>
 					</textElement>
 					<text><![CDATA[Укупно:]]></text>
 				</staticText>
