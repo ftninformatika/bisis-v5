@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.ReservationsGroup;
 import com.ftninformatika.bisis.reports.ReservationsReport;
 import com.ftninformatika.bisis.reports.ReservedBook;
+import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
@@ -74,19 +75,6 @@ public class ReportService implements ReportServiceInterface {
 
     }
 
-    private void calculateTotalOnLocation(Collection<ReservationsGroup> rgroup) {
-        for (ReservationsGroup rg : rgroup) {
-            rg.calculateTotal();
-            Collections.sort(rg.getReservedBooks());
-        }
-    }
-
-    private List<ReservationsGroup> sortByLocation(Collection<ReservationsGroup> rgroup){
-        List<ReservationsGroup> list = new ArrayList<ReservationsGroup>(rgroup);
-        Collections.sort(list);
-        return list;
-    }
-
     private Collection<ReservationsGroup> getFromQueue(String library, Date start, Date end) {
         List<Record> records = recordsRepository.getAllRecordsWithReservations(start, end);
         HashMap<String, ReservationsGroup> result = new HashMap<>();
@@ -96,7 +84,7 @@ public class ReportService implements ReportServiceInterface {
             brojRez += record.getReservations().size();
             for (ReservationInQueue r : record.getReservations()) {
                 if (r.getReservationDate().after(start) && r.getReservationDate().before(end)) {
-                    addReservedBookToResult(library, r.getCoderId(), result, record);
+                    addReservedBookToResult(library, r, result, record, null);
                 }
             }
         }
@@ -105,17 +93,18 @@ public class ReportService implements ReportServiceInterface {
         return result.values();
     }
 
-    public Collection<ReservationsGroup> getFromMember(List<Member> members, String library, ReservationStatus status, Date start, Date end) {
+    public Collection<ReservationsGroup> getFromMember(List<Member> members, String library, ReservationStatus status,
+                                                       Date start, Date end) {
         HashMap<String, ReservationsGroup> result = new HashMap<>();
         int reNum = 0;
 
         for (Member member : members) {
-            for (ReservationOnProfile r : member.getReservations()) {
+            for (ReservationOnProfile r : member.getReservations()) {   // todo: da li moze query da mi samo vrati rez
                 if (r.getReservationStatus().equals(status) && r.getReservationDate().after(start) && r.getReservationDate().before(end)) {
                     reNum += 1;
                     Optional<Record> record = recordsRepository.findById(r.getRecord_id());
                     if (record.isPresent()) {
-                        addReservedBookToResult(library, r.getCoderId(), result, record.get());
+                        addReservedBookToResult(library, r, result, record.get(), member);
                     }
                 }
             }
@@ -125,18 +114,18 @@ public class ReportService implements ReportServiceInterface {
         return result.values();
     }
 
-    private void addReservedBookToResult(String library, String coderId, HashMap<String, ReservationsGroup> result,
-                                         Record record) {
+    private void addReservedBookToResult(String library, Reservation reservation, HashMap<String, ReservationsGroup> result,
+                                         Record record, Member member) {
         // if location exists in the hashmap
-        if (result.containsKey(coderId)) {
-            ReservationsGroup rg = result.get(coderId);
-            addNewReservedBook(record, rg);
+        if (result.containsKey(reservation.getCoderId())) {
+            ReservationsGroup rg = result.get(reservation.getCoderId());
+            addNewReservedBook(record, rg, reservation, member);
         } else {
-            createNewReservationsGroup(library, coderId, result, record);
+            createNewReservationsGroup(library, reservation, result, record, member);
         }
     }
 
-    private void addNewReservedBook(Record record, ReservationsGroup rg) {
+    private void addNewReservedBook(Record record, ReservationsGroup rg, Reservation reservation, Member member) {
         boolean bookDtoCreated = false;
 
         for (ReservedBook reservedBook : rg.getReservedBooks()) {
@@ -147,16 +136,22 @@ public class ReportService implements ReportServiceInterface {
             }
         }
         if (!bookDtoCreated) {
-            rg.getReservedBooks().add(createReservedBookDTO(record));
+            ReservedBook newReservedBook = createReservedBookDTO(record);
+            newReservedBook.setAdditionalData(member, reservation);
+            rg.getReservedBooks().add(newReservedBook);
         }
     }
 
-    private void createNewReservationsGroup(String library, String coderId, HashMap<String, ReservationsGroup> result,
-                                            Record record) {
+    private void createNewReservationsGroup(String library, Reservation reservation, HashMap<String, ReservationsGroup> result,
+                                            Record record, Member member) {
         ReservationsGroup reservationsGroup = new ReservationsGroup();
-        reservationsGroup.setLocation(this.locationService.getLibraryBranchName(library, coderId));
-        reservationsGroup.getReservedBooks().add(createReservedBookDTO(record));
-        result.put(coderId, reservationsGroup);
+        reservationsGroup.setLocation(this.locationService.getLibraryBranchName(library, reservation.getCoderId()));
+
+        ReservedBook newReservedBook = createReservedBookDTO(record);
+        newReservedBook.setAdditionalData(member, reservation);
+        reservationsGroup.getReservedBooks().add(newReservedBook);
+
+        result.put(reservation.getCoderId(), reservationsGroup);
     }
 
     private void racunajUkupno(HashMap<String, ReservationsGroup> result) {
@@ -169,8 +164,21 @@ public class ReportService implements ReportServiceInterface {
         System.out.println("Suma: " + suma);
     }
 
+    private void calculateTotalOnLocation(Collection<ReservationsGroup> rgroup) {
+        for (ReservationsGroup rg : rgroup) {
+            rg.calculateTotal();
+            Collections.sort(rg.getReservedBooks());
+        }
+    }
+
+    private List<ReservationsGroup> sortByLocation(Collection<ReservationsGroup> rgroup) {
+        List<ReservationsGroup> list = new ArrayList<>(rgroup);
+        Collections.sort(list);
+        return list;
+    }
+
     private ReservedBook createReservedBookDTO(Record record) {
         Book book = opacSearchService.getBookByRec(record);
-        return ReservedBook.createReservedBookDTO(book, record.getRN());
+        return new ReservedBook(book, record.getRN());
     }
 }
