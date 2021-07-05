@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ReservationsGroup {
+public class ReservationsGroup implements Comparable<ReservationsGroup> {
     String location;
     Integer total;
     List<ReservedBook> reservedBooks;
@@ -27,5 +27,10 @@ public class ReservationsGroup {
             total += rb.getTotalCount();
         }
         this.total = total;
+    }
+
+    @Override
+    public int compareTo(ReservationsGroup rg) {
+        return this.location.compareTo(rg.location);
     }
 }

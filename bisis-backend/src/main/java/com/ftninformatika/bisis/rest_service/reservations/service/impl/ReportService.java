@@ -39,9 +39,10 @@ public class ReportService implements ReportServiceInterface {
     public ReservationsReport getReservationsFromQueue(Date start, Date end, String library) {
         Collection<ReservationsGroup> inQueue = getFromQueue(library, start, end);
         calculateTotalOnLocation(inQueue);
+        List<ReservationsGroup> inQueueSorted = sortByLocation(inQueue);
 
         ReservationsReport reservationsReport = new ReservationsReport();
-        reservationsReport.setReservations(inQueue);
+        reservationsReport.setReservations(inQueueSorted);
         return reservationsReport;
     }
 
@@ -51,9 +52,10 @@ public class ReportService implements ReportServiceInterface {
         System.out.println("Ukupno members za assigned " + members.size());
         Collection<ReservationsGroup> assigned = getFromMember(members, library, ReservationStatus.ASSIGNED_BOOK, start, end);
         calculateTotalOnLocation(assigned);
+        List<ReservationsGroup> assignedSorted = sortByLocation(assigned);
 
         ReservationsReport reservationsReport = new ReservationsReport();
-        reservationsReport.setReservations(assigned);
+        reservationsReport.setReservations(assignedSorted);
         return reservationsReport;
 
     }
@@ -64,9 +66,10 @@ public class ReportService implements ReportServiceInterface {
         System.out.println("Ukupno members za picked up " + members.size());
         Collection<ReservationsGroup> pickedUp = getFromMember(members, library, ReservationStatus.PICKED_UP, start, end);
         calculateTotalOnLocation(pickedUp);
+        List<ReservationsGroup> pickedUpSorted = sortByLocation(pickedUp);
 
         ReservationsReport reservationsReport = new ReservationsReport();
-        reservationsReport.setReservations(pickedUp);
+        reservationsReport.setReservations(pickedUpSorted);
         return reservationsReport;
 
     }
@@ -76,6 +79,12 @@ public class ReportService implements ReportServiceInterface {
             rg.calculateTotal();
             Collections.sort(rg.getReservedBooks());
         }
+    }
+
+    private List<ReservationsGroup> sortByLocation(Collection<ReservationsGroup> rgroup){
+        List<ReservationsGroup> list = new ArrayList<ReservationsGroup>(rgroup);
+        Collections.sort(list);
+        return list;
     }
 
     private Collection<ReservationsGroup> getFromQueue(String library, Date start, Date end) {

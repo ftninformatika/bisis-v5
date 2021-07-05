@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collection;
+import java.util.List;
+
 
 /**
  * @author marijakovacevic
@@ -14,5 +15,5 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 public class ReservationsReport {
-    Collection<ReservationsGroup> reservations;
+    List<ReservationsGroup> reservations;
 }
