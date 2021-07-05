@@ -162,6 +162,6 @@ public class ReportService implements ReportServiceInterface {
 
     private ReservedBook createReservedBookDTO(Record record) {
         Book book = opacSearchService.getBookByRec(record);
-        return ReservedBook.createReservedBookDTO(book);
+        return ReservedBook.createReservedBookDTO(book, record.getRN());
     }
 }

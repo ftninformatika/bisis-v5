@@ -16,14 +16,16 @@ import java.util.List;
 @NoArgsConstructor
 public class ReservedBook implements Comparable<ReservedBook>{
     private String recordId;
+    private int rn;
     private String title;
     private List<String> authors;
     private String publisher;
     private Integer totalCount;
 
-    public static ReservedBook createReservedBookDTO(Book book) {
+    public static ReservedBook createReservedBookDTO(Book book, int rn) {
         ReservedBook reservedBook = new ReservedBook();
         reservedBook.setRecordId(book.get_id());
+        reservedBook.setRn(rn);
         reservedBook.setTitle(book.getTitle());
         reservedBook.setAuthors(book.getAuthors());
         reservedBook.setPublisher(book.getPublisher());

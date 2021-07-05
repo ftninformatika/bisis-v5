@@ -17,6 +17,9 @@
 		<field name="publisher" class="java.lang.String">
 			<fieldDescription><![CDATA[publisher]]></fieldDescription>
 		</field>
+		<field name="rn" class="java.lang.Integer">
+			<fieldDescription><![CDATA[rn]]></fieldDescription>
+		</field>
 		<field name="totalCount" class="java.lang.Integer">
 			<fieldDescription><![CDATA[totalCount]]></fieldDescription>
 		</field>
@@ -70,7 +73,7 @@
 								<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement x="190" y="0" width="140" height="20" uuid="a98c6cfa-9497-44cb-93b9-6205ae0f55f2">
+								<reportElement x="190" y="0" width="130" height="20" uuid="a98c6cfa-9497-44cb-93b9-6205ae0f55f2">
 									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -103,7 +106,7 @@
 								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement x="330" y="0" width="150" height="20" uuid="bc5f10fe-b4ab-49ac-ba43-5a93d57967a8">
+								<reportElement x="320" y="0" width="120" height="20" uuid="bc5f10fe-b4ab-49ac-ba43-5a93d57967a8">
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.x" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -119,7 +122,7 @@
 								<textFieldExpression><![CDATA[$F{publisher}]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement x="480" y="0" width="70" height="20" uuid="8ccc1b72-895d-4695-bdce-c653bb2f2dfa">
+								<reportElement x="500" y="0" width="50" height="20" uuid="8ccc1b72-895d-4695-bdce-c653bb2f2dfa">
 									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -132,6 +135,21 @@
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{totalCount}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="440" y="0" width="60" height="20" uuid="0ccb5732-fe80-445e-b510-67b9d0737bf8">
+									<property name="com.jaspersoft.studio.unit.y" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								</reportElement>
+								<box leftPadding="3">
+									<topPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{rn}]]></textFieldExpression>
 							</textField>
 						</jr:listContents>
 					</jr:list>
@@ -153,7 +171,7 @@
 					<text><![CDATA[Наслов]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="190" y="30" width="140" height="40" uuid="b187904e-d7c6-4e59-85c9-440cf08cc04c">
+					<reportElement x="190" y="30" width="130" height="40" uuid="b187904e-d7c6-4e59-85c9-440cf08cc04c">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -169,7 +187,7 @@
 					<text><![CDATA[Aутори]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="330" y="30" width="150" height="40" uuid="b6f02421-6503-40f2-8a70-08b108a4a523">
+					<reportElement x="320" y="30" width="120" height="40" uuid="b6f02421-6503-40f2-8a70-08b108a4a523">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -186,7 +204,7 @@
 					<text><![CDATA[Издавач]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="480" y="30" width="70" height="40" uuid="50ba6d11-1158-4cf1-9c39-27bfa1307f60">
+					<reportElement x="500" y="30" width="50" height="40" uuid="50ba6d11-1158-4cf1-9c39-27bfa1307f60">
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -199,7 +217,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="9" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Број резервација]]></text>
+					<text><![CDATA[Бр. рез.]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="30" width="25" height="40" uuid="9a592a73-4875-4f0d-be80-38caa29bd40e">
@@ -223,10 +241,27 @@
 					<reportElement x="0" y="0" width="480" height="20" uuid="217953cf-578b-4c89-a8b9-bc1e17063a18"/>
 					<textElement verticalAlignment="Bottom">
 						<font fontName="DejaVu Sans" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
+						<paragraph lineSpacing="1_1_2"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{reservationsGroupLocation}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="440" y="30" width="59" height="40" uuid="d680b20a-e14f-4318-8a3c-9c96ebf8ba04">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="3">
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[РН]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
