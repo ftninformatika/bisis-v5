@@ -75,8 +75,7 @@ public class InvKnjigaMonografske extends Report {
 	@Override
 	public void finish() {
 		  log.info("Finishing report...");
-          if (settings.getOptionalParam() != null && settings.getOptionalParam().equals("inv-sort")) { // todo promeniti optionalParam
-              System.out.println("stani");
+          if (settings.getOptionalParam() != null && settings.getOptionalParam().equals("inv-sort")) {
               sortItemsByInvNoOnly();
           } else {
             for (List<Item> list : itemMap.values())
@@ -132,7 +131,6 @@ public class InvKnjigaMonografske extends Report {
 	  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
 		  log.info("Finishing  report...");
 		  if (settings.getOptionalParam() != null && settings.getOptionalParam().equals("inv-sort")) {
-              System.out.println("stani");
               sortItemsByInvNoOnly();
           } else {
               for (List<Item> list : itemMap.values())
@@ -167,8 +165,6 @@ public class InvKnjigaMonografske extends Report {
 		   
 		    log.info("Report finished.");
 	  }
-
-
   
   public void handleRecord(Record rec) {
     if (rec == null)
@@ -215,6 +211,13 @@ public class InvKnjigaMonografske extends Report {
     for (Primerak p : rec.getPrimerci()) {
         if(p.getInvBroj()==null)
       	  continue;
+
+        try {
+            Double.parseDouble(p.getInvBroj());
+        } catch (Exception e) {
+            e.printStackTrace();
+            continue;
+        }
         Matcher matcher = pattern.matcher(p.getInvBroj());
         if (!matcher.matches())
           continue;
