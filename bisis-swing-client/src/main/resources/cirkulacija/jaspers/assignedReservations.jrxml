@@ -132,7 +132,9 @@
 									<bottomPen lineWidth="1.0"/>
 									<rightPen lineWidth="1.0"/>
 								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="9"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{userId}]]></textFieldExpression>
 							</textField>
 							<textField>
@@ -147,7 +149,9 @@
 									<bottomPen lineWidth="1.0"/>
 									<rightPen lineWidth="1.0"/>
 								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="9"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{ctlgNo}]]></textFieldExpression>
 							</textField>
 						</jr:listContents>
@@ -186,24 +190,7 @@
 					<text><![CDATA[Аутор]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="310" y="30" width="54" height="40" uuid="b6f02421-6503-40f2-8a70-08b108a4a523">
-						<property name="com.jaspersoft.studio.unit.x" value="px"/>
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-						<property name="com.jaspersoft.studio.unit.y" value="px"/>
-						<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					</reportElement>
-					<box leftPadding="3">
-						<topPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle" markup="rtf">
-						<font fontName="DejaVu Sans" size="9" isBold="true"/>
-					</textElement>
-					<text><![CDATA[РН]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="459" y="30" width="96" height="40" uuid="50ba6d11-1158-4cf1-9c39-27bfa1307f60">
+					<reportElement x="460" y="30" width="95" height="40" uuid="50ba6d11-1158-4cf1-9c39-27bfa1307f60">
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -245,7 +232,7 @@
 					<textFieldExpression><![CDATA[$F{reservationsGroupLocation}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="364" y="30" width="95" height="40" uuid="d680b20a-e14f-4318-8a3c-9c96ebf8ba04">
+					<reportElement x="363" y="30" width="97" height="40" uuid="d680b20a-e14f-4318-8a3c-9c96ebf8ba04">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -260,6 +247,23 @@
 						<font fontName="DejaVu Sans" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Инвентарни број]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="310" y="30" width="53" height="40" uuid="b54c4eca-f15e-4a2e-b852-2cc5255df870">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="3">
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[РН]]></text>
 				</staticText>
 			</band>
 		</groupHeader>

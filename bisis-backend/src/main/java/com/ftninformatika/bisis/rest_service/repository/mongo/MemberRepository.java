@@ -50,6 +50,8 @@ public interface MemberRepository extends MongoRepository<Member, String>, Membe
     Member getMemberByReservationCtlgNo(@Param("ctlgNo") String invNum, @Param("reservationStatus") String reservationStatus);
 
     @Query("{ 'reservations': { $elemMatch: {'reservationStatus': ?0, 'reservationDate':{ $gte :?1, $lte:?2}}}}")
-    List<Member> findMembersWithReservations(ReservationStatus status, Date start, Date end);
+    List<Member> findMembersWithReservationsByStatus(ReservationStatus status, Date start, Date end);
 
+    @Query("{ 'reservations': { $elemMatch: {'reservationDate':{ $gte :?1, $lte:?2}}}}")
+    List<Member> findMembersWithReservations(Date start, Date end);
 }

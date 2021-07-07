@@ -1,8 +1,10 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.ReservationsGroup;
 import com.ftninformatika.bisis.reports.ReservationsReport;
@@ -36,6 +38,9 @@ public class ReportService implements ReportServiceInterface {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    ItemAvailabilityRepository iaRepo;
+
     @Override
     public ReservationsReport getReservationsFromQueue(Date start, Date end, String library) {
         Collection<ReservationsGroup> inQueue = getFromQueue(library, start, end);
@@ -49,7 +54,7 @@ public class ReportService implements ReportServiceInterface {
 
     @Override
     public ReservationsReport getAssignedReservations(Date start, Date end, String library) {
-        List<Member> members = memberRepository.findMembersWithReservations(ReservationStatus.ASSIGNED_BOOK, start, end);
+        List<Member> members = memberRepository.findMembersWithReservationsByStatus(ReservationStatus.ASSIGNED_BOOK, start, end);
         System.out.println("Ukupno members za assigned " + members.size());
         Collection<ReservationsGroup> assigned = getFromMember(members, library, ReservationStatus.ASSIGNED_BOOK, start, end);
         calculateTotalOnLocation(assigned);
@@ -63,7 +68,7 @@ public class ReportService implements ReportServiceInterface {
 
     @Override
     public ReservationsReport getPickedUpReservations(Date start, Date end, String library) {
-        List<Member> members = memberRepository.findMembersWithReservations(ReservationStatus.PICKED_UP, start, end);
+        List<Member> members = memberRepository.findMembersWithReservationsByStatus(ReservationStatus.PICKED_UP, start, end);
         System.out.println("Ukupno members za picked up " + members.size());
         Collection<ReservationsGroup> pickedUp = getFromMember(members, library, ReservationStatus.PICKED_UP, start, end);
         calculateTotalOnLocation(pickedUp);
@@ -138,6 +143,12 @@ public class ReportService implements ReportServiceInterface {
         if (!bookDtoCreated) {
             ReservedBook newReservedBook = createReservedBookDTO(record);
             newReservedBook.setAdditionalData(member, reservation);
+            if (member != null && ((ReservationOnProfile) reservation).getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {       // todo: obrisati posle
+                ItemAvailability ia = iaRepo.getByCtlgNo(((ReservationOnProfile) reservation).getCtlgNo());
+                if (!ia.getReserved()) {
+                    System.out.println("IA: " + ia.getCtlgNo() + ", userId: " + member.getUserId());
+                }
+            }
             rg.getReservedBooks().add(newReservedBook);
         }
     }
@@ -149,6 +160,12 @@ public class ReportService implements ReportServiceInterface {
 
         ReservedBook newReservedBook = createReservedBookDTO(record);
         newReservedBook.setAdditionalData(member, reservation);
+        if (member != null && ((ReservationOnProfile) reservation).getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {       // todo: obrisati posle
+            ItemAvailability ia = iaRepo.getByCtlgNo(((ReservationOnProfile) reservation).getCtlgNo());
+            if (!ia.getReserved()) {
+                System.out.println("IA: " + ia.getCtlgNo() + ", userId: " + member.getUserId());
+            }
+        }
         reservationsGroup.getReservedBooks().add(newReservedBook);
 
         result.put(reservation.getCoderId(), reservationsGroup);
