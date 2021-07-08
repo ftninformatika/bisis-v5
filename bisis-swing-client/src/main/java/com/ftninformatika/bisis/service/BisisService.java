@@ -26,6 +26,7 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.ReservationsReport;
+import com.ftninformatika.bisis.reports.ReservedBook;
 import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.utils.PathDate;
 import okhttp3.RequestBody;
@@ -495,6 +496,9 @@ public interface BisisService {
 
     @GET("reservations-report/picked-up")
     Call<ReservationsReport> getPickedUpReservations(@Query("start") PathDate start, @Query("end") PathDate end);
+
+    @GET("reservations-report/by-record")
+    Call<ArrayList<ReservedBook>> getReservationsByRecord(@Query("start") PathDate start, @Query("end") PathDate end);
 
     //--GENERICKI REGISTRI
     @GET("registries/{regCode}")

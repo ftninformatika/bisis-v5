@@ -402,6 +402,7 @@ public class Report {
 			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType1"));
 			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType2"));
 			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType3"));
+			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType4"));
 			cmbReservations.setVisible(false);
 		}
 		return cmbReservations;

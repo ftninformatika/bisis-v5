@@ -1,7 +1,9 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.interfaces;
 
 import com.ftninformatika.bisis.reports.ReservationsReport;
+import com.ftninformatika.bisis.reports.ReservedBook;
 
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -11,4 +13,5 @@ public interface ReportServiceInterface {
     ReservationsReport getReservationsFromQueue(Date start, Date end, String library);
     ReservationsReport getAssignedReservations(Date start, Date end, String library);
     ReservationsReport getPickedUpReservations(Date start, Date end, String library);
+    Collection<ReservedBook> getAllByRecord(Date start, Date end, String library);
 }

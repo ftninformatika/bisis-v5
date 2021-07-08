@@ -28,13 +28,12 @@ public class ReservedBook implements Comparable<ReservedBook> {
     private String userId;
 
     public ReservedBook(Book book, int rn) {
-        ReservedBook reservedBook = new ReservedBook();
-        reservedBook.setRecordId(book.get_id());
-        reservedBook.setRn(rn);
-        reservedBook.setTitle(book.getTitle());
-        reservedBook.setAuthors(book.getAuthors());
-        reservedBook.setPublisher(book.getPublisher());
-        reservedBook.setTotalCount(1);
+        this.recordId = book.get_id();
+        this.rn = rn;
+        this.title = book.getTitle();
+        this.authors = book.getAuthors();
+        this.publisher = book.getPublisher();
+        this.totalCount = 1;
     }
 
     public void setAdditionalData(Member member, Reservation reservation) {

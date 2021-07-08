@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.circ.report;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.reports.ReservationsReport;
+import com.ftninformatika.bisis.reports.ReservedBook;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.PathDate;
 import net.sf.jasperreports.engine.*;
@@ -24,6 +25,7 @@ public class ReservationsStatistics {
         }
 
         ReservationsReport results = null;
+        ArrayList<ReservedBook> allReservations = null;
         InputStream inputStream = null;
 
         Map<String, Object> params = new HashMap<>();
@@ -43,6 +45,10 @@ public class ReservationsStatistics {
                 results = BisisApp.bisisService.getPickedUpReservations(new PathDate(start), new PathDate(end)).execute().body();
                 params.put("reportTitle", "Реализоване резервације");
                 break;
+            case "Све":
+                inputStream = ReservationsStatistics.class.getResource("/cirkulacija/jaspers/allReservationsReport.jasper").openStream();
+                allReservations = BisisApp.bisisService.getReservationsByRecord(new PathDate(start), new PathDate(end)).execute().body();
+                break;
             default:
                 break;
         }
@@ -56,6 +62,8 @@ public class ReservationsStatistics {
         JRBeanCollectionDataSource dataSource = null;
         if (results != null) {
             dataSource = new JRBeanCollectionDataSource(results.getReservations());
+        }else {
+            dataSource = new JRBeanCollectionDataSource(allReservations);
         }
 
         return JasperFillManager.fillReport(inputStream, params, dataSource);
