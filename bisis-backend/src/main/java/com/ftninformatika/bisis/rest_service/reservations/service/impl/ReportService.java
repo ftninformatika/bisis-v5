@@ -83,39 +83,31 @@ public class ReportService implements ReportServiceInterface {
     @Override
     public Collection<ReservedBook> getAllByRecord(Date start, Date end, String library) {
         HashMap<String, ReservedBook> result = new HashMap<>();
-        List<Record> records = recordsRepository.getAllRecordsWithReservations(start, end);
         List<Member> members = memberRepository.findMembersWithReservations(start, end);
-
-        int brojRez = 0;
-
-        for (Record record : records) {
-            brojRez += record.getReservations().size();
-            ReservedBook rb = createReservedBookDTO(record);
-            rb.setTotalCount(record.getReservations().size());
-            result.put(record.get_id(), rb);
-        }
-        System.out.println("Број " + records.size());
 
         for (Member member : members) {
             for (ReservationOnProfile reservation : member.getReservations()) {
-                if (result.containsKey(reservation.getRecord_id())) {
-                    ReservedBook rb = result.get(reservation.getRecord_id());
-                    rb.setTotalCount(rb.getTotalCount() + 1);
-                } else {
-                    Optional<Record> record = recordsRepository.findById(reservation.getRecord_id());
-                    if (record.isPresent()) {
-                        ReservedBook rb = createReservedBookDTO(record.get());
-                        result.put(reservation.getRecord_id(), rb);
-                    }
-                }
-                brojRez += 1;
+                addReservedBookToResult(result, reservation);
             }
         }
-        System.out.println("Број rezervacije " + brojRez);
 
         List<ReservedBook> list = new ArrayList<>(result.values());
         Collections.sort(list);
+
         return list;
+    }
+
+    private void addReservedBookToResult(HashMap<String, ReservedBook> result, ReservationOnProfile reservation) {
+        if (result.containsKey(reservation.getRecord_id())) {
+            ReservedBook rb = result.get(reservation.getRecord_id());
+            rb.setTotalCount(rb.getTotalCount() + 1);
+        } else {
+            Optional<Record> record = recordsRepository.findById(reservation.getRecord_id());
+            if (record.isPresent()) {
+                ReservedBook rb = createReservedBookDTO(record.get());
+                result.put(reservation.getRecord_id(), rb);
+            }
+        }
     }
 
     private Collection<ReservationsGroup> getFromQueue(String library, Date start, Date end) {
