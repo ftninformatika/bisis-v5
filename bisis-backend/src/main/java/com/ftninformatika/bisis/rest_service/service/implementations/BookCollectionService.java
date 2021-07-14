@@ -22,8 +22,7 @@ public class BookCollectionService {
     private static int MAX_COLLECTIONS_PER_LIB = 15;
     @Autowired BookCollectionRepository bookCollectionRepository;
     @Autowired LibraryMemberRepository libraryMemberRepository;
-    @Autowired
-    RecordsRepository recordsRepository;
+    @Autowired RecordsRepository recordsRepository;
 
     public boolean addModifyCollection(BookCollection newCollection) {
         if (newCollection == null || newCollection.getCreatorUsername() == null) return false;
@@ -110,4 +109,9 @@ public class BookCollectionService {
         }
     }
 
+    public List<BookCollection> getCollectionsForAndroid() {
+        List<BookCollection> bookCollections = bookCollectionRepository.findAll();
+        bookCollections.sort(Comparator.comparing(BookCollection::getIndex).reversed());
+        return bookCollections;
+    }
 }

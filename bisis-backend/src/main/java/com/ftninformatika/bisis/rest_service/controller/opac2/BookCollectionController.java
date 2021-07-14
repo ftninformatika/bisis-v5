@@ -3,12 +3,14 @@ package com.ftninformatika.bisis.rest_service.controller.opac2;
 import com.ftninformatika.bisis.opac2.BookCollection;
 import com.ftninformatika.bisis.opac2.dto.AddToCollectionDTO;
 import com.ftninformatika.bisis.rest_service.service.implementations.BookCollectionService;
+import com.ftninformatika.bisis.rest_service.service.implementations.BookCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 public class BookCollectionController {
 
     @Autowired BookCollectionService bookCollectionService;
+    @Autowired BookCommonService bookCommonService;
 
     @PostMapping
     public ResponseEntity<Boolean> addModifyCollection(@RequestBody BookCollection bookCollection) {
@@ -60,5 +63,12 @@ public class BookCollectionController {
         if (bookCollectionService.swapCollectionIndexes(i, i1))
             return new ResponseEntity<>(true, HttpStatus.OK);
         return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping("/collections")
+    public ResponseEntity<List<BookCollection>> getAllCollectionsForAndroid() {
+        List<BookCollection> bookCollections = bookCollectionService.getCollectionsForAndroid();
+        Collections.reverse(bookCollections);
+        return new ResponseEntity<>(bookCollections, HttpStatus.OK);
     }
 }
