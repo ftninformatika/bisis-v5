@@ -1,16 +1,13 @@
 package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
-import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.ReservationsGroup;
 import com.ftninformatika.bisis.reports.ReservationsReport;
 import com.ftninformatika.bisis.reports.ReservedBook;
 import com.ftninformatika.bisis.reservations.Reservation;
-import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
@@ -38,46 +35,31 @@ public class ReportService implements ReportServiceInterface {
     @Autowired
     MemberRepository memberRepository;
 
-    @Autowired
-    ItemAvailabilityRepository iaRepo;
-
     @Override
     public ReservationsReport getReservationsFromQueue(Date start, Date end, String library) {
-        Collection<ReservationsGroup> inQueue = getFromQueue(library, start, end);
-        calculateTotalOnLocation(inQueue);
-        List<ReservationsGroup> inQueueSorted = sortByLocation(inQueue);
-
-        ReservationsReport reservationsReport = new ReservationsReport();
-        reservationsReport.setReservations(inQueueSorted);
-        return reservationsReport;
+        return getReservationsReport(start, end, library, ReservationStatus.WAITING_IN_QUEUE);
     }
 
     @Override
     public ReservationsReport getAssignedReservations(Date start, Date end, String library) {
-        List<Member> members = memberRepository.findMembersWithReservationsByStatus(ReservationStatus.ASSIGNED_BOOK, start, end);
-        System.out.println("Ukupno members za assigned " + members.size());
-        Collection<ReservationsGroup> assigned = getFromMember(members, library, ReservationStatus.ASSIGNED_BOOK, start, end);
-        calculateTotalOnLocation(assigned);
-        List<ReservationsGroup> assignedSorted = sortByLocation(assigned);
-
-        ReservationsReport reservationsReport = new ReservationsReport();
-        reservationsReport.setReservations(assignedSorted);
-        return reservationsReport;
-
+        return getReservationsReport(start, end, library, ReservationStatus.ASSIGNED_BOOK);
     }
 
     @Override
     public ReservationsReport getPickedUpReservations(Date start, Date end, String library) {
-        List<Member> members = memberRepository.findMembersWithReservationsByStatus(ReservationStatus.PICKED_UP, start, end);
-        System.out.println("Ukupno members za picked up " + members.size());
-        Collection<ReservationsGroup> pickedUp = getFromMember(members, library, ReservationStatus.PICKED_UP, start, end);
-        calculateTotalOnLocation(pickedUp);
-        List<ReservationsGroup> pickedUpSorted = sortByLocation(pickedUp);
+        return getReservationsReport(start, end, library, ReservationStatus.PICKED_UP);
+    }
+
+    private ReservationsReport getReservationsReport(Date start, Date end, String library, ReservationStatus status) {
+        List<Member> members = memberRepository.findMembersWithReservationsByStatus(status, start, end);
+        Collection<ReservationsGroup> reservations = getReservationsFromMember(members, library, status, start, end);
+
+        calculateTotalOnLocation(reservations);
+        List<ReservationsGroup> reservationsSorted = sortByLocation(reservations);
 
         ReservationsReport reservationsReport = new ReservationsReport();
-        reservationsReport.setReservations(pickedUpSorted);
+        reservationsReport.setReservations(reservationsSorted);
         return reservationsReport;
-
     }
 
     @Override
@@ -93,7 +75,6 @@ public class ReportService implements ReportServiceInterface {
 
         List<ReservedBook> list = new ArrayList<>(result.values());
         Collections.sort(list);
-
         return list;
     }
 
@@ -110,33 +91,13 @@ public class ReportService implements ReportServiceInterface {
         }
     }
 
-    private Collection<ReservationsGroup> getFromQueue(String library, Date start, Date end) {
-        List<Record> records = recordsRepository.getAllRecordsWithReservations(start, end);
+
+    public Collection<ReservationsGroup> getReservationsFromMember(List<Member> members, String library, ReservationStatus status,
+                                                                   Date start, Date end) {
         HashMap<String, ReservationsGroup> result = new HashMap<>();
-        int brojRez = 0;
-
-        for (Record record : records) {
-            brojRez += record.getReservations().size();
-            for (ReservationInQueue r : record.getReservations()) {
-                if (r.getReservationDate().after(start) && r.getReservationDate().before(end)) {
-                    addReservedBookToResult(library, r, result, record, null);
-                }
-            }
-        }
-        System.out.println("Broj rezervacija na cekanju: " + brojRez);
-        racunajUkupno(result);
-        return result.values();
-    }
-
-    public Collection<ReservationsGroup> getFromMember(List<Member> members, String library, ReservationStatus status,
-                                                       Date start, Date end) {
-        HashMap<String, ReservationsGroup> result = new HashMap<>();
-        int reNum = 0;
-
         for (Member member : members) {
-            for (ReservationOnProfile r : member.getReservations()) {   // todo: da li moze query da mi samo vrati rez
+            for (ReservationOnProfile r : member.getReservations()) {
                 if (r.getReservationStatus().equals(status) && r.getReservationDate().after(start) && r.getReservationDate().before(end)) {
-                    reNum += 1;
                     Optional<Record> record = recordsRepository.findById(r.getRecord_id());
                     if (record.isPresent()) {
                         addReservedBookToResult(library, r, result, record.get(), member);
@@ -144,8 +105,6 @@ public class ReportService implements ReportServiceInterface {
                 }
             }
         }
-        System.out.println("Broj dodeljenih rezervacija:" + reNum);
-        racunajUkupno(result);
         return result.values();
     }
 
@@ -173,12 +132,6 @@ public class ReportService implements ReportServiceInterface {
         if (!bookDtoCreated) {
             ReservedBook newReservedBook = createReservedBookDTO(record);
             newReservedBook.setAdditionalData(member, reservation);
-            if (member != null && ((ReservationOnProfile) reservation).getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {       // todo: obrisati posle
-                ItemAvailability ia = iaRepo.getByCtlgNo(((ReservationOnProfile) reservation).getCtlgNo());
-                if (!ia.getReserved()) {
-                    System.out.println("IA: " + ia.getCtlgNo() + ", userId: " + member.getUserId());
-                }
-            }
             rg.getReservedBooks().add(newReservedBook);
         }
     }
@@ -190,25 +143,8 @@ public class ReportService implements ReportServiceInterface {
 
         ReservedBook newReservedBook = createReservedBookDTO(record);
         newReservedBook.setAdditionalData(member, reservation);
-        if (member != null && ((ReservationOnProfile) reservation).getReservationStatus().equals(ReservationStatus.ASSIGNED_BOOK)) {       // todo: obrisati posle
-            ItemAvailability ia = iaRepo.getByCtlgNo(((ReservationOnProfile) reservation).getCtlgNo());
-            if (!ia.getReserved()) {
-                System.out.println("IA: " + ia.getCtlgNo() + ", userId: " + member.getUserId());
-            }
-        }
         reservationsGroup.getReservedBooks().add(newReservedBook);
-
         result.put(reservation.getCoderId(), reservationsGroup);
-    }
-
-    private void racunajUkupno(HashMap<String, ReservationsGroup> result) {
-        int suma = 0;
-        for (ReservationsGroup rg : result.values()) {
-            for (ReservedBook r : rg.getReservedBooks()) {
-                suma += r.getTotalCount();
-            }
-        }
-        System.out.println("Suma: " + suma);
     }
 
     private void calculateTotalOnLocation(Collection<ReservationsGroup> rgroup) {
