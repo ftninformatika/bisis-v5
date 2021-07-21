@@ -36,6 +36,7 @@ import java.util.UUID;
 public class AuthorizationServerConfig {
 
     Map<String, Map<String, String>> clients;
+    String issuer;
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
@@ -87,7 +88,7 @@ public class AuthorizationServerConfig {
 
     @Bean
     public ProviderSettings providerSettings() {
-        return new ProviderSettings().issuer("https://app.bisis.rs/oauth2");
+        return new ProviderSettings().issuer(issuer);
     }
 
     @Bean("oauth2Clients")
