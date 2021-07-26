@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.core.repositories.LendingRepository;
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
@@ -12,7 +15,7 @@ import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.reservations.service.impl.OpacReservationsService;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;

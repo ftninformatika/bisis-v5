@@ -2,10 +2,10 @@ package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
+import com.ftninformatika.bisis.core.repositories.LocationRepository;
+import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.LocationServiceInterface;
 import com.ftninformatika.utils.constants.LocationConstants;
 import com.ftninformatika.utils.string.LatCyrUtils;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class LocationService implements LocationServiceInterface {
 
     @Autowired
-    SublocationRepository sublocationRepository;
+    SubLocationRepository sublocationRepository;
 
     @Autowired
     LocationRepository locationRepository;

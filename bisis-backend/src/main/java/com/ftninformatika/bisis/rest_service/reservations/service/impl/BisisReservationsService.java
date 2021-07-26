@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
@@ -13,9 +14,6 @@ import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.LocationServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
@@ -43,7 +41,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     LibraryMemberRepository libraryMemberRepository;
 
     @Autowired
-    SublocationRepository sublocationRepository;
+    SubLocationRepository sublocationRepository;
 
     @Autowired
     LocationRepository locationRepository;

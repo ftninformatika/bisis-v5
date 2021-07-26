@@ -481,7 +481,7 @@ public interface BisisService {
     Call<Boolean> addWarnings(@Body WarningsData warningsData);
 
     @POST("coders/addWarningType")
-    Call<Boolean> addWarningType(@Body WarningType warningType);
+    Call<WarningType> addWarningType(@Body WarningType warningType);
 
     @GET("members/getWarnHistory")
     Call<List<MemberData>> getWarnHistory(@Query("start") PathDate start, @Query("end") PathDate end, @Query("warningType") String warningType, @Query("location") String location);

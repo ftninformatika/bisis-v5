@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.cards.ReportCore;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
@@ -14,12 +15,6 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.rest_service.controller.core.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.Helper;
 import com.ftninformatika.utils.string.LatCyrUtils;
@@ -60,7 +55,7 @@ public class OpacSearchService {
     @Autowired
     LocationRepository locationRepository;
     @Autowired
-    SublocationRepository sublocationRepository;
+    SubLocationRepository sublocationRepository;
     @Autowired
     ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired

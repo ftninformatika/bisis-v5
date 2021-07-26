@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    compile project(":bisis-core")
     compile project(":bisis-backend")
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
     compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.8.RELEASE'

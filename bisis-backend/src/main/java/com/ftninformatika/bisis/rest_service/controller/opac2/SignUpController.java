@@ -1,13 +1,13 @@
 package com.ftninformatika.bisis.rest_service.controller.opac2;
 
-import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.librarian.db.Authority;
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
@@ -31,7 +31,8 @@ public class SignUpController {
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired
     LibrarianRepository librarianRepository;
-    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
 
     @PostMapping(value = "/signup/opac")
     public ResponseEntity<?> signForOpac(@RequestHeader("Library") String library, @RequestBody LibraryMember newMember) {

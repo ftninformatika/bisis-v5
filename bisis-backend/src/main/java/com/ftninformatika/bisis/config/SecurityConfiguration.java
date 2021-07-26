@@ -36,9 +36,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(
                         "/book",
-                        "/inventory/**",
-                        "/inventory_unit/**",
-                        "/inventory_location/**",
                         "/book/multiple",
                         "/book/collection",
                         "/opac/**",
@@ -72,7 +69,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/coders/sublocation/**",
                         "/coders/item_status**",
                         "/coders/sublocation/get_by_location**",
-                        "/librarians/**").permitAll()
+                        "/librarians/**",
+                        "/rescarta/**").permitAll()
                 .antMatchers(
                         "/members_repository/**",
                         "/circ_report/**",

@@ -1,14 +1,14 @@
 package com.ftninformatika.bisis.books_common_merger;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.config.MongoTransactionalConfiguration;
 import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCommonController;
 import com.ftninformatika.bisis.rest_service.controller.opac2.BookCoverController;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.LoggerFactory;

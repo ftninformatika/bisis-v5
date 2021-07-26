@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.circ.CircLocation;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircLocationRepository;
+import com.ftninformatika.bisis.core.repositories.CircLocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,8 @@ import java.util.List;
 @RequestMapping("/circ_location")
 public class CircLocationController {
 
-    @Autowired CircLocationRepository circLocationRepository;
+    @Autowired
+    CircLocationRepository circLocationRepository;
 
     @RequestMapping("/lastUserId")
     public Integer getLastUserId(@RequestParam("location") String location, @RequestHeader("Library") String library){

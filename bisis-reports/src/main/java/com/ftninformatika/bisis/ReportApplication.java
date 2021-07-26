@@ -1,24 +1,25 @@
 package com.ftninformatika.bisis;
 
-import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.coders.*;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.reports.ReportCollection;
 import com.ftninformatika.bisis.reports.ReportRunner;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
-import com.ftninformatika.bisis.rest_service.repository.mongo.*;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 
 /**
@@ -83,7 +84,7 @@ public class ReportApplication {
           .stream().collect(Collectors.toMap(InternalMark::getCoder_id, i -> i)));
       libCoders.setStCoders(ctx.getBean(ItemStatusRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(ItemStatus::getCoder_id, i -> i)));
-      libCoders.setSublocCoders(ctx.getBean(SublocationRepository.class).getCoders(lc.getLibraryName())
+      libCoders.setSublocCoders(ctx.getBean(SubLocationRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i)));
       libCoders.setLocCoders(ctx.getBean(LocationRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(Location::getCoder_id, i -> i)));

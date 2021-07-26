@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.inventory.controller;
 
-import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

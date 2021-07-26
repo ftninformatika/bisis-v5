@@ -1,6 +1,10 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.coders.Location;
+import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.core.repositories.LocationRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
+import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
@@ -8,10 +12,6 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.bisis.rest_service.service.interfaces.RecordsServiceInterface;
 import com.ftninformatika.utils.RecordUtils;
 import com.mongodb.MongoClient;
@@ -29,14 +29,18 @@ import java.util.stream.Collectors;
 @Service
 public class RecordsService implements RecordsServiceInterface {
 
-    @Autowired RecordsRepository recordsRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
-    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
-    @Autowired LocationRepository locationRepository;
+    @Autowired
+    ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired
+    LocationRepository locationRepository;
     @Autowired
     LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
-    @Autowired SublocationRepository sublocrep;
+    @Autowired
+    SubLocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
 
     private Logger log = Logger.getLogger(RecordsService.class);

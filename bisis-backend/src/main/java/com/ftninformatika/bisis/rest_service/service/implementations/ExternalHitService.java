@@ -1,9 +1,9 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,8 @@ import java.util.Optional;
 @Service
 public class ExternalHitService {
 
-    @Autowired RecordsRepository recordsRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
     @Autowired OpacSearchService opacSearchService;
 
 

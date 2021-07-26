@@ -4,6 +4,8 @@ import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.circ.pojo.Warning;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
+import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.core.repositories.LendingRepository;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
@@ -40,8 +42,10 @@ public class MemberController {
     @Autowired MemberRepository memberRep;
     @Autowired
     LibrarianRepository librarianRepository;
-    @Autowired LendingRepository lendingRepository;
-    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired
+    LendingRepository lendingRepository;
+    @Autowired
+    ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired OrganizationRepository organizationRepository;
     @Autowired WarningCounterRepository warningCounterRepository;
     @Autowired MongoClient mongoClient;
@@ -335,7 +339,7 @@ public class MemberController {
         if (location == null || location.isEmpty()) {
             lendingsByWarningHistory = lendingRepository.findLendingsByWarningHistory(start, end, warningType);
         } else {
-            lendingsByWarningHistory = lendingRepository.findLendingsByWarningHistory(start, end, warningType, location);
+            lendingsByWarningHistory = lendingRepository.findLendingsByWarningHistoryWithLocation(start, end, warningType, location);
         }
         List<String> userIds = lendingsByWarningHistory.stream().map(l -> l.getUserId()).collect(Collectors.toList());
         Map<String, Member> members = memberRep.findByUserIdIn(userIds).stream().collect(Collectors.toMap(Member::getUserId, member -> member));

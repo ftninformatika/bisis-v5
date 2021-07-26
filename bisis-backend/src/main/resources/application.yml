@@ -5,12 +5,12 @@ logging:
 
 spring:
   profiles:
-    active: devTestServer
+    active: development
 
 ---
 
 spring:
-  profiles: devTestServer
+  profiles: development
   main:
     allow-bean-definition-overriding: true
   data.mongodb.uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
@@ -77,25 +77,6 @@ spring:
       cluster-nodes: 192.168.45.20:9300, 192.168.45.21:9300
 serverOrigin: https://opac.bisis.rs/bisisWS/
 opacOrigin: https://opac.bisis.rs/
-logging:
-  level:
-    com.ftninformatika: INFO
-
----
-
-spring:
-  profiles: developmentAtlas
-  data:
-    mongodb:
-      uri: mongodb+srv://bisis:bisis@cluster0.inxxv.gcp.mongodb.net/bisis?retryWrites=true&w=majority
-      database: bisis
-    elasticsearch:
-      cluster-name: bisis5
-      cluster-nodes: 127.0.0.1:9300
-      repositories:
-        enabled: true
-serverOrigin: http://localhost:8080/
-opacOrigin: http://localhost:4200/
 logging:
   level:
     com.ftninformatika: INFO

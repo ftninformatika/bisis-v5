@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/expand_prefix_controller")
 public class ExpandPrefixController {
 
-    @Autowired RecordsRepository recordsRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
     @Autowired ElasticRecordsRepository elasticsearchRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
 

@@ -1,0 +1,77 @@
+server:
+  port: 9001
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
+
+spring:
+  profiles:
+    active: development
+
+---
+
+spring:
+  profiles: development
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
+      database: bisis
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+---
+
+spring:
+  profiles: devTestServer
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
+      database: bisis
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+---
+
+spring:
+  profiles: production
+  data:
+    mongodb:
+      uri: mongodb://bisis1:27017,bisis2:27017,bisis3:27017/?replicaSet=bisis5
+      database: bisis
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+---
+
+oauth2-clients:
+#  issuer: https://app.bisis.rs/oauth2
+  issuer: http://127.0.0.1:9001
+  clients:
+    ava:
+      client-name: AVA Library
+      client-id: ava-library.bisisuser.rs
+      client-secret: jFtMDEwbtObRiJC2auZWgz5u
+      authorization-grant-type: authorization_code
+      redirect-uri: https://bgb.ava.watch/oidc/callback/
+      scope: openid
+    bisistest:
+      client-name: BISIS test client
+      client-id: test.bisisuser.rs
+      client-secret: jFtMDEwbtObRiJC2auZWgz5u
+      authorization-grant-type: authorization_code
+      redirect-uri: https://admintest.bisis.rs/bisisOAuthClient/login/oauth2/code/bisis
+      scope: openid
+    localtest:
+      client-name: local test client
+      client-id: local.bisisuser.rs
+      client-secret: jFtMDEwbtObRiJC2auZWgz5u
+      authorization-grant-type: authorization_code
+      redirect-uri: http://localhost:8080/login/oauth2/code/bisis
+      scope: openid
