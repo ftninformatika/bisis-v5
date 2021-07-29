@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" orientation="Landscape" columnWidth="555" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="2da2492d-217e-440a-8dae-2a48ac9d0804">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sve_rezervacije" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="2da2492d-217e-440a-8dae-2a48ac9d0804">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.2" value="pageFooter"/>
 	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="lastPageFooter"/>
@@ -295,11 +295,10 @@
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="54">
-			<property name="com.jaspersoft.studio.layout"/>
+	<lastPageFooter>
+		<band height="50">
 			<textField>
-				<reportElement x="538" y="10" width="30" height="20" uuid="a9db0154-14e7-40f2-817e-f2e9e4299d10"/>
+				<reportElement x="537" y="15" width="30" height="20" uuid="a9db0154-14e7-40f2-817e-f2e9e4299d10"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 					<paragraph lineSpacing="Single"/>
@@ -307,12 +306,12 @@
 				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="450" y="10" width="66" height="20" uuid="75e4a163-199b-476a-9f16-41f87e920886"/>
+				<reportElement x="449" y="15" width="66" height="20" uuid="75e4a163-199b-476a-9f16-41f87e920886"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Укупно:]]></text>
 			</staticText>
 		</band>
-	</columnFooter>
+	</lastPageFooter>
 </jasperReport>
