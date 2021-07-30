@@ -1,10 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller.opac2;
 
 import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.dto.ChangePasswordDTO;
-import com.ftninformatika.bisis.opac2.dto.ProlongLendingRequestDTO;
-import com.ftninformatika.bisis.opac2.dto.ProlongLendingResponseDTO;
-import com.ftninformatika.bisis.opac2.dto.ShelfDto;
+import com.ftninformatika.bisis.opac2.dto.*;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
@@ -129,5 +126,16 @@ public class LibraryMemberController {
         if (retVal == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+    @PostMapping("/get_member_card")
+    public ResponseEntity<MemberCardDTO> getMemberCard(@RequestHeader("Library") String lib, @RequestBody String username) {
+        MemberCardDTO memberCardDTO = libraryMemberService.getMemberCard(lib, username);
+        if (memberCardDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(memberCardDTO, HttpStatus.OK);
+        }
+
     }
 }

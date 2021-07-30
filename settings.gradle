@@ -11,5 +11,4 @@ include 'bisis-ris'
 include 'bisis-nabavka'
 include 'bisis-core'
 include 'bisis-oauth'
-include 'bisis-rescarta'
 
