@@ -30,7 +30,7 @@ public class LocationService implements LocationServiceInterface {
         boolean sameLocation = false;
 
         if (isBgb) {                       // todo: i bmb (citanje iz konfiguracije biblioteke)
-            if (p.getSigPodlokacija().equals(coderId)) {
+            if (p.getSigPodlokacija().equals(coderId)) {  // ako se desi da pukne prilikom Save, kad se kreira rezervacija iz Bisisa, to je zato sto neki primerak nema definisanu podlokaciju
                 sameLocation = true;
             }
         } else {                                // todo ako odeljenje nije popunjeno

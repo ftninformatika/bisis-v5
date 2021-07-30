@@ -7,6 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,4 +36,7 @@ public interface RecordsRepository extends MongoRepository<Record, String>, Reco
     List<Record> getRecordsForCtlgNoList(List ctlgNos);
 
     Record getByRn(int rn);
+
+    @Query("{'reservations': {$exists: true, $type: 'array', $ne: [], $elemMatch: {'reservationDate':{ $gte :?0, $lte:?1}}}}")
+    List<Record> getAllRecordsWithReservations(Date start, Date end);
 }
