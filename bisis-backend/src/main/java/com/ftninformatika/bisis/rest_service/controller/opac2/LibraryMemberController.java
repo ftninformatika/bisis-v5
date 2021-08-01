@@ -1,10 +1,10 @@
 package com.ftninformatika.bisis.rest_service.controller.opac2;
 
+import com.ftninformatika.bisis.config.YAMLConfig;
 import com.ftninformatika.bisis.opac2.books.Book;
 import com.ftninformatika.bisis.opac2.dto.*;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
-import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Petar on 10/18/2017.
@@ -38,7 +37,8 @@ public class LibraryMemberController {
 //    @Autowired JsonWebTokenAuthenticationService jsonWebTokenAuthenticationService;
     @Autowired LibraryMemberService libraryMemberService;
     @Autowired EmailService emailService;
-    @Autowired YAMLConfig yamlConfig;
+    @Autowired
+    YAMLConfig yamlConfig;
 
     @PostMapping("/prolong_lending")
     public ResponseEntity<ProlongLendingResponseDTO> prolongLending(@RequestHeader("Library") String lib, @RequestBody ProlongLendingRequestDTO requestDTO) {

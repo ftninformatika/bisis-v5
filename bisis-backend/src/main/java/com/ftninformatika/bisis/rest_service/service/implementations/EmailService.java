@@ -1,12 +1,15 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.config.YAMLConfig;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac2.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
-import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.StringUtils;
-import freemarker.template.*;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +29,6 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author badf00d21  24.7.19.

@@ -70,7 +70,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/coders/item_status**",
                         "/coders/sublocation/get_by_location**",
                         "/librarians/**",
-                        "/rescarta/metadataExport/**").permitAll()
+                        "/rescarta/metadataExport/**",
+                        "/faq/get/**").permitAll()
                 .antMatchers(
                         "/members_repository/**",
                         "/circ_report/**",

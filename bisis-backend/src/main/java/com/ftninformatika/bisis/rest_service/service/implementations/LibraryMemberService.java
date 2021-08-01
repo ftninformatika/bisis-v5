@@ -19,7 +19,7 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.reservations.service.impl.OpacReservationsService;
+import com.ftninformatika.bisis.reservations.service.impl.OpacReservationsService;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import com.ftninformatika.utils.constants.ReservationsConstants;

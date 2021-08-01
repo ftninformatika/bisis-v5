@@ -1,12 +1,11 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.config.YAMLConfig;
 import com.ftninformatika.bisis.opac2.books.BookCommon;
-import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCoverRepository;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -26,7 +25,8 @@ public class BookCoverService {
     @Autowired BookCoverRepository bookCoverRepository;
     @Autowired GridFsTemplate gridFsTemplate;
     @Autowired BookCommonRepository bookCommonRepository;
-    @Autowired YAMLConfig yamlConfig;
+    @Autowired
+    YAMLConfig yamlConfig;
 
     public boolean uploadImage(Integer bookCommonID, MultipartFile file) throws IOException {
 
