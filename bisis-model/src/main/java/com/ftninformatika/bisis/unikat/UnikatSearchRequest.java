@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.unikat;
 
-import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
+import com.ftninformatika.bisis.opac.search.ResultPageSearchRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

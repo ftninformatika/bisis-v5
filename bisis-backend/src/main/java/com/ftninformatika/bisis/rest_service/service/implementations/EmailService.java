@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.config.YAMLConfig;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.StringUtils;

@@ -2,8 +2,8 @@ package com.ftninformatika.bisis.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.core.repositories.*;
-import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac.books.Book;
+import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;

@@ -2,9 +2,9 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.librarian.db.Authority;
-import com.ftninformatika.bisis.opac2.BookCollection;
-import com.ftninformatika.bisis.opac2.dto.AddToCollectionDTO;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.BookCollection;
+import com.ftninformatika.bisis.opac.dto.AddToCollectionDTO;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;

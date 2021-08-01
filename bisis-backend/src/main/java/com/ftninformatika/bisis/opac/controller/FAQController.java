@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.opac.controller;
 
 import com.ftninformatika.bisis.opac.repository.FAQRepository;
-import com.ftninformatika.bisis.opac2.FAQ;
+import com.ftninformatika.bisis.opac.FAQ;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

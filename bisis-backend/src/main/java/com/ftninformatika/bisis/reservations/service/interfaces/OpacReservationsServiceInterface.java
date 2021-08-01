@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.reservations.service.interfaces;
 
 
-import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 
 import java.util.List;
 

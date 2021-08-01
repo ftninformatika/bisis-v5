@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.reports;
 
 import com.ftninformatika.bisis.circ.Member;
-import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import lombok.Getter;

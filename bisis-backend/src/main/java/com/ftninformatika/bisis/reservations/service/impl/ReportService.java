@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.reservations.service.impl;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.ReservationsGroup;
 import com.ftninformatika.bisis.reports.ReservationsReport;

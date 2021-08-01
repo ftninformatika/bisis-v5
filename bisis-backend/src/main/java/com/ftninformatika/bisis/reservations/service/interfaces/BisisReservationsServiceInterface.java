@@ -2,7 +2,7 @@ package com.ftninformatika.bisis.reservations.service.interfaces;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
-import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 

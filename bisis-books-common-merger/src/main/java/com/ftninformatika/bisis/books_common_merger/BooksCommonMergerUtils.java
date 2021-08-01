@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.books_common_merger;
 
-import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.bisis.opac.books.BookCommon;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;

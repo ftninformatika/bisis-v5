@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.unikat.UnikatBook;

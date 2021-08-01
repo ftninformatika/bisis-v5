@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.unikat;
 
-import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac.books.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

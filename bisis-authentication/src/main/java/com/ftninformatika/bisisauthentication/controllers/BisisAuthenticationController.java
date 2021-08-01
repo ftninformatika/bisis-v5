@@ -5,8 +5,8 @@ import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository
 import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
-import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.OpacMemberWrapper;
 import com.ftninformatika.bisisauthentication.models.AuthenticationRequest;
 import com.ftninformatika.bisisauthentication.models.AuthenticationResponse;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;

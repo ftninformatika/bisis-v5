@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.config.YAMLConfig;
-import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.bisis.opac.books.BookCommon;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCoverRepository;
 import com.mongodb.BasicDBObject;

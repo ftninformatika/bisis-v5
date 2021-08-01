@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
