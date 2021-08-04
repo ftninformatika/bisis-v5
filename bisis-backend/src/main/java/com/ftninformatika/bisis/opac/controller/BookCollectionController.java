@@ -62,11 +62,4 @@ public class BookCollectionController {
             return new ResponseEntity<>(true, HttpStatus.OK);
         return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    @GetMapping("/collections")
-    public ResponseEntity<List<BookCollection>> getAllCollectionsForAndroid() {
-        List<BookCollection> bookCollections = bookCollectionService.getCollectionsForAndroid();
-        Collections.reverse(bookCollections);
-        return new ResponseEntity<>(bookCollections, HttpStatus.OK);
-    }
 }
