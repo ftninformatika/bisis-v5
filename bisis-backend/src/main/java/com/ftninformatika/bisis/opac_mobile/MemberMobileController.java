@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/mobile/member")
+@RequestMapping("/mobile/members")
 public class MemberMobileController {
     @Autowired
     MemberService memberService;
