@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.opac_mobile;
+package com.ftninformatika.bisis.mobile;
 
-import com.ftninformatika.bisis.mobile.BookDTO;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.opac.search.ResultPageSearchRequest;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;

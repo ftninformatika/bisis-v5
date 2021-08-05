@@ -1,7 +1,6 @@
-package com.ftninformatika.bisis.opac_mobile;
+package com.ftninformatika.bisis.mobile;
 
 import com.ftninformatika.bisis.circ.pojo.Report;
-import com.ftninformatika.bisis.mobile.LendingDTO;
 import com.ftninformatika.bisis.rest_service.service.implementations.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

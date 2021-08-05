@@ -1,10 +1,6 @@
-package com.ftninformatika.bisis.opac_mobile;
+package com.ftninformatika.bisis.mobile;
 
-import com.ftninformatika.bisis.mobile.BookDTO;
-import com.ftninformatika.bisis.mobile.ProlongLendingDTO;
 import com.ftninformatika.bisis.opac.books.Book;
-import com.ftninformatika.bisis.opac.dto.ProlongLendingRequestDTO;
-import com.ftninformatika.bisis.opac.dto.ProlongLendingResponseDTO;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

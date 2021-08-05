@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.opac_mobile;
+package com.ftninformatika.bisis.mobile;
 
-import com.ftninformatika.bisis.mobile.ReservationMobileDTO;
 import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.reservations.service.interfaces.OpacReservationsServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;

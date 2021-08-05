@@ -1,6 +1,5 @@
-package com.ftninformatika.bisis.opac_mobile;
+package com.ftninformatika.bisis.mobile;
 
-import com.ftninformatika.bisis.mobile.BookCollectionDTO;
 import com.ftninformatika.bisis.opac.BookCollection;
 import com.ftninformatika.bisis.rest_service.service.implementations.BookCollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
