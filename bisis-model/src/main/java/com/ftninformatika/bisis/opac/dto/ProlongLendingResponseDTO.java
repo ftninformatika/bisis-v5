@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 /**
  * @author marijakovacevic
  */
@@ -15,4 +17,6 @@ import lombok.Setter;
 public class ProlongLendingResponseDTO {
     private boolean prolongable;
     private String message;
+    private Date deadline;
+    private Date resume;
 }

@@ -36,20 +36,4 @@ public class LibraryMemberMobileController {
         }
         return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
     }
-
-    @PostMapping("/prolong_lending")
-    public ResponseEntity<ProlongLendingResponseDTO> prolongLending(@RequestHeader("Library") String lib,
-                                                                    @RequestBody ProlongLendingRequestDTO requestDTO) {
-        ProlongLendingResponseDTO prolongDTO = libraryMemberService.prolongLending(lib, requestDTO.getEmail(), requestDTO.getLendingId());
-
-        ProlongLendingDTO prolongLendingDTO = new ProlongLendingDTO();
-        if (prolongDTO != null){
-            prolongLendingDTO.setMessage(prolongDTO.getMessage());
-            prolongLendingDTO.setProlongable(prolongDTO.isProlongable());
-
-        }
-
-        // todo: call new service method here
-        return new ResponseEntity<>(prolongDTO, HttpStatus.OK);
-    }
 }
