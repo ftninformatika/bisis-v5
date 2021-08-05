@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.mobile.BookAvailabilityDTO;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.opac.books.BookCommon;
 import com.ftninformatika.bisis.opac.books.Item;
@@ -160,6 +161,35 @@ public class OpacSearchService {
             return retVal;
         }
         return null;
+    }
+
+    public List<BookAvailabilityDTO> getBooksAvailabilityByLocation(Book book) {
+        HashMap<String, List<Item>> itemsByLocation = new HashMap<>();
+        for (Item item : book.getItems()) {
+            if (!item.getStatus().equals("NOT_SHOWABLE")) {
+                if (!itemsByLocation.containsKey(item.getLocCode())) {
+                    List<Item> itemsList = new ArrayList<>();
+                    itemsList.add(item);
+                    itemsByLocation.put(item.getLocCode(), itemsList);
+                } else {
+                    itemsByLocation.get(item.getLocCode()).add(item);
+                }
+            }
+        }
+        return getBooksAvailabilityDTOS(itemsByLocation, book.get_id());
+    }
+
+    private List<BookAvailabilityDTO> getBooksAvailabilityDTOS(HashMap<String, List<Item>> itemsByLocation, String recordId) {
+        List<BookAvailabilityDTO> booksAvailabilities = new ArrayList<>();
+        for (Map.Entry<String, List<Item>> entry : itemsByLocation.entrySet()) {
+            int total = entry.getValue().size();
+            int free = (int) entry.getValue().stream().filter(item -> item.getStatus().equals("FREE")).count();
+            int reserved = (int) entry.getValue().stream().filter(item -> item.getStatus().equals("RESERVED")).count();
+
+            BookAvailabilityDTO bookAvailability = new BookAvailabilityDTO(recordId, entry, total, free, reserved);
+            booksAvailabilities.add(bookAvailability);
+        }
+        return booksAvailabilities;
     }
 
     void fillReferencedRecords(Record r, Book b) {
