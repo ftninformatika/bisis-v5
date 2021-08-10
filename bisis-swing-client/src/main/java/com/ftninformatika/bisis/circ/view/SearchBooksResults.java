@@ -27,7 +27,7 @@ import com.ftninformatika.bisis.cards.Report;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.editor.inventar.PrintBarcode;
-import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;

@@ -11,7 +11,7 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;

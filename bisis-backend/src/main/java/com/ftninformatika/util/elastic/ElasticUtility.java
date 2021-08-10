@@ -1,16 +1,14 @@
 package com.ftninformatika.util.elastic;
 
 import com.ftninformatika.bisis.coders.ItemStatus;
-import com.ftninformatika.bisis.opac2.search.FiltersReq;
-import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
-import com.ftninformatika.bisis.opac2.search.SelectedFilter;
+import com.ftninformatika.bisis.opac.search.FiltersReq;
+import com.ftninformatika.bisis.opac.search.ResultPageSearchRequest;
+import com.ftninformatika.bisis.opac.search.SelectedFilter;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.elasticsearch.index.query.*;
-import org.springframework.data.redis.connection.SortParameters;
-import org.springframework.data.redis.core.query.SortQueryBuilder;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.location.dto.RecordCtlgNoDTO;
-import com.ftninformatika.bisis.rest_service.reservations.service.impl.LocationService;
+import com.ftninformatika.bisis.reservations.service.impl.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

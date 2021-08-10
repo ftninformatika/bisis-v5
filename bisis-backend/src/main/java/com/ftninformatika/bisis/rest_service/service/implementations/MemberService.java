@@ -7,7 +7,7 @@ import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.LendingRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
-import com.ftninformatika.bisis.opac2.books.Book;
+import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;

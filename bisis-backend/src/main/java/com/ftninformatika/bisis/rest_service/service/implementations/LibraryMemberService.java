@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.core.repositories.LendingRepository;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
@@ -8,16 +9,17 @@ import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
-import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.dto.ProlongLendingResponseDTO;
-import com.ftninformatika.bisis.opac2.dto.ShelfDto;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.books.Book;
+import com.ftninformatika.bisis.opac.dto.MemberCardDTO;
+import com.ftninformatika.bisis.opac.dto.ProlongLendingResponseDTO;
+import com.ftninformatika.bisis.opac.dto.ShelfDto;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.reservations.service.impl.OpacReservationsService;
+import com.ftninformatika.bisis.reservations.service.impl.OpacReservationsService;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import com.ftninformatika.utils.constants.ReservationsConstants;
@@ -226,5 +228,32 @@ public class LibraryMemberService {
                 shelfDto.getEmail().trim().equals("") ||
                 shelfDto.getBookId() == null ||
                 shelfDto.getBookId().trim().equals("")));
+    }
+
+    public MemberCardDTO getMemberCard(String library, String email) {
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(email);
+        if (libraryMember == null || libraryMember.getIndex() == null){
+            return null;
+        }
+        Optional<Member> memberOptional = memberRepository.findById(libraryMember.getIndex());
+        if (!memberOptional.isPresent()) {
+            return null;
+        }
+        MemberCardDTO memberCardDTO = new MemberCardDTO();
+
+        Member member = memberOptional.get();
+        memberCardDTO.setUserId(member.getUserId());
+        memberCardDTO.setUsername(libraryMember.getUsername());
+        memberCardDTO.setFirstName(member.getFirstName());
+        memberCardDTO.setLastName(member.getLastName());
+
+        Date date = null;
+        for (Signing signing : member.getSignings()) {
+            if (date == null || date.before(signing.getUntilDate())) {
+                date = signing.getUntilDate();
+            }
+        }
+        memberCardDTO.setMembershipUntil(date);
+        return memberCardDTO;
     }
 }

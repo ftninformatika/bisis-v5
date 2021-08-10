@@ -1,7 +1,7 @@
 package com.ftninformatika.bisisauthentication.models;
 
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

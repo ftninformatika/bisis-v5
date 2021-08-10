@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.repository.mongo;
 
-import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.bisis.opac.books.BookCommon;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
