@@ -174,6 +174,13 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             sameRecUnits.add(unit);
             lastRn = unit.getRn();
         }
+
+        Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
+        if (r != null) {
+            recordsRepository.save(r);
+        }
+
+
         inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(mapStatusesToItems.getInventoryId());
         inventory.setCurrentAction(EnumActionState.NONE);
         inventoryRepository.save(inventory);
