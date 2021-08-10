@@ -358,13 +358,14 @@ public class InventoryServiceImpl implements InventoryService {
             List<ItemAvailability> borrowedList = itemAvailabilityRepository.findByInventoryIdAndBorrowedIsTrue(inventoryId);
             Lending lending;
             LocalDate lendingDate;
-            LocalDate resumeDate = null;
+
             LocalDate dateL2 = LocalDate.now().minusYears(3);
             InventoryUnit unit;
             InventoryStatus borrowed = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_LENDING);
             InventoryStatus borrowedL2 = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_LENDING_L2);
             List<InventoryUnit> unitsForUpdate = new ArrayList<InventoryUnit>();
             for (ItemAvailability itemAvailability : borrowedList) {
+                LocalDate resumeDate = null;
                 String ctlgNo = itemAvailability.getCtlgNo();
                 unit = inventoryUnitRepository.findByInventoryIdAndInvNo(inventoryId, ctlgNo);
                 if (!unit.isChecked()) {
