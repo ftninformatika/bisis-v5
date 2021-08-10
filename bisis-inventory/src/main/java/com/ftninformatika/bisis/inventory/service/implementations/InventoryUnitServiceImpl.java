@@ -4,10 +4,7 @@ import com.ftninformatika.bisis.core.repositories.InventoryStatusRepository;
 import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.ItemStatusRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.inventory.EnumActionState;
-import com.ftninformatika.bisis.inventory.Inventory;
-import com.ftninformatika.bisis.inventory.InventoryStatus;
-import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.inventory.*;
 import com.ftninformatika.bisis.inventory.dto.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
@@ -182,6 +179,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
 
 
         inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(mapStatusesToItems.getInventoryId());
+        inventory.getRevisionToFinalStatuses().addAll(mapStatusesToItems.getStatusMapEntryList());
         inventory.setCurrentAction(EnumActionState.NONE);
         inventoryRepository.save(inventory);
         milliseconds = System.currentTimeMillis();
