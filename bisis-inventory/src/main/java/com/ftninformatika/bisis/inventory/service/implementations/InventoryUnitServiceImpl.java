@@ -165,6 +165,9 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             InventoryUnit unit = iterator.next();
             if (!lastRn.equals(unit.getRn())) {
                 Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
+                if (r == null) {
+                    continue;
+                }
                 recordsRepository.save(r);
                 sameRecUnits = new HashSet<>();
             }
@@ -185,13 +188,18 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             return null;
         }
         Record rec = recordsRepository.getByRn(rn);
+        if (rec == null) {
+            System.out.println("record is null, RN:" + rn);
+            return null;
+        }
         for (InventoryUnit unit: inventoryUnits) {
             Primerak p = null;
             try {
                 p = rec.getPrimerak(unit.getInvNo());
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 e.printStackTrace();
                 System.out.println("Primerak ne postoji za unit: " + unit.toString());
+                continue;
             }
             StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getInventoryStatusCoderId());
             if (p == null) {
