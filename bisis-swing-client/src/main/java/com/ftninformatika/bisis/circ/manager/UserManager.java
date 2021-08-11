@@ -25,7 +25,6 @@ import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
 import org.apache.log4j.Logger;
-import org.springframework.http.HttpStatus;
 import retrofit2.Response;
 
 import javax.swing.*;
@@ -615,9 +614,9 @@ public class UserManager {
         libraryMember.setIndex(member.get_id());
         libraryMember.setProfileActivated(false);
         Response<LibraryMember> createdMemberResp = BisisApp.bisisService.createWebAccount(libraryMember).execute();
-        if (createdMemberResp.code() == HttpStatus.CONFLICT.value())
+        if (createdMemberResp.code() == 409)
             throw new Exception(Messages.getString("USER_MANAGER_EMAIL_ALREADY_EXIST"));
-        if (createdMemberResp.code() == HttpStatus.EXPECTATION_FAILED.value())
+        if (createdMemberResp.code() == 417)
             throw new Exception(Messages.getString("USER_MANAGER_INVALID_USER_DATA"));
         if (createdMemberResp.body() == null)
             throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));

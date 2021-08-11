@@ -14,13 +14,13 @@ war {
 
 
 dependencies {
-    compile project(":bisis-model")
-    compile project(":bisis-authentication")
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.3'
+    implementation project(":bisis-model")
+    implementation project(":bisis-authentication")
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.3'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.4.3'
     implementation group: 'org.springframework.security.experimental', name: 'spring-security-oauth2-authorization-server', version: '0.1.0'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.4.3'
-    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '2.4.3'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.4.3'
+    implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '2.4.3'
     implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.31'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.4.3'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.4.3'

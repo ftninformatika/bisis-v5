@@ -9,9 +9,7 @@ repositories {
 }
 
 dependencies {
-    compile project(":bisis-model")
-    compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.1.2.RELEASE'
+    implementation project(":bisis-model")
 }
 
 test {

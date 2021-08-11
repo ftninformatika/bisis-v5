@@ -1,10 +1,10 @@
 package com.ftninformatika.bisis.books_common_merger;
 
+import com.ftninformatika.bisis.config.MongoTransactionalConfiguration;
+import com.ftninformatika.bisis.config.YAMLConfig;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac.books.BookCommon;
-import com.ftninformatika.bisis.rest_service.config.MongoTransactionalConfiguration;
-import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.opac.controller.BookCommonController;
 import com.ftninformatika.bisis.opac.controller.BookCoverController;

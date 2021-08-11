@@ -9,7 +9,6 @@ import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
-import org.apache.lucene.search.MatchAllDocsQuery;
 
 
 public class GroupInvRecordUtils {
