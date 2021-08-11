@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.inventory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.inventory.dto.StatusMappingEntry;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ public class Inventory {
     private List<Coder> invLocations;
     private List<InventoryBook> invBooks;
     private List<InventoryStatusPair> invToRevisionStatuses;
+    private List<StatusMappingEntry> revisionToFinalStatuses = new ArrayList<>();
     private EnumInventoryState inventoryState;
     private EnumActionState currentAction = EnumActionState.NONE;
     private Double progress;

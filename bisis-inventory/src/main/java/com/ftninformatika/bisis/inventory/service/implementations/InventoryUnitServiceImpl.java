@@ -4,10 +4,7 @@ import com.ftninformatika.bisis.core.repositories.InventoryStatusRepository;
 import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.ItemStatusRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.inventory.EnumActionState;
-import com.ftninformatika.bisis.inventory.Inventory;
-import com.ftninformatika.bisis.inventory.InventoryStatus;
-import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.inventory.*;
 import com.ftninformatika.bisis.inventory.dto.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
@@ -165,13 +162,24 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             InventoryUnit unit = iterator.next();
             if (!lastRn.equals(unit.getRn())) {
                 Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
+                if (r == null) {
+                    continue;
+                }
                 recordsRepository.save(r);
                 sameRecUnits = new HashSet<>();
             }
             sameRecUnits.add(unit);
             lastRn = unit.getRn();
         }
+
+        Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
+        if (r != null) {
+            recordsRepository.save(r);
+        }
+
+
         inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(mapStatusesToItems.getInventoryId());
+        inventory.getRevisionToFinalStatuses().addAll(mapStatusesToItems.getStatusMapEntryList());
         inventory.setCurrentAction(EnumActionState.NONE);
         inventoryRepository.save(inventory);
         milliseconds = System.currentTimeMillis();
@@ -185,13 +193,18 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             return null;
         }
         Record rec = recordsRepository.getByRn(rn);
+        if (rec == null) {
+            System.out.println("record is null, RN:" + rn);
+            return null;
+        }
         for (InventoryUnit unit: inventoryUnits) {
             Primerak p = null;
             try {
                 p = rec.getPrimerak(unit.getInvNo());
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 e.printStackTrace();
                 System.out.println("Primerak ne postoji za unit: " + unit.toString());
+                continue;
             }
             StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getInventoryStatusCoderId());
             if (p == null) {

@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.inventory.controller;
 
+import com.ftninformatika.bisis.inventory.EnumInventoryState;
 import com.ftninformatika.bisis.inventory.Inventory;
+import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,10 @@ public class InventoryController {
 
     @PutMapping()
     public ResponseEntity<Inventory> update(@RequestBody Inventory inventory) {
+        if (inventory != null && inventory.getInventoryState().equals(EnumInventoryState.FINISHED)) {
+            System.out.println("Apdejt zaduzenja pre zatvaranja revizije....");
+            inventoryService.updateLendingStatus(inventory.get_id());
+        }
         Inventory inventory1 = inventoryService.update(inventory);
         if (inventory1 == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
