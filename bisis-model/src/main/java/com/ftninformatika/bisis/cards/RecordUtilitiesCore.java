@@ -4,12 +4,11 @@ package com.ftninformatika.bisis.cards;
  * @author badf00d21  20.9.19.
  */
 
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.utils.Messages;
-import com.ftninformatika.utils.string.StringUtils;
 import lombok.NoArgsConstructor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 @NoArgsConstructor

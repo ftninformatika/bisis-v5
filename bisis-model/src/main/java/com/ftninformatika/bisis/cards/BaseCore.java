@@ -14,6 +14,7 @@ package com.ftninformatika.bisis.cards;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 import com.ftninformatika.bisis.records.*;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;

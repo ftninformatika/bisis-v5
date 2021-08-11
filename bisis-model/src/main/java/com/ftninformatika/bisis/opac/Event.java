@@ -6,16 +6,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_message")
-public class Message implements Serializable {
+@Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_event")
+public class Event implements Serializable {
     @Id
     private String _id;
-    private String idSender;
-    private String idReceiver;
+    private LocalDateTime date;
     private String content;
-    private Date date;
+    private String title;
 }

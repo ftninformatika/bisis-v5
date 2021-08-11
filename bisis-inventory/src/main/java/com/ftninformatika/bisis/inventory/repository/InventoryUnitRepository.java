@@ -1,7 +1,5 @@
 package com.ftninformatika.bisis.inventory.repository;
 
-import com.ftninformatika.bisis.coders.ItemStatus;
-import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +13,7 @@ public interface InventoryUnitRepository extends MongoRepository<InventoryUnit, 
 
     void deleteAllByInventoryId(String inventoryId);
     Page<InventoryUnit> findByInventoryId(String inventory_id, Pageable pageable);
+    List<InventoryUnit> findByInventoryId(String inventory_id);
     InventoryUnit findByInventoryIdAndInvNo(String inventoryId, String invNo);
     Double countAllByInventoryId(String inventoryId);
     Double countByInventoryIdAndCheckedIsTrue(String inventoryUnit);

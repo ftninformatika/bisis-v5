@@ -17,7 +17,7 @@ public class InventoryApp extends SpringBootServletInitializer {
         return application.sources(InventoryApp.class);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(InventoryApp.class, args);
     }
 

@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.records.serializers;
 
 import com.ftninformatika.bisis.records.*;
+import com.ftninformatika.bisis.records.Record;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;

@@ -24,6 +24,9 @@ public interface LendingRepository extends MongoRepository<Lending, String>,Lend
     public List<Lending> findByUserIdAndReturnDateIsNull(@Param("userId") String userId);
 
     public Lending findByCtlgNoAndReturnDateIsNull(@Param("ctlgNo") String ctlgNo);
+    public Lending findByCtlgNoAndLendDateBeforeAndReturnDateAfter(@Param("ctlgNo") String ctlgNo, @Param("lendDate") Date lendDate, @Param("returnDate") Date returnDate);
+    public Lending findByCtlgNoAndLendDateBeforeAndReturnDateIsNull(@Param("ctlgNo") String ctlgNo, @Param("lendDate") Date revisionStart);
+
 
     public List<Lending> findLendingsByUserIdAndLendDateBetween(@Param("userId") String userId, @Param("lendDate") Date start,@Param("lendDate") Date end);
 

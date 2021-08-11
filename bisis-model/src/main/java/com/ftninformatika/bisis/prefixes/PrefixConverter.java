@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.prefixes;
 
 import com.ftninformatika.bisis.records.*;
+import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;

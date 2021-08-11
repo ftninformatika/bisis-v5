@@ -2,7 +2,6 @@ package com.ftninformatika.bisis.inventory.controller;
 
 import com.ftninformatika.bisis.inventory.EnumInventoryState;
 import com.ftninformatika.bisis.inventory.Inventory;
-import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -82,6 +83,16 @@ public class InventoryController {
     @PutMapping("/updateLendingStatus")
     public ResponseEntity<?> updateLendingStatus(@RequestBody String inventoryId) {
         Boolean retVal = inventoryService.updateLendingStatus(inventoryId);
+        if (retVal == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(retVal);
+    }
+
+    @PutMapping("/updateLendingStatusFix/{revisionStart}")
+    public ResponseEntity<?> updateLendingStatus(@RequestBody String inventoryId, @PathVariable("revisionStart") String revisionStart) {
+        Date revisionStartDate = java.sql.Timestamp.valueOf(LocalDateTime.parse(revisionStart));
+        Boolean retVal = inventoryService.updateLendingStatusFix(inventoryId,revisionStartDate);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

@@ -22,8 +22,8 @@ public class MessageController {
     @PostMapping("/add")
     public ResponseEntity sendMessages(@RequestBody Message message){
         try{
-            messageRepository.save(message);
-            return ResponseEntity.status(HttpStatus.OK).build();
+           Message m = messageRepository.save(message);
+            return ResponseEntity.status(HttpStatus.OK).body(m);
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

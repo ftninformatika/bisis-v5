@@ -406,6 +406,100 @@ public class InventoryServiceImpl implements InventoryService {
             System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
         }
     }
+    public Boolean updateLendingStatusFix(String inventoryId,Date revisionStart) {
+
+        long milliseconds = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+        Date resultdate = new Date(milliseconds);
+        System.out.println("Vreme pocetka azuriranja zaduženih primeraka: " + sdf.format(resultdate));
+
+        try {
+            List<InventoryUnit> inventoryUnits = inventoryUnitRepository.findByInventoryId(inventoryId);
+            Lending lending;
+            LocalDate lendingDate;
+
+            LocalDate dateL2 = convertToLocalDateViaInstant(revisionStart).minusYears(3);
+            InventoryStatus borrowed = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_LENDING);
+            InventoryStatus borrowedL2 = inventoryStatusRepository.getByCoder_Id(InventoryStatus.ON_LENDING_L2);
+            List<InventoryUnit> unitsForUpdate = new ArrayList<InventoryUnit>();
+            for (InventoryUnit unit : inventoryUnits) {
+                LocalDate resumeDate = null;
+                String ctlgNo = unit.getInvNo();
+               // if (!unit.isChecked()) {
+                    //zaduzene pre pocetka revizije i nisu nikad vracene
+                    lending = lendingRepository.findByCtlgNoAndLendDateBeforeAndReturnDateIsNull(ctlgNo,revisionStart);
+                    if (lending !=null) {
+                        lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
+                        if (lending.getResumeDate() != null) {
+                            resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
+                        }
+                        if (resumeDate != null && resumeDate.isBefore(dateL2)) {
+                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
+                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                            }
+                            unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowedL2.getDescription());
+                        } else if (lendingDate.isBefore(dateL2)) {
+                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
+                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                            }
+                            unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowedL2.getDescription());
+                        } else {
+                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowed.getCoder_id())){
+                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                            }
+                            unit.setInventoryStatusCoderId(borrowed.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowed.getDescription());
+                        }
+                        unit.setDateModified(new Date());
+                        unitsForUpdate.add(unit);
+                    }
+
+                    //zaduzen pre pocetka i vracene su
+                    lending = lendingRepository.findByCtlgNoAndLendDateBeforeAndReturnDateAfter(ctlgNo,revisionStart,revisionStart);
+                    if(lending !=null) {
+                        lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
+                        if (lending.getResumeDate() != null) {
+                            resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
+                        }
+                        if (resumeDate != null && resumeDate.isBefore(dateL2)) {
+                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
+                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                            }
+                            unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowedL2.getDescription());
+                        } else if (lendingDate.isBefore(dateL2)) {
+                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
+                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                            }
+                            unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowedL2.getDescription());
+                        } else {
+                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowed.getCoder_id())){
+                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                            }
+                            unit.setInventoryStatusCoderId(borrowed.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowed.getDescription());
+                        }
+                        unit.setDateModified(new Date());
+                        unitsForUpdate.add(unit);
+                    }
+                }
+            //}
+            if(!unitsForUpdate.isEmpty()){
+                //inventoryUnitRepository.saveAll(unitsForUpdate);
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }finally {
+            milliseconds = System.currentTimeMillis();
+            resultdate = new Date(milliseconds);
+            System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
+        }
+    }
 
     public Boolean hasGeneratingInventoryForLib(String library) {
         Integer cnt = inventoryRepository.countAllByInventoryStateAndLibrary(EnumInventoryState.IN_PREPARATION, library);
