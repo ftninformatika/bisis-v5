@@ -379,7 +379,7 @@ public class InventoryServiceImpl implements InventoryService {
                     if (resumeDate != null && resumeDate.isBefore(dateL2)) {
                         unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                         unit.setInventoryStatusDescription(borrowedL2.getDescription());
-                    } else if (lendingDate.isBefore(dateL2)) {
+                    } else if (resumeDate == null && lendingDate.isBefore(dateL2)) {
                         unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                         unit.setInventoryStatusDescription(borrowedL2.getDescription());
                     } else {
@@ -406,7 +406,7 @@ public class InventoryServiceImpl implements InventoryService {
             System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
         }
     }
-    public Boolean updateLendingStatusFix(String inventoryId,Date revisionStart) {
+    public Boolean updateLendingStatusFix(String inventoryId,Date revisionStart,boolean takeAll) {
 
         long milliseconds = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
@@ -425,7 +425,7 @@ public class InventoryServiceImpl implements InventoryService {
             for (InventoryUnit unit : inventoryUnits) {
                 LocalDate resumeDate = null;
                 String ctlgNo = unit.getInvNo();
-               // if (!unit.isChecked()) {
+                if (takeAll || !unit.isChecked()) {
                     //zaduzene pre pocetka revizije i nisu nikad vracene
                     lending = lendingRepository.findByCtlgNoAndLendDateBeforeAndReturnDateIsNull(ctlgNo,revisionStart);
                     if (lending !=null) {
@@ -435,19 +435,19 @@ public class InventoryServiceImpl implements InventoryService {
                         }
                         if (resumeDate != null && resumeDate.isBefore(dateL2)) {
                             if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowedL2.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                             unit.setInventoryStatusDescription(borrowedL2.getDescription());
-                        } else if (lendingDate.isBefore(dateL2)) {
+                        } else if (resumeDate == null && lendingDate.isBefore(dateL2)) {
                             if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowedL2.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                             unit.setInventoryStatusDescription(borrowedL2.getDescription());
                         } else {
                             if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowed.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowed.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowed.getCoder_id());
                             unit.setInventoryStatusDescription(borrowed.getDescription());
@@ -456,7 +456,7 @@ public class InventoryServiceImpl implements InventoryService {
                         unitsForUpdate.add(unit);
                     }
 
-                    //zaduzen pre pocetka i vracene su
+                    //zaduzen pre pocetka i vracene su posle pocetka revizije
                     lending = lendingRepository.findByCtlgNoAndLendDateBeforeAndReturnDateAfter(ctlgNo,revisionStart,revisionStart);
                     if(lending !=null) {
                         lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
@@ -465,19 +465,19 @@ public class InventoryServiceImpl implements InventoryService {
                         }
                         if (resumeDate != null && resumeDate.isBefore(dateL2)) {
                             if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowedL2.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                             unit.setInventoryStatusDescription(borrowedL2.getDescription());
-                        } else if (lendingDate.isBefore(dateL2)) {
+                        } else if (resumeDate == null && lendingDate.isBefore(dateL2)) {
                             if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowedL2.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                             unit.setInventoryStatusDescription(borrowedL2.getDescription());
                         } else {
                             if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowed.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ unit.getInventoryStatusCoderId());
+                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowed.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowed.getCoder_id());
                             unit.setInventoryStatusDescription(borrowed.getDescription());
@@ -486,9 +486,10 @@ public class InventoryServiceImpl implements InventoryService {
                         unitsForUpdate.add(unit);
                     }
                 }
-            //}
+            }
+            System.out.println("Broj inventarnih jedinca za popravku "+ unitsForUpdate.size());
             if(!unitsForUpdate.isEmpty()){
-                //inventoryUnitRepository.saveAll(unitsForUpdate);
+              //  inventoryUnitRepository.saveAll(unitsForUpdate);
             }
             return true;
         }catch (Exception e){

@@ -89,10 +89,10 @@ public class InventoryController {
         return ResponseEntity.ok(retVal);
     }
 
-    @PutMapping("/updateLendingStatusFix/{revisionStart}")
-    public ResponseEntity<?> updateLendingStatus(@RequestBody String inventoryId, @PathVariable("revisionStart") String revisionStart) {
+    @PutMapping("/updateLendingStatusFix/{revisionStart}/{takeAll}")
+    public ResponseEntity<?> updateLendingStatus(@RequestBody String inventoryId, @PathVariable("revisionStart") String revisionStart, @PathVariable("takeAll") boolean takeAll) {
         Date revisionStartDate = java.sql.Timestamp.valueOf(LocalDateTime.parse(revisionStart));
-        Boolean retVal = inventoryService.updateLendingStatusFix(inventoryId,revisionStartDate);
+        Boolean retVal = inventoryService.updateLendingStatusFix(inventoryId,revisionStartDate,takeAll);
         if (retVal == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
