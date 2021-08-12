@@ -24,8 +24,9 @@ public class BookCollectionController {
     @Autowired BookCommonService bookCommonService;
 
     @PostMapping
-    public ResponseEntity<Boolean> addModifyCollection(@RequestBody BookCollection bookCollection) {
-        if (!bookCollectionService.addModifyCollection(bookCollection))
+    public ResponseEntity<Boolean> addModifyCollection(@RequestHeader("Library") String library,
+                                                       @RequestBody BookCollection bookCollection) {
+        if (!bookCollectionService.addModifyCollection(library, bookCollection))
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
