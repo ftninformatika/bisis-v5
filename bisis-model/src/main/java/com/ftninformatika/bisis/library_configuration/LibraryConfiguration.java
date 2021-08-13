@@ -86,6 +86,8 @@ public class LibraryConfiguration {
 
     private List<Report> reports;
 
+    private Integer maxCollectionsPerLib;
+
     public String toString(){
         return libraryFullName;
     }

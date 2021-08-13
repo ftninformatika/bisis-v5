@@ -1,7 +1,9 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.librarian.db.Authority;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac.BookCollection;
 import com.ftninformatika.bisis.opac.dto.AddToCollectionDTO;
 import com.ftninformatika.bisis.opac.members.LibraryMember;
@@ -19,14 +21,22 @@ import java.util.stream.Collectors;
  */
 @Service
 public class BookCollectionService {
-    private static int MAX_COLLECTIONS_PER_LIB = 15;
     @Autowired BookCollectionRepository bookCollectionRepository;
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired RecordsRepository recordsRepository;
+    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
 
-    public boolean addModifyCollection(BookCollection newCollection) {
+    public boolean addModifyCollection(String library, BookCollection newCollection) {
         if (newCollection == null || newCollection.getCreatorUsername() == null) return false;
-        if (bookCollectionRepository.count() >= MAX_COLLECTIONS_PER_LIB) return false;
+
+        int maxCollectionsPerLib = getMaxCollectionsPerLib(library);
+
+        if (newCollection.getIndex() < 0 && newCollection.get_id() == null) {
+            if (bookCollectionRepository.count() + 1 > maxCollectionsPerLib) return false;
+        } else {
+            if (bookCollectionRepository.count() > maxCollectionsPerLib) return false;
+        }
+
         LibraryMember creator = libraryMemberRepository.findByUsername(newCollection.getCreatorUsername());
         if (creator == null || !creator.getAuthorities().contains(Authority.ROLE_ADMIN)
                 || newCollection.getRecordsIds().size() > BookCollection.MAX_SIZE) return false;
@@ -37,6 +47,15 @@ public class BookCollectionService {
             newCollection.setIndex(generateIndex());
         BookCollection bc = bookCollectionRepository.save(newCollection);
         return (bc != null && bc.get_id() != null);
+    }
+
+    private Integer getMaxCollectionsPerLib(String library) {
+        LibraryConfiguration libConf = libraryConfigurationRepository.getByLibraryName(library);
+        Integer maxCollectionsPerLib = libConf.getMaxCollectionsPerLib();
+        if (maxCollectionsPerLib == null) {
+            maxCollectionsPerLib = 15;
+        }
+        return maxCollectionsPerLib;
     }
 
     public List<BookCollection> getCollections() {
