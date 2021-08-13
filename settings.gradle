@@ -8,7 +8,7 @@ include 'bisis-books-common-merger'
 include 'bisis-inventory'
 include 'bisis-authentication'
 include 'bisis-ris'
-include 'bisis-nabavka'
+include 'bisis-acquisition'
 include 'bisis-core'
 include 'bisis-oauth'
 
