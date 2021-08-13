@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.LendingRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.opac.books.Book;

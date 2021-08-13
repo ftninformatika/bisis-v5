@@ -14,7 +14,7 @@ import com.ftninformatika.bisis.exception.model.LockException;
 import com.ftninformatika.bisis.exception.model.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.exception.model.RecordNotFoundException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryConfigService;
 import com.ftninformatika.bisis.rest_service.service.implementations.RecordsService;
 import com.ftninformatika.bisis.search.*;

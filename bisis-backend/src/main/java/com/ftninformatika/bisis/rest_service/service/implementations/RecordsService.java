@@ -11,7 +11,7 @@ import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.exception.model.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.service.interfaces.RecordsServiceInterface;
 import com.ftninformatika.utils.RecordUtils;
 import com.mongodb.MongoClient;

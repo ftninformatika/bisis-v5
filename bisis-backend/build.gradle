@@ -1,7 +1,7 @@
 plugins {
 	id "org.springframework.boot" version "2.1.2.RELEASE"
+	id "war"
 }
-apply plugin: 'war'
 
 war {
 	enabled = true

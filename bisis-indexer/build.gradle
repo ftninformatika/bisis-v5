@@ -1,5 +1,6 @@
-apply plugin: 'application'
-apply plugin: 'java'
+plugins {
+    id "application"
+}
 
 version = '5.0.0'
 

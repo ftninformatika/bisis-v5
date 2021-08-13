@@ -1,13 +1,11 @@
-apply plugin: 'application'
+plugins {
+    id "application"
+}
 
 version = '5.0.0'
 
-jar {
-    enabled = true
-}
 
 dependencies {
-    implementation project(":bisis-backend")
     implementation project(":bisis-model")
     implementation project(":bisis-core")
     implementation group: 'log4j', name: 'log4j', version: '1.2.17'
@@ -18,9 +16,9 @@ dependencies {
 
 
 jar {
+    enabled = true
     mainClassName = 'com.ftninformatika.bisis.ReportApplication'
     manifest {
-
         attributes 'Implementation-Title': 'Report generator',
                 'Implementation-Version': version,
                 'Main-Class': 'com.ftninformatika.bisis.ReportApplication',

@@ -2,10 +2,6 @@ spring:
   profiles:
     active: development
 
-server:
-  servlet:
-    context-path: /nabavka
-
 logging:
   level:
     com.ftninformatika: INFO

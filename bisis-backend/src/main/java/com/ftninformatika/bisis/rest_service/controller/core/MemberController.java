@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.LendingRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;

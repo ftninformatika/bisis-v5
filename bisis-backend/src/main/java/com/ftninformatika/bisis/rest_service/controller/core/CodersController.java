@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
@@ -18,11 +19,16 @@ import java.util.List;
 @RequestMapping("/coders")
 public class CodersController {
 
-    @Autowired AcquisitionRepository acqrep;
-    @Autowired AvailabilityRepository availrep;
-    @Autowired AccessionRegisterRepository accregrep;
-    @Autowired BindingRepository bindrep;
-    @Autowired FormatRepository formrep;
+    @Autowired
+    AcquisitionCoderRepository acqrep;
+    @Autowired
+    AvailabilityRepository availrep;
+    @Autowired
+    AccessionRegisterRepository accregrep;
+    @Autowired
+    BindingRepository bindrep;
+    @Autowired
+    FormatRepository formrep;
     @Autowired InternalMarkRepository intmrep;
     @Autowired TaskRepository taskrep;
     @Autowired EducationLvlRepository edurep;

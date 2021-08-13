@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.core.repositories.LendingRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.librarian.db.Authority;
@@ -49,7 +50,8 @@ public class LibraryMemberService {
     @Autowired OpacSearchService opacSearchService;
     @Autowired RecordsRepository recordsRepository;
     @Autowired MemberRepository memberRepository;
-    @Autowired LibrarianRepository librarianRepository;
+    @Autowired
+    LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
     @Autowired OpacReservationsService reservationsService;
     @Autowired JWTUtil jwtUtil;

@@ -1,8 +1,5 @@
-plugins {
-    id 'java'
-}
 
-version 'unspecified'
+version '5.0.0'
 
 repositories {
     mavenCentral()

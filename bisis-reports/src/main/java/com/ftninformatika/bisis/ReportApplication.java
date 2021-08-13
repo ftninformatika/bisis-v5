@@ -6,9 +6,7 @@ import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.reports.ReportCollection;
 import com.ftninformatika.bisis.reports.ReportRunner;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
+
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -72,7 +70,7 @@ public class ReportApplication {
       LibraryCoders libCoders = new LibraryCoders();
       libCoders.setAccRegCoders(ctx.getBean(AccessionRegisterRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(AccessionRegister::getCoder_id, i -> i)));
-      libCoders.setAcqCoders(ctx.getBean(AcquisitionRepository.class).getCoders(lc.getLibraryName())
+      libCoders.setAcqCoders(ctx.getBean(AcquisitionCoderRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(Acquisition::getCoder_id, i -> i)));
       libCoders.setAvailCoders(ctx.getBean(AvailabilityRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(Availability::getCoder_id, i -> i)));

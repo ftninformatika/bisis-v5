@@ -1,26 +1,16 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'de.gliderpilot.gradle.jnlp:gradle-jnlp-plugin:+'
-    }
-}
-
 plugins {
     id "de.gliderpilot.jnlp" version "1.2.6"
     id 'application'
 }
 
-
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 version = "5.0.0"
 
 repositories {
     maven { url "https://clojars.org/repo" }
     maven { url "https://maven.repository.redhat.com/ga/" }
-    //maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/"}
     maven { url "http://services.tidalwave.it/nexus/content/repositories/releases/" }
     mavenCentral()
 }
@@ -90,9 +80,6 @@ jnlp {
             storepass: 'bisis',
             tsaurl   : 'http://timestamp.digicert.com']
 }
-
-
-
 
 task compileJasperJava(dependsOn: 'compileJava') {
     doLast {

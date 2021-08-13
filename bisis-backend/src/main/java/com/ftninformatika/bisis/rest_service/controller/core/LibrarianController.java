@@ -4,7 +4,7 @@ import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.LibrarianRoleDB;
 import com.ftninformatika.bisis.librarian.web.Librarian;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRoleRepository;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;

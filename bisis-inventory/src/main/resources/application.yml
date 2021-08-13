@@ -4,14 +4,12 @@ spring:
 
 reports.swapDir: /home/
 
-server:
-  servlet:
-    context-path: /
-
 logging:
   level:
     com.ftninformatika: INFO
+
 ---
+
 spring:
   profiles: development
   data:
