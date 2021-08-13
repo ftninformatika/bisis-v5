@@ -85,6 +85,7 @@ public class MemberService {
             report.setProperty7(l.getDeadline() == null ? null : sdf.format(l.getDeadline()));
             report.setProperty8(l.getResumeDate() == null ? null : sdf.format(l.getResumeDate()));
             report.setProperty9(l.get_id());
+            report.setProperty10(l.getLocation());
             retVal.add(report);
         }
 
