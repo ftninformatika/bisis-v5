@@ -71,7 +71,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/coders/sublocation/get_by_location**",
                         "/librarians/**",
                         "/rescarta/metadataExport/**",
-                        "/faq/get"
+                        "/faq/get",
+                        "/libraries/get/**"
                 ).permitAll()
                 .antMatchers(
                         "/members_repository/**",
@@ -81,7 +82,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/members/lending_history/**",
                         "/records/rate_record/**",
                         "/reservations/**",
-                        "/messages/**"
+                        "/messages/**",
+                        "/events/**",
+                        "/libraries/add"
                 )
                 .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers(

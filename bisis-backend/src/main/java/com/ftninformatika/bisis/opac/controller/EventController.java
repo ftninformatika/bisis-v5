@@ -57,8 +57,9 @@ public class EventController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/add")
-    public ResponseEntity<Boolean> addEvent(@RequestBody Event event,@RequestPart("file") MultipartFile file) {
+    @PostMapping(value="/add")
+    //TODO umesto ModelAttribute staviti RequestBody
+    public ResponseEntity<Boolean> addEvent(@ModelAttribute Event event,@RequestPart("file") MultipartFile file) {
         try {
             String library = prefixProvider.getLibPrefix();
             Event savedEvent = eventRepository.save(event);
