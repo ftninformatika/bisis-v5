@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -88,8 +86,8 @@ public class InventoryController {
         }
         return ResponseEntity.ok(retVal);
     }
-
-    @PutMapping("/updateLendingStatusFix/{revisionStart}/{takeAll}")
+  //Ovo je fix za popravku statusa zaduzenih primeraka u reviziji
+   /* @PutMapping("/updateLendingStatusFix/{revisionStart}/{takeAll}")
     public ResponseEntity<?> updateLendingStatus(@RequestBody String inventoryId, @PathVariable("revisionStart") String revisionStart, @PathVariable("takeAll") boolean takeAll) {
         Date revisionStartDate = java.sql.Timestamp.valueOf(LocalDateTime.parse(revisionStart));
         Boolean retVal = inventoryService.updateLendingStatusFix(inventoryId,revisionStartDate,takeAll);
@@ -97,7 +95,7 @@ public class InventoryController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(retVal);
-    }
+    }*/
 
     @GetMapping("/hasGeneratingInventory")
     public ResponseEntity<Boolean> hasGeneratingInventory(@RequestHeader("Library") String library) {
