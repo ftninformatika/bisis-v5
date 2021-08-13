@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Event implements Serializable {
     @Id
     private String _id;
-    private LocalDateTime date;
+    private Date date;
     private String content;
     private String title;
 }
