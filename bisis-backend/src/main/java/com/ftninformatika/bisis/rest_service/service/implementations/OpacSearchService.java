@@ -157,6 +157,7 @@ public class OpacSearchService {
             fillReferencedRecords(record.get(), retVal);
             String isbdHtml = ReportCore.makeOne(record.get(), false, libraryConfiguration);
             retVal.setIsbdHtml(isbdHtml);
+            retVal.setUnimarcImageURL(record.get());
             return retVal;
         }
         return null;
@@ -244,6 +245,7 @@ public class OpacSearchService {
             }
         }
         b.setOtherAuthors(rp.getOtherAuthors());
+        b.setUnimarcImageURL(r);
         return b;
     }
 

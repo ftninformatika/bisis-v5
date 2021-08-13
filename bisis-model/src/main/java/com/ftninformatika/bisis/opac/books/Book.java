@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.opac.books;
 
 import com.ftninformatika.bisis.records.AvgRecordRating;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.Subfield;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
+    public static String UNIMARC_IMAGE_URL_SUBFIELD = "856x";
     //    Record mongoId
     private String _id;
     private Integer pubType;
@@ -48,4 +50,14 @@ public class Book {
     private String imageUrl;
     private String description;
     private Integer commonBookUID;
+
+    public boolean setUnimarcImageURL(Record record) {
+        Subfield urlSubfield = record.getSubfield(Book.UNIMARC_IMAGE_URL_SUBFIELD);
+        if (urlSubfield == null || urlSubfield.getContent() == null || urlSubfield.getContent().trim().equals("")) {
+            return false;
+        } else {
+            this.imageUrl = urlSubfield.getContent();
+            return true;
+        }
+    }
 }
