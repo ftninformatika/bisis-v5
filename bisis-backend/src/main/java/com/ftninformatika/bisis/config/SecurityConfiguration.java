@@ -72,7 +72,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/librarians/**",
                         "/rescarta/metadataExport/**",
                         "/faq/get",
-                        "/libraries/get/**"
+                        "/libraries/get/**",
+                        "/mobile/book_collections/**",
+                        "/mobile/book/collection",
+                        "/mobile/opac_search/**"
                 ).permitAll()
                 .antMatchers(
                         "/members_repository/**",
@@ -84,7 +87,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/reservations/**",
                         "/messages/**",
                         "/events/**",
-                        "/libraries/add"
+                        "/libraries/add",
+                        "/mobile/book/availability",
+                        "/mobile/library_members/**",
+                        "/mobile/members/**",
+                        "/mobile/reservations/**"
                 )
                 .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers(
