@@ -97,19 +97,22 @@ public class LibraryMemberService {
         }
 
         if (maxDate.before(prolongDate)) {
-            l.setResumeDate(new Date());
-            l.setDeadline(maxDate);
-            l.setLibrarianResume("member");
-            lendingRepository.save(l);
-            prolongResponseDTO.setProlongable(true);
-            return prolongResponseDTO;
+            return getLendingResponseDTO(maxDate, l);
         }
 
+        return getLendingResponseDTO(prolongDate, l);
+    }
+
+    private ProlongLendingResponseDTO getLendingResponseDTO(Date prolongDate, Lending l) {
         l.setResumeDate(new Date());
         l.setDeadline(prolongDate);
         l.setLibrarianResume("member");
         lendingRepository.save(l);
+
+        ProlongLendingResponseDTO prolongResponseDTO = new ProlongLendingResponseDTO();
         prolongResponseDTO.setProlongable(true);
+        prolongResponseDTO.setDeadline(prolongDate);
+        prolongResponseDTO.setResume(l.getResumeDate());
         return prolongResponseDTO;
     }
 
@@ -258,4 +261,5 @@ public class LibraryMemberService {
         memberCardDTO.setMembershipUntil(date);
         return memberCardDTO;
     }
+
 }
