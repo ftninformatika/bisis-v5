@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 @Service
 public class LibraryConfigService {
 
-    @Autowired LibraryConfigurationRepository lcRepo;
+    @Autowired
+    LibraryConfigurationRepository lcRepo;
 
     public List<String> getAllLibraryPrefixes() {
         List<String> retVal = new ArrayList<>();

@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,18 +19,19 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/library_configuration")
 public class LibraryConfigurationController {
-    @Autowired LibraryConfigurationRepository librep;
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
 
     @RequestMapping(path = "findAllByLibraryNameNotLike")
     public List<LibraryConfiguration> getConfigs(String libName){
 
-        return librep.findAllByLibraryNameNotLike(libName);
+        return libraryConfigurationRepository.findAllByLibraryNameNotLike(libName);
     }
 
     @GetMapping(path = "forLib")
     public ResponseEntity<LibraryConfiguration> getLibraryConfiguration(@RequestParam("libName") String libName){
 
-        LibraryConfiguration lc = librep.getByLibraryName(libName);
+        LibraryConfiguration lc = libraryConfigurationRepository.getByLibraryName(libName);
         if (lc != null)
             return ResponseEntity.ok(lc);
         return ResponseEntity.notFound().build();
@@ -38,7 +39,7 @@ public class LibraryConfigurationController {
 
     @GetMapping("allConfigsBrief")
     public ResponseEntity<List<LibConfigDTO>> getAllConfigsBrief() {
-        List<LibraryConfiguration> libraryConfigurations = librep.findAll();
+        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findAll();
         if (libraryConfigurations == null || libraryConfigurations.size() == 0)
             return ResponseEntity.noContent().build();
         List<LibConfigDTO> retVal = libraryConfigurations.stream()

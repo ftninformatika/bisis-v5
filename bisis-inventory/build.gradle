@@ -1,8 +1,7 @@
 plugins {
     id 'java'
+    id 'war'
 }
-
-apply plugin: 'war'
 
 war {
     enabled = true
@@ -11,10 +10,7 @@ war {
 
 
 dependencies {
-    compile project(":bisis-backend") //todo napravi kontroler koji radi sa sifranicima
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
-    implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.9.0'
-    implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.9.0'
-    implementation group: 'org.apache.poi', name: 'poi', version: '4.1.1'
+    implementation project(":bisis-model")
+    implementation project(":bisis-core")
+    implementation project(":bisis-authentication")
 }

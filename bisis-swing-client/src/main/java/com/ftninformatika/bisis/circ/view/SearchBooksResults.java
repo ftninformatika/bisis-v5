@@ -27,7 +27,7 @@ import com.ftninformatika.bisis.cards.Report;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.dto.ReservationInQueueDTO;
 import com.ftninformatika.bisis.editor.inventar.PrintBarcode;
-import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
@@ -336,13 +336,7 @@ public class SearchBooksResults extends JPanel {
             btnReserve.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ev) {
                     if (getTree().getLastSelectedPathComponent() instanceof Record) {
-                        if (Cirkulacija.getApp().getMainFrame().getUserPanel().getReservationsPanel().isReservationLimitExceeded()) {
-                            JOptionPane.showMessageDialog(null, Messages.getString("circulation.reservationLimitExceeded"),
-                                    Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
-                                    new ImageIcon(getClass().getResource("/circ-images/x32.png"))); //$NON-NLS-1$
-                        } else {
-                            Cirkulacija.getApp().getUserManager().reserveOneBook(((Record) getTree().getLastSelectedPathComponent()));
-                        }
+                        Cirkulacija.getApp().getUserManager().reserveOneBook(((Record) getTree().getLastSelectedPathComponent()));
                     }
                 }
             });
@@ -602,6 +596,8 @@ public class SearchBooksResults extends JPanel {
                     getLCtlgnoNum().setText(""); //$NON-NLS-1$
                     hits = null;
                     getBooksTreeModel().clear();
+                    // button cancel is pressed => set reserveBook to null
+                    Cirkulacija.getApp().getUserManager().setReserveBook(null);
                     Cirkulacija.getApp().getMainFrame().previousPanel();
                 }
             });

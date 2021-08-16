@@ -1,17 +1,17 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac2.BookCollection;
-import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.books.BookCommon;
+import com.ftninformatika.bisis.opac.BookCollection;
+import com.ftninformatika.bisis.opac.books.Book;
+import com.ftninformatika.bisis.opac.books.BookCommon;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +30,12 @@ import java.util.stream.Collectors;
 public class BookCommonService {
 
     @Autowired BookCommonRepository bookCommonRepository;
-    @Autowired RecordsRepository recordsRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
     @Autowired OpacSearchService opacSearchService;
     @Autowired BookCollectionRepository bookCollectionRepository;
-    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired RecordsController recordsController; // Avoid this
     private Logger log = Logger.getLogger(BookCommonService.class);
 

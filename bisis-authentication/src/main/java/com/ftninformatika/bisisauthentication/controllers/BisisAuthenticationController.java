@@ -1,23 +1,24 @@
 package com.ftninformatika.bisisauthentication.controllers;
 
-import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
-import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.OpacMemberWrapper;
 import com.ftninformatika.bisisauthentication.models.AuthenticationRequest;
 import com.ftninformatika.bisisauthentication.models.AuthenticationResponse;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
 import com.ftninformatika.bisisauthentication.repositories.LibrarianRepository;
-import com.ftninformatika.bisisauthentication.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisisauthentication.repositories.LibraryMemberRepository;
 import com.ftninformatika.bisisauthentication.repositories.MemberRepository;
 import com.ftninformatika.bisisauthentication.security.BisisUserDetailsService;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +26,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
@@ -33,6 +36,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@ConditionalOnBean(AuthenticationManager.class)
 public class BisisAuthenticationController {
 
     @Autowired
@@ -53,7 +57,6 @@ public class BisisAuthenticationController {
     MemberRepository memberRepository;
 
     @Autowired
-    @Qualifier("libraryConfigurationAuthenticationRepository")
     LibraryConfigurationRepository libraryConfigurationRepository;
 
     @Autowired

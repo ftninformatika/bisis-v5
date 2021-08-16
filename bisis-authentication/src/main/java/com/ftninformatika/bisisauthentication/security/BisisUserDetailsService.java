@@ -1,7 +1,7 @@
 package com.ftninformatika.bisisauthentication.security;
 
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
 import com.ftninformatika.bisisauthentication.repositories.LibrarianRepository;
 import com.ftninformatika.bisisauthentication.repositories.LibraryMemberRepository;
@@ -25,16 +25,22 @@ public class BisisUserDetailsService implements UserDetailsService {
     @Qualifier("libraryMemberAuthenticationRepository")
     LibraryMemberRepository libraryMemberRepository;
 
+    String libraryFilter;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<LibrarianDB> librarianDB = librarianRepository.findByUsername(username);
         BisisUserDetailsImpl bisisUserDetails = null;
         if (librarianDB.isPresent()) {
-            bisisUserDetails = new BisisUserDetailsImpl(librarianDB.get());
+            if (libraryFilter == null || librarianDB.get().getBiblioteka().equals(libraryFilter)) {
+                bisisUserDetails = new BisisUserDetailsImpl(librarianDB.get());
+            }
         } else {
             Optional<LibraryMember> libraryMember = libraryMemberRepository.findByUsername(username);
             if (libraryMember.isPresent()) {
-                bisisUserDetails = new BisisUserDetailsImpl(libraryMember.get());
+                if (libraryFilter == null || libraryMember.get().getLibraryPrefix().equals(libraryFilter)) {
+                    bisisUserDetails = new BisisUserDetailsImpl(libraryMember.get());
+                }
             }
         }
         if (bisisUserDetails != null) {
@@ -42,5 +48,9 @@ public class BisisUserDetailsService implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException("Not found: " + username);
         }
+    }
+
+    public void setLibraryFilter(String library) {
+        libraryFilter = library;
     }
 }

@@ -19,12 +19,14 @@ import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.location.dto.RecordCtlgNoDTO;
-import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.books.Book;
+import com.ftninformatika.bisis.opac.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.registry.*;
 import com.ftninformatika.bisis.reports.GeneratedReport;
+import com.ftninformatika.bisis.reports.ReservationsReport;
+import com.ftninformatika.bisis.reports.ReservedBook;
 import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.utils.PathDate;
 import okhttp3.RequestBody;
@@ -481,10 +483,22 @@ public interface BisisService {
     Call<Boolean> addWarnings(@Body WarningsData warningsData);
 
     @POST("coders/addWarningType")
-    Call<Boolean> addWarningType(@Body WarningType warningType);
+    Call<WarningType> addWarningType(@Body WarningType warningType);
 
     @GET("members/getWarnHistory")
     Call<List<MemberData>> getWarnHistory(@Query("start") PathDate start, @Query("end") PathDate end, @Query("warningType") String warningType, @Query("location") String location);
+
+    @GET("reservations-report/in-queue")
+    Call<ReservationsReport> getReservationsInQueue(@Query("start") PathDate start, @Query("end") PathDate end);
+
+    @GET("reservations-report/assigned")
+    Call<ReservationsReport> getAssignedReservations(@Query("start") PathDate start, @Query("end") PathDate end);
+
+    @GET("reservations-report/picked-up")
+    Call<ReservationsReport> getPickedUpReservations(@Query("start") PathDate start, @Query("end") PathDate end);
+
+    @GET("reservations-report/by-record")
+    Call<ArrayList<ReservedBook>> getReservationsByRecord(@Query("start") PathDate start, @Query("end") PathDate end);
 
     //--GENERICKI REGISTRI
     @GET("registries/{regCode}")

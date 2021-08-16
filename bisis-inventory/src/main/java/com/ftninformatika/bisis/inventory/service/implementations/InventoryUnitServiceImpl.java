@@ -1,23 +1,18 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
-import com.ftninformatika.bisis.inventory.EnumActionState;
-import com.ftninformatika.bisis.inventory.Inventory;
-import com.ftninformatika.bisis.inventory.InventoryStatus;
-import com.ftninformatika.bisis.inventory.InventoryUnit;
+import com.ftninformatika.bisis.core.repositories.InventoryStatusRepository;
+import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.core.repositories.ItemStatusRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
+import com.ftninformatika.bisis.inventory.*;
 import com.ftninformatika.bisis.inventory.dto.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +26,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
     private ItemStatusRepository itemStatusRepository;
     private InventoryStatusRepository inventoryStatusRepository;
     private InventoryRepository inventoryRepository;
+    private ItemAvailabilityRepository itemAvailabilityRepository;
     private RecordsRepository recordsRepository;
 
     @Autowired
@@ -166,13 +162,24 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             InventoryUnit unit = iterator.next();
             if (!lastRn.equals(unit.getRn())) {
                 Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
+                if (r == null) {
+                    continue;
+                }
                 recordsRepository.save(r);
                 sameRecUnits = new HashSet<>();
             }
             sameRecUnits.add(unit);
             lastRn = unit.getRn();
         }
+
+        Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
+        if (r != null) {
+            recordsRepository.save(r);
+        }
+
+
         inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(mapStatusesToItems.getInventoryId());
+        inventory.getRevisionToFinalStatuses().addAll(mapStatusesToItems.getStatusMapEntryList());
         inventory.setCurrentAction(EnumActionState.NONE);
         inventoryRepository.save(inventory);
         milliseconds = System.currentTimeMillis();
@@ -186,10 +193,26 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             return null;
         }
         Record rec = recordsRepository.getByRn(rn);
+        if (rec == null) {
+            System.out.println("record is null, RN:" + rn);
+            return null;
+        }
         for (InventoryUnit unit: inventoryUnits) {
-            Primerak p = rec.getPrimerak(unit.getInvNo());
+            Primerak p = null;
+            try {
+                p = rec.getPrimerak(unit.getInvNo());
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                System.out.println("Primerak ne postoji za unit: " + unit.toString());
+                continue;
+            }
             StatusMappingEntry statusMappingEntry = mapStatusesToItemsDTO.getEntryByInventoryStatus(unit.getInventoryStatusCoderId());
+            if (p == null) {
+                System.out.println("Primerak ne postoji za rn: " + rn);
+                continue;
+            }
             p.setStatus(statusMappingEntry.getItemStatusCoderId());
+
             if (statusMappingEntry.getItemStatusDate() != null) {
                 p.setDatumStatusa(statusMappingEntry.getItemStatusDate());
             }

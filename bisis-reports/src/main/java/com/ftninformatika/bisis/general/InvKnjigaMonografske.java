@@ -75,8 +75,12 @@ public class InvKnjigaMonografske extends Report {
 	@Override
 	public void finish() {
 		  log.info("Finishing report...");
-		    for (List<Item> list : itemMap.values())
-		      Collections.sort(list);
+          if (settings.getOptionalParam() != null && settings.getOptionalParam().equals("inv-sort")) {
+              sortItemsByInvNoOnly();
+          } else {
+            for (List<Item> list : itemMap.values())
+                Collections.sort(list);
+          }
 		    
 		    for (String key : itemMap.keySet()) {
 		      List<Item> list = itemMap.get(key);
@@ -112,13 +116,27 @@ public class InvKnjigaMonografske extends Report {
 		
 	}
 
+	public void sortItemsByInvNoOnly() {
+	    for (String key: itemMap.keySet()) {
+            List<Item> list = itemMap.get(key);
+            list.sort((r1,r2) -> {
+                int i1 = Integer.parseInt(r1.invbr.substring(4));
+                int i2 = Integer.parseInt(r2.invbr.substring(4));
+                return Integer.compare(i1, i2);
+            });
+        }
+    }
 
 
 	  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
 		  log.info("Finishing  report...");
-		    for (List<Item> list : itemMap.values())
-		      Collections.sort(list);
-		    
+		  if (settings.getOptionalParam() != null && settings.getOptionalParam().equals("inv-sort")) {
+              sortItemsByInvNoOnly();
+          } else {
+              for (List<Item> list : itemMap.values())
+                  Collections.sort(list);
+          }
+
 		    for (String key : itemMap.keySet()) {
 		      List<Item> list = itemMap.get(key);
 		      StringBuilder out = getWriter(key);
@@ -193,6 +211,13 @@ public class InvKnjigaMonografske extends Report {
     for (Primerak p : rec.getPrimerci()) {
         if(p.getInvBroj()==null)
       	  continue;
+
+        try {
+            Double.parseDouble(p.getInvBroj());
+        } catch (Exception e) {
+            e.printStackTrace();
+            continue;
+        }
         Matcher matcher = pattern.matcher(p.getInvBroj());
         if (!matcher.matches())
           continue;

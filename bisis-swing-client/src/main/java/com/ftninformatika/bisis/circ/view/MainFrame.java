@@ -236,6 +236,8 @@ public class MainFrame extends JInternalFrame {
                 public void actionPerformed(ActionEvent e) {
                     getUserIDPanel().clear();
                     getUserIDPanel().setVisible(false);
+                    Cirkulacija.getApp().getUserManager().setReserveBook(null);
+                    Cirkulacija.getApp().getUserManager().setChargeBook("");
 //                    boolean released = Cirkulacija.getApp().getUserManager().releaseUser();
 //                    if (released) {
 //                        log.info("Otkljucan korisnik: " + getUserIDPanel().getValue());

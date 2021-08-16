@@ -21,7 +21,7 @@ public class TableCatalog {
             new Column("Nacin_ID", Messages.getString("code"), Types.CHAR, 1, 0, true),
             new Column("Nacin_Opis", Messages.getString("description"), Types.VARCHAR, 255, 0, false)}));
     tables.put("Odeljenje", 
-        new Table("Odeljenje", Messages.getString("location"), new Column[] {
+        new Table("Odeljenje", Messages.getString("locations"), new Column[] {
             new Column("Odeljenje_ID", Messages.getString("code"), Types.CHAR, 2, 0, true),
             new Column("Odeljenje_Naziv", Messages.getString("title"), Types.VARCHAR, 255, 0, false)}));
     tables.put("Podlokacija", 

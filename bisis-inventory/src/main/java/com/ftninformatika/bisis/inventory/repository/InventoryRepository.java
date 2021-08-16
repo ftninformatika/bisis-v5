@@ -12,4 +12,5 @@ public interface InventoryRepository extends MongoRepository<Inventory, String> 
 
     List<Inventory> findAllByLibrary(String library);
     List<Inventory> findAllByInventoryStateAndLibrary(EnumInventoryState inventoryState, String library);
+    Integer countAllByInventoryStateAndLibrary(EnumInventoryState inventoryState, String library);
 }

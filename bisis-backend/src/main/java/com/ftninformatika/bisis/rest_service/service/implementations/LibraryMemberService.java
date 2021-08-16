@@ -1,26 +1,33 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.circ.pojo.Signing;
+import com.ftninformatika.bisis.core.repositories.LendingRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
-import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.dto.ShelfDto;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.books.Book;
+import com.ftninformatika.bisis.opac.dto.MemberCardDTO;
+import com.ftninformatika.bisis.opac.dto.ProlongLendingResponseDTO;
+import com.ftninformatika.bisis.opac.dto.ShelfDto;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac2.members.OpacMemberWrapper;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.reservations.service.impl.OpacReservationsService;
+import com.ftninformatika.bisis.reservations.service.impl.OpacReservationsService;
+import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
+import com.ftninformatika.bisisauthentication.security.JWTUtil;
+import com.ftninformatika.utils.constants.ReservationsConstants;
 import com.ftninformatika.utils.date.DateUtils;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -46,23 +53,28 @@ public class LibraryMemberService {
     @Autowired
     LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;
-    @Autowired
-    OpacReservationsService reservationsService;
+    @Autowired OpacReservationsService reservationsService;
+    @Autowired JWTUtil jwtUtil;
 
     /**
      * Resume lending for authenticated OPAC user
      */
-    public boolean prolongLending(String authToken, String lendingId) {
-        LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
-        if (libraryMember == null || libraryMember.getIndex() == null)
-            return false;
+    public ProlongLendingResponseDTO prolongLending(String library, String email, String lendingId) {
+        ProlongLendingResponseDTO prolongResponseDTO = new ProlongLendingResponseDTO();
+
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(email);
+        if (libraryMember == null || libraryMember.getIndex() == null){
+            prolongResponseDTO.setProlongable(false);
+            return prolongResponseDTO;
+        }
 
         Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
         Optional<Lending> lending = lendingRepository.findById(lendingId);
         if (!member.isPresent() || !lending.isPresent()
-                || lending.get().getResumeDate() != null || lending.get().getDeadline() == null)
-            return false;
-
+                || lending.get().getResumeDate() != null || lending.get().getDeadline() == null) {
+            prolongResponseDTO.setProlongable(false);
+            return prolongResponseDTO;
+        }
         UserCategory category = member.get().getUserCategory();
 
         Date deadLineDate = lending.get().getDeadline();
@@ -71,65 +83,34 @@ public class LibraryMemberService {
         Date maxDate = DateUtils.incDecDays(deadLineDate, category.getMaxPeriod());
 
         // if there are reservations in the queue, forbid prolonging
-        if (!reservationsService.isReservationsQueueEmpty(lending.get().getCtlgNo())){
-            return false;
+        if (reservationsService.isReservationPresentOnLocation(library, lending.get().getCtlgNo())){
+            prolongResponseDTO.setProlongable(false);
+            prolongResponseDTO.setMessage(ReservationsConstants.PROLONG_NOT_ALLOWED);
+            return prolongResponseDTO;
         }
 
         Lending l = lending.get();
 
-        if (prolongDate.before(today))
-            return false;
+        if (prolongDate.before(today)) {
+            prolongResponseDTO.setProlongable(false);
+            return prolongResponseDTO;
+        }
 
         if (maxDate.before(prolongDate)) {
             l.setResumeDate(new Date());
             l.setDeadline(maxDate);
             l.setLibrarianResume("member");
             lendingRepository.save(l);
-            return true;
+            prolongResponseDTO.setProlongable(true);
+            return prolongResponseDTO;
         }
 
         l.setResumeDate(new Date());
         l.setDeadline(prolongDate);
         l.setLibrarianResume("member");
         lendingRepository.save(l);
-        return true;
-    }
-
-    /**
-     * Gets wrapper object that contains library member (OPAC)
-     * and its BISIS circulation model
-     * @param libraryMember
-     * @return
-     */
-    public OpacMemberWrapper getOpacWrapperMember(LibraryMember libraryMember) {
-        List<String> allPrefixes = libraryConfigurationRepository.findAll()
-                .stream().map(LibraryConfiguration::getLibraryName).collect(Collectors.toList());
-        if (libraryMember == null || libraryMember.getLibraryPrefix() == null
-                || !allPrefixes.contains(libraryMember.getLibraryPrefix()))
-            return null;
-        libraryPrefixProvider.setPrefix(libraryMember.getLibraryPrefix());
-        OpacMemberWrapper retVal = new OpacMemberWrapper();
-        if (libraryMember.getAuthorities().contains(Authority.ROLE_USER)) {
-            Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
-            if (member.isPresent()) retVal.setMember(member.get());
-            else return null;
-        }
-        else if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN)) {
-            Optional<LibrarianDB> librarianDTO = librarianRepository.findById(libraryMember.getLibrarianIndex());
-            if (librarianDTO.isPresent()) {
-                Member tmpMem = new Member();
-                LibrarianDB librarian = librarianDTO.get();
-                tmpMem.setFirstName(librarian.getIme());
-                tmpMem.setLastName(librarian.getPrezime());
-                tmpMem.setAddress("");
-                tmpMem.setUserId("ADMIN");
-                retVal.setMember(tmpMem);
-            }
-            else return null;
-        }
-        libraryMember.setPassword(null);
-        retVal.setLibraryMember(libraryMember);
-        return retVal;
+        prolongResponseDTO.setProlongable(true);
+        return prolongResponseDTO;
     }
 
     /**
@@ -168,7 +149,6 @@ public class LibraryMemberService {
      */
     public boolean activateAdmin(LibraryMember libraryMember) {
         String hashedPass = BCrypt.hashpw(libraryMember.getPassword(), BCrypt.gensalt());
-
         LibrarianDB librarian = librarianRepository.findById(libraryMember.getLibrarianIndex()).get();
         libraryMember.setPassword(hashedPass);
         libraryMember.setProfileActivated(true);
@@ -180,31 +160,13 @@ public class LibraryMemberService {
     }
 
     /**
-     * Checks if provided email already exist activated in
-     * OPAC users collection (library_members)
-     * @param email
-     * @return
-     */
-    public boolean emailExistAndActivated(String email) {
-        if (email == null) return true;
-        LibraryMember lm = libraryMemberRepository.findByUsername(email);
-        if (lm != null && lm.getProfileActivated()) return true;
-        return false;
-    }
-
-    /**
      *
      * @param libraryMember- new OPAC account, without activation link
      * @return - activation token, valid for next 5 days
      */
     public String generateActivationToken(LibraryMember libraryMember) {
-        Map<String, Object> tokenData = new HashMap<>();
-        tokenData.put("username", libraryMember.getUsername());
-        Date activationDeadline = DateUtils.incDecDays(new Date(), 5);
-        tokenData.put("acivationDate", activationDeadline);
-        JwtBuilder jwtBuilder = Jwts.builder();
-        jwtBuilder.setClaims(tokenData).setExpiration(activationDeadline);
-        return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
+        UserDetails userDetails = new BisisUserDetailsImpl(libraryMember);
+        return jwtUtil.generateToken(userDetails);
     }
 
     /**
@@ -256,9 +218,7 @@ public class LibraryMemberService {
         List<Book> retVal = new ArrayList<>();
         if (libraryMember.getMyBookshelfBooks() == null || libraryMember.getMyBookshelfBooks().size() == 0)
             return retVal;
-        Iterator<Record> records =recordsRepository.findAllById(libraryMember.getMyBookshelfBooks()).iterator();
-        while (records.hasNext()) {
-            Record r = records.next();
+        for (Record r : recordsRepository.findAllById(libraryMember.getMyBookshelfBooks())) {
             Book b = opacSearchService.getBookByRec(r);
             retVal.add(b);
         }
@@ -272,12 +232,30 @@ public class LibraryMemberService {
                 shelfDto.getBookId().trim().equals("")));
     }
 
-    public Member checkIfMemberExists(String authToken) {
-        LibraryMember libraryMember = libraryMemberRepository.findByAuthToken(authToken);
-        if (libraryMember == null || libraryMember.getIndex() == null)
+    public MemberCardDTO getMemberCard(String library, String email) {
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(email);
+        if (libraryMember == null || libraryMember.getIndex() == null){
             return null;
+        }
+        Optional<Member> memberOptional = memberRepository.findById(libraryMember.getIndex());
+        if (!memberOptional.isPresent()) {
+            return null;
+        }
+        MemberCardDTO memberCardDTO = new MemberCardDTO();
 
-        Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
-        return member.orElse(null);
+        Member member = memberOptional.get();
+        memberCardDTO.setUserId(member.getUserId());
+        memberCardDTO.setUsername(libraryMember.getUsername());
+        memberCardDTO.setFirstName(member.getFirstName());
+        memberCardDTO.setLastName(member.getLastName());
+
+        Date date = null;
+        for (Signing signing : member.getSignings()) {
+            if (date == null || date.before(signing.getUntilDate())) {
+                date = signing.getUntilDate();
+            }
+        }
+        memberCardDTO.setMembershipUntil(date);
+        return memberCardDTO;
     }
 }

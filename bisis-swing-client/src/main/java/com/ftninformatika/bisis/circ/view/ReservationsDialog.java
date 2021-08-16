@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
-import com.ftninformatika.bisis.opac2.dto.ReservationDTO;
+import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.WindowUtils;

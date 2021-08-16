@@ -4,13 +4,13 @@ import com.ftninformatika.bisis.circ.CorporateMember;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.UserCategRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.date.DateUtils;
@@ -34,15 +34,19 @@ import java.util.stream.Collectors;
 public class CircReportContoller {
 
     @Autowired MemberRepository memberRepository;
-    @Autowired LendingRepository lendingRepository;
-    @Autowired RecordsRepository recordsRepository;
+    @Autowired
+    LendingRepository lendingRepository;
+    @Autowired
+    RecordsRepository recordsRepository;
     @Autowired CorporateMemberRepository corporateMemberRepository;
-    @Autowired LocationRepository locationRepository;
+    @Autowired
+    LocationRepository locationRepository;
     @Autowired
     LibrarianRepository librarianRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
     @Autowired UserCategRepository userCategRepository;
-    @Autowired ItemAvailabilityRepository itemAvailabilityRepository;
+    @Autowired
+    ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     private Logger log = Logger.getLogger(CircReportContoller.class);
 

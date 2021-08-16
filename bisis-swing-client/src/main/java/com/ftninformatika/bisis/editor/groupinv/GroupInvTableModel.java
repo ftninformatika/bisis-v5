@@ -9,7 +9,6 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.Signature;
-import org.omg.CORBA.OBJECT_NOT_EXIST;
 
 import java.io.IOException;
 import java.text.ParseException;

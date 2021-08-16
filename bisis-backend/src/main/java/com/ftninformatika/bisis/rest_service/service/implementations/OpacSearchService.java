@@ -4,22 +4,17 @@ import com.ftninformatika.bisis.cards.ReportCore;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac2.books.Book;
-import com.ftninformatika.bisis.opac2.books.BookCommon;
-import com.ftninformatika.bisis.opac2.books.Item;
-import com.ftninformatika.bisis.opac2.search.*;
+import com.ftninformatika.bisis.opac.books.Book;
+import com.ftninformatika.bisis.opac.books.BookCommon;
+import com.ftninformatika.bisis.opac.books.Item;
+import com.ftninformatika.bisis.opac.search.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.rest_service.controller.core.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.ItemStatusRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.Helper;
 import com.ftninformatika.utils.string.LatCyrUtils;
@@ -60,7 +55,7 @@ public class OpacSearchService {
     @Autowired
     LocationRepository locationRepository;
     @Autowired
-    SublocationRepository sublocationRepository;
+    SubLocationRepository sublocationRepository;
     @Autowired
     ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired
@@ -162,6 +157,7 @@ public class OpacSearchService {
             fillReferencedRecords(record.get(), retVal);
             String isbdHtml = ReportCore.makeOne(record.get(), false, libraryConfiguration);
             retVal.setIsbdHtml(isbdHtml);
+            retVal.setUnimarcImageURL(record.get());
             return retVal;
         }
         return null;
@@ -249,6 +245,7 @@ public class OpacSearchService {
             }
         }
         b.setOtherAuthors(rp.getOtherAuthors());
+        b.setUnimarcImageURL(r);
         return b;
     }
 
@@ -473,7 +470,7 @@ public class OpacSearchService {
                     case "OD_showable":
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String fullVal = ee.getPrefixes().get(prefix).get(i);
-                            if (!fullVal.matches(activeStatusesRegex)) continue;
+                            if (!fullVal.matches(activeStatusesRegex) && !fullVal.matches(activeStatusesRegex.toLowerCase())) continue;
                             String val = fullVal.substring(1);
                             if (filters.getLocationByValue(val) == null) {
                                 Location l = locationMap.get(val);
@@ -489,7 +486,7 @@ public class OpacSearchService {
                     case "SL_showable": {
                         for (int i = 0; i < ee.getPrefixes().get(prefix).size(); i++) {
                             String fullVal = ee.getPrefixes().get(prefix).get(i);
-                            if (!fullVal.matches(activeStatusesRegex)) continue;
+                            if (!fullVal.matches(activeStatusesRegex) && !fullVal.matches(activeStatusesRegex.toLowerCase())) continue;
                             String val = fullVal.substring(1);
                             if (val != null && val.length() > 1 && subLocationCount.get(val) != null)
                                 subLocationCount.put(val, subLocationCount.get(val) + 1);

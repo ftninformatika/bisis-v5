@@ -1,6 +1,6 @@
 package com.ftninformatika.bisis.rest_service.service.interfaces;
 
-import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
+import com.ftninformatika.bisis.exception.model.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.records.AvgRecordRating;
 import com.ftninformatika.bisis.records.RecordRating;
 import com.ftninformatika.bisis.records.Record;

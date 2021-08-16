@@ -4,7 +4,7 @@ import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.LibrarianRoleDB;
 import com.ftninformatika.bisis.librarian.web.Librarian;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRoleRepository;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,10 +102,6 @@ public class LibrarianController {
         List<LibrarianRoleDB> librarianRoles = librarianRoleRepository.findAll();
         String library = jwtUtil.extractLibrary(token.substring(7));
         if (librarianDB.getBiblioteka().equals(library)) {
-            if (librarianDB.get_id() == null) {
-                String password = passwordEncoder.encode(librarianDB.getPassword());
-                librarianDB.setPassword(password);
-            }
             List<Authority> authorities = librarianRoles.stream().
                     filter(role ->librarianDB.hasRole(role.getName())).
                     map(role ->Authority.valueOf(role.getSpringRole())).

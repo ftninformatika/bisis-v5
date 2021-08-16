@@ -1,0 +1,91 @@
+package com.ftninformatika.bisis.opac.controller;
+
+import com.ftninformatika.bisis.opac.Event;
+import com.ftninformatika.bisis.opac.repository.EventRepository;
+import com.ftninformatika.utils.LibraryPrefixProvider;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+@RestController
+@RequestMapping("/events")
+public class EventController {
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    LibraryPrefixProvider prefixProvider;
+    @Autowired
+    GridFsTemplate gridFsTemplate;
+    @GetMapping()
+    public List<Event> getEvents(){
+        Date todayDate = new Date();
+        return eventRepository.findEventByDateAfter(todayDate);
+    }
+    @GetMapping("{eventId}")
+    public Event getEvent(@PathVariable("eventId") String eventId){
+        return eventRepository.findById(eventId).get();
+    }
+    @GetMapping("/image/{eventId}")
+    @ResponseBody
+    public ResponseEntity<InputStreamResource> getCover(@PathVariable("eventId") String eventId) {
+        GridFsResource gridFSFile = getEventImage(eventId,prefixProvider.getLibPrefix());
+        if (gridFSFile == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        try {
+            return ResponseEntity.ok()
+                    .contentLength(gridFSFile.contentLength())
+                    .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+                    .contentType(MediaType.parseMediaType(MediaType.IMAGE_PNG_VALUE))
+                    .contentType(MediaType.parseMediaType(MediaType.IMAGE_GIF_VALUE))
+                    .body(new InputStreamResource(gridFSFile.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping(value="/add")
+    //TODO umesto ModelAttribute staviti RequestBody
+    public ResponseEntity<Boolean> addEvent(@ModelAttribute Event event,@RequestPart("file") MultipartFile file) {
+        try {
+            String library = prefixProvider.getLibPrefix();
+            Event savedEvent = eventRepository.save(event);
+            if (!uploadImage(savedEvent.get_id(), library,file))
+                return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    private GridFsResource getEventImage(String eventId,String library) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("metadata.eventId").is(eventId).and("metadata.library").is(library));
+        GridFSFile gridFSFile = gridFsTemplate.findOne(query);
+        if (gridFSFile == null) return null;
+        return gridFsTemplate.getResource(gridFSFile);
+    }
+    private boolean uploadImage(String eventId,String library, MultipartFile file) throws IOException {
+        if (file == null || file.isEmpty() || eventId == null)
+            return false;
+        BasicDBObject metaData = new BasicDBObject();
+        metaData.put("eventId", eventId);
+        metaData.put("library", library);
+        gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData );
+        return true;
+    }
+}

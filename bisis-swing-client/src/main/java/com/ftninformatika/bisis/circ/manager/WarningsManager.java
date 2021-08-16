@@ -12,8 +12,7 @@ import com.ftninformatika.bisis.circ.warnings.Counters;
 import com.ftninformatika.bisis.circ.warnings.WarningsFrame;
 import com.ftninformatika.bisis.circ.WarningType;
 import com.ftninformatika.bisis.circ.pojo.CircLocation;
-import com.ftninformatika.bisis.circ.pojo.Warning;
-import com.ftninformatika.bisis.circ.wrappers.MemberData;
+import com.ftninformatika.bisis.circ.wrappers.*;
 import com.ftninformatika.bisis.circ.wrappers.WarningsData;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.PathDate;
@@ -121,14 +120,14 @@ public class WarningsManager {
       return members;
   }
   
-  public boolean saveWarnTypes(WarningType wtype){
-      boolean saved = false;
+  public WarningType saveWarnTypes(WarningType wtype){
+      WarningType savedWarningType = null;
       try {
-          saved = BisisApp.bisisService.addWarningType(wtype).execute().body();
+          savedWarningType = BisisApp.bisisService.addWarningType(wtype).execute().body();
       } catch (IOException e) {
           e.printStackTrace();
       }
-      return saved;
+      return savedWarningType;
   }
 
 }

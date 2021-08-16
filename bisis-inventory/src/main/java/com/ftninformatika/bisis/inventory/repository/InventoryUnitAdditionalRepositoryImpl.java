@@ -100,9 +100,9 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
     @Override
     public void removeInventoryIdFromItemAvailabilities(String inventoryId) {
         Query q = new Query();
-        q.addCriteria(Criteria.where("inventoryId").is(inventoryId));
+        q.addCriteria(Criteria.where("inventoryId").is(inventoryId)); //todo proveriti sta se desava
         Update u = new Update();
-        u.set("invenoryId", null);
+        u.set("inventoryId", null);
         mongoTemplate.updateMulti(q, u, ItemAvailability.class);
     }
 

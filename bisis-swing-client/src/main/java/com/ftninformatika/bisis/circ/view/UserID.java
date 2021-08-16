@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.circ.view;
 
 
 import com.ftninformatika.bisis.BisisApp;
+import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
 import com.ftninformatika.bisis.ecard.ElCardReader;
 import com.ftninformatika.utils.Messages;
@@ -31,6 +32,13 @@ public class UserID extends JDialog {
 	public UserID(Frame owner) {
 		super(owner, true);
 		initialize();
+
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				Cirkulacija.getApp().getUserManager().setReserveBook(null);
+				Cirkulacija.getApp().getUserManager().setChargeBook("");
+			}
+		});
 	}
 
 	private void initialize() {

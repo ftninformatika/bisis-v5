@@ -1,12 +1,15 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.config.YAMLConfig;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.rest_service.Texts;
-import com.ftninformatika.bisis.rest_service.config.YAMLConfig;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.StringUtils;
-import freemarker.template.*;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,14 +22,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author badf00d21  24.7.19.
@@ -163,6 +165,7 @@ public class EmailService {
             Template t = fmConfig.getTemplate("opac-reservation-template.ftl");
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, root);
             helper.setTo(sendTo);
+            message.setFrom(new InternetAddress("bisis.mailer@gmail.com", "Библиотека БИСИС"));
             helper.setText(text, true);
             helper.setSubject(Texts.getString("RESERVATION_CONFIRMED_HEADING"));
             javaMailSender().send(message);

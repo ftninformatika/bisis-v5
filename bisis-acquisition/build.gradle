@@ -1,0 +1,21 @@
+plugins {
+    id "org.springframework.boot" version "2.1.2.RELEASE"
+    id "war"
+}
+
+war {
+    enabled = true
+    baseName = 'bisisAcquisition'
+
+}
+
+bootWar {
+    baseName = 'bisisAcquisition'
+}
+
+
+dependencies {
+    implementation project(":bisis-model")
+    implementation project(":bisis-authentication")
+    implementation project(":bisis-core")
+}

@@ -1,12 +1,11 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
-import com.ftninformatika.bisis.coders.Coder;
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.inventory.EnumInvLocation;
 import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
+import com.ftninformatika.bisis.core.repositories.LocationRepository;
+import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,12 @@ public class InvCodersServiceImpl implements InvCodersService {
 
     private LibraryConfigurationRepository libraryConfigurationRepository;
     private LocationRepository locationRepository;
-    private SublocationRepository sublocationRepository;
+    private SubLocationRepository sublocationRepository;
 
 
     @Autowired
     public InvCodersServiceImpl(LibraryConfigurationRepository libraryConfigurationRepository, LocationRepository locationRepository,
-                                SublocationRepository sublocationRepository) {
+                                SubLocationRepository sublocationRepository) {
         this.libraryConfigurationRepository = libraryConfigurationRepository;
         this.locationRepository = locationRepository;
         this.sublocationRepository = sublocationRepository;

@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.reports;
 
 import com.ftninformatika.bisis.LibraryCoders;
+import com.ftninformatika.bisis.core.repositories.ReportsRepository;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ReportsRepository;
 import lombok.Getter;
 import lombok.Setter;
 

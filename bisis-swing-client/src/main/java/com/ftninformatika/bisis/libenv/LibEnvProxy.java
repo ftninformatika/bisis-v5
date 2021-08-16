@@ -11,12 +11,11 @@ import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
-import com.ftninformatika.bisis.opac2.members.LibraryMember;
+import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
 import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import org.apache.log4j.Logger;
-import org.springframework.http.HttpStatus;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -135,9 +134,9 @@ public class LibEnvProxy {
         libraryMember.setLibrarianIndex(librarian.get_id());
 		libraryMember.setProfileActivated(false);
 		Response<LibraryMember> createdMemberResp = BisisApp.bisisService.createWebAccount(libraryMember).execute();
-		if (createdMemberResp.code() == HttpStatus.CONFLICT.value())
+		if (createdMemberResp.code() == 409)
 			throw new Exception(Messages.getString("USER_MANAGER_EMAIL_ALREADY_EXIST"));
-		if (createdMemberResp.code() == HttpStatus.EXPECTATION_FAILED.value())
+		if (createdMemberResp.code() == 417)
 			throw new Exception(Messages.getString("USER_MANAGER_INVALID_USER_DATA"));
 		if (createdMemberResp.body() == null)
 			throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));

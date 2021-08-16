@@ -89,8 +89,9 @@ public class StatistikaObradjivacaSerijske extends Report {
 		    sdate = f.getSubfield('c').getContent();
 		}
 		obr=f.getSubfield('f').getContent();
-		
-      if (sf6 != null && sf6.getContent() != null && sf6.getContent().trim().compareToIgnoreCase("")!=0 && type.compareToIgnoreCase("createdRecords")!=0) {
+
+      if (sf6 != null && sf6.getContent() != null && sf6.getContent().trim().compareToIgnoreCase("")!=0 && type.compareToIgnoreCase("cr")!=0) {
+
         try {
           brPrimeraka = Integer.parseInt(sf6.getContent().trim());
         } catch (Exception ex) {
@@ -105,19 +106,18 @@ public class StatistikaObradjivacaSerijske extends Report {
         date = intern.parse(sdate);
         String key = settings.getReportName() + getFilenameSuffix(date);
         Item item = getItem(key, obr);
-        if ("createdRecords".equals(type))
+        if ("cr".equals(type))
           item.add(1, 0, 0, 0,0);
-        else if ("createdInv".equals(type))
+        else if ("dp".equals(type)){
           item.add(0, 1, 0, 0,0);
-        else if ("co".equals(type))
+        }else if ("co".equals(type)){
           item.add(0, 0, 1, 0,0);
-        else if ("re".equals(type))
+        }else if ("re".equals(type))
           item.add(0, 0, 0, brPrimeraka,0);
         else if ("nv".equals(type))
-            item.add(0, 0, 0, 0, brPrimeraka);
+          item.add(0, 0, 0, 0, brPrimeraka);
       } catch (Exception ex) {
-    	 // log.warn("problem sa datumom "+sdate +": "+rec.getRecordID());
-      
+        // log.warn("problem sa datumom "+sdate +": "+rec.getRecordID());
       }
 
     }
@@ -153,8 +153,8 @@ public class StatistikaObradjivacaSerijske extends Report {
     }
 
     public String toString() {
-        return "<item><inventator>"+obr+"</inventator><createdRecords>"+cr+"</createdRecords><createdInv>"+dp+"</createdInv><co>"+co+"</co><re>"+re+"</re><nov>"+nv+"</nov></item>\n";
-      }
+      return "<item><obr>"+obr+"</obr><cr>"+cr+"</cr><dp>"+dp+"</dp><co>"+co+"</co><re>"+re+"</re><nov>"+nv+"</nov></item>\n";
+    }
 
     public int hashCode() {
       return obr.hashCode();
@@ -176,23 +176,6 @@ public class StatistikaObradjivacaSerijske extends Report {
     public void setObr(String obr) {
       this.obr = obr;
     }
- /*   public String getNameObr(String inventator) {
-        if ("dl".equalsIgnoreCase(inventator))
-          return "\u041b\u043e\u043d\u0447\u0430\u0440"; // Loncar
-        if ("nr".equalsIgnoreCase(inventator))
-          return "\u041d\u0430\u0434\u0430"; // Nada
-        if ("dv".equalsIgnoreCase(inventator))
-          return "\u0414\u0443\u0448\u043a\u0430"; // Duska
-        if ("nc".equalsIgnoreCase(inventator))
-          return "\u041d\u0435\u0431\u043e\u0458\u0448\u0430"; // Nebojsa
-        if ("jp".equalsIgnoreCase(inventator))
-          return "\u0408\u0435\u043b\u0435\u043d\u0430"; // Jelena
-        if ("sm".equalsIgnoreCase(inventator))
-          return "\u0421\u0430\u045a\u0430"; // Sanja
-        if ("va".equalsIgnoreCase(inventator))
-          return "\u0412\u0435\u0441\u043d\u0430"; // Vesna
-        return inventator;
-      }*/
   }
 
   public Item getItem(String key, String obr) {

@@ -1,5 +1,6 @@
-apply plugin: 'application'
-apply plugin: 'java'
+plugins {
+    id "application"
+}
 
 version = '5.0.0'
 
@@ -8,10 +9,13 @@ jar {
 }
 
 dependencies {
-    compile project(":bisis-backend")
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
-    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.8.RELEASE'
-    compile group: 'org.springframework.data', name: 'spring-data-commons-core', version: '1.4.1.RELEASE'
+    implementation project(":bisis-core")
+    implementation project(":bisis-backend")
+    implementation project(":bisis-model")
+    implementation group: 'log4j', name: 'log4j', version: '1.2.17'
+    implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.8.RELEASE'
+    implementation group: 'org.springframework.data', name: 'spring-data-commons-core', version: '1.4.1.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-elasticsearch', version: '2.1.2.RELEASE'
 }
 
 

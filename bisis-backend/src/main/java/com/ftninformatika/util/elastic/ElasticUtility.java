@@ -1,16 +1,14 @@
 package com.ftninformatika.util.elastic;
 
 import com.ftninformatika.bisis.coders.ItemStatus;
-import com.ftninformatika.bisis.opac2.search.FiltersReq;
-import com.ftninformatika.bisis.opac2.search.ResultPageSearchRequest;
-import com.ftninformatika.bisis.opac2.search.SelectedFilter;
+import com.ftninformatika.bisis.opac.search.FiltersReq;
+import com.ftninformatika.bisis.opac.search.ResultPageSearchRequest;
+import com.ftninformatika.bisis.opac.search.SelectedFilter;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.bisis.search.UniversalSearchModel;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.elasticsearch.index.query.*;
-import org.springframework.data.redis.connection.SortParameters;
-import org.springframework.data.redis.core.query.SortQueryBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -196,15 +194,16 @@ public class ElasticUtility {
             if (sm.getText1() != null && !"".equals(sm.getText1())) {
 
                 QueryBuilder qb = buildQbForField(sm.getText1(), sm.getPref1());
-                if(qb!=null){
-                if ("AND".equals(sm.getOper1()))
-                    retVal.must(qb);
-                if ("OR".equals(sm.getOper1())) {
-                    retVal.should(qb);
-                }
-                if ("NOT".equals(sm.getOper1()))
-                    retVal.mustNot(qb);
-            }
+                retVal.must(qb);
+//                if(qb!=null){
+//                if ("AND".equals(sm.getOper1()))
+//                    retVal.must(qb);
+//                if ("OR".equals(sm.getOper1())) {
+//                    retVal.should(qb);
+//                }
+//                if ("NOT".equals(sm.getOper1()))
+//                    retVal.mustNot(qb);
+//            }
             }
 
             if (sm.getText2() != null && !"".equals(sm.getText2())) {
@@ -288,6 +287,7 @@ public class ElasticUtility {
         String activeStatusesRegex = "";
         if (itemStatusList != null && itemStatusList.size() > 0) {
             activeStatusesRegex = "(" + itemStatusList.stream().map(ItemStatus::getCoder_id).collect(Collectors.joining("|")) + ")";
+            activeStatusesRegex = activeStatusesRegex.toLowerCase();
         }
 
         BoolQueryBuilder retVal = QueryBuilders.boolQuery();

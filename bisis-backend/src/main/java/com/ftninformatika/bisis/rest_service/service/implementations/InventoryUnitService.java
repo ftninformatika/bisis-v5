@@ -2,9 +2,8 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.InventoryUnit;
-import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.rest_service.repository.mongo.InventoryUnitRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.InventoryStatusRepository;
+import com.ftninformatika.bisis.core.repositories.InventoryStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.inventory.service.interfaces;
 
 import com.ftninformatika.bisis.inventory.Inventory;
-import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface InventoryService {
@@ -14,5 +14,6 @@ public interface InventoryService {
     List<Inventory> getAllForLib(String lib);
     List<Inventory> getAllForLibAndLocations(String lib, List<String> locations);
     Boolean updateLendingStatus(String  inventoryId);
-
+    Boolean updateLendingStatusFix(String inventoryId, Date revisionStart, boolean takeAll);
+    Boolean hasGeneratingInventoryForLib(String library);
 }

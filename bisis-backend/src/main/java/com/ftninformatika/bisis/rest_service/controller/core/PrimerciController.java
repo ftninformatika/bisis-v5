@@ -2,10 +2,10 @@ package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.reservations.service.interfaces.OpacReservationsServiceInterface;
+import com.ftninformatika.bisis.reservations.service.interfaces.OpacReservationsServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +44,8 @@ public class PrimerciController {
     }
 
     @GetMapping(value = "/is-prolongable/{ctlgNo}")
-    public ResponseEntity<Boolean> isProlongable(@PathVariable("ctlgNo") String ctlgNo) {
-        boolean isProlongable = opacReservationsService.isReservationsQueueEmpty(ctlgNo);
+    public ResponseEntity<Boolean> isProlongable(@RequestHeader("Library") String library, @PathVariable("ctlgNo") String ctlgNo) {
+        boolean isProlongable = opacReservationsService.isReservationPresentOnLocation(library, ctlgNo);
         return new ResponseEntity<>(isProlongable, HttpStatus.OK);
     }
 

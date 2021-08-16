@@ -1,20 +1,20 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
+import com.ftninformatika.bisis.core.repositories.LocationRepository;
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
+import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.sort.SearchResultsSorter;
 import com.ftninformatika.bisis.records.sort.SortingRecElement;
-import com.ftninformatika.bisisauthentication.LibraryPrefixProvider;
-import com.ftninformatika.bisis.rest_service.exceptions.LockException;
-import com.ftninformatika.bisis.rest_service.exceptions.RecordNotCreatedOrUpdatedException;
-import com.ftninformatika.bisis.rest_service.exceptions.RecordNotFoundException;
+import com.ftninformatika.utils.LibraryPrefixProvider;
+import com.ftninformatika.bisis.exception.model.LockException;
+import com.ftninformatika.bisis.exception.model.RecordNotCreatedOrUpdatedException;
+import com.ftninformatika.bisis.exception.model.RecordNotFoundException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.RecordsRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.LocationRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.SublocationRepository;
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryConfigService;
 import com.ftninformatika.bisis.rest_service.service.implementations.RecordsService;
 import com.ftninformatika.bisis.search.*;
@@ -53,10 +53,10 @@ public class RecordsController {
     @Autowired LocationRepository locationRepository;
     @Autowired LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
-    @Autowired SublocationRepository sublocrep;
+    @Autowired SubLocationRepository subLocationRepository;
     @Autowired MongoClient mongoClient;
     @Autowired RecordsService recordsService;
-    @Autowired LibraryConfigService lcService;
+    @Autowired LibraryConfigService libraryConfigService;
     @Autowired LibraryPrefixProvider libraryPrefixProvider;
 
     private Logger log = Logger.getLogger(MemberController.class);
@@ -249,7 +249,7 @@ public class RecordsController {
             retVal.setFullRecord(rec);
             retVal.setRecordPreview(pr);
             List<ItemAvailability> itemAvailabilities = itemAvailabilityRepository.findByRecordID(Integer.toString(rec.getRecordID()));
-            Map<String, String> sublocationMap = sublocrep.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
+            Map<String, String> sublocationMap = subLocationRepository.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
             List<PrimerakPreview> primerakPreviews = new ArrayList<>();
             for (ItemAvailability ia: itemAvailabilities) {
                 boolean isPrimerak = rec.getPrimerci().size() > 0;
@@ -346,7 +346,7 @@ public class RecordsController {
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
                     List<ItemAvailability> itemAvailabilities = itemAvailabilityRepository.findByRecordID(Integer.toString(r.getRecordID()));
-                    Map<String, String> sublocationMap = sublocrep.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
+                    Map<String, String> sublocationMap = subLocationRepository.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
                     List<PrimerakPreview> primerakPreviews = new ArrayList<>();
                     for (ItemAvailability ia: itemAvailabilities) {
                         boolean isPrimerak = r.getPrimerci().size() > 0;
@@ -464,7 +464,7 @@ public class RecordsController {
                     List<ItemAvailability> ias = itemAvailabilityRepository.findByRecordID(r.getRecordID() + "");
                     RecordPreview pr = new RecordPreview();
                     pr.init(r);
-                    Map<String, String> sublocationMap = sublocrep.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
+                    Map<String, String> sublocationMap = subLocationRepository.getCoders(lib).stream().collect(Collectors.toMap(sl -> sl.getCoder_id(), sl -> sl.getDescription()));
                     List<PrimerakPreview> primerakPreviews = new ArrayList<>();
                     for (ItemAvailability ia: ias) {
                         String sublocation = "Непознато";
@@ -487,7 +487,7 @@ public class RecordsController {
     @PostMapping("/search_ids/multiple_libs")
     public ResponseEntity<Vector<BriefInfoModel>> searchIdsMutlipleLibs(@RequestBody OtherLibsSearch otherLibsSearch) {
         Vector<BriefInfoModel> retVal = null;
-        Map<String, LibraryConfiguration> lcMap = lcService.getAllLibraryConfigMap();
+        Map<String, LibraryConfiguration> lcMap = libraryConfigService.getAllLibraryConfigMap();
 
         if (otherLibsSearch.getLibraries().size() == 0 || otherLibsSearch.getSearchModel() == null
             || !lcMap.keySet().containsAll(otherLibsSearch.getLibraries()))
