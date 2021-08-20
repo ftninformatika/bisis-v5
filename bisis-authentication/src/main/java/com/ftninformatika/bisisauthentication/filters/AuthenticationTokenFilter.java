@@ -69,4 +69,12 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
         }
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request)
+            throws ServletException {
+        String path = request.getRequestURI();
+        //return path.startsWith("/oauth");
+        return true;
+    }
 }
