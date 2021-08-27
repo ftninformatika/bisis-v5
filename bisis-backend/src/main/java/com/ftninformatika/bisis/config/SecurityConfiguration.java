@@ -75,7 +75,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/libraries/get/**",
                         "/mobile/book_collections/**",
                         "/mobile/book/collection",
-                        "/mobile/opac_search/**"
+                        "/mobile/opac_search/**",
+                        "/events/**"
                 ).permitAll()
                 .antMatchers(
                         "/members_repository/**",
@@ -86,7 +87,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/records/rate_record/**",
                         "/reservations/**",
                         "/messages/**",
-                        "/events/**",
                         "/libraries/add",
                         "/mobile/book/availability",
                         "/mobile/library_members/**",
