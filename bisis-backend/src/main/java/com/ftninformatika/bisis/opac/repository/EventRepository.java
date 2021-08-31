@@ -11,4 +11,5 @@ import java.util.List;
 public interface EventRepository extends MongoRepository<Event,String> {
 
     public List<Event> findEventByDateAfter(Date today);
+    public Event getBy_id(String _id);
 }
