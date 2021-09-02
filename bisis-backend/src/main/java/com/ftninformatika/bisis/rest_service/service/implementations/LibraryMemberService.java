@@ -251,6 +251,7 @@ public class LibraryMemberService {
         memberCardDTO.setUsername(libraryMember.getUsername());
         memberCardDTO.setFirstName(member.getFirstName());
         memberCardDTO.setLastName(member.getLastName());
+        memberCardDTO.setLibraryMemberId(libraryMember.get_id());
 
         Date date = null;
         for (Signing signing : member.getSignings()) {
