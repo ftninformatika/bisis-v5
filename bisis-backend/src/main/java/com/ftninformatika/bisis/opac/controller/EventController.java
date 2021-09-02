@@ -88,4 +88,52 @@ public class EventController {
         gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData );
         return true;
     }
+
+    @DeleteMapping("{eventId}")
+    private ResponseEntity<Boolean> deleteEvent(@PathVariable("eventId") String eventId) {
+        if (!eventRepository.findById(eventId).isPresent())
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        try {
+            eventRepository.deleteById(eventId);
+            String library = prefixProvider.getLibPrefix();
+            deleteImage(eventId, library);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private void deleteImage(String eventId,String library) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("metadata.eventId").is(eventId).and("metadata.library").is(library));
+        gridFsTemplate.delete(query);
+    }
+
+    @PutMapping(value="{eventId}")
+    //TODO umesto ModelAttribute staviti RequestBody
+    public ResponseEntity<Event> editEvent(@ModelAttribute Event editedEvent, @RequestPart(name="file", required=false) MultipartFile file,
+                                             @PathVariable("eventId") String eventId) {
+        try {
+            Event event = editEvent(eventId, editedEvent);
+            String library = prefixProvider.getLibPrefix();
+            if (file != null && !file.isEmpty()) {
+                deleteImage(eventId, library);
+                uploadImage(eventId, library, file);
+            }
+            return new ResponseEntity<>(event, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private Event editEvent(String eventId, Event editedEvent) {
+        Event event = eventRepository.getBy_id(eventId);
+        event.setContent(editedEvent.getContent());
+        event.setTitle(editedEvent.getTitle());
+        event.setDate(editedEvent.getDate());
+        return eventRepository.save(event);
+    }
 }
