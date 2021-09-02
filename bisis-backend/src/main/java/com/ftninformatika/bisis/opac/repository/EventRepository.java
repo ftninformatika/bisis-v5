@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface EventRepository extends MongoRepository<Event,String> {
 
-    public List<Event> findEventByDateAfter(Date today);
+    public List<Event> findEventByDateAfterOrderByDateDesc(Date today);
     public Event getBy_id(String _id);
 }

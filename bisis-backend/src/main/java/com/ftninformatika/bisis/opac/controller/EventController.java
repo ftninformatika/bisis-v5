@@ -33,7 +33,7 @@ public class EventController {
     @GetMapping()
     public List<Event> getEvents(){
         Date todayDate = new Date();
-        return eventRepository.findEventByDateAfter(todayDate);
+        return eventRepository.findEventByDateAfterOrderByDateDesc(todayDate);
     }
     @GetMapping("{eventId}")
     public Event getEvent(@PathVariable("eventId") String eventId){
@@ -58,18 +58,18 @@ public class EventController {
         }
     }
     @PostMapping(value="/add")
-    //TODO umesto ModelAttribute staviti RequestBody
-    public ResponseEntity<Boolean> addEvent(@ModelAttribute Event event,@RequestPart("file") MultipartFile file) {
+    //TODO umesto ModelAttribute staviti RequestBody i promeniti da file nije obavezan
+    public ResponseEntity<Event> addEvent(@ModelAttribute Event event,@RequestPart("file") MultipartFile file) {
         try {
             String library = prefixProvider.getLibPrefix();
             Event savedEvent = eventRepository.save(event);
             if (!uploadImage(savedEvent.get_id(), library,file))
-                return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-            return new ResponseEntity<>(true, HttpStatus.OK);
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(savedEvent, HttpStatus.OK);
         }
         catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     private GridFsResource getEventImage(String eventId,String library) {
