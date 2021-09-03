@@ -63,15 +63,6 @@ public class BisisUserDetailsService implements UserDetailsService {
                             if (m.getBirthday() != null) {
                                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                 bisisUserDetails.setBirthday(formatter.format(m.getBirthday()));
-                            } else if (m.getJmbg() != null) {
-                                String jmbg = m.getJmbg();
-                                Integer danRodjenjaINT = Integer.parseInt(jmbg.substring(0,
-                                        jmbg.length() - 11));
-                                Integer mesecRodjenjaINT = Integer.parseInt(jmbg.substring(2,
-                                        jmbg.length() - 9));
-                                Integer godinaRodjenjaINT = Integer.parseInt(jmbg.substring(4,
-                                        jmbg.length() - 6));
-                                // sastaviti datum rodjenja
                             }
                         }
                     }

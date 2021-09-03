@@ -1,12 +1,13 @@
 package com.ftninformatika.bisisauthentication.filters;
 
-import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.bisisauthentication.security.BisisUserDetailsService;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,8 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
 @Component
+@ConditionalOnProperty(
+        value="bisis.auth.filter",
+        havingValue = "ON",
+        matchIfMissing = true)
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -70,11 +74,4 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         }
     }
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request)
-            throws ServletException {
-        String path = request.getRequestURI();
-        //return path.startsWith("/oauth");
-        return true;
-    }
 }

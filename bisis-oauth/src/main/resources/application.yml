@@ -1,6 +1,8 @@
 #server:
 #  port: 9000
 
+bisis.auth.filter: OFF
+
 logging:
   level:
     root: INFO
