@@ -57,14 +57,20 @@ public class EventController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping(value="/add")
     //TODO umesto ModelAttribute staviti RequestBody i promeniti da file nije obavezan
-    public ResponseEntity<Event> addEvent(@ModelAttribute Event event,@RequestPart("file") MultipartFile file) {
+    public ResponseEntity<Event> addEvent(@ModelAttribute Event event,
+                                          @RequestPart(name="file", required=false) MultipartFile file) {
         try {
             String library = prefixProvider.getLibPrefix();
             Event savedEvent = eventRepository.save(event);
-            if (!uploadImage(savedEvent.get_id(), library,file))
+            if (savedEvent.get_id() == null){
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            if (file != null && !file.isEmpty()) {
+                uploadImage(savedEvent.get_id(), library, file);
+            }
             return new ResponseEntity<>(savedEvent, HttpStatus.OK);
         }
         catch (Exception e) {
@@ -72,6 +78,7 @@ public class EventController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     private GridFsResource getEventImage(String eventId,String library) {
         Query query = new Query();
         query.addCriteria(Criteria.where("metadata.eventId").is(eventId).and("metadata.library").is(library));
@@ -79,14 +86,12 @@ public class EventController {
         if (gridFSFile == null) return null;
         return gridFsTemplate.getResource(gridFSFile);
     }
-    private boolean uploadImage(String eventId,String library, MultipartFile file) throws IOException {
-        if (file == null || file.isEmpty() || eventId == null)
-            return false;
+
+    private void uploadImage(String eventId,String library, MultipartFile file) throws IOException {
         BasicDBObject metaData = new BasicDBObject();
         metaData.put("eventId", eventId);
         metaData.put("library", library);
         gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData );
-        return true;
     }
 
     @DeleteMapping("{eventId}")
