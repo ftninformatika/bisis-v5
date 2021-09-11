@@ -2,12 +2,13 @@ package com.ftninformatika.bisis.opac.controller;
 
 import com.ftninformatika.bisis.opac.repository.FAQRepository;
 import com.ftninformatika.bisis.opac.FAQ;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/faq")
@@ -17,8 +18,12 @@ public class FAQController {
     FAQRepository faqRepository;
 
     @GetMapping("/get")
-    public List<FAQ> getFAQ() {
-        return faqRepository.findAll();
+    public ResponseEntity<Page<FAQ>> getFAQ(@RequestHeader("Library") String lib,
+                                            @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
+                                            @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Page<FAQ> faqs = this.faqRepository.findAll(paging);
+        return new ResponseEntity<>(faqs, HttpStatus.OK);
     }
 
     @PostMapping
