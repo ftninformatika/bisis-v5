@@ -7,6 +7,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
@@ -19,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/events")
@@ -30,19 +32,26 @@ public class EventController {
     LibraryPrefixProvider prefixProvider;
     @Autowired
     GridFsTemplate gridFsTemplate;
+
     @GetMapping()
-    public List<Event> getEvents(){
+    public ResponseEntity<Page<Event>> getEvents(@RequestHeader("Library") String lib,
+                                                 @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
+                                                 @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
         Date todayDate = new Date();
-        return eventRepository.findEventByDateAfterOrderByDateDesc(todayDate);
+        Page<Event> events = this.eventRepository.findEventByDateAfterOrderByDateDesc(todayDate, paging);
+        return new ResponseEntity<>(events, HttpStatus.OK);
     }
+
     @GetMapping("{eventId}")
-    public Event getEvent(@PathVariable("eventId") String eventId){
+    public Event getEvent(@PathVariable("eventId") String eventId) {
         return eventRepository.findById(eventId).get();
     }
+
     @GetMapping("/image/{eventId}")
     @ResponseBody
     public ResponseEntity<InputStreamResource> getCover(@PathVariable("eventId") String eventId) {
-        GridFsResource gridFSFile = getEventImage(eventId,prefixProvider.getLibPrefix());
+        GridFsResource gridFSFile = getEventImage(eventId, prefixProvider.getLibPrefix());
         if (gridFSFile == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
@@ -58,28 +67,27 @@ public class EventController {
         }
     }
 
-    @PostMapping(value="/add")
+    @PostMapping(value = "/add")
     //TODO umesto ModelAttribute staviti RequestBody i promeniti da file nije obavezan
     public ResponseEntity<Event> addEvent(@ModelAttribute Event event,
-                                          @RequestPart(name="file", required=false) MultipartFile file) {
+                                          @RequestPart(name = "file", required = false) MultipartFile file) {
         try {
             String library = prefixProvider.getLibPrefix();
             Event savedEvent = eventRepository.save(event);
-            if (savedEvent.get_id() == null){
+            if (savedEvent.get_id() == null) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
             if (file != null && !file.isEmpty()) {
                 uploadImage(savedEvent.get_id(), library, file);
             }
             return new ResponseEntity<>(savedEvent, HttpStatus.OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    private GridFsResource getEventImage(String eventId,String library) {
+    private GridFsResource getEventImage(String eventId, String library) {
         Query query = new Query();
         query.addCriteria(Criteria.where("metadata.eventId").is(eventId).and("metadata.library").is(library));
         GridFSFile gridFSFile = gridFsTemplate.findOne(query);
@@ -87,11 +95,11 @@ public class EventController {
         return gridFsTemplate.getResource(gridFSFile);
     }
 
-    private void uploadImage(String eventId,String library, MultipartFile file) throws IOException {
+    private void uploadImage(String eventId, String library, MultipartFile file) throws IOException {
         BasicDBObject metaData = new BasicDBObject();
         metaData.put("eventId", eventId);
         metaData.put("library", library);
-        gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData );
+        gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData);
     }
 
     @DeleteMapping("{eventId}")
@@ -109,16 +117,16 @@ public class EventController {
         }
     }
 
-    private void deleteImage(String eventId,String library) {
+    private void deleteImage(String eventId, String library) {
         Query query = new Query();
         query.addCriteria(Criteria.where("metadata.eventId").is(eventId).and("metadata.library").is(library));
         gridFsTemplate.delete(query);
     }
 
-    @PutMapping(value="{eventId}")
+    @PutMapping(value = "{eventId}")
     //TODO umesto ModelAttribute staviti RequestBody
-    public ResponseEntity<Event> editEvent(@ModelAttribute Event editedEvent, @RequestPart(name="file", required=false) MultipartFile file,
-                                             @PathVariable("eventId") String eventId) {
+    public ResponseEntity<Event> editEvent(@ModelAttribute Event editedEvent, @RequestPart(name = "file", required = false) MultipartFile file,
+                                           @PathVariable("eventId") String eventId) {
         try {
             Event event = editEvent(eventId, editedEvent);
             String library = prefixProvider.getLibPrefix();
@@ -127,8 +135,7 @@ public class EventController {
                 uploadImage(eventId, library, file);
             }
             return new ResponseEntity<>(event, HttpStatus.OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
