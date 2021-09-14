@@ -23,7 +23,12 @@ public class MessageController {
 
     @GetMapping("/{username}")
     public List<Message> getMessages(@PathVariable("username") String username){
-        return messageRepository.findByIdSenderOrIdReceiverOrderByDateAsc(username,username);
+        List<Message> messages = messageRepository.findByIdSenderOrIdReceiverOrderByDateAsc(username,username);
+        for (Message message : messages) {
+            message.setSeen(true);
+            this.messageRepository.save(message);
+        }
+        return messages;
     }
 
     @PostMapping("/add")
