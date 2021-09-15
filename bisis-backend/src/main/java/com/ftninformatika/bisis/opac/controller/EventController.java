@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.opac.controller;
 
 import com.ftninformatika.bisis.opac.Event;
+import com.ftninformatika.bisis.opac.admin.dto.EventsFilterDTO;
 import com.ftninformatika.bisis.opac.repository.EventRepository;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.mongodb.BasicDBObject;
@@ -21,7 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/events")
@@ -34,12 +36,35 @@ public class EventController {
     GridFsTemplate gridFsTemplate;
 
     @GetMapping()
+    public ResponseEntity<List<Event>> getEventsAndroid() {
+        List<Event> events = this.eventRepository.findAll();
+        return new ResponseEntity<>(events, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
     public ResponseEntity<Page<Event>> getEvents(@RequestHeader("Library") String lib,
                                                  @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
                                                  @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        Date todayDate = new Date();
-        Page<Event> events = this.eventRepository.findEventByDateAfterOrderByDateDesc(todayDate, paging);
+        Page<Event> events = this.eventRepository.findAllByOrderByDateDesc(paging);
+        return new ResponseEntity<>(events, HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<Event>> searchEvents(@RequestHeader("Library") String lib,
+                                                    @RequestBody EventsFilterDTO eventsFilterDTO,
+                                                    @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
+                                                    @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Page<Event> events;
+        if (eventsFilterDTO.getTo() == null && eventsFilterDTO.getFrom() == null) {
+            events = this.eventRepository.searchTextOnly(eventsFilterDTO.getSearchText(), paging);
+        } else if (eventsFilterDTO.getTo() == null) {
+            events = this.eventRepository.searchFromDateOnly(eventsFilterDTO.getSearchText(), eventsFilterDTO.getFrom(), paging);
+        } else {
+            events = this.eventRepository.search(eventsFilterDTO.getSearchText(), eventsFilterDTO.getFrom(),
+                    eventsFilterDTO.getTo(), paging);
+        }
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
