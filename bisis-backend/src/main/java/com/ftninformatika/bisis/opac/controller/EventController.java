@@ -11,6 +11,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
@@ -55,7 +56,7 @@ public class EventController {
                                                     @RequestBody EventsFilterDTO eventsFilterDTO,
                                                     @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
                                                     @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
-        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by("date").descending());
         Page<Event> events;
         if (eventsFilterDTO.getTo() == null && eventsFilterDTO.getFrom() == null) {
             events = this.eventRepository.searchTextOnly(eventsFilterDTO.getSearchText(), paging);

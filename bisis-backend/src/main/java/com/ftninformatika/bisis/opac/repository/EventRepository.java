@@ -17,21 +17,19 @@ public interface EventRepository extends MongoRepository<Event, String> {
 
     Event getBy_id(String _id);
 
-    // todo: dodati sort $orderby: { date : -1 }
-
-    @Query("{$or: [{'title': {$regex : ?0}}, {'content': {$regex : ?0}}]}")
+    @Query("{$or: [{'title': {$regex : ?0, $options: 'i'}}, {'content': {$regex : ?0, $options: 'i'}}]}.sort({date: -1})")
     Page<Event> searchTextOnly(String title, Pageable pageable);
 
     @Query("{$and: [" +
-            "{$or: [{'title': {$regex : ?0}}, {'content': {$regex : ?0}}]}, " +
+            "{$or: [{'title': {$regex : ?0, $options: 'i'}}, {'content': {$regex : ?0, $options: 'i'}}]}, " +
             "{'date': {$gte :?1}}" +
-            "]}")
+            "]}.order({date: -1})")
     Page<Event> searchFromDateOnly(String title, Date startDate, Pageable pageable);
 
     @Query("{$and: [" +
-            "{$or: [{'title': {$regex : ?0}}, {'content': {$regex : ?0}}]}, " +
+            "{$or: [{'title': {$regex : ?0, $options: 'i'}}, {'content': {$regex : ?0, $options: 'i'}}]}, " +
             "{'date': { $gte :?1, $lte:?2}}" +
-            "]}")
+            "]}.sort({date: -1})")
     Page<Event> search(String title, Date startDate, Date endDate, Pageable pageable);
 
 }
