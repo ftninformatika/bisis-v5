@@ -6,6 +6,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface MessageRepository extends MongoRepository<Message,String> {
-    public List<Message> findByIdSenderOrIdReceiverOrderByDateAsc(String sender,String receiver);
-    Message findFirstByIdSenderOrIdReceiverOrderByDateDesc(String idSender, String idReceiver);
+    List<Message> findByIdSenderAndIdReceiverOrderByDateAsc(String sender, String receiver);
+    List<Message> findByIdReceiverOrderByDateAsc(String sender, String receiver);
+
+    Message findFirstByIdSenderAndIdReceiverOrIdReceiverOrderByDateDesc(String idSender, String noReceiver, String idReceiver);
+    List<Message> findAllByIdSenderAndSeenFalse(String idSender);
+
 }

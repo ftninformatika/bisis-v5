@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_message")
-public class Message implements Serializable {
+public class Message implements Serializable, Comparable<Message>{
     @Id
     private String _id;
     private String idSender;
@@ -19,4 +19,9 @@ public class Message implements Serializable {
     private String content;
     private Date date;
     private boolean seen;
+
+    @Override
+    public int compareTo(Message message) {
+        return this.getDate().compareTo(message.getDate());
+    }
 }

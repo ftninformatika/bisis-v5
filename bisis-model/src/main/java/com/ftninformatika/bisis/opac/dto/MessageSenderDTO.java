@@ -15,10 +15,12 @@ import lombok.Setter;
 public class MessageSenderDTO implements Comparable<MessageSenderDTO>{
     private MemberCardDTO memberCardDTO;
     private Message message;
+    private int unseenMsgCount;
 
-    public MessageSenderDTO(MemberCardDTO memberCardDTO, Message message) {
+    public MessageSenderDTO(MemberCardDTO memberCardDTO, Message message, int unseenCount) {
         this.memberCardDTO = memberCardDTO;
         this.message = message;
+        this.unseenMsgCount = unseenCount;
     }
 
     @Override

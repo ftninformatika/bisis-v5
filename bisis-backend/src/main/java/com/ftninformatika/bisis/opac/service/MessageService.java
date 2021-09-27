@@ -23,22 +23,27 @@ public class MessageService {
     LibraryMemberService libraryMemberService;
 
     public List<Message> getMessagesByUsername(String username) {
-        List<Message> messages = messageRepository.findByIdSenderOrIdReceiverOrderByDateAsc(username, username);
-        for (Message message : messages) {
+        List<Message> messagesFromUser = messageRepository.findByIdSenderAndIdReceiverOrderByDateAsc(username, "");  // pokriva slucaj i kada poruku salje admin
+        List<Message> messagesToUser = messageRepository.findByIdReceiverOrderByDateAsc(username, username);
+
+        for (Message message : messagesFromUser) {
             message.setSeen(true);
             this.messageRepository.save(message);
         }
+        List<Message> messages = new ArrayList<>(messagesFromUser);
+        messages.addAll(messagesToUser);
+
+        Collections.sort(messages);
         return messages;
     }
 
     public List<MessageSenderDTO> getSenders(String lib) {
-        String librarian = "bibliotekar@" + lib;
         List<Message> allMessages = messageRepository.findAll();
         List<MessageSenderDTO> senders = new ArrayList<>();
         Set<String> sendersId = new HashSet<>();
 
         for (Message m : allMessages) {
-            if (!m.getIdSender().equals(librarian) && !sendersId.contains(m.getIdSender())) {
+            if (m.getIdReceiver().equals("") && !sendersId.contains(m.getIdSender())) {
                 MessageSenderDTO messageSenderDTO = createMessageSenderDTO(lib, m);
                 sendersId.add(m.getIdSender());
                 senders.add(messageSenderDTO);
@@ -51,9 +56,11 @@ public class MessageService {
     private MessageSenderDTO createMessageSenderDTO(String lib, Message m) {
         MemberCardDTO memberCardDTO = libraryMemberService.getMemberCard(lib, m.getIdSender());
         if (memberCardDTO != null) {
-            Message message = messageRepository.findFirstByIdSenderOrIdReceiverOrderByDateDesc(m.getIdSender(),
+            Message message = messageRepository.findFirstByIdSenderAndIdReceiverOrIdReceiverOrderByDateDesc(m.getIdSender(), "",
                     m.getIdSender());
-            return new MessageSenderDTO(memberCardDTO, message);
+
+            List<Message> messages = messageRepository.findAllByIdSenderAndSeenFalse(m.getIdSender());
+            return new MessageSenderDTO(memberCardDTO, message, messages.size());
         }
         return null;
     }
