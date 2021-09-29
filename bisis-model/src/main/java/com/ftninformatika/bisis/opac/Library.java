@@ -18,7 +18,7 @@ public class Library implements Serializable {
     private String address;
     private String city;
     private String email;
-    private String web;
+    private String webSite;
     private String phone;
     private String workingHours;
     private float latitude;
