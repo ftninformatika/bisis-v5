@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface LibraryRepository extends MongoRepository<Library,String> {
-    public List<Library> findLibraryByPrefix(String prefix);
+    List<Library> findLibraryByPrefix(String prefix);
     Page<Library> findLibraryByPrefix(String prefix, Pageable page);
 }
