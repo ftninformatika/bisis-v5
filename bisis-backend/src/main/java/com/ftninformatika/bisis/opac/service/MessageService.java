@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.opac.service;
 
 import com.ftninformatika.bisis.opac.Message;
+import com.ftninformatika.bisis.opac.admin.dto.MessageDTO;
 import com.ftninformatika.bisis.opac.dto.MemberCardDTO;
 import com.ftninformatika.bisis.opac.dto.MessageSenderDTO;
 import com.ftninformatika.bisis.opac.repository.MessageRepository;
@@ -22,19 +23,45 @@ public class MessageService {
     @Autowired
     LibraryMemberService libraryMemberService;
 
-    public List<Message> getMessagesByUsername(String username) {
+    public List<MessageDTO> getMessagesByUsername(String username, String library) {
         List<Message> messagesFromUser = messageRepository.findByIdSenderAndIdReceiverOrderByDateAsc(username, "");  // pokriva slucaj i kada poruku salje admin
-        List<Message> messagesToUser = messageRepository.findByIdReceiverOrderByDateAsc(username, username);
+        setSeen(messagesFromUser);
+        List<MessageDTO> messagesFromUserDTO = getMessageDTOS(messagesFromUser);
 
+        List<Message> messagesToUser = messageRepository.findByIdReceiverOrderByDateAsc(username);
+        List<MessageDTO> messagesToUserDTO = setSenderNameAndSurname(messagesToUser, library);
+
+        List<MessageDTO> messages = new ArrayList<>(messagesFromUserDTO);
+        messages.addAll(messagesToUserDTO);
+
+        Collections.sort(messages);
+        return messages;
+    }
+
+    private void setSeen(List<Message> messagesFromUser) {
         for (Message message : messagesFromUser) {
             message.setSeen(true);
             this.messageRepository.save(message);
         }
-        List<Message> messages = new ArrayList<>(messagesFromUser);
-        messages.addAll(messagesToUser);
+    }
 
-        Collections.sort(messages);
-        return messages;
+    private List<MessageDTO> setSenderNameAndSurname(List<Message> messagesToUser, String library) {
+        List<MessageDTO> messagesToUserWithSender = new ArrayList<>();
+        for (Message message : messagesToUser) {
+            MemberCardDTO memberCardDTO = libraryMemberService.getMemberCard(library, message.getIdSender());
+            MessageDTO messageDTO = new MessageDTO(message, memberCardDTO.getFirstName(), memberCardDTO.getLastName());
+            messagesToUserWithSender.add(messageDTO);
+        }
+        return messagesToUserWithSender;
+    }
+
+    private List<MessageDTO> getMessageDTOS(List<Message> messagesFromUser) {
+        List<MessageDTO> messagesFromUserDTO = new ArrayList<>();
+        for (Message message : messagesFromUser) {
+            MessageDTO messageDTO = new MessageDTO(message);
+            messagesFromUserDTO.add(messageDTO);
+        }
+        return messagesFromUserDTO;
     }
 
     public List<MessageSenderDTO> getSenders(String lib) {

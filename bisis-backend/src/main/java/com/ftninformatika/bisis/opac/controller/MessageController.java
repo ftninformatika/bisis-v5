@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.opac.controller;
 
 import com.ftninformatika.bisis.opac.Message;
+import com.ftninformatika.bisis.opac.admin.dto.MessageDTO;
 import com.ftninformatika.bisis.opac.dto.MessageSenderDTO;
 import com.ftninformatika.bisis.opac.repository.MessageRepository;
 import com.ftninformatika.bisis.opac.service.MessageService;
@@ -21,8 +22,8 @@ public class MessageController {
     MessageService messageService;
 
     @GetMapping("/{username}")
-    public ResponseEntity<List<Message>> getMessages(@PathVariable("username") String username) {
-        List<Message> messages = messageService.getMessagesByUsername(username);
+    public ResponseEntity<List<MessageDTO>> getMessages(@PathVariable("username") String username, @RequestHeader("Library") String lib) {
+        List<MessageDTO> messages = messageService.getMessagesByUsername(username, lib);
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
