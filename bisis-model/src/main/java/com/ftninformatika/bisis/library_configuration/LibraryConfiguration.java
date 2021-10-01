@@ -88,6 +88,9 @@ public class LibraryConfiguration {
 
     private Integer maxCollectionsPerLib;
 
+    private Boolean mobileApp;
+    private Boolean maintenanceEnabled;
+
     public String toString(){
         return libraryFullName;
     }
