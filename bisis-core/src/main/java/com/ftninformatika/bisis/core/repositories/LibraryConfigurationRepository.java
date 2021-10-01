@@ -25,5 +25,7 @@ public interface LibraryConfigurationRepository extends MongoRepository<LibraryC
     @Query("{'libraryName':{$ne :?0}}")
     public List<LibraryConfiguration> findAllByLibraryNameNotLike(@Param("libName") String libName);
 
+    public  List<LibraryConfiguration> findLibraryConfigurationsByMobileAppIsTrue();
+
 
 }

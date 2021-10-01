@@ -76,7 +76,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/mobile/book_collections/**",
                         "/mobile/book/collection",
                         "/mobile/opac_search/**",
-                        "/events/**"
+                        "/events/get",
+                        "/deviceToken/save"
                 ).permitAll()
                 .antMatchers(
                         "/members_repository/**",
@@ -91,7 +92,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/mobile/book/availability",
                         "/mobile/library_members/**",
                         "/mobile/members/**",
-                        "/mobile/reservations/**"
+                        "/mobile/reservations/**",
+                        "/events/**",
+                        "notifications/**"
                 )
                 .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers(

@@ -1,6 +1,8 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
+import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
 import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +24,8 @@ import java.util.stream.Collectors;
 public class LibraryConfigurationController {
     @Autowired
     LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired
+    SubLocationRepository subLocationRepository;
 
     @RequestMapping(path = "findAllByLibraryNameNotLike")
     public List<LibraryConfiguration> getConfigs(String libName){
@@ -45,6 +50,19 @@ public class LibraryConfigurationController {
         List<LibConfigDTO> retVal = libraryConfigurations.stream()
                 .map(lc -> new LibConfigDTO(lc.getLibraryName(), lc.getLibraryFullName(), lc.getShortName()))
                 .collect(Collectors.toList());
+        return ResponseEntity.ok(retVal);
+    }
+
+    @GetMapping("mobileSupported")
+    public ResponseEntity<List<LibConfigDTO>> getConfigsMobileSupported() {
+        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
+        if (libraryConfigurations == null || libraryConfigurations.size() == 0)
+            return ResponseEntity.noContent().build();
+        List<LibConfigDTO> retVal = new ArrayList<LibConfigDTO>();
+         for (LibraryConfiguration lc: libraryConfigurations){
+             List<Sublocation> sublocations = subLocationRepository.getCoders(lc.getLibraryName());
+             retVal.add(new LibConfigDTO(lc.getLibraryName(),lc.getLibraryFullName(),lc.getShortName(),sublocations));
+         }
         return ResponseEntity.ok(retVal);
     }
 }

@@ -21,6 +21,8 @@ spring:
       cluster-nodes: 127.0.0.1:9300
 serverOrigin: https://opactest.bisis.rs/bisisWS/
 opacOrigin: https://opactest.bisis.rs/
+firebase:
+  config: bisis-firebase.json
 logging:
   level:
     com.ftninformatika: INFO
