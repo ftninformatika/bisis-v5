@@ -48,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/book_common/**",
                         "/memauth",
                         "/library_configuration/allConfigsBrief",
+                        "/library_configuration/mobileSupported",
                         "/coders/language",
                         "/coders/lib_configurations",
                         "/records/wrapperrec/**",
@@ -77,6 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/mobile/book/collection",
                         "/mobile/opac_search/**",
                         "/events/get",
+                        "/events/image/**",
                         "/deviceToken/save"
                 ).permitAll()
                 .antMatchers(
