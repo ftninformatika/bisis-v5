@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface EventRepository extends MongoRepository<Event, String> {
@@ -31,5 +32,7 @@ public interface EventRepository extends MongoRepository<Event, String> {
             "{'date': { $gte :?1, $lte:?2}}" +
             "]}.sort({date: -1})")
     Page<Event> search(String title, Date startDate, Date endDate, Pageable pageable);
+
+    List<Event> findAllByDateAfterOrderByDateAsc(Date date);
 
 }

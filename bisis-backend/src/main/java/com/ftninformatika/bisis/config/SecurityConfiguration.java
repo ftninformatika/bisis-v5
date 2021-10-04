@@ -48,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/book_common/**",
                         "/memauth",
                         "/library_configuration/allConfigsBrief",
+                        "/library_configuration/mobileSupported",
                         "/coders/language",
                         "/coders/lib_configurations",
                         "/records/wrapperrec/**",
@@ -76,7 +77,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/mobile/book_collections/**",
                         "/mobile/book/collection",
                         "/mobile/opac_search/**",
-                        "/events/**"
+                        "/events/get",
+                        "/events/image/**",
+                        "/deviceToken/save"
                 ).permitAll()
                 .antMatchers(
                         "/members_repository/**",
@@ -91,7 +94,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/mobile/book/availability",
                         "/mobile/library_members/**",
                         "/mobile/members/**",
-                        "/mobile/reservations/**"
+                        "/mobile/reservations/**",
+                        "/events/**",
+                        "notifications/**"
                 )
                 .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers(

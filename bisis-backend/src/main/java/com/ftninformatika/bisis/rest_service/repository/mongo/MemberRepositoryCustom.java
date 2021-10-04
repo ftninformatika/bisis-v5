@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.pojo.Report;
 import com.ftninformatika.bisis.search.SearchModelMember;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,4 +24,5 @@ public interface MemberRepositoryCustom {
     public Integer getUserSignedCount(Date start, Date end, String location, boolean firstTimeSigned);
     public Report getPictureBooksReport(Date start, Date end, String location);
     public List<String> getVisitorsUserIds(Date start, Date end, String location, String library);
+    public List<String> getExpiredMemebershipForOpacUsers(LocalDateTime start, LocalDateTime end, String library);
 }

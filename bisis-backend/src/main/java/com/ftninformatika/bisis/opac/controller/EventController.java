@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,9 +37,9 @@ public class EventController {
     @Autowired
     GridFsTemplate gridFsTemplate;
 
-    @GetMapping()
+    @GetMapping("get")
     public ResponseEntity<List<Event>> getEventsAndroid() {
-        List<Event> events = this.eventRepository.findAll();
+        List<Event> events = this.eventRepository.findAllByDateAfterOrderByDateAsc(new Date());
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
