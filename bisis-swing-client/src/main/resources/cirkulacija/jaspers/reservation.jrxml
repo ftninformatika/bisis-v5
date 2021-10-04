@@ -31,7 +31,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{biblioteka}]]></textFieldExpression>
 			</textField>
@@ -47,7 +47,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font size="8" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{adresa}]]></textFieldExpression>
 			</textField>
@@ -60,7 +60,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font size="12" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="12" pdfEncoding="Cp1250"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION")]]></textFieldExpression>
@@ -84,7 +84,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("INV_NUM") + ": " + $P{invBroj}]]></textFieldExpression>
 			</textField>
@@ -97,7 +97,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("TITLE") + ": " + $P{naslov}]]></textFieldExpression>
 			</textField>
@@ -113,7 +113,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION_CONF2")+": " + $P{rezervacijaVaziDo}]]></textFieldExpression>
 			</textField>
@@ -126,7 +126,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION_MEMBER") +": "+ $P{korisnik}]]></textFieldExpression>
 			</textField>
@@ -139,7 +139,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("MEMBER_PHONE") +": "+ $P{brojTelefonaKorisnika}]]></textFieldExpression>
 			</textField>
@@ -152,7 +152,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION_CONF1")+" " +DateFormat.getDateInstance().format(new java.util.Date())]]></textFieldExpression>
 			</textField>
@@ -175,7 +175,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{bibliotekar}]]></textFieldExpression>
 			</textField>
@@ -188,7 +188,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font size="8" pdfEncoding="Cp1250"/>
+					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("REVERS_LIBRARAIAN")]]></textFieldExpression>
 			</textField>
