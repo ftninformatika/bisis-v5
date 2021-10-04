@@ -18,6 +18,9 @@ import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -71,8 +74,11 @@ public class NotificationController {
     }
 
     @GetMapping("all")
-    public List<Notification> getNotifications(){
-        return notificationRepository.findAll();
+    public Page<Notification> getNotifications(@RequestHeader("Library") String lib,
+                                               @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
+                                               @RequestParam(value = "pageSize", required = false) final Integer pageSize){
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        return this.notificationRepository.findAll(paging);
     }
 
     @Scheduled(cron="0 14 * * * * ")

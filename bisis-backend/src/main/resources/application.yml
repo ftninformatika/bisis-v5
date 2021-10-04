@@ -61,6 +61,8 @@ spring:
         enabled: true
 serverOrigin: http://localhost:8080/
 opacOrigin: http://localhost:4200/
+firebase:
+  config: bisis-firebase.json
 logging:
   level:
     com.ftninformatika: INFO
