@@ -59,6 +59,16 @@ public class JWTUtil {
         return createToken(claims, userDetails.getUsername());
     }
 
+    public String generateRefreshToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        BisisUserDetailsImpl bisisUserDetails = (BisisUserDetailsImpl)userDetails;
+        claims.put("userID", bisisUserDetails.getID());
+        claims.put("username", bisisUserDetails.getUsername());
+        claims.put("library", bisisUserDetails.getLibrary());
+        return Jwts.builder().setClaims(claims).setSubject(bisisUserDetails.getUsername()).setIssuedAt(new Date(System.currentTimeMillis()))
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
+    }
+
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 12))

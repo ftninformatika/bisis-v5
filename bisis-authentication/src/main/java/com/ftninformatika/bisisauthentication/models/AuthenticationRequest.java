@@ -13,9 +13,11 @@ public class AuthenticationRequest implements Serializable {
 
     private String username;
     private String password;
+    private String refreshToken;
 
-    public AuthenticationRequest(String username, String password) {
+    public AuthenticationRequest(String username, String password, String refreshToken) {
         this.username = username;
         this.password = password;
+        this.refreshToken = refreshToken;
     }
 }

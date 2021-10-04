@@ -10,7 +10,7 @@
         <form th:action="@{/login}" method="post">
             <h1>БИСИС пријава</h1>
             <input id="username" name="username" type="email" placeholder="Корисничко име" />
-            <input id="password" name="password" type="password" placeholder="Лозикна" />
+            <input id="password" name="password" type="password" placeholder="Лозинка" />
             <button type="submit">Пријави се</button>
             <div th:if="${(param.error != null)}">
                 Погрешно корисничко име и/или лозинка

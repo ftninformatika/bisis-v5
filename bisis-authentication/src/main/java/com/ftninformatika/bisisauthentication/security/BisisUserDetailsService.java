@@ -76,6 +76,23 @@ public class BisisUserDetailsService implements UserDetailsService {
         }
     }
 
+    public UserDetails loadUserByRefreshToken(String token) throws UsernameNotFoundException {
+        Optional<LibraryMember> libraryMember = libraryMemberRepository.findByRefreshToken(token);
+        if (libraryMember.isPresent()) {
+            LibraryMember lm = libraryMember.get();
+            BisisUserDetailsImpl bisisUserDetails = new BisisUserDetailsImpl(lm);
+            return bisisUserDetails;
+        } else {
+            throw new UsernameNotFoundException("Not found: " + token);
+        }
+    }
+
+    public void saveRefreshToken(BisisUserDetailsImpl bisisUserDetails, String refreshToken) {
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(bisisUserDetails.getUsername()).get();
+        libraryMember.setRefreshToken(refreshToken);
+        libraryMemberRepository.save(libraryMember);
+    }
+
     public void setLibraryFilter(String library) {
         libraryFilter = library;
     }

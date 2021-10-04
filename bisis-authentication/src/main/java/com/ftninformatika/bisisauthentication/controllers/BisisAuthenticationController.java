@@ -82,8 +82,11 @@ public class BisisAuthenticationController {
         }
         final BisisUserDetailsImpl userDetails = (BisisUserDetailsImpl)userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtUtil.generateToken(userDetails);
+        final String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+        userDetailsService.saveRefreshToken(userDetails, refreshToken);
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setToken(token);
+        authenticationResponse.setRefreshToken(refreshToken);
         authenticationResponse.setName(userDetails.getName());
         authenticationResponse.setUsername(userDetails.getUsername());
         authenticationResponse.setLibrary(userDetails.getLibrary());
@@ -93,6 +96,18 @@ public class BisisAuthenticationController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
         authenticationResponse.setRoles(userDetails.getRoles());
+        return ResponseEntity.ok(authenticationResponse);
+    }
+
+    @PostMapping(value = "/refreshToken")
+    public ResponseEntity<?> refreshToken(@RequestBody AuthenticationRequest authenticationRequest) {
+        final BisisUserDetailsImpl userDetails = (BisisUserDetailsImpl)userDetailsService.loadUserByRefreshToken(authenticationRequest.getRefreshToken());
+        final String token = jwtUtil.generateToken(userDetails);
+        final String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+        userDetailsService.saveRefreshToken(userDetails, refreshToken);
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        authenticationResponse.setToken(token);
+        authenticationResponse.setRefreshToken(refreshToken);
         return ResponseEntity.ok(authenticationResponse);
     }
 
@@ -124,7 +139,6 @@ public class BisisAuthenticationController {
     }
 
 
-    // piece od Petar's shit
     public OpacMemberWrapper getOpacWrapperMember(LibraryMember libraryMember) {
         List<String> allPrefixes = libraryConfigurationRepository.findAll()
                 .stream().map(LibraryConfiguration::getLibraryName).collect(Collectors.toList());
