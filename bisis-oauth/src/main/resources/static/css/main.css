@@ -31,6 +31,13 @@ p {
     margin: 20px 0 30px;
 }
 
+li {
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+}
+
 span {
     font-size: 12px;
 }
@@ -185,7 +192,7 @@ input {
     justify-content: center;
     flex-direction: column;
     padding: 0 40px;
-    text-align: center;
+    text-align: left;
     top: 0;
     height: 100%;
     width: 50%;
