@@ -252,7 +252,8 @@ public class LibraryMemberService {
         memberCardDTO.setFirstName(member.getFirstName());
         memberCardDTO.setLastName(member.getLastName());
         memberCardDTO.setLibraryMemberId(libraryMember.get_id());
-
+        memberCardDTO.setChild(member.getAge().equals("C"));
+        
         Date date = null;
         for (Signing signing : member.getSignings()) {
             if (date == null || date.before(signing.getUntilDate())) {
