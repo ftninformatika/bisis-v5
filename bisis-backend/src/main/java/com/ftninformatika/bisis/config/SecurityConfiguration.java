@@ -44,6 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/external_hit/**",
                         "/auth",
                         "/authenticate",
+                        "/refreshToken",
                         "/book_cover/retrieve/**",
                         "/book_common/**",
                         "/memauth",
