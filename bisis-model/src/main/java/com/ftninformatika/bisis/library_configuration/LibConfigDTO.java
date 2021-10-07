@@ -17,7 +17,8 @@ public class LibConfigDTO {
     private String libraryName;
     private String libraryFullName;
     private String shortName;
-    private List<Sublocation> sublocations = new ArrayList<Sublocation>();
+    private int locationLevel;
+    private List<Sublocation> locations = new ArrayList<Sublocation>();
 
     public LibConfigDTO(String libraryName, String libraryFullName, String shortName){
         this.libraryName = libraryName;

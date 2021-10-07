@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.core.repositories.LocationRepository;
 import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
 import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -26,6 +27,8 @@ public class LibraryConfigurationController {
     LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired
     SubLocationRepository subLocationRepository;
+    @Autowired
+    LocationRepository locationRepository;
 
     @RequestMapping(path = "findAllByLibraryNameNotLike")
     public List<LibraryConfiguration> getConfigs(String libName){
@@ -59,9 +62,19 @@ public class LibraryConfigurationController {
         if (libraryConfigurations == null || libraryConfigurations.size() == 0)
             return ResponseEntity.noContent().build();
         List<LibConfigDTO> retVal = new ArrayList<LibConfigDTO>();
+        List<Sublocation> sublocations;
          for (LibraryConfiguration lc: libraryConfigurations){
-             List<Sublocation> sublocations = subLocationRepository.getCoders(lc.getLibraryName());
-             retVal.add(new LibConfigDTO(lc.getLibraryName(),lc.getLibraryFullName(),lc.getShortName(),sublocations));
+             if (lc.getLocationLevel()==null){
+                 lc.setLocationLevel(1);
+             }
+             if (lc.getLocationLevel() == 1) {
+                 sublocations = locationRepository.getCoders(lc.getLibraryName()).stream()
+                 .map(l->new Sublocation(l.get_id(),l.getLibrary(),l.getCoder_id(),l.getDescription())).collect(Collectors.toList());
+             }else{
+                 sublocations = subLocationRepository.getCoders(lc.getLibraryName());
+             }
+             retVal.add(new LibConfigDTO(lc.getLibraryName(),lc.getLibraryFullName(),lc.getShortName(),lc.getLocationLevel(),sublocations));
+
          }
         return ResponseEntity.ok(retVal);
     }
