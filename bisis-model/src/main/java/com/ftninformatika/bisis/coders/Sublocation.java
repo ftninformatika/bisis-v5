@@ -16,4 +16,14 @@ public class Sublocation extends Coder{
     @Id
     private String _id;
     private String googleMapLocationURL;
+    public Sublocation(String id, String library, String coder_id,String description){
+        this._id = id;
+        this.setLibrary(library);
+        this.setCoder_id(coder_id);
+        this.setDescription(description);
+    }
+
+    public Sublocation() {
+
+    }
 }
