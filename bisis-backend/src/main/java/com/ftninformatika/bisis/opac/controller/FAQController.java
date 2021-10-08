@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/faq")
 public class FAQController {
@@ -18,6 +20,11 @@ public class FAQController {
     FAQRepository faqRepository;
 
     @GetMapping("/get")
+    public List<FAQ> getFAQMobile() {
+        return faqRepository.findAll();
+    }
+
+    @GetMapping
     public ResponseEntity<Page<FAQ>> getFAQ(@RequestHeader("Library") String lib,
                                             @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
                                             @RequestParam(value = "pageSize", required = false) final Integer pageSize) {

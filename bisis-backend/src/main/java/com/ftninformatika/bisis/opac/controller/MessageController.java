@@ -22,6 +22,11 @@ public class MessageController {
     MessageService messageService;
 
     @GetMapping("/{username}")
+    public List<Message> getMessagesMobile(@PathVariable("username") String username) {
+        return messageRepository.findByIdSenderOrIdReceiver(username, username);
+    }
+
+    @GetMapping("all/{username}")
     public ResponseEntity<List<MessageDTO>> getMessages(@PathVariable("username") String username, @RequestHeader("Library") String lib) {
         List<MessageDTO> messages = messageService.getMessagesByUsername(username, lib);
         return new ResponseEntity<>(messages, HttpStatus.OK);
