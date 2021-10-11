@@ -24,6 +24,7 @@ public class LendingDTO {
     String ctlgNo;
     String title;
     String authors;
+    String location;
 
     public LendingDTO(Report report){
         this.lendingDate = report.getProperty1();
@@ -35,5 +36,6 @@ public class LendingDTO {
         this.deadlineDate = report.getProperty7();
         this.resumeDate = report.getProperty8();
         this.id = report.getProperty9();
+        this.location = report.getProperty10();
     }
 }
