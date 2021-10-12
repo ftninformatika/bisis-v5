@@ -26,6 +26,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,10 +76,9 @@ public class BisisAuthenticationController {
             return new ResponseEntity<>("Disabled user", HttpStatus.BAD_REQUEST);
         } catch (BadCredentialsException e) {
             return new ResponseEntity<>("Incorrect username or password", HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>("Unknown error", HttpStatus.INTERNAL_SERVER_ERROR);
-
         }
         final BisisUserDetailsImpl userDetails = (BisisUserDetailsImpl)userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtUtil.generateToken(userDetails);
@@ -103,14 +103,36 @@ public class BisisAuthenticationController {
 
     @PostMapping(value = "/refreshToken")
     public ResponseEntity<?> refreshToken(@RequestBody AuthenticationRequest authenticationRequest) {
-        final BisisUserDetailsImpl userDetails = (BisisUserDetailsImpl)userDetailsService.loadUserByRefreshToken(authenticationRequest.getRefreshToken());
-        final String token = jwtUtil.generateToken(userDetails);
-        final String newRefreshToken = jwtUtil.generateRefreshToken(userDetails);
-        userDetailsService.saveRefreshToken(userDetails.getUsername(), newRefreshToken, authenticationRequest.getRefreshToken());
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setToken(token);
-        authenticationResponse.setRefreshToken(newRefreshToken);
-        return ResponseEntity.ok(authenticationResponse);
+        try {
+            final BisisUserDetailsImpl userDetails = (BisisUserDetailsImpl)userDetailsService.loadUserByRefreshToken(authenticationRequest.getRefreshToken());
+            final String token = jwtUtil.generateToken(userDetails);
+            final String newRefreshToken = jwtUtil.generateRefreshToken(userDetails);
+            userDetailsService.saveRefreshToken(userDetails.getUsername(), newRefreshToken, authenticationRequest.getRefreshToken());
+            AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+            authenticationResponse.setToken(token);
+            authenticationResponse.setRefreshToken(newRefreshToken);
+            return ResponseEntity.ok(authenticationResponse);
+        } catch (UsernameNotFoundException e) {
+            return new ResponseEntity<>("Incorrect token", HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Unknown error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @PostMapping(value = "/signout")
+    public ResponseEntity<?> signout(@RequestBody AuthenticationRequest authenticationRequest) {
+        try {
+            final BisisUserDetailsImpl userDetails = (BisisUserDetailsImpl)userDetailsService.loadUserByRefreshToken(authenticationRequest.getRefreshToken());
+            userDetailsService.removeRefreshToken(userDetails.getUsername(), authenticationRequest.getRefreshToken());
+            return ResponseEntity.ok().build();
+        } catch (UsernameNotFoundException e) {
+            return new ResponseEntity<>("Incorrect token", HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Unknown error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping(value = "/memauth")

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -92,7 +93,18 @@ public class BisisUserDetailsService implements UserDetailsService {
         if (oldRefreshToken != null) {
             libraryMember.getRefreshToken().remove(oldRefreshToken);
         }
+        if (libraryMember.getRefreshToken() == null) {
+            libraryMember.setRefreshToken(new ArrayList<String>());
+        }
         libraryMember.getRefreshToken().add(refreshToken);
+        libraryMemberRepository.save(libraryMember);
+    }
+
+    public void removeRefreshToken(String username, String refreshToken) {
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(username).get();
+        if (libraryMember.getRefreshToken() != null) {
+            libraryMember.getRefreshToken().remove(refreshToken);
+        }
         libraryMemberRepository.save(libraryMember);
     }
 
