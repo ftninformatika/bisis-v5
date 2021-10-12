@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository("libraryMemberAuthenticationRepository")
 public interface LibraryMemberRepository extends MongoRepository<LibraryMember, String> {
     Optional<LibraryMember> findByUsername(String username);
-    Optional<LibraryMember> findByRefreshToken(String refreshToken);
+    Optional<LibraryMember> findByRefreshToken(String token);
 }

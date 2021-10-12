@@ -30,7 +30,7 @@ public class LibraryMember {
     private Boolean profileActivated;
     private List<Authority> authorities;
     private String authToken; // Access token
-    private String refreshToken; // Refresh token for new access token
+    private List<String> refreshToken; // Refresh token for new access token
     private Date lastActivity; // Used when access token is provided to check if token is still valid
     private String passwordResetString; // Represent url path for password reset
     private List<String> myBookshelfBooks = new ArrayList<>();

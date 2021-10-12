@@ -14,10 +14,10 @@ public class AuthenticationRequest implements Serializable {
     private String username;
     private String password;
     private String refreshToken;
+    private Boolean refreshTokenRequired;
 
-    public AuthenticationRequest(String username, String password, String refreshToken) {
+    public AuthenticationRequest(String username, String password) {
         this.username = username;
         this.password = password;
-        this.refreshToken = refreshToken;
     }
 }

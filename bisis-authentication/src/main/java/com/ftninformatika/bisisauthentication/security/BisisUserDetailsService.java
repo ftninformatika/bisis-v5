@@ -87,11 +87,15 @@ public class BisisUserDetailsService implements UserDetailsService {
         }
     }
 
-    public void saveRefreshToken(BisisUserDetailsImpl bisisUserDetails, String refreshToken) {
-        LibraryMember libraryMember = libraryMemberRepository.findByUsername(bisisUserDetails.getUsername()).get();
-        libraryMember.setRefreshToken(refreshToken);
+    public void saveRefreshToken(String username, String refreshToken, String oldRefreshToken) {
+        LibraryMember libraryMember = libraryMemberRepository.findByUsername(username).get();
+        if (oldRefreshToken != null) {
+            libraryMember.getRefreshToken().remove(oldRefreshToken);
+        }
+        libraryMember.getRefreshToken().add(refreshToken);
         libraryMemberRepository.save(libraryMember);
     }
+
 
     public void setLibraryFilter(String library) {
         libraryFilter = library;
