@@ -18,7 +18,8 @@ public class CorsConfigProduction {
                 registry.addMapping("/**")
                         .allowedOrigins("https://gbns.rs",
                                         "https://bgb.rs",
-                                        "http://test.lotstudio.net")
+                                        "http://test.lotstudio.net",
+                                        "https://opac.bisis.rs")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);
