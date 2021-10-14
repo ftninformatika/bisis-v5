@@ -12,5 +12,5 @@ public class UserInfo {
     String name;
     String given_name;
     String family_name;
-    String birthday;
+    String age;
 }

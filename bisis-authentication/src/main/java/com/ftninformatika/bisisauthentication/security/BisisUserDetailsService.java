@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -61,9 +60,12 @@ public class BisisUserDetailsService implements UserDetailsService {
                             Member m = member.get();
                             bisisUserDetails.setName(m.getFirstName());
                             bisisUserDetails.setSurname(m.getLastName());
-                            if (m.getBirthday() != null) {
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                bisisUserDetails.setBirthday(formatter.format(m.getBirthday()));
+                            if (m.getAge() != null) {
+                                if (m.getAge().equalsIgnoreCase("A")) {
+                                    bisisUserDetails.setAge("adult");
+                                } else {
+                                    bisisUserDetails.setAge("child");
+                                }
                             }
                         }
                     }

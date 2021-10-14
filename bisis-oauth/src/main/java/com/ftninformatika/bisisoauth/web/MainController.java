@@ -59,7 +59,7 @@ public class MainController {
 			userInfo.setName(userDetails.getName());
 			userInfo.setGiven_name(userDetails.getFirstName());
 			userInfo.setFamily_name(userDetails.getSurname());
-			userInfo.setBirthday(userDetails.getBirthday());
+			userInfo.setAge(userDetails.getAge());
 			return ResponseEntity.ok(userInfo);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad OAuth2 request at UserInfo Endpoint");
