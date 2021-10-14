@@ -16,7 +16,6 @@ public class Library implements Serializable {
     private String prefix;
     private String name;
     private String address;
-    private String city;
     private String email;
     private String webSite;
     private String phone;
