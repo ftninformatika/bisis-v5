@@ -60,6 +60,10 @@ public class NotificationController {
     public ResponseEntity<Notification> sendMessage(@RequestBody Notification notification)  {
         try{
             Message message = Message.builder()
+                    .setNotification(com.google.firebase.messaging.Notification.builder()
+                            .setTitle(notification.getTitle())
+                            .setBody(notification.getContent())
+                            .build())
                    .putData("title", notification.getTitle())
                    .putData("content", notification.getContent())
                    .putData("type", notification.getType())
@@ -102,6 +106,10 @@ public class NotificationController {
         List<List<String>> sublists = ListUtils.partition(tokens, 500);
         for(List l:sublists){
             MulticastMessage message = MulticastMessage.builder()
+                    .setNotification(com.google.firebase.messaging.Notification.builder()
+                            .setTitle(membershipTitle)
+                            .setBody(membershipContent)
+                            .build())
                     .putData("title", membershipTitle)
                     .putData("content", membershipContent)
                     .putData("type","membership")
