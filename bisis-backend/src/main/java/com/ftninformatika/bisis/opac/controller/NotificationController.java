@@ -1,5 +1,8 @@
 package com.ftninformatika.bisis.opac.controller;
 
+import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.core.repositories.LendingRepository;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac.DeviceToken;
@@ -50,11 +53,20 @@ public class NotificationController {
     LibraryMemberRepository libraryMemberRepository;
     @Autowired
     LibraryConfigurationRepository libraryConfigurationRepository;
+    @Autowired
+    LendingRepository lendingRepository;
 
     @Value("${membership.title}")
     String membershipTitle;
     @Value("${membership.content}")
     String membershipContent;
+
+
+    @Value("${lending.title}")
+    String lendingTitle;
+    @Value("${lending.content}")
+    String lendingContent;
+
 
     @PostMapping("send")
     public ResponseEntity<Notification> sendMessage(@RequestBody Notification notification)  {
@@ -118,5 +130,46 @@ public class NotificationController {
             FirebaseMessaging.getInstance().sendMulticast(message);
         }
     }
-
+    private Date convertToDateViaInstant(LocalDateTime dateToConvert) {
+        return java.util.Date
+                .from(dateToConvert.atZone(ZoneId.systemDefault())
+                        .toInstant());
+    }
+    //svaki dan u 15h se trigeruje
+    @Scheduled(cron="0 15 * * * * ")
+    public void sendLendingExpiredNotification() throws FirebaseMessagingException {
+        LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDateTime start = currentDate.atStartOfDay().plusDays(3);
+        LocalDateTime end = currentDate.atStartOfDay().plusDays(4);
+        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
+        List<String> tokens = new ArrayList<String>();
+        for(LibraryConfiguration lc:libraryConfigurations) {
+          libraryPrefixProvider.setPrefix(lc.getLibraryName());
+          List<Lending> overdueLendings = lendingRepository.findLendingsByDeadlineBetweenAndReturnDateIsNull(convertToDateViaInstant(start),convertToDateViaInstant(end));
+          for (Lending  l:overdueLendings){
+              String userId = l.getUserId();
+              Member member = memberRepository.getMemberByUserId(userId);
+              LibraryMember libraryMember = libraryMemberRepository.findByIndex(member.get_id());
+              if (libraryMember != null) {
+                  List<DeviceToken> deviceTokens = deviceTokenRepository.findDeviceTokenByLibraryAndUsername(lc.getLibraryName(), libraryMember.getUsername());
+                  List<String> tokensMember = deviceTokens.stream().map(d -> d.getDeviceToken()).collect(Collectors.toList());
+                  tokens.addAll(tokensMember);
+              }
+          }
+            List<List<String>> sublists = ListUtils.partition(tokens, 500);
+            for(List sl:sublists){
+                MulticastMessage message = MulticastMessage.builder()
+                        .setNotification(com.google.firebase.messaging.Notification.builder()
+                                .setTitle(lendingTitle)
+                                .setBody(lendingContent)
+                                .build())
+                        .putData("title", lendingTitle)
+                        .putData("content", lendingContent)
+                        .putData("type","lending")
+                        .addAllTokens(sl)
+                        .build();
+                FirebaseMessaging.getInstance().sendMulticast(message);
+            }
+        }
+    }
 }
