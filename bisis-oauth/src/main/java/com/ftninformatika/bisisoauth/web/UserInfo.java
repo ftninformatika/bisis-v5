@@ -13,4 +13,5 @@ public class UserInfo {
     String given_name;
     String family_name;
     String age;
+
 }

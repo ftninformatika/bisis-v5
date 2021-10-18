@@ -1,6 +1,7 @@
 package com.ftninformatika.bisisauthentication.security;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -57,15 +59,25 @@ public class BisisUserDetailsService implements UserDetailsService {
                         prefixProvider.setPrefix(lm.getLibraryPrefix());
                         Optional<Member> member = memberRepository.findById(lm.getIndex());
                         if (member.isPresent()) {
+                            Boolean activeMember = false;
                             Member m = member.get();
-                            bisisUserDetails.setName(m.getFirstName());
-                            bisisUserDetails.setSurname(m.getLastName());
-                            if (m.getAge() != null) {
-                                if (m.getAge().equalsIgnoreCase("A")) {
-                                    bisisUserDetails.setAge("adult");
-                                } else {
-                                    bisisUserDetails.setAge("child");
+                            for (Signing s : m.getSignings()) {
+                                if (s.getUntilDate().after(new Date())) {
+                                    activeMember = true;
                                 }
+                            }
+                            if (activeMember) {
+                                bisisUserDetails.setName(m.getFirstName());
+                                bisisUserDetails.setSurname(m.getLastName());
+                                if (m.getAge() != null) {
+                                    if (m.getAge().equalsIgnoreCase("A")) {
+                                        bisisUserDetails.setAge("adult");
+                                    } else {
+                                        bisisUserDetails.setAge("child");
+                                    }
+                                }
+                            } else {
+                                throw new UsernameNotFoundException("Not active member: " + username);
                             }
                         }
                     }
