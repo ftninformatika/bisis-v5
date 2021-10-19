@@ -19,7 +19,8 @@ public class CorsConfigProduction {
                         .allowedOrigins("https://gbns.rs",
                                         "https://bgb.rs",
                                         "http://test.lotstudio.net",
-                                        "https://opac.bisis.rs")
+                                        "https://opac.bisis.rs",
+                                        "https://admin.bisis.rs")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);
