@@ -10,6 +10,7 @@ import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class BookCollectionService {
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired RecordsRepository recordsRepository;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+    private static Logger log = Logger.getLogger(BookCollectionService.class);
 
     public boolean addModifyCollection(String library, BookCollection newCollection) {
         if (newCollection == null || newCollection.getCreatorUsername() == null) return false;
@@ -45,6 +47,8 @@ public class BookCollectionService {
             return false;
         else if (newCollection.get_id() == null)
             newCollection.setIndex(generateIndex());
+            log.info("(addModifyCollection) Za novu kolekciju: " + newCollection.getTitle() + " postavljen je index: "
+                    + newCollection.getIndex());
         BookCollection bc = bookCollectionRepository.save(newCollection);
         return (bc != null && bc.get_id() != null);
     }
@@ -104,10 +108,14 @@ public class BookCollectionService {
                 return false;
             BookCollection bc = bookCollections.stream().filter(b -> b.getIndex() == i).findFirst().get();
             BookCollection bc1 = bookCollections.stream().filter(b -> b.getIndex() == i1).findFirst().get();
+            log.info("(swapCollectionIndexes) Prva kolekcija je: " + bc.getTitle() + " sa indexom: " + bc.getIndex());
+            log.info("(swapCollectionIndexes) Druga kolekcija je: " + bc1.getTitle() + " sa indexom: " + bc1.getIndex());
             bc.setIndex(i1);
             bc1.setIndex(i);
             bookCollectionRepository.save(bc);
             bookCollectionRepository.save(bc1);
+            log.info("(swapCollectionIndexes) Postavljen novi index za: " + bc.getTitle() + " je: " + bc.getIndex());
+            log.info("(swapCollectionIndexes) Postavljen novi index za: " + bc.getTitle() + " je: " + bc1.getIndex());
             return true;
         }
         catch (Exception e) {
