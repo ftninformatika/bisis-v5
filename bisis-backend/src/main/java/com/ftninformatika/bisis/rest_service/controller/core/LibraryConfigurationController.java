@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.core.repositories.LocationRepository;
 import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
 import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,9 +70,11 @@ public class LibraryConfigurationController {
              }
              if (lc.getLocationLevel() == 1) {
                  sublocations = locationRepository.getCoders(lc.getLibraryName()).stream()
-                 .map(l->new Sublocation(l.get_id(),l.getLibrary(),l.getCoder_id(),l.getDescription())).collect(Collectors.toList());
+                 .map(l->new Sublocation(l.get_id(),l.getLibrary(),l.getCoder_id(), LatCyrUtils.toCyrillic(l.getDescription()))).collect(Collectors.toList());
              }else{
-                 sublocations = subLocationRepository.getCoders(lc.getLibraryName());
+                 sublocations = subLocationRepository.getCoders(lc.getLibraryName()).stream()
+                         .map(l->new Sublocation(l.get_id(),l.getLibrary(),l.getCoder_id(), LatCyrUtils.toCyrillic(l.getDescription()))).collect(Collectors.toList());
+
              }
              retVal.add(new LibConfigDTO(lc.getLibraryName(),lc.getLibraryFullName(),lc.getShortName(),lc.getLocationLevel(),sublocations));
 
