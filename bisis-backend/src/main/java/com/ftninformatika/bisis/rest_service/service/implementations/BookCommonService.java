@@ -94,7 +94,10 @@ public class BookCommonService {
         if (!bc.isPresent()) return retVal;
         List<String> recordIds = bc.get().getRecordsIds();
         for (String recordId : recordIds){
-            retVal.add(opacSearchService.getFullBookByIdMobile(recordId));
+            Optional<Record> record = recordsRepository.findById(recordId);
+            if (record.isPresent()) {
+                retVal.add(opacSearchService.getFullBookByIdMobile(record.get()));
+            }
         }
         return retVal;
     }

@@ -26,7 +26,7 @@ public class LibraryMemberMobileController {
 
     @PostMapping("/get_shelf")
     public ResponseEntity<List<BookDTO>> getShelf(@RequestHeader("Library") String lib, @RequestBody String username) {
-        List<Book> retVal = libraryMemberService.getShelf(username, lib);
+        List<Book> retVal = libraryMemberService.getShelf(username, lib, true);
         if (retVal == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 

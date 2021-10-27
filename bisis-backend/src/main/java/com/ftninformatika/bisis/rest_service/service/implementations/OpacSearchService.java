@@ -166,16 +166,12 @@ public class OpacSearchService {
 
     //////////////////////////////////// FOR MOBILE ///////////////////////////////
 
-    public Book getFullBookByIdMobile(String _id) {
-        Optional<Record> record = recordsRepository.findById(_id);
-        if (record.isPresent()) {
-            Book retVal = getBookByRec(record.get());
-            retVal.setItems(getItemsMobile(record.get()));
-            retVal.setRecord(record.get());
-            fillReferencedRecords(record.get(), retVal);
-            return retVal;
-        }
-        return null;
+    public Book getFullBookByIdMobile(Record record) {
+        Book retVal = getBookByRec(record);
+        retVal.setItems(getItemsMobile(record));
+        retVal.setRecord(record);
+        fillReferencedRecords(record, retVal);
+        return retVal;
     }
 
     List<Item> getItemsMobile(Record record) {

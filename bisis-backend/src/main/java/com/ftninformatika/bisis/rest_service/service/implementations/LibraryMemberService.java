@@ -212,7 +212,7 @@ public class LibraryMemberService {
         return true;
     }
 
-    public List<Book> getShelf(String username, String lib) {
+    public List<Book> getShelf(String username, String lib, boolean fullBook) {
         if (username == null || username.trim().equals(""))
             return null;
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(username);
@@ -222,7 +222,12 @@ public class LibraryMemberService {
         if (libraryMember.getMyBookshelfBooks() == null || libraryMember.getMyBookshelfBooks().size() == 0)
             return retVal;
         for (Record r : recordsRepository.findAllById(libraryMember.getMyBookshelfBooks())) {
-            Book b = opacSearchService.getBookByRec(r);
+            Book b;
+            if (!fullBook) {
+                b = opacSearchService.getBookByRec(r);
+            } else {
+                b = opacSearchService.getFullBookByIdMobile(r);
+            }
             retVal.add(b);
         }
         return retVal;
