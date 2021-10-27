@@ -18,4 +18,5 @@ public class DeviceToken implements Serializable {
     String username;
     String library;
     Date lastAccessed;
+    String platform;
 }

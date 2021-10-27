@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Document(collection = "library")
+@Document(collection = "#{@libraryPrefixProvider.getLibPrefix()}_library")
 public class Library implements Serializable {
     @Id
     private String _id;

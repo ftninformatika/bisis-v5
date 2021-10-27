@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/messages")
@@ -36,6 +36,10 @@ public class MessageController {
     public ResponseEntity<Message> sendMessages(@RequestBody Message message) {
         try {
             Message savedMessage = messageRepository.save(message);
+            //poruke stizu od bibliotekara
+            if (message.getIdReceiver()!=null){
+
+            }
             return ResponseEntity.status(HttpStatus.OK).body(savedMessage);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

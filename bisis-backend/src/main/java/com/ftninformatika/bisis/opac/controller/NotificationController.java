@@ -61,28 +61,65 @@ public class NotificationController {
     String membershipTitle;
     @Value("${membership.content}")
     String membershipContent;
-
+    final String IOS="ios";
+    final String ANDROID="android";
 
     @Value("${lending.title}")
     String lendingTitle;
     @Value("${lending.content}")
     String lendingContent;
 
-
+    private Message getIOSMessage(Notification notification){
+        Message message = Message.builder()
+                .setNotification(com.google.firebase.messaging.Notification.builder()
+                        .setTitle(notification.getTitle())
+                        .setBody(notification.getContent())
+                        .build())
+                .putData("title", notification.getTitle())
+                .putData("content", notification.getContent())
+                .putData("type", notification.getType())
+                .setTopic(libraryPrefixProvider.getLibPrefix()+"-"+IOS)
+                .build();
+        return message;
+    }
+    private Message getAndroidMessage(Notification notification){
+        Message message = Message.builder()
+                .putData("title", notification.getTitle())
+                .putData("content", notification.getContent())
+                .putData("type", notification.getType())
+                .setTopic(libraryPrefixProvider.getLibPrefix()+"-"+ANDROID)
+                .build();
+        return message;
+    }
+    private MulticastMessage getAndroidMulticastMessage(String title,String content,String type, List tokens){
+        MulticastMessage message = MulticastMessage.builder()
+                .putData("title", title)
+                .putData("content", content)
+                .putData("type",type)
+                .addAllTokens(tokens)
+                .build();
+        return message;
+    }
+    private MulticastMessage getIOSMulticastMessage(String title,String content,String type,List tokens){
+        MulticastMessage message = MulticastMessage.builder()
+                .setNotification(com.google.firebase.messaging.Notification.builder()
+                        .setTitle(title)
+                        .setBody(content)
+                        .build())
+                .putData("title", content)
+                .putData("content", content)
+                .putData("type",type)
+                .addAllTokens(tokens)
+                .build();
+        return message;
+    }
     @PostMapping("send")
     public ResponseEntity<Notification> sendMessage(@RequestBody Notification notification)  {
         try{
-            Message message = Message.builder()
-                    .setNotification(com.google.firebase.messaging.Notification.builder()
-                            .setTitle(notification.getTitle())
-                            .setBody(notification.getContent())
-                            .build())
-                   .putData("title", notification.getTitle())
-                   .putData("content", notification.getContent())
-                   .putData("type", notification.getType())
-                   .setTopic(libraryPrefixProvider.getLibPrefix())
-                   .build();
-            FirebaseMessaging.getInstance().send(message);
+            Message iosMessage = getIOSMessage(notification);
+            Message androidMessage = getAndroidMessage(notification);
+            FirebaseMessaging.getInstance().send(androidMessage);
+            FirebaseMessaging.getInstance().send(iosMessage);
             Notification savedNotification =notificationRepository.save(notification);
             return new ResponseEntity<Notification>(savedNotification, HttpStatus.OK);
         }catch (FirebaseMessagingException exception){
@@ -104,33 +141,35 @@ public class NotificationController {
         LocalDateTime start = currentDate.atStartOfDay().plusDays(3);
         LocalDateTime end = currentDate.atStartOfDay().plusDays(4);
         List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokensAndroid = new ArrayList<String>();
+        List<String> tokensIOS = new ArrayList<String>();
         for(LibraryConfiguration lc:libraryConfigurations) {
             List<String> membersId = memberRepository.getExpiredMemebershipForOpacUsers(start, end, lc.getLibraryName());
             for (String id : membersId) {
                 LibraryMember libraryMember = libraryMemberRepository.findByIndex(id);
                 if (libraryMember != null) {
-                    List<DeviceToken> deviceTokens = deviceTokenRepository.findDeviceTokenByLibraryAndUsername(lc.getLibraryName(), libraryMember.getUsername());
-                    List<String> tokensMember = deviceTokens.stream().map(d -> d.getDeviceToken()).collect(Collectors.toList());
-                    tokens.addAll(tokensMember);
+                    List<DeviceToken> deviceTokensAndroid = deviceTokenRepository.findDeviceTokenByLibraryAndUsernameAndPlatform(lc.getLibraryName(), libraryMember.getUsername(),"android");
+                    List<String> tokensMemberAndroid = deviceTokensAndroid.stream().map(d -> d.getDeviceToken()).collect(Collectors.toList());
+                    tokensAndroid.addAll(tokensMemberAndroid);
+
+                    List<DeviceToken> deviceTokensIOS = deviceTokenRepository.findDeviceTokenByLibraryAndUsernameAndPlatform(lc.getLibraryName(), libraryMember.getUsername(),"ios");
+                    List<String> tokensMemberIOS = deviceTokensIOS.stream().map(d -> d.getDeviceToken()).collect(Collectors.toList());
+                    tokensIOS.addAll(tokensMemberIOS);
                 }
             }
         }
-        List<List<String>> sublists = ListUtils.partition(tokens, 500);
-        for(List l:sublists){
-            MulticastMessage message = MulticastMessage.builder()
-                    .setNotification(com.google.firebase.messaging.Notification.builder()
-                            .setTitle(membershipTitle)
-                            .setBody(membershipContent)
-                            .build())
-                    .putData("title", membershipTitle)
-                    .putData("content", membershipContent)
-                    .putData("type","membership")
-                    .addAllTokens(l)
-                    .build();
+        List<List<String>> sublistsAndroid = ListUtils.partition(tokensAndroid, 500);
+        for(List l:sublistsAndroid){
+            MulticastMessage message = getAndroidMulticastMessage(membershipTitle,membershipContent,"membership",l);
+            FirebaseMessaging.getInstance().sendMulticast(message);
+        }
+        List<List<String>> sublistsIOS = ListUtils.partition(tokensIOS, 500);
+        for(List l:sublistsIOS){
+            MulticastMessage message =getIOSMulticastMessage(membershipTitle,membershipContent,"membership",l);
             FirebaseMessaging.getInstance().sendMulticast(message);
         }
     }
+
     private Date convertToDateViaInstant(LocalDateTime dateToConvert) {
         return java.util.Date
                 .from(dateToConvert.atZone(ZoneId.systemDefault())
@@ -143,7 +182,8 @@ public class NotificationController {
         LocalDateTime start = currentDate.atStartOfDay().plusDays(3);
         LocalDateTime end = currentDate.atStartOfDay().plusDays(4);
         List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokensAndroid = new ArrayList<String>();
+        List<String> tokensIOS = new ArrayList<String>();
         for(LibraryConfiguration lc:libraryConfigurations) {
           libraryPrefixProvider.setPrefix(lc.getLibraryName());
           List<Lending> overdueLendings = lendingRepository.findLendingsByDeadlineBetweenAndReturnDateIsNull(convertToDateViaInstant(start),convertToDateViaInstant(end));
@@ -152,24 +192,26 @@ public class NotificationController {
               Member member = memberRepository.getMemberByUserId(userId);
               LibraryMember libraryMember = libraryMemberRepository.findByIndex(member.get_id());
               if (libraryMember != null) {
-                  List<DeviceToken> deviceTokens = deviceTokenRepository.findDeviceTokenByLibraryAndUsername(lc.getLibraryName(), libraryMember.getUsername());
-                  List<String> tokensMember = deviceTokens.stream().map(d -> d.getDeviceToken()).collect(Collectors.toList());
-                  tokens.addAll(tokensMember);
+                  List<DeviceToken> deviceTokensAndroid = deviceTokenRepository.findDeviceTokenByLibraryAndUsernameAndPlatform(lc.getLibraryName(), libraryMember.getUsername(),"android");
+                  List<String> tokensMemberAndroid = deviceTokensAndroid.stream().map(d -> d.getDeviceToken()).collect(Collectors.toList());
+                  tokensAndroid.addAll(tokensMemberAndroid);
+
+                  List<DeviceToken> deviceTokensIOS = deviceTokenRepository.findDeviceTokenByLibraryAndUsernameAndPlatform(lc.getLibraryName(), libraryMember.getUsername(),"ios");
+                  List<String> tokensMemberIOS = deviceTokensIOS.stream().map(d -> d.getDeviceToken()).collect(Collectors.toList());
+                  tokensAndroid.addAll(tokensMemberIOS);
               }
           }
-            List<String>distinctTokens = new ArrayList<String>(new HashSet<>(tokens));
-            List<List<String>> sublists = ListUtils.partition(distinctTokens, 500);
-            for(List sl:sublists){
-                MulticastMessage message = MulticastMessage.builder()
-                        .setNotification(com.google.firebase.messaging.Notification.builder()
-                                .setTitle(lendingTitle)
-                                .setBody(lendingContent)
-                                .build())
-                        .putData("title", lendingTitle)
-                        .putData("content", lendingContent)
-                        .putData("type","lending")
-                        .addAllTokens(sl)
-                        .build();
+            List<String>distinctTokensAndroid = new ArrayList<String>(new HashSet<>(tokensAndroid));
+            List<List<String>> sublistsAndroid = ListUtils.partition(distinctTokensAndroid, 500);
+            for(List sl:sublistsAndroid){
+                MulticastMessage message = getAndroidMulticastMessage(lendingTitle,lendingContent,"lending",sl);
+                FirebaseMessaging.getInstance().sendMulticast(message);
+            }
+
+            List<String>distinctTokensIOS = new ArrayList<String>(new HashSet<>(tokensIOS));
+            List<List<String>> sublistsIOS = ListUtils.partition(distinctTokensIOS, 500);
+            for(List sl:sublistsIOS){
+                MulticastMessage message = getIOSMulticastMessage(lendingTitle,lendingContent,"lending",sl);
                 FirebaseMessaging.getInstance().sendMulticast(message);
             }
         }
