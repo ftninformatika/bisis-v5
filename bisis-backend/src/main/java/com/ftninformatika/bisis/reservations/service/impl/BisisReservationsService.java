@@ -353,7 +353,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         boolean emailSent = false;
         Book book = opacSearchService.getBookByRec(record);
         String formattedDate = formatDate(deadline);
-        LibraryMember libraryMember = libraryMemberRepository.findByUsername(member.getEmail());
+        LibraryMember libraryMember = libraryMemberRepository.findByIndex(member.get_id());
         if (libraryMember != null && libraryMember.getUsername() != null && !libraryMember.getUsername().equals("")) {
             LibraryConfiguration libConf = libraryConfigurationRepository.getByLibraryName(library);
             emailService.sendReservationConfirmation(libraryMember.getUsername(), book.getTitle(), formattedDate, libConf);
