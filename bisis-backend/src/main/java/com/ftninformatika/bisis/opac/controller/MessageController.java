@@ -5,7 +5,10 @@ import com.ftninformatika.bisis.opac.admin.dto.MessageDTO;
 import com.ftninformatika.bisis.opac.dto.MessageSenderDTO;
 import com.ftninformatika.bisis.opac.repository.MessageRepository;
 import com.ftninformatika.bisis.opac.service.MessageService;
+import com.ftninformatika.bisis.opac.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +17,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/messages")
+@PropertySource(value = "classpath:notification.properties",encoding = "UTF-8")
 public class MessageController {
     @Autowired
     MessageRepository messageRepository;
-
     @Autowired
     MessageService messageService;
+    @Autowired
+    NotificationService notificationService;
+
+    @Value("${message.title}")
+    String messageTitle;
+
+    @Value("${message.content}")
+    String messageContent;
 
     @GetMapping("/{username}")
     public List<Message> getMessagesMobile(@PathVariable("username") String username) {
@@ -31,14 +42,12 @@ public class MessageController {
         List<MessageDTO> messages = messageService.getMessagesByUsername(username, lib);
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
-
     @PostMapping("/add")
     public ResponseEntity<Message> sendMessages(@RequestBody Message message) {
         try {
             Message savedMessage = messageRepository.save(message);
-            //poruke stizu od bibliotekara
-            if (message.getIdReceiver()!=null){
-
+            if(message.getIdReceiver() != null){
+                notificationService.sendMessageToUsername(message.getIdReceiver(),messageTitle,messageContent,"message");
             }
             return ResponseEntity.status(HttpStatus.OK).body(savedMessage);
         } catch (Exception e) {
