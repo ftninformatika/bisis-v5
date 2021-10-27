@@ -196,7 +196,11 @@ public class OpacSearchService {
             }
         }
         if (items.size() > 0) {
-            items.sort(Comparator.comparing(Item::getInvNum));
+            try {
+                items.sort(Comparator.comparing(Item::getInvNum));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
             return items;
         } else return null;
     }
