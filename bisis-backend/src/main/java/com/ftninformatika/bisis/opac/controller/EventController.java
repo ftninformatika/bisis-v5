@@ -173,6 +173,7 @@ public class EventController {
         event.setContent(editedEvent.getContent());
         event.setTitle(editedEvent.getTitle());
         event.setDate(editedEvent.getDate());
+        event.setTime(editedEvent.getTime());
         return eventRepository.save(event);
     }
 }
