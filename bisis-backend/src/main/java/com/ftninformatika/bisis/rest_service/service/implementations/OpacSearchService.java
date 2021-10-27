@@ -68,7 +68,8 @@ public class OpacSearchService {
     CodersController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
 
-    public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize) {
+    public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize,
+                                            boolean fullBook) {
         List<Book> retVal = new ArrayList<>();
 
         if (searchRequest == null || searchRequest.getSearchModel() == null) return null;
@@ -111,7 +112,12 @@ public class OpacSearchService {
                     if (!r.isPresent()) {
                         log.warn("Can't get record for mongoId: " + recMongoId);
                     } else {
-                        Book b = getBookByRec(r.get());
+                        Book b;
+                        if (!fullBook) {
+                            b = getBookByRec(r.get());
+                        } else {
+                            b = getFullBookByIdMobile(r.get());
+                        }
                         retVal.add(b);
                     }
                 }
