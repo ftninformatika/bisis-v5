@@ -164,6 +164,56 @@ public class OpacSearchService {
         return null;
     }
 
+    //////////////////////////////////// FOR MOBILE ///////////////////////////////
+
+    public Book getFullBookByIdMobile(String _id) {
+        Optional<Record> record = recordsRepository.findById(_id);
+        if (record.isPresent()) {
+            Book retVal = getBookByRec(record.get());
+            retVal.setItems(getItemsMobile(record.get()));
+            retVal.setRecord(record.get());
+            fillReferencedRecords(record.get(), retVal);
+            return retVal;
+        }
+        return null;
+    }
+
+    List<Item> getItemsMobile(Record record) {
+        List<Item> items = new ArrayList<>();
+        if ((record.getPrimerci() == null || record.getPrimerci().size() == 0) &&
+                (record.getGodine() == null || record.getGodine().size() == 0)){
+            return null;
+        }
+        if (record.getPrimerci().size() > 0) {
+            for (Primerak p : record.getPrimerci()) {
+                items.add(getItemPrimerak(p));
+            }
+        } else if (record.getGodine().size() > 0) {
+            for (Godina p : record.getGodine()) {
+                items.add(getItemGodina(p));
+            }
+        }
+        if (items.size() > 0) {
+            items.sort(Comparator.comparing(Item::getInvNum));
+            return items;
+        } else return null;
+    }
+
+    Item getItemPrimerak(Primerak p) {
+        Item i = new Item();
+        i.setInvNum(p.getInvBroj());
+        i.setSignature(Signature.format(p));
+        return i;
+    }
+
+    Item getItemGodina(Godina p) {
+        Item i = new Item();
+        i.setInvNum(p.getInvBroj());
+        i.setSignature(Signature.format(p));
+        return i;
+    }
+    //////////////////////////////////////////////////////////////////////////
+
     public List<BookAvailabilityDTO> getBooksAvailabilityByLocation(Book book) {
         HashMap<String, List<Item>> itemsByLocation = new HashMap<>();
         for (Item item : book.getItems()) {

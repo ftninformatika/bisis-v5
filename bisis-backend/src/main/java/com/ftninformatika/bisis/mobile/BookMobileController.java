@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.mobile;
 
+import com.ftninformatika.bisis.core.repositories.RecordsRepository;
+import com.ftninformatika.bisis.mobile.service.BookService;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.rest_service.service.implementations.BookCommonService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
@@ -24,13 +26,20 @@ public class BookMobileController {
     @Autowired
     OpacSearchService opacSearchService;
 
+    @Autowired
+    RecordsRepository recordsRepository;
+
+    @Autowired
+    BookService bookService;
+
     @PostMapping("/collection")
-    public ResponseEntity<List<BookDTO>> getBooksByCollectionId(@RequestBody String collectionId) {
-        List<Book> books = bookCommonService.getBooksByCollectionId(collectionId);
+    public ResponseEntity<List<BookDTO>> getBooksByCollectionId(@RequestHeader("Library") String lib,
+                                                                @RequestBody String collectionId) {
+        List<Book> books = bookCommonService.getFullBooksByCollectionId(collectionId);
 
         List<BookDTO> bookDTOS = new ArrayList<>();
         for (Book book : books) {
-            bookDTOS.add(new BookDTO(book));
+            bookDTOS.add(new BookDTO(book, bookService.isArticle(book)));
         }
 
         if (books.isEmpty())
@@ -38,6 +47,15 @@ public class BookMobileController {
         return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{recordId}")
+    public ResponseEntity<BookDTO> getBook(@RequestHeader("Library") String lib, @PathVariable("recordId") String recordId) {
+        Book book = opacSearchService.getFullBookById(recordId, lib);
+        if (book == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        BookDTO bookDTO = new BookDTO(book, bookService.isArticle(book));
+        return new ResponseEntity<>(bookDTO, HttpStatus.OK);
+    }
 
     @PostMapping("/availability")
     public ResponseEntity<List<BookAvailabilityDTO>> getBooksAvailability(@RequestHeader("Library") String lib,

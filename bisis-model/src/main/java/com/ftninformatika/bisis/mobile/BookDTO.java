@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author marijakovacevic
@@ -29,8 +30,13 @@ public class BookDTO {
     AvgRecordRating avgRating;
     String imageUrl;
     String description;
+    String isbn;
+    String udk;
+    String signature;
+    Map<String, String> refRecsBrief;
+    boolean isArticle;
 
-    public BookDTO(Book book) {
+    public BookDTO(Book book, boolean isArticle) {
         this._id = book.get_id();
         this.authors = book.getAuthors();
         this.otherAuthors = book.getOtherAuthors();
@@ -42,5 +48,12 @@ public class BookDTO {
         this.avgRating = book.getAvgRating();
         this.imageUrl = book.getImageUrl();
         this.description = book.getDescription();
+        this.isbn = book.getIsbn();
+        this.udk = book.getUdk();
+        if (book.getItems() != null) {
+            this.signature = book.getItems().get(0).getSignature();
+        }
+        this.refRecsBrief = book.getRefRecsBrief();
+        this.isArticle = isArticle;
     }
 }

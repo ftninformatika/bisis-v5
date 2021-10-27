@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.mobile;
 
+import com.ftninformatika.bisis.mobile.service.BookService;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.opac.search.ResultPageSearchRequest;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
@@ -22,6 +23,9 @@ public class OpacSearchMobileController {
     @Autowired
     OpacSearchService opacSearchService;
 
+    @Autowired
+    BookService bookService;
+
     @PostMapping
     public ResponseEntity<?> search(
             @RequestHeader("Library") String lib,
@@ -36,7 +40,8 @@ public class OpacSearchMobileController {
 
         List<BookDTO> bookDTOS = new ArrayList<>();
         for (int i = 0; i < retVal.getContent().size(); i++) {
-            bookDTOS.add(new BookDTO((Book) retVal.getContent().get(i)));
+            Book book = (Book) retVal.getContent().get(i);
+            bookDTOS.add(new BookDTO(book, bookService.isArticle(book)));
         }
         return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
     }

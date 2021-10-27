@@ -87,6 +87,18 @@ public class BookCommonService {
         return retVal;
     }
 
+    public List<Book> getFullBooksByCollectionId(String collectionId) {
+        List<Book> retVal = new ArrayList<>();
+        if (collectionId == null) return retVal;
+        Optional<BookCollection> bc = bookCollectionRepository.findById(collectionId);
+        if (!bc.isPresent()) return retVal;
+        List<String> recordIds = bc.get().getRecordsIds();
+        for (String recordId : recordIds){
+            retVal.add(opacSearchService.getFullBookByIdMobile(recordId));
+        }
+        return retVal;
+    }
+
     private void mergeBookCommonWithRecords(BookCommon bookCommon) {
         List<String> libCodes = libraryConfigurationRepository.findAll()
                 .stream().map(LibraryConfiguration::getLibraryName).collect(Collectors.toList());

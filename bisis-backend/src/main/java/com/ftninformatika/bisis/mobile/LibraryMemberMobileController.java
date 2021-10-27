@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.mobile;
 
+import com.ftninformatika.bisis.mobile.service.BookService;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class LibraryMemberMobileController {
     @Autowired
     LibraryMemberService libraryMemberService;
 
+    @Autowired
+    BookService bookService;
+
     @PostMapping("/get_shelf")
     public ResponseEntity<List<BookDTO>> getShelf(@RequestHeader("Library") String lib, @RequestBody String username) {
         List<Book> retVal = libraryMemberService.getShelf(username, lib);
@@ -28,7 +32,7 @@ public class LibraryMemberMobileController {
 
         List<BookDTO> bookDTOS = new ArrayList<>();
         for (Book book : retVal) {
-            bookDTOS.add(new BookDTO(book));
+            bookDTOS.add(new BookDTO(book, bookService.isArticle(book)));
         }
         return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
     }

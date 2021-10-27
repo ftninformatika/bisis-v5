@@ -492,4 +492,16 @@ public class RecordPreview {
         return text;
     }
 
+    public Boolean isArticle(Record rec){
+        if (rec == null)
+            return null;
+        try {
+            fields1 = rec.getSubfieldsContent("001c");
+            text = fieldsToString(fields1);
+            return text.equals("a");
+        } catch (Exception e1) {
+            return null;
+        }
+    }
+
 }
