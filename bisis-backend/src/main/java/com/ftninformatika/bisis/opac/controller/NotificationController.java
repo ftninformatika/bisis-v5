@@ -34,6 +34,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,7 +98,7 @@ public class NotificationController {
         return this.notificationRepository.findAll(paging);
     }
 
-    @Scheduled(cron="0 14 * * * * ")
+    @Scheduled(cron="0 0 14 * * * ")
     public void sendMembershipExpiredNotification() throws FirebaseMessagingException {
         LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDateTime start = currentDate.atStartOfDay().plusDays(3);
@@ -136,7 +137,7 @@ public class NotificationController {
                         .toInstant());
     }
     //svaki dan u 15h se trigeruje
-    @Scheduled(cron="0 15 * * * * ")
+    @Scheduled(cron="0 0 15 * * * ")
     public void sendLendingExpiredNotification() throws FirebaseMessagingException {
         LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDateTime start = currentDate.atStartOfDay().plusDays(3);
@@ -156,7 +157,8 @@ public class NotificationController {
                   tokens.addAll(tokensMember);
               }
           }
-            List<List<String>> sublists = ListUtils.partition(tokens, 500);
+            List<String>distinctTokens = new ArrayList<String>(new HashSet<>(tokens));
+            List<List<String>> sublists = ListUtils.partition(distinctTokens, 500);
             for(List sl:sublists){
                 MulticastMessage message = MulticastMessage.builder()
                         .setNotification(com.google.firebase.messaging.Notification.builder()
