@@ -76,7 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/faq/get",
                         "/libraries/get/**",
                         "/mobile/book_collections/**",
-                        "/mobile/book/collection",
+                        "/mobile/book/**",
                         "/mobile/opac_search/**",
                         "/events/get",
                         "/events/image/**",
