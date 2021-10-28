@@ -10,6 +10,7 @@ import java.util.List;
 public interface DeviceTokenRepository extends MongoRepository<DeviceToken, String> {
     DeviceToken findByDeviceToken(String token);
     List<DeviceToken> findDeviceTokenByLibraryAndUsernameExists(String library);
+    int countDeviceTokenByPlatform(String platform);
     List<DeviceToken> findDeviceTokenByLibraryAndUsernameAndPlatform(String library, String username,String platform);
     public List<DeviceToken> findDeviceTokenByUsernameAndPlatform(String username,String platform);
 

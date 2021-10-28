@@ -72,15 +72,14 @@ public class NotificationController {
     @Value("${lending.content}")
     String lendingContent;
 
-
     @PostMapping("send")
     public ResponseEntity<Notification> sendMessage(@RequestBody Notification notification)  {
-            Message iosMessage = notificationService.getIOSMessage(notification,libraryPrefixProvider + "-" + IOS);
-            Message androidMessage = notificationService.getAndroidMessage(notification,libraryPrefixProvider + "-" + ANDROID);
-            notificationService.sendSingleMessageToTopic(androidMessage);
-            notificationService.sendSingleMessageToTopic(iosMessage);
-            Notification savedNotification =notificationRepository.save(notification);
-            return new ResponseEntity<Notification>(savedNotification, HttpStatus.OK);
+        Message iosMessage = notificationService.getIOSMessage(notification, libraryPrefixProvider.getLibPrefix() + "-" + IOS);
+        notificationService.sendSingleMessageToTopic(iosMessage);
+        Message androidMessage = notificationService.getAndroidMessage(notification, libraryPrefixProvider.getLibPrefix() + "-" + ANDROID);
+        notificationService.sendSingleMessageToTopic(androidMessage);
+        Notification savedNotification =notificationRepository.save(notification);
+        return new ResponseEntity<Notification>(savedNotification, HttpStatus.OK);
     }
     @GetMapping("all")
     public Page<Notification> getNotifications(@RequestHeader("Library") String lib,

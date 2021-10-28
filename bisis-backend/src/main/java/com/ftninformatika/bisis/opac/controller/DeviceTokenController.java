@@ -26,22 +26,24 @@ public class DeviceTokenController {
         String token = deviceTokenDTO.getDeviceToken();
         String library = deviceTokenDTO.getLibrary();
         String platform = deviceTokenDTO.getPlatform();
-        DeviceToken deviceTokenOld = deviceTokenRepository.findByDeviceToken(token);
-        List subscribeTokens = Collections.singletonList(deviceTokenDTO.getDeviceToken());
-        if (deviceTokenOld == null){
-            deviceTokenDTO.setLastAccessed(new Date());
-            deviceTokenRepository.save(deviceTokenDTO);
-            FirebaseMessaging.getInstance().subscribeToTopic(subscribeTokens, library+"-"+platform);
-        }else{
-            if (!library.equalsIgnoreCase(deviceTokenOld.getLibrary())){
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(subscribeTokens, deviceTokenOld.getLibrary()+"-"+platform);
+        if (platform != null) {
+            DeviceToken deviceTokenOld = deviceTokenRepository.findByDeviceToken(token);
+            List subscribeTokens = Collections.singletonList(deviceTokenDTO.getDeviceToken());
+            if (deviceTokenOld == null) {
+                deviceTokenDTO.setLastAccessed(new Date());
+                deviceTokenRepository.save(deviceTokenDTO);
+                FirebaseMessaging.getInstance().subscribeToTopic(subscribeTokens, library + "-" + platform);
+            } else {
+                if (!library.equalsIgnoreCase(deviceTokenOld.getLibrary())) {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(subscribeTokens, deviceTokenOld.getLibrary() + "-" + platform);
+                }
+                deviceTokenOld.setUsername(username);
+                deviceTokenOld.setLibrary(library);
+                deviceTokenOld.setPlatform(platform);
+                deviceTokenOld.setLastAccessed(new Date());
+                deviceTokenRepository.save(deviceTokenOld);
+                FirebaseMessaging.getInstance().subscribeToTopic(subscribeTokens, library + "-" + platform);
             }
-            deviceTokenOld.setUsername(username);
-            deviceTokenOld.setLibrary(library);
-            deviceTokenOld.setPlatform(platform);
-            deviceTokenOld.setLastAccessed(new Date());
-            deviceTokenRepository.save(deviceTokenOld);
-            FirebaseMessaging.getInstance().subscribeToTopic(subscribeTokens, library+"-"+platform);
         }
     }
 }
