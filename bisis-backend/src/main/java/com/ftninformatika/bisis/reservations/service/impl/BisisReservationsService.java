@@ -366,7 +366,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
             try {
                 notificationService.sendMessageToUsername(libraryMember.getUsername(),
                         Texts.getString("RESERVATION_CONFIRMED_HEADING"),
-                        "Преузмите Вашу резервисану књигу " + LatCyrUtils.toCyrillic(book.getTitle()) + " у року од 3 радна дана", "reservation");
+                        "Преузмите Вашу резервисану књигу " + book.getTitle() + " у року од 3 радна дана", "reservation");
             } catch (Exception e) {
                 e.printStackTrace();
             }
