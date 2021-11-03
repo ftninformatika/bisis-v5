@@ -86,7 +86,7 @@ public class NotificationController {
                                                @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
                                                @RequestParam(value = "pageSize", required = false) final Integer pageSize){
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        return this.notificationRepository.findAll(paging);
+        return this.notificationRepository.findAllByOrderBySentDateDesc(paging);
     }
 
     @Scheduled(cron="0 0 14 * * * ")
