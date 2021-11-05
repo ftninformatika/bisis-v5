@@ -1,4 +1,4 @@
-refaktoringpackage com.ftninformatika.bisis.core.controllers;
+package com.ftninformatika.bisis.core.controllers;
 
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
