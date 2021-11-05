@@ -4,15 +4,13 @@ import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
 import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
+import com.ftninformatika.bisis.inventory.EnumInvLocation;
 import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,5 +78,18 @@ public class LibraryConfigurationController {
 
          }
         return ResponseEntity.ok(retVal);
+    }
+
+    @RequestMapping(path = "getLocationLevel")
+    public Integer getLocationLevel(@RequestHeader("Library") String library){
+        if (library == null) {
+            return null;
+        }
+        LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
+        if (config.getLocationLevel() == null || EnumInvLocation.LOCATION.getLevel() == config.getLocationLevel()) {
+            return EnumInvLocation.LOCATION.getLevel();
+        } else {
+            return EnumInvLocation.SUB_LOCATION.getLevel();
+        }
     }
 }

@@ -90,8 +90,8 @@ public class LibraryConfiguration {
 
     private Boolean mobileApp;
     private Boolean maintenanceEnabled;
-    //oznaka da li biblioteka ima podlokacije kao Beograd. locationLevel=1 ili ne postoji znaci da nema podlokacije ima samo lokacije (odeljenja), locationLevel =2 ima podlokacije
-
+    //oznaka da li biblioteka ima podlokacije kao Beograd.
+    // ako je locationLevel=1 ili ne postoji znaci da nema podlokacije ima samo lokacije (odeljenja), ako je locationLevel =2 ima podlokacije
     private  Integer locationLevel;
 
     public String toString(){

@@ -33,15 +33,15 @@ public class InvCodersServiceImpl implements InvCodersService {
             return null;
         }
         LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
-        String invLocation = EnumInvLocation.LOCATION.toString();
-        if (config.getInvLocation() != null) {
-            invLocation = config.getInvLocation();
+        Integer locationLevel = EnumInvLocation.LOCATION.getLevel();
+        if (config.getLocationLevel() != null) {
+            locationLevel = config.getLocationLevel();
         }
 
         List results = null;
-        if (EnumInvLocation.LOCATION.toString().equals(invLocation)) {
+        if (EnumInvLocation.LOCATION.getLevel() == locationLevel) {
             results = locationRepository.getCoders(library);
-        } else if (EnumInvLocation.SUB_LOCATION.toString().equals(invLocation)) {
+        } else if (EnumInvLocation.SUB_LOCATION.getLevel() == locationLevel) {
             results = sublocationRepository.getCoders(library);
         }
 
@@ -54,7 +54,7 @@ public class InvCodersServiceImpl implements InvCodersService {
             return null;
         }
         LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
-        if (config.getInvLocation() == null || EnumInvLocation.LOCATION.toString().equals(config.getInvLocation())) {
+        if (config.getLocationLevel() == null || EnumInvLocation.LOCATION.getLevel() == config.getLocationLevel()) {
             return EnumInvLocation.LOCATION;
         } else {
             return EnumInvLocation.SUB_LOCATION;

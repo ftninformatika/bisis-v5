@@ -177,27 +177,34 @@ public class InventoryServiceImpl implements InventoryService {
                 if (book.getLastNo() != null) {
                     String firstInvNum =  book.getCode() + "0000000";
                     RegexUtils rrg = new RegexUtils();
-                    List<String> regexes = rrg.getRegex(firstInvNum , book.getCode() + String.valueOf(book.getLastNo()));
-
-                    //todo ne radi za bmb
-                    List<Criteria> regexCr = new ArrayList<>();
-                    Criteria c2 = new Criteria();
-                    for (String reg: regexes) {
-                        regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
+                    if (!createdInventory.isUseLocationFromInvNo()) {
+                        List<String> regexes = rrg.getRegex(firstInvNum, book.getCode() + String.valueOf(book.getLastNo()));
+                        List<Criteria> regexCr = new ArrayList<>();
+                        Criteria c2 = new Criteria();
+                        for (String reg : regexes) {
+                            regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
+                        }
+                        Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
+                        invBookCriteriaList.add(cr);
+                    }else{
+                        firstInvNum = invLocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
+                        String lastInvNum = createInvNum(invLocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
+                        Criteria c2 = Criteria.where("primerci.invBroj").gte(firstInvNum).lte(lastInvNum);
+                        invBookCriteriaList.add(c2);
                     }
-                    Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
-                    invBookCriteriaList.add(cr);
                 } else {
-                    //todo ne radi za bmb
-                    // Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
-                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^[0-9][0-9]" + book.getCode() + ".*");
-
-                    invBookCriteriaList.add(c3);
+                    if (!createdInventory.isUseLocationFromInvNo()) {
+                        Criteria c3 = Criteria.where("primerci.invBroj").regex("^[0-9][0-9]" + book.getCode() + ".*");
+                        invBookCriteriaList.add(c3);
+                    }else{
+                        Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
+                        invBookCriteriaList.add(c3);
+                    }
                 }
             }
         }
         MatchOperation matchSublocationOp = null;
-        if (sublocationCriteriaList.size() > 0) {
+        if (sublocationCriteriaList.size() > 0 && !createdInventory.isUseLocationFromInvNo()) {
             matchSublocationOp = Aggregation.match(new Criteria().orOperator(sublocationCriteriaList.toArray(new Criteria[sublocationCriteriaList.size()])));
         }
         MatchOperation matchInvBooksOp = null;

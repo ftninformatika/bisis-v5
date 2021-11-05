@@ -1,20 +1,19 @@
 package com.ftninformatika.bisis.inventory;
 
 public enum EnumInvLocation {
-    LOCATION("location", "primerci.odeljenje"),
-    SUB_LOCATION("sublocation", "primerci.sigPodlokacija");
+    LOCATION(1, "primerci.odeljenje"),
+    SUB_LOCATION(2, "primerci.sigPodlokacija");
 
-    private String text;
+    private Integer level;
     private String primerakField;
 
-    EnumInvLocation(String text, String primerakField) {
-        this.text = text;
+    EnumInvLocation(Integer level, String primerakField) {
+        this.level = level;
         this.primerakField = primerakField;
     }
 
-    @Override
-    public String toString() {
-        return this.text;
+    public Integer getLevel() {
+        return this.level;
     }
 
     public String getPrimerakField() {
