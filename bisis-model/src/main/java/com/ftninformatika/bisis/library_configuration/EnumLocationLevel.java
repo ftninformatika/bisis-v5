@@ -1,13 +1,13 @@
-package com.ftninformatika.bisis.inventory;
+package com.ftninformatika.bisis.library_configuration;
 
-public enum EnumInvLocation {
+public enum EnumLocationLevel {
     LOCATION(1, "primerci.odeljenje"),
     SUB_LOCATION(2, "primerci.sigPodlokacija");
 
     private Integer level;
     private String primerakField;
 
-    EnumInvLocation(Integer level, String primerakField) {
+    EnumLocationLevel(Integer level, String primerakField) {
         this.level = level;
         this.primerakField = primerakField;
     }

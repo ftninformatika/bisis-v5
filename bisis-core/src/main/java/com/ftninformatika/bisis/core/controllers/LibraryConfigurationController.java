@@ -1,10 +1,10 @@
-package com.ftninformatika.bisis.rest_service.controller.core;
+refaktoringpackage com.ftninformatika.bisis.core.controllers;
 
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
 import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
-import com.ftninformatika.bisis.inventory.EnumInvLocation;
+import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
 import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.utils.string.LatCyrUtils;
@@ -86,10 +86,10 @@ public class LibraryConfigurationController {
             return null;
         }
         LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
-        if (config.getLocationLevel() == null || EnumInvLocation.LOCATION.getLevel() == config.getLocationLevel()) {
-            return EnumInvLocation.LOCATION.getLevel();
+        if (config.getLocationLevel() == null || EnumLocationLevel.LOCATION.getLevel() == config.getLocationLevel()) {
+            return EnumLocationLevel.LOCATION.getLevel();
         } else {
-            return EnumInvLocation.SUB_LOCATION.getLevel();
+            return EnumLocationLevel.SUB_LOCATION.getLevel();
         }
     }
 }

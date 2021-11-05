@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryService;
+import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
@@ -165,13 +166,13 @@ public class InventoryServiceImpl implements InventoryService {
         Date resultdate = new Date(milliseconds);
         System.out.println("Vreme pocetka izvršavanja upita: " + sdf.format(resultdate));
         UnwindOperation unwindOp = Aggregation.unwind("primerci");
-        EnumInvLocation enumInvLocation = this.invCodersService.getEnumInvLocation(library);
+        EnumLocationLevel enumLocationLevel = this.invCodersService.getEnumInvLocation(library);
 
         //upit za podlokaciju i inv knjige, i inv brojeve
         List<Criteria> sublocationCriteriaList = new ArrayList<Criteria>();
         List<Criteria> invBookCriteriaList = new ArrayList<Criteria>();
         for (Coder invLocation : createdInventory.getInvLocations()) {
-            Criteria c1 = Criteria.where(enumInvLocation.getPrimerakField()).is(invLocation.getCoder_id());
+            Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
             sublocationCriteriaList.add(c1);
             for (InventoryBook book : createdInventory.getInvBooks()) {
                 if (book.getLastNo() != null) {

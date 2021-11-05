@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.inventory.EnumInvLocation;
+import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
 import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
@@ -33,15 +33,15 @@ public class InvCodersServiceImpl implements InvCodersService {
             return null;
         }
         LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
-        Integer locationLevel = EnumInvLocation.LOCATION.getLevel();
+        Integer locationLevel = EnumLocationLevel.LOCATION.getLevel();
         if (config.getLocationLevel() != null) {
             locationLevel = config.getLocationLevel();
         }
 
         List results = null;
-        if (EnumInvLocation.LOCATION.getLevel() == locationLevel) {
+        if (EnumLocationLevel.LOCATION.getLevel() == locationLevel) {
             results = locationRepository.getCoders(library);
-        } else if (EnumInvLocation.SUB_LOCATION.getLevel() == locationLevel) {
+        } else if (EnumLocationLevel.SUB_LOCATION.getLevel() == locationLevel) {
             results = sublocationRepository.getCoders(library);
         }
 
@@ -49,15 +49,15 @@ public class InvCodersServiceImpl implements InvCodersService {
     }
 
 
-    public EnumInvLocation getEnumInvLocation(String library) {
+    public EnumLocationLevel getEnumInvLocation(String library) {
         if (library == null) {
             return null;
         }
         LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
-        if (config.getLocationLevel() == null || EnumInvLocation.LOCATION.getLevel() == config.getLocationLevel()) {
-            return EnumInvLocation.LOCATION;
+        if (config.getLocationLevel() == null || EnumLocationLevel.LOCATION.getLevel() == config.getLocationLevel()) {
+            return EnumLocationLevel.LOCATION;
         } else {
-            return EnumInvLocation.SUB_LOCATION;
+            return EnumLocationLevel.SUB_LOCATION;
         }
     }
 }
