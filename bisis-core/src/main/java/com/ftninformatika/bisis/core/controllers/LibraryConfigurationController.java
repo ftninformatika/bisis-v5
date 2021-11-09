@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +58,8 @@ public class LibraryConfigurationController {
 
     @GetMapping("mobileSupported")
     public ResponseEntity<List<LibConfigDTO>> getConfigsMobileSupported() {
-        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
+        Sort sort = new Sort(Sort.Direction.ASC, "mobileOrderNo");
+        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileOrderNo(sort);
         if (libraryConfigurations == null || libraryConfigurations.size() == 0)
             return ResponseEntity.noContent().build();
         List<LibConfigDTO> retVal = new ArrayList<LibConfigDTO>();

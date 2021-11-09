@@ -24,6 +24,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -94,7 +95,8 @@ public class NotificationController {
         LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDateTime start = currentDate.atStartOfDay().plusDays(3);
         LocalDateTime end = currentDate.atStartOfDay().plusDays(4);
-        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
+        Sort sort = new Sort(Sort.Direction.ASC, "mobileOrderNo");
+        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileOrderNo(sort);
         List<String> tokensAndroid = new ArrayList<String>();
         List<String> tokensIOS = new ArrayList<String>();
         for(LibraryConfiguration lc:libraryConfigurations) {
@@ -136,7 +138,8 @@ public class NotificationController {
         LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDateTime start = currentDate.atStartOfDay().plusDays(3);
         LocalDateTime end = currentDate.atStartOfDay().plusDays(4);
-        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
+        Sort sort = new Sort(Sort.Direction.ASC, "mobileOrderNo");
+        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileOrderNo(sort);
         List<String> tokensAndroid = new ArrayList<String>();
         List<String> tokensIOS = new ArrayList<String>();
         for(LibraryConfiguration lc:libraryConfigurations) {
