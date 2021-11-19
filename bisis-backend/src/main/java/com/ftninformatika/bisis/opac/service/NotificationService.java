@@ -24,8 +24,6 @@ public class NotificationService {
                         .setTitle(notification.getTitle())
                         .setBody(notification.getContent())
                         .build())
-                .putData("title", notification.getTitle())
-                .putData("content", notification.getContent())
                 .putData("type", notification.getType())
                 .setTopic(topic)
                 .build();
@@ -55,8 +53,6 @@ public class NotificationService {
                         .setTitle(title)
                         .setBody(content)
                         .build())
-                .putData("title", content)
-                .putData("content", content)
                 .putData("type",type)
                 .addAllTokens(tokens)
                 .build();
