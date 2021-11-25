@@ -41,8 +41,8 @@ public class ReportService implements ReportServiceInterface {
     }
 
     @Override
-    public ReservationsReport getAssignedReservations(Date start, Date end, String library) {
-        return getReservationsReport(start, end, library, ReservationStatus.ASSIGNED_BOOK);
+    public ReservationsReport getAssignedReservations(String library) {
+        return getReservationsReport(null, null, library, ReservationStatus.ASSIGNED_BOOK);
     }
 
     @Override
@@ -51,7 +51,13 @@ public class ReportService implements ReportServiceInterface {
     }
 
     private ReservationsReport getReservationsReport(Date start, Date end, String library, ReservationStatus status) {
-        List<Member> members = memberRepository.findMembersWithReservationsByStatus(status, start, end);
+        List<Member> members;
+        if (start != null && end != null) {
+            members = memberRepository.findMembersWithReservationsByStatus(status, start, end);
+        } else {
+            members = memberRepository.findMembersWithReservationsByStatus(status);
+        }
+
         Collection<ReservationsGroup> reservations = getReservationsFromMember(members, library, status, start, end);
 
         calculateTotalOnLocation(reservations);
@@ -97,10 +103,19 @@ public class ReportService implements ReportServiceInterface {
         HashMap<String, ReservationsGroup> result = new HashMap<>();
         for (Member member : members) {
             for (ReservationOnProfile r : member.getReservations()) {
-                if (r.getReservationStatus().equals(status) && r.getReservationDate().after(start) && r.getReservationDate().before(end)) {
-                    Optional<Record> record = recordsRepository.findById(r.getRecord_id());
-                    if (record.isPresent()) {
-                        addReservedBookToResult(library, r, result, record.get(), member);
+                if (start != null && end != null) {
+                    if (r.getReservationStatus().equals(status) && r.getReservationDate().after(start) && r.getReservationDate().before(end)) {
+                        Optional<Record> record = recordsRepository.findById(r.getRecord_id());
+                        if (record.isPresent()) {
+                            addReservedBookToResult(library, r, result, record.get(), member);
+                        }
+                    }
+                } else {
+                    if (r.getReservationStatus().equals(status)) {
+                        Optional<Record> record = recordsRepository.findById(r.getRecord_id());
+                        if (record.isPresent()) {
+                            addReservedBookToResult(library, r, result, record.get(), member);
+                        }
                     }
                 }
             }

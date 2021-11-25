@@ -492,7 +492,7 @@ public interface BisisService {
     Call<ReservationsReport> getReservationsInQueue(@Query("start") PathDate start, @Query("end") PathDate end);
 
     @GET("reservations-report/assigned")
-    Call<ReservationsReport> getAssignedReservations(@Query("start") PathDate start, @Query("end") PathDate end);
+    Call<ReservationsReport> getAssignedReservations();
 
     @GET("reservations-report/picked-up")
     Call<ReservationsReport> getPickedUpReservations(@Query("start") PathDate start, @Query("end") PathDate end);

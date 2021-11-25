@@ -38,7 +38,7 @@ public class ReservationsStatistics {
                 break;
             case "Додељене":
                 inputStream = ReservationsStatistics.class.getResource("/cirkulacija/jaspers/assignedReservations.jasper").openStream();
-                results = BisisApp.bisisService.getAssignedReservations(new PathDate(start), new PathDate(end)).execute().body();
+                results = BisisApp.bisisService.getAssignedReservations().execute().body();
                 break;
             case "Реализоване":
                 inputStream = ReservationsStatistics.class.getResource("/cirkulacija/jaspers/reservationsReport.jasper").openStream();
@@ -62,7 +62,7 @@ public class ReservationsStatistics {
         JRBeanCollectionDataSource dataSource = null;
         if (results != null) {
             dataSource = new JRBeanCollectionDataSource(results.getReservations());
-        }else {
+        } else {
             dataSource = new JRBeanCollectionDataSource(allReservations);
         }
 

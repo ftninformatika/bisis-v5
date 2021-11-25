@@ -52,6 +52,9 @@ public interface MemberRepository extends MongoRepository<Member, String>, Membe
     @Query("{ 'reservations': { $elemMatch: {'reservationStatus': ?0, 'reservationDate':{ $gte :?1, $lte:?2}}}}")
     List<Member> findMembersWithReservationsByStatus(ReservationStatus status, Date start, Date end);
 
+    @Query("{ 'reservations': { $elemMatch: {'reservationStatus': ?0}}}")
+    List<Member> findMembersWithReservationsByStatus(ReservationStatus status);
+
     @Query("{ 'reservations': { $elemMatch: {'reservationDate':{ $gte :?0, $lte:?1}}}}")
     List<Member> findMembersWithReservations(Date start, Date end);
 }
