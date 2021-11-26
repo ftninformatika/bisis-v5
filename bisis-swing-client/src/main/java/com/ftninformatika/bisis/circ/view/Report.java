@@ -113,6 +113,7 @@ public class Report {
 		listReports.add(Messages.getString("circulation.librarianstatistic"));
 		listReports.add(Messages.getString("circulation.firsttimesigned"));
 		listReports.add(Messages.getString("circulation.reservationsreport"));
+		listReports.add(Messages.getString("circulation.case25"));
 		return listReports;
 	}
 	private JComboBox getCmbReport() {
@@ -369,6 +370,18 @@ public class Report {
 				getLblReservationStatus().setVisible(true);
 				getCmbReservations().setVisible(true);
 				break;
+			case 25:
+				getLName().setText(Messages.getString("circulation.case25"));
+				getTfNumber().setVisible(false);
+				getTfEndDate().setVisible(false);
+				getTfStartDate().setVisible(false);
+				getLTfCmb().setVisible(false);
+				getCmbGroup().setVisible(false);
+				getLblLocation().setVisible(false);
+				getCmbLocation().setVisible(false);
+				getLblReservationStatus().setVisible(false);
+				getCmbReservations().setVisible(false);
+				break;
 			default :
 
 		}
@@ -400,7 +413,6 @@ public class Report {
 			cmbReservations.setRenderer(getCmbRenderer());
 			cmbReservations.setKeySelectionManager(getCmbKeySelectionManager());
 			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType1"));
-			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType2"));
 			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType3"));
 			cmbReservations.addItem(Messages.getString("circulation.reservationsReportType4"));
 			cmbReservations.setVisible(false);
@@ -493,10 +505,10 @@ public class Report {
 					"/circ-images/find16.png")));
 			btnSearch.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
+
 					if (isValidDateRange()) {
 						try {
 							int value = cmbReport.getSelectedIndex();
-
 							switch (value) {
 								case 1:
 									Cirkulacija.getApp().getMainFrame().getReportResults().setJasper(Librarian.setPrint(getTfStartDate().getDate(), getCmbLocation().getSelectedItem()));
@@ -614,6 +626,14 @@ public class Report {
 									if (jp != null) {
 										Cirkulacija.getApp().getMainFrame().getReportResults()
 												.setJasper(jp);
+										Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
+									}
+									break;
+								case 25:
+									JasperPrint jp1 = ReservationsStatistics.setPrint(null, null, Messages.getString("circulation.case25"));
+									if (jp1 != null) {
+										Cirkulacija.getApp().getMainFrame().getReportResults()
+												.setJasper(jp1);
 										Cirkulacija.getApp().getMainFrame().showPanel("reportResultsPanel");
 									}
 									break;
