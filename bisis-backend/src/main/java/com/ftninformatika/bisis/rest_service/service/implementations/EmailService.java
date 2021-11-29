@@ -149,7 +149,7 @@ public class EmailService {
             root.put("dear", StringUtils.convertToHtmlUtf8(Texts.getString("OPAC.WELCOME.MAIL.DEAR")));
 
             String body1 = MessageFormat.format(Texts.getString("RESERVATION_CONFIRMED_BODY.1"),
-                    "\"" + LatCyrUtils.toCyrillic(bookTitle) + "\"");
+                    "\"" + bookTitle + "\"");
             root.put("body1", StringUtils.convertToHtmlUtf8(body1));
             root.put("body2", StringUtils.convertToHtmlUtf8(Texts.getString("RESERVATION_CONFIRMED_BODY.2")));
 

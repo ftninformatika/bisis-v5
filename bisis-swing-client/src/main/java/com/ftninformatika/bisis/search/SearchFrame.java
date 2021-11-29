@@ -9,8 +9,6 @@ import com.ftninformatika.bisis.libenv.LibEnvProxy;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.prefixes.PrefixConfigFactory;
-import com.ftninformatika.bisis.records.BriefInfoModel;
-import com.ftninformatika.bisis.search.net.NetHitListFrame;
 import com.ftninformatika.utils.CharacterLookup;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.StringUtils;
@@ -546,7 +544,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private void populateServerList() {
     try {
       List<LibraryConfiguration> receivedList = BisisApp.bisisService.getAllConfigurations(BisisApp.appConfig.getLibrary()).execute().body();
-      if (receivedList != null) {
+      if (receivedList != null && (BisisApp.appConfig.getClientConfig().getMaintenanceEnabled()== null || BisisApp.appConfig.getClientConfig().getMaintenanceEnabled())) {
         refreshServerList(receivedList);
       }else{
         JOptionPane.showMessageDialog(BisisApp.mf,Messages.getString("SERVER_LIST_EMPTY"),Messages.getString("SEARCH_SEARCHING"),JOptionPane.ERROR_MESSAGE);

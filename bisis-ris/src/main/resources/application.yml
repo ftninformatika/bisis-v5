@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: development
+    active: production
 server:
   servlet:
     context-path: /bisis-ris

@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.mobile.BookAvailabilityDTO;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.opac.books.BookCommon;
 import com.ftninformatika.bisis.opac.books.Item;
@@ -67,7 +68,8 @@ public class OpacSearchService {
     CodersController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
 
-    public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize) {
+    public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize,
+                                            boolean fullBook) {
         List<Book> retVal = new ArrayList<>();
 
         if (searchRequest == null || searchRequest.getSearchModel() == null) return null;
@@ -110,7 +112,12 @@ public class OpacSearchService {
                     if (!r.isPresent()) {
                         log.warn("Can't get record for mongoId: " + recMongoId);
                     } else {
-                        Book b = getBookByRec(r.get());
+                        Book b;
+                        if (!fullBook) {
+                            b = getBookByRec(r.get());
+                        } else {
+                            b = getFullBookByIdMobile(r.get());
+                        }
                         retVal.add(b);
                     }
                 }
@@ -161,6 +168,85 @@ public class OpacSearchService {
             return retVal;
         }
         return null;
+    }
+
+    //////////////////////////////////// FOR MOBILE ///////////////////////////////
+
+    public Book getFullBookByIdMobile(Record record) {
+        Book retVal = getBookByRec(record);
+        retVal.setItems(getItemsMobile(record));
+        retVal.setRecord(record);
+        fillReferencedRecords(record, retVal);
+        return retVal;
+    }
+
+    List<Item> getItemsMobile(Record record) {
+        List<Item> items = new ArrayList<>();
+        if ((record.getPrimerci() == null || record.getPrimerci().size() == 0) &&
+                (record.getGodine() == null || record.getGodine().size() == 0)){
+            return null;
+        }
+        if (record.getPrimerci().size() > 0) {
+            for (Primerak p : record.getPrimerci()) {
+                items.add(getItemPrimerak(p));
+            }
+        } else if (record.getGodine().size() > 0) {
+            for (Godina p : record.getGodine()) {
+                items.add(getItemGodina(p));
+            }
+        }
+        if (items.size() > 0) {
+            try {
+                items.sort(Comparator.comparing(Item::getInvNum));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return items;
+        } else return null;
+    }
+
+    Item getItemPrimerak(Primerak p) {
+        Item i = new Item();
+        i.setInvNum(p.getInvBroj());
+        i.setSignature(Signature.format(p));
+        return i;
+    }
+
+    Item getItemGodina(Godina p) {
+        Item i = new Item();
+        i.setInvNum(p.getInvBroj());
+        i.setSignature(Signature.format(p));
+        return i;
+    }
+    //////////////////////////////////////////////////////////////////////////
+
+    public List<BookAvailabilityDTO> getBooksAvailabilityByLocation(Book book) {
+        HashMap<String, List<Item>> itemsByLocation = new HashMap<>();
+        for (Item item : book.getItems()) {
+            if (!item.getStatus().equals("NOT_SHOWABLE")) {
+                if (!itemsByLocation.containsKey(item.getLocCode())) {
+                    List<Item> itemsList = new ArrayList<>();
+                    itemsList.add(item);
+                    itemsByLocation.put(item.getLocCode(), itemsList);
+                } else {
+                    itemsByLocation.get(item.getLocCode()).add(item);
+                }
+            }
+        }
+        return getBooksAvailabilityDTOS(itemsByLocation, book.get_id());
+    }
+
+    private List<BookAvailabilityDTO> getBooksAvailabilityDTOS(HashMap<String, List<Item>> itemsByLocation, String recordId) {
+        List<BookAvailabilityDTO> booksAvailabilities = new ArrayList<>();
+        for (Map.Entry<String, List<Item>> entry : itemsByLocation.entrySet()) {
+            int total = entry.getValue().size();
+            int free = (int) entry.getValue().stream().filter(item -> item.getStatus().equals("FREE")).count();
+            int reserved = (int) entry.getValue().stream().filter(item -> item.getStatus().equals("RESERVED")).count();
+
+            BookAvailabilityDTO bookAvailability = new BookAvailabilityDTO(recordId, entry, total, free, reserved);
+            booksAvailabilities.add(bookAvailability);
+        }
+        return booksAvailabilities;
     }
 
     void fillReferencedRecords(Record r, Book b) {

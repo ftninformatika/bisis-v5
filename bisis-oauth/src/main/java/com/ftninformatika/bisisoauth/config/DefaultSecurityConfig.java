@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @EnableWebSecurity
 public class DefaultSecurityConfig {
 
@@ -23,6 +24,7 @@ public class DefaultSecurityConfig {
     public DaoAuthenticationProvider authProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         userDetailsService.setLibraryFilter("bgb");
+        userDetailsService.setExtractUserData(true);
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
         return authProvider;
@@ -30,15 +32,13 @@ public class DefaultSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/css/**").permitAll()
-                //.antMatchers("/swagger-ui/**", "/v3/api-docs", "/swagger-resources/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                //.defaultSuccessUrl("/empty.html",true)
-                .permitAll();
+        http
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .antMatchers(  "/css/**", "/oauth2/userinfo").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin().loginPage("/login").permitAll();
         return http.build();
     }
 
@@ -46,6 +46,7 @@ public class DefaultSecurityConfig {
     UserDetailsService users() {
         return userDetailsService;
     }
+
 
     @Bean
     public FilterRegistrationBean<ClientIdFilter> clientIdFilterFilterRegistrationBean(){

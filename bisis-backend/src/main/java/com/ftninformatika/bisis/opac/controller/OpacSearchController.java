@@ -30,7 +30,7 @@ public class OpacSearchController {
             @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
             @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
 
-        PageImpl<List<Book>> retVal = opacSearchService.searchBooks(resultPageSearchRequest, lib, pageNumber, pageSize);
+        PageImpl<List<Book>> retVal = opacSearchService.searchBooks(resultPageSearchRequest, lib, pageNumber, pageSize, false);
 
         if (retVal == null || retVal.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

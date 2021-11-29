@@ -17,6 +17,7 @@ public class BisisUserDetailsImpl implements UserDetails {
     String password;
     String name;
     String surname;
+    String age;
     Collection<? extends GrantedAuthority> authorities;
     String library;
     String defaultDepartment;
@@ -30,6 +31,7 @@ public class BisisUserDetailsImpl implements UserDetails {
         this.password = librarianDB.getPassword();
         this.name = librarianDB.getIme();
         this.surname = librarianDB.getPrezime();
+        this.age = "";
         this.authorities = librarianDB.getAuthorities();
         this.library = librarianDB.getBiblioteka();
         this.defaultDepartment = librarianDB.getDefaultDepartment();
@@ -44,6 +46,7 @@ public class BisisUserDetailsImpl implements UserDetails {
         this.password = libraryMember.getPassword();
         this.name = "";
         this.surname = "";
+        this.age = "";
         this.authorities = libraryMember.getAuthorities();
         this.library = libraryMember.getLibraryPrefix();
         this.defaultDepartment = "";
@@ -91,6 +94,18 @@ public class BisisUserDetailsImpl implements UserDetails {
         return name + " " + surname;
     }
 
+    public String getFirstName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
     public String getLibrary() {
         return library;
     }
@@ -113,5 +128,17 @@ public class BisisUserDetailsImpl implements UserDetails {
 
     public List<String> getRoles() {
         return this.roles;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

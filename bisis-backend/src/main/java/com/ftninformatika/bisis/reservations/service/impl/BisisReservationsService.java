@@ -7,11 +7,13 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac.members.LibraryMember;
+import com.ftninformatika.bisis.opac.service.NotificationService;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
+import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
 import com.ftninformatika.bisis.reservations.service.interfaces.BisisReservationsServiceInterface;
@@ -21,6 +23,7 @@ import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemb
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import com.ftninformatika.util.WorkCalendar;
 import com.ftninformatika.utils.constants.ReservationsConstants;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,6 +84,9 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
 
     @Autowired
     LibraryConfigurationRepository libraryConfigurationRepository;
+
+    @Autowired
+    NotificationService notificationService;
 
 
     @Override
@@ -281,7 +287,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
                         + currentAssigned.get_id());
                 iter.remove();
 
-            // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
+                // slucaj kad knjiga nije dodeljena - obrise sa profila i obrise sa recorda
             } else if (r.getRecord_id().equals(record.get_id()) && !r.isBookPickedUp()
                     && r.getCoderId().equals(locationCode)) {
                 log.info("(deleteExpiredReservation) - knjiga nije dodeljena. Briše se iz liste člana: "
@@ -353,10 +359,17 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         boolean emailSent = false;
         Book book = opacSearchService.getBookByRec(record);
         String formattedDate = formatDate(deadline);
-        LibraryMember libraryMember = libraryMemberRepository.findByUsername(member.getEmail());
+        LibraryMember libraryMember = libraryMemberRepository.findByIndex(member.get_id());
         if (libraryMember != null && libraryMember.getUsername() != null && !libraryMember.getUsername().equals("")) {
             LibraryConfiguration libConf = libraryConfigurationRepository.getByLibraryName(library);
             emailService.sendReservationConfirmation(libraryMember.getUsername(), book.getTitle(), formattedDate, libConf);
+            try {
+                notificationService.sendMessageToUsername(libraryMember.getUsername(),
+                        Texts.getString("RESERVATION_CONFIRMED_HEADING"),
+                        "Преузмите Вашу резервисану књигу " + book.getTitle() + " у року од 3 радна дана", "reservation");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             emailSent = true;
 
             log.info("(sendEmail) - član: " + member.get_id() + " ima nalog na OPAC-u i email je uspesno poslat za naslov: " + book.getTitle());

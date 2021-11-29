@@ -294,64 +294,78 @@ public class ElasticUtility {
         retVal.must(queryBuilder);
 
         if (filtersReq.getLanguages() != null && filtersReq.getLanguages().size() > 0) {
+            BoolQueryBuilder sameCategoryOperands = QueryBuilders.boolQuery();
             for (SelectedFilter lan: filtersReq.getLanguages()) {
                 if (lan.getItem() != null && lan.isValid() && !lan.getItem().getValue().equals(FiltersReq.MERGE_FILTER_SERBIAN)) {
-                    retVal.must(QueryBuilders.matchQuery("prefixes.LA", lan.getItem().getValue()));
+                    sameCategoryOperands.should(QueryBuilders.matchQuery("prefixes.LA", lan.getItem().getValue()));
                 } else {
 //                    TODO: If needed make map with filters for merging and their regexes
-                    retVal.must(QueryBuilders.regexpQuery("prefixes.LA", "((srp)|(scr)|(scc))"));
+                    sameCategoryOperands.should(QueryBuilders.regexpQuery("prefixes.LA", "((srp)|(scr)|(scc))"));
                 }
             }
+            retVal.must(sameCategoryOperands);
         }
 
         if (filtersReq.getAuthors() != null && filtersReq.getAuthors().size() > 0) {
+            BoolQueryBuilder sameCategoryOperands = QueryBuilders.boolQuery();
             for (SelectedFilter e: filtersReq.getAuthors()) {
                 if (e.getItem() != null && e.isValid())
-                    retVal.must(QueryBuilders.matchQuery("prefixes.authors_raw", e.getItem().getValue()).operator(Operator.AND).analyzer("keyword"));
+                    sameCategoryOperands.should(QueryBuilders.matchQuery("prefixes.authors_raw", e.getItem().getValue()).operator(Operator.AND).analyzer("keyword"));
             }
+            retVal.must(sameCategoryOperands);
         }
 
         if (filtersReq.getSubjects() != null && filtersReq.getSubjects().size() > 0) {
+            BoolQueryBuilder sameCategoryOperands = QueryBuilders.boolQuery();
             for (SelectedFilter e: filtersReq.getSubjects()) {
                 if (e.getItem() != null && e.isValid())
-                    retVal.must(QueryBuilders.matchQuery("prefixes.subjects_raw", e.getItem().getValue()).operator(Operator.AND).analyzer("keyword"));
+                    sameCategoryOperands.should(QueryBuilders.matchQuery("prefixes.subjects_raw", e.getItem().getValue()).operator(Operator.AND).analyzer("keyword"));
             }
+            retVal.must(sameCategoryOperands);
         }
 
         if (filtersReq.getLocations() != null && filtersReq.getLocations().size() > 0) {
+            BoolQueryBuilder sameCategoryOperands = QueryBuilders.boolQuery();
             for (SelectedFilter e: filtersReq.getLocations()) {
                 if (e.getItem() != null && e.isValid()) {
-                    retVal.must(QueryBuilders.matchQuery("prefixes.OD", e.getItem().getValue()));
+                    sameCategoryOperands.should(QueryBuilders.matchQuery("prefixes.OD", e.getItem().getValue()));
                     if (e.getItem().getValue().matches("[0-9]+") && e.getItem().getValue().length() == 2) {
-                        retVal.must(QueryBuilders.regexpQuery("prefixes.OD_showable", activeStatusesRegex + e.getItem().getValue()));
+                        sameCategoryOperands.should(QueryBuilders.regexpQuery("prefixes.OD_showable", activeStatusesRegex + e.getItem().getValue()));
                     }
                 }
             }
+            retVal.must(sameCategoryOperands);
         }
 
         if (filtersReq.getSubLocations() != null && filtersReq.getSubLocations().size() > 0) {
+            BoolQueryBuilder sameCategoryOperands = QueryBuilders.boolQuery();
             for (SelectedFilter e: filtersReq.getSubLocations()) {
                 if (e.getItem() != null && e.isValid()) {
-                    retVal.must(QueryBuilders.matchQuery("prefixes.SL", e.getItem().getValue()));
+                    sameCategoryOperands.should(QueryBuilders.matchQuery("prefixes.SL", e.getItem().getValue()));
                     if (e.getItem().getValue().matches("[0-9]+") && e.getItem().getValue().length() == 4) {
-                        retVal.must(QueryBuilders.regexpQuery("prefixes.SL_showable", activeStatusesRegex + e.getItem().getValue()));
+                        sameCategoryOperands.should(QueryBuilders.regexpQuery("prefixes.SL_showable", activeStatusesRegex + e.getItem().getValue()));
                     }
                 }
             }
+            retVal.must(sameCategoryOperands);
         }
 
         if (filtersReq.getPubTypes() != null && filtersReq.getPubTypes().size() > 0) {
+            BoolQueryBuilder sameCategoryOperands = QueryBuilders.boolQuery();
             for (SelectedFilter e: filtersReq.getPubTypes()) {
                 if (e.getItem() != null && e.isValid())
-                    retVal.must(QueryBuilders.matchQuery("prefixes.DT", e.getItem().getValue()));
+                    sameCategoryOperands.should(QueryBuilders.matchQuery("prefixes.DT", e.getItem().getValue()));
             }
+            retVal.must(sameCategoryOperands);
         }
 
         if (filtersReq.getPubYears() != null && filtersReq.getPubYears().size() > 0) {
+            BoolQueryBuilder sameCategoryOperands = QueryBuilders.boolQuery();
             for (SelectedFilter e: filtersReq.getPubYears()) {
                 if (e.getItem() != null && e.isValid())
-                    retVal.must(QueryBuilders.matchQuery("prefixes.PY", e.getItem().getValue()));
+                    sameCategoryOperands.should(QueryBuilders.matchQuery("prefixes.PY", e.getItem().getValue()));
             }
+            retVal.must(sameCategoryOperands);
         }
         return retVal;
     }

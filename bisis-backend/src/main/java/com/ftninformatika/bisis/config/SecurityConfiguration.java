@@ -42,12 +42,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/unikat/search",
                         "/unikat/search**",
                         "/external_hit/**",
-                        "/auth",
                         "/authenticate",
+                        "/refreshToken",
+                        "/signout",
                         "/book_cover/retrieve/**",
                         "/book_common/**",
                         "/memauth",
                         "/library_configuration/allConfigsBrief",
+                        "/library_configuration/mobileSupported",
                         "/coders/language",
                         "/coders/lib_configurations",
                         "/records/wrapperrec/**",
@@ -72,7 +74,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/librarians/**",
                         "/rescarta/metadataExport/**",
                         "/faq/get",
-                        "/libraries/get/**"
+                        "/libraries/get/**",
+                        "/mobile/book_collections/**",
+                        "/mobile/book/**",
+                        "/mobile/opac_search/**",
+                        "/events/get",
+                        "/events/image/**",
+                        "/deviceToken/save"
                 ).permitAll()
                 .antMatchers(
                         "/members_repository/**",
@@ -83,8 +91,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/records/rate_record/**",
                         "/reservations/**",
                         "/messages/**",
+                        "/libraries/add",
+                        "/mobile/book/availability",
+                        "/mobile/library_members/**",
+                        "/mobile/members/**",
+                        "/mobile/reservations/**",
                         "/events/**",
-                        "/libraries/add"
+                        "notifications/**"
                 )
                 .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers(

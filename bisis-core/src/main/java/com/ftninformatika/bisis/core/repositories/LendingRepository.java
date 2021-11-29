@@ -43,4 +43,6 @@ public interface LendingRepository extends MongoRepository<Lending, String>,Lend
     @Query("{'ctlgNo':{$in : ?0}}")
     List<Lending> getLendingsForCtlgNoList(List ctlgNos);
 
+    public List<Lending> findLendingsByDeadlineBetweenAndReturnDateIsNull(Date start, Date end);
+
 }

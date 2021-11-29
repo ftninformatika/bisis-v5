@@ -14,4 +14,6 @@ public class MemberCardDTO {
     private String firstName;
     private String lastName;
     private Date membershipUntil;
+    private String libraryMemberId;
+    private Boolean child;
 }

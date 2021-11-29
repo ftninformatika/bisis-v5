@@ -15,6 +15,7 @@ public class AuthenticationResponse implements Serializable {
     private String username;
     private String name;
     private String token;
+    private String refreshToken;
     private List<String> roles;
     private List<String> authorities;
     private String library;

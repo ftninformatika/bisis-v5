@@ -31,16 +31,31 @@ p {
     margin: 20px 0 30px;
 }
 
+.p-no-bottom-margin {
+    margin: 20px 0 0;
+}
+
+.instructions {
+    margin: 30px 0 0;
+}
+
+li {
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+}
+
 span {
     font-size: 12px;
 }
 
-a {
-    color: #333;
-    font-size: 14px;
-    text-decoration: none;
-    margin: 15px 0;
-}
+/*a {*/
+/*    color: #333;*/
+/*    font-size: 14px;*/
+/*    text-decoration: none;*/
+/*    margin: 15px 0;*/
+/*}*/
 
 button {
     border-radius: 20px;
@@ -185,7 +200,7 @@ input {
     justify-content: center;
     flex-direction: column;
     padding: 0 40px;
-    text-align: center;
+    text-align: left;
     top: 0;
     height: 100%;
     width: 50%;

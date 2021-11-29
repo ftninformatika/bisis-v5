@@ -70,3 +70,4 @@ out/
 *.jasper
 *.jks
 opac-secret.properties
+bisis-firebase.json

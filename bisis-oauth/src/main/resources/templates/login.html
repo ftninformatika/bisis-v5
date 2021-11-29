@@ -2,26 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>БИСИС пријава</title>
-    <link th:href="@{/css/main.css}" rel="stylesheet" />
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link th:href="@{/css/favicon.ico}" rel="icon" type="image/x-icon">
 </head>
 <body>
 <div class="container" id="container">
     <div class="form-container sign-in-container">
         <form th:action="@{/login}" method="post">
             <h1>БИСИС пријава</h1>
-            <input id="username" name="username" type="email" placeholder="Корисничко име" />
-            <input id="password" name="password" type="password" placeholder="Лозикна" />
+            <input id="username" name="username" type="email" placeholder="Email"/>
+            <input id="password" name="password" type="password" placeholder="Лозинка"/>
             <button type="submit">Пријави се</button>
             <div th:if="${(param.error != null)}">
-                Погрешно корисничко име и/или лозинка
+                Погрешна email адреса и/или лозинка
             </div>
+            <p class="instructions">Инструкције за отварање налога можете наћи
+                <a href="https://opac.bisis.rs/user/register-info">овде</a>
+            </p>
         </form>
     </div>
     <div class="overlay-container">
         <div class="overlay">
             <div class="overlay-panel overlay-right">
                 <h1 th:text="${applicationName}"></h1>
-                <p>Ова апликација добија приступ само вашем корисничком имену.</p>
+                <p class="p-no-bottom-margin">Ова апликација добија информације о Вашем:</p>
+                <ul>
+                    <li>корисничком имену (email адреси)</li>
+                    <li>имену и презимену</li>
+                    <li>узрасту</li>
+                </ul>
             </div>
         </div>
     </div>

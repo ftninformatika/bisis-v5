@@ -122,7 +122,7 @@ public class LibraryMemberController {
 
     @PostMapping("/get_shelf")
     public ResponseEntity<List<Book>> getShelf(@RequestHeader("Library") String lib, @RequestBody String username) {
-        List<Book> retVal = libraryMemberService.getShelf(username, lib);
+        List<Book> retVal = libraryMemberService.getShelf(username, lib, false);
         if (retVal == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(retVal, HttpStatus.OK);

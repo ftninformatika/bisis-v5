@@ -97,19 +97,22 @@ public class LibraryMemberService {
         }
 
         if (maxDate.before(prolongDate)) {
-            l.setResumeDate(new Date());
-            l.setDeadline(maxDate);
-            l.setLibrarianResume("member");
-            lendingRepository.save(l);
-            prolongResponseDTO.setProlongable(true);
-            return prolongResponseDTO;
+            return getLendingResponseDTO(maxDate, l);
         }
 
+        return getLendingResponseDTO(prolongDate, l);
+    }
+
+    private ProlongLendingResponseDTO getLendingResponseDTO(Date prolongDate, Lending l) {
         l.setResumeDate(new Date());
         l.setDeadline(prolongDate);
         l.setLibrarianResume("member");
         lendingRepository.save(l);
+
+        ProlongLendingResponseDTO prolongResponseDTO = new ProlongLendingResponseDTO();
         prolongResponseDTO.setProlongable(true);
+        prolongResponseDTO.setDeadline(prolongDate);
+        prolongResponseDTO.setResume(l.getResumeDate());
         return prolongResponseDTO;
     }
 
@@ -209,7 +212,7 @@ public class LibraryMemberService {
         return true;
     }
 
-    public List<Book> getShelf(String username, String lib) {
+    public List<Book> getShelf(String username, String lib, boolean fullBook) {
         if (username == null || username.trim().equals(""))
             return null;
         LibraryMember libraryMember = libraryMemberRepository.findByUsername(username);
@@ -219,7 +222,12 @@ public class LibraryMemberService {
         if (libraryMember.getMyBookshelfBooks() == null || libraryMember.getMyBookshelfBooks().size() == 0)
             return retVal;
         for (Record r : recordsRepository.findAllById(libraryMember.getMyBookshelfBooks())) {
-            Book b = opacSearchService.getBookByRec(r);
+            Book b;
+            if (!fullBook) {
+                b = opacSearchService.getBookByRec(r);
+            } else {
+                b = opacSearchService.getFullBookByIdMobile(r);
+            }
             retVal.add(b);
         }
         return retVal;
@@ -248,7 +256,9 @@ public class LibraryMemberService {
         memberCardDTO.setUsername(libraryMember.getUsername());
         memberCardDTO.setFirstName(member.getFirstName());
         memberCardDTO.setLastName(member.getLastName());
-
+        memberCardDTO.setLibraryMemberId(libraryMember.get_id());
+        memberCardDTO.setChild(member.getAge().equals("C"));
+        
         Date date = null;
         for (Signing signing : member.getSignings()) {
             if (date == null || date.before(signing.getUntilDate())) {
@@ -258,4 +268,5 @@ public class LibraryMemberService {
         memberCardDTO.setMembershipUntil(date);
         return memberCardDTO;
     }
+
 }

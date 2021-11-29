@@ -10,11 +10,11 @@ import com.ftninformatika.utils.date.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,6 +30,25 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     String currentOperator = null;
 
 
+    public List getExpiredMemebershipForOpacUsers(LocalDateTime start, LocalDateTime end, String library){
+        List<AggregationOperation> pipeline = new ArrayList<AggregationOperation>();
+        UnwindOperation unwindOp = Aggregation.unwind("signings");
+        Criteria criteria = Criteria.where("signings.untilDate").gte(start).lt(end).and("activatedWebProfile").is(true);
+        MatchOperation matchOp = Aggregation.match(criteria);
+        GroupOperation groupOp = Aggregation.group("_id");
+        ProjectionOperation projectOp = Aggregation.project("_id").and(ConvertOperators.ToString.toString("$_id")).as("id");
+        ProjectionOperation projectOpId = Aggregation.project("id").andExclude("_id");
+        pipeline.add(unwindOp);
+        pipeline.add(matchOp);
+        pipeline.add(groupOp);
+        pipeline.add(projectOp);
+        pipeline.add(projectOpId);
+        Aggregation aggregation = Aggregation.newAggregation(pipeline.toArray(new AggregationOperation[pipeline.size()]));
+        AggregationOptions aggregationOptions = Aggregation.newAggregationOptions().cursorBatchSize(10000).allowDiskUse(true).build();
+        AggregationResults<HashMap> output = mongoTemplate.aggregate(aggregation.withOptions(aggregationOptions), library + "_members", HashMap.class);
+        List<HashMap> ids =output.getMappedResults();
+        return ids.stream().map(id->id.get("id")).collect(Collectors.toList());
+    }
     public Map<String, Integer> getLibrarianSignedCount(Date start, Date end, String location) {
         List<Member> members = getSignedMembers(start, end, location, "userId");
         Map<String, Integer> mp = new HashMap<>();

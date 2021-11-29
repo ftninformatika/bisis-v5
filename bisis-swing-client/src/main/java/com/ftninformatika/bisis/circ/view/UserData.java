@@ -1541,7 +1541,7 @@ public class UserData {
             btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
             getWebAccountIndicatorLabel().setText("Веб налог је активан");
             getWebAccountIndicatorLabel().setBackground(Color.green);
-//            tfEmail.setEnabled(false);
+            tfEmail.setEnabled(false);
         }
         else {
             this.hasActiveWebAccount = false;

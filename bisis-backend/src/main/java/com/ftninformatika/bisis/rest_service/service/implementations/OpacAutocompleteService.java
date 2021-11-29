@@ -32,7 +32,7 @@ public class OpacAutocompleteService {
         if (query == null || query.length() < 3)
             return retVal;
 
-        query = LatCyrUtils.toLatinUnaccented(query);
+        query = LatCyrUtils.toLatinUnaccented(query).toLowerCase();
 
         for (String prefix : ElasticUtility.AUTOCOMPLETE_PREFIXES) {
             Pageable pageable = PageRequest.of(0, 5000);

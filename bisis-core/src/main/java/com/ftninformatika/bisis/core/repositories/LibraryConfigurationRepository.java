@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.core.repositories;
 
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,5 +26,7 @@ public interface LibraryConfigurationRepository extends MongoRepository<LibraryC
     @Query("{'libraryName':{$ne :?0}}")
     public List<LibraryConfiguration> findAllByLibraryNameNotLike(@Param("libName") String libName);
 
+    @Query("{'mobileOrderNo':{$exists :true}}")
+    public  List<LibraryConfiguration> findLibraryConfigurationsByMobileOrderNo(Sort sort);
 
 }
