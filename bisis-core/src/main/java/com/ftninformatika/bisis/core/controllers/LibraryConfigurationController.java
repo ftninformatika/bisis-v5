@@ -1,18 +1,17 @@
-package com.ftninformatika.bisis.rest_service.controller.core;
+package com.ftninformatika.bisis.core.controllers;
 
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
 import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
+import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
 import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,8 @@ public class LibraryConfigurationController {
 
     @GetMapping("mobileSupported")
     public ResponseEntity<List<LibConfigDTO>> getConfigsMobileSupported() {
-        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
+        Sort sort = new Sort(Sort.Direction.ASC, "mobileOrderNo");
+        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileOrderNo(sort);
         if (libraryConfigurations == null || libraryConfigurations.size() == 0)
             return ResponseEntity.noContent().build();
         List<LibConfigDTO> retVal = new ArrayList<LibConfigDTO>();
@@ -80,5 +80,18 @@ public class LibraryConfigurationController {
 
          }
         return ResponseEntity.ok(retVal);
+    }
+
+    @RequestMapping(path = "getLocationLevel")
+    public Integer getLocationLevel(@RequestHeader("Library") String library){
+        if (library == null) {
+            return null;
+        }
+        LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
+        if (config.getLocationLevel() == null || EnumLocationLevel.LOCATION.getLevel() == config.getLocationLevel()) {
+            return EnumLocationLevel.LOCATION.getLevel();
+        } else {
+            return EnumLocationLevel.SUB_LOCATION.getLevel();
+        }
     }
 }

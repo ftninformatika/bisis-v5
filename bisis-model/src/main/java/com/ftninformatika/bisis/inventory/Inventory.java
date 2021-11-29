@@ -39,6 +39,7 @@ public class Inventory {
     private Double progress;
     private Integer numberOfInvUnits;
     private Integer numberOfNotActiveInvUnits;
+    private boolean useLocationFromInvNo = false;
 
     @Transient @JsonIgnore Map<String, ItemStatus> itemStatusesMap;
     @Transient @JsonIgnore Map<String, InventoryStatus> inventoryStatusesMap;
