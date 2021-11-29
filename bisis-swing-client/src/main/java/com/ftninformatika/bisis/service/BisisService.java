@@ -58,8 +58,8 @@ public interface BisisService {
     @GET("primerci/{ctlgno}")
     Call<Primerak> getPrimerakByInvNum(@Path("ctlgno") String ctlgno);
 
-    @GET("sveske/{invNum}")
-    Call<Sveska> getSveskaByInvNum(@Path("invNum") String invNum);
+    @GET("sveske/get")
+    Call<Sveska> getSveskaByInvNum(@Query("invNum") String invNum);
 
 //members---------------------------------------------------------------
 
