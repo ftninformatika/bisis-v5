@@ -51,7 +51,7 @@ public class LibraryConfigurationController {
         if (libraryConfigurations == null || libraryConfigurations.size() == 0)
             return ResponseEntity.noContent().build();
         List<LibConfigDTO> retVal = libraryConfigurations.stream()
-                .map(lc -> new LibConfigDTO(lc.getLibraryName(), lc.getLibraryFullName(), lc.getShortName()))
+                .map(lc -> new LibConfigDTO(lc.getLibraryName(), lc.getLibraryFullName(), lc.getShortName(), lc.getReservation()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(retVal);
     }
@@ -76,7 +76,7 @@ public class LibraryConfigurationController {
                          .map(l->new Sublocation(l.get_id(),l.getLibrary(),l.getCoder_id(), LatCyrUtils.toCyrillic(l.getDescription()))).collect(Collectors.toList());
 
              }
-             retVal.add(new LibConfigDTO(lc.getLibraryName(),lc.getLibraryFullName(),lc.getShortName(),lc.getLocationLevel(),sublocations));
+             retVal.add(new LibConfigDTO(lc.getLibraryName(),lc.getLibraryFullName(),lc.getShortName(),lc.getLocationLevel(),sublocations, lc.getReservation()));
 
          }
         return ResponseEntity.ok(retVal);

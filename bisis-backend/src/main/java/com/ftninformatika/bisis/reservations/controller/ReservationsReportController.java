@@ -32,10 +32,8 @@ public class ReservationsReportController {
     }
 
     @RequestMapping(path = "/assigned")
-    public ResponseEntity<?> getAssignedReservations(@RequestHeader("Library") String library,
-                                                     @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date start,
-                                                     @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date end) {
-        ReservationsReport report = reportService.getAssignedReservations(start, end, library);
+    public ResponseEntity<?> getAssignedReservations(@RequestHeader("Library") String library) {
+        ReservationsReport report = reportService.getAssignedReservations(library);
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
 

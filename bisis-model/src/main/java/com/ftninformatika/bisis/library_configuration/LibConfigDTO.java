@@ -19,11 +19,13 @@ public class LibConfigDTO {
     private String shortName;
     private int locationLevel;
     private List<Sublocation> locations = new ArrayList<Sublocation>();
+    private Boolean reservation;
 
-    public LibConfigDTO(String libraryName, String libraryFullName, String shortName){
+    public LibConfigDTO(String libraryName, String libraryFullName, String shortName, Boolean reservation){
         this.libraryName = libraryName;
         this.libraryFullName = libraryFullName;
         this.shortName = shortName;
+        this.reservation = reservation;
     }
 
 }
