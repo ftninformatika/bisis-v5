@@ -1,6 +1,9 @@
 package com.ftninformatika.bisis.mobile;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
+import com.ftninformatika.bisis.exception.model.ReservationNotSupportedException;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.mobile.service.BookService;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.rest_service.service.implementations.BookCommonService;
@@ -28,6 +31,9 @@ public class BookMobileController {
 
     @Autowired
     RecordsRepository recordsRepository;
+
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
 
     @Autowired
     BookService bookService;
@@ -60,11 +66,17 @@ public class BookMobileController {
     @PostMapping("/availability")
     public ResponseEntity<List<BookAvailabilityDTO>> getBooksAvailability(@RequestHeader("Library") String lib,
                                                                           @RequestBody String recordId) {
-        Book book = opacSearchService.getFullBookById(recordId, lib);
-        if (book == null)
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(lib);
 
-        List<BookAvailabilityDTO> itemAvailabilities = opacSearchService.getBooksAvailabilityByLocation(book);
-        return new ResponseEntity<>(itemAvailabilities, HttpStatus.OK);
+        if (config.getReservation() != null && config.getReservation()) {
+            Book book = opacSearchService.getFullBookById(recordId, lib);
+            if (book == null)
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            List<BookAvailabilityDTO> itemAvailabilities = opacSearchService.getBooksAvailabilityByLocation(book);
+            return new ResponseEntity<>(itemAvailabilities, HttpStatus.OK);
+        } else {
+            throw new ReservationNotSupportedException();
+        }
     }
 }

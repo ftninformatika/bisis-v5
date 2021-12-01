@@ -21,14 +21,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(ReservationNotAllowedException.class)
-    public final ResponseEntity<Object> reservationNotAllowed(ReservationNotAllowedException ex, WebRequest request) {
-        String bodyOfResponse = ex.getMessage();
-        bodyOfResponse = Optional.ofNullable(bodyOfResponse).orElse("Сви примерци књиге су доступни у библиотеци. " +
-                "Резервација нија могућа.");
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
-    }
-
     @ExceptionHandler(ReservationsLimitExceededException.class)
     protected ResponseEntity<Object> reservationLimitExceeded(RuntimeException ex, WebRequest request) {
         String bodyOfResponse = ex.getMessage();
@@ -42,5 +34,4 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         bodyOfResponse = Optional.ofNullable(bodyOfResponse).orElse("Unknown user!");
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
-
 }
