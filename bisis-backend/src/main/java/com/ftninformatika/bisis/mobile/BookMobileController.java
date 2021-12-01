@@ -2,10 +2,10 @@ package com.ftninformatika.bisis.mobile;
 
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.exception.model.ReservationNotSupportedException;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.mobile.service.BookService;
 import com.ftninformatika.bisis.opac.books.Book;
+import com.ftninformatika.bisis.opac.dto.ReservationResponseDTO;
 import com.ftninformatika.bisis.rest_service.service.implementations.BookCommonService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class BookMobileController {
             List<BookAvailabilityDTO> itemAvailabilities = opacSearchService.getBooksAvailabilityByLocation(book);
             return new ResponseEntity<>(itemAvailabilities, HttpStatus.OK);
         } else {
-            throw new ReservationNotSupportedException();
+            return new ResponseEntity(new ReservationResponseDTO("Библиотека не подржава ову функционалност"), HttpStatus.NOT_IMPLEMENTED);
         }
     }
 }
