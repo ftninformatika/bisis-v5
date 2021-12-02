@@ -29,8 +29,8 @@ public class SveskeController {
         return retVal;
     }
 
-    @RequestMapping( value = "/{invNum}", method = RequestMethod.GET )
-    public Sveska getSveskaForInvBr(@PathVariable("invNum") String invNum){
+    @RequestMapping( value = "/get", method = RequestMethod.GET )
+    public Sveska getSveskaForInvBr(@RequestParam("invNum") String invNum){
         Record r = recordsRepository.getRecordBySveskaInvNum(invNum);
         if (r != null) {
             for (Godina g : r.getGodine())

@@ -49,7 +49,7 @@ public class ReservationDTO implements Serializable {
         reservationDTO.setReservationStatus(reservation.getReservationStatus());
         reservationDTO.setPickUpDeadline(reservation.getPickUpDeadline());
         reservationDTO.setLocationDescription(locationDescription);
-        reservationDTO.setTitle(LatCyrUtils.toCyrillic(book.getTitle()));
+        reservationDTO.setTitle(book.getTitle());
         reservationDTO.setAuthors(getAuthors(book));
 
         return reservationDTO;
@@ -58,7 +58,7 @@ public class ReservationDTO implements Serializable {
     private static List<String> getAuthors(Book book) {
         List<String> authors = new ArrayList<>();
         for (String author : book.getAuthors()){
-            authors.add(LatCyrUtils.toCyrillic(author));
+            authors.add(author);
         }
         return authors;
     }

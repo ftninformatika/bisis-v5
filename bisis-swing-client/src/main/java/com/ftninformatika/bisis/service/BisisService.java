@@ -58,8 +58,8 @@ public interface BisisService {
     @GET("primerci/{ctlgno}")
     Call<Primerak> getPrimerakByInvNum(@Path("ctlgno") String ctlgno);
 
-    @GET("sveske/{invNum}")
-    Call<Sveska> getSveskaByInvNum(@Path("invNum") String invNum);
+    @GET("sveske/get")
+    Call<Sveska> getSveskaByInvNum(@Query("invNum") String invNum);
 
 //members---------------------------------------------------------------
 
@@ -492,7 +492,7 @@ public interface BisisService {
     Call<ReservationsReport> getReservationsInQueue(@Query("start") PathDate start, @Query("end") PathDate end);
 
     @GET("reservations-report/assigned")
-    Call<ReservationsReport> getAssignedReservations(@Query("start") PathDate start, @Query("end") PathDate end);
+    Call<ReservationsReport> getAssignedReservations();
 
     @GET("reservations-report/picked-up")
     Call<ReservationsReport> getPickedUpReservations(@Query("start") PathDate start, @Query("end") PathDate end);

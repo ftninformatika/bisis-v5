@@ -18,7 +18,7 @@ import java.util.*;
  */
 public class ReservationsStatistics {
     public static JasperPrint setPrint(Date start, Date end, Object reportType) throws JRException, IOException {
-        if (!BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {    // todo: zakucano za bgb
+        if (!BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {    // todo: zakucano za bgb prebaciti na EnumLoc
             JOptionPane.showMessageDialog(null, Messages.getString("circulation.notSupported"),
                     Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
             return null;
@@ -36,9 +36,9 @@ public class ReservationsStatistics {
                 results = BisisApp.bisisService.getReservationsInQueue(new PathDate(start), new PathDate(end)).execute().body();
                 params.put("reportTitle", "Резервације на чекању");
                 break;
-            case "Додељене":
+            case "Додељене резервације":
                 inputStream = ReservationsStatistics.class.getResource("/cirkulacija/jaspers/assignedReservations.jasper").openStream();
-                results = BisisApp.bisisService.getAssignedReservations(new PathDate(start), new PathDate(end)).execute().body();
+                results = BisisApp.bisisService.getAssignedReservations().execute().body();
                 break;
             case "Реализоване":
                 inputStream = ReservationsStatistics.class.getResource("/cirkulacija/jaspers/reservationsReport.jasper").openStream();
@@ -62,7 +62,7 @@ public class ReservationsStatistics {
         JRBeanCollectionDataSource dataSource = null;
         if (results != null) {
             dataSource = new JRBeanCollectionDataSource(results.getReservations());
-        }else {
+        } else {
             dataSource = new JRBeanCollectionDataSource(allReservations);
         }
 

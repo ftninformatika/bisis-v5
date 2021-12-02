@@ -9,6 +9,7 @@ import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,14 +51,15 @@ public class LibraryConfigurationController {
         if (libraryConfigurations == null || libraryConfigurations.size() == 0)
             return ResponseEntity.noContent().build();
         List<LibConfigDTO> retVal = libraryConfigurations.stream()
-                .map(lc -> new LibConfigDTO(lc.getLibraryName(), lc.getLibraryFullName(), lc.getShortName()))
+                .map(lc -> new LibConfigDTO(lc.getLibraryName(), lc.getLibraryFullName(), lc.getShortName(), lc.getReservation()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(retVal);
     }
 
     @GetMapping("mobileSupported")
     public ResponseEntity<List<LibConfigDTO>> getConfigsMobileSupported() {
-        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileAppIsTrue();
+        Sort sort = new Sort(Sort.Direction.ASC, "mobileOrderNo");
+        List<LibraryConfiguration> libraryConfigurations = libraryConfigurationRepository.findLibraryConfigurationsByMobileOrderNo(sort);
         if (libraryConfigurations == null || libraryConfigurations.size() == 0)
             return ResponseEntity.noContent().build();
         List<LibConfigDTO> retVal = new ArrayList<LibConfigDTO>();
@@ -74,7 +76,7 @@ public class LibraryConfigurationController {
                          .map(l->new Sublocation(l.get_id(),l.getLibrary(),l.getCoder_id(), LatCyrUtils.toCyrillic(l.getDescription()))).collect(Collectors.toList());
 
              }
-             retVal.add(new LibConfigDTO(lc.getLibraryName(),lc.getLibraryFullName(),lc.getShortName(),lc.getLocationLevel(),sublocations));
+             retVal.add(new LibConfigDTO(lc.getLibraryName(),lc.getLibraryFullName(),lc.getShortName(),lc.getLocationLevel(),sublocations, lc.getReservation()));
 
          }
         return ResponseEntity.ok(retVal);

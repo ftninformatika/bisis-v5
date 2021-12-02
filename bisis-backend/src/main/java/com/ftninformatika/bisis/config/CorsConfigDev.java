@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @Profile("developmentSingle")
-public class CorsConfig {
+public class CorsConfigDev {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
