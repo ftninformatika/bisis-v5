@@ -5,7 +5,7 @@ logging:
 
 spring:
   profiles:
-    active: development
+    active: production
 
 ---
 
@@ -81,6 +81,8 @@ spring:
       cluster-nodes: 192.168.45.20:9300, 192.168.45.21:9300
 serverOrigin: https://opac.bisis.rs/bisisWS/
 opacOrigin: https://opac.bisis.rs/
+firebase:
+  config: bisis-firebase.json
 logging:
   level:
     com.ftninformatika: INFO
