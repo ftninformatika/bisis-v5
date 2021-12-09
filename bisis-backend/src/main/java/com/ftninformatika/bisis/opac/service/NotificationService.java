@@ -25,6 +25,8 @@ public class NotificationService {
                         .setBody(notification.getContent())
                         .build())
                 .putData("type", notification.getType())
+                .putData("content", notification.getContent())
+                .putData("type", notification.getType())
                 .setTopic(topic)
                 .build();
         return message;
