@@ -1562,6 +1562,8 @@ public class UserData {
     }
 
     public void clear() {
+        this.hasActiveWebAccount = false;
+        tfEmail.setEnabled(true);
         Utils.clear(getPMain0());
         Utils.clear(getPMain1());
         if (getTblDuplicate().getCellEditor() != null)
