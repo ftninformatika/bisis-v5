@@ -58,10 +58,6 @@ public class StatistikaObradjivaca extends Report {
 	String obr;
     if (rec == null)
       return;
-    if (rec.getSubfieldContent("001c") == null)
-      return;
-    if (rec.getSubfieldContent("001c").compareToIgnoreCase("m")!=0)
-		return;
     
     for (Field f : rec.getFields("992")) {
       String type="";
