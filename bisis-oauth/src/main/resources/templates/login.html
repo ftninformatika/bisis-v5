@@ -17,7 +17,8 @@
                 Погрешна email адреса и/или лозинка
             </div>
             <p class="instructions">Инструкције за отварање налога можете наћи
-                <a href="https://opac.bisis.rs/user/register-info">овде</a>
+                <a th:if="${library == 'bgb'}" href="https://opac.bisis.rs/user/register-info/bgb">овде</a>
+                <a th:unless="${library == 'bgb'}" href="https://opac.bisis.rs/user/register-info">овде</a>
             </p>
         </form>
     </div>
