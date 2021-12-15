@@ -35,6 +35,7 @@ public class BookDTO {
     String signature;
     Map<String, String> refRecsBrief;
     boolean isArticle;
+    String digitalUrl;
 
     public BookDTO(Book book, boolean isArticle) {
         this._id = book.get_id();
@@ -55,5 +56,6 @@ public class BookDTO {
         }
         this.refRecsBrief = book.getRefRecsBrief();
         this.isArticle = isArticle;
+        this.digitalUrl = book.getDigitalUrl();
     }
 }
