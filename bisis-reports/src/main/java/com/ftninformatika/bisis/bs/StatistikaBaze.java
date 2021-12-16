@@ -74,8 +74,8 @@ public class StatistikaBaze extends Report {
 		
 		Item i = null;
 		String key;
-		if (rec.getSubfieldContent("001c").compareToIgnoreCase("m")!=0)
-				return;
+//		if (rec.getSubfieldContent("001c").compareToIgnoreCase("m")!=0)
+//				return;
 	
 		for (Field f : rec.getFields("992")) {
 			String type="";
