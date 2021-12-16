@@ -176,6 +176,7 @@ public class OpacSearchService {
         Book retVal = getBookByRec(record);
         retVal.setItems(getItemsMobile(record));
         retVal.setRecord(record);
+        retVal.setDigitalUrl(record);
         fillReferencedRecords(record, retVal);
         return retVal;
     }
