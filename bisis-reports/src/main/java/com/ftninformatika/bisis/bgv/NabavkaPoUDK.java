@@ -368,13 +368,14 @@ public class NabavkaPoUDK extends Report {
 	    	this.slik += i.slik;
 	    	this.xxx+=i.xxx;
 	    	this.greske=i.greske;
-	    	
-	        
 	      
 	    }
 	    public String toString() {
 	    	StringBuffer buf = new StringBuffer();
 	        buf.append("\n  <item id=\"");
+	        if (getCoders().getLocCoders().get(sigla) != null) {
+	        	sigla = sigla + " - " + getCoders().getLocCoders().get(sigla).getDescription();
+			}
 	        buf.append(sigla);
 	        buf.append("\">\n    <adult0>");
 	        buf.append(adult0);

@@ -221,8 +221,10 @@ public class NabavkaPoOgrancima extends Report {
 		        return 0;
 		      }
 		    public String toString() {
+				if (getCoders().getLocCoders().get(sigla) != null) {
+					sigla = sigla + " - " + getCoders().getLocCoders().get(sigla).getDescription();
+				}
 		    	String odeljenje=sigla;
-//						HoldingsDataCodersJdbc.getValue(HoldingsDataCodersJdbc.ODELJENJE_CODER, sigla);
 		    	int zarez;
 		    	if(odeljenje!=null){
 		    	 zarez=odeljenje.indexOf(",");
