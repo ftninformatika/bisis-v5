@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.opac.FAQ;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class FAQController {
     public ResponseEntity<Page<FAQ>> getFAQ(@RequestHeader("Library") String lib,
                                             @RequestParam(value = "pageNumber", required = false) final Integer pageNumber,
                                             @RequestParam(value = "pageSize", required = false) final Integer pageSize) {
-        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by("index").ascending());
         Page<FAQ> faqs = this.faqRepository.findAll(paging);
         return new ResponseEntity<>(faqs, HttpStatus.OK);
     }
