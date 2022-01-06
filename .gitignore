@@ -71,3 +71,4 @@ out/
 *.jks
 opac-secret.properties
 bisis-firebase.json
+bisistest-firebase.json
