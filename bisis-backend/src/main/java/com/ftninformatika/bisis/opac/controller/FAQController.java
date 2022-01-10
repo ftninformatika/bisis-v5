@@ -22,7 +22,7 @@ public class FAQController {
 
     @GetMapping("/get")
     public List<FAQ> getFAQMobile() {
-        return faqRepository.findAll();
+        return faqRepository.findAllByOrderByIndexAsc();
     }
 
     @GetMapping
