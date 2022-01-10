@@ -22,7 +22,7 @@ spring:
 serverOrigin: https://opactest.bisis.rs/bisisWS/
 opacOrigin: https://opactest.bisis.rs/
 firebase:
-  config: bisis-firebase.json
+  config: bisistest-firebase.json
 logging:
   level:
     com.ftninformatika: INFO
@@ -41,6 +41,8 @@ spring:
       cluster-nodes: localhost:9300
 serverOrigin: https://admintest.bisis.rs/bisisWS/
 opacOrigin: https://opactest.bisis.rs/
+firebase:
+  config: bisistest-firebase.json
 logging:
   level:
     com.ftninformatika: INFO
@@ -62,7 +64,7 @@ spring:
 serverOrigin: http://localhost:8080/
 opacOrigin: http://localhost:4200/
 firebase:
-  config: bisis-firebase.json
+  config: bisistest-firebase.json
 logging:
   level:
     com.ftninformatika: INFO

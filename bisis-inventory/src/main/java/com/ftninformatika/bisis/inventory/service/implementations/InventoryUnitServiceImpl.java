@@ -163,6 +163,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             if (!lastRn.equals(unit.getRn())) {
                 Record r = changeItemStatusesAndGetRec(lastRn, sameRecUnits, mapStatusesToItems);
                 if (r == null) {
+                    lastRn = unit.getRn();
                     continue;
                 }
                 recordsRepository.save(r);

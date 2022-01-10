@@ -15,4 +15,5 @@ public class FAQ implements Serializable {
     private String _id;
     private String question;
     private String answer;
+    private Integer index;
 }

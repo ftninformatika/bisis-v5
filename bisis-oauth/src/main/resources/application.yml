@@ -63,6 +63,7 @@ oauth2-clients:
       authorization-grant-type: authorization_code
       redirect-uri: https://bgb.ava.watch/oidc/callback/
       scope: openid
+      library: bgb
     bisistest:
       client-name: BISIS test client
       client-id: test.bisisuser.rs
@@ -70,6 +71,7 @@ oauth2-clients:
       authorization-grant-type: authorization_code
       redirect-uri: https://admintest.bisis.rs/bisisOAuthClient/login/oauth2/code/bisis
       scope: openid
+      library: gbns
     localtest:
       client-name: local test client
       client-id: local.bisisuser.rs
@@ -77,4 +79,5 @@ oauth2-clients:
       authorization-grant-type: authorization_code
       redirect-uri: http://127.0.0.1:8080/login/oauth2/code/bisis
       scope: openid
+      library: gbns
 

@@ -32,8 +32,11 @@ public class MainController {
 
 	@RequestMapping("/login")
 	public String index(Model model, HttpServletRequest request) {
-		String appName = getClientName((String)request.getSession().getAttribute("client_id"));
+		String clientId = (String)request.getSession().getAttribute("client_id");
+		String appName = getClientName(clientId);
+		String library = getLibrary(clientId);
 		model.addAttribute("applicationName", appName);
+		model.addAttribute("library", library);
 		return "login";
 	}
 
@@ -46,6 +49,17 @@ public class MainController {
 			}
 		}
 		return clientName;
+	}
+
+	private String getLibrary(String clientId) {
+		String library = "";
+		for(Map.Entry<String, Map<String, String>> entry : oauth2Clients.entrySet()) {
+			Map<String, String> value = entry.getValue();
+			if (value.get("client-id").equals(clientId)) {
+				library = value.get("library");
+			}
+		}
+		return library;
 	}
 
 	@GetMapping("/oauth2/userinfo")

@@ -3,9 +3,7 @@ package com.ftninformatika.bisis.opac.service;
 import com.ftninformatika.bisis.opac.DeviceToken;
 import com.ftninformatika.bisis.opac.Notification;
 import com.ftninformatika.bisis.opac.repository.DeviceTokenRepository;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +22,8 @@ public class NotificationService {
                         .setTitle(notification.getTitle())
                         .setBody(notification.getContent())
                         .build())
+                .putData("title", notification.getTitle())
+                .putData("content", notification.getContent())
                 .putData("type", notification.getType())
                 .setTopic(topic)
                 .build();
@@ -48,13 +48,26 @@ public class NotificationService {
         return message;
     }
     public MulticastMessage getIOSMulticastMessage(String title,String content,String type,List tokens){
+
+        final Aps aps =
+                Aps.builder()
+                        .setContentAvailable(true)
+                        .build();
+        final ApnsConfig apnsConfig =
+                ApnsConfig.builder()
+                        .setAps(aps)
+                        .build();
+
         MulticastMessage message = MulticastMessage.builder()
                 .setNotification(com.google.firebase.messaging.Notification.builder()
                         .setTitle(title)
                         .setBody(content)
                         .build())
+                .putData("title", title)
+                .putData("content", content)
                 .putData("type",type)
                 .addAllTokens(tokens)
+                .setApnsConfig(apnsConfig)
                 .build();
         return message;
     }
