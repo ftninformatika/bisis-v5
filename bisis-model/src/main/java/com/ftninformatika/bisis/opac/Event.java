@@ -15,7 +15,6 @@ public class Event implements Serializable {
     @Id
     private String _id;
     private Date date;
-    private String time;
     private String content;
     private String title;
 }

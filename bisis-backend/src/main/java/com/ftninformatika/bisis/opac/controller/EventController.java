@@ -39,7 +39,7 @@ public class EventController {
 
     @GetMapping("get")
     public ResponseEntity<List<Event>> getEventsAndroid() {
-        List<Event> events = this.eventRepository.findAllByDateAfterOrderByDateAsc(new Date());
+        List<Event> events = this.eventRepository.findAllByDateGreaterThanEqualOrderByDateAsc(new Date());
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
@@ -173,7 +173,6 @@ public class EventController {
         event.setContent(editedEvent.getContent());
         event.setTitle(editedEvent.getTitle());
         event.setDate(editedEvent.getDate());
-        event.setTime(editedEvent.getTime());
         return eventRepository.save(event);
     }
 }
