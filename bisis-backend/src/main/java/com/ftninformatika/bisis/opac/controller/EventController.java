@@ -39,7 +39,7 @@ public class EventController {
 
     @GetMapping("get")
     public ResponseEntity<List<Event>> getEventsAndroid() {
-        List<Event> events = this.eventRepository.findAllByDateGreaterThanEqualOrderByDateAsc(new Date());
+        List<Event> events = this.eventRepository.findAllByDateAfterOrderByDateAsc(new Date());
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
