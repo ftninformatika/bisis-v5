@@ -31,6 +31,7 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
         columnIdentifiers.add(Messages.getString("circulation.umcn"));
         columnIdentifiers.add(Messages.getString("circulation.place"));
         columnIdentifiers.add(Messages.getString("circulation.address"));
+        columnIdentifiers.add(Messages.getString("circulation.email"));
         if (BisisApp.appConfig.getLibrarian().hasRole(Librarian.Role.ADMINISTRACIJA)) {
             columnIdentifiers.add(Messages.getString("circulation.select"));
         }
@@ -67,14 +68,14 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
     }
 
     public Class getColumnClass(int col) {
-        if (col == 7) {
+        if (col == 8) {
             return Boolean.class;
         }
         return String.class;
     }
 
     public boolean isCellEditable(int row, int column) {
-        if (column == 7) {
+        if (column == 8) {
             return true;
         }
         return false;
@@ -98,6 +99,8 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
             case 6:
                 return rowData.getAddress();
             case 7:
+                return rowData.getEmail();
+            case 8:
                 if (selected.contains(rowData.getUserId())) {
                     return true;
                 } else {
@@ -110,7 +113,7 @@ public class SearchUsersTableModel extends AbstractTableModel implements Seriali
     }
 
     public void setValueAt(Object value, int row, int col) {
-        if (col == 7) {
+        if (col == 8) {
             String userId = data.get(row).getUserId();
             if ((Boolean)value) {
                 selected.add(userId);
