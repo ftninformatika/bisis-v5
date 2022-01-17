@@ -1,9 +1,6 @@
 package com.ftninformatika.utils;
 
-import com.ftninformatika.bisis.records.Godina;
-import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.records.Primerak;
-import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -26,12 +23,7 @@ public class RecordUtils {
         if (freshRecord.getPrimerci() != null && storedRecord.getPrimerci() != null && freshRecord.getPrimerci().size() > 0){
             for (Primerak p: freshRecord.getPrimerci())
                 if (!storedRecord.getPrimerci().stream().map(e -> e.getInvBroj()).collect(Collectors.toList()).contains(p.getInvBroj())){
-                    ItemAvailability ia = new ItemAvailability();
-                    ia.setCtlgNo(p.getInvBroj());
-                    ia.setBorrowed(false); //ako je tek inventarisan ne moze biti izdat???
-                    ia.setRecordID(String.valueOf(freshRecord.getRecordID()));
-                    ia.setLibDepartment(p.getOdeljenje());
-                    ia.setRn(freshRecord.getRN());
+                    ItemAvailability ia = generateItem(p, freshRecord);
                     retVal.add(ia);
                 }
         }
@@ -39,38 +31,79 @@ public class RecordUtils {
         if (freshRecord.getGodine() != null && storedRecord.getGodine() != null && freshRecord.getGodine().size() > 0){
             for (Godina p: freshRecord.getGodine())
                 if (!storedRecord.getGodine().stream().map(e -> e.getInvBroj()).collect(Collectors.toList()).contains(p.getInvBroj())){
-                    ItemAvailability ia = new ItemAvailability();
-                    ia.setCtlgNo(p.getInvBroj());
-                    ia.setBorrowed(false);
-                    ia.setRecordID(String.valueOf(freshRecord.getRecordID()));
-                    ia.setLibDepartment(p.getOdeljenje());
-                    ia.setRn(freshRecord.getRN());
+                    ItemAvailability ia = generateItem(p, freshRecord);
                     retVal.add(ia);
                 }
         }
+
+        if (freshRecord.getAllSveske() != null && storedRecord.getAllSveske() != null && freshRecord.getAllSveske().size() > 0){
+            for (Sveska p: freshRecord.getAllSveske())
+                if (!storedRecord.getAllSveske().stream().map(e -> e.getInvBroj()).collect(Collectors.toList()).contains(p.getInvBroj())){
+                    ItemAvailability ia = generateItem(p, freshRecord);
+                    retVal.add(ia);
+                }
+        }
+
         return retVal;
     }
 
-    /**
-     *
-     * @param freshRecord - editovan zapis poslat na bekend
-     * @param storedRecord - trenutna verzija istog zapisa
-     * @return listu inventarnih brojeva koji su obrisani
-     */
+
+    private static ItemAvailability generateItem(Primerak p, Record r) {
+        ItemAvailability ia = new ItemAvailability();
+        ia.setCtlgNo(p.getInvBroj());
+        ia.setBorrowed(false);
+        ia.setRecordID(String.valueOf(r.getRecordID()));
+        ia.setLibDepartment(p.getOdeljenje());
+        ia.setRn(r.getRN());
+        return ia;
+    }
+
+    private static ItemAvailability generateItem(Godina g, Record r) {
+        ItemAvailability ia = new ItemAvailability();
+        ia.setCtlgNo(g.getInvBroj());
+        ia.setBorrowed(false);
+        ia.setRecordID(String.valueOf(r.getRecordID()));
+        ia.setLibDepartment(g.getOdeljenje());
+        ia.setRn(r.getRN());
+        return ia;
+    }
+
+    private static ItemAvailability generateItem(Sveska s, Record r) {
+        ItemAvailability ia = new ItemAvailability();
+        ia.setCtlgNo(s.getInvBroj());
+        ia.setBorrowed(false);
+        ia.setRecordID(String.valueOf(r.getRecordID()));
+        ia.setLibDepartment(s.getParent().getOdeljenje());
+        ia.setRn(r.getRN());
+        return ia;
+    }
+
+        /**
+         *
+         * @param freshRecord - editovan zapis poslat na bekend
+         * @param storedRecord - trenutna verzija istog zapisa
+         * @return listu inventarnih brojeva koji su obrisani
+         */
     public static List<String> getDeletedInvNumsDelta(Record freshRecord, Record storedRecord){
         List<String> retVal = new ArrayList<>();
 
         if (storedRecord.getPrimerci().size() > 0){
             for (Primerak p: storedRecord.getPrimerci())
-                if (!freshRecord.getPrimerci().stream().map(r -> r.getInvBroj()).collect(Collectors.toList()).contains(p.getInvBroj()))
+                if (!freshRecord.getPrimerci().stream().map(Primerak::getInvBroj).collect(Collectors.toList()).contains(p.getInvBroj()))
                     retVal.add(p.getInvBroj());
         }
 
 
         if (storedRecord.getGodine().size() > 0){
             for (Godina g: storedRecord.getGodine())
-                if (!freshRecord.getGodine().stream().map(r -> r.getInvBroj()).collect(Collectors.toList()).contains(g.getInvBroj()))
+                if (!freshRecord.getGodine().stream().map(Godina::getInvBroj).collect(Collectors.toList()).contains(g.getInvBroj()))
                     retVal.add(g.getInvBroj());
+        }
+
+        if (storedRecord.getAllSveske().size() > 0){
+            for (Sveska s: storedRecord.getAllSveske())
+                if (!freshRecord.getAllSveske().stream().map(Sveska::getInvBroj).collect(Collectors.toList()).contains(s.getInvBroj()))
+                    retVal.add(s.getInvBroj());
         }
 
         return retVal;
