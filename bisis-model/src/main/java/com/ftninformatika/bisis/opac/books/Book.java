@@ -46,7 +46,7 @@ public class Book {
     private String masterRecordTitle;
     private String masterRecordId;
     private Map<String, String> refRecsBrief = new HashMap<>();
-//    Data from books_common collection
+    //    Data from books_common collection
     private String imageUrl;
     private String description;
     private Integer commonBookUID;
@@ -63,11 +63,13 @@ public class Book {
     }
 
     public void setDigitalUrl(Record record) {
-        Subfield digitalUrl = record.getSubfield("856u");
-        if (digitalUrl == null || digitalUrl.getContent() == null || digitalUrl.getContent().trim().equals("")) {
-            this.digitalUrl = null;
-        } else {
-            this.digitalUrl = digitalUrl.getContent();
+        if (record != null) {
+            Subfield digitalUrl = record.getSubfield("856u");
+            if (digitalUrl == null || digitalUrl.getContent() == null || digitalUrl.getContent().trim().equals("")) {
+                this.digitalUrl = null;
+            } else {
+                this.digitalUrl = digitalUrl.getContent();
+            }
         }
     }
 }
