@@ -27,6 +27,7 @@ public class UsersPrefixModel extends AbstractListModel<String> {
   	prefixlist.add(new UsersPrefix(Messages.getString("circulation.documentnumber"), "docNo", "members"));
   	prefixlist.add(new UsersPrefix(Messages.getString("circulation.studentcard"), "indexNo", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.usernumber"), "userId", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.email"), "email", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.membershiptype"), "membershipType.description", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.corporate"), "corporateMember.instName", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.firstname"), "firstName", "members"));

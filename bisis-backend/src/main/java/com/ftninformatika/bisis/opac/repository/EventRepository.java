@@ -34,5 +34,4 @@ public interface EventRepository extends MongoRepository<Event, String> {
     Page<Event> search(String title, Date startDate, Date endDate, Pageable pageable);
 
     List<Event> findAllByDateAfterOrderByDateAsc(Date date);
-
 }
