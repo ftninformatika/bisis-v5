@@ -11,6 +11,7 @@ import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.opac.books.Book;
+import com.ftninformatika.bisis.opac.controller.LibraryMemberController;
 import com.ftninformatika.bisis.opac.dto.MemberCardDTO;
 import com.ftninformatika.bisis.opac.dto.ProlongLendingResponseDTO;
 import com.ftninformatika.bisis.opac.dto.ShelfDto;
@@ -25,8 +26,11 @@ import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import com.ftninformatika.utils.constants.ReservationsConstants;
 import com.ftninformatika.utils.date.DateUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -39,7 +43,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class LibraryMemberService {
-
+    private static Logger log = Logger.getLogger(LibraryMemberService.class);
 
     @Value("security.token.secret.key")
     private String tokenKey;
@@ -142,6 +146,27 @@ public class LibraryMemberService {
         member.setActivatedWebProfile(true);
         member = memberRepository.save(member);
         return (savedLm != null && member != null);
+    }
+
+    /**
+     * Deactivate OPAC account
+     * @param index member id
+     * @return true if successfully deactivated profile
+     */
+    public boolean deactivateMember(String index) {
+        LibraryMember libraryMember = libraryMemberRepository.findByIndex(index);
+        if (libraryMember == null) {
+            log.info("Nije pronadjen web nalog za: " + index);
+            return false;
+        }
+        Optional<Member> memberOpt = memberRepository.findById(index);
+        if (memberOpt.isPresent()){
+            Member member = memberOpt.get();
+            member.setActivatedWebProfile(false);
+            memberRepository.save(member);
+        }
+        libraryMemberRepository.deleteById(libraryMember.get_id());
+        return true;
     }
 
 

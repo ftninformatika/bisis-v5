@@ -515,4 +515,7 @@ public interface BisisService {
 
     @POST("signup/opac")
     Call<LibraryMember> createWebAccount(@Body LibraryMember libraryMember);
+
+    @POST("library_members/deactivate_account")
+    Call<Boolean> deleteWebAccount(@Query("index") String index);
 }

@@ -13,6 +13,7 @@ import com.ftninformatika.utils.validators.security.PasswordCodes;
 import com.ftninformatika.utils.validators.security.PasswordValidator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/library_members")
 public class LibraryMemberController {
-
     @Autowired LibraryMemberRepository libraryMemberRepository;
     @Autowired
     JWTUtil jwtUtil;
@@ -55,6 +55,13 @@ public class LibraryMemberController {
                 return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
             return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("/deactivate_account")
+    public ResponseEntity<Boolean> deactivateAccount(@RequestParam String index) {
+        if (libraryMemberService.deactivateMember(index))
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
         return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
