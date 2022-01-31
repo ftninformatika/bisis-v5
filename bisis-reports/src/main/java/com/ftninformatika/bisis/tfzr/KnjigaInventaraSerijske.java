@@ -236,8 +236,8 @@ public class KnjigaInventaraSerijske extends Report {
     	  i.god+=", ";
       }
     	  i.god+=godina;
-      
-    	  String part="1000";//settings.getParam("part");
+
+          String part=getReportSettings().getPart();
           String type=settings.getType();
     	  String key;
           if(part==null){
