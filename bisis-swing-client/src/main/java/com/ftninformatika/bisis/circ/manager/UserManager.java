@@ -600,12 +600,12 @@ public class UserManager {
 
     }
 
-    public String createWebAccount() throws Exception {
+    public String createWebAccount(boolean hasActiveWebAccount) throws Exception {
         if (member == null)
             throw new Exception(Messages.getString("USER_MANAGER_USER_NOT_LOADED"));
         if (DataValidator.validateEmail(member.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
             throw new Exception(Messages.getString(DataErrors.EMAIL_FORMAT_INVALID.getMessageKey()));
-        if (member.isActivatedWebProfile())
+        if (hasActiveWebAccount)
             throw new Exception(Messages.getString(""));
         LibraryMember libraryMember = new LibraryMember();
         libraryMember.setAuthorities(new ArrayList<>(Arrays.asList(Authority.ROLE_USER)));
@@ -622,6 +622,19 @@ public class UserManager {
             throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));
         return Messages.getString("USER_MANAGER_ACTIVATION_EMAIL_SENT");
     }
+
+    public boolean deleteWebAccount() throws Exception {
+        boolean deletedAcc = false;
+        if (member == null)
+            throw new Exception(Messages.getString("USER_MANAGER_USER_NOT_LOADED"));
+        try {
+            deletedAcc = BisisApp.bisisService.deleteWebAccount(member.get_id()).execute().body();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return deletedAcc;
+    }
+
 
 
     public void loadCombos(User user) throws Exception {
