@@ -148,8 +148,8 @@ public class MainFrame extends JInternalFrame {
                                     getUserPanel().showPicturebooks();
                                     break;
                                 case 5: {
-                                    // todo: prikaz samo za bgb biblioteku
-                                    if (BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {
+                                    if (BisisApp.appConfig.getClientConfig().getReservation() != null
+                                            && BisisApp.appConfig.getClientConfig().getReservation()) {
                                         getUserPanel().showReservations();
                                     }
                                     break;
