@@ -177,7 +177,7 @@ public class KnjigaInventaraMonografske extends Report {
           df2.format(p.getCena()).toString();
         i.sig = sig;
         i.napomena = p.getNapomene();
-        String part="1000";//settings.getParam("part"); TODO-hardcoded
+        String part=getReportSettings().getPart();
         String key;
         if(part==null){
           key = settings.getReportName() + getFilenameSuffix(p.getDatumInventarisanja());

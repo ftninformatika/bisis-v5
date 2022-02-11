@@ -1,14 +1,4 @@
-package com.ftninformatika.bisis.tfzr;
-
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
+package com.ftninformatika.bisis.general;
 
 import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.records.Godina;
@@ -22,6 +12,12 @@ import com.ftninformatika.utils.string.Signature;
 import com.ftninformatika.utils.string.StringUtils;
 import org.apache.log4j.Logger;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Pattern;
+
+//TODO: proveriti da li je adekvatna za general ili treba nesto promeniti
 public class KnjigaInventaraSerijske extends Report {
 	public class Item implements Comparable {
 	    public String invbr;

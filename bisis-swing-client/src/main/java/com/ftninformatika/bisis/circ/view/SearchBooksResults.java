@@ -146,8 +146,8 @@ public class SearchBooksResults extends JPanel {
                     && BisisApp.appConfig.getClientConfig().getBarcodeLabelFormat().equals("small")) {
                 leftPanel.add(getBtnPrintInv2(), cc.xy(6, 8, "fill fill")); //$NON-NLS-1$
             }
-            // todo: prikaz samo za bgb biblioteku
-            if (BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {
+            if (BisisApp.appConfig.getClientConfig().getReservation() != null
+                    && BisisApp.appConfig.getClientConfig().getReservation()) {
                 leftPanel.add(getBtnReserve(), cc.xy(9, 8, "fill fill")); //$NON-NLS-1$
             }
         }

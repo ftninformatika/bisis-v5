@@ -113,6 +113,7 @@ public class UserData {
     private JButton btnPin = null;
     private JLabel lblWebAccount = null;
     private JButton btnCreateWebAccount = null;
+    private JButton btnDeleteWebAccount = null;
     private JButton btnReadFromECard = null;
     private User parent = null;
     private ComboBoxRenderer cmbRenderer = null;
@@ -170,7 +171,8 @@ public class UserData {
             pMain0.add(getEmailLabel(), cc.xy(6, 10));
             pMain0.add(getTfEmail(), cc.xyw(8, 10, 5));
             pMain0.add(getWebAccountIndicatorLabel(), cc.xyw(4, 11, 4));
-            pMain0.add(getBtnCreateWebAccount(), cc.xyw(8, 11, 5));
+            pMain0.add(getBtnCreateWebAccount(), cc.xyw(6, 11, 4));
+            pMain0.add(getBtnDeleteWebAccount(), cc.xyw(10, 11, 3));
 
             pMain0.addSeparator(Messages.getString("circulation.gender"), cc.xyw(6, 12, 3)); //$NON-NLS-1$
             pMain0.addSeparator(Messages.getString("circulation.age"), cc.xyw(11, 12, 2)); //$NON-NLS-1$
@@ -1167,27 +1169,14 @@ public class UserData {
         if (btnCreateWebAccount == null) {
             btnCreateWebAccount = new JButton();
             btnCreateWebAccount.setText(Messages.getString("circulation.createwebacc"));
-            btnCreateWebAccount.setSize(200, 28);
+            btnCreateWebAccount.setSize(130, 28);
             btnCreateWebAccount.setFocusable(false);
             btnCreateWebAccount.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        if (hasActiveWebAccount) {
-                            int dialogButton = JOptionPane.YES_NO_OPTION;
-                            int dialogResult = JOptionPane.showConfirmDialog (null, "Већ постоји веб налог за овог корнисника, овиме ћете обрисати његов тренутни и послати захтев за прављење новог.","Упозорење",dialogButton);
-                            if(dialogResult == JOptionPane.YES_OPTION){
-                                // Saving code here
-                                String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount();
-                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"),JOptionPane.INFORMATION_MESSAGE);
-
-                            }
-                            else {
-                                return;
-                            }
-                        }
-                        String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount();
-                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"),JOptionPane.INFORMATION_MESSAGE);
+                        String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount(hasActiveWebAccount);
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"), JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e1) {
                         e1.printStackTrace();
                         JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),Messages.getString("circulation.error"),JOptionPane.ERROR_MESSAGE);
@@ -1197,6 +1186,39 @@ public class UserData {
         }
         return btnCreateWebAccount;
     }
+
+    private JButton getBtnDeleteWebAccount() {
+        if (btnDeleteWebAccount == null) {
+            btnDeleteWebAccount = new JButton();
+            btnDeleteWebAccount.setText(Messages.getString("circulation.deletewebacc"));
+            btnDeleteWebAccount.setSize(130, 28);
+            btnDeleteWebAccount.setFocusable(false);
+            btnDeleteWebAccount.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        int dialogButton = JOptionPane.YES_NO_OPTION;  // todo promeniti na da ne
+                        int dialogResult = JOptionPane.showConfirmDialog (null,  Messages.getString("circulation.deletewebaccquestion"), "Упозорење", dialogButton);
+                        if (dialogResult == JOptionPane.YES_OPTION){
+                            boolean retMessage = Cirkulacija.getApp().getUserManager().deleteWebAccount();
+                            if (retMessage){
+                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("circulation.webaccdeleted"), "Успешно" ,JOptionPane.INFORMATION_MESSAGE);
+                                setNoWebAccountFields();
+                                Cirkulacija.getApp().getUserManager().getMember().setActivatedWebProfile(false);
+                            } else {
+                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("circulation.archiveerror2"), "Грешка" ,JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),Messages.getString("circulation.error"),JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+        }
+        return btnDeleteWebAccount;
+    }
+
 
     private JButton getReadFromECardBtn() {
         if (btnReadFromECard == null) {
@@ -1536,17 +1558,29 @@ public class UserData {
         getDuplicateTableModel().setData(duplicates);
         this.pincode = pincode;
         if (activatedWebProfile) {
-//            btnCreateWebAccount.setEnabled(false);
-            this.hasActiveWebAccount = true;
-            btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
-            getWebAccountIndicatorLabel().setText("Веб налог је активан");
-            getWebAccountIndicatorLabel().setBackground(Color.green);
-            tfEmail.setEnabled(false);
+           setActiveWebAccountFields();
         }
         else {
-            this.hasActiveWebAccount = false;
-            getWebAccountIndicatorLabel().setText("Веб налог није креиран");
+            setNoWebAccountFields();
         }
+    }
+
+    private void setActiveWebAccountFields() {
+        this.hasActiveWebAccount = true;
+        btnCreateWebAccount.setToolTipText(Messages.getString("circulation.webaccexist"));
+        getWebAccountIndicatorLabel().setText("Веб налог је активан");
+        getWebAccountIndicatorLabel().setBackground(Color.green);
+        tfEmail.setEnabled(false);
+        btnCreateWebAccount.setEnabled(false);
+        btnDeleteWebAccount.setEnabled(true);
+    }
+
+    private void setNoWebAccountFields() {
+        hasActiveWebAccount = false;
+        getWebAccountIndicatorLabel().setText("Веб налог није креиран");
+        tfEmail.setEnabled(true);
+        btnCreateWebAccount.setEnabled(true);
+        btnDeleteWebAccount.setEnabled(false);
     }
 
     public void loadEduLvl(List data) {

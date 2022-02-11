@@ -309,8 +309,8 @@ public class User extends JPanel {
             tpMain.addTab(Messages.getString("circulation.additionaldata"), null, getPMain1(), null); //$NON-NLS-1$
             tpMain.addTab(Messages.getString("circulation.membershipfee"), null, getPMain2(), null); //$NON-NLS-1$
             tpMain.addTab(Messages.getString("circulation.charging"), null, getPMain3(), null); //$NON-NLS-1$
-            // todo: prikaz samo za bgb biblioteku
-            if (BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {
+            if (BisisApp.appConfig.getClientConfig().getReservation() != null
+                    && BisisApp.appConfig.getClientConfig().getReservation()) {
                 tpMain.addTab(Messages.getString("circulation.reservations"), null, getPMain6(), null); //$NON-NLS-1$
             }
             tpMain.setSelectedIndex(0);
