@@ -346,6 +346,9 @@ public class InventoryServiceImpl implements InventoryService {
         return (double)Math.round((checked / total) * 100);
     }
     private LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        if (dateToConvert == null) {
+            return null;
+        }
         return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
@@ -381,6 +384,10 @@ public class InventoryServiceImpl implements InventoryService {
                 if (!unit.isChecked()) {
                     lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);
                     lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
+                    if (lendingDate == null) {
+                        System.out.println("Preskace se Lending date == null za " + lending.toString());
+                        continue;
+                    }
                     if (lending.getResumeDate() != null) {
                         resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
                     }
