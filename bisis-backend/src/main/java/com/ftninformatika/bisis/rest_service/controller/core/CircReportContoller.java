@@ -1129,23 +1129,26 @@ public class CircReportContoller {
         }else{
             lendings = lendingRepository.findLendingsByUserIdAndLendDateBetweenAndLocation(memberNo,start,end,location);
         }
-        lendings.sort(Comparator.comparing(d -> d.getLendDate()));
+        lendings.sort(Comparator.comparing(Lending::getLendDate));
         Record r;
         RecordPreview rp = new RecordPreview();
         SimpleDateFormat sdf =new SimpleDateFormat("dd.MM.yyyy");
 
        for(Lending l:lendings){
             r = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
-            rp.init(r);
-            Report report = new Report();
+           Report report = new Report();
+            if (r != null) {
+                rp.init(r);
+                report.setProperty3(rp.getAuthor());
+                report.setProperty4(rp.getTitle());
+            }
+
             String returnDate="";
             if (l.getReturnDate()!=null){
                 returnDate = sdf.format(l.getReturnDate());
             }
             report.setProperty1(sdf.format(l.getLendDate()));
             report.setProperty2(returnDate);
-            report.setProperty3(rp.getAuthor());
-            report.setProperty4(rp.getTitle());
             report.setProperty5(l.getCtlgNo());
             reports.add(report);
        }
