@@ -30,17 +30,17 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     String currentOperator = null;
 
 
+ /*   db.bgb_members.find( { signings: { $elemMatch: { untilDate:{$gt:ISODate("2022-05-24T00:00:00.110Z"),$lte: ISODate("2022-05-27T00:00:00.110Z")}}},
+        "signings.untilDate":{$not:{$gt: ISODate("2022-05-27T00:00:00.110Z")}}
+    })*/
     public List getExpiredMemebershipForOpacUsers(LocalDateTime start, LocalDateTime end, String library){
         List<AggregationOperation> pipeline = new ArrayList<AggregationOperation>();
-        UnwindOperation unwindOp = Aggregation.unwind("signings");
-        Criteria criteria = Criteria.where("signings.untilDate").gte(start).lt(end).and("activatedWebProfile").is(true);
+        Criteria arrayCriteria = Criteria.where("untilDate").gte(start).lte(end);
+        Criteria criteria = Criteria.where("signings").elemMatch(arrayCriteria).and("activatedWebProfile").is(true).and("signings.untilDate").not().gt(end);
         MatchOperation matchOp = Aggregation.match(criteria);
-        GroupOperation groupOp = Aggregation.group("_id");
         ProjectionOperation projectOp = Aggregation.project("_id").and(ConvertOperators.ToString.toString("$_id")).as("id");
         ProjectionOperation projectOpId = Aggregation.project("id").andExclude("_id");
-        pipeline.add(unwindOp);
         pipeline.add(matchOp);
-        pipeline.add(groupOp);
         pipeline.add(projectOp);
         pipeline.add(projectOpId);
         Aggregation aggregation = Aggregation.newAggregation(pipeline.toArray(new AggregationOperation[pipeline.size()]));
