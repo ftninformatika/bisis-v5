@@ -75,6 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/rescarta/metadataExport/**",
                         "/faq/get",
                         "/libraries/get/**",
+                        "/libraries/printLog",
                         "/mobile/book_collections/**",
                         "/mobile/book/**",
                         "/mobile/opac_search/**",

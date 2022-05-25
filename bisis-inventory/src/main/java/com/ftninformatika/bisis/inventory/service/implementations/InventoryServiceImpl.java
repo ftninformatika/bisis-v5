@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -346,6 +347,9 @@ public class InventoryServiceImpl implements InventoryService {
         return (double)Math.round((checked / total) * 100);
     }
     private LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        if (dateToConvert == null) {
+            return null;
+        }
         return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
@@ -377,27 +381,41 @@ public class InventoryServiceImpl implements InventoryService {
             for (ItemAvailability itemAvailability : borrowedList) {
                 LocalDate resumeDate = null;
                 String ctlgNo = itemAvailability.getCtlgNo();
-                unit = inventoryUnitRepository.findByInventoryIdAndInvNo(inventoryId, ctlgNo);
-                if (!unit.isChecked()) {
-                    lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);
-                    lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
-                    if (lending.getResumeDate() != null) {
-                        resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
-                    }
-                    if (resumeDate != null && resumeDate.isBefore(dateL2)) {
-                        unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
-                        unit.setInventoryStatusDescription(borrowedL2.getDescription());
-                    } else if (resumeDate == null && lendingDate.isBefore(dateL2)) {
-                        unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
-                        unit.setInventoryStatusDescription(borrowedL2.getDescription());
-                    } else {
+                try {
+                    unit = inventoryUnitRepository.findByInventoryIdAndInvNo(inventoryId, ctlgNo);
+                    if (!unit.isChecked()) {
+                        lending = lendingRepository.findByCtlgNoAndReturnDateIsNull(ctlgNo);
+                        if (lending == null || lending.getLendDate() == null) {
+                            System.out.println("Preskace se Lending date == null za " + unit);
+                            continue;
+                        }
+                        lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
 
-                        unit.setInventoryStatusCoderId(borrowed.getCoder_id());
-                        unit.setInventoryStatusDescription(borrowed.getDescription());
+                        if (lending.getResumeDate() != null) {
+                            resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
+                        }
+                        if (resumeDate != null && resumeDate.isBefore(dateL2)) {
+                            unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowedL2.getDescription());
+                        } else if (resumeDate == null && lendingDate.isBefore(dateL2)) {
+                            unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowedL2.getDescription());
+                        } else {
+
+                            unit.setInventoryStatusCoderId(borrowed.getCoder_id());
+                            unit.setInventoryStatusDescription(borrowed.getDescription());
+                        }
+                        unit.setDateModified(new Date());
+                        unitsForUpdate.add(unit);
                     }
-                    unit.setDateModified(new Date());
-                    unitsForUpdate.add(unit);
+                } catch (NullPointerException e) {
+                    System.out.println("Item availability:");
+                    System.out.println(itemAvailability.toString());
+                    System.out.println("inventoryId:");
+                    System.out.println(inventoryId);
+                    e.printStackTrace();
                 }
+
             }
             if(!unitsForUpdate.isEmpty()){
                 inventoryUnitRepository.saveAll(unitsForUpdate);

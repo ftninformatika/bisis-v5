@@ -1,7 +1,6 @@
 package com.ftninformatika.utils;
 
 import com.ftninformatika.bisis.records.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +72,10 @@ public class RecordUtils {
         ia.setCtlgNo(s.getInvBroj());
         ia.setBorrowed(false);
         ia.setRecordID(String.valueOf(r.getRecordID()));
-        ia.setLibDepartment(s.getParent().getOdeljenje());
+        Godina g = r.getGodinaForInvBRSveske(s.getInvBroj());
+        if (g != null) {
+            ia.setLibDepartment(g.getOdeljenje());
+        }
         ia.setRn(r.getRN());
         return ia;
     }

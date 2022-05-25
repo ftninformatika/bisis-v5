@@ -73,7 +73,9 @@ public class MessageService {
             if (m.getIdReceiver().equals("") && !sendersId.contains(m.getIdSender())) {
                 MessageSenderDTO messageSenderDTO = createMessageSenderDTO(lib, m);
                 sendersId.add(m.getIdSender());
-                senders.add(messageSenderDTO);
+                if (messageSenderDTO != null) {
+                    senders.add(messageSenderDTO);
+                }
             }
         }
         Collections.sort(senders);
