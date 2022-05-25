@@ -457,8 +457,7 @@ public class BaseCore {
                     sv.put("cena", s.getCena());
                 else
                     sv.put("cena", 0);
-                if (s.getParent()!=null)
-                    sv.put("parent", s.getParent());
+                sv.put("parent", g);
 
                 pom=s.getSignatura();
                 if (pom!=null){

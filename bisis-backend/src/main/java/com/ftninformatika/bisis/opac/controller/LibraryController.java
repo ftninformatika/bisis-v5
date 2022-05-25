@@ -66,4 +66,11 @@ public class LibraryController {
             return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("/printLog")
+    public ResponseEntity<Boolean> test(@RequestBody String log) {
+        System.out.println("----- Stack trace from Android -----");
+        System.out.println(log);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
 }

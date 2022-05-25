@@ -1,8 +1,6 @@
 package com.ftninformatika.bisis.records;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -20,7 +18,7 @@ public class Sveska implements Serializable{
   private String brojSveske;
   private String knjiga;
   private String inventator;
-  private Godina parent;  
+//  private Godina parent;
   private int version;
 
   public Sveska() {
@@ -74,12 +72,12 @@ public class Sveska implements Serializable{
   public void setDatumStatusa(Date datumStatusa){
   	this.datumStatusa = datumStatusa;
   }
-  public Godina getParent() {
-    return parent;
-  }
-  public void setParent(Godina parent) {
-    this.parent = parent;
-  }
+//  public Godina getParent() {
+//    return parent;
+//  }
+//  public void setParent(Godina parent) {
+//    this.parent = parent;
+//  }
   public int getSveskaID() {
     return sveskaID;
   }
@@ -115,7 +113,7 @@ public class Sveska implements Serializable{
   	svRet.setCena(getCena());
   	svRet.setDatumStatusa(getDatumStatusa());
   	svRet.setInvBroj(getInvBroj());
-  	svRet.setParent(getParent());
+  	//svRet.setParent(getParent());
   	svRet.setSignatura(getSignatura());
   	svRet.setStatus(getStatus());
   	svRet.setSveskaID(getSveskaID());

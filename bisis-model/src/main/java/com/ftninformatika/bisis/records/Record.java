@@ -425,10 +425,10 @@ public class Record implements Serializable {
           }
       }
 
-      if (this.getAllSveske() != null && this.getAllSveske().size() > 0){
-          for (Sveska s: this.getAllSveske()){
-              retVal.add(s.getParent().getOdeljenje());
-          }
+      if (this.getGodine() != null && this.getGodine().size() > 0){
+        for (Godina g : this.getGodine()){
+          retVal.add(g.getOdeljenje());
+        }
       }
       return new HashSet<>(retVal);
   }
