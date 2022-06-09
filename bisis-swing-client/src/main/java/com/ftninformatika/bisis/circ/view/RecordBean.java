@@ -492,4 +492,52 @@ public class RecordBean {
     }
     return text;
   }
+
+
+  public Boolean isSerial(){
+    if (rec == null)
+      return null;
+    try {
+      fields1 = rec.getSubfieldsContent("001c");
+      text = fieldsToString(fields1);
+      return text.equals("s");
+    } catch (Exception e1) {
+      return null;
+    }
+  }
+
+  public String getSveskaGodina(String invNum) {
+    if (isSerial()) {
+      Godina god = rec.getGodinaForInvBRSveske(invNum);
+      Sveska sv = god.getSveska(invNum);
+      String godina = god.getGodina();
+      String godiste = god.getGodiste();
+      String sveska = sv.getBrojSveske();
+      String result = "";
+      if (godina != null && !godina.isEmpty()) {
+        if (!result.isEmpty()) {
+          result = result + "/";
+        }
+        result = result + godina;
+      }
+      if (godiste != null && !godiste.isEmpty()) {
+        if (!result.isEmpty()) {
+          result = result + "/";
+        }
+        result = result + godiste;
+      }
+      if (sveska != null && !sveska.isEmpty()) {
+        if (!result.isEmpty()) {
+          result = result + "/";
+        }
+        result = result + sveska;
+      }
+      if (result.isEmpty()) {
+        return null;
+      } else {
+        return result;
+      }
+    }
+    return null;
+  }
 }

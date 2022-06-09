@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -288,8 +287,6 @@ public class RecordPreview {
     }
 
     public String getTitle(Record rec){
-
-
         if (rec == null)
             return "";
         try {
@@ -502,6 +499,53 @@ public class RecordPreview {
         } catch (Exception e1) {
             return null;
         }
+    }
+
+    public Boolean isSerial(Record rec){
+        if (rec == null)
+            return null;
+        try {
+            fields1 = rec.getSubfieldsContent("001c");
+            text = fieldsToString(fields1);
+            return text.equals("s");
+        } catch (Exception e1) {
+            return null;
+        }
+    }
+
+    public String getSveskaGodina(Record rec, String invNum) {
+        if (isSerial(rec)) {
+            Godina god = rec.getGodinaForInvBRSveske(invNum);
+            Sveska sv = god.getSveska(invNum);
+            String godina = god.getGodina();
+            String godiste = god.getGodiste();
+            String sveska = sv.getBrojSveske();
+            String result = "";
+            if (godina != null && !godina.isEmpty()) {
+                if (!result.isEmpty()) {
+                    result = result + "/";
+                }
+                result = result + godina;
+            }
+            if (godiste != null && !godiste.isEmpty()) {
+                if (!result.isEmpty()) {
+                    result = result + "/";
+                }
+                result = result + godiste;
+            }
+            if (sveska != null && !sveska.isEmpty()) {
+                if (!result.isEmpty()) {
+                    result = result + "/";
+                }
+                result = result + sveska;
+            }
+            if (result.isEmpty()) {
+                return null;
+            } else {
+                return result;
+            }
+        }
+        return null;
     }
 
 }
