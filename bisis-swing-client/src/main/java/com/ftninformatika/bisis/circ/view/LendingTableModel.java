@@ -6,15 +6,9 @@ import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
+import java.io.Serializable;
+import java.util.*;
 
 public class LendingTableModel extends AbstractTableModel implements Serializable {
 
@@ -63,7 +57,12 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
         if (record != null){
           bean = new RecordBean(record);
           authors.add(bean.getAutor());
-          titles.add(bean.getNaslov());
+          String sveskagodina = bean.getSveskaGodina(tmp.getCtlgNo());
+          if (sveskagodina != null) {
+          	titles.add(bean.getNaslov() + " " + sveskagodina);
+          } else {
+          	titles.add(bean.getNaslov());
+		  }
           signatures.add(bean.getSignatura(tmp.getCtlgNo()));
         } else {
           authors.add(""); //$NON-NLS-1$
@@ -97,7 +96,12 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	        if (record != null){
 	          RecordBean bean = new RecordBean(record);
 	          authors.add(bean.getAutor());
-	          titles.add(bean.getNaslov());
+				String sveskagodina = bean.getSveskaGodina(rowData.getCtlgNo());
+				if (sveskagodina != null) {
+					titles.add(bean.getNaslov() + " " + sveskagodina);
+				} else {
+					titles.add(bean.getNaslov());
+				}
 	          signatures.add(bean.getSignatura(ctlgno));
 	        } else {
 	          authors.add(""); //$NON-NLS-1$

@@ -1136,11 +1136,18 @@ public class CircReportContoller {
 
        for(Lending l:lendings){
             r = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
-           Report report = new Report();
+            if (r == null) {
+                r = recordsRepository.getRecordBySveskaInvNum(l.getCtlgNo());
+            }
+            Report report = new Report();
             if (r != null) {
                 rp.init(r);
                 report.setProperty3(rp.getAuthor());
                 report.setProperty4(rp.getTitle());
+                String sveskagodina = rp.getSveskaGodina(r, l.getCtlgNo());
+                if (sveskagodina != null) {
+                    report.setProperty4(report.getProperty4() + " " + sveskagodina);
+                }
             }
 
             String returnDate="";
@@ -1168,6 +1175,9 @@ public class CircReportContoller {
 
         for(Lending l:lendings){
             r = recordsRepository.getRecordByPrimerakInvNum(l.getCtlgNo());
+            if (r == null) {
+                r = recordsRepository.getRecordBySveskaInvNum(l.getCtlgNo());
+            }
             rp.init(r);
             Report report = new Report();
             String returnDate="";
@@ -1178,6 +1188,10 @@ public class CircReportContoller {
             report.setProperty2(returnDate);
             report.setProperty3(rp.getAuthor());
             report.setProperty4(rp.getTitle());
+            String sveskagodina = rp.getSveskaGodina(r, l.getCtlgNo());
+            if (sveskagodina != null) {
+                report.setProperty4(report.getProperty4() + " " + sveskagodina);
+            }
             report.setProperty5(l.getCtlgNo());
             reports.add(report);
         }
