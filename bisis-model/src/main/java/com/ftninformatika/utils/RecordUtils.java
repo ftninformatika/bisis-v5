@@ -27,13 +27,13 @@ public class RecordUtils {
                 }
         }
 
-        if (freshRecord.getGodine() != null && storedRecord.getGodine() != null && freshRecord.getGodine().size() > 0){
-            for (Godina p: freshRecord.getGodine())
-                if (!storedRecord.getGodine().stream().map(e -> e.getInvBroj()).collect(Collectors.toList()).contains(p.getInvBroj())){
-                    ItemAvailability ia = generateItem(p, freshRecord);
-                    retVal.add(ia);
-                }
-        }
+//        if (freshRecord.getGodine() != null && storedRecord.getGodine() != null && freshRecord.getGodine().size() > 0){
+//            for (Godina p: freshRecord.getGodine())
+//                if (!storedRecord.getGodine().stream().map(e -> e.getInvBroj()).collect(Collectors.toList()).contains(p.getInvBroj())){
+//                    ItemAvailability ia = generateItem(p, freshRecord);
+//                    retVal.add(ia);
+//                }
+//        }
 
         if (freshRecord.getAllSveske() != null && storedRecord.getAllSveske() != null && freshRecord.getAllSveske().size() > 0){
             for (Sveska p: freshRecord.getAllSveske())
@@ -96,11 +96,11 @@ public class RecordUtils {
         }
 
 
-        if (storedRecord.getGodine().size() > 0){
-            for (Godina g: storedRecord.getGodine())
-                if (!freshRecord.getGodine().stream().map(Godina::getInvBroj).collect(Collectors.toList()).contains(g.getInvBroj()))
-                    retVal.add(g.getInvBroj());
-        }
+//        if (storedRecord.getGodine().size() > 0){
+//            for (Godina g: storedRecord.getGodine())
+//                if (!freshRecord.getGodine().stream().map(Godina::getInvBroj).collect(Collectors.toList()).contains(g.getInvBroj()))
+//                    retVal.add(g.getInvBroj());
+//        }
 
         if (storedRecord.getAllSveske().size() > 0){
             for (Sveska s: storedRecord.getAllSveske())
