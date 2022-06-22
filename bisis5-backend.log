@@ -5471,3 +5471,5 @@ freemarker.core._MiscTemplateException: [... Exception message was already print
 29.06.2021. 14:36:20 FATAL [ReportCore          ] Не може да нађе директоријум са типовима листића
 08.07.2021. 10:20:39 FATAL [ReportCore          ] Не може да нађе директоријум са типовима листића26.08.2021. 15:04:41 FATAL [ReportCore          ] Не може да нађе директоријум са типовима листића
 26.08.2021. 16:56:14 FATAL [ReportCore          ] Не може да нађе директоријум са типовима листића
+22.06.2022. 12:13:24 INFO  [MemberController    ] (getAndLockByMemberId) zakljucan i vracen korisnik ID: 00000000489
+22.06.2022. 12:13:40 INFO  [MemberController    ] (unlockMemberById) Otkljucan user ID: 00000000489

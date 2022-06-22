@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.utils.RegexUtils;
 import com.ftninformatika.utils.date.DateUtils;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -106,13 +107,27 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     public List<Member> getMembersFilteredByLending(SearchModelMember searchModel, List userIds) {
         Query q = new Query();
         Criteria currentCriteria = null;
+        if (searchModel.getText1() != null) {
+            currentCriteria = createCriteria(searchModel.getPref1(), LatCyrUtils.toLatin(searchModel.getText1()), "or", currentCriteria);
+            currentCriteria = createCriteria(searchModel.getPref1(), LatCyrUtils.toCyrillic(searchModel.getText1()), searchModel.getOper1(), currentCriteria);
+        }
+        if (searchModel.getText2() != null) {
+            currentCriteria = createCriteria(searchModel.getPref2(), LatCyrUtils.toLatin(searchModel.getText2()), "or", currentCriteria);
+            currentCriteria = createCriteria(searchModel.getPref2(), LatCyrUtils.toCyrillic(searchModel.getText2()), searchModel.getOper2(), currentCriteria);
+        }
+        if (searchModel.getText3() != null) {
+            currentCriteria = createCriteria(searchModel.getPref3(), LatCyrUtils.toLatin(searchModel.getText3()), "or", currentCriteria);
+            currentCriteria = createCriteria(searchModel.getPref3(), LatCyrUtils.toCyrillic(searchModel.getText3()), searchModel.getOper3(), currentCriteria);
+        }
+        if (searchModel.getText4() != null) {
+            currentCriteria = createCriteria(searchModel.getPref4(), LatCyrUtils.toLatin(searchModel.getText4()), "or", currentCriteria);
+            currentCriteria = createCriteria(searchModel.getPref4(), LatCyrUtils.toCyrillic(searchModel.getText4()), searchModel.getOper4(), currentCriteria);
+        }
 
-        currentCriteria = createCriteria(searchModel.getPref1(), searchModel.getText1(), searchModel.getOper1(), currentCriteria);
-        currentCriteria = createCriteria(searchModel.getPref2(), searchModel.getText2(), searchModel.getOper2(), currentCriteria);
-        currentCriteria = createCriteria(searchModel.getPref3(), searchModel.getText3(), searchModel.getOper3(), currentCriteria);
-        currentCriteria = createCriteria(searchModel.getPref4(), searchModel.getText4(), searchModel.getOper4(), currentCriteria);
-        currentCriteria = createCriteria(searchModel.getPref5(), searchModel.getText5(), "and", currentCriteria);
-
+        if (searchModel.getText5() != null) {
+            currentCriteria = createCriteria(searchModel.getPref5(), LatCyrUtils.toLatin(searchModel.getText5()), "or", currentCriteria);
+            currentCriteria = createCriteria(searchModel.getPref5(), LatCyrUtils.toCyrillic(searchModel.getText5()), "and", currentCriteria);
+        }
         Object[] signDates = (Object[]) searchModel.getValueForPrefix("signings.signDate");
         Object[] untilDates = (Object[]) searchModel.getValueForPrefix("signings.untilDate");
         if (signDates != null) {
