@@ -1,4 +1,4 @@
-package com.ftninformatika.bisis.general;
+package com.ftninformatika.bisis.vlad;
 
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
@@ -62,23 +62,13 @@ public class NabavkaPoOgrancima extends Report {
 	  }
 	  
 	     /*
-       * b – kupovina sopstvenim sredstvima
-
-      o – kupovina sredstvima opštine
-
-      s – kupovina na sajmu
-
-      e – poklon izdavača
-
-      g – poklon građana
-
+      d– obavezni primerak
+      e – zateceni fond
+      f - sopstveni fond
+	  k - kupovina
       m – poklon ministarstva
-
-      a – poklon autora
-
-      d,i – izdanje biblioteke
-
-      r – razmena
+      p - poklon
+      z - zamena
        */
 	  @Override
 	  public void handleRecord(Record rec) {
@@ -115,38 +105,29 @@ public class NabavkaPoOgrancima extends Report {
 		            } 
 		       
 		            switch (t) {
-		            	case 'b':
-		            		item.add(1, 0, 0, 0, 0, 0, 0, 0, 0, 0);	           
+		            	case 'd':
+		            		item.add(1, 0, 0, 0, 0, 0, 0, 0);
 		            		break;
-		            	case 'o':  
-		            		item.add(0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+		            	case 'e':
+		            		item.add(0, 1, 0, 0, 0, 0, 0, 0);
 		            		break;
-		               	case 's': 
-		            		item.add(0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
+		               	case 'f':
+		            		item.add(0, 0, 1, 0, 0, 0, 0, 0);
 		            		break;
-		            	case 'e': 
-		            		item.add(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
-		            		break;
-		            	case 'g': 
-		            		item.add(0, 0, 0, 0, 1, 0, 0, 0, 0, 0);
+		            	case 'k':
+		            		item.add(0, 0, 0, 1, 0, 0, 0, 0);
 		            		break;
 		            	case 'm':
-		            		item.add(0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
+		            		item.add(0, 0, 0, 0, 1, 0, 0, 0);
 		            		break;
-		            	case 'a': 
-		            		item.add(0, 0, 0, 0, 0, 0, 1, 0, 0, 0);
+		            	case 'p':
+		            		item.add(0, 0, 0, 0, 0, 1, 0, 0);
 		            		break;
-		            	case 'd': 
-		            		item.add(0, 0, 0, 0, 0, 0, 0, 1, 0, 0);
-		            		break;
-		            	case 'i': 
-		            		item.add(0, 0, 0, 0, 0, 0, 0, 1, 0, 0);
-		            		break;
-		            	case 'r': 
-		            		item.add(0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+		            	case 'z':
+		            		item.add(0, 0, 0, 0, 0, 0, 1,  0);
 		            		break;
 		            	default: 
-		            		item.add(0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+		            		item.add(0, 0, 0, 0, 0, 0, 0, 1);
 		            		break;
 		            }
 		    	}
@@ -176,54 +157,30 @@ public class NabavkaPoOgrancima extends Report {
 	  public String nvl(String s) {
 	    return s == null ? "" : s;
 	  }
-	     /*
-       * b – kupovina sopstvenim sredstvima
-
-      o – kupovina sredstvima opštine
-
-      s – kupovina na sajmu
-
-      i – poklon izdavača
-
-      g – poklon građana
-
-      m – poklon ministarstva
-
-      a – poklon autora
-
-      d – izdanje biblioteke
-
-      r – razmena
-       */
 
 	  public class Item  implements Comparable{
 		    public String sigla;
-		    public int sopstvena;
-		    public int opstina;
-		    public int sajam;
-		    public int izdavac;
-		    public int gradjanin;
-		    public int pmzk;
-		    public int autor;
-		    public int bibizd;
-		    public int razmena;
+		    public int obavezan;
+		    public int zateceno;
+		    public int sopstveniFond;
+		    public int kupovina;
+		    public int ministarstvo;
+		    public int poklon;
+		    public int zamena;
 		    public int ostalo;
-
 
 		    
 
 		    public Item(String sigla) {
 				super();
 				this.sigla = sigla;
-				this.sopstvena = 0;
-				this.opstina = 0;
-				this.sajam = 0;
-				this.izdavac = 0;
-				this.gradjanin = 0;
-				this.pmzk = 0;
-				this.autor = 0;
-				this.bibizd = 0;
-				this.razmena = 0;
+				this.obavezan = 0;
+				this.zateceno = 0;
+				this.sopstveniFond = 0;
+				this.kupovina = 0;
+				this.ministarstvo = 0;
+				this.poklon = 0;
+				this.zamena = 0;
 				this.ostalo = 0;
 				
 			}
@@ -256,25 +213,21 @@ public class NabavkaPoOgrancima extends Report {
 		        buf.append(sigla);
 		        buf.append("\">\n  <ogranak>");
 		        buf.append(odeljenje);
-		        buf.append(	"</ogranak>\n	<sopstvena>");
-		        buf.append(sopstvena);
-		        buf.append("</sopstvena>\n    <opstina>");
-		        buf.append(opstina);
-		        buf.append("</opstina>\n    <sajam>");
-		        buf.append(sajam);
-		        buf.append("</sajam>\n    <izdavac>");
-		        buf.append(izdavac);
-		        buf.append("</izdavac>\n    <gradjanin>");
-		        buf.append(gradjanin);
-		        buf.append("</gradjanin>\n    <autor>");
-		        buf.append(autor);
-		        buf.append("</autor>\n    <pmzk>");
-		        buf.append(pmzk);
-		        buf.append("</pmzk>\n    <bibizd>");
-		        buf.append(bibizd);
-		        buf.append("</bibizd>\n    <razmena>" );
-		        buf.append(razmena);
-		        buf.append("</razmena>\n    <ostalo>" );
+		        buf.append(	"</ogranak>\n	<obavezan>");
+		        buf.append(obavezan);
+		        buf.append("</obavezan>\n    <zateceno>");
+		        buf.append(zateceno);
+		        buf.append("</zateceno>\n    <sopstveniFond>");
+		        buf.append(sopstveniFond);
+		        buf.append("</sopstveniFond>\n    <kupovina>");
+		        buf.append(kupovina);
+		        buf.append("</kupovina>\n    <ministarstvo>");
+		        buf.append(ministarstvo);
+		        buf.append("</ministarstvo>\n    <poklon>");
+		        buf.append(poklon);
+		        buf.append("</poklon>\n    <zamena>");
+		        buf.append(zamena);
+		        buf.append("</zamena>\n    <ostalo>");
 		        buf.append(ostalo);
 		        buf.append("</ostalo>\n    " );
 		        buf.append("   		     </item>");
@@ -285,33 +238,28 @@ public class NabavkaPoOgrancima extends Report {
 		    
 		    
 		    
-		    public void add(int sopstvena, int opstina, int sajam, int izdavac, int gradjanin, int pmzk,int autor,int bibizd, int razmena, int ostalo) {
-		    	this.sopstvena += sopstvena;
-				this.opstina += opstina;
-				this.sajam += sajam;
-				this.izdavac += izdavac;
-				this.gradjanin += gradjanin;
-				this.autor += autor;
-				this.pmzk += pmzk;
-				this.bibizd += bibizd;
-				this.razmena += razmena;
+		    public void add(int obavezan, int zateceno, int sopstveniFond, int kupovina, int ministarstvo, int poklon,int zamena,int ostalo) {
+		    	this.obavezan += obavezan;
+				this.zateceno += zateceno;
+				this.sopstveniFond += sopstveniFond;
+				this.kupovina += kupovina;
+				this.ministarstvo += ministarstvo;
+				this.poklon += poklon;
+				this.zamena += zamena;
 				this.ostalo += ostalo;
 		    	
 		    	
 		    }
 		    public void addItem(Item i) {
-		      	this.sopstvena += i.sopstvena;
-				this.opstina += i.opstina;
-				this.sajam += i.sajam;
-				this.izdavac += i.izdavac;
-				this.gradjanin += i.gradjanin;
-				this.autor += i.autor;
-				this.pmzk += i.pmzk;
-				this.bibizd += i.bibizd;
-				this.razmena += i.razmena;
+				this.obavezan += i.obavezan;
+				this.zateceno += i.zateceno;
+				this.sopstveniFond += i.sopstveniFond;
+				this.kupovina += i.kupovina;
+				this.ministarstvo += i.ministarstvo;
+				this.poklon += i.poklon;
+				this.zamena += i.zamena;
 				this.ostalo += i.ostalo;
-		   
-			 }
+			}
 		     
 		  }
 	
