@@ -7,6 +7,7 @@ import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.utils.RegexUtils;
 import com.ftninformatika.utils.date.DateUtils;
+import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -27,7 +28,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
     @Autowired MongoTemplate mongoTemplate;
     List<String> fromLendings = Arrays.asList("ctlgNo", "librarianLend", "librarianReturn", "lendDate", "returnDate", "deadline");
-    String currentOperator = null;
+    String currentOperator = "and";
 
 
  /*   db.bgb_members.find( { signings: { $elemMatch: { untilDate:{$gt:ISODate("2022-05-24T00:00:00.110Z"),$lte: ISODate("2022-05-27T00:00:00.110Z")}}},
@@ -106,13 +107,46 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     public List<Member> getMembersFilteredByLending(SearchModelMember searchModel, List userIds) {
         Query q = new Query();
         Criteria currentCriteria = null;
+        if (searchModel.getText1() != null) {
+            currentCriteria = createORCriteria(searchModel.getPref1(), searchModel.getText1());
+            currentOperator = searchModel.getOper1();
+        }
+        if (searchModel.getText2() != null) {
+            Criteria orCriteria = createORCriteria(searchModel.getPref2(), searchModel.getText2());
+            if (currentCriteria != null){
+                currentCriteria = createCriteria(currentCriteria,orCriteria);
+            }else {
+                currentCriteria = orCriteria;
+            }
+            currentOperator = searchModel.getOper2();
+        }
+        if (searchModel.getText3() != null) {
+            Criteria orCriteria = createORCriteria(searchModel.getPref3(), searchModel.getText3());
+            if (currentCriteria != null){
+                currentCriteria = createCriteria(currentCriteria,orCriteria);
+            }else {
+                currentCriteria = orCriteria;
+            }
+            currentOperator = searchModel.getOper3();
+        }
+        if (searchModel.getText4() != null) {
+            Criteria orCriteria = createORCriteria(searchModel.getPref4(), searchModel.getText4());
+            if (currentCriteria != null){
+                currentCriteria = createCriteria(currentCriteria,orCriteria);
+            }else {
+                currentCriteria = orCriteria;
+            }
+            currentOperator = searchModel.getOper4();
+        }
 
-        currentCriteria = createCriteria(searchModel.getPref1(), searchModel.getText1(), searchModel.getOper1(), currentCriteria);
-        currentCriteria = createCriteria(searchModel.getPref2(), searchModel.getText2(), searchModel.getOper2(), currentCriteria);
-        currentCriteria = createCriteria(searchModel.getPref3(), searchModel.getText3(), searchModel.getOper3(), currentCriteria);
-        currentCriteria = createCriteria(searchModel.getPref4(), searchModel.getText4(), searchModel.getOper4(), currentCriteria);
-        currentCriteria = createCriteria(searchModel.getPref5(), searchModel.getText5(), "and", currentCriteria);
-
+        if (searchModel.getText5() != null) {
+            Criteria orCriteria = createORCriteria(searchModel.getPref5(), searchModel.getText5());
+            if (currentCriteria != null){
+                currentCriteria = createCriteria(currentCriteria,orCriteria);
+            }else {
+                currentCriteria = orCriteria;
+            }
+        }
         Object[] signDates = (Object[]) searchModel.getValueForPrefix("signings.signDate");
         Object[] untilDates = (Object[]) searchModel.getValueForPrefix("signings.untilDate");
         if (signDates != null) {
@@ -151,7 +185,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             q.addCriteria(currentCriteria);
             List<Member> m = mongoTemplate.find(q, Member.class);
             return m;
-        } else {
+        } else
+        {
             return null;
         }
     }
@@ -325,8 +360,47 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
         return retVal;
     }
+    private Criteria createORCriteria(String prefix, String text) {
+        if (text != null && !text.equals("") && !fromLendings.contains(prefix)) {
 
-    private Criteria createCriteria(String prefix, String text, String op, Criteria currentCriteria) {
+            if (SearchModelMember.PREDEFINED_VALUE_PREFIXES.contains(prefix)) {
+                text = RegexUtils.escapeSpecialRegexChars(text);
+            }
+            if (!text.startsWith("*")) {
+                text = "^" + text;
+            }
+            if (!text.endsWith("*")) {
+                text = text + "$";
+            }
+            text = text.replace("*", "");
+
+            Criteria c1 = Criteria.where(prefix).regex(LatCyrUtils.toLatin(text), "i");
+            Criteria c2 = Criteria.where(prefix).regex(LatCyrUtils.toCyrillic(text), "i");
+            Criteria newCriteria = new Criteria();
+            if (currentOperator.equalsIgnoreCase("not")){
+                newCriteria.norOperator(c1,c2);
+            }else {
+                newCriteria.orOperator(c1,c2);
+            }
+        return newCriteria;
+        }
+        return null;
+    }
+    private Criteria createCriteria(Criteria currentCriteria, Criteria rightCriteria) {
+        if (currentCriteria == null) {
+            currentCriteria = rightCriteria;
+        } else {
+            Criteria newCriteria = new Criteria();
+            if (currentOperator.equalsIgnoreCase("or")) {
+                currentCriteria = newCriteria.orOperator(currentCriteria, rightCriteria);
+            } else {
+                currentCriteria = newCriteria.andOperator(currentCriteria, rightCriteria);
+            }
+        }
+        return currentCriteria;
+    }
+//ovo se vise ne koristi, ali nek ostane za svaki slucaj
+        private Criteria createCriteria(String prefix, String text, String op, Criteria currentCriteria) {
 
         if (text != null && !text.equals("") && !fromLendings.contains(prefix)) {
 

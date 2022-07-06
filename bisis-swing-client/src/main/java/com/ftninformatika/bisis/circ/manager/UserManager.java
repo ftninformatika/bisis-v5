@@ -884,6 +884,7 @@ public class UserManager {
         corporateMember.setSignDate(group.getSignDate());
         corporateMember.setUserId(group.getUserID());
         corporateMember.setZip(Utils.getInteger(group.getZip()));
+        corporateMember.setLibrary(BisisApp.appConfig.getLibrary());
         return corporateMember;
     }
 
