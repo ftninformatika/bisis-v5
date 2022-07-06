@@ -509,33 +509,35 @@ public class RecordBean {
   public String getSveskaGodina(String invNum) {
     if (isSerial()) {
       Godina god = rec.getGodinaForInvBRSveske(invNum);
-      Sveska sv = god.getSveska(invNum);
-      String godina = god.getGodina();
-      String godiste = god.getGodiste();
-      String sveska = sv.getBrojSveske();
-      String result = "";
-      if (godina != null && !godina.isEmpty()) {
-        if (!result.isEmpty()) {
-          result = result + "/";
+      if (god != null) {
+        Sveska sv = god.getSveska(invNum);
+        String godina = god.getGodina();
+        String godiste = god.getGodiste();
+        String sveska = sv.getBrojSveske();
+        String result = "";
+        if (godina != null && !godina.isEmpty()) {
+          if (!result.isEmpty()) {
+            result = result + "/";
+          }
+          result = result + godina;
         }
-        result = result + godina;
-      }
-      if (godiste != null && !godiste.isEmpty()) {
-        if (!result.isEmpty()) {
-          result = result + "/";
+        if (godiste != null && !godiste.isEmpty()) {
+          if (!result.isEmpty()) {
+            result = result + "/";
+          }
+          result = result + godiste;
         }
-        result = result + godiste;
-      }
-      if (sveska != null && !sveska.isEmpty()) {
-        if (!result.isEmpty()) {
-          result = result + "/";
+        if (sveska != null && !sveska.isEmpty()) {
+          if (!result.isEmpty()) {
+            result = result + "/";
+          }
+          result = result + sveska;
         }
-        result = result + sveska;
-      }
-      if (result.isEmpty()) {
-        return null;
-      } else {
-        return result;
+        if (result.isEmpty()) {
+          return null;
+        } else {
+          return result;
+        }
       }
     }
     return null;
