@@ -2,10 +2,14 @@ package com.ftninformatika.bisis.circ.view;
 
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.pojo.MembershipType;
-import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.circ.pojo.Signing;
+import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.utils.Messages;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -15,16 +19,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-
 public class MembershipTableModel extends AbstractTableModel implements Serializable {
 
 
     protected List<Signing> dataView;
     protected List<String> columnIdentifiers;
+    private Signing newRow;
 
     public MembershipTableModel() {
         columnIdentifiers = new ArrayList<String>();
@@ -54,6 +54,7 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
         rowData.setLibrarian(Cirkulacija.getApp().getLibrarian().getUsername());
         rowData.setSignDate(new Date());
         rowData.setLocation(location);
+        this.newRow = rowData;
         this.dataView.add(rowData);
         fireTableRowsInserted(row, row);
     }
@@ -96,7 +97,11 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
     }
 
     public boolean isCellEditable(int row, int column) {
-        return true;
+        if (this.newRow != null && row == this.dataView.indexOf(this.newRow)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Object getValueAt(int row, int column) {
