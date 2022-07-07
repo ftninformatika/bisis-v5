@@ -47,7 +47,6 @@ public class DefaultPrefixMap implements PrefixMap {
   public DefaultPrefixMap() {
     prefixMap = new HashMap<>();
     subfieldMap = new HashMap<>();
-    addToMap("CR", "000c");
     addToMap("BN", "010a");
     addToMap("BN", "010z");
     addToMap("CD", "040a");

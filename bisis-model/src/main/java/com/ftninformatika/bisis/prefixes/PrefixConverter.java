@@ -106,6 +106,7 @@ public class PrefixConverter {
       Field field = rec.getField(i);
       fieldToPrefixes(retVal, field);
     }
+    indeksirajMetaPodatke(retVal,rec);
     List<Primerak> primerci = rec.getPrimerci();
     List<Godina> godine = rec.getGodine();
     if (primerci != null && primerci.size() > 0) {
@@ -146,6 +147,22 @@ public class PrefixConverter {
     }
 
     return retVal;
+  }
+
+  private static void indeksirajMetaPodatke(List dest,Record rec){
+    if ((rec.getCreator() != null) && (rec.getCreator().getUsername() != null)){
+      dest.add(new PrefixValue("CR",rec.getCreator().getUsername()));
+    }
+    if (rec.getCreationDate() != null){
+      dest.add(new PrefixValue("DK",dateFormat.format(rec.getCreationDate())));
+    }
+    if ((rec.getModifier() != null) && (rec.getModifier().getUsername() != null)){
+      dest.add(new PrefixValue("LM",rec.getModifier().getUsername()));
+    }
+    if (rec.getLastModifiedDate() != null){
+      dest.add(new PrefixValue("DM",dateFormat.format(rec.getLastModifiedDate())));
+    }
+
   }
 
   private static void indeksirajGodinu(List dest, Godina g) {
