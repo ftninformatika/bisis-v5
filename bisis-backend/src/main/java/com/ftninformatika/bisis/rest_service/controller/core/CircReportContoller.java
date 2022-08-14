@@ -859,8 +859,7 @@ public class CircReportContoller {
                     r.setProperty7(m.getDocNo());
                     r.setProperty8(m.getDocCity());
                     r.setProperty9(m.getJmbg());
-                    if (m.getMembershipType() != null) r.setProperty10(m.getMembershipType().getDescription());
-                    else r.setProperty10(null);
+                    r.setProperty10(m.getMembershipType() != null ? m.getMembershipType().getDescription() : null);
                     r.setProperty12(m.getSignings().get(0).getCost());
                     retVal.add(r);
                 }
@@ -933,7 +932,7 @@ public class CircReportContoller {
             r.setProperty10(m.getLibrarianForSigningDate(date));
             r.setProperty11(m.getRecieptForSigingDate(date));
             r.setProperty12(m.getCostForSigningDate(date));
-            r.setProperty13(m.getMembershipType().getDescription());
+            r.setProperty13(m.getMembershipType() != null ? m.getMembershipType().getDescription() : null);
             retVal.add(r);
         }
         return retVal;
@@ -963,7 +962,7 @@ public class CircReportContoller {
             r.setProperty10(m.getLibrarianForSigningDate(date));
             r.setProperty11(m.getRecieptForSigingDate(date));
             r.setProperty12(m.getCostForSigningDate(date));
-            r.setProperty13(m.getMembershipType().getDescription());
+            r.setProperty13(m.getMembershipType() != null ? m.getMembershipType().getDescription() : null);
             retVal.add(r);
         }
 

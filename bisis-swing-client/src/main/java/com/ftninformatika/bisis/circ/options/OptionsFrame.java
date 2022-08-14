@@ -1,30 +1,13 @@
 package com.ftninformatika.bisis.circ.options;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.JCheckBox;
-
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-import javax.swing.UIManager.LookAndFeelInfo;
-
 import com.ftninformatika.bisis.circ.validator.Validate;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import java.awt.FlowLayout;
+
+import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
+import java.awt.*;
 
 public class OptionsFrame extends JInternalFrame {
 
@@ -130,7 +113,7 @@ public class OptionsFrame extends JInternalFrame {
     }else{
       EnvironmentOptions.loadDefaults(this);
     }
-    //ValidatorOptions.loadOptions(this);
+    ValidatorOptions.loadOptions(this);
     this.setVisible(true);
   }
 
