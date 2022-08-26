@@ -131,8 +131,11 @@ public class RecordsService implements RecordsServiceInterface {
                     //null ce biti iz grupnog inventarisanja, zato ova provera
                     if (record.getInUseBy() != null)
                         modificator = librarianRepository.findById(record.getInUseBy()).get();
-                    if (modificator != null)
+                    if (modificator != null) {
                         record.getRecordModifications().add(new RecordModification(modificator.getUsername(), new Date()));
+                    } else {
+                        record.getRecordModifications().add(new RecordModification("Grupno inventarisanje", new Date()));
+                    }
                 }
                 record.pack();
                 Record savedRecord = recordsRepository.save(record);

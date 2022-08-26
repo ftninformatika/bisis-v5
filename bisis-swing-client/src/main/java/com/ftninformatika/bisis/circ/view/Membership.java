@@ -1,42 +1,24 @@
 package com.ftninformatika.bisis.circ.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.ButtonGroup;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableColumn;
-
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.pojo.*;
+import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.StringUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import com.ftninformatika.utils.Messages;
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableColumn;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class    Membership {
 
@@ -468,7 +450,8 @@ public class    Membership {
 
     public String getMmbrshipDate() {
         try {
-            return getTblMmbrship().getModel().getValueAt(getTblMmbrship().getModel().getRowCount() - 1, 1).toString();
+            Date date = (Date) getTblMmbrship().getModel().getValueAt(getTblMmbrship().getModel().getRowCount() - 1, 1);
+            return new SimpleDateFormat("dd.MM.yyyy.").format(date);
         } catch (Exception e) {
             return null;
         }
@@ -476,7 +459,8 @@ public class    Membership {
 
     public String getMmbrshipUntilDate() {
         try {
-            return getTblMmbrship().getModel().getValueAt(getTblMmbrship().getModel().getRowCount() - 1, 2).toString();
+            Date date = (Date) getTblMmbrship().getModel().getValueAt(getTblMmbrship().getModel().getRowCount() - 1, 2);
+            return new SimpleDateFormat("dd.MM.yyyy.").format(date);
         } catch (Exception e) {
             return null;
         }

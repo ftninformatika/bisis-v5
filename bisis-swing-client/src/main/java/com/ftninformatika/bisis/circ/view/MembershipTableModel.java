@@ -232,7 +232,6 @@ public class MembershipTableModel extends AbstractTableModel implements Serializ
             } catch (ParseException e) {
                 ((JComponent) getComponent()).setBorder(new LineBorder(Color.red));
                 return false;
-
             }
             return super.stopCellEditing();
         }
