@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.bjpk;
 
-import com.ftninformatika.bisis.gbzz.NabavkaPoUDK;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
@@ -12,7 +11,6 @@ import com.ftninformatika.utils.string.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -321,7 +319,7 @@ public class InventarnaKnjigaOgranci extends Report {
 
   SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
   private Pattern pattern;
-  private static Log log = LogFactory.getLog(KnjigaInventaraSerijske.class);
+  private static Log log = LogFactory.getLog(InventarnaKnjigaOgranci.class);
   private Map<String, List<Item>> itemMap = new HashMap<String, List<Item>>();
   public void finishOnline( StringBuffer buff ) {
 	    for (String key : itemMap.keySet()) {

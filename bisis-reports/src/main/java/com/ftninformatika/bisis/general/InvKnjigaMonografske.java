@@ -127,45 +127,6 @@ public class InvKnjigaMonografske extends Report {
         }
     }
 
-
-	  public void finishInv() {  //zbog inventerni one se snimaju u fajl po segmentima a ne sve od jednom
-		  log.info("Finishing  report...");
-		  if (settings.getOptionalParam() != null && settings.getOptionalParam().equals("inv-sort")) {
-              sortItemsByInvNoOnly();
-          } else {
-              for (List<Item> list : itemMap.values())
-                  Collections.sort(list);
-          }
-
-		    for (String key : itemMap.keySet()) {
-		      List<Item> list = itemMap.get(key);
-		      StringBuilder out = getWriter(key);
-		      for (Item i : list){
-		    	   out.append(i.toString());
-		    	   
-		      }
-                out.append("</report>");
-                GeneratedReport gr=new GeneratedReport();
-                if (key.indexOf("-") >= 0){
-                    gr.setReportName(key.substring(0,key.indexOf("-")));
-                    gr.setFullReportName(key);
-                    gr.setPeriod(key.substring(key.indexOf("-")+1));
-                }
-                else{
-                    gr.setReportName(key);
-                    gr.setFullReportName(key);
-                    gr.setPeriod(LatCyrUtils.toCyrillic("ceo fond"));
-
-                }
-                gr.setContent(out.toString());
-                gr.setReportType(getType().name().toLowerCase());
-                getReportRepository().save(gr);
-		      itemMap.get(key).clear();
-		    }
-		   
-		    log.info("Report finished.");
-	  }
-  
   public void handleRecord(Record rec) {
     if (rec == null)
       return;

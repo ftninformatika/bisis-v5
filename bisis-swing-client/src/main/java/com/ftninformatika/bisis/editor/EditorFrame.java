@@ -1,24 +1,6 @@
 package com.ftninformatika.bisis.editor;
 
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyVetoException;
-import java.text.MessageFormat;
-
-import javax.swing.*;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.plaf.basic.BasicTreeUI;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.actions.NewRecordAction;
 import com.ftninformatika.bisis.editor.editorutils.CardFrame;
@@ -31,7 +13,6 @@ import com.ftninformatika.bisis.editor.inventar.SerialInventarPanel;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.bisis.editor.recordtree.RecordTree;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
-import com.ftninformatika.bisis.format.UValidatorException;
 import com.ftninformatika.bisis.librarian.ProcessType;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.search.SearchFrame;
@@ -39,6 +20,15 @@ import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.swing.DisabledPanel;
 import com.ftninformatika.utils.swing.SwingUtils;
 import org.apache.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.plaf.basic.BasicTreeUI;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyVetoException;
+import java.text.MessageFormat;
 
 
 public class EditorFrame extends JInternalFrame {
@@ -289,6 +279,7 @@ public class EditorFrame extends JInternalFrame {
                 saveRecord.setEnabled(false);
                 recordUpdated = false;
                 setUploadEnabled(true);
+                zapisPanel.getRecordTree().refreshView();
                 return true;
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),

@@ -1,11 +1,6 @@
 package com.ftninformatika.bisis.editor.recordtree;
 
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.formattree.CurrFormat;
@@ -15,6 +10,11 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.records.serializers.PrimerakSerializer;
 import com.ftninformatika.utils.Messages;
 import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CurrRecord {
@@ -83,16 +83,19 @@ public class CurrRecord {
                         e.printStackTrace();
                     }
                     if (r != null)
-                        record.set_id(r.get_id());
+                        record = r;
+                        //record.set_id(r.get_id());
                     ok = r != null;
                     savedOnce = true;
                     log.info("add record, recordId=" + r.get_id() + ", creator: " + record.getCreator().getUsername());
                 } else {
-                    //record = BisisApp.getRecordManager().update(record);
                     Record r = null;
                     try {
                         r = BisisApp.bisisService.updateRecord(record).execute().body();
-                        record.set_id(r.get_id());
+                        if (r != null) {
+                            record = r;
+                        }
+                        //record.set_id(r.get_id());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -103,7 +106,10 @@ public class CurrRecord {
                 Record r = null;
                 try {
                     r = BisisApp.bisisService.updateRecord(record).execute().body(); //ovo je update
-                    record.set_id(r.get_id());
+                    if (r != null) {
+                        record = r;
+                    }
+                    //record.set_id(r.get_id());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
