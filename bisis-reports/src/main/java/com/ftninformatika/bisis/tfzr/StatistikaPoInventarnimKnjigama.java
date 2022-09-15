@@ -66,7 +66,7 @@ public class StatistikaPoInventarnimKnjigama extends Report {
     String invBr;
     Date dateInv;
     for (Primerak p : rec.getPrimerci()) {
-        if ((p.getStatus().equals("9"))||(p.getStatus().equals("8"))||(p.getStatus().equals("7"))){
+        if ((p.getStatus() != null) && ((p.getStatus().equals("9"))||(p.getStatus().equals("8"))||(p.getStatus().equals("7")))){
             continue;
         }
         dateInv=p.getDatumInventarisanja();
