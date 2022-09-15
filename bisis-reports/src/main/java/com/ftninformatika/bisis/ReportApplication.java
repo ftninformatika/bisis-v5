@@ -56,6 +56,9 @@ public class ReportApplication {
     ReportsRepository reportRep = ctx.getBean(ReportsRepository.class);
     RecordsRepository recRep = ctx.getBean(RecordsRepository.class);
     for (LibraryConfiguration lc : libconfigs) {
+      if (!lc.getLibraryName().equals(library_prefix) && !library_prefix.equals("all")) {
+        continue;
+      }
       libProvider.setPrefix(lc.getLibraryName());
       reportRep.deleteAll();
     }
