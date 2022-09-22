@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,37" last-zoom="1" max-obj-count="42"
+	 default-schema="public" default-owner="postgres">
+<database name="new_database" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="bisis_reports" layer="0" rect-visible="true" fill-color="#e1e1e1">
+</schema>
+
+<table name="item" layer="0" collapse-mode="2" max-obj-count="24" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="440" y="40"/>
+	<column name="item_id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="ctlg_no" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="issue_no">
+		<type name="text" length="0"/>
+	</column>
+	<column name="ctlg_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="price">
+		<type name="decimal" length="0"/>
+	</column>
+	<column name="record_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bibliographic_level_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="record_type_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="serial_type_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="target_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="language_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="country_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="udk_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="location_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="sublocation_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="status_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="accession_register_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="acquisition_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="internal_mark_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="item_pk" type="pk-constr" table="bisis_reports.item">
+		<columns names="item_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="record" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="60" y="40"/>
+	<column name="record_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="title">
+		<type name="text" length="0"/>
+	</column>
+	<column name="author">
+		<type name="text" length="0"/>
+	</column>
+	<column name="publisher">
+		<type name="text" length="0"/>
+	</column>
+	<column name="publication_year">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="record_pk" type="pk-constr" table="bisis_reports.record">
+		<columns names="record_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bibliographic_level" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[001c]]></comment>
+	<position x="880" y="40"/>
+	<column name="bibliographic_level_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="material_type_pk" type="pk-constr" table="bisis_reports.bibliographic_level">
+		<columns names="bibliographic_level_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="language" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[101a]]></comment>
+	<position x="880" y="680"/>
+	<column name="language_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="language_pk" type="pk-constr" table="bisis_reports.language">
+		<columns names="language_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="location" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="60" y="280"/>
+	<column name="location_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="location_pk" type="pk-constr" table="bisis_reports.location">
+		<columns names="location_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="sublocation" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="60" y="440"/>
+	<column name="sublocation_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="sublocation_pk" type="pk-constr" table="bisis_reports.sublocation">
+		<columns names="sublocation_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="status" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="60" y="600"/>
+	<column name="status_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="status_pk" type="pk-constr" table="bisis_reports.status">
+		<columns names="status_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="target" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[100e]]></comment>
+	<position x="880" y="520"/>
+	<column name="target_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="target_pk" type="pk-constr" table="bisis_reports.target">
+		<columns names="target_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="serial_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[110a]]></comment>
+	<position x="880" y="360"/>
+	<column name="serial_type_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="serial_type_pk" type="pk-constr" table="bisis_reports.serial_type">
+		<columns names="serial_type_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="county" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[102a]]></comment>
+	<position x="880" y="840"/>
+	<column name="country_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="county_pk" type="pk-constr" table="bisis_reports.county">
+		<columns names="country_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="accession_register" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[inventarna knjiga]]></comment>
+	<position x="880" y="1000"/>
+	<column name="accession_register_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="accession_register_pk" type="pk-constr" table="bisis_reports.accession_register">
+		<columns names="accession_register_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="record_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[001b]]></comment>
+	<position x="880" y="200"/>
+	<column name="record_type_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="record_type_pk" type="pk-constr" table="bisis_reports.record_type">
+		<columns names="record_type_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="udk" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[675a]]></comment>
+	<position x="880" y="1160"/>
+	<column name="udk_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="udk_pk" type="pk-constr" table="bisis_reports.udk">
+		<columns names="udk_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="acquisition" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="60" y="760"/>
+	<column name="acquisition_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="acquisition_pk" type="pk-constr" table="bisis_reports.acquisition">
+		<columns names="acquisition_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="internal_mark" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[interna oznaka]]></comment>
+	<position x="60" y="920"/>
+	<column name="internal_mark_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="internal_mark_pk" type="pk-constr" table="bisis_reports.internal_mark">
+		<columns names="internal_mark_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="membership" layer="0" collapse-mode="2" max-obj-count="13" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[first_time je true za prvu clanarinu]]></comment>
+	<position x="2120" y="40"/>
+	<column name="membership_id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="fee">
+		<type name="decimal" length="0"/>
+	</column>
+	<column name="date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="first_time">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="member_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="location_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="category_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="membership_type_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="gender_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="librarian_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="membership_pk" type="pk-constr" table="bisis_reports.membership">
+		<columns names="membership_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="member" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1760" y="40"/>
+	<column name="member_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="first_name">
+		<type name="text" length="0"/>
+	</column>
+	<column name="last_name">
+		<type name="text" length="0"/>
+	</column>
+	<column name="address">
+		<type name="text" length="0"/>
+	</column>
+	<column name="city">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="member_pk" type="pk-constr" table="bisis_reports.member">
+		<columns names="member_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="lending" layer="0" collapse-mode="2" max-obj-count="22" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[action_id je akcija zaduzeno, produzeno, razduzeno]]></comment>
+	<position x="1320" y="40"/>
+	<column name="lending_id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="ctlg_no">
+		<type name="text" length="0"/>
+	</column>
+	<column name="date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="action_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="member_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="location_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="category_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="membership_type_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="gender_id">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bibliographic_level_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="record_type_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="serial_type_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="target_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="language_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="country_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="udk_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="accession_register_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="librarian_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="lending_pk" type="pk-constr" table="bisis_reports.lending">
+		<columns names="lending_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="category" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1760" y="440"/>
+	<column name="category_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="category_pk" type="pk-constr" table="bisis_reports.category">
+		<columns names="category_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="membership_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1760" y="600"/>
+	<column name="membership_type_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="membership_type_pk" type="pk-constr" table="bisis_reports.membership_type">
+		<columns names="membership_type_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="circ_location" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1760" y="280"/>
+	<column name="location_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="circ_location_pk" type="pk-constr" table="bisis_reports.circ_location">
+		<columns names="location_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="gender" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1760" y="760"/>
+	<column name="gender_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="gender_pk" type="pk-constr" table="bisis_reports.gender">
+		<columns names="gender_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="lending_action" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[akcija zaduzeno, produzeno, razduzeno]]></comment>
+	<position x="1380" y="1040"/>
+	<column name="action_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="lending_action_pk" type="pk-constr" table="bisis_reports.lending_action">
+		<columns names="action_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="librarian" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1760" y="920"/>
+	<column name="librarian_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="librarian_pk" type="pk-constr" table="bisis_reports.librarian">
+		<columns names="librarian_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="record_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.record" table="bisis_reports.item">
+	<columns names="record_id" ref-type="src-columns"/>
+	<columns names="record_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="bibliographic_level_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.bibliographic_level" table="bisis_reports.item">
+	<columns names="bibliographic_level_id" ref-type="src-columns"/>
+	<columns names="bibliographic_level_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="language_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.language" table="bisis_reports.item">
+	<columns names="language_id" ref-type="src-columns"/>
+	<columns names="language_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="location_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.location" table="bisis_reports.item">
+	<columns names="location_id" ref-type="src-columns"/>
+	<columns names="location_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="sublocation_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.sublocation" table="bisis_reports.item">
+	<columns names="sublocation_id" ref-type="src-columns"/>
+	<columns names="sublocation_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="status_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.status" table="bisis_reports.item">
+	<columns names="status_id" ref-type="src-columns"/>
+	<columns names="status_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="target_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.target" table="bisis_reports.item">
+	<columns names="target_id" ref-type="src-columns"/>
+	<columns names="target_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="serial_type_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.serial_type" table="bisis_reports.item">
+	<columns names="serial_type_id" ref-type="src-columns"/>
+	<columns names="serial_type_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="country_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.county" table="bisis_reports.item">
+	<columns names="country_id" ref-type="src-columns"/>
+	<columns names="country_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="accession_register_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.accession_register" table="bisis_reports.item">
+	<columns names="accession_register_id" ref-type="src-columns"/>
+	<columns names="accession_register_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="record_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.record_type" table="bisis_reports.item">
+	<columns names="record_type_id" ref-type="src-columns"/>
+	<columns names="record_type_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="udk_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.udk" table="bisis_reports.item">
+	<columns names="udk_id" ref-type="src-columns"/>
+	<columns names="udk_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="acquisition_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.acquisition" table="bisis_reports.item">
+	<columns names="acquisition_id" ref-type="src-columns"/>
+	<columns names="acquisition_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="internal_mark_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.internal_mark" table="bisis_reports.item">
+	<columns names="internal_mark_id" ref-type="src-columns"/>
+	<columns names="internal_mark_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="membership_member" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.member" table="bisis_reports.membership">
+	<columns names="member_id" ref-type="src-columns"/>
+	<columns names="member_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="category_memebership" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.category" table="bisis_reports.membership">
+	<columns names="category_id" ref-type="src-columns"/>
+	<columns names="category_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="membership_membership_type" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.membership_type" table="bisis_reports.membership">
+	<columns names="membership_type_id" ref-type="src-columns"/>
+	<columns names="membership_type_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="gender_membership" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.gender" table="bisis_reports.membership">
+	<columns names="gender_id" ref-type="src-columns"/>
+	<columns names="gender_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="circ_location_membership" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.circ_location" table="bisis_reports.membership">
+	<columns names="location_id" ref-type="src-columns"/>
+	<columns names="location_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="librarian_membership" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.librarian" table="bisis_reports.membership">
+	<columns names="librarian_id" ref-type="src-columns"/>
+	<columns names="librarian_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_member" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.member" table="bisis_reports.lending">
+	<columns names="member_id" ref-type="src-columns"/>
+	<columns names="member_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_circ_location" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.circ_location" table="bisis_reports.lending">
+	<columns names="location_id" ref-type="src-columns"/>
+	<columns names="location_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="category_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.category" table="bisis_reports.lending">
+	<columns names="category_id" ref-type="src-columns"/>
+	<columns names="category_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="membership_type_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.membership_type" table="bisis_reports.lending">
+	<columns names="membership_type_id" ref-type="src-columns"/>
+	<columns names="membership_type_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="gender_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.gender" table="bisis_reports.lending">
+	<columns names="gender_id" ref-type="src-columns"/>
+	<columns names="gender_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_action_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.lending_action" table="bisis_reports.lending">
+	<columns names="action_id" ref-type="src-columns"/>
+	<columns names="action_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="udk_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.udk" table="bisis_reports.lending">
+	<columns names="udk_id" ref-type="src-columns"/>
+	<columns names="udk_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="bibliographic_level" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.bibliographic_level" table="bisis_reports.lending">
+	<columns names="bibliographic_level_id" ref-type="src-columns"/>
+	<columns names="bibliographic_level_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="record_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.record_type" table="bisis_reports.lending">
+	<columns names="record_type_id" ref-type="src-columns"/>
+	<columns names="record_type_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="target_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.target" table="bisis_reports.lending">
+	<columns names="target_id" ref-type="src-columns"/>
+	<columns names="target_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="serial_type_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.serial_type" table="bisis_reports.lending">
+	<columns names="serial_type_id" ref-type="src-columns"/>
+	<columns names="serial_type_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="language_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.language" table="bisis_reports.lending">
+	<columns names="language_id" ref-type="src-columns"/>
+	<columns names="language_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="country_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.county" table="bisis_reports.lending">
+	<columns names="country_id" ref-type="src-columns"/>
+	<columns names="country_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="accession_register_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.accession_register" table="bisis_reports.lending">
+	<columns names="accession_register_id" ref-type="src-columns"/>
+	<columns names="accession_register_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="librarian_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.librarian" table="bisis_reports.lending">
+	<columns names="librarian_id" ref-type="src-columns"/>
+	<columns names="librarian_id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_item_record" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.record" reference-fk="record_item"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_material_type" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.bibliographic_level" reference-fk="bibliographic_level_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_language" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.language" reference-fk="language_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_location" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.location" reference-fk="location_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_sublocation" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.sublocation" reference-fk="sublocation_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_status" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.status" reference-fk="status_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_target" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.target" reference-fk="target_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_serial_type" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.serial_type" reference-fk="serial_type_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_county" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.county" reference-fk="country_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_accession_register" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.accession_register" reference-fk="accession_register_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_record_type" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.record_type" reference-fk="record_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_udk" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.udk" reference-fk="udk_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_acquisition" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.acquisition" reference-fk="acquisition_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_internal_mark" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.internal_mark" reference-fk="internal_mark_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_membership_member" type="relfk" layer="0"
+	 src-table="bisis_reports.membership"
+	 dst-table="bisis_reports.member" reference-fk="membership_member"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_member" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.member" reference-fk="lending_member"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_membership_category" type="relfk" layer="0"
+	 src-table="bisis_reports.membership"
+	 dst-table="bisis_reports.category" reference-fk="category_memebership"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_membership_membership_type" type="relfk" layer="0"
+	 src-table="bisis_reports.membership"
+	 dst-table="bisis_reports.membership_type" reference-fk="membership_membership_type"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_circ_location" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.circ_location" reference-fk="lending_circ_location"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_membership_gender" type="relfk" layer="0"
+	 src-table="bisis_reports.membership"
+	 dst-table="bisis_reports.gender" reference-fk="gender_membership"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_membership_circ_location" type="relfk" layer="0"
+	 src-table="bisis_reports.membership"
+	 dst-table="bisis_reports.circ_location" reference-fk="circ_location_membership"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_category" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.category" reference-fk="category_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_membership_type" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.membership_type" reference-fk="membership_type_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_gender" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.gender" reference-fk="gender_lending"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-5.24433" y="2.69274"/>
+	</label>
+</relationship>
+
+<relationship name="rel_lending_lending_action" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.lending_action" reference-fk="lending_action_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_udk" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.udk" reference-fk="udk_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_bibliographic_level" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.bibliographic_level" reference-fk="bibliographic_level"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_record_type" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.record_type" reference-fk="record_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_target" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.target" reference-fk="target_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_serial_type" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.serial_type" reference-fk="serial_type_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_language" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.language" reference-fk="language_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_county" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.county" reference-fk="country_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_accession_register" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.accession_register" reference-fk="accession_register_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_membership_librarian" type="relfk" layer="0"
+	 src-table="bisis_reports.membership"
+	 dst-table="bisis_reports.librarian" reference-fk="librarian_membership"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_librarian" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.librarian" reference-fk="librarian_lending"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>

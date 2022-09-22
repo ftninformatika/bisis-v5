@@ -11,4 +11,5 @@ include 'bisis-ris'
 include 'bisis-acquisition'
 include 'bisis-core'
 include 'bisis-oauth'
+include 'bisis-datawarehouse'
 
