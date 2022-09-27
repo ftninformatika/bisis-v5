@@ -1,0 +1,54 @@
+[
+  {
+    "name": "location",
+    "displayName": "Локација"
+  },
+  {
+    "name": "sublocation",
+    "displayName": "Подлокација"
+  },
+  {
+    "name": "status",
+    "displayName": "Статус примерка"
+  },
+  {
+    "name": "acquisition",
+    "displayName": "Начин набавке"
+  },
+  {
+    "name": "internalMark",
+    "displayName": "Интерна ознака"
+  },
+  {
+    "name": "bibliographicLevel",
+    "displayName": "Библиографски ниво"
+  },
+  {
+    "name": "recordType",
+    "displayName": "Врста слога"
+  },
+  {
+    "name": "serialType",
+    "displayName": "Врста серијске публикације"
+  },
+  {
+    "name": "target",
+    "displayName": "Намена"
+  },
+  {
+    "name": "country",
+    "displayName": "Земља издавања"
+  },
+  {
+    "name": "language",
+    "displayName": "Језик текста"
+  },
+  {
+    "name": "udk",
+    "displayName": "УДК група"
+  },
+  {
+    "name": "accessionRegister",
+    "displayName": "Инвентарна књига"
+  }
+]

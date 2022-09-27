@@ -10,7 +10,8 @@ war {
 
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.1.2.RELEASE'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.0'
     implementation project(":bisis-model")
     implementation project(":bisis-core")
     implementation project(":bisis-authentication")

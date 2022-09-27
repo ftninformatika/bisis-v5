@@ -1,7 +1,11 @@
 package com.ftninformatika.bisis.datawarehouse.entity;
 
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 
@@ -10,17 +14,17 @@ import java.util.Set;
  * 
  */
 @Entity
-@NamedQuery(name="Record.findAll", query="SELECT r FROM Record r")
-public class Record implements Serializable {
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name="record", schema = "bisis_reports", catalog = "bisis")
+@AttributeOverride(name = "description", column = @Column(name = "title", insertable = false,updatable = false))
+
+public class Record extends Coder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="record_id")
-	private Integer recordId;
 
 	private String author;
-
-	private String library;
 
 	@Column(name="publication_year")
 	private String publicationYear;
@@ -32,78 +36,5 @@ public class Record implements Serializable {
 	//bi-directional many-to-one association to Item
 	@OneToMany(mappedBy="record")
 	private Set<Item> items;
-
-	public Record() {
-	}
-
-	public Integer getRecordId() {
-		return this.recordId;
-	}
-
-	public void setRecordId(Integer recordId) {
-		this.recordId = recordId;
-	}
-
-	public String getAuthor() {
-		return this.author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getLibrary() {
-		return this.library;
-	}
-
-	public void setLibrary(String library) {
-		this.library = library;
-	}
-
-	public String getPublicationYear() {
-		return this.publicationYear;
-	}
-
-	public void setPublicationYear(String publicationYear) {
-		this.publicationYear = publicationYear;
-	}
-
-	public String getPublisher() {
-		return this.publisher;
-	}
-
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
-
-	public String getTitle() {
-		return this.title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public Set<Item> getItems() {
-		return this.items;
-	}
-
-	public void setItems(Set<Item> items) {
-		this.items = items;
-	}
-
-	public Item addItem(Item item) {
-		getItems().add(item);
-		item.setRecord(this);
-
-		return item;
-	}
-
-	public Item removeItem(Item item) {
-		getItems().remove(item);
-		item.setRecord(null);
-
-		return item;
-	}
 
 }

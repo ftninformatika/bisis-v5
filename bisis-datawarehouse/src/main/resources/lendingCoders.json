@@ -1,0 +1,54 @@
+[
+  {
+    "name": "bibliographicLevel",
+    "displayName": "Библиографски ниво"
+  },
+  {
+    "name": "recordType",
+    "displayName": "Врста слога"
+  },
+  {
+    "name": "serialType",
+    "displayName": "Врста серијске публикације"
+  },
+  {
+    "name": "target",
+    "displayName": "Намена"
+  },
+  {
+    "name": "country",
+    "displayName": "Земља издавања"
+  },
+  {
+    "name": "language",
+    "displayName": "Језик текста"
+  },
+  {
+    "name": "udk",
+    "displayName": "УДК група"
+  },
+  {
+    "name": "accessionRegister",
+    "displayName": "Инвентарна књига"
+  },
+  {
+    "name": "circLocation",
+    "displayName": "Локација"
+  },
+  {
+    "name": "category",
+    "displayName": "Категорија корисника"
+  },
+  {
+    "name": "membershipType",
+    "displayName": "Врста учлањења"
+  },
+  {
+    "name": "gender",
+    "displayName": "Пол"
+  },
+  {
+    "name": "librarian",
+    "displayName": "Библиотекар"
+  }
+]

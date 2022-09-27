@@ -1,0 +1,22 @@
+[
+  {
+    "name": "circLocation",
+    "displayName": "Локација"
+  },
+  {
+    "name": "category",
+    "displayName": "Категорија корисника"
+  },
+  {
+    "name": "membershipType",
+    "displayName": "Врста учлањења"
+  },
+  {
+    "name": "gender",
+    "displayName": "Пол"
+  },
+  {
+    "name": "librarian",
+    "displayName": "Библиотекар"
+  }
+]

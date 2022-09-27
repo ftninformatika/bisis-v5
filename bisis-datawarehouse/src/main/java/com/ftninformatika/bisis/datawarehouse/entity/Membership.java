@@ -1,7 +1,11 @@
 package com.ftninformatika.bisis.datawarehouse.entity;
 
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -11,7 +15,11 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name="Membership.findAll", query="SELECT m FROM Membership m")
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name="membership", schema = "bisis_reports", catalog = "bisis")
+
 public class Membership implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -59,96 +67,4 @@ public class Membership implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="membership_type_id")
 	private MembershipType membershipType;
-
-	public Membership() {
-	}
-
-	public Integer getMembershipId() {
-		return this.membershipId;
-	}
-
-	public void setMembershipId(Integer membershipId) {
-		this.membershipId = membershipId;
-	}
-
-	public Timestamp getDate() {
-		return this.date;
-	}
-
-	public void setDate(Timestamp date) {
-		this.date = date;
-	}
-
-	public BigDecimal getFee() {
-		return this.fee;
-	}
-
-	public void setFee(BigDecimal fee) {
-		this.fee = fee;
-	}
-
-	public Boolean getFirstTime() {
-		return this.firstTime;
-	}
-
-	public void setFirstTime(Boolean firstTime) {
-		this.firstTime = firstTime;
-	}
-
-	public String getLibrary() {
-		return this.library;
-	}
-
-	public void setLibrary(String library) {
-		this.library = library;
-	}
-
-	public Category getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public CircLocation getCircLocation() {
-		return this.circLocation;
-	}
-
-	public void setCircLocation(CircLocation circLocation) {
-		this.circLocation = circLocation;
-	}
-
-	public Gender getGender() {
-		return this.gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-
-	public Librarian getLibrarian() {
-		return this.librarian;
-	}
-
-	public void setLibrarian(Librarian librarian) {
-		this.librarian = librarian;
-	}
-
-	public Member getMember() {
-		return this.member;
-	}
-
-	public void setMember(Member member) {
-		this.member = member;
-	}
-
-	public MembershipType getMembershipType() {
-		return this.membershipType;
-	}
-
-	public void setMembershipType(MembershipType membershipType) {
-		this.membershipType = membershipType;
-	}
-
 }
