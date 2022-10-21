@@ -3,10 +3,11 @@ package com.ftninformatika.bisis.datawarehouse.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 /**
@@ -23,7 +24,7 @@ public class Lending implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="LENDING_LENDINGID_GENERATOR", sequenceName="LENDING_LENDING_ID_SEQ")
+	@SequenceGenerator(name="LENDING_LENDINGID_GENERATOR", sequenceName="bisis_reports.LENDING_LENDING_ID_SEQ", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LENDING_LENDINGID_GENERATOR")
 	@Column(name="lending_id")
 	private Integer lendingId;
@@ -31,7 +32,7 @@ public class Lending implements Serializable {
 	@Column(name="ctlg_no")
 	private String ctlgNo;
 
-	private Timestamp date;
+	private LocalDateTime date;
 
 	private String library;
 
@@ -110,4 +111,6 @@ public class Lending implements Serializable {
 	@JoinColumn(name="udk_id")
 	private Udk udk;
 
+	@Formula("concat(ctlg_no, date)") // <= THE TRICK
+	private String ctlgNoDate;
 }

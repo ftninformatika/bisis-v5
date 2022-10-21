@@ -11,7 +11,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.UserCategRepository;
+import com.ftninformatika.bisis.core.repositories.UserCategRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.date.DateUtils;
 import org.apache.log4j.Logger;

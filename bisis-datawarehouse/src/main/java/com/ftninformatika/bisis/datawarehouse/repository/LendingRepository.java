@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("lendingJPARepository")
 public interface LendingRepository extends JpaRepository<Lending,Integer> {
+
+     void deleteByLibrary(String library);
 }

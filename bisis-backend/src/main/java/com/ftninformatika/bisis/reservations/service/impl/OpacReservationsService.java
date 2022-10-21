@@ -8,7 +8,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
+import com.ftninformatika.bisis.core.repositories.CircConfigRepository;
 import com.ftninformatika.bisis.reservations.service.interfaces.LocationServiceInterface;
 import com.ftninformatika.bisis.reservations.service.interfaces.OpacReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;

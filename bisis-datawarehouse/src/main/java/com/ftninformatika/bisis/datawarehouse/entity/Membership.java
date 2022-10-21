@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 /**
@@ -24,12 +24,12 @@ public class Membership implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="MEMBERSHIP_MEMBERSHIPID_GENERATOR", sequenceName="MEMBERSHIP_MEMBERSHIP_ID_SEQ")
+	@SequenceGenerator(name="MEMBERSHIP_MEMBERSHIPID_GENERATOR", sequenceName="bisis_reports.MEMBERSHIP_MEMBERSHIP_ID_SEQ",allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MEMBERSHIP_MEMBERSHIPID_GENERATOR")
 	@Column(name="membership_id")
 	private Integer membershipId;
 
-	private Timestamp date;
+	private LocalDateTime date;
 
 	private BigDecimal fee;
 

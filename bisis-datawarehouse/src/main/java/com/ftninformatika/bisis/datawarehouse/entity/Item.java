@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 /**
@@ -23,14 +23,34 @@ import java.sql.Timestamp;
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public Item(Item another){
+		this.ctlgDate = another.getCtlgDate();
+		this.ctlgNo = another.getCtlgNo();
+		this.issueNo = another.getIssueNo();
+		this.library = another.getLibrary();
+		this.price = another.getPrice();
+		this.accessionRegister = another.getAccessionRegister();
+		this.acquisition = another.getAcquisition();
+		this.bibliographicLevel = another.getBibliographicLevel();
+		this.internalMark = another.getInternalMark();
+		this.status = another.getStatus();
+		this.library = another.getLibrary();
+		this.location = another.getLocation();
+		this.sublocation = another.getSublocation();
+		this.serialType = another.getSerialType();
+		this.record = another.getRecord();
+		this.recordType = another.getRecordType();
+		this.target = another.getTarget();
+	}
+
 	@Id
-	@SequenceGenerator(name="ITEM_ITEMID_GENERATOR", sequenceName="ITEM_ITEM_ID_SEQ")
+	@SequenceGenerator(name="ITEM_ITEMID_GENERATOR", sequenceName="bisis_reports.ITEM_ITEM_ID_SEQ", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ITEM_ITEMID_GENERATOR")
 	@Column(name="item_id")
 	private Integer itemId;
 
 	@Column(name="ctlg_date")
-	private Timestamp ctlgDate;
+	private LocalDateTime ctlgDate;
 
 	@Column(name="ctlg_no")
 	private String ctlgNo;

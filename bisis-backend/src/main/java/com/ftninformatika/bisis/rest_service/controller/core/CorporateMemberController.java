@@ -1,7 +1,7 @@
 package com.ftninformatika.bisis.rest_service.controller.core;
 
 import com.ftninformatika.bisis.circ.CorporateMember;
-import com.ftninformatika.bisis.rest_service.repository.mongo.CorporateMemberRepository;
+import com.ftninformatika.bisis.core.repositories.CorporateMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

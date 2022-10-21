@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("acquisitionJPARepository")
 public interface AcquisitionRepository extends CoderRepository<Acquisition>{
+
+
 }

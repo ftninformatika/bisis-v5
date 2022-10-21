@@ -7,10 +7,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableScheduling
 @ComponentScan("com.ftninformatika")
 @EnableMongoRepositories("com.ftninformatika")
+@EnableTransactionManagement
 @SpringBootApplication
 public class DataWarehouseApp extends SpringBootServletInitializer {
 

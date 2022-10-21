@@ -15,7 +15,7 @@ import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
 import com.ftninformatika.bisis.rest_service.Texts;
 import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.CircConfigRepository;
+import com.ftninformatika.bisis.core.repositories.CircConfigRepository;
 import com.ftninformatika.bisis.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.reservations.service.interfaces.LocationServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
@@ -23,7 +23,6 @@ import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemb
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import com.ftninformatika.util.WorkCalendar;
 import com.ftninformatika.utils.constants.ReservationsConstants;
-import com.ftninformatika.utils.string.LatCyrUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

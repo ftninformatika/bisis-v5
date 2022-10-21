@@ -4,8 +4,6 @@ import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.coders.*;
 import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
-import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.rest_service.repository.mongo.coders.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
