@@ -199,7 +199,7 @@ public class ImportService {
         locationRepository.deleteAllInBatch();
         sublocationRepository.deleteAllInBatch();
         statusRepository.deleteAllInBatch();
-        recordRepository.deleteAllInBatch();
+        recordRepository.recordDelete();
 
         categoryRepository.deleteAllInBatch();
         circLocationRepository.deleteAllInBatch();
@@ -347,9 +347,14 @@ public class ImportService {
     }
 
     public LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+        if (dateToConvert != null) {
+            return dateToConvert.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDateTime();
+        }else{
+            ///TODO
+            return null;
+        }
     }
 
     private void handleRecord(Record record, String library, List<Item> itemList, List<com.ftninformatika.bisis.datawarehouse.entity.Record> recordList){
@@ -469,7 +474,7 @@ public class ImportService {
                     i.setAcquisition(acquisition2);
                 }else{
                     ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre nabavke "+ acquisitionRec+"->"+p.getInvBroj());
+                    Logger.getLogger(ImportService.class).warn("Nema sifre nabavke "+ acquisitionRec+"->"+p.getInvBroj() + "biblioteka: " + library);
                 }
             }else{
                 Acquisition acquisitionNone = acquisitionMap.get("nemavrednost");
@@ -485,7 +490,7 @@ public class ImportService {
                     i.setInternalMark(internalMark2);
                 }else{
                     ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre interne oznake "+ internalMarkRec+"->"+p.getInvBroj());
+                    Logger.getLogger(ImportService.class).warn("Nema sifre interne oznake "+ internalMarkRec+"->"+p.getInvBroj()+ "biblioteka: " + library);
                 }
             }else{
                 InternalMark internalMarkNone = internalMarkMap.get("nemavrednost");
@@ -501,7 +506,7 @@ public class ImportService {
                     i.setStatus(status2);
                 }else{
                     ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre statusa "+ statusRec+"->"+p.getInvBroj());
+                    Logger.getLogger(ImportService.class).warn("Nema sifre statusa "+ statusRec+"->"+p.getInvBroj() + "biblioteka: " + library);
                 }
             }else{
                 Status statusNone = statusMap.get("nemavrednost");
@@ -517,7 +522,7 @@ public class ImportService {
                     i.setLocation(location2);
                 }else{
                     ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre lokacije "+ locationRec+"->"+p.getInvBroj());
+                    Logger.getLogger(ImportService.class).warn("Nema sifre lokacije "+ locationRec+"->"+p.getInvBroj() + "biblioteka: " + library);
                 }
             }else{
                 Location locationNone = locationMap.get("nemavrednost");
@@ -533,7 +538,7 @@ public class ImportService {
                     i.setSublocation(sublocation2);
                 }else{
                     ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre podlokacije "+ sublocationRec+"->"+p.getInvBroj());
+                    Logger.getLogger(ImportService.class).warn("Nema sifre podlokacije "+ sublocationRec+"->"+p.getInvBroj() + "biblioteka: " + library);
                 }
             }else{
                 Sublocation sublocationNone = sublocationMap.get("nemavrednost");
@@ -552,7 +557,7 @@ public class ImportService {
                     i.setAccessionRegister(accessionRegister);
                 }else{
                     ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre inv knjige "+ accessionRegisterRec+"->"+p.getInvBroj());
+                    Logger.getLogger(ImportService.class).warn("Nema sifre inv knjige "+ accessionRegisterRec+"->"+p.getInvBroj() + "biblioteka: " + library);
                 }
             }else{
                 AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
@@ -574,12 +579,19 @@ public class ImportService {
     }
 
     public void handleImport(){
+        System.out.println("Import cele baze...");
+        Logger.getLogger(ImportService.class).info("Import cele baze...");
         deleteDataWarehouse();
+        Logger.getLogger(ImportService.class).info("Datawarehouse obrisan");
         importCoders();
         List<LibraryConfiguration> libraryConfigurationList = libraryConfigurationRepository.findAll();
         for(LibraryConfiguration lc:libraryConfigurationList){
             importData(lc.getLibraryName());
+            System.out.println("Import baze "+lc.getLibraryName() +"je zavrsen.");
+            Logger.getLogger(ImportService.class).info("Import baze "+lc.getLibraryName() +"je zavrsen.");
         }
+        Logger.getLogger(ImportService.class).info("Import je zavrsen.");
+        System.out.println("Import je zavrsen.");
 
     }
     public void handleImportOneLibrary(String library){
