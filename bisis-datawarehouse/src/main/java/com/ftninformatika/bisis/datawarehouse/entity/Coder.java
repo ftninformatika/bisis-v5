@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.datawarehouse.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class Coder implements Persistable<String> {
     private String library;
 
     @Override
+    @JsonIgnore
     public boolean isNew() {
         return true;
     }

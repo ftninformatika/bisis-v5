@@ -97,6 +97,7 @@ public class SearchService {
 
         selectExpressions.add(cb.countDistinct(root.get("member")));
         selectExpressions.add(cb.countDistinct(root.get("ctlgNoDate")));
+        selectExpressions.add(cb.countDistinct(root.get("ctlgNo")));
         cq.multiselect(selectExpressions).
                 where(whereExpressions.toArray(new Predicate[0])).
                 groupBy(groupByExpressions);

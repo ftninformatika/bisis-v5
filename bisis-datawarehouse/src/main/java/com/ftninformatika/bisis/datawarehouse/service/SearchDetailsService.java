@@ -59,7 +59,6 @@ public class SearchDetailsService {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
         Root<Item> root = cq.from(Item.class);
-
         List<Selection<?>> selectExpressions = new ArrayList<>();
         List<Predicate> whereExpressions = new ArrayList<>();
         for(SelectedCoder sc: sortSelectedCoders){
@@ -97,7 +96,7 @@ public class SearchDetailsService {
         }
         whereExpressions.add(cb.between(root.get("ctlgDate"), searchDetailsRequest.getStartDate(), searchDetailsRequest.getEndDate()));
         whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
-        cq.select(cb.count(root)).where(whereExpressions.toArray(new Predicate[0]));
+        cq.select(cb.countDistinct(root.get("recordIdCtlgNoIssueNo"))).where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
         return (Long)query.getSingleResult();
     }
@@ -153,7 +152,7 @@ public class SearchDetailsService {
         if (searchDetailsRequest.isFirstMembership()){
             whereExpressions.add(cb.isTrue(root.get("firstTime")));
         }
-        cq.select(cb.count(root)).where(whereExpressions.toArray(new Predicate[0]));
+        cq.select(cb.countDistinct(root)).where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
         return (Long)query.getSingleResult();
      }
@@ -222,7 +221,7 @@ public class SearchDetailsService {
         }
         whereExpressions.add(cb.or(lendingAction.toArray(new Predicate[0])));
 
-        cq.select(cb.count(root)).where(whereExpressions.toArray(new Predicate[0]));
+        cq.select(cb.countDistinct(root.get("ctlgNoDate"))).where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
         return (Long)query.getSingleResult();
 

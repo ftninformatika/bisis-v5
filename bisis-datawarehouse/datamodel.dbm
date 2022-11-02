@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="42"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="45"
 	 default-schema="public" default-owner="postgres">
 <database name="bisis" is-template="false" allow-conns="true">
 </database>
@@ -14,7 +14,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <schema name="bisis_reports" layer="0" rect-visible="true" fill-color="#e1e1e1">
 </schema>
 
-<table name="item" layer="0" collapse-mode="2" max-obj-count="24" z-value="0">
+<table name="item" layer="0" collapse-mode="2" max-obj-count="25" z-value="0">
 	<schema name="bisis_reports"/>
 	<position x="440" y="40"/>
 	<column name="item_id" not-null="true">
@@ -72,6 +72,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text" length="0"/>
 	</column>
 	<column name="internal_mark_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="content_type_id">
 		<type name="text" length="0"/>
 	</column>
 	<column name="library">
@@ -180,7 +183,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="status" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="60" y="600"/>
+	<position x="880" y="1480"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -305,7 +308,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="acquisition" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="60" y="760"/>
+	<position x="60" y="600"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -323,7 +326,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="internal_mark" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[interna oznaka]]></comment>
-	<position x="60" y="920"/>
+	<position x="880" y="1320"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -406,7 +409,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="lending" layer="0" collapse-mode="2" max-obj-count="22" z-value="0">
+<table name="lending" layer="0" collapse-mode="2" max-obj-count="25" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[action_id je akcija zaduzeno, produzeno, razduzeno]]></comment>
 	<position x="1320" y="40"/>
@@ -462,6 +465,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text" length="0"/>
 	</column>
 	<column name="librarian_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="internal_mark_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="status_id">
 		<type name="text" length="0"/>
 	</column>
 	<column name="library">
@@ -543,7 +552,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="lending_action" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[akcija zaduzeno, produzeno, razduzeno]]></comment>
-	<position x="1380" y="1040"/>
+	<position x="1340" y="1200"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -571,6 +580,95 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text" length="0"/>
 	</column>
 	<constraint name="librarian_pk" type="pk-constr" table="bisis_reports.librarian">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="item_record_idx" table="bisis_reports.item"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="record_id"/>
+		</idxelement>
+</index>
+
+<index name="lending_member_idx" table="bisis_reports.lending"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="member_id"/>
+		</idxelement>
+</index>
+
+<index name="membership_member_idx" table="bisis_reports.membership"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="member_id"/>
+		</idxelement>
+</index>
+
+<index name="membership_library_idx" table="bisis_reports.membership"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="library"/>
+		</idxelement>
+</index>
+
+<index name="lending_library_idx" table="bisis_reports.lending"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="library"/>
+		</idxelement>
+</index>
+
+<index name="item_library_idx" table="bisis_reports.item"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="library"/>
+		</idxelement>
+</index>
+
+<table name="saved_query" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="2180" y="720"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="text" length="0"/>
+	</column>
+	<column name="date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="content">
+		<type name="json" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="saved_query_pk" type="pk-constr" table="bisis_reports.saved_query">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="content_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<comment><![CDATA[vrsta sadrzaja 105b]]></comment>
+	<position x="60" y="760"/>
+	<column name="id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="content_type_pk" type="pk-constr" table="bisis_reports.content_type">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -656,6 +754,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="internal_mark_item" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.internal_mark" table="bisis_reports.item">
 	<columns names="internal_mark_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="content_type_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.content_type" table="bisis_reports.item">
+	<columns names="content_type_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -782,6 +886,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="librarian_lending" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.librarian" table="bisis_reports.lending">
 	<columns names="librarian_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="internal_mark_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.internal_mark" table="bisis_reports.lending">
+	<columns names="internal_mark_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="status_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.status" table="bisis_reports.lending">
+	<columns names="status_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -962,6 +1078,21 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_lending_librarian" type="relfk" layer="0"
 	 src-table="bisis_reports.lending"
 	 dst-table="bisis_reports.librarian" reference-fk="librarian_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_content_type" type="relfk" layer="0"
+	 src-table="bisis_reports.item"
+	 dst-table="bisis_reports.content_type" reference-fk="content_type_item"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_internal_mark" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.internal_mark" reference-fk="internal_mark_lending"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_lending_status" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.status" reference-fk="status_lending"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

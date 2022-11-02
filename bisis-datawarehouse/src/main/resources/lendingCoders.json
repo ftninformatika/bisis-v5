@@ -1,39 +1,47 @@
 [
   {
     "name": "bibliographicLevel",
-    "displayName": "Библиографски ниво"
+    "displayName": "Библиографски ниво (001c)"
   },
   {
     "name": "recordType",
-    "displayName": "Врста слога"
+    "displayName": "Врста слога (001b)"
   },
   {
     "name": "serialType",
-    "displayName": "Врста серијске публикације"
+    "displayName": "Врста серијске публикације (110a)"
+  },
+  {
+    "name": "internalMark",
+    "displayName": "Интерна ознака"
   },
   {
     "name": "target",
-    "displayName": "Намена"
+    "displayName": "Намена (100e)"
   },
   {
     "name": "country",
-    "displayName": "Земља издавања"
+    "displayName": "Земља издавања (102a)"
   },
   {
     "name": "language",
-    "displayName": "Језик текста"
+    "displayName": "Језик текста (101a)"
   },
   {
     "name": "udk",
-    "displayName": "УДК група"
+    "displayName": "УДК група (675a)"
   },
   {
     "name": "accessionRegister",
     "displayName": "Инвентарна књига"
   },
   {
+    "name": "status",
+    "displayName": "Статус примерка"
+  },
+  {
     "name": "circLocation",
-    "displayName": "Локација"
+    "displayName": "Локација (циркулација)"
   },
   {
     "name": "category",

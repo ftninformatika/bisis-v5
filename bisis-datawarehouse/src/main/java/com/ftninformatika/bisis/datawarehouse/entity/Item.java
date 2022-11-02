@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.datawarehouse.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -131,4 +132,7 @@ public class Item implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="udk_id")
 	private Udk udk;
+
+	@Formula("concat(record_id, ctlg_no, issue_no)") // <= THE TRICK for count
+	private String recordIdCtlgNoIssueNo;
 }

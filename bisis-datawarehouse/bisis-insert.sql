@@ -13,7 +13,6 @@ insert into bisis_reports.udk(id, description) values ('0' ,'Grupa 0');
 insert into bisis_reports.udk(id, description) values ('1' ,'Grupa 1');
 insert into bisis_reports.udk(id, description) values ('2' ,'Grupa 2');
 insert into bisis_reports.udk(id, description) values ('3' ,'Grupa 3');
-insert into bisis_reports.udk(id, description) values ('4' ,'Grupa 4');
 insert into bisis_reports.udk(id, description) values ('5' ,'Grupa 5');
 insert into bisis_reports.udk(id, description) values ('6' ,'Grupa 6');
 insert into bisis_reports.udk(id, description) values ('7' ,'Grupa 7');
@@ -70,6 +69,69 @@ insert into bisis_reports.target(id, description) values ('m' ,'za odrasle, opš
 insert into bisis_reports.target(id, description) values ('u' ,'nepoznato');
 update bisis_reports.target set description = concat(id, ' - ', description);
 insert into bisis_reports.target(id, description) values ('nemavrednost' ,'Нема вредност');
+
+delete from bisis_reports.content_type;
+insert into bisis_reports.content_type(id, description) values ('a', 'bibliografije');
+insert into bisis_reports.content_type(id, description) values ('b', 'katalozi');
+insert into bisis_reports.content_type(id, description) values ('c', 'kazala, indeksi');
+insert into bisis_reports.content_type(id, description) values ('d', 'apstrakt');
+insert into bisis_reports.content_type(id, description) values ('e', 'rečnici');
+insert into bisis_reports.content_type(id, description) values ('f', 'enciklopedije');
+insert into bisis_reports.content_type(id, description) values ('g', 'adresari');
+insert into bisis_reports.content_type(id, description) values ('h', 'letopisi');
+insert into bisis_reports.content_type(id, description) values ('i', 'statistički pregledi');
+insert into bisis_reports.content_type(id, description) values ('j', 'udžbenici');
+insert into bisis_reports.content_type(id, description) values ('k', 'patenti');
+insert into bisis_reports.content_type(id, description) values ('l', 'standardi');
+insert into bisis_reports.content_type(id, description) values ('m', 'disertacije, teze');
+insert into bisis_reports.content_type(id, description) values ('m1', 'master rad');
+insert into bisis_reports.content_type(id, description) values ('m2', 'magistarski radovi');
+insert into bisis_reports.content_type(id, description) values ('m3', 'specijalistički radovi');
+insert into bisis_reports.content_type(id, description) values ('m4', 'habilitacijski radovi');
+insert into bisis_reports.content_type(id, description) values ('m5', 'diplomski radovi');
+insert into bisis_reports.content_type(id, description) values ('m6', 'bečelor radovi');
+insert into bisis_reports.content_type(id, description) values ('m7', 'diplomski/završni radovi prvog stepena');
+insert into bisis_reports.content_type(id, description) values ('m8', 'bečelor radovi strukovnih studija');
+insert into bisis_reports.content_type(id, description) values ('m9', 'specijalistički radovi strukovnih studija');
+insert into bisis_reports.content_type(id, description) values ('n', 'zakoni');
+insert into bisis_reports.content_type(id, description) values ('o', 'numeričke tabele');
+insert into bisis_reports.content_type(id, description) values ('p', 'tehnički izveštaj');
+insert into bisis_reports.content_type(id, description) values ('q', 'ispitna građa');
+insert into bisis_reports.content_type(id, description) values ('r', 'istraživački radovi, bazična istraživanja');
+insert into bisis_reports.content_type(id, description) values ('r1', 'prikazi');
+insert into bisis_reports.content_type(id, description) values ('r2', 'naučno delo');
+insert into bisis_reports.content_type(id, description) values ('r3', 'prethodno saopštenje');
+insert into bisis_reports.content_type(id, description) values ('r4', 'stručno delo');
+insert into bisis_reports.content_type(id, description) values ('r5', 'izveštaj sa konferencije');
+insert into bisis_reports.content_type(id, description) values ('r6', 'delo nije kategorisano');
+insert into bisis_reports.content_type(id, description) values ('s', 'ugovori');
+insert into bisis_reports.content_type(id, description) values ('s01', 'spomenice');
+insert into bisis_reports.content_type(id, description) values ('s02', 'programi');
+insert into bisis_reports.content_type(id, description) values ('s03', 'poseban otisak');
+insert into bisis_reports.content_type(id, description) values ('s04', 'slikovnice');
+insert into bisis_reports.content_type(id, description) values ('s05', 'brošure');
+insert into bisis_reports.content_type(id, description) values ('s06', 'monografije');
+insert into bisis_reports.content_type(id, description) values ('s07', 'hronike');
+insert into bisis_reports.content_type(id, description) values ('s08', 'studije');
+insert into bisis_reports.content_type(id, description) values ('s09', 'istoriografija');
+insert into bisis_reports.content_type(id, description) values ('s10', 'zbirke zadataka');
+insert into bisis_reports.content_type(id, description) values ('t', 'istraživački radovi, razvojna istraživanja');
+insert into bisis_reports.content_type(id, description) values ('u', 'pravilnici');
+insert into bisis_reports.content_type(id, description) values ('v', 'priručnici');
+insert into bisis_reports.content_type(id, description) values ('w', 'istraživački radovi, aplikacijska istraživanja');
+insert into bisis_reports.content_type(id, description) values ('x1', 'atlasi');
+insert into bisis_reports.content_type(id, description) values ('x2', 'separati');
+insert into bisis_reports.content_type(id, description) values ('x3', 'arhivska građa');
+insert into bisis_reports.content_type(id, description) values ('x4', 'albumi');
+insert into bisis_reports.content_type(id, description) values ('x5', 'vodiči');
+insert into bisis_reports.content_type(id, description) values ('x6', 'leksikoni');
+insert into bisis_reports.content_type(id, description) values ('x7', 'statuti');
+insert into bisis_reports.content_type(id, description) values ('x8', 'antologije');
+insert into bisis_reports.content_type(id, description) values ('z', 'zbornici');
+insert into bisis_reports.content_type(id, description) values ('z1', 'stripovi');
+insert into bisis_reports.content_type(id, description) values ('z2', 'ostalo');
+update bisis_reports.content_type set description = concat(id, ' - ', description);
+insert into bisis_reports.content_type(id, description) values ('nemavrednost' ,'Нема вредност');
 
 delete from bisis_reports.country;
 insert into bisis_reports.country(id, description) values ('KS' ,'Kraljevina Srbija');
@@ -827,8 +889,3 @@ insert into bisis_reports.language(id, description) values ('zxx' ,'No linguisti
 insert into bisis_reports.language(id, description) values ('zza' ,'Zaza');
 update bisis_reports.language set description = concat(id, ' - ', description);
 insert into bisis_reports.language(id, description) values ('nemavrednost' ,'Нема вредност');
-
-
-
-
-
