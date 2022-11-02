@@ -279,7 +279,7 @@ public class EditorFrame extends JInternalFrame {
                 saveRecord.setEnabled(false);
                 recordUpdated = false;
                 setUploadEnabled(true);
-                zapisPanel.getRecordTree().refreshView();
+                //zapisPanel.getRecordTree().refreshView();
                 return true;
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(BisisApp.getMainFrame(),

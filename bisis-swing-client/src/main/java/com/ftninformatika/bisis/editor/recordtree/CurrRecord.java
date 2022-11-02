@@ -82,9 +82,11 @@ public class CurrRecord {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    if (r != null)
-                        record = r;
-                        //record.set_id(r.get_id());
+                    if (r != null){
+                        record.set_id(r.get_id());
+                        record.setCreationDate(r.getCreationDate());
+                        record.setLastModifiedDate(r.getLastModifiedDate());
+                    }
                     ok = r != null;
                     savedOnce = true;
                     log.info("add record, recordId=" + r.get_id() + ", creator: " + record.getCreator().getUsername());
@@ -93,9 +95,10 @@ public class CurrRecord {
                     try {
                         r = BisisApp.bisisService.updateRecord(record).execute().body();
                         if (r != null) {
-                            record = r;
+                            record.set_id(r.get_id());
+                            record.setCreationDate(r.getCreationDate());
+                            record.setLastModifiedDate(r.getLastModifiedDate());
                         }
-                        //record.set_id(r.get_id());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -107,9 +110,10 @@ public class CurrRecord {
                 try {
                     r = BisisApp.bisisService.updateRecord(record).execute().body(); //ovo je update
                     if (r != null) {
-                        record = r;
+                        record.set_id(r.get_id());
+                        record.setCreationDate(r.getCreationDate());
+                        record.setLastModifiedDate(r.getLastModifiedDate());
                     }
-                    //record.set_id(r.get_id());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
