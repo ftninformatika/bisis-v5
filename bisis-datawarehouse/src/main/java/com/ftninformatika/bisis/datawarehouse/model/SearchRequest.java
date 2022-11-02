@@ -10,6 +10,7 @@ public class SearchRequest {
     String type;
     LocalDateTime startDate;
     LocalDateTime endDate;
+    boolean allData;
     boolean firstMembership;
     String[] lendingAction;
     List<SelectedCoder> coders;

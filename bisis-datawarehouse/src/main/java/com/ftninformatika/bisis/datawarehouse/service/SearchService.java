@@ -56,7 +56,9 @@ public class SearchService {
             groupByExpressions.add(join.get("id"));
             whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
-        whereExpressions.add(cb.between(root.get("ctlgDate"), searchRequest.getStartDate(), searchRequest.getEndDate()));
+        if (!searchRequest.isAllData()) {
+            whereExpressions.add(cb.between(root.get("ctlgDate"), searchRequest.getStartDate(), searchRequest.getEndDate()));
+        }
         whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
 
         selectExpressions.add(cb.countDistinct(root.get("record")));
@@ -87,7 +89,9 @@ public class SearchService {
             groupByExpressions.add(join.get("id"));
             whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
-        whereExpressions.add(cb.between(root.get("date"), searchRequest.getStartDate(), searchRequest.getEndDate()));
+        if (!searchRequest.isAllData()) {
+            whereExpressions.add(cb.between(root.get("date"), searchRequest.getStartDate(), searchRequest.getEndDate()));
+        }
         whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
         for (String l: searchRequest.getLendingAction()){
             lendingAction.add(cb.equal(root.get("lendingAction").get("id"),l));
@@ -120,7 +124,9 @@ public class SearchService {
             groupByExpressions.add(join.get("id"));
             whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
-        whereExpressions.add(cb.between(root.get("date"), searchRequest.getStartDate(), searchRequest.getEndDate()));
+        if (!searchRequest.isAllData()) {
+            whereExpressions.add(cb.between(root.get("date"), searchRequest.getStartDate(), searchRequest.getEndDate()));
+        }
         whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
         if (searchRequest.isFirstMembership()){
             whereExpressions.add(cb.isTrue(root.get("firstTime")));
