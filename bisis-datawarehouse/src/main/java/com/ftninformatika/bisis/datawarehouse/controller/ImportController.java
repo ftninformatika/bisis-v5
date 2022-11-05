@@ -21,4 +21,14 @@ public class ImportController {
     public void importData(@PathVariable("library") String library){
         importService.handleImportOneLibrary(library);
     }
+
+    @GetMapping("/coders")
+    public void importCoders(){
+        importService.importCoders();
+    }
+
+    @GetMapping("/member/{library}")
+    public void importMemberData(@PathVariable("library") String library){
+        importService.handleImportMemberOneLibrary(library);
+    }
 }

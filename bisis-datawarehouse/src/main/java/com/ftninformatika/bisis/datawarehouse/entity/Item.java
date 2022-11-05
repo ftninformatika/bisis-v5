@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -84,7 +85,7 @@ public class Item implements Serializable {
 			name = "item_country",
 			joinColumns = @JoinColumn(name = "country_id"),
 			inverseJoinColumns = @JoinColumn(name = "item_id"))
-	private Set<Country> countries;
+	private Set<Country> countries =new HashSet<>();
 
 	//bi-directional many-to-one association to InternalMark
 	@ManyToOne
@@ -97,7 +98,7 @@ public class Item implements Serializable {
 			name = "item_language",
 			joinColumns = @JoinColumn(name = "language_id"),
 			inverseJoinColumns = @JoinColumn(name = "item_id"))
-	private Set<Language> languages;
+	private Set<Language> languages =new HashSet<>();
 
 	//bi-directional many-to-one association to Location
 	@ManyToOne
@@ -139,7 +140,15 @@ public class Item implements Serializable {
 			name = "item_udk",
 			joinColumns = @JoinColumn(name = "udk_id"),
 			inverseJoinColumns = @JoinColumn(name = "item_id"))
-	private Set<Udk> udks;
+	private Set<Udk> udks =new HashSet<>();
+
+
+	@ManyToMany
+	@JoinTable(
+			name = "item_content_type",
+			joinColumns = @JoinColumn(name = "content_type_id"),
+			inverseJoinColumns = @JoinColumn(name = "item_id"))
+	private Set<ContentType> contentTypes =new HashSet<>();
 
 	@Formula("concat(record_id, ctlg_no, issue_no)") // <= THE TRICK for count
 	private String recordIdCtlgNoIssueNo;

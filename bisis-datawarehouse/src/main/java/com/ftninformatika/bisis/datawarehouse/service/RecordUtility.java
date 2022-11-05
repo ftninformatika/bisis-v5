@@ -109,6 +109,11 @@ public class RecordUtility {
         List<String> sf101a = rec.getSubfieldsContent("101a");
         return sf101a;
     }
+
+    public static List<String> getContentType(Record rec){
+        List<String> sf105b = rec.getSubfieldsContent("105b");
+        return sf105b;
+    }
     public static List<String> getUDKs(Record rec){
         List<String> sf675a = rec.getSubfieldsContent("675a");
         return sf675a.stream().filter(s->!s.isEmpty()).map(s -> s.substring(0,1)).collect(Collectors.toList());

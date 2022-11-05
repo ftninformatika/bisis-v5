@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -31,7 +30,7 @@ public class Membership implements Serializable {
 
 	private LocalDateTime date;
 
-	private BigDecimal fee;
+	private Double fee;
 
 	@Column(name="first_time")
 	private Boolean firstTime;

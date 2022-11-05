@@ -8,6 +8,8 @@ import org.hibernate.annotations.Formula;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -56,20 +58,24 @@ public class Lending implements Serializable {
 	@JoinColumn(name="location_id")
 	private CircLocation circLocation;
 
-	//bi-directional many-to-one association to County
-	@ManyToOne
-	@JoinColumn(name="country_id")
-	private Country country;
+	@ManyToMany
+	@JoinTable(
+			name = "lending_country",
+			joinColumns = @JoinColumn(name = "country_id"),
+			inverseJoinColumns = @JoinColumn(name = "lending_id"))
+	private Set<Country> countries =new HashSet<>();
 
 	//bi-directional many-to-one association to Gender
 	@ManyToOne
 	@JoinColumn(name="gender_id")
 	private Gender gender;
 
-	//bi-directional many-to-one association to Language
-	@ManyToOne
-	@JoinColumn(name="language_id")
-	private Language language;
+	@ManyToMany
+	@JoinTable(
+			name = "lending_language",
+			joinColumns = @JoinColumn(name = "language_id"),
+			inverseJoinColumns = @JoinColumn(name = "lending_id"))
+	private Set<Language> languages =new HashSet<>();
 
 	//bi-directional many-to-one association to LendingAction
 	@ManyToOne
@@ -107,9 +113,26 @@ public class Lending implements Serializable {
 	private Target target;
 
 	//bi-directional many-to-one association to Udk
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name="udk_id")
-	private Udk udk;
+	private Udk udk;*/
+
+	@ManyToMany
+	@JoinTable(
+			name = "lending_udk",
+			joinColumns = @JoinColumn(name = "udk_id"),
+			inverseJoinColumns = @JoinColumn(name = "lending_id"))
+	private Set<Udk> udks =new HashSet<>();
+
+	//bi-directional many-to-one association to Status
+	@ManyToOne
+	@JoinColumn(name="status_id")
+	private Status status;
+
+	//bi-directional many-to-one association to InternalMark
+	@ManyToOne
+	@JoinColumn(name="internal_mark_id")
+	private InternalMark internalMark;
 
 	@Formula("concat(ctlg_no, date)") // <= THE TRICK
 	private String ctlgNoDate;

@@ -12,7 +12,6 @@ import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.ItemAvailability;
-import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.InventoryUnitService;
 import com.ftninformatika.bisis.rest_service.service.implementations.MemberService;

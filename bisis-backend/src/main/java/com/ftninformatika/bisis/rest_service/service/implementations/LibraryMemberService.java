@@ -1,17 +1,13 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.circ.pojo.Signing;
-import com.ftninformatika.bisis.core.repositories.LendingRepository;
-import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
-import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.core.repositories.RecordsRepository;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.opac.books.Book;
-import com.ftninformatika.bisis.opac.controller.LibraryMemberController;
 import com.ftninformatika.bisis.opac.dto.MemberCardDTO;
 import com.ftninformatika.bisis.opac.dto.ProlongLendingResponseDTO;
 import com.ftninformatika.bisis.opac.dto.ShelfDto;
@@ -29,8 +25,6 @@ import com.ftninformatika.utils.date.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -53,7 +47,8 @@ public class LibraryMemberService {
     @Autowired LibraryPrefixProvider libraryPrefixProvider;
     @Autowired OpacSearchService opacSearchService;
     @Autowired RecordsRepository recordsRepository;
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
     @Autowired
     LibrarianRepository librarianRepository;
     @Autowired LendingRepository lendingRepository;

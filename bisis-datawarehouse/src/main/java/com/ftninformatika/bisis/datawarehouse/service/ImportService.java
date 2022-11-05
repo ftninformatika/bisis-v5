@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.datawarehouse.service;
 import com.ftninformatika.bisis.circ.CircLocation;
 import com.ftninformatika.bisis.circ.MembershipType;
 import com.ftninformatika.bisis.circ.UserCategory;
+import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.datawarehouse.entity.*;
@@ -13,13 +14,16 @@ import com.ftninformatika.bisis.datawarehouse.repository.LanguageRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.LendingRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.LibrarianRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.LocationRepository;
+import com.ftninformatika.bisis.datawarehouse.repository.MemberRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.MembershipRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.MembershipTypeRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.*;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +34,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,6 +56,9 @@ public class ImportService {
 
     @Autowired
     LanguageRepository languageRepository;
+
+    @Autowired
+    ContentTypeRepository contentTypeRepository;
 
     @Autowired
     SerialTypeRepository serialTypeRepository;
@@ -116,6 +121,9 @@ public class ImportService {
     RecordsRepository recordsRepositoryMongo;
 
     @Autowired
+    com.ftninformatika.bisis.core.repositories.MemberRepository membersRepositoryMongo;
+
+    @Autowired
     CategoryRepository categoryRepository;
 
     @Autowired
@@ -124,6 +132,9 @@ public class ImportService {
     @Autowired
     @Qualifier("circLocationJPARepository")
     CircLocationRepository circLocationRepository;
+
+    @Autowired
+    GenderRepository genderRepository;
 
     @Autowired
     com.ftninformatika.bisis.core.repositories.CircLocationRepository circLocationRepositoryMongo;
@@ -176,10 +187,28 @@ public class ImportService {
     Map <String, Country> countryMap;
     Map <String, Udk> udkMap;
     Map <String, Language> languageMap;
+    Map <String, ContentType> contentTypeMap;
+
+    Map <String, Category> categoryMap;
+    Map <String, Gender> genderMap;
+    Map <String, Librarian> librarianMap;
+    Map <String, com.ftninformatika.bisis.datawarehouse.entity.CircLocation> circLocationMap;
+    Map <String, com.ftninformatika.bisis.datawarehouse.entity.MembershipType> membershipTypeMap;
 
 
     private Map initCoders(List coders){
-        Map<String, com.ftninformatika.bisis.datawarehouse.entity.Coder> map = (Map<String, com.ftninformatika.bisis.datawarehouse.entity.Coder>) coders.stream().collect(Collectors.toMap(com.ftninformatika.bisis.datawarehouse.entity.Coder::getId, coder -> coder));
+        LinkedCaseInsensitiveMap <com.ftninformatika.bisis.datawarehouse.entity.Coder> map = new LinkedCaseInsensitiveMap<> ();
+        for (Object c:coders){
+            map.put(((com.ftninformatika.bisis.datawarehouse.entity.Coder) c).getId(),(com.ftninformatika.bisis.datawarehouse.entity.Coder) c);
+        }
+        return map;
+    }
+
+    private Map initCodersWithDescription(List coders, String library){
+        LinkedCaseInsensitiveMap <com.ftninformatika.bisis.datawarehouse.entity.Coder> map = new LinkedCaseInsensitiveMap<> ();
+        for (Object c:coders){
+            map.put(((com.ftninformatika.bisis.datawarehouse.entity.Coder) c).getDescription()+"_"+library,(com.ftninformatika.bisis.datawarehouse.entity.Coder) c);
+        }
         return map;
     }
 
@@ -404,6 +433,22 @@ public class ImportService {
             languages.add(languageNone);
         }
 
+        List<String> contentTypeList = RecordUtility.getContentType(record);
+        ContentType contentTypeNone = contentTypeMap.get("nemavrednost");
+        List<ContentType> contentTypes = new ArrayList<ContentType>();
+        for(String content: contentTypeList){
+            if (contentTypeMap.get(content) != null) {
+                contentTypes.add(contentTypeMap.get(content));
+            }else{
+                contentTypes.add(contentTypeNone);
+            }
+        }
+        if (contentTypes.isEmpty()){
+            contentTypes.add(contentTypeNone);
+        }
+
+
+
         List<String> udkList = RecordUtility.getUDKs(record);
         Udk udksNone = udkMap.get("nemavrednost");
         List<Udk> udks = new ArrayList<Udk>();
@@ -424,7 +469,7 @@ public class ImportService {
         String publicationYear = RecordUtility.getPublicationYear(record);
 
         com.ftninformatika.bisis.datawarehouse.entity.Record  recordDW = new com.ftninformatika.bisis.datawarehouse.entity.Record();
-        recordDW.setId(String.valueOf(record.getRecordID())+"_"+library);
+        recordDW.setId(record.getRecordID() +"_"+library);
         recordDW.setAuthor(author);
         recordDW.setTitle(title);
         recordDW.setPublisher(publisher);
@@ -473,8 +518,8 @@ public class ImportService {
                 }else if (acquisition2 != null){
                     i.setAcquisition(acquisition2);
                 }else{
-                    ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre nabavke "+ acquisitionRec+"->"+p.getInvBroj() + "biblioteka: " + library);
+                    Acquisition acquisitionNone = acquisitionMap.get("nemavrednost");
+                    i.setAcquisition(acquisitionNone);
                 }
             }else{
                 Acquisition acquisitionNone = acquisitionMap.get("nemavrednost");
@@ -489,8 +534,8 @@ public class ImportService {
                 }else if (internalMark2 != null){
                     i.setInternalMark(internalMark2);
                 }else{
-                    ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre interne oznake "+ internalMarkRec+"->"+p.getInvBroj()+ "biblioteka: " + library);
+                    InternalMark internalMarkNone = internalMarkMap.get("nemavrednost");
+                    i.setInternalMark(internalMarkNone);
                 }
             }else{
                 InternalMark internalMarkNone = internalMarkMap.get("nemavrednost");
@@ -505,8 +550,8 @@ public class ImportService {
                 }else if (status2 != null){
                     i.setStatus(status2);
                 }else{
-                    ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre statusa "+ statusRec+"->"+p.getInvBroj() + "biblioteka: " + library);
+                    Status statusNone = statusMap.get("nemavrednost");
+                    i.setStatus(statusNone);
                 }
             }else{
                 Status statusNone = statusMap.get("nemavrednost");
@@ -521,8 +566,8 @@ public class ImportService {
                 }else if (location2 != null){
                     i.setLocation(location2);
                 }else{
-                    ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre lokacije "+ locationRec+"->"+p.getInvBroj() + "biblioteka: " + library);
+                    Location locationNone = locationMap.get("nemavrednost");
+                    i.setLocation(locationNone);
                 }
             }else{
                 Location locationNone = locationMap.get("nemavrednost");
@@ -537,8 +582,8 @@ public class ImportService {
                 }else if (sublocation2 != null){
                     i.setSublocation(sublocation2);
                 }else{
-                    ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre podlokacije "+ sublocationRec+"->"+p.getInvBroj() + "biblioteka: " + library);
+                    Sublocation sublocationNone = sublocationMap.get("nemavrednost");
+                    i.setSublocation(sublocationNone);
                 }
             }else{
                 Sublocation sublocationNone = sublocationMap.get("nemavrednost");
@@ -556,51 +601,276 @@ public class ImportService {
                 if (accessionRegister != null) {
                     i.setAccessionRegister(accessionRegister);
                 }else{
-                    ///TODO
-                    Logger.getLogger(ImportService.class).warn("Nema sifre inv knjige "+ accessionRegisterRec+"->"+p.getInvBroj() + "biblioteka: " + library);
+                    AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
+                    i.setAccessionRegister(accessionRegisterNone);
+                }
+            }else{
+                AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
+                i.setAccessionRegister(accessionRegisterNone);
+            }
+            for(Udk udk:udks){
+                i.getUdks().add(udk);
+            }
+            for(Language language:languages){
+                i.getLanguages().add(language);
+            }
+            for(Country country:countries){
+                i.getCountries().add(country);
+            }
+            for(ContentType content:contentTypes) {
+                i.getContentTypes().add(content);
+            }
+                itemList.add(i);
+
+           /* for(Udk udk:udks){
+                for(Language language:languages){
+                    for(Country country:countries){
+                        for(ContentType content:contentTypes) {
+                            Item item = new Item(i);
+                            item.setCountry(country);
+                            item.setLanguage(language);
+                            item.setContentType(content);
+                            item.setUdk(udk);
+                            itemList.add(item);
+                        }
+                    }
+                }
+            }*/
+        }
+        for(Godina g: record.getGodine()){
+            if (g.getInvBroj() == null){
+                continue;
+            }
+            Item i = new Item();
+
+            i.setLibrary(library);
+            i.setRecord(recordDW);
+
+            if(recordType != null){
+                i.setRecordType(recordType);
+            }else{
+                i.setRecordType(recordTypeNone);
+            }
+
+            if(target != null){
+                i.setTarget(target);
+            }else{
+                i.setTarget(targetNone);
+            }
+            if(bibliographicLevel != null){
+                i.setBibliographicLevel(bibliographicLevel);
+            }else{
+                i.setBibliographicLevel(bibliographicLevelNone);
+            }
+            if(serialType != null){
+                i.setSerialType(serialType);
+            }else{
+                i.setSerialType(serialTypeNone);
+            }
+            i.setCtlgNo(g.getInvBroj());
+            Date datumInventarisanja = g.getDatumInventarisanja();
+
+            if (datumInventarisanja == null){
+                i.setCtlgDate(convertToLocalDateTimeViaInstant(record.getCreationDate()));
+            }else{
+                i.setCtlgDate(convertToLocalDateTimeViaInstant(datumInventarisanja));
+            }
+            String acquisitionRec = g.getNacinNabavke();
+            if (acquisitionRec !=null) {
+                Acquisition acquisition1 = acquisitionMap.get(acquisitionRec);
+                Acquisition acquisition2 = acquisitionMap.get(acquisitionRec + "_" + library);
+                if (acquisition1 != null) {
+                    i.setAcquisition(acquisition1);
+                }else if (acquisition2 != null){
+                    i.setAcquisition(acquisition2);
+                }else{
+                    Acquisition acquisitionNone = acquisitionMap.get("nemavrednost");
+                    i.setAcquisition(acquisitionNone);
+                  }
+            }else{
+                Acquisition acquisitionNone = acquisitionMap.get("nemavrednost");
+                i.setAcquisition(acquisitionNone);
+            }
+            String internalMarkRec = g.getSigIntOznaka();
+            if (internalMarkRec !=null) {
+                InternalMark internalMark1 = internalMarkMap.get(internalMarkRec);
+                InternalMark internalMark2 = internalMarkMap.get(internalMarkRec + "_" + library);
+                if (internalMark1 != null) {
+                    i.setInternalMark(internalMark1);
+                }else if (internalMark2 != null){
+                    i.setInternalMark(internalMark2);
+                }else{
+                    InternalMark internalMarkNone = internalMarkMap.get("nemavrednost");
+                    i.setInternalMark(internalMarkNone);
+                }
+            }else{
+                InternalMark internalMarkNone = internalMarkMap.get("nemavrednost");
+                i.setInternalMark(internalMarkNone);
+            }
+            String locationRec = g.getOdeljenje();
+            if (locationRec !=null) {
+                Location location1 = locationMap.get(locationRec);
+                Location location2 = locationMap.get(locationRec + "_" + library);
+                if (location1 != null) {
+                    i.setLocation(location1);
+                }else if (location2 != null){
+                    i.setLocation(location2);
+                }else{
+                    Location locationNone = locationMap.get("nemavrednost");
+                    i.setLocation(locationNone);
+                }
+            }else{
+                Location locationNone = locationMap.get("nemavrednost");
+                i.setLocation(locationNone);
+            }
+            String sublocationRec = g.getSigPodlokacija();
+            if (sublocationRec !=null) {
+                Sublocation sublocation1 = sublocationMap.get(sublocationRec);
+                Sublocation sublocation2 = sublocationMap.get(sublocationRec + "_" + library);
+                if (sublocation1 != null) {
+                    i.setSublocation(sublocation1);
+                }else if (sublocation2 != null){
+                    i.setSublocation(sublocation2);
+                }else{
+                    Sublocation sublocationNone = sublocationMap.get("nemavrednost");
+                    i.setSublocation(sublocationNone);
+                }
+            }else{
+                Sublocation sublocationNone = sublocationMap.get("nemavrednost");
+                i.setSublocation(sublocationNone);
+            }
+            BigDecimal price = g.getCena();
+            if (price != null){
+                i.setPrice(price);
+            }else{
+                i.setPrice(new BigDecimal(0));
+            }
+            String accessionRegisterRec = g.getInvBroj().substring(2,4);
+            if (accessionRegisterRec !=null) {
+                AccessionRegister accessionRegister = accessionRegisterMap.get(accessionRegisterRec + "_" + library);
+                if (accessionRegister != null) {
+                    i.setAccessionRegister(accessionRegister);
+                }else{
+                    AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
+                    i.setAccessionRegister(accessionRegisterNone);
                 }
             }else{
                 AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
                 i.setAccessionRegister(accessionRegisterNone);
             }
 
+                Status statusNone = statusMap.get("nemavrednost");
             for(Udk udk:udks){
-                for(Language language:languages){
-                    for(Country country:countries){
-                        Item item = new Item(i);
-                        item.setCountry(country);
-                        item.setLanguage(language);
-                        item.setUdk(udk);
-                        itemList.add(item);
+                i.getUdks().add(udk);
+            }
+            for(Language language:languages){
+                i.getLanguages().add(language);
+            }
+            for(Country country:countries){
+                i.getCountries().add(country);
+            }
+            for(ContentType content:contentTypes) {
+                i.getContentTypes().add(content);
+            }
+            if ((g.getSveske() == null) || (g.getSveske().isEmpty())) {
+                i.setStatus(statusNone);
+                itemList.add(i);
+            }else if ((g.getSveske() != null) && (!g.getSveske().isEmpty())) {
+                for(Sveska s: g.getSveske()){
+                    Item item = new Item(i);
+                    String statusRec = s.getStatus();
+                    if (statusRec !=null) {
+                        Status status1 = statusMap.get(statusRec);
+                        Status status2 = statusMap.get(statusRec + "_" + library);
+                        if (status1 != null) {
+                            item.setStatus(status1);
+                        }else if (status2 != null){
+                            item.setStatus(status2);
+                        }else{
+                            item.setStatus(statusNone);
+                        }
+                    }else{
+                        item.setStatus(statusNone);
                     }
+                    item.setIssueNo(s.getInvBroj());
+                    itemList.add(item);
                 }
             }
+               /* for (Udk udk : udks) {
+                    for (Language language : languages) {
+                        for (Country country : countries) {
+                            for (ContentType content : contentTypes) {
+                                if ((g.getSveske() == null) || (g.getSveske().isEmpty())) {
+                                    Item item = new Item(i);
+                                    item.setCountry(country);
+                                    item.setLanguage(language);
+                                    item.setContentType(content);
+                                    item.setUdk(udk);
+                                    item.setStatus(statusNone);
+                                    itemList.add(item);
+                                }else if ((g.getSveske() != null) && (!g.getSveske().isEmpty())) {
+                                    for(Sveska s: g.getSveske()){
+                                        Item item = new Item(i);
+                                        String statusRec = s.getStatus();
+                                        if (statusRec !=null) {
+                                            Status status1 = statusMap.get(statusRec);
+                                            Status status2 = statusMap.get(statusRec + "_" + library);
+                                            if (status1 != null) {
+                                                item.setStatus(status1);
+                                            }else if (status2 != null){
+                                                item.setStatus(status2);
+                                            }else{
+                                                item.setStatus(statusNone);
+                                            }
+                                        }else{
+                                            item.setStatus(statusNone);
+                                        }
+                                        item.setCountry(country);
+                                        item.setLanguage(language);
+                                        item.setContentType(content);
+                                        item.setUdk(udk);
+                                        item.setIssueNo(s.getInvBroj());
+                                        itemList.add(item);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }*/
+            }
         }
-    }
 
     public void handleImport(){
-        System.out.println("Import cele baze...");
-        Logger.getLogger(ImportService.class).info("Import cele baze...");
+        Logger.getLogger(ImportService.class).info("Import all started...");
         deleteDataWarehouse();
-        Logger.getLogger(ImportService.class).info("Datawarehouse obrisan");
+        Logger.getLogger(ImportService.class).info("Datawarehouse is deleted");
         importCoders();
         List<LibraryConfiguration> libraryConfigurationList = libraryConfigurationRepository.findAll();
         for(LibraryConfiguration lc:libraryConfigurationList){
-            importData(lc.getLibraryName());
-            System.out.println("Import baze "+lc.getLibraryName() +"je zavrsen.");
-            Logger.getLogger(ImportService.class).info("Import baze "+lc.getLibraryName() +"je zavrsen.");
+            importRecordData(lc.getLibraryName());
+            Logger.getLogger(ImportService.class).info("Import of library "+lc.getLibraryName() +" is finished.");
         }
-        Logger.getLogger(ImportService.class).info("Import je zavrsen.");
-        System.out.println("Import je zavrsen.");
+        Logger.getLogger(ImportService.class).info("Import of all libraries is finished!");
 
     }
     public void handleImportOneLibrary(String library){
+        Logger.getLogger(ImportService.class).info("Import of library "+library+" started...");
         itemRepository.deleteByLibrary(library);
         lendingRepository.deleteByLibrary(library);
         membershipRepository.deleteByLibrary(library);
-        importData(library);
+        importRecordData(library);
+        importMembershipData(library);
+        Logger.getLogger(ImportService.class).info("Import of data finished!");
     }
-    private void importData(String library){
+    //temporary
+    public void handleImportMemberOneLibrary(String library){
+        Logger.getLogger(ImportService.class).info("Import of library "+library+" started...");
+        membershipRepository.deleteByLibrary(library);
+        memberRepository.deleteAllInBatch();
+        importMembershipData(library);
+        Logger.getLogger(ImportService.class).info("Import of data finished!");
+    }
+    private void importRecordData(String library){
         initMaps(library);
         libraryPrefixProvider.setPrefix(library);
         Pageable p = PageRequest.of(0, 1000);
@@ -614,7 +884,7 @@ public class ImportService {
                 count++;
                 handleRecord(r, library,itemList,recordList);
                 if (count % 1000 == 0){
-                    System.out.println("Records processed at "+ LocalDateTime.now()+": "+ count);
+                    Logger.getLogger(ImportService.class).info("Records processed at "+ LocalDateTime.now()+": "+ count);
                 }
             }
             recordRepository.saveAll(recordList);
@@ -625,7 +895,6 @@ public class ImportService {
                 recordsPage = recordsRepositoryMongo.findAll(p);
             }
         }
-
     }
     private void initMaps(String library){
         List<Acquisition> acquisitionList = acquisitionRepository.findByLibraryIsNullOrLibrary(library);
@@ -666,6 +935,124 @@ public class ImportService {
 
         List<Language> languageList = languageRepository.findByLibraryIsNullOrLibrary(library);
         languageMap= initCoders(languageList);
+
+        List<ContentType> contentTypeList = contentTypeRepository.findByLibraryIsNullOrLibrary(library);
+        contentTypeMap= initCoders(contentTypeList);
+
+        List<Gender> genderList = genderRepository.findByLibraryIsNullOrLibrary(library);
+        genderMap= initCoders(genderList);
+
+        List<Librarian> librarianList = librarianRepository.findByLibraryIsNullOrLibrary(library);
+        librarianMap= initCoders(librarianList);
+
+        List<Category> categoryList = categoryRepository.findByLibraryIsNullOrLibrary(library);
+        categoryMap= initCodersWithDescription(categoryList,library);
+
+        List<com.ftninformatika.bisis.datawarehouse.entity.CircLocation> circLocationList = circLocationRepository.findByLibraryIsNullOrLibrary(library);
+        circLocationMap= initCodersWithDescription(circLocationList,library);
+
+        List<com.ftninformatika.bisis.datawarehouse.entity.MembershipType> membershipTypeList = membershipTypeRepository.findByLibraryIsNullOrLibrary(library);
+        membershipTypeMap= initCodersWithDescription(membershipTypeList,library);
+
+    }
+
+    //import membership
+    private void importMembershipData(String library){
+        initMaps(library);
+        libraryPrefixProvider.setPrefix(library);
+        Pageable p = PageRequest.of(0, 1000);
+        int count = 0;
+        Page<com.ftninformatika.bisis.circ.Member> membersPage = membersRepositoryMongo.findAll(p);
+        int pageCount = membersPage.getTotalPages();
+        for (int i = 0; i < pageCount; i++) {
+            List<Membership> membershipList = new ArrayList<>();
+            List<Member> memberList = new ArrayList<>();
+            for (com.ftninformatika.bisis.circ.Member m : membersPage) {
+                count++;
+                handleMember(m, library,membershipList,memberList);
+                if (count % 1000 == 0){
+                    Logger.getLogger(ImportService.class).info("Members processed at "+ LocalDateTime.now()+": "+ count);
+                }
+            }
+            memberRepository.saveAll(memberList);
+            memberRepository.flush();
+            membershipRepository.saveAll(membershipList);
+            if (!membersPage.isLast()) {
+                p = membersPage.nextPageable();
+                membersPage = membersRepositoryMongo.findAll(p);
+            }
+        }
+    }
+
+    private void handleMember(com.ftninformatika.bisis.circ.Member m, String library, List<Membership> membershipList, List<Member> memberList) {
+        Member member = new Member();
+        member.setId(m.getUserId()+"_"+library);
+        member.setFirstName(m.getFirstName());
+        member.setLastName(m.getLastName());
+        member.setAddress(m.getAddress());
+        member.setCity(m.getCity());
+        member.setLibrary(library);
+        memberList.add(member);
+
+        String genderMem = m.getGender();
+        Gender gender = genderMap.get(genderMem);
+        if (gender == null) {
+            gender = genderMap.get("nemavrednost");
+        }
+        Category category;
+        if (m.getUserCategory() != null){
+            String categoryMem = m.getUserCategory().getDescription();
+            category = categoryMap.get(categoryMem+"_"+library);
+            if (category == null){
+                category = categoryMap.get("nemavrednost");
+            }
+        }else{
+            category = categoryMap.get("nemavrednost");
+        }
+
+        com.ftninformatika.bisis.datawarehouse.entity.MembershipType membershipType;
+        if (m.getMembershipType() !=null){
+            String membershipTypeMem = m.getMembershipType().getDescription();
+            membershipType = membershipTypeMap.get(membershipTypeMem+"_"+library);
+            if (membershipType == null){
+                membershipType = membershipTypeMap.get("nemavrednost");
+
+            }
+        }else{
+            membershipType = membershipTypeMap.get("nemavrednost");
+        }
+
+        List<Signing> sortSignings = m.getSignings().stream().filter(signing -> signing.getSignDate() != null).sorted(Comparator.comparing(Signing::getSignDate)).collect(Collectors.toList());
+        boolean firstSigning = true;
+        for(Signing signing: sortSignings){
+            Membership membership = new Membership();
+            membership.setMember(member);
+            membership.setLibrary(library);
+            membership.setFee(signing.getCost());
+            membership.setGender(gender);
+            membership.setCategory(category);
+            membership.setMembershipType(membershipType);
+            Librarian librarian = librarianMap.get(signing.getLibrarian());
+            if (librarian == null){
+                librarian = librarianMap.get("nemavrednost");
+            }
+            membership.setLibrarian(librarian);
+            com.ftninformatika.bisis.datawarehouse.entity.CircLocation circLocation = circLocationMap.get(signing.getLocation()+"_"+library);
+            if(circLocation == null){
+                circLocation = circLocationMap.get("nemavrednost");
+            }
+            membership.setCircLocation(circLocation);
+            membership.setDate(convertToLocalDateTimeViaInstant(signing.getSignDate()));
+            if (firstSigning){
+                membership.setFirstTime(true);
+                firstSigning = false;
+            }else{
+                membership.setFirstTime(false);
+            }
+            membershipList.add(membership);
+
+        }
+
 
     }
 }
