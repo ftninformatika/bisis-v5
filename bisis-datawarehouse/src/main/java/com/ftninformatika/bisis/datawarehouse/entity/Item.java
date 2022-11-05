@@ -82,7 +82,7 @@ public class Item implements Serializable {
 
 	@ManyToMany
 	@JoinTable(
-			name = "item_country",
+			name = "bisis_reports.item_country",
 			joinColumns = @JoinColumn(name = "country_id"),
 			inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private Set<Country> countries =new HashSet<>();
@@ -95,7 +95,7 @@ public class Item implements Serializable {
 
 	@ManyToMany
 	@JoinTable(
-			name = "item_language",
+			name = "bisis_reports.item_language",
 			joinColumns = @JoinColumn(name = "language_id"),
 			inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private Set<Language> languages =new HashSet<>();
@@ -137,7 +137,7 @@ public class Item implements Serializable {
 
 	@ManyToMany
 	@JoinTable(
-			name = "item_udk",
+			name = "bisis_reports.item_udk",
 			joinColumns = @JoinColumn(name = "udk_id"),
 			inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private Set<Udk> udks =new HashSet<>();
@@ -145,7 +145,7 @@ public class Item implements Serializable {
 
 	@ManyToMany
 	@JoinTable(
-			name = "item_content_type",
+			name = "bisis_reports.item_content_type",
 			joinColumns = @JoinColumn(name = "content_type_id"),
 			inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private Set<ContentType> contentTypes =new HashSet<>();
