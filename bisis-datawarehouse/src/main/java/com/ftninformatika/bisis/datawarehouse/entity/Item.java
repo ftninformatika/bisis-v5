@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 /**
@@ -78,20 +79,25 @@ public class Item implements Serializable {
 	@JoinColumn(name="bibliographic_level_id")
 	private BibliographicLevel bibliographicLevel;
 
-	//bi-directional many-to-one association to County
-	@ManyToOne
-	@JoinColumn(name="country_id")
-	private Country country;
+	@ManyToMany
+	@JoinTable(
+			name = "item_country",
+			joinColumns = @JoinColumn(name = "country_id"),
+			inverseJoinColumns = @JoinColumn(name = "item_id"))
+	private Set<Country> countries;
 
 	//bi-directional many-to-one association to InternalMark
 	@ManyToOne
 	@JoinColumn(name="internal_mark_id")
 	private InternalMark internalMark;
 
-	//bi-directional many-to-one association to Language
-	@ManyToOne
-	@JoinColumn(name="language_id")
-	private Language language;
+
+	@ManyToMany
+	@JoinTable(
+			name = "item_language",
+			joinColumns = @JoinColumn(name = "language_id"),
+			inverseJoinColumns = @JoinColumn(name = "item_id"))
+	private Set<Language> languages;
 
 	//bi-directional many-to-one association to Location
 	@ManyToOne
@@ -128,10 +134,12 @@ public class Item implements Serializable {
 	@JoinColumn(name="target_id")
 	private Target target;
 
-	//bi-directional many-to-one association to Udk
-	@ManyToOne
-	@JoinColumn(name="udk_id")
-	private Udk udk;
+	@ManyToMany
+	@JoinTable(
+			name = "item_udk",
+			joinColumns = @JoinColumn(name = "udk_id"),
+			inverseJoinColumns = @JoinColumn(name = "item_id"))
+	private Set<Udk> udks;
 
 	@Formula("concat(record_id, ctlg_no, issue_no)") // <= THE TRICK for count
 	private String recordIdCtlgNoIssueNo;

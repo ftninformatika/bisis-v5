@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="45"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="740,1051" last-zoom="1" max-obj-count="54"
 	 default-schema="public" default-owner="postgres">
 <database name="bisis" is-template="false" allow-conns="true">
 </database>
@@ -14,9 +14,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <schema name="bisis_reports" layer="0" rect-visible="true" fill-color="#e1e1e1">
 </schema>
 
-<table name="item" layer="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="item" layer="0" collapse-mode="2" max-obj-count="20" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="440" y="40"/>
+	<position x="500" y="40"/>
 	<column name="item_id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -47,15 +47,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="target_id">
 		<type name="text" length="0"/>
 	</column>
-	<column name="language_id">
-		<type name="text" length="0"/>
-	</column>
-	<column name="country_id">
-		<type name="text" length="0"/>
-	</column>
-	<column name="udk_id">
-		<type name="text" length="0"/>
-	</column>
 	<column name="location_id">
 		<type name="text" length="0"/>
 	</column>
@@ -72,9 +63,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text" length="0"/>
 	</column>
 	<column name="internal_mark_id">
-		<type name="text" length="0"/>
-	</column>
-	<column name="content_type_id">
 		<type name="text" length="0"/>
 	</column>
 	<column name="library">
@@ -114,7 +102,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="bibliographic_level" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[001c]]></comment>
-	<position x="880" y="40"/>
+	<position x="1120" y="40"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -132,7 +120,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="language" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[101a]]></comment>
-	<position x="880" y="680"/>
+	<position x="1120" y="1480"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -183,7 +171,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="status" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="880" y="1480"/>
+	<position x="1120" y="680"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -201,7 +189,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="target" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[100e]]></comment>
-	<position x="880" y="520"/>
+	<position x="1120" y="520"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -219,7 +207,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="serial_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[110a]]></comment>
-	<position x="880" y="360"/>
+	<position x="1120" y="360"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -237,7 +225,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="country" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[102a]]></comment>
-	<position x="880" y="840"/>
+	<position x="1120" y="1320"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -255,7 +243,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="accession_register" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[inventarna knjiga]]></comment>
-	<position x="880" y="1160"/>
+	<position x="1120" y="840"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -273,7 +261,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="record_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[001b]]></comment>
-	<position x="880" y="200"/>
+	<position x="1120" y="200"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -291,7 +279,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="udk" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[675a]]></comment>
-	<position x="880" y="1000"/>
+	<position x="1120" y="1160"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -326,7 +314,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="internal_mark" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[interna oznaka]]></comment>
-	<position x="880" y="1320"/>
+	<position x="1120" y="1000"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -344,7 +332,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="membership" layer="0" collapse-mode="2" max-obj-count="13" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[first_time je true za prvu clanarinu]]></comment>
-	<position x="2120" y="40"/>
+	<position x="2480" y="40"/>
 	<column name="membership_id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -385,7 +373,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="member" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1760" y="40"/>
+	<position x="2080" y="40"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -409,10 +397,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="lending" layer="0" collapse-mode="2" max-obj-count="25" z-value="0">
+<table name="lending" layer="0" collapse-mode="2" max-obj-count="21" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[action_id je akcija zaduzeno, produzeno, razduzeno]]></comment>
-	<position x="1320" y="40"/>
+	<position x="1560" y="40"/>
 	<column name="lending_id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -452,15 +440,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="target_id">
 		<type name="text" length="0"/>
 	</column>
-	<column name="language_id">
-		<type name="text" length="0"/>
-	</column>
-	<column name="country_id">
-		<type name="text" length="0"/>
-	</column>
-	<column name="udk_id">
-		<type name="text" length="0"/>
-	</column>
 	<column name="accession_register_id">
 		<type name="text" length="0"/>
 	</column>
@@ -483,7 +462,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="category" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1760" y="440"/>
+	<position x="2080" y="440"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -500,7 +479,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="membership_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1760" y="600"/>
+	<position x="2080" y="600"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -517,7 +496,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="circ_location" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1760" y="280"/>
+	<position x="2080" y="280"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -534,7 +513,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="gender" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1760" y="760"/>
+	<position x="2080" y="760"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -552,7 +531,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="lending_action" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[akcija zaduzeno, produzeno, razduzeno]]></comment>
-	<position x="1340" y="1200"/>
+	<position x="1900" y="1120"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -569,7 +548,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="librarian" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1760" y="920"/>
+	<position x="2080" y="920"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -634,7 +613,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="saved_query" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="2180" y="720"/>
+	<position x="2740" y="800"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -673,6 +652,104 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
+<table name="item_content_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="160" y="940"/>
+	<column name="content_type_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="item_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="item_content_type_pk" type="pk-constr" table="bisis_reports.item_content_type">
+		<columns names="content_type_id,item_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="item_udk" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="760" y="1000"/>
+	<column name="udk_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="item_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="item_udk_pk" type="pk-constr" table="bisis_reports.item_udk">
+		<columns names="udk_id,item_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="item_country" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="760" y="1200"/>
+	<column name="country_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="item_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="item_country_pk" type="pk-constr" table="bisis_reports.item_country">
+		<columns names="country_id,item_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="item_language" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="760" y="1400"/>
+	<column name="language_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="item_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="item_language_pk" type="pk-constr" table="bisis_reports.item_language">
+		<columns names="language_id,item_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="lending_udk" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1420" y="1060"/>
+	<column name="udk_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="lending_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="lending_udk_pk" type="pk-constr" table="bisis_reports.lending_udk">
+		<columns names="udk_id,lending_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="lending_country" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1420" y="1260"/>
+	<column name="country_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="lending_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="lending_country_pk" type="pk-constr" table="bisis_reports.lending_country">
+		<columns names="country_id,lending_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="lending_language" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="1420" y="1460"/>
+	<column name="language_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="lending_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="lending_language_pk" type="pk-constr" table="bisis_reports.lending_language">
+		<columns names="language_id,lending_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
 <constraint name="record_item" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.record" table="bisis_reports.item">
 	<columns names="record_id" ref-type="src-columns"/>
@@ -682,12 +759,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="bibliographic_level_item" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.bibliographic_level" table="bisis_reports.item">
 	<columns names="bibliographic_level_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="language_item" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.language" table="bisis_reports.item">
-	<columns names="language_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -721,12 +792,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="country_item" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.country" table="bisis_reports.item">
-	<columns names="country_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="accession_register_item" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.accession_register" table="bisis_reports.item">
 	<columns names="accession_register_id" ref-type="src-columns"/>
@@ -739,12 +804,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="udk_item" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.udk" table="bisis_reports.item">
-	<columns names="udk_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="acquisition_item" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.acquisition" table="bisis_reports.item">
 	<columns names="acquisition_id" ref-type="src-columns"/>
@@ -754,12 +813,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="internal_mark_item" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.internal_mark" table="bisis_reports.item">
 	<columns names="internal_mark_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="content_type_item" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.content_type" table="bisis_reports.item">
-	<columns names="content_type_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -835,12 +888,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="udk_lending" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.udk" table="bisis_reports.lending">
-	<columns names="udk_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="bibliographic_level" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.bibliographic_level" table="bisis_reports.lending">
 	<columns names="bibliographic_level_id" ref-type="src-columns"/>
@@ -862,18 +909,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="serial_type_lending" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.serial_type" table="bisis_reports.lending">
 	<columns names="serial_type_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="language_lending" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.language" table="bisis_reports.lending">
-	<columns names="language_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="country_lending" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.country" table="bisis_reports.lending">
-	<columns names="country_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -901,6 +936,90 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="item_content_type_content_type" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.content_type" table="bisis_reports.item_content_type">
+	<columns names="content_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="item_content_type_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.item" table="bisis_reports.item_content_type">
+	<columns names="item_id" ref-type="src-columns"/>
+	<columns names="item_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="item_udk_udk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.udk" table="bisis_reports.item_udk">
+	<columns names="udk_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="item_udk_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.item" table="bisis_reports.item_udk">
+	<columns names="item_id" ref-type="src-columns"/>
+	<columns names="item_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="item_country_country" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.country" table="bisis_reports.item_country">
+	<columns names="country_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="item_country_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.item" table="bisis_reports.item_country">
+	<columns names="item_id" ref-type="src-columns"/>
+	<columns names="item_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="item_language_language" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.language" table="bisis_reports.item_language">
+	<columns names="language_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="item_language_item" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.item" table="bisis_reports.item_language">
+	<columns names="item_id" ref-type="src-columns"/>
+	<columns names="item_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_udk_udk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.udk" table="bisis_reports.lending_udk">
+	<columns names="udk_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_udk_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.lending" table="bisis_reports.lending_udk">
+	<columns names="lending_id" ref-type="src-columns"/>
+	<columns names="lending_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_country_country" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.country" table="bisis_reports.lending_country">
+	<columns names="country_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_country_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.lending" table="bisis_reports.lending_country">
+	<columns names="lending_id" ref-type="src-columns"/>
+	<columns names="lending_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_language_language" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.language" table="bisis_reports.lending_language">
+	<columns names="language_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="lending_language_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.lending" table="bisis_reports.lending_language">
+	<columns names="lending_id" ref-type="src-columns"/>
+	<columns names="lending_id" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="rel_item_record" type="relfk" layer="0"
 	 src-table="bisis_reports.item"
 	 dst-table="bisis_reports.record" reference-fk="record_item"
@@ -909,11 +1028,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_item_material_type" type="relfk" layer="0"
 	 src-table="bisis_reports.item"
 	 dst-table="bisis_reports.bibliographic_level" reference-fk="bibliographic_level_item"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_item_language" type="relfk" layer="0"
-	 src-table="bisis_reports.item"
-	 dst-table="bisis_reports.language" reference-fk="language_item"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_item_location" type="relfk" layer="0"
@@ -941,11 +1055,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="bisis_reports.serial_type" reference-fk="serial_type_item"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_item_county" type="relfk" layer="0"
-	 src-table="bisis_reports.item"
-	 dst-table="bisis_reports.country" reference-fk="country_item"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_item_accession_register" type="relfk" layer="0"
 	 src-table="bisis_reports.item"
 	 dst-table="bisis_reports.accession_register" reference-fk="accession_register_item"
@@ -954,11 +1063,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_item_record_type" type="relfk" layer="0"
 	 src-table="bisis_reports.item"
 	 dst-table="bisis_reports.record_type" reference-fk="record_type_id"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_item_udk" type="relfk" layer="0"
-	 src-table="bisis_reports.item"
-	 dst-table="bisis_reports.udk" reference-fk="udk_item"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_item_acquisition" type="relfk" layer="0"
@@ -1030,11 +1134,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="bisis_reports.lending_action" reference-fk="lending_action_lending"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_lending_udk" type="relfk" layer="0"
-	 src-table="bisis_reports.lending"
-	 dst-table="bisis_reports.udk" reference-fk="udk_lending"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_lending_bibliographic_level" type="relfk" layer="0"
 	 src-table="bisis_reports.lending"
 	 dst-table="bisis_reports.bibliographic_level" reference-fk="bibliographic_level"
@@ -1055,16 +1154,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="bisis_reports.serial_type" reference-fk="serial_type_lending"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_lending_language" type="relfk" layer="0"
-	 src-table="bisis_reports.lending"
-	 dst-table="bisis_reports.language" reference-fk="language_lending"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_lending_county" type="relfk" layer="0"
-	 src-table="bisis_reports.lending"
-	 dst-table="bisis_reports.country" reference-fk="country_lending"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_lending_accession_register" type="relfk" layer="0"
 	 src-table="bisis_reports.lending"
 	 dst-table="bisis_reports.accession_register" reference-fk="accession_register_lending"
@@ -1080,11 +1169,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="bisis_reports.librarian" reference-fk="librarian_lending"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_item_content_type" type="relfk" layer="0"
-	 src-table="bisis_reports.item"
-	 dst-table="bisis_reports.content_type" reference-fk="content_type_item"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_lending_internal_mark" type="relfk" layer="0"
 	 src-table="bisis_reports.lending"
 	 dst-table="bisis_reports.internal_mark" reference-fk="internal_mark_lending"
@@ -1094,5 +1178,75 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-table="bisis_reports.lending"
 	 dst-table="bisis_reports.status" reference-fk="status_lending"
 	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_item_content_type_content_type" type="relfk" layer="0"
+	 src-table="bisis_reports.item_content_type"
+	 dst-table="bisis_reports.content_type" reference-fk="item_content_type_content_type"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_content_type_item" type="relfk" layer="0"
+	 src-table="bisis_reports.item_content_type"
+	 dst-table="bisis_reports.item" reference-fk="item_content_type_item"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_udk_udk" type="relfk" layer="0"
+	 src-table="bisis_reports.item_udk"
+	 dst-table="bisis_reports.udk" reference-fk="item_udk_udk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_udk_item" type="relfk" layer="0"
+	 src-table="bisis_reports.item_udk"
+	 dst-table="bisis_reports.item" reference-fk="item_udk_item"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_country_country" type="relfk" layer="0"
+	 src-table="bisis_reports.item_country"
+	 dst-table="bisis_reports.country" reference-fk="item_country_country"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_country_item" type="relfk" layer="0"
+	 src-table="bisis_reports.item_country"
+	 dst-table="bisis_reports.item" reference-fk="item_country_item"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_language_language" type="relfk" layer="0"
+	 src-table="bisis_reports.item_language"
+	 dst-table="bisis_reports.language" reference-fk="item_language_language"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_language_item" type="relfk" layer="0"
+	 src-table="bisis_reports.item_language"
+	 dst-table="bisis_reports.item" reference-fk="item_language_item"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_udk_cp_udk" type="relfk" layer="0"
+	 src-table="bisis_reports.lending_udk"
+	 dst-table="bisis_reports.udk" reference-fk="lending_udk_udk"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_udk_cp_lending" type="relfk" layer="0"
+	 src-table="bisis_reports.lending_udk"
+	 dst-table="bisis_reports.lending" reference-fk="lending_udk_lending"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_country_cp_country" type="relfk" layer="0"
+	 src-table="bisis_reports.lending_country"
+	 dst-table="bisis_reports.country" reference-fk="lending_country_country"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_lending_country_lending" type="relfk" layer="0"
+	 src-table="bisis_reports.lending_country"
+	 dst-table="bisis_reports.lending" reference-fk="lending_country_lending"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_item_language_cp_language" type="relfk" layer="0"
+	 src-table="bisis_reports.lending_language"
+	 dst-table="bisis_reports.language" reference-fk="lending_language_language"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_lending_language_lending" type="relfk" layer="0"
+	 src-table="bisis_reports.lending_language"
+	 dst-table="bisis_reports.lending" reference-fk="lending_language_lending"
+	 src-required="false" dst-required="true"/>
 
 </dbmodel>
