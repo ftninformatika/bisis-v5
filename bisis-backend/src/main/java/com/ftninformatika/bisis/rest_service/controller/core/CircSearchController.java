@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.rest_service.controller.core;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.core.repositories.LendingRepository;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import com.ftninformatika.bisis.core.repositories.MemberRepository;
 import com.ftninformatika.bisis.search.SearchModelCirc;
 import com.ftninformatika.bisis.search.SearchModelMember;
 import com.ftninformatika.util.elastic.ElasticUtility;

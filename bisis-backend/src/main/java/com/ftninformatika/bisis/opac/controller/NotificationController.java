@@ -12,7 +12,7 @@ import com.ftninformatika.bisis.opac.repository.DeviceTokenRepository;
 import com.ftninformatika.bisis.opac.repository.NotificationRepository;
 import com.ftninformatika.bisis.opac.service.NotificationService;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import com.ftninformatika.bisis.core.repositories.MemberRepository;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;

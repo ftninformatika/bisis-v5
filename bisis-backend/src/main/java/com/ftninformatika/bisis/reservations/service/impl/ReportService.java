@@ -10,7 +10,7 @@ import com.ftninformatika.bisis.reports.ReservedBook;
 import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
-import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
+import com.ftninformatika.bisis.core.repositories.MemberRepository;
 import com.ftninformatika.bisis.reservations.service.interfaces.ReportServiceInterface;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
