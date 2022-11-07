@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("countryJPARepository")
+@Repository("countriesJPARepository")
 public interface CountryRepository extends CoderRepository<Country> {
 
     List<Country> findByIdIn(List<String> countries);

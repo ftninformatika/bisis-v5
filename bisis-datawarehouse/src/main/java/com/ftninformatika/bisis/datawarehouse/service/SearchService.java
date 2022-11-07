@@ -1,9 +1,6 @@
 package com.ftninformatika.bisis.datawarehouse.service;
 
-import com.ftninformatika.bisis.datawarehouse.entity.Coder;
-import com.ftninformatika.bisis.datawarehouse.entity.Item;
-import com.ftninformatika.bisis.datawarehouse.entity.Lending;
-import com.ftninformatika.bisis.datawarehouse.entity.Membership;
+import com.ftninformatika.bisis.datawarehouse.entity.*;
 import com.ftninformatika.bisis.datawarehouse.model.SearchRequest;
 import com.ftninformatika.bisis.datawarehouse.model.SearchType;
 import com.ftninformatika.bisis.datawarehouse.model.SelectedCoder;
@@ -50,11 +47,11 @@ public class SearchService {
         List<Selection<?>> selectExpressions = new ArrayList<>();
         List<Predicate> whereExpressions = new ArrayList<>();
         for(SelectedCoder sc: sortSelectedCoders){
-            Join<Item, Coder> join = root.join(sc.getCoder().getName());
+            Join<Item, Coder> join =  root.join(sc.getCoder().getName());
             selectExpressions.add(join.get("description"));
             groupByExpressions.add(join.get("description"));
             groupByExpressions.add(join.get("id"));
-            whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
         if (!searchRequest.isAllData()) {
             whereExpressions.add(cb.between(root.get("ctlgDate"), searchRequest.getStartDate(), searchRequest.getEndDate()));
@@ -87,7 +84,7 @@ public class SearchService {
             selectExpressions.add(join.get("description"));
             groupByExpressions.add(join.get("description"));
             groupByExpressions.add(join.get("id"));
-            whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
         if (!searchRequest.isAllData()) {
             whereExpressions.add(cb.between(root.get("date"), searchRequest.getStartDate(), searchRequest.getEndDate()));

@@ -20,15 +20,15 @@
     "displayName": "Намена (100e)"
   },
   {
-    "name": "country",
+    "name": "countries",
     "displayName": "Земља издавања (102a)"
   },
   {
-    "name": "language",
+    "name": "languages",
     "displayName": "Језик текста (101a)"
   },
   {
-    "name": "udk",
+    "name": "udks",
     "displayName": "УДК група (675a)"
   },
   {

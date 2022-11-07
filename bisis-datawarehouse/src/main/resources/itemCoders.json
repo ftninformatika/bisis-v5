@@ -36,19 +36,19 @@
     "displayName": "Намена (100e)"
   },
   {
-    "name": "contentType",
+    "name": "contentTypes",
     "displayName": "Врста садржаја (105b)"
   },
   {
-    "name": "country",
+    "name": "countries",
     "displayName": "Земља издавања (102a)"
   },
   {
-    "name": "language",
+    "name": "languages",
     "displayName": "Језик текста (101a)"
   },
   {
-    "name": "udk",
+    "name": "udks",
     "displayName": "УДК група (675a)"
   },
   {

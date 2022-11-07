@@ -80,11 +80,11 @@ public class Item implements Serializable {
 	@JoinColumn(name="bibliographic_level_id")
 	private BibliographicLevel bibliographicLevel;
 
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
-			name = "bisis_reports.item_country",
-			joinColumns = @JoinColumn(name = "country_id"),
-			inverseJoinColumns = @JoinColumn(name = "item_id"))
+			name = "item_country", schema = "bisis_reports",
+			joinColumns = @JoinColumn(name = "item_id"),
+			inverseJoinColumns = @JoinColumn(name = "country_id"))
 	private Set<Country> countries =new HashSet<>();
 
 	//bi-directional many-to-one association to InternalMark
@@ -93,11 +93,11 @@ public class Item implements Serializable {
 	private InternalMark internalMark;
 
 
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
-			name = "bisis_reports.item_language",
-			joinColumns = @JoinColumn(name = "language_id"),
-			inverseJoinColumns = @JoinColumn(name = "item_id"))
+			name = "item_language", schema = "bisis_reports",
+			joinColumns = @JoinColumn(name = "item_id"),
+			inverseJoinColumns = @JoinColumn(name = "language_id"))
 	private Set<Language> languages =new HashSet<>();
 
 	//bi-directional many-to-one association to Location
@@ -135,19 +135,19 @@ public class Item implements Serializable {
 	@JoinColumn(name="target_id")
 	private Target target;
 
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
-			name = "bisis_reports.item_udk",
-			joinColumns = @JoinColumn(name = "udk_id"),
-			inverseJoinColumns = @JoinColumn(name = "item_id"))
+			name = "item_udk", schema = "bisis_reports",
+			joinColumns = @JoinColumn(name = "item_id"),
+			inverseJoinColumns = @JoinColumn(name = "udk_id"))
 	private Set<Udk> udks =new HashSet<>();
 
 
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
-			name = "bisis_reports.item_content_type",
-			joinColumns = @JoinColumn(name = "content_type_id"),
-			inverseJoinColumns = @JoinColumn(name = "item_id"))
+			name = "item_content_type", schema = "bisis_reports",
+			joinColumns = @JoinColumn(name = "item_id"),
+			inverseJoinColumns = @JoinColumn(name = "content_type_id"))
 	private Set<ContentType> contentTypes =new HashSet<>();
 
 	@Formula("concat(record_id, ctlg_no, issue_no)") // <= THE TRICK for count

@@ -17,9 +17,9 @@ public class ImportController {
     public void importData(){
         importService.handleImport();
     }
-    @GetMapping("/{library}")
+    @GetMapping("/record/{library}")
     public void importData(@PathVariable("library") String library){
-        importService.handleImportOneLibrary(library);
+        importService.handleImportRecordOneLibrary(library);
     }
 
     @GetMapping("/coders")

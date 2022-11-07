@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("memberJPARepository")
 public interface MemberRepository extends JpaRepository<Member,String> {
+
+    public void deleteAllByLibrary(String library);
 }

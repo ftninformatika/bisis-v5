@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("contentTypeJPARepository")
+@Repository("contentTypesJPARepository")
 public interface ContentTypeRepository extends CoderRepository<ContentType> {
 
     List<ContentType> findByIdIn(List<String> contentTypes);
