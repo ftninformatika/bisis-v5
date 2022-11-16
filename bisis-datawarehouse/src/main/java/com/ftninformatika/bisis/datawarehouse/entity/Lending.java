@@ -60,7 +60,8 @@ public class Lending implements Serializable {
 
 	@ManyToMany
 	@JoinTable(
-			name = "bisis_reports.lending_country",
+			schema = "bisis_reports",
+			name = "lending_country",
 			joinColumns = @JoinColumn(name = "country_id"),
 			inverseJoinColumns = @JoinColumn(name = "lending_id"))
 	private Set<Country> countries =new HashSet<>();
@@ -72,7 +73,8 @@ public class Lending implements Serializable {
 
 	@ManyToMany
 	@JoinTable(
-			name = "bisis_reports.lending_language",
+			schema = "bisis_reports",
+			name = "lending_language",
 			joinColumns = @JoinColumn(name = "language_id"),
 			inverseJoinColumns = @JoinColumn(name = "lending_id"))
 	private Set<Language> languages =new HashSet<>();
@@ -119,7 +121,8 @@ public class Lending implements Serializable {
 
 	@ManyToMany
 	@JoinTable(
-			name = "bisis_reports.lending_udk",
+			schema = "bisis_reports",
+			name = "lending_udk",
 			joinColumns = @JoinColumn(name = "udk_id"),
 			inverseJoinColumns = @JoinColumn(name = "lending_id"))
 	private Set<Udk> udks =new HashSet<>();
