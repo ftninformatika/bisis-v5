@@ -20,5 +20,29 @@ public class ItemCustomRepositoryImpl implements ItemCustomRepository{
         entityManager.createNativeQuery("ALTER SEQUENCE bisis_reports.LENDING_LENDING_ID_SEQ RESTART 1;").executeUpdate();
     };
 
+    @Override
+    @Transactional
+    public void resetItemSequence() {
+        entityManager.joinTransaction();
+        entityManager.createNativeQuery("ALTER SEQUENCE bisis_reports.ITEM_ITEM_ID_SEQ RESTART 1;").executeUpdate();
+
+    }
+
+    @Override
+    @Transactional
+    public void resetMembershipSequence() {
+        entityManager.joinTransaction();
+        entityManager.createNativeQuery("ALTER SEQUENCE bisis_reports.MEMBERSHIP_MEMBERSHIP_ID_SEQ RESTART 1;").executeUpdate();
+
+    }
+
+    @Override
+    @Transactional
+    public void resetLendingSequence() {
+        entityManager.joinTransaction();
+        entityManager.createNativeQuery("ALTER SEQUENCE bisis_reports.LENDING_LENDING_ID_SEQ RESTART 1;").executeUpdate();
+
+    }
+
 
 }

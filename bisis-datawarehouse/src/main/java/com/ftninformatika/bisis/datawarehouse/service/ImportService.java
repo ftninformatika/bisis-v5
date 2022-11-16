@@ -228,7 +228,7 @@ public class ImportService {
         locationRepository.deleteAllInBatch();
         sublocationRepository.deleteAllInBatch();
         statusRepository.deleteAllInBatch();
-        recordRepository.recordDelete();
+        recordRepository.deleteAllInBatch();
 
         categoryRepository.deleteAllInBatch();
         circLocationRepository.deleteAllInBatch();
@@ -853,23 +853,23 @@ public class ImportService {
         Logger.getLogger(ImportService.class).info("Import of all libraries is finished!");
 
     }
-    public void handleImportOneLibrary(String library){
+    public void handleImportRecordOneLibrary(String library){
         Logger.getLogger(ImportService.class).info("Import of library "+library+" started...");
         itemRepository.deleteByLibrary(library);
-        lendingRepository.deleteByLibrary(library);
-        membershipRepository.deleteByLibrary(library);
+        recordRepository.deleteAllByLibrary(library);
+        itemRepository.resetItemSequence();
         importRecordData(library);
-        importMembershipData(library);
         Logger.getLogger(ImportService.class).info("Import of data finished!");
     }
-    //temporary
     public void handleImportMemberOneLibrary(String library){
         Logger.getLogger(ImportService.class).info("Import of library "+library+" started...");
         membershipRepository.deleteByLibrary(library);
-        memberRepository.deleteAllInBatch();
+        memberRepository.deleteAllByLibrary(library);
+        itemRepository.resetMembershipSequence();
         importMembershipData(library);
         Logger.getLogger(ImportService.class).info("Import of data finished!");
     }
+
     private void importRecordData(String library){
         initMaps(library);
         libraryPrefixProvider.setPrefix(library);
@@ -1052,7 +1052,5 @@ public class ImportService {
             membershipList.add(membership);
 
         }
-
-
     }
 }

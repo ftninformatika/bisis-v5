@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("udkJPARepository")
+@Repository("udksJPARepository")
 public interface UDKRepository extends CoderRepository<Udk> {
 
     List<Udk> findByIdIn(List udks);

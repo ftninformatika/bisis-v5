@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("languageJPARepository")
+@Repository("languagesJPARepository")
 public interface LanguageRepository extends CoderRepository<Language> {
 
     List<Language> findByIdIn(List languages);

@@ -58,12 +58,11 @@ public class Lending implements Serializable {
 	@JoinColumn(name="location_id")
 	private CircLocation circLocation;
 
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
-			schema = "bisis_reports",
-			name = "lending_country",
-			joinColumns = @JoinColumn(name = "country_id"),
-			inverseJoinColumns = @JoinColumn(name = "lending_id"))
+			name = "lending_country", schema = "bisis_reports",
+			joinColumns = @JoinColumn(name = "lending_id"),
+			inverseJoinColumns = @JoinColumn(name = "country_id"))
 	private Set<Country> countries =new HashSet<>();
 
 	//bi-directional many-to-one association to Gender
@@ -71,12 +70,11 @@ public class Lending implements Serializable {
 	@JoinColumn(name="gender_id")
 	private Gender gender;
 
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
-			schema = "bisis_reports",
-			name = "lending_language",
-			joinColumns = @JoinColumn(name = "language_id"),
-			inverseJoinColumns = @JoinColumn(name = "lending_id"))
+			name = "lending_language", schema = "bisis_reports",
+			joinColumns = @JoinColumn(name = "lending_id"),
+			inverseJoinColumns = @JoinColumn(name = "language_id"))
 	private Set<Language> languages =new HashSet<>();
 
 	//bi-directional many-to-one association to LendingAction
@@ -119,12 +117,11 @@ public class Lending implements Serializable {
 	@JoinColumn(name="udk_id")
 	private Udk udk;*/
 
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
-			schema = "bisis_reports",
-			name = "lending_udk",
-			joinColumns = @JoinColumn(name = "udk_id"),
-			inverseJoinColumns = @JoinColumn(name = "lending_id"))
+			name = "lending_udk", schema = "bisis_reports",
+			joinColumns = @JoinColumn(name = "lending_id"),
+			inverseJoinColumns = @JoinColumn(name = "udk_id"))
 	private Set<Udk> udks =new HashSet<>();
 
 	//bi-directional many-to-one association to Status
