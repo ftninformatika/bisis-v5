@@ -25,6 +25,28 @@ import java.util.Set;
 public class Lending implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public Lending(Lending another) {
+		this.ctlgNo = another.ctlgNo;
+		this.date = another.date;
+		this.library = another.library;
+		this.accessionRegister = another.accessionRegister;
+		this.bibliographicLevel = another.bibliographicLevel;
+		this.category = another.category;
+		this.circLocation = another.circLocation;
+		this.countries = another.countries;
+		this.gender = another.gender;
+		this.languages = another.languages;
+		this.member = another.member;
+		this.membershipType = another.membershipType;
+		this.recordType = another.recordType;
+		this.serialType = another.serialType;
+		this.target = another.target;
+		this.udks = another.udks;
+		this.status = another.status;
+		this.internalMark = another.internalMark;
+		this.record = another.record;
+	}
+
 	@Id
 	@SequenceGenerator(name="LENDING_LENDINGID_GENERATOR", sequenceName="bisis_reports.LENDING_LENDING_ID_SEQ", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LENDING_LENDINGID_GENERATOR")
@@ -58,7 +80,7 @@ public class Lending implements Serializable {
 	@JoinColumn(name="location_id")
 	private CircLocation circLocation;
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@JoinTable(
 			name = "lending_country", schema = "bisis_reports",
 			joinColumns = @JoinColumn(name = "lending_id"),
@@ -70,7 +92,7 @@ public class Lending implements Serializable {
 	@JoinColumn(name="gender_id")
 	private Gender gender;
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@JoinTable(
 			name = "lending_language", schema = "bisis_reports",
 			joinColumns = @JoinColumn(name = "lending_id"),
@@ -117,7 +139,7 @@ public class Lending implements Serializable {
 	@JoinColumn(name="udk_id")
 	private Udk udk;*/
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@JoinTable(
 			name = "lending_udk", schema = "bisis_reports",
 			joinColumns = @JoinColumn(name = "lending_id"),
@@ -133,6 +155,10 @@ public class Lending implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="internal_mark_id")
 	private InternalMark internalMark;
+
+	@ManyToOne
+	@JoinColumn(name="record_id")
+	private Record record;
 
 	@Formula("concat(ctlg_no, date)") // <= THE TRICK
 	private String ctlgNoDate;

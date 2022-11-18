@@ -93,7 +93,7 @@ public class Item implements Serializable {
 	private InternalMark internalMark;
 
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@JoinTable(
 			name = "item_language", schema = "bisis_reports",
 			joinColumns = @JoinColumn(name = "item_id"),
@@ -135,7 +135,7 @@ public class Item implements Serializable {
 	@JoinColumn(name="target_id")
 	private Target target;
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@JoinTable(
 			name = "item_udk", schema = "bisis_reports",
 			joinColumns = @JoinColumn(name = "item_id"),
@@ -143,7 +143,7 @@ public class Item implements Serializable {
 	private Set<Udk> udks =new HashSet<>();
 
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@JoinTable(
 			name = "item_content_type", schema = "bisis_reports",
 			joinColumns = @JoinColumn(name = "item_id"),

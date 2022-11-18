@@ -31,4 +31,9 @@ public class ImportController {
     public void importMemberData(@PathVariable("library") String library){
         importService.handleImportMemberOneLibrary(library);
     }
+
+    @GetMapping("/lending/{library}")
+    public void importLendingData(@PathVariable("library") String library){
+        importService.handleImportLendingOneLibrary(library);
+    }
 }
