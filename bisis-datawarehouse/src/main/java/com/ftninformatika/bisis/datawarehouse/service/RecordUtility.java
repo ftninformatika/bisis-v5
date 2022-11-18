@@ -80,7 +80,7 @@ public class RecordUtility {
     }
 
     private static String nvl(String s) {
-        return s == null ? "" : s.trim();
+        return s == null ? "" : s.trim().replaceAll("\u0000", "");
     }
 
     public static String getRecordType(Record rec){
