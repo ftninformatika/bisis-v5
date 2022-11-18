@@ -5,10 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Set;
 
 
 /**
@@ -22,11 +20,4 @@ import java.util.Set;
 @Table(name="udk", schema = "bisis_reports", catalog = "bisis")
 public class Udk extends Coder implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@ManyToMany(mappedBy = "udks")
-	Set<Item> items;
-
-	@ManyToMany(mappedBy = "udks")
-	Set<Lending> lendings;
-
 }

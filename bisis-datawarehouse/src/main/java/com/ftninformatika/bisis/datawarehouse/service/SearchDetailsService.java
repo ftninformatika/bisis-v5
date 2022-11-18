@@ -63,7 +63,7 @@ public class SearchDetailsService {
         List<Predicate> whereExpressions = new ArrayList<>();
         for(SelectedCoder sc: sortSelectedCoders){
             Join<Item, Coder> join = root.join(sc.getCoder().getName());
-            whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
         if (!searchDetailsRequest.isAllData()) {
             whereExpressions.add(cb.between(root.get("ctlgDate"), searchDetailsRequest.getStartDate(), searchDetailsRequest.getEndDate()));
@@ -94,7 +94,7 @@ public class SearchDetailsService {
         List<Predicate> whereExpressions = new ArrayList<>();
         for(SelectedCoder sc: sortSelectedCoders){
             Join<Item, Coder> join = root.join(sc.getCoder().getName());
-            whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
         if (!searchDetailsRequest.isAllData()) {
             whereExpressions.add(cb.between(root.get("ctlgDate"), searchDetailsRequest.getStartDate(), searchDetailsRequest.getEndDate()));
@@ -178,7 +178,7 @@ public class SearchDetailsService {
 
         for(SelectedCoder sc: sortSelectedCoders){
             Join<Lending, Coder> join = root.join(sc.getCoder().getName());
-            whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
         if (!searchDetailsRequest.isAllData()) {
             whereExpressions.add(cb.between(root.get("date"), searchDetailsRequest.getStartDate(), searchDetailsRequest.getEndDate()));
@@ -222,7 +222,7 @@ public class SearchDetailsService {
 
         for(SelectedCoder sc: sortSelectedCoders){
             Join<Lending, Coder> join = root.join(sc.getCoder().getName());
-            whereExpressions.add(cb.in(root.get(sc.getCoder().getName()).get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
         }
         if (!searchDetailsRequest.isAllData()) {
             whereExpressions.add(cb.between(root.get("date"), searchDetailsRequest.getStartDate(), searchDetailsRequest.getEndDate()));

@@ -5,10 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Set;
 
 
 /**
@@ -22,7 +20,4 @@ import java.util.Set;
 @Table(name="content_type", schema = "bisis_reports", catalog = "bisis")
 public class ContentType extends Coder implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    @ManyToMany(mappedBy = "contentTypes")
-    Set<Item> items;
 }

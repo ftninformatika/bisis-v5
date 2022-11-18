@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,552" last-zoom="1" max-obj-count="54"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="1205,0" last-zoom="1" max-obj-count="55"
 	 default-schema="public" default-owner="postgres">
 <database name="bisis" is-template="false" allow-conns="true">
 </database>
@@ -16,7 +16,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="item" layer="0" collapse-mode="2" max-obj-count="20" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="500" y="80"/>
+	<position x="500" y="20"/>
 	<column name="item_id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -75,7 +75,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="record" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="60" y="80"/>
+	<position x="1100" y="0"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -102,7 +102,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="bibliographic_level" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[001c]]></comment>
-	<position x="1120" y="80"/>
+	<position x="1100" y="240"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -120,7 +120,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="language" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[101a]]></comment>
-	<position x="1120" y="1520"/>
+	<position x="1100" y="1680"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -137,7 +137,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="location" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="60" y="320"/>
+	<position x="60" y="80"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -154,7 +154,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="sublocation" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="60" y="480"/>
+	<position x="60" y="240"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -171,7 +171,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="status" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1120" y="720"/>
+	<position x="1100" y="880"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -189,7 +189,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="target" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[100e]]></comment>
-	<position x="1120" y="560"/>
+	<position x="1100" y="720"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -207,7 +207,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="serial_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[110a]]></comment>
-	<position x="1120" y="400"/>
+	<position x="1100" y="560"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -225,7 +225,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="country" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[102a]]></comment>
-	<position x="1120" y="1360"/>
+	<position x="1100" y="1520"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -243,7 +243,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="accession_register" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[inventarna knjiga]]></comment>
-	<position x="1120" y="880"/>
+	<position x="1100" y="1040"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -261,7 +261,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="record_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[001b]]></comment>
-	<position x="1120" y="240"/>
+	<position x="1100" y="400"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -279,7 +279,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="udk" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[675a]]></comment>
-	<position x="1120" y="1200"/>
+	<position x="1100" y="1360"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -296,7 +296,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="acquisition" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="60" y="640"/>
+	<position x="60" y="400"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -314,7 +314,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="internal_mark" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[interna oznaka]]></comment>
-	<position x="1120" y="1040"/>
+	<position x="1100" y="1200"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -332,7 +332,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="membership" layer="0" collapse-mode="2" max-obj-count="13" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[first_time je true za prvu clanarinu]]></comment>
-	<position x="2480" y="80"/>
+	<position x="2480" y="40"/>
 	<column name="membership_id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -397,10 +397,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="lending" layer="0" collapse-mode="2" max-obj-count="21" z-value="0">
+<table name="lending" layer="0" collapse-mode="2" max-obj-count="22" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[action_id je akcija zaduzeno, produzeno, razduzeno]]></comment>
-	<position x="1560" y="80"/>
+	<position x="1560" y="40"/>
 	<column name="lending_id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -426,6 +426,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text" length="0"/>
 	</column>
 	<column name="gender_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="record_id">
 		<type name="text" length="0"/>
 	</column>
 	<column name="bibliographic_level_id">
@@ -637,7 +640,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="content_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
 	<comment><![CDATA[vrsta sadrzaja 105b]]></comment>
-	<position x="60" y="800"/>
+	<position x="60" y="560"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -654,7 +657,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="item_content_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="160" y="980"/>
+	<position x="100" y="740"/>
 	<column name="content_type_id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -710,7 +713,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="lending_udk" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1460" y="1060"/>
+	<position x="1460" y="1140"/>
 	<column name="udk_id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -724,7 +727,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="lending_country" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1460" y="1280"/>
+	<position x="1460" y="1360"/>
 	<column name="country_id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -738,7 +741,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="lending_language" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="1460" y="1500"/>
+	<position x="1460" y="1580"/>
 	<column name="language_id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -803,6 +806,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="false">
 			<column name="lending_id"/>
+		</idxelement>
+</index>
+
+<index name="item_ctlg_no_idx" table="bisis_reports.item"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="ctlg_no"/>
+		</idxelement>
+</index>
+
+<index name="lending_record_idx" table="bisis_reports.lending"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="record_id"/>
 		</idxelement>
 </index>
 
@@ -989,6 +1008,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="status_lending" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.status" table="bisis_reports.lending">
 	<columns names="status_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="record_lending" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.record" table="bisis_reports.lending">
+	<columns names="record_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1304,5 +1329,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-table="bisis_reports.lending_language"
 	 dst-table="bisis_reports.lending" reference-fk="lending_language_lending"
 	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_lending_record" type="relfk" layer="0"
+	 src-table="bisis_reports.lending"
+	 dst-table="bisis_reports.record" reference-fk="record_lending"
+	 src-required="false" dst-required="false"/>
 
 </dbmodel>
