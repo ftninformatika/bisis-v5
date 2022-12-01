@@ -80,7 +80,7 @@ public class Item implements Serializable {
 	@JoinColumn(name="bibliographic_level_id")
 	private BibliographicLevel bibliographicLevel;
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@JoinTable(
 			name = "item_country", schema = "bisis_reports",
 			joinColumns = @JoinColumn(name = "item_id"),

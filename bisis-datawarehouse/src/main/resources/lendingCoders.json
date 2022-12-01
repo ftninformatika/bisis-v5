@@ -28,6 +28,10 @@
     "displayName": "Језик текста (101a)"
   },
   {
+    "name": "contentTypes",
+    "displayName": "Врста садржаја (105b)"
+  },
+  {
     "name": "udks",
     "displayName": "УДК група (675a)"
   },

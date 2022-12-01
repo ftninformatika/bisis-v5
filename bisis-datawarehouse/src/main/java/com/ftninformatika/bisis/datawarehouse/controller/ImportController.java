@@ -13,7 +13,6 @@ public class ImportController {
     @Autowired
     ImportService importService;
 
-    @GetMapping
     public void importData(){
         importService.handleImport();
     }
