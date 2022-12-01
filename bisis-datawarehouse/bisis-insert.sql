@@ -5,7 +5,7 @@ insert into bisis_reports.lending_action(id, description) values ('produzeno' ,'
 
 delete from bisis_reports.gender;
 insert into bisis_reports.gender(id, description) values ('m' ,'Muško');
-insert into bisis_reports.gender(id, description) values ('z' ,'Žensko');
+insert into bisis_reports.gender(id, description) values ('f' ,'Žensko');
 insert into bisis_reports.gender(id, description) values ('nemavrednost' ,'Нема вредност');
 
 delete from bisis_reports.udk;

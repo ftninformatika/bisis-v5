@@ -52,6 +52,11 @@ public class Membership implements Serializable {
 	@JoinColumn(name="gender_id")
 	private Gender gender;
 
+	//bi-directional many-to-one association to CorporateMember
+	@ManyToOne
+	@JoinColumn(name="corporate_member_id")
+	private CorporateMember corporateMember;
+
 	//bi-directional many-to-one association to Librarian
 	@ManyToOne
 	@JoinColumn(name="librarian_id")

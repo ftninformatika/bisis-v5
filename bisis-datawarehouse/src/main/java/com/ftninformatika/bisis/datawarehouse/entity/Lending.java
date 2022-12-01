@@ -146,6 +146,13 @@ public class Lending implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "udk_id"))
 	private Set<Udk> udks =new HashSet<>();
 
+	@ManyToMany
+	@JoinTable(
+			name = "lending_content_type", schema = "bisis_reports",
+			joinColumns = @JoinColumn(name = "lending_id"),
+			inverseJoinColumns = @JoinColumn(name = "content_type_id"))
+	private Set<ContentType> contentTypes =new HashSet<>();
+
 	//bi-directional many-to-one association to Status
 	@ManyToOne
 	@JoinColumn(name="status_id")
