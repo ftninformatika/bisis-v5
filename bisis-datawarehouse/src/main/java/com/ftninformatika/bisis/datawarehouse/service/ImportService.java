@@ -266,6 +266,7 @@ public class ImportService {
         librarianRepository.deleteAllInBatch();
         memberRepository.deleteAllInBatch();
         membershipTypeRepository.deleteAllInBatch();
+        corporateMemberRepository.deleteAllInBatch();
     }
     private void importCoder(Class coderJPAClass, JpaRepository coderRepository, MongoRepository mongoRepository) throws Exception{
         List<Coder> coderMongoList = mongoRepository.findAll();
@@ -385,21 +386,19 @@ public class ImportService {
 
     private void importCorporateMember(){
         List<com.ftninformatika.bisis.circ.CorporateMember> corporateMemberList = corporateMemberRepositoryMongo.findAll();
-        Integer counter = 1;
         for(com.ftninformatika.bisis.circ.CorporateMember cm: corporateMemberList){
             CorporateMember corporateMember = new CorporateMember();
             if (cm.getLibrary() !=null){
-                corporateMember.setId(counter+"_"+cm.getLibrary());
+                corporateMember.setId(cm.getUserId()+"_"+cm.getLibrary());
             }else{
-                corporateMember.setId(String.valueOf(counter));
+                corporateMember.setId(cm.getUserId());
             }
             corporateMember.setDescription(cm.getInstName());
             corporateMember.setLibrary(cm.getLibrary());
             corporateMemberRepository.save(corporateMember);
-            counter++;
         }
         CorporateMember corporateMember = new CorporateMember();
-        corporateMember.setId(String.valueOf(counter));
+        corporateMember.setId("nemavrednost");
         corporateMember.setDescription("Нема вредност");
         corporateMember.setLibrary(null);
         corporateMemberRepository.save(corporateMember);
@@ -440,6 +439,7 @@ public class ImportService {
             m.setAddress(" ");
             m.setLastName(" ");
             m.setFirstName(" ");
+            memberRepository.save(m);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -867,6 +867,7 @@ public class ImportService {
         importCoders();
         List<LibraryConfiguration> libraryConfigurationList = libraryConfigurationRepository.findAll();
         for(LibraryConfiguration lc:libraryConfigurationList){
+            Logger.getLogger(ImportService.class).info("Import of library "+lc.getLibraryName() +" started...");
             importRecordData(lc.getLibraryName());
             importMembershipData(lc.getLibraryName());
             importLendingData(lc.getLibraryName());
@@ -974,6 +975,9 @@ public class ImportService {
         List<LendingAction> lendingActionList = lendingActionRepository.findByLibraryIsNullOrLibrary(library);
         lendingActionMap= initCoders(lendingActionList);
 
+        List<com.ftninformatika.bisis.datawarehouse.entity.CorporateMember> corporateMemberList = corporateMemberRepository.findByLibraryIsNullOrLibrary(library);
+        corporateMemberMap= initCoders(corporateMemberList);
+
         List<Category> categoryList = categoryRepository.findByLibraryIsNullOrLibrary(library);
         categoryMap= initCodersWithDescription(categoryList,library);
 
@@ -983,8 +987,7 @@ public class ImportService {
         List<com.ftninformatika.bisis.datawarehouse.entity.MembershipType> membershipTypeList = membershipTypeRepository.findByLibraryIsNullOrLibrary(library);
         membershipTypeMap= initCodersWithDescription(membershipTypeList,library);
 
-        List<com.ftninformatika.bisis.datawarehouse.entity.CorporateMember> corporateMemberList = corporateMemberRepository.findByLibraryIsNullOrLibrary(library);
-        corporateMemberMap= initCodersWithDescription(corporateMemberList,library);
+
 
     }
 
@@ -1056,8 +1059,8 @@ public class ImportService {
 
         com.ftninformatika.bisis.datawarehouse.entity.CorporateMember corporateMember;
         if (m.getCorporateMember()!=null){
-            String corporateMemberMem = m.getCorporateMember().getInstName();
-            corporateMember = corporateMemberMap.get(corporateMemberMem+"_"+library);
+            String corporateMemberId = m.getCorporateMember().getUserId();
+            corporateMember = corporateMemberMap.get(corporateMemberId+"_"+library);
             if (corporateMember == null){
                 corporateMember = corporateMemberMap.get("nemavrednost");
 
@@ -1189,7 +1192,6 @@ public class ImportService {
             m.setId("nemavrednost");
             lending.setMember(m);
             lending.setMembershipType(membershipTypeMap.get("nemavrednost"));
-
         }else{
             membership = membershipList.get(0);
             lending.setCategory(membership.getCategory());

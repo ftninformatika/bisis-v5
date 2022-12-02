@@ -13,11 +13,13 @@ public class ImportController {
     @Autowired
     ImportService importService;
 
-    public void importData(){
+    @GetMapping("/all")
+    public void importRecordData(){
         importService.handleImport();
     }
+
     @GetMapping("/record/{library}")
-    public void importData(@PathVariable("library") String library){
+    public void importRecordData(@PathVariable("library") String library){
         importService.handleImportRecordOneLibrary(library);
     }
 
