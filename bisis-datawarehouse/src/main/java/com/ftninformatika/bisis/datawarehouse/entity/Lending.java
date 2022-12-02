@@ -45,6 +45,7 @@ public class Lending implements Serializable {
 		this.status = another.status;
 		this.internalMark = another.internalMark;
 		this.record = another.record;
+		this.contentTypes = another.contentTypes;
 	}
 
 	@Id
@@ -134,10 +135,6 @@ public class Lending implements Serializable {
 	@JoinColumn(name="target_id")
 	private Target target;
 
-	//bi-directional many-to-one association to Udk
-	/*@ManyToOne
-	@JoinColumn(name="udk_id")
-	private Udk udk;*/
 
 	@ManyToMany
 	@JoinTable(

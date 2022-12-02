@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class ItemCustomRepositoryImpl implements ItemCustomRepository{
+public class CustomRepository{
 
     @PersistenceContext
     EntityManager entityManager;
@@ -20,7 +20,6 @@ public class ItemCustomRepositoryImpl implements ItemCustomRepository{
         entityManager.createNativeQuery("ALTER SEQUENCE bisis_reports.LENDING_LENDING_ID_SEQ RESTART 1;").executeUpdate();
     };
 
-    @Override
     @Transactional
     public void resetItemSequence() {
         entityManager.joinTransaction();
@@ -28,7 +27,6 @@ public class ItemCustomRepositoryImpl implements ItemCustomRepository{
 
     }
 
-    @Override
     @Transactional
     public void resetMembershipSequence() {
         entityManager.joinTransaction();
@@ -36,7 +34,6 @@ public class ItemCustomRepositoryImpl implements ItemCustomRepository{
 
     }
 
-    @Override
     @Transactional
     public void resetLendingSequence() {
         entityManager.joinTransaction();
@@ -44,5 +41,45 @@ public class ItemCustomRepositoryImpl implements ItemCustomRepository{
 
     }
 
+    @Transactional
+    public void deleteLendingByLibrary(String library) {
+        entityManager.createNativeQuery("delete from bisis_reports.lending where library=:lib").
+                setParameter("lib",library).executeUpdate();
+
+    }
+
+    @Transactional
+    public void deleteMembershipByLibrary(String library) {
+        entityManager.joinTransaction();
+        entityManager.createNativeQuery("delete from bisis_reports.membership where library=:lib").
+                setParameter("lib",library).executeUpdate();
+
+    }
+
+    @Transactional
+    public void deleteItemByLibrary(String library) {
+        entityManager.joinTransaction();
+        entityManager.createNativeQuery("delete from bisis_reports.item where library=:lib").
+                setParameter("lib",library).executeUpdate();
+
+    }
+
+
+    @Transactional
+    public void deleteAllLendingInBatch() {
+        entityManager.createNativeQuery("delete from bisis_reports.lending").executeUpdate();
+    }
+
+    @Transactional
+    public void deleteAllMembershipInBatch() {
+        entityManager.createNativeQuery("delete from bisis_reports.membership").executeUpdate();
+
+    }
+
+    @Transactional
+    public void deleteAllItemInBatch() {
+        entityManager.createNativeQuery("delete from bisis_reports.item").executeUpdate();
+
+    }
 
 }

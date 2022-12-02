@@ -18,5 +18,9 @@
   {
     "name": "librarian",
     "displayName": "Библиотекар"
+  },
+  {
+    "name": "corporateMember",
+    "displayName": "Колективни члан"
   }
 ]
