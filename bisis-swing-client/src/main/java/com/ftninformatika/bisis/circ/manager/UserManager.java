@@ -322,7 +322,8 @@ public class UserManager {
         corporateMember = toObjectModel(group, corporateMember);
         Boolean saved = false;
         try {
-            saved = BisisApp.bisisService.saveCorporateMember(corporateMember).execute().body();
+            corporateMember = BisisApp.bisisService.saveCorporateMember(corporateMember).execute().body();
+            saved = true;
         } catch (Exception e) {
             e.printStackTrace();
         }

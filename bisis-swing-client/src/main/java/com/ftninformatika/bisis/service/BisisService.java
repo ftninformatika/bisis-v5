@@ -357,7 +357,7 @@ public interface BisisService {
     Call<Integer> getLastUserId(@Query("location") String location);
 
     @POST("corporate_members/save")
-    Call<Boolean> saveCorporateMember(@Body CorporateMember corporateMember);
+    Call<CorporateMember> saveCorporateMember(@Body CorporateMember corporateMember);
 
     @GET("itemAvailabilities/getByCtlgNo")
     Call<ItemAvailability> getItemAvailability(@Query("ctlgno") String ctlgno);

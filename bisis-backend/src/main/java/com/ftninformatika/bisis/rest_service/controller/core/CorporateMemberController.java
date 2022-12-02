@@ -20,8 +20,8 @@ public class CorporateMemberController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public boolean saveCorporateMemberById(@RequestBody CorporateMember corporateMember){
-        return corporateMemberRepository.save(corporateMember) != null;
+    public CorporateMember saveCorporateMemberById(@RequestBody CorporateMember corporateMember){
+        return corporateMemberRepository.save(corporateMember);
     }
 
 
