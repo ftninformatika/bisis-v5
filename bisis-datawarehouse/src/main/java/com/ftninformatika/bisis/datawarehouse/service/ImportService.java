@@ -670,18 +670,23 @@ public class ImportService {
             }else{
                 i.setPrice(new BigDecimal(0));
             }
-            String accessionRegisterRec = p.getInvBroj().substring(2,4);
-            if (accessionRegisterRec !=null) {
-                AccessionRegister accessionRegister = accessionRegisterMap.get(accessionRegisterRec + "_" + library);
-                if (accessionRegister != null) {
-                    i.setAccessionRegister(accessionRegister);
-                }else{
+            if(p.getInvBroj() == null){
+                AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
+                i.setAccessionRegister(accessionRegisterNone);
+            }else {
+                String accessionRegisterRec = p.getInvBroj().substring(2, 4);
+                if (accessionRegisterRec != null) {
+                    AccessionRegister accessionRegister = accessionRegisterMap.get(accessionRegisterRec + "_" + library);
+                    if (accessionRegister != null) {
+                        i.setAccessionRegister(accessionRegister);
+                    } else {
+                        AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
+                        i.setAccessionRegister(accessionRegisterNone);
+                    }
+                } else {
                     AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
                     i.setAccessionRegister(accessionRegisterNone);
                 }
-            }else{
-                AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
-                i.setAccessionRegister(accessionRegisterNone);
             }
             for(Udk udk:udks){
                 i.getUdks().add(udk);
