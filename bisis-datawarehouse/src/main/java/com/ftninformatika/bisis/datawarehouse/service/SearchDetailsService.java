@@ -74,6 +74,7 @@ public class SearchDetailsService {
         selectExpressions.add(root.get("record").get("publisher"));
         selectExpressions.add(root.get("record").get("publicationYear"));
         selectExpressions.add(root.get("record").get("id"));
+        selectExpressions.add(root.get("record").get("rn"));
         selectExpressions.add(root.get("ctlgNo"));
         selectExpressions.add(root.get("issueNo"));
         selectExpressions.add(root.get("price"));

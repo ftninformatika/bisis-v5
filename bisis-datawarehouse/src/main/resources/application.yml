@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: development
+    active: production
 
 logging:
   level:
@@ -9,6 +9,7 @@ logging:
 #    org.hibernate.type: TRACE
 
 ---
+
 spring:
   profiles: development
   jpa:
@@ -22,3 +23,22 @@ spring:
     password: postgres
   data.mongodb.uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
   data.mongodb.database: bisis
+
+
+---
+
+spring:
+  profiles: production
+  jpa:
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties.hibernate.format_sql: true
+    hibernate.ddl-auto: none
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bisis
+    username: bisis
+    password: bisis
+  data.mongodb.uri: mongodb://bisis1:27017,bisis2:27017,bisis3:27017/?replicaSet=bisis5
+  data.mongodb.database: bisis
+
+---

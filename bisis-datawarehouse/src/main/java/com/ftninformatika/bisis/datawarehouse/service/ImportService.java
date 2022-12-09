@@ -34,7 +34,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
@@ -864,7 +863,7 @@ public class ImportService {
             }
         }
 
-    @Scheduled(cron = "0 0 18 * * *")
+    //@Scheduled(cron = "0 0 18 * * *")
     public void handleImport(){
         Logger.getLogger(ImportService.class).info("Import all started...");
         deleteDataWarehouse();
