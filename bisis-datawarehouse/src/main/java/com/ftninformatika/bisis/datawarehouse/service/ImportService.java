@@ -669,7 +669,7 @@ public class ImportService {
             }else{
                 i.setPrice(new BigDecimal(0));
             }
-            if(p.getInvBroj() == null){
+            if(p.getInvBroj() == null || p.getInvBroj().length() != 11){
                 AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
                 i.setAccessionRegister(accessionRegisterNone);
             }else {
@@ -863,7 +863,6 @@ public class ImportService {
             }
         }
 
-    //@Scheduled(cron = "0 0 18 * * *")
     public void handleImport(){
         Logger.getLogger(ImportService.class).info("Import all started...");
         deleteDataWarehouse();
