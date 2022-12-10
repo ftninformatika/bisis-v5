@@ -14,7 +14,7 @@ public class ImportController {
     ImportService importService;
 
     @GetMapping("/all")
-    public void importRecordData(){
+    public void importData(){
         importService.handleImport();
     }
 
