@@ -267,32 +267,37 @@ public class ImportService {
         membershipTypeRepository.deleteAllInBatch();
         corporateMemberRepository.deleteAllInBatch();
     }
-    private void importCoder(Class coderJPAClass, JpaRepository coderRepository, MongoRepository mongoRepository) throws Exception{
-        List<Coder> coderMongoList = mongoRepository.findAll();
-        List<com.ftninformatika.bisis.datawarehouse.entity.Coder> coderJPAList = new ArrayList<>();
-        com.ftninformatika.bisis.datawarehouse.entity.Coder coder = null;
+    private void importCoder(Class coderJPAClass, JpaRepository coderRepository, MongoRepository mongoRepository){
+       try {
+           List<Coder> coderMongoList = mongoRepository.findAll();
+           List<com.ftninformatika.bisis.datawarehouse.entity.Coder> coderJPAList = new ArrayList<>();
+           com.ftninformatika.bisis.datawarehouse.entity.Coder coder = null;
 
-        for (Coder c: coderMongoList){
-            coder = (com.ftninformatika.bisis.datawarehouse.entity.Coder) coderJPAClass.newInstance();
-            if (c.getLibrary() !=null){
-                    coder.setId(c.getCoder_id() + "_" + c.getLibrary());
-            }else{
-                coder.setId(c.getCoder_id());
-            }
-            coder.setDescription(c.getCoder_id() + " - " +c.getDescription());
-            coder.setLibrary(c.getLibrary());
-            coderJPAList.add(coder);
-        }
-        coder = (com.ftninformatika.bisis.datawarehouse.entity.Coder) coderJPAClass.newInstance();
-        coder.setId("nemavrednost");
-        coder.setDescription("Нема вредност");
-        coder.setLibrary(null);
-        coderJPAList.add(coder);
+           for (Coder c : coderMongoList) {
+               coder = (com.ftninformatika.bisis.datawarehouse.entity.Coder) coderJPAClass.newInstance();
+               if (c.getLibrary() != null) {
+                   coder.setId(c.getCoder_id() + "_" + c.getLibrary());
+               } else {
+                   coder.setId(c.getCoder_id());
+               }
+               coder.setDescription(c.getCoder_id() + " - " + c.getDescription());
+               coder.setLibrary(c.getLibrary());
+               coderJPAList.add(coder);
+           }
+           coder = (com.ftninformatika.bisis.datawarehouse.entity.Coder) coderJPAClass.newInstance();
+           coder.setId("nemavrednost");
+           coder.setDescription("Нема вредност");
+           coder.setLibrary(null);
+           coderJPAList.add(coder);
 
-        coderRepository.saveAll(coderJPAList);
+           coderRepository.saveAll(coderJPAList);
+       }catch (Exception e){
+           e.printStackTrace();
+       }
     }
 
     private void importCircLocation(){
+        try{
         List<CircLocation> circLocationList = circLocationRepositoryMongo.findAll();
         for (CircLocation c:circLocationList){
             com.ftninformatika.bisis.datawarehouse.entity.CircLocation circLocation = new com.ftninformatika.bisis.datawarehouse.entity.CircLocation();
@@ -310,102 +315,119 @@ public class ImportService {
         circLocation.setDescription("Нема вредност");
         circLocation.setLibrary(null);
         circLocationRepository.save(circLocation);
-
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private  void  importLibrarian(){
-        List<LibrarianDB> librarianList = librarianRepositoryMongo.findAll();
-        String librarianName = null;
-        for(LibrarianDB l: librarianList){
-            Librarian librarian = new Librarian();
-            librarian.setId(l.getUsername());
-            if(l.getIme() !=null && l.getPrezime() != null){
-                librarianName = l.getIme()+" " + l.getPrezime();
-            }else{
-                librarianName = l.getUsername();
+        try {
+            List<LibrarianDB> librarianList = librarianRepositoryMongo.findAll();
+            String librarianName = null;
+            for (LibrarianDB l : librarianList) {
+                Librarian librarian = new Librarian();
+                librarian.setId(l.getUsername());
+                if (l.getIme() != null && l.getPrezime() != null) {
+                    librarianName = l.getIme() + " " + l.getPrezime();
+                } else {
+                    librarianName = l.getUsername();
+                }
+                librarian.setDescription(librarianName);
+                librarian.setLibrary(l.getBiblioteka());
+                librarianRepository.save(librarian);
             }
-            librarian.setDescription(librarianName);
-            librarian.setLibrary(l.getBiblioteka());
+            Librarian librarian = new Librarian();
+            librarian.setId("nemavrednost");
+            librarian.setDescription("Нема вредност");
+            librarian.setLibrary(null);
             librarianRepository.save(librarian);
-        }
-        Librarian librarian = new Librarian();
-        librarian.setId("nemavrednost");
-        librarian.setDescription("Нема вредност");
-        librarian.setLibrary(null);
-        librarianRepository.save(librarian);
+        } catch (Exception e){
+        e.printStackTrace();
+    }
 
     }
 
     private void importMembershipType(){
-        List<MembershipType> membershipTypeList = membershipTypeRepositoryMongo.findAll();
-        Integer counter = 1;
-        for(MembershipType mt: membershipTypeList){
+        try {
+            List<MembershipType> membershipTypeList = membershipTypeRepositoryMongo.findAll();
+            Integer counter = 1;
+            for (MembershipType mt : membershipTypeList) {
+                com.ftninformatika.bisis.datawarehouse.entity.MembershipType membershipType = new com.ftninformatika.bisis.datawarehouse.entity.MembershipType();
+                membershipType.setId(String.valueOf(counter));
+                if (mt.getLibrary() != null) {
+                    membershipType.setId(counter + "_" + mt.getLibrary());
+                } else {
+                    membershipType.setId(String.valueOf(counter));
+                }
+                membershipType.setDescription(mt.getDescription());
+                membershipType.setLibrary(mt.getLibrary());
+                membershipTypeRepository.save(membershipType);
+                counter++;
+            }
             com.ftninformatika.bisis.datawarehouse.entity.MembershipType membershipType = new com.ftninformatika.bisis.datawarehouse.entity.MembershipType();
             membershipType.setId(String.valueOf(counter));
-            if (mt.getLibrary() !=null){
-                membershipType.setId(counter+"_"+mt.getLibrary());
-            }else{
-                membershipType.setId(String.valueOf(counter));
-            }
-            membershipType.setDescription(mt.getDescription());
-            membershipType.setLibrary(mt.getLibrary());
+            membershipType.setDescription("Нема вредност");
+            membershipType.setLibrary(null);
             membershipTypeRepository.save(membershipType);
-            counter++;
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        com.ftninformatika.bisis.datawarehouse.entity.MembershipType membershipType = new com.ftninformatika.bisis.datawarehouse.entity.MembershipType();
-        membershipType.setId(String.valueOf(counter));
-        membershipType.setDescription("Нема вредност");
-        membershipType.setLibrary(null);
-        membershipTypeRepository.save(membershipType);
 
     }
 
     private void importCategory(){
-        List<UserCategory> categoryList = userCategRepository.findAll();
-        Integer counter = 1;
-        for(UserCategory uc: categoryList){
-            Category category = new Category();
-            if (uc.getLibrary() !=null){
-                category.setId(counter+"_"+uc.getLibrary());
-            }else{
-                category.setId(String.valueOf(counter));
+        try {
+            List<UserCategory> categoryList = userCategRepository.findAll();
+            Integer counter = 1;
+            for (UserCategory uc : categoryList) {
+                Category category = new Category();
+                if (uc.getLibrary() != null) {
+                    category.setId(counter + "_" + uc.getLibrary());
+                } else {
+                    category.setId(String.valueOf(counter));
+                }
+                category.setDescription(uc.getDescription());
+                category.setLibrary(uc.getLibrary());
+                categoryRepository.save(category);
+                counter++;
             }
-            category.setDescription(uc.getDescription());
-            category.setLibrary(uc.getLibrary());
+            Category category = new Category();
+            category.setId(String.valueOf(counter));
+            category.setDescription("Нема вредност");
+            category.setLibrary(null);
             categoryRepository.save(category);
-            counter++;
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        Category category = new Category();
-        category.setId(String.valueOf(counter));
-        category.setDescription("Нема вредност");
-        category.setLibrary(null);
-        categoryRepository.save(category);
 
     }
 
     private void importCorporateMember(){
-        List<com.ftninformatika.bisis.circ.CorporateMember> corporateMemberList = corporateMemberRepositoryMongo.findAll();
-        for(com.ftninformatika.bisis.circ.CorporateMember cm: corporateMemberList){
-            CorporateMember corporateMember = new CorporateMember();
-            if (cm.getLibrary() !=null){
-                corporateMember.setId(cm.getUserId()+"_"+cm.getLibrary());
-            }else{
-                corporateMember.setId(cm.getUserId());
+        try {
+            List<com.ftninformatika.bisis.circ.CorporateMember> corporateMemberList = corporateMemberRepositoryMongo.findAll();
+            for (com.ftninformatika.bisis.circ.CorporateMember cm : corporateMemberList) {
+                CorporateMember corporateMember = new CorporateMember();
+                if (cm.getLibrary() != null) {
+                    corporateMember.setId(cm.getUserId() + "_" + cm.getLibrary());
+                } else {
+                    corporateMember.setId(cm.getUserId());
+                }
+                corporateMember.setDescription(cm.getInstName());
+                corporateMember.setLibrary(cm.getLibrary());
+                corporateMemberRepository.save(corporateMember);
             }
-            corporateMember.setDescription(cm.getInstName());
-            corporateMember.setLibrary(cm.getLibrary());
+            CorporateMember corporateMember = new CorporateMember();
+            corporateMember.setId("nemavrednost");
+            corporateMember.setDescription("Нема вредност");
+            corporateMember.setLibrary(null);
             corporateMemberRepository.save(corporateMember);
+        } catch(Exception e){
+            e.printStackTrace();
         }
-        CorporateMember corporateMember = new CorporateMember();
-        corporateMember.setId("nemavrednost");
-        corporateMember.setDescription("Нема вредност");
-        corporateMember.setLibrary(null);
-        corporateMemberRepository.save(corporateMember);
 
     }
 
     public void importCoders(){
-        try {
             importCoder(com.ftninformatika.bisis.datawarehouse.entity.AccessionRegister.class, accessionRegisterRepository, accessionRegisterRepositoryMongo);
 
             importCoder(com.ftninformatika.bisis.datawarehouse.entity.Acquisition.class, acquisitionRepository, acquisitionRepositoryMongo);
@@ -439,9 +461,7 @@ public class ImportService {
             m.setLastName(" ");
             m.setFirstName(" ");
             memberRepository.save(m);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
     }
 
     public LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
