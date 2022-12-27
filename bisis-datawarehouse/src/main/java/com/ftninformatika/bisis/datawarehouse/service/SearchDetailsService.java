@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.datawarehouse.service;
 
+import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.datawarehouse.entity.Coder;
 import com.ftninformatika.bisis.datawarehouse.entity.Item;
 import com.ftninformatika.bisis.datawarehouse.entity.Lending;
@@ -8,16 +9,22 @@ import com.ftninformatika.bisis.datawarehouse.model.SearchDetailsRequest;
 import com.ftninformatika.bisis.datawarehouse.model.SearchType;
 import com.ftninformatika.bisis.datawarehouse.model.SelectedCoder;
 import com.ftninformatika.utils.LibraryPrefixProvider;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.fill.JRSwapFileVirtualizer;
+import net.sf.jasperreports.engine.util.JRSwapFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.io.InputStream;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,8 +33,17 @@ public class SearchDetailsService {
     @PersistenceContext
     EntityManager em;
 
+    @Value("${reports.swapDir}")
+    private String swapDir;
+
     @Autowired
     LibraryPrefixProvider libraryPrefixProvider;
+
+    @Autowired
+    LibraryConfigurationRepository libraryConfigurationRepository;
+
+
+
 
     public List<Object[]> searchDetails(SearchDetailsRequest searchDetailsRequest) {
         switch (searchDetailsRequest.getType()) {
@@ -81,8 +97,11 @@ public class SearchDetailsService {
         cq.distinct(true).multiselect(selectExpressions).
                 where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
-        query.setFirstResult(searchDetailsRequest.getPage());
-        query.setMaxResults(searchDetailsRequest.getSize());
+        if(searchDetailsRequest.getPage()!=-1){
+            query.setFirstResult(searchDetailsRequest.getPage());
+            query.setMaxResults(searchDetailsRequest.getSize());
+        }
+
         return query.getResultList();
     }
 
@@ -137,8 +156,10 @@ public class SearchDetailsService {
         cq.distinct(true).multiselect(selectExpressions).
                 where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
-        query.setFirstResult(searchDetailsRequest.getPage());
-        query.setMaxResults(searchDetailsRequest.getSize());
+        if(searchDetailsRequest.getPage()!=-1) {
+            query.setFirstResult(searchDetailsRequest.getPage());
+            query.setMaxResults(searchDetailsRequest.getSize());
+        }
         return query.getResultList();
 
     }
@@ -205,8 +226,10 @@ public class SearchDetailsService {
         cq.distinct(true).multiselect(selectExpressions).
                 where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
-        query.setFirstResult(searchDetailsRequest.getPage());
-        query.setMaxResults(searchDetailsRequest.getSize());
+        if(searchDetailsRequest.getPage()!=-1) {
+            query.setFirstResult(searchDetailsRequest.getPage());
+            query.setMaxResults(searchDetailsRequest.getSize());
+        }
         return query.getResultList();
 
     }
@@ -237,6 +260,34 @@ public class SearchDetailsService {
         cq.select(cb.countDistinct(root.get("ctlgNoDate"))).where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
         return (Long)query.getSingleResult();
+
+    }
+    public JasperPrint exportDetails(SearchDetailsRequest searchDetailsRequest){
+        try {
+            JRSwapFileVirtualizer virtualizer = new JRSwapFileVirtualizer(200, new JRSwapFile(swapDir, 4096, 1024), true);
+            List<Object[]> searchDetailsResult = searchDetails(searchDetailsRequest);
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(searchDetailsResult);
+            InputStream inputStream = null;
+            switch (searchDetailsRequest.getType()) {
+                case SearchType.ITEM:
+                    inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsItemReportSheet.jasper");
+                case SearchType.LENDING:
+                    inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsLendingReportSheet.jasper");
+                case SearchType.MEMBERSHIP:
+                    inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsMemberReportSheet.jasper");
+            }
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
+            String libraryFullName = libraryConfigurationRepository.getByLibraryName(libraryPrefixProvider.getLibPrefix()).getLibraryFullName();
+            params.put("library", libraryFullName);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, dataSource);
+            inputStream.close();
+            virtualizer.cleanup();
+            return jasperPrint;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
 
     }
 

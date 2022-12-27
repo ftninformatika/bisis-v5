@@ -2,6 +2,7 @@ spring:
   profiles:
     active: production
 
+reports.swapDir: /home
 logging:
   level:
     com.ftninformatika: INFO
@@ -38,7 +39,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/bisis
     username: bisis
     password: bisis
-  data.mongodb.uri: mongodb://bisis1:27017,bisis2:27017,bisis3:27017/?replicaSet=bisis5
+  data.mongodb.uri: mongodb://bisis1:27016,bisis2:27017,bisis3:27018/?replicaSet=bisis5
   data.mongodb.database: bisis
 
 ---
