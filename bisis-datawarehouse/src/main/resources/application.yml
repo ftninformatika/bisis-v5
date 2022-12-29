@@ -1,8 +1,8 @@
 spring:
   profiles:
-    active: production
+    active: development
 
-reports.swapDir: /home
+reports.swapDir: /home/
 logging:
   level:
     com.ftninformatika: INFO
