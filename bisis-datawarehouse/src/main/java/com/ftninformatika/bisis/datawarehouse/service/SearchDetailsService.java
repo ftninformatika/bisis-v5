@@ -268,21 +268,20 @@ public class SearchDetailsService {
             List<Object[]> searchDetailsResult = searchDetails(searchDetailsRequest);
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(searchDetailsResult);
             InputStream inputStream = null;
-            switch (searchDetailsRequest.getType()) {
-                case SearchType.ITEM:
-                    inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsItemReportSheet.jasper");
-                case SearchType.LENDING:
-                    inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsLendingReportSheet.jasper");
-                case SearchType.MEMBERSHIP:
-                    inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsMemberReportSheet.jasper");
+            if (searchDetailsRequest.getType().equals(SearchType.ITEM)) {
+                inputStream = SearchDetailsService.class.getResourceAsStream("/jaspers/detailsItemReportSheet.jasper");
+            }else if (searchDetailsRequest.getType().equals(SearchType.LENDING)) {
+                inputStream = SearchDetailsService.class.getResourceAsStream("/jaspers/detailsLendingReportSheet.jasper");
+            } else if (searchDetailsRequest.getType().equals(SearchType.MEMBERSHIP)){
+                inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsMemberReportSheet.jasper");
             }
             Map<String, Object> params = new HashMap<String, Object>();
             params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
             String libraryFullName = libraryConfigurationRepository.getByLibraryName(libraryPrefixProvider.getLibPrefix()).getLibraryFullName();
             params.put("library", libraryFullName);
+            params.put("query",searchDetailsRequest.toString());
             JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, dataSource);
             inputStream.close();
-            virtualizer.cleanup();
             return jasperPrint;
         }catch (Exception e){
             e.printStackTrace();

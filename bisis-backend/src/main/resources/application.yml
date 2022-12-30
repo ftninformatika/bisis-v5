@@ -5,7 +5,7 @@ logging:
 
 spring:
   profiles:
-    active: development
+    active: developmentSingle
 
 ---
 
@@ -33,7 +33,7 @@ spring:
   profiles: test
   main:
     allow-bean-definition-overriding: true
-  data.mongodb.uri: mongodb://127.0.0.1:27017,127.0.0.1:27018,127.0.0.1:27019/?replicaSet=bisis5
+  data.mongodb.uri: mongodb://127.0.0.1:27017,127.0.0.1:27015,127.0.0.1:27016/?replicaSet=bisis5
   data.mongodb.database: bisis
   data:
     elasticsearch:

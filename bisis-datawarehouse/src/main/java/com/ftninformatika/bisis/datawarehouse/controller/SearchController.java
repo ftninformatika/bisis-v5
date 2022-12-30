@@ -6,10 +6,13 @@ import com.ftninformatika.bisis.datawarehouse.service.SearchDetailsService;
 import com.ftninformatika.bisis.datawarehouse.service.SearchService;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.fill.JRSwapFileVirtualizer;
+import net.sf.jasperreports.engine.util.JRSwapFile;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,9 @@ public class SearchController {
 
     @Autowired
     SearchService searchService;
+
+    @Value("${reports.swapDir}")
+    private String swapDir;
 
     @Autowired
     SearchDetailsService searchDetailsService;
@@ -46,6 +52,7 @@ public class SearchController {
         try {
             JasperPrint jasperPrint = searchDetailsService.exportDetails(searchDetailsRequestRequest);
             if (jasperPrint != null) {
+                JRSwapFileVirtualizer virtualizer = new JRSwapFileVirtualizer(200, new JRSwapFile(swapDir, 4096, 1024), true);
                 response.setContentType("application/octet-stream");
                 String attachment = "attachment; filename=detailsReportSheet.xls";
                 response.setHeader("Content-Disposition", attachment);
@@ -56,6 +63,7 @@ public class SearchController {
                 SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
                 exporter.setConfiguration(configuration);
                 exporter.exportReport();
+                virtualizer.cleanup();
             }
         }catch (Exception e){
             e.printStackTrace();

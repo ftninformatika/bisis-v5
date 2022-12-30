@@ -43,22 +43,28 @@
 	<field name="address" class="java.lang.String">
 		<fieldDescription><![CDATA[[3]]]></fieldDescription>
 	</field>
-	<field name="price" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[[8]]]></fieldDescription>
+	<field name="price" class="java.lang.Double">
+		<fieldDescription><![CDATA[[6]]]></fieldDescription>
 	</field>
 	<field name="city" class="java.lang.String">
 		<fieldDescription><![CDATA[[4]]]></fieldDescription>
 	</field>
-	<field name="date" class="java.lang.String">
-		<fieldDescription><![CDATA[[7]]]></fieldDescription>
+	<field name="date" class="java.time.LocalDateTime">
+		<fieldDescription><![CDATA[[5]]]></fieldDescription>
 	</field>
+	<variable name="memberID" class="java.lang.String">
+		<variableExpression><![CDATA[!$F{memberID}.equals("nemavrednost") ? $F{memberID}.substring(0,$F{memberID}.indexOf("_")):$F{memberID}]]></variableExpression>
+	</variable>
+	<variable name="date" class="java.lang.String">
+		<variableExpression><![CDATA[$F{date}.format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy"))]]></variableExpression>
+	</variable>
 	<background>
 		<band height="30" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</band>
 	</background>
 	<title>
-		<band height="105">
+		<band height="126">
 			<textField>
 				<reportElement x="0" y="0" width="300" height="30" uuid="5f3f5dca-ad07-457a-8f91-d9ad9b9e4579">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -76,6 +82,11 @@
 				</textElement>
 				<text><![CDATA[Детаљан приказ члана]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="0" y="96" width="690" height="30" uuid="70416242-e304-4201-8547-84498b44528e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{query}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
@@ -224,8 +235,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="160" y="0" width="100" height="30" uuid="04be83ed-37fc-4625-80f8-69ca1b8b0b21">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="160" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="04be83ed-37fc-4625-80f8-69ca1b8b0b21">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d23385e8-6b5d-449a-88a4-46f7aea66752"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
@@ -240,25 +251,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="40" y="0" width="120" height="30" uuid="8c32abdf-8337-4866-9b1c-642022b0a83f">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b757528-4fe4-4e6e-b480-b8e77f482621"/>
-					<property name="com.jaspersoft.studio.unit.x" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{memberID}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="260" y="0" width="130" height="30" uuid="a787c1a1-5ed5-48db-98e5-bf5bdaf66b07">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="260" y="0" width="130" height="30" isPrintWhenDetailOverflows="true" uuid="a787c1a1-5ed5-48db-98e5-bf5bdaf66b07">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4fe0da08-f941-4ff3-a9db-f6a1ae987fcc"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
@@ -273,8 +267,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{surname}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="390" y="0" width="100" height="30" uuid="f0e6fe08-2117-4734-ac04-44fe2b688678">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="390" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="f0e6fe08-2117-4734-ac04-44fe2b688678">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e238f5f1-bbf2-4b49-adb9-efc84e20c49b"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -291,8 +285,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="690" y="0" width="71" height="30" uuid="4c93eac8-a889-4ea1-96b1-325e736dfb0c">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="690" y="0" width="71" height="30" isPrintWhenDetailOverflows="true" uuid="4c93eac8-a889-4ea1-96b1-325e736dfb0c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b1b4c4de-6227-4ce9-a176-f5ef23da496f"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -309,8 +303,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="490" y="0" width="100" height="30" uuid="97fb739c-a056-403c-a5c2-32d5df7b2a48">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="490" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="97fb739c-a056-403c-a5c2-32d5df7b2a48">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb22a957-3052-40d7-8e88-cce4d4c2cf93"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -325,10 +319,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="590" y="0" width="100" height="30" uuid="770f04a6-c2c5-4673-bd53-dc5f013a206b">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e7e04ff2-60a1-4a74-8030-8d838d92ae48"/>
-				</reportElement>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="40" y="0" width="120" height="30" uuid="9d4474f9-5e2a-4e11-8497-024e760d9881"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -338,7 +330,20 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{memberID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="590" y="0" width="100" height="30" uuid="a4fea7b5-2e27-4fd8-92e5-c526e05541be"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{date}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
