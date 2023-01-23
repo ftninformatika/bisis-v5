@@ -142,7 +142,7 @@ public class CodersController {
     }
 
     @RequestMapping(path = "membership_type")
-    public List<MembershipType> getMembershipTyspes(String libName){
+    public List<MembershipType> getMembershipTypes(String libName){
         return mbrtyperep.getCoders(libName);
     }
 

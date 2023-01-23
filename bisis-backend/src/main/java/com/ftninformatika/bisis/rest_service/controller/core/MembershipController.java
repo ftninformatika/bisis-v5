@@ -26,8 +26,8 @@ public class MembershipController {
     public boolean deleteMembership(@RequestBody Membership membership){
         Membership m = membershipRepository.findById(membership.get_id()).get();
         if ( m == null ) return false;
-        membershipRepository.deleteById(membership.get_id());
-        return membershipRepository.findById(membership.getLibrary()).get() == null;
+        membershipRepository.delete(m);
+        return !membershipRepository.findById(membership.get_id()).isPresent();
     }
 
 }

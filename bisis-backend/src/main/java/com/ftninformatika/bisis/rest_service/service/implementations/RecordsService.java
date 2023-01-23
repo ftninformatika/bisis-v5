@@ -1,17 +1,14 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.coders.Counter;
 import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
-import com.ftninformatika.bisis.core.repositories.LocationRepository;
-import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.exception.model.RecordNotCreatedOrUpdatedException;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.service.interfaces.RecordsServiceInterface;
 import com.ftninformatika.utils.RecordUtils;
 import com.mongodb.MongoClient;
@@ -42,6 +39,8 @@ public class RecordsService implements RecordsServiceInterface {
     @Autowired
     SubLocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
+    @Autowired
+    CounterRepository counterRepository;
 
     private Logger log = Logger.getLogger(RecordsService.class);
 
@@ -99,6 +98,17 @@ public class RecordsService implements RecordsServiceInterface {
                 if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
                     record.setLastModifiedDate(new Date());
                     record.setCreationDate(new Date());
+
+                    List<Counter> counters = counterRepository.getCoders(lib);
+                    Counter c = counters.stream().filter(i -> i.getCounterName().equals("recordid")).findFirst().orElseThrow();
+                    c.setCounterValue(c.getCounterValue() + 1);
+                    counterRepository.save(c);
+                    record.setRecordID(c.getCounterValue());
+
+                    c = counters.stream().filter(i -> i.getCounterName().equals("RN")).findFirst().orElseThrow();
+                    c.setCounterValue(c.getCounterValue() + 1);
+                    counterRepository.save(c);
+                    record.setRN(c.getCounterValue());
 
                     List<ItemAvailability> newItems = RecordUtils.getItemAvailabilityNewDelta(record, new Record());
                     if (newItems.size() > 0) {
