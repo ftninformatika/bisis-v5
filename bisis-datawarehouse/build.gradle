@@ -17,3 +17,25 @@ dependencies {
     implementation project(":bisis-core")
     implementation project(":bisis-authentication")
 }
+
+task compileJasperJava(dependsOn: 'compileJava') {
+    doLast {
+        def jasperSourceDir = file('src/main/resources')
+        def jasperTargetDir = file('build/resources/main')
+        def jasperTargetDirSrc = file('src/main/resources')
+        ant {
+            taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: sourceSets.main.compileClasspath.asPath)
+            jasperTargetDir.mkdirs()
+            jrc(srcdir: jasperSourceDir, destdir: jasperTargetDir) {
+                classpath(path: sourceSets.main.output.classesDirs)
+                include(name: '**/*.jrxml')
+            }
+            jasperTargetDirSrc.mkdirs()
+            jrc(srcdir: jasperSourceDir, destdir: jasperTargetDirSrc) {
+                classpath(path: sourceSets.main.output.classesDirs)
+                include(name: '**/*.jrxml')
+            }
+        }
+    }
+}
+classes.dependsOn compileJasperJava
