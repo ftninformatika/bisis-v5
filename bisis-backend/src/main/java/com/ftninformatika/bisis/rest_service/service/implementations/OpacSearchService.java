@@ -390,8 +390,8 @@ public class OpacSearchService {
             for (Godina p : r.getGodine()) {
                 Item i = new Item();
                 i.setInvNum(p.getInvBroj());
-                ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(i.getInvNum());
-                if (ia == null) continue;
+                //ItemAvailability ia = itemAvailabilityRepository.getByCtlgNo(i.getInvNum());
+                //if (ia == null) continue;
                 String itemStatus = "NOT_LENDABLE";
                 i.setSignature(Signature.format(p));
                 i.setStatus(itemStatus);
