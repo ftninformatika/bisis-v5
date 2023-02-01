@@ -1,0 +1,201 @@
+[
+  {
+    "name": "circLocation",
+    "displayName": "Локација (циркулација)",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      },
+      {
+        "property": "lastUserId",
+        "displayName": "Последњи број корисника"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "member",
+        "query": ""
+      },
+      {
+        "repository": "lending",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "userCateg",
+    "displayName": "Категорија корисника",
+    "columns": [
+      {
+        "property": "description",
+        "displayName": "Опис"
+      },
+      {
+        "property": "titlesNo",
+        "displayName": "Број наслова"
+      },
+      {
+        "property": "period",
+        "displayName": "Период задужења"
+      },
+      {
+        "property": "maxPeriod",
+        "displayName": "Максималан период"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "member",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "membershipType",
+    "displayName": "Врста учлањења",
+    "columns": [
+      {
+        "property": "description",
+        "displayName": "Опис"
+      },
+      {
+        "property": "period",
+        "displayName": "Период чланарине"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "member",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "membership",
+    "displayName": "Чланарина",
+    "columns": [
+      {
+        "property": "memberType",
+        "displayName": "Врста учлањења"
+      },
+      {
+        "property": "userCateg",
+        "displayName": "Категорија корисника"
+      },
+      {
+        "property": "cost",
+        "displayName": "Цена"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "member",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "educationLvl",
+    "displayName": "Ниво образовања",
+    "columns": [
+      {
+        "property": "description",
+        "displayName": "Опис"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "member",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "language",
+    "displayName": "Језик",
+    "columns": [
+      {
+        "property": "description",
+        "displayName": "Опис"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "member",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "organization",
+    "displayName": "Организација",
+    "columns": [
+      {
+        "property": "name",
+        "displayName": "Назив"
+      },
+      {
+        "property": "address",
+        "displayName": "Адреса"
+      },
+      {
+        "property": "city",
+        "displayName": "Место"
+      },
+      {
+        "property": "zip",
+        "displayName": "Број поште"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "member",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "place",
+    "displayName": "Место",
+    "columns": [
+      {
+        "property": "city",
+        "displayName": "Место"
+      },
+      {
+        "property": "zip",
+        "displayName": "Број поште"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "member",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "warningCounter",
+    "displayName": "Бројачи опомена",
+    "columns": [
+      {
+        "property": "warningType",
+        "displayName": "Тип опомене"
+      },
+      {
+        "property": "warnYear",
+        "displayName": "Година"
+      },
+      {
+        "property": "lastNo",
+        "displayName": "Последњи број"
+      }
+    ],
+    "usage": []
+  }
+]
