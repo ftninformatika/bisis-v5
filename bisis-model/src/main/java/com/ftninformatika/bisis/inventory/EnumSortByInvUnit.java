@@ -48,8 +48,8 @@ public enum EnumSortByInvUnit {
             case "ITEM_STATUS_DESC": return Sort.by(Sort.Direction.DESC, "itemStatusCoderId");
             case "INVENTORY_STATUS_ASC": return Sort.by(Sort.Direction.ASC, "inventoryStatusCoderId");
             case "INVENTORY_STATUS_DESC": return Sort.by(Sort.Direction.DESC, "inventoryStatusCoderId");
-            case "DATE_ASC": return Sort.by(Sort.Direction.ASC, "date");
-            case "DATE_DESC": return Sort.by(Sort.Direction.DESC, "date");
+            case "DATE_ASC": return Sort.by(Sort.Direction.ASC, "dateModified");
+            case "DATE_DESC": return Sort.by(Sort.Direction.DESC, "dateModified");
             default: return null;
         }
     }
