@@ -1,0 +1,226 @@
+[
+  {
+    "name": "location",
+    "displayName": "Локација",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      },
+      {
+        "property": "googleMapLocationURL",
+        "displayName": "Локација на мапи"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "sublocation",
+    "displayName": "Подлокација",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      },
+      {
+        "property": "googleMapLocationURL",
+        "displayName": "Локација на мапи"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "accessionRegister",
+    "displayName": "Инвентарна књига",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "acquisitionCoder",
+    "displayName": "Начин набавке",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "format",
+    "displayName": "Формат",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "itemStatus",
+    "displayName": "Статус примерка",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      },
+      {
+        "property": "lendable",
+        "displayName": "Задужује се"
+      },
+      {
+        "property": "showable",
+        "displayName": "Приказује се"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "binding",
+    "displayName": "Повез",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "availability",
+    "displayName": "Доступност",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "internalMark",
+    "displayName": "Интерна ознака",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  },
+  {
+    "name": "counter",
+    "displayName": "Бројачи",
+    "columns": [
+      {
+        "property": "coder_id",
+        "displayName": "Шифра"
+      },
+      {
+        "property": "description",
+        "displayName": "Опис"
+      },
+      {
+        "property": "counterName",
+        "displayName": "Назив"
+      },
+      {
+        "property": "counterValue",
+        "displayName": "Вредност"
+      }
+    ],
+    "usage": [
+      {
+        "repository": "record",
+        "query": ""
+      }
+    ]
+  }
+]
