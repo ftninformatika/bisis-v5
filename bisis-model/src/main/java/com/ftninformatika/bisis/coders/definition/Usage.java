@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Usage {
-    String repository;
+    String collection;
     String query;
 }

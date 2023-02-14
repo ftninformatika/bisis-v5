@@ -1,6 +1,5 @@
 package com.ftninformatika.bisis.coders.definition;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class CoderDefinition {
     String name;
     String displayName;
     List<Column> columns;
-    @JsonIgnore
+    //@JsonIgnore
     List<Usage> usage;
 }
 

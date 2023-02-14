@@ -18,7 +18,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]
@@ -42,7 +42,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]
@@ -62,7 +62,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]
@@ -82,7 +82,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]
@@ -102,7 +102,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]
@@ -130,7 +130,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]
@@ -150,8 +150,8 @@
     ],
     "usage": [
       {
-        "repository": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.povez\":\"%s\"}"
       }
     ]
   },
@@ -170,7 +170,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]
@@ -190,7 +190,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]
@@ -218,7 +218,7 @@
     ],
     "usage": [
       {
-        "repository": "record",
+        "collection": "record",
         "query": ""
       }
     ]

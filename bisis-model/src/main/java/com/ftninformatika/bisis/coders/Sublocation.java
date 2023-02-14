@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Sublocation extends Coder{
     @Id
     private String _id;
+    private String department;
     private String googleMapLocationURL;
     public Sublocation(String id, String library, String coder_id,String description){
         this._id = id;

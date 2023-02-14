@@ -4,6 +4,7 @@ import com.ftninformatika.bisis.cards.ReportCore;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
+import com.ftninformatika.bisis.core.controllers.CoderController;
 import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.mobile.BookAvailabilityDTO;
@@ -13,7 +14,6 @@ import com.ftninformatika.bisis.opac.books.Item;
 import com.ftninformatika.bisis.opac.search.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
-import com.ftninformatika.bisis.rest_service.controller.core.CodersController;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
@@ -65,7 +65,7 @@ public class OpacSearchService {
     LibraryConfigurationRepository libraryConfigurationRepository;
     //    TODO- refactor this at some point (don't import controllers in service layer)
     @Autowired
-    CodersController codersController;
+    CoderController codersController;
     private Logger log = Logger.getLogger(OpacSearchService.class);
 
     public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize,

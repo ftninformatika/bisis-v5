@@ -35,23 +35,9 @@ public class LocationController {
     public void handleException(Exception ex) {
     }
 
-    @RequestMapping(path = "/coders/circlocation")
-    public List<CircLocation> getCircLocations(String libName){
-        return circLocationRepository.getCoders(libName);
-    }
-
-    @RequestMapping(path = "/coders/location")
-    public List<Location> getLocations(@RequestHeader("Library") String libName){
-        return locationRepository.getCoders(libName);
-    }
-    @RequestMapping(path = "/coders/sublocation")
-    public List<Sublocation> getSublocations(@RequestHeader("Library") String libName){
-        return subLocationRepository.getCoders(libName);
-    }
-
     @RequestMapping(path = "/coders/sublocation/get_by_coder_id")
     public Sublocation getSublocationByCoderId(@RequestParam("coderId") String coderId, @RequestParam("lib") String lib) {
-        Sublocation sl = subLocationRepository.getByCoder_Id(coderId, lib);
+        Sublocation sl = subLocationRepository.findCoder(lib, coderId);
         if (sl != null && sl.getDescription() != null) {
             sl.setDescription(LatCyrUtils.toCyrillic(sl.getDescription()));
         }
@@ -87,7 +73,7 @@ public class LocationController {
         String libPrefix = libraryPrefixProvider.getLibPrefix();
         CircLocation circLoc = circLocationRepository.findCoder(libPrefix,code);
         Sublocation sublocation = new Sublocation();
-        sublocation.setCoder_id(circLoc.getLocationCode());
+        sublocation.setCoder_id(circLoc.getCoder_id());
         sublocation.setDescription(circLoc.getDescription());
         return sublocation;
     }

@@ -18,11 +18,11 @@
     ],
     "usage": [
       {
-        "repository": "member",
+        "collection": "member",
         "query": ""
       },
       {
-        "repository": "lending",
+        "collection": "lending",
         "query": ""
       }
     ]
@@ -50,7 +50,7 @@
     ],
     "usage": [
       {
-        "repository": "member",
+        "collection": "member",
         "query": ""
       }
     ]
@@ -70,7 +70,7 @@
     ],
     "usage": [
       {
-        "repository": "member",
+        "collection": "member",
         "query": ""
       }
     ]
@@ -94,7 +94,7 @@
     ],
     "usage": [
       {
-        "repository": "member",
+        "collection": "member",
         "query": ""
       }
     ]
@@ -110,7 +110,7 @@
     ],
     "usage": [
       {
-        "repository": "member",
+        "collection": "member",
         "query": ""
       }
     ]
@@ -126,7 +126,7 @@
     ],
     "usage": [
       {
-        "repository": "member",
+        "collection": "member",
         "query": ""
       }
     ]
@@ -154,7 +154,7 @@
     ],
     "usage": [
       {
-        "repository": "member",
+        "collection": "member",
         "query": ""
       }
     ]
@@ -174,7 +174,7 @@
     ],
     "usage": [
       {
-        "repository": "member",
+        "collection": "member",
         "query": ""
       }
     ]

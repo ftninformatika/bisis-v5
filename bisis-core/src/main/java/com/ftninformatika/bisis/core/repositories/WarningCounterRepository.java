@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WarningCounterRepository extends MongoRepository<WarningCounter, String> {
+public interface WarningCounterRepository extends CoderRepository<WarningCounter> {
 
-    @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
-    public List<WarningCounter> getCoders(String libName);
 }

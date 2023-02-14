@@ -6,8 +6,6 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface AvailabilityRepository extends MongoRepository<Availability, String> {
+public interface AvailabilityRepository extends CoderRepository<Availability> {
 
-    @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
-    public List<Availability> getCoders(String libName);
 }

@@ -8,8 +8,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "memberships", path = "mongo_repository_memberships")
-public interface MembershipRepository extends MongoRepository<Membership, String> {
+public interface MembershipRepository extends CoderRepository<Membership> {
 
-    @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
-    public List<Membership> getCoders(String libName);
-}
+   }
