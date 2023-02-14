@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.coders.definition;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(value={ "usage" }, allowSetters = true)
 public class CoderDefinition {
     String name;
     String displayName;

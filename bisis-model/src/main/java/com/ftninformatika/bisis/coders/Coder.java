@@ -39,9 +39,6 @@ import lombok.*;
         @JsonSubTypes.Type(value = Place.class, name ="place"),
         @JsonSubTypes.Type(value = WarningCounter.class, name ="warningCounter")
 
-
-
-
 })
 
 public class Coder {
