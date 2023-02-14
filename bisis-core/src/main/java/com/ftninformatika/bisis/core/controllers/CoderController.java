@@ -56,21 +56,26 @@ public class CoderController {
     @GetMapping("/definition/{type}")
     public List<CoderDefinition> readCodersDefinition(@PathVariable("type") String type) throws IOException {
             if (type.equals("circulation")){
-                return coderDefinitionConfig.getCircCoderDefinitions();
+                return coderDefinitionConfig.getCirculationCoders();
             }else{
-                return coderDefinitionConfig.getRecordCoderDefinitions();
+                return coderDefinitionConfig.getRecordCoders();
             }
     }
 
-    @DeleteMapping("/{coderName}/{coderId}")
-    public boolean deleteCoder(@PathVariable("coderName") String coderName, @PathVariable("coderId") String coderId) throws IOException {
+    @DeleteMapping("/{coderName}/{id}")
+    public boolean deleteCoder(@PathVariable("coderName") String coderName, @PathVariable("id") String id,@RequestBody Coder coder) throws IOException {
            List<CoderDefinition> codersDef = coderDefinitionConfig.getAllCoders();
             Optional<CoderDefinition> coderDefinition = codersDef.stream().filter(cd -> cd.getName().equals(coderName)).findFirst();
             if (coderDefinition.isPresent()){
                 List<Usage> usages = coderDefinition.get().getUsage();
                 boolean exists;
+                String query;
                 for(Usage u: usages){
-                    String query = String.format(u.getQuery(),coderId);
+                    if (coder.getCoder_id() !=null) {
+                         query = String.format(u.getQuery(), coder.getCoder_id());
+                    }else{
+                        query = String.format(u.getQuery(), coder.getDescription());
+                    }
                     BasicQuery mongoQuery = new BasicQuery(query);
                     exists = mongoTemplate.exists(mongoQuery,libraryPrefixProvider.getLibPrefix()+"_"+u.getCollection());
                     if (exists){
@@ -78,8 +83,11 @@ public class CoderController {
                     }
                 }
                     String repoName = coderDefinition.get().getName() +"Repository";
-                    beanFactory.getBean(repoName, CoderRepository.class).deleteCoder(libraryPrefixProvider.getLibPrefix(),coderId);
-                    return true;
+                        if (coder.getLibrary()!= null && coder.getLibrary().equals(libraryPrefixProvider.getLibPrefix())){
+                            beanFactory.getBean(repoName, CoderRepository.class).deleteById(id);
+                            return true;
+                        }
+
             }
             return false;
     }
