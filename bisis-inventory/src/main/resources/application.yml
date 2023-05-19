@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: production
+    active: development
 
 reports.swapDir: /home/
 

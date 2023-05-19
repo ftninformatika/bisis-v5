@@ -134,7 +134,7 @@ public class RecordsManager {
                 }
             }
         }
-        if (itemAvailability.getInventoryId() != null) {
+        if (itemAvailability != null && itemAvailability.getInventoryId() != null) {
             return itemAvailability.getCtlgNo();
         } else {
             return null;

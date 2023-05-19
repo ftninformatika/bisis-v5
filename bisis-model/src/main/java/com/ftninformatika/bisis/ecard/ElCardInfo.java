@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.ecard;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import lombok.*;
 import net.devbase.jfreesteel.EidInfo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,7 +62,14 @@ public class ElCardInfo {
     }
 
     public String getAddress() {
-        String address = info.getStreet() + ", " + info.getHouseNumber();
+        String address = String.format(
+                "%s %s%s%s%s%s\n",
+                info.getStreet(),
+                info.getHouseNumber(),
+                StringUtils.isBlank(info.getHouseLetter()) ? "" : info.getHouseLetter(),
+                StringUtils.isBlank(info.getEntrance()) ? "" : "/" + info.getEntrance(),
+                StringUtils.isBlank(info.getFloor()) ? "" : "/" + info.getFloor(),
+                StringUtils.isBlank(info.getAppartmentNumber()) ? "" : "/" + info.getAppartmentNumber());
         return latnLocale ? LatCyrUtils.toLatin(address)
                 : LatCyrUtils.toCyrillic(address);
     }

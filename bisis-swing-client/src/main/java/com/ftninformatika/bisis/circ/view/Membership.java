@@ -485,18 +485,25 @@ public class    Membership {
     public void loadDefault() {
         getCmbGroups().setSelectedIndex(0);
         getRbGroupN().setSelected(true);
-//        if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()) {
+        if (Cirkulacija.getApp().getEnvironment().getUseridPrefix()) {
             int loc = Cirkulacija.getApp().getEnvironment().getLocation();
+            //int loc = Cirkulacija.getApp().getEnvironment().getUseridDefaultPrefix();
             for (int i = 1; i < getCmbBranchID().getModel().getSize(); i++) {
                 if (Integer.parseInt(((CircLocation) getCmbBranchID().getModel().getElementAt(i)).getLocationCode()) == loc) {
                     getCmbBranchID().setSelectedIndex(i);
                 }
             }
-//        }
-        getTfUserID().setEditable(true);
-        getTfBranch().setEditable(true);
-        getCmbBranchID().setEnabled(true);
-        getBtnAuto().setEnabled(true);
+            getTfUserID().setEditable(true);
+            getTfBranch().setEditable(true);
+            getCmbBranchID().setEnabled(true);
+            getBtnAuto().setEnabled(true);
+        } else {
+            getTfUserID().setEditable(true);
+            getTfBranch().setEditable(false);
+            getCmbBranchID().setEnabled(false);
+            getBtnAuto().setEnabled(true);
+        }
+
     }
 
     public void loadMmbrType(List data) {
