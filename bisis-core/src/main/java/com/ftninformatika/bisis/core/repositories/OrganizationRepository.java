@@ -1,13 +1,7 @@
 package com.ftninformatika.bisis.core.repositories;
 
 import com.ftninformatika.bisis.circ.Organization;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
-import java.util.List;
+public interface OrganizationRepository extends CoderRepository<Organization> {
 
-public interface OrganizationRepository extends MongoRepository<Organization, String> {
-
-    @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
-    public List<Organization> getCoders(String libName);
 }

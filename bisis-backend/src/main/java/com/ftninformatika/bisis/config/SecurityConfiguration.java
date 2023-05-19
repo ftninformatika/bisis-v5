@@ -65,9 +65,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/library_members/activate_account/**",
                         "/library_members/forgot_password/**",
                         "/library_members/activate_account/**",
-                        "/coders/location**",
-                        "/coders/sublocation**",
-                        "/coders/accession_register**",
+                        "/coders/location/**",
+                        "/coders/sublocation/**",
+                        "/coders/accession_register/**",
                         "/coders/sublocation/**",
                         "/coders/item_status**",
                         "/coders/sublocation/get_by_location**",
@@ -81,7 +81,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/mobile/opac_search/**",
                         "/events/get",
                         "/events/image/**",
-                        "/deviceToken/save"
+                        "/deviceToken/save",
+                        "/coders/**"
                 ).permitAll()
                 .antMatchers(
                         "/members_repository/**",

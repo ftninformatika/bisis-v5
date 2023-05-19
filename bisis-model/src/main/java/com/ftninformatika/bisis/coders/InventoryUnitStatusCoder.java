@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document("coders.inventory_unit_status")
+
 public class InventoryUnitStatusCoder extends Coder {
-    @Id private String _id;
+    @Id
+    private String _id;
 }

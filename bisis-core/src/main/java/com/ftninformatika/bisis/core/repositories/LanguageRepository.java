@@ -1,13 +1,7 @@
 package com.ftninformatika.bisis.core.repositories;
 
 import com.ftninformatika.bisis.circ.Language;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
-import java.util.List;
+public interface LanguageRepository extends CoderRepository<Language> {
 
-public interface LanguageRepository extends MongoRepository<Language, String> {
-
-    @Query("{'$or': [{'library':{'$exists': false}},{'library':?0}]}")
-    public List<Language> getCoders(String libName);
 }

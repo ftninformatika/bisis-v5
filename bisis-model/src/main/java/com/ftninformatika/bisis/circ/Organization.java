@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.circ;
 
+import com.ftninformatika.bisis.coders.Coder;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,10 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @ToString
 @Document(collection="coders.organization")
-public class Organization {
+public class Organization extends Coder {
     @Id
     private String _id;
-    private String library;
     private String name;
     private String address;
     private String city;

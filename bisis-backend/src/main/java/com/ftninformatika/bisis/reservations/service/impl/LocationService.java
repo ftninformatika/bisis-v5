@@ -54,12 +54,12 @@ public class LocationService implements LocationServiceInterface {
         String locationDescription = "";
 
         if (isSubLocation) {
-            Sublocation sublocation = sublocationRepository.getByCoder_Id(coderId, library);
+            Sublocation sublocation = sublocationRepository.findCoder(library,coderId);
             if (sublocation != null) {
                 locationDescription = sublocation.getDescription();
             }
         } else {
-            Location location = locationRepository.getByCoder_Id(coderId, library);
+            Location location = locationRepository.findCoder(library, coderId);
             if (location != null) {
                 locationDescription = location.getDescription();
             }

@@ -14,5 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Location extends Coder{
     @Id
     private String _id;
+    private String department;
     private String googleMapLocationURL;
 }

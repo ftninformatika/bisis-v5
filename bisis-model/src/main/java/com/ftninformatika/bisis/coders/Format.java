@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.coders;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 
 @Document(collection="coders.format")
+@Getter
+@Setter
 public class Format extends Coder {
     @Id
     private String _id;
