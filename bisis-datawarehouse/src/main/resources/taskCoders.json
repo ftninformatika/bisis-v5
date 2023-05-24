@@ -1,0 +1,38 @@
+[
+  {
+    "name": "bibliographicLevel",
+    "displayName": "Библиографски ниво (001c)"
+  },
+  {
+    "name": "recordType",
+    "displayName": "Врста слога (001b)"
+  },
+  {
+    "name": "serialType",
+    "displayName": "Врста серијске публикације (110a)"
+  },
+  {
+    "name": "target",
+    "displayName": "Намена (100e)"
+  },
+  {
+    "name": "contentTypes",
+    "displayName": "Врста садржаја (105b)"
+  },
+  {
+    "name": "languages",
+    "displayName": "Језик текста (101a)"
+  },
+  {
+    "name": "udks",
+    "displayName": "УДК група (675a)"
+  },
+  {
+    "name": "librarian",
+    "displayName": "Библиотекар"
+  },
+  {
+    "name": "action",
+    "displayName": "Акција над записом"
+  }
+]

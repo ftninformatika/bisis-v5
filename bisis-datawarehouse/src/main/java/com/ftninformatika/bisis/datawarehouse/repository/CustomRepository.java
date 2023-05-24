@@ -64,6 +64,14 @@ public class CustomRepository{
 
     }
 
+    @Transactional
+    public void deleteTaskByLibrary(String library) {
+        entityManager.joinTransaction();
+        entityManager.createNativeQuery("delete from bisis_reports.task where library=:lib").
+                setParameter("lib",library).executeUpdate();
+
+    }
+
 
     @Transactional
     public void deleteAllLendingInBatch() {
