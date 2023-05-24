@@ -29,6 +29,8 @@ public class SearchService {
         switch (searchRequest.getType()) {
             case SearchType.ITEM:
                 return searchItem(searchRequest);
+            case SearchType.TASK:
+                return searchTask(searchRequest);
             case SearchType.LENDING:
                 return searchLending(searchRequest);
             case SearchType.MEMBERSHIP:
@@ -68,6 +70,35 @@ public class SearchService {
         return em.createQuery(cq).getResultList();
     }
 
+    private List<Object[]> searchTask(SearchRequest searchRequest){
+        List<SelectedCoder> selectedCoders = searchRequest.getCoders();
+        List<SelectedCoder> sortSelectedCoders = selectedCoders.stream().sorted(Comparator.comparing(SelectedCoder::getIndex)).collect(Collectors.toList());
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+        Root<Task> root = cq.from(Task.class);
+        List<Expression<?>> groupByExpressions = new ArrayList<>();
+        List<Selection<?>> selectExpressions = new ArrayList<>();
+        List<Predicate> whereExpressions = new ArrayList<>();
+        for(SelectedCoder sc: sortSelectedCoders){
+            Join<Task, Coder> join =  root.join(sc.getCoder().getName());
+            selectExpressions.add(join.get("description"));
+            groupByExpressions.add(join.get("description"));
+            groupByExpressions.add(join.get("id"));
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+        }
+        if (!searchRequest.isAllData()) {
+            whereExpressions.add(cb.between(root.get("date"), searchRequest.getStartDate(), searchRequest.getEndDate()));
+        }
+        whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
+
+        selectExpressions.add(cb.countDistinct(root.get("task_id")));
+        selectExpressions.add(cb.countDistinct(root.get("record")));
+        selectExpressions.add(cb.sumAsLong(root.get("amount")));
+        cq.multiselect(selectExpressions).
+                where(whereExpressions.toArray(new Predicate[0])).
+                groupBy(groupByExpressions);
+        return em.createQuery(cq).getResultList();
+    }
     private List<Object[]> searchLending(SearchRequest searchRequest){
         List<SelectedCoder> selectedCoders = searchRequest.getCoders();
         List<SelectedCoder> sortSelectedCoders = selectedCoders.stream().sorted(Comparator.comparing(SelectedCoder::getIndex)).collect(Collectors.toList());

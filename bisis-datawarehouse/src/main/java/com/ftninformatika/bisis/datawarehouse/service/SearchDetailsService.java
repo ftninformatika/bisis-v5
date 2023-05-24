@@ -1,10 +1,7 @@
 package com.ftninformatika.bisis.datawarehouse.service;
 
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.datawarehouse.entity.Coder;
-import com.ftninformatika.bisis.datawarehouse.entity.Item;
-import com.ftninformatika.bisis.datawarehouse.entity.Lending;
-import com.ftninformatika.bisis.datawarehouse.entity.Membership;
+import com.ftninformatika.bisis.datawarehouse.entity.*;
 import com.ftninformatika.bisis.datawarehouse.model.SearchDetailsRequest;
 import com.ftninformatika.bisis.datawarehouse.model.SearchType;
 import com.ftninformatika.bisis.datawarehouse.model.SelectedCoder;
@@ -49,6 +46,8 @@ public class SearchDetailsService {
         switch (searchDetailsRequest.getType()) {
             case SearchType.ITEM:
                 return searchDetailsItem(searchDetailsRequest);
+            case SearchType.TASK:
+                return searchDetailsTask(searchDetailsRequest);
             case SearchType.LENDING:
                 return searchDetailsLending(searchDetailsRequest);
             case SearchType.MEMBERSHIP:
@@ -61,6 +60,8 @@ public class SearchDetailsService {
         switch (searchDetailsRequest.getType()) {
             case SearchType.ITEM:
                 return countDetailsItem(searchDetailsRequest);
+            case SearchType.TASK:
+                return countDetailsTask(searchDetailsRequest);
             case SearchType.LENDING:
                 return countDetailsLending(searchDetailsRequest);
             case SearchType.MEMBERSHIP:
@@ -91,6 +92,7 @@ public class SearchDetailsService {
         selectExpressions.add(root.get("record").get("publicationYear"));
         selectExpressions.add(root.get("record").get("id"));
         selectExpressions.add(root.get("record").get("rn"));
+        selectExpressions.add(root.get("signature"));
         selectExpressions.add(root.get("ctlgNo"));
         selectExpressions.add(root.get("issueNo"));
         selectExpressions.add(root.get("price"));
@@ -121,6 +123,59 @@ public class SearchDetailsService {
         }
         whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
         cq.select(cb.countDistinct(root.get("recordIdCtlgNoIssueNo"))).where(whereExpressions.toArray(new Predicate[0]));
+        Query query = em.createQuery(cq);
+        return (Long)query.getSingleResult();
+    }
+    private List<Object[]> searchDetailsTask(SearchDetailsRequest searchDetailsRequest) {
+        List<SelectedCoder> selectedCoders = searchDetailsRequest.getCoders();
+        List<SelectedCoder> sortSelectedCoders = selectedCoders.stream().sorted(Comparator.comparing(SelectedCoder::getIndex)).collect(Collectors.toList());
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+        Root<Task> root = cq.from(Task.class);
+        List<Selection<?>> selectExpressions = new ArrayList<>();
+        List<Predicate> whereExpressions = new ArrayList<>();
+        for(SelectedCoder sc: sortSelectedCoders){
+            Join<Task, Coder> join = root.join(sc.getCoder().getName());
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+        }
+        if (!searchDetailsRequest.isAllData()) {
+            whereExpressions.add(cb.between(root.get("date"), searchDetailsRequest.getStartDate(), searchDetailsRequest.getEndDate()));
+        }
+        whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
+        selectExpressions.add(root.get("record").get("title"));
+        selectExpressions.add(root.get("record").get("author"));
+        selectExpressions.add(root.get("record").get("publisher"));
+        selectExpressions.add(root.get("record").get("publicationYear"));
+        selectExpressions.add(root.get("record").get("id"));
+        selectExpressions.add(root.get("record").get("rn"));
+        selectExpressions.add(root.get("action"));
+        selectExpressions.add(root.get("amount"));
+        cq.distinct(true).multiselect(selectExpressions).
+                where(whereExpressions.toArray(new Predicate[0]));
+        Query query = em.createQuery(cq);
+        if(searchDetailsRequest.getPage()!=-1){
+            query.setFirstResult(searchDetailsRequest.getPage());
+            query.setMaxResults(searchDetailsRequest.getSize());
+        }
+
+        return query.getResultList();
+    }
+    private Long countDetailsTask(SearchDetailsRequest searchDetailsRequest) {
+        List<SelectedCoder> selectedCoders = searchDetailsRequest.getCoders();
+        List<SelectedCoder> sortSelectedCoders = selectedCoders.stream().sorted(Comparator.comparing(SelectedCoder::getIndex)).collect(Collectors.toList());
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Task> root = cq.from(Task.class);
+        List<Predicate> whereExpressions = new ArrayList<>();
+        for(SelectedCoder sc: sortSelectedCoders){
+            Join<Task, Coder> join = root.join(sc.getCoder().getName());
+            whereExpressions.add(cb.in(join.get("id")).value(sc.getCoderValues().stream().map(Coder::getId).collect(Collectors.toList())));
+        }
+        if (!searchDetailsRequest.isAllData()) {
+            whereExpressions.add(cb.between(root.get("date"), searchDetailsRequest.getStartDate(), searchDetailsRequest.getEndDate()));
+        }
+        whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
+        cq.select(cb.countDistinct(root.get("task_id"))).where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
         return (Long)query.getSingleResult();
     }

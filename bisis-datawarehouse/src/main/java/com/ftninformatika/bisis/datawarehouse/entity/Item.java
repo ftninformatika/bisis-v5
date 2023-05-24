@@ -65,6 +65,8 @@ public class Item implements Serializable {
 
 	private BigDecimal price;
 
+	private String signature;
+
 	//bi-directional many-to-one association to AccessionRegister
 	@ManyToOne
 	@JoinColumn(name="accession_register_id")

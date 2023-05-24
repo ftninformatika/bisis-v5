@@ -18,14 +18,16 @@ import com.ftninformatika.bisis.datawarehouse.repository.LocationRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.MemberRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.MembershipRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.MembershipTypeRepository;
+import com.ftninformatika.bisis.datawarehouse.repository.TaskRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.*;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
+import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Godina;
 import com.ftninformatika.bisis.records.Primerak;
-import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.LibraryPrefixProvider;
+import com.ftninformatika.utils.string.Signature;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,6 +41,7 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -87,6 +90,12 @@ public class ImportService {
     AcquisitionRepository acquisitionRepository;
 
     @Autowired
+    ActionRepository actionRepository;
+
+    @Autowired
+    com.ftninformatika.bisis.core.repositories.TaskRepository taskRepositoryMongo;
+
+    @Autowired
     AcquisitionCoderRepository acquisitionRepositoryMongo;
 
     @Autowired
@@ -118,6 +127,10 @@ public class ImportService {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    @Qualifier("taskJPARepository")
+    TaskRepository taskRepository;
 
     @Autowired
     @Qualifier("recordJPARepository")
@@ -197,6 +210,7 @@ public class ImportService {
     CustomRepository customRepository;
 
     Map <String, Acquisition> acquisitionMap;
+    Map <String, Action> actionMap;
     Map <String, AccessionRegister> accessionRegisterMap;
     Map <String, RecordType> recordTypeMap;
     Map <String, Target> targetMap;
@@ -440,6 +454,8 @@ public class ImportService {
 
             importCoder(com.ftninformatika.bisis.datawarehouse.entity.Status.class, statusRepository, statusRepositoryMongo);
 
+            importCoder(com.ftninformatika.bisis.datawarehouse.entity.Action.class, actionRepository, taskRepositoryMongo);
+
             importLibrarian();
             importCircLocation();
             importMembershipType();
@@ -475,8 +491,10 @@ public class ImportService {
         }
     }
 
-    private void handleRecord(Record record, String library, List<Item> itemList, List<com.ftninformatika.bisis.datawarehouse.entity.Record> recordList){
+    private void handleRecord(com.ftninformatika.bisis.records.Record record, String library, List<Item> itemList, List<com.ftninformatika.bisis.datawarehouse.entity.Record> recordList, List<Task> taskList){
         List<Primerak> primerci = record.getPrimerci();
+        List<Field> field992 = RecordUtility.get992(record);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 
         String recordTypeRec = RecordUtility.getRecordType(record);
         RecordType recordType = recordTypeMap.get(recordTypeRec);
@@ -570,6 +588,75 @@ public class ImportService {
         recordDW.setPublicationYear(publicationYear);
         recordDW.setLibrary(library);
         recordList.add(recordDW);
+        for (Field f: field992){
+            Task t = new Task();
+            t.setLibrary(library);
+            t.setRecord(recordDW);
+            try {
+                if (f.getSubfieldContent('6') != null) {
+                    t.setAmount(Integer.parseInt(f.getSubfieldContent('6')));
+                } else {
+                    t.setAmount(1);
+                }
+            }catch (NumberFormatException e){
+                t.setAmount(1);
+            }
+            String action= f.getSubfieldContent('b');
+            Action a = actionMap.get(action);
+            Action actionNone = actionMap.get("nemavrednost");
+            if(a != null){
+                t.setAction(a);
+            }else{
+                t.setAction(actionNone);
+            }
+            String librarian= f.getSubfieldContent('f');
+            Librarian librarianObj = librarianMap.get(librarian);
+            Librarian librarianNone = librarianMap.get("nemavrednost");
+            if(librarianObj != null){
+                t.setLibrarian(librarianObj);
+            }else{
+                t.setLibrarian(librarianNone);
+            }
+
+            try {
+                //datum je formata yyyyMMdd
+                if (f.getSubfieldContent('c') != null) {
+                    Date date = formatter.parse(f.getSubfieldContent('c'));
+                    t.setDate(convertToLocalDateTimeViaInstant(date));
+                } else {
+                    t.setDate(null);
+                }
+            }catch (Exception e){
+                t.setDate(null);
+            }
+
+            if(recordType != null){
+                t.setRecordType(recordType);
+            }else{
+                t.setRecordType(recordTypeNone);
+            }
+            if(target != null){
+                t.setTarget(target);
+            }else{
+                t.setTarget(targetNone);
+            }
+
+            if(bibliographicLevel != null){
+                t.setBibliographicLevel(bibliographicLevel);
+            }else{
+                t.setBibliographicLevel(bibliographicLevelNone);
+            }
+            for(Udk udk:udks){
+                t.getUdks().add(udk);
+            }
+            for(Language language:languages){
+                t.getLanguages().add(language);
+            }
+            for(ContentType content:contentTypes) {
+                t.getContentTypes().add(content);
+            }
+            taskList.add(t);
+        }
 
         for (Primerak p: primerci){
             Item i = new Item();
@@ -689,6 +776,8 @@ public class ImportService {
             }else{
                 i.setPrice(new BigDecimal(0));
             }
+
+             i.setSignature(Signature.format(p));
             if(p.getInvBroj() == null || p.getInvBroj().length() != 11){
                 AccessionRegister accessionRegisterNone = accessionRegisterMap.get("nemavrednost");
                 i.setAccessionRegister(accessionRegisterNone);
@@ -729,7 +818,7 @@ public class ImportService {
 
             i.setLibrary(library);
             i.setRecord(recordDW);
-
+            i.setSignature(Signature.format(g));
             if(recordType != null){
                 i.setRecordType(recordType);
             }else{
@@ -902,6 +991,7 @@ public class ImportService {
     public void handleImportRecordOneLibrary(String library){
         Logger.getLogger(ImportService.class).info("Import records of library "+library+" started...");
         customRepository.deleteItemByLibrary(library);
+        customRepository.deleteTaskByLibrary(library);
         recordRepository.deleteAllByLibrary(library);
         importRecordData(library);
         Logger.getLogger(ImportService.class).info("Import of data finished!");
@@ -925,14 +1015,16 @@ public class ImportService {
         libraryPrefixProvider.setPrefix(library);
         Pageable p = PageRequest.of(0, 5000);
         int count = 0;
-        Page<Record> recordsPage = recordsRepositoryMongo.findAll(p);
+        Page<com.ftninformatika.bisis.records.Record> recordsPage = recordsRepositoryMongo.findAll(p);
         int pageCount = recordsPage.getTotalPages();
         for (int i = 0; i < pageCount; i++) {
             List<Item> itemList = new ArrayList<Item>();
+            List<Task> taskList = new ArrayList<>();
+
             List<com.ftninformatika.bisis.datawarehouse.entity.Record> recordList = new ArrayList<com.ftninformatika.bisis.datawarehouse.entity.Record>();
-            for (Record r : recordsPage) {
+            for (com.ftninformatika.bisis.records.Record r : recordsPage) {
                 count++;
-                handleRecord(r, library,itemList,recordList);
+                handleRecord(r, library,itemList,recordList,taskList);
                 if (count % 1000 == 0){
                     Logger.getLogger(ImportService.class).info("Records processed at "+ LocalDateTime.now()+": "+ count);
                 }
@@ -940,6 +1032,8 @@ public class ImportService {
             recordRepository.saveAll(recordList);
             recordRepository.flush();
             itemRepository.saveAll(itemList);
+            taskRepository.saveAll(taskList);
+
             if (!recordsPage.isLast()) {
                 p = recordsPage.nextPageable();
                 recordsPage = recordsRepositoryMongo.findAll(p);
@@ -949,6 +1043,9 @@ public class ImportService {
     private void initMaps(String library){
         List<Acquisition> acquisitionList = acquisitionRepository.findByLibraryIsNullOrLibrary(library);
         acquisitionMap= initCoders(acquisitionList);
+
+        List<Action> actionList = actionRepository.findByLibraryIsNullOrLibrary(library);
+        actionMap= initCoders(actionList);
 
         List<AccessionRegister> accessionRegisterList = accessionRegisterRepository.findByLibraryIsNullOrLibrary(library);
         accessionRegisterMap= initCoders(accessionRegisterList);

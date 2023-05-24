@@ -1,5 +1,6 @@
 package com.ftninformatika.bisis.datawarehouse.service;
 
+import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 
 import java.util.List;
@@ -117,6 +118,11 @@ public class RecordUtility {
     public static List<String> getUDKs(Record rec){
         List<String> sf675a = rec.getSubfieldsContent("675a");
         return sf675a.stream().filter(s->!s.isEmpty()).map(s -> s.substring(0,1)).collect(Collectors.toList());
+    }
+
+    public static List<Field> get992(Record rec){
+        List<Field> f992 = rec.getFields("992");
+        return f992;
     }
 
 
