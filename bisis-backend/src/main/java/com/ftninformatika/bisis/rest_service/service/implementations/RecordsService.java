@@ -100,12 +100,12 @@ public class RecordsService implements RecordsServiceInterface {
                     record.setCreationDate(new Date());
 
                     List<Counter> counters = counterRepository.getCoders(lib);
-                    Counter c = counters.stream().filter(i -> i.getCounterName().equals("recordid")).findFirst().orElseThrow();
+                    Counter c = null;// counters.stream().filter(i -> i.getCounterName().equals("recordid")).findFirst().orElseThrow();
                     c.setCounterValue(c.getCounterValue() + 1);
                     counterRepository.save(c);
                     record.setRecordID(c.getCounterValue());
 
-                    c = counters.stream().filter(i -> i.getCounterName().equals("RN")).findFirst().orElseThrow();
+                   // c= counters.stream().filter(i -> i.getCounterName().equals("RN")).findFirst().orElseThrow();
                     c.setCounterValue(c.getCounterValue() + 1);
                     counterRepository.save(c);
                     record.setRN(c.getCounterValue());

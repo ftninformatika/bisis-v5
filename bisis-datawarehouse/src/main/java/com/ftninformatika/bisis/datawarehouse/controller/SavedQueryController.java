@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("query")
+@RequestMapping("reports/query")
 public class SavedQueryController {
 
     @Autowired

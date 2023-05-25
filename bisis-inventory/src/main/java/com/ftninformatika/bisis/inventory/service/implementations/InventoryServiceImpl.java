@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -176,7 +175,7 @@ public class InventoryServiceImpl implements InventoryService {
             Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
             sublocationCriteriaList.add(c1);
             for (InventoryBook book : createdInventory.getInvBooks()) {
-                if (book.getLastNo() != null) {
+                if (book.getLastNo() != null && book.getCode() != null) {
                     String firstInvNum =  book.getCode() + "0000000";
                     RegexUtils rrg = new RegexUtils();
                     if (!createdInventory.isUseLocationFromInvNo()) {
@@ -284,11 +283,15 @@ public class InventoryServiceImpl implements InventoryService {
                             unit.setPubYear(rp.getPublishingYear());
                             unit.setPubPlace(rp.getPublishingPlace());
                             ItemStatus itemStatus = createdInventory.getItemStatus(unit.getStatus());
-                            unit.setItemStatusCoderId(itemStatus.getCoder_id());
-                            unit.setItemStatusDescription(itemStatus.getDescription());
+                            if (itemStatus != null){
+                                unit.setItemStatusCoderId(itemStatus.getCoder_id());
+                                unit.setItemStatusDescription(itemStatus.getDescription());
+                            }
                             InventoryStatus inventoryStatus = createdInventory.getRevStatusByInv(unit.getStatus());
-                            unit.setInventoryStatusCoderId(inventoryStatus.getCoder_id());
-                            unit.setInventoryStatusDescription(inventoryStatus.getDescription());
+                            if (inventoryStatus != null){
+                                unit.setInventoryStatusCoderId(inventoryStatus.getCoder_id());
+                                unit.setInventoryStatusDescription(inventoryStatus.getDescription());
+                            }
                             unit.setDateModified(new Date());
                             unit.setStatus(null);
                             String signature = Signature.format(record.getPrimerak(unit.getInvNo()));

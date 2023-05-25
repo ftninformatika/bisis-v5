@@ -148,7 +148,7 @@ public class SearchDetailsService {
         selectExpressions.add(root.get("record").get("publicationYear"));
         selectExpressions.add(root.get("record").get("id"));
         selectExpressions.add(root.get("record").get("rn"));
-        selectExpressions.add(root.get("action"));
+        selectExpressions.add(root.get("action").get("description"));
         selectExpressions.add(root.get("amount"));
         cq.distinct(true).multiselect(selectExpressions).
                 where(whereExpressions.toArray(new Predicate[0]));
@@ -175,7 +175,7 @@ public class SearchDetailsService {
             whereExpressions.add(cb.between(root.get("date"), searchDetailsRequest.getStartDate(), searchDetailsRequest.getEndDate()));
         }
         whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
-        cq.select(cb.countDistinct(root.get("task_id"))).where(whereExpressions.toArray(new Predicate[0]));
+        cq.select(cb.countDistinct(root.get("taskId"))).where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
         return (Long)query.getSingleResult();
     }

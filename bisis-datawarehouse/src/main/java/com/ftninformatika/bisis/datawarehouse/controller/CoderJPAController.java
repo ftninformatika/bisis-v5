@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("coders")
+@RequestMapping("reports/coders")
 public class CoderJPAController {
 
     @Autowired

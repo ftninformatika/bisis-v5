@@ -90,4 +90,10 @@ public class CustomRepository{
 
     }
 
+    @Transactional
+    public void deleteAllTaskInBatch() {
+        entityManager.createNativeQuery("delete from bisis_reports.task").executeUpdate();
+
+    }
+
 }

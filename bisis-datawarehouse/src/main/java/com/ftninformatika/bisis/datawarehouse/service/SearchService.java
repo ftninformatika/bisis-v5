@@ -91,7 +91,7 @@ public class SearchService {
         }
         whereExpressions.add(cb.equal(root.get("library"),libraryPrefixProvider.getLibPrefix()));
 
-        selectExpressions.add(cb.countDistinct(root.get("task_id")));
+        selectExpressions.add(cb.countDistinct(root.get("taskId")));
         selectExpressions.add(cb.countDistinct(root.get("record")));
         selectExpressions.add(cb.sumAsLong(root.get("amount")));
         cq.multiselect(selectExpressions).
