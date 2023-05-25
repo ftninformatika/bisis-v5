@@ -146,10 +146,10 @@ public class CoderController {
     @Autowired InternalMarkRepository intmrep;
     @Autowired WarningCounterRepository warncountrep;
 
-    @RequestMapping(path = "accession_register")
-    public List<AccessionRegister> getAccessionRegs(@RequestHeader("Library") String libName){
-        return accregrep.getCoders(libName);
-    }
+//    @RequestMapping(path = "accession_register")
+//    public List<AccessionRegister> getAccessionRegs(@RequestHeader("Library") String libName){
+//        return accregrep.getCoders(libName);
+//    }
 
     @RequestMapping(path = "acquisiton_type")
     public List<Acquisition> getAcquisitonTypes(String libName){

@@ -41,10 +41,10 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -262,7 +262,7 @@ public class ImportService {
         customRepository.deleteAllLendingInBatch();
         customRepository.deleteAllMembershipInBatch();
         customRepository.deleteAllItemInBatch();
-
+        customRepository.deleteAllTaskInBatch();
         customRepository.resetSequence();
 
         //brisanje sifarnika
@@ -494,7 +494,7 @@ public class ImportService {
     private void handleRecord(com.ftninformatika.bisis.records.Record record, String library, List<Item> itemList, List<com.ftninformatika.bisis.datawarehouse.entity.Record> recordList, List<Task> taskList){
         List<Primerak> primerci = record.getPrimerci();
         List<Field> field992 = RecordUtility.get992(record);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
         String recordTypeRec = RecordUtility.getRecordType(record);
         RecordType recordType = recordTypeMap.get(recordTypeRec);
@@ -596,18 +596,19 @@ public class ImportService {
                 if (f.getSubfieldContent('6') != null) {
                     t.setAmount(Integer.parseInt(f.getSubfieldContent('6')));
                 } else {
-                    t.setAmount(1);
+                    t.setAmount(0);
                 }
             }catch (NumberFormatException e){
-                t.setAmount(1);
+                t.setAmount(0);
             }
             String action= f.getSubfieldContent('b');
-            Action a = actionMap.get(action);
+            Action a = actionMap.get(action + "_" + library);
             Action actionNone = actionMap.get("nemavrednost");
             if(a != null){
                 t.setAction(a);
             }else{
-                t.setAction(actionNone);
+                continue;
+               // t.setAction(actionNone);
             }
             String librarian= f.getSubfieldContent('f');
             Librarian librarianObj = librarianMap.get(librarian);
@@ -621,12 +622,13 @@ public class ImportService {
             try {
                 //datum je formata yyyyMMdd
                 if (f.getSubfieldContent('c') != null) {
-                    Date date = formatter.parse(f.getSubfieldContent('c'));
-                    t.setDate(convertToLocalDateTimeViaInstant(date));
+                    LocalDateTime dateTime = LocalDate.parse(f.getSubfieldContent('c'), formatter).atStartOfDay();
+                    t.setDate(dateTime);
                 } else {
                     t.setDate(null);
                 }
             }catch (Exception e){
+                e.printStackTrace();
                 t.setDate(null);
             }
 

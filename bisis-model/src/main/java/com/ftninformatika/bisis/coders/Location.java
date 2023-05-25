@@ -16,4 +16,14 @@ public class Location extends Coder{
     private String _id;
     private String department;
     private String googleMapLocationURL;
+    public Location(String id, String library, String coder_id,String description){
+        this._id = id;
+        this.setLibrary(library);
+        this.setCoder_id(coder_id);
+        this.setDescription(description);
+    }
+
+    public Location() {
+
+    }
 }
