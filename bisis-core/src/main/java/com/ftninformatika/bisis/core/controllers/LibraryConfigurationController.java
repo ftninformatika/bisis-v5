@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.core.controllers;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
-import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
+import com.ftninformatika.bisis.core.repositories.SublocationRepository;
 import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
 import com.ftninformatika.bisis.library_configuration.LibConfigDTO;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -26,7 +26,7 @@ public class LibraryConfigurationController {
     @Autowired
     LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired
-    SubLocationRepository subLocationRepository;
+    SublocationRepository subLocationRepository;
     @Autowired
     LocationRepository locationRepository;
 

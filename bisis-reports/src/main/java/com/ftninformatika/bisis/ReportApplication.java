@@ -85,7 +85,7 @@ public class ReportApplication {
           .stream().collect(Collectors.toMap(InternalMark::getCoder_id, i -> i)));
       libCoders.setStCoders(ctx.getBean(ItemStatusRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(ItemStatus::getCoder_id, i -> i)));
-      libCoders.setSublocCoders(ctx.getBean(SubLocationRepository.class).getCoders(lc.getLibraryName())
+      libCoders.setSublocCoders(ctx.getBean(SublocationRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i)));
       libCoders.setLocCoders(ctx.getBean(LocationRepository.class).getCoders(lc.getLibraryName())
           .stream().collect(Collectors.toMap(Location::getCoder_id, i -> i)));

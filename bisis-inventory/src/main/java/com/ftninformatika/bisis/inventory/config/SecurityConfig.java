@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().authorizeRequests()
                 .antMatchers(
                         "/authenticate").permitAll()
-                .antMatchers( "/inventory/**","/inventory_unit/**", "/inventory_location/**").hasAuthority("ROLE_INVENTORY")
+                .antMatchers( "/inventory/**","/inventory_unit/**", "/inventory_coders/**").hasAuthority("ROLE_INVENTORY")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)

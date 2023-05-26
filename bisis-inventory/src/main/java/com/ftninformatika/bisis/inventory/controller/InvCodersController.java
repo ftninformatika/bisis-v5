@@ -6,16 +6,16 @@ import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 import static com.ftninformatika.bisis.inventory.config.PathConstants.INVENTORY_CODERS;
 
-@Controller
+@RestController
 @RequestMapping(INVENTORY_CODERS)
 public class InvCodersController {
 
@@ -29,7 +29,7 @@ public class InvCodersController {
     }
 
 
-    @GetMapping("location")
+    @GetMapping("/location")
     public ResponseEntity<List<?>> getInvLocations(@RequestHeader("Library") String library) {
         List<?> result = this.invCodersService.getInvLocationsByLib(library);
         if (result == null) {
@@ -38,7 +38,7 @@ public class InvCodersController {
         return ResponseEntity.ok(result);
     }
 
-    @RequestMapping(path = "status")
+    @GetMapping(path = "/status")
     public List<InventoryStatus> getInvetoryStatuses(@RequestHeader("Library") String libName){
         return inventoryStatusRepository.getCoders(libName);
     }

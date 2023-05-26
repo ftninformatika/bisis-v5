@@ -43,7 +43,7 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
     LibraryMemberRepository libraryMemberRepository;
 
     @Autowired
-    SubLocationRepository sublocationRepository;
+    SublocationRepository sublocationRepository;
 
     @Autowired
     LocationRepository locationRepository;

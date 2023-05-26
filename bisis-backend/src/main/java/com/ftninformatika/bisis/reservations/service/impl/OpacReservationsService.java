@@ -32,7 +32,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
     LibraryMemberRepository libraryMemberRepository;
 
     @Autowired
-    SubLocationRepository sublocationRepository;
+    SublocationRepository sublocationRepository;
 
     @Autowired
     LocationRepository locationRepository;

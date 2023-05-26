@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.coders;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.ftninformatika.bisis.circ.*;
+import com.ftninformatika.bisis.inventory.InventoryStatus;
 import lombok.*;
 
 /**
@@ -16,6 +17,7 @@ import lombok.*;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
+        visible = true,
         include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 
@@ -28,7 +30,9 @@ import lombok.*;
         @JsonSubTypes.Type(value = Sublocation.class, name ="sublocation"),
         @JsonSubTypes.Type(value = Format.class, name ="format"),
         @JsonSubTypes.Type(value = ItemStatus.class, name ="itemStatus"),
+        @JsonSubTypes.Type(value = InternalMark.class, name ="internalMark"),
         @JsonSubTypes.Type(value = Availability.class, name ="availability"),
+        @JsonSubTypes.Type(value = Task.class, name ="task"),
         @JsonSubTypes.Type(value = CircLocation.class, name = "circLocation"),
         @JsonSubTypes.Type(value = MembershipType.class, name ="membershipType"),
         @JsonSubTypes.Type(value = UserCategory.class, name ="userCateg"),
@@ -37,7 +41,8 @@ import lombok.*;
         @JsonSubTypes.Type(value = Language.class, name ="language"),
         @JsonSubTypes.Type(value = Organization.class, name ="organization"),
         @JsonSubTypes.Type(value = Place.class, name ="place"),
-        @JsonSubTypes.Type(value = WarningCounter.class, name ="warningCounter")
+        @JsonSubTypes.Type(value = WarningCounter.class, name ="warningCounter"),
+        @JsonSubTypes.Type(value = InventoryStatus.class, name ="inventoryStatus"),
 
 })
 

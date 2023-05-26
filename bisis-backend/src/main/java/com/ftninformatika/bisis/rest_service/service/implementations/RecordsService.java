@@ -37,7 +37,7 @@ public class RecordsService implements RecordsServiceInterface {
     LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired
-    SubLocationRepository sublocrep;
+    SublocationRepository sublocrep;
     @Autowired MongoClient mongoClient;
     @Autowired
     CounterRepository counterRepository;

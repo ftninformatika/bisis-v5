@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.circ.UserCategory;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.core.repositories.*;
+import com.ftninformatika.bisis.core.repositories.SublocationRepository;
 import com.ftninformatika.bisis.datawarehouse.entity.*;
 import com.ftninformatika.bisis.datawarehouse.repository.AccessionRegisterRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.CircLocationRepository;
@@ -114,10 +115,10 @@ public class ImportService {
 
     @Autowired
     @Qualifier("sublocationJPARepository")
-    SublocationRepository sublocationRepository;
+    com.ftninformatika.bisis.datawarehouse.repository.SublocationRepository sublocationRepository;
 
     @Autowired
-    SubLocationRepository sublocationRepositoryMongo;
+    SublocationRepository sublocationRepositoryMongo;
 
     @Autowired
     StatusRepository statusRepository;

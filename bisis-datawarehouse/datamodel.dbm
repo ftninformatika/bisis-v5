@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="376,840" last-zoom="1" max-obj-count="58"
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,450" last-zoom="1" max-obj-count="74"
 	 default-schema="public" default-owner="postgres">
 <database name="bisis" is-template="false" allow-conns="true">
 </database>
@@ -14,7 +14,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <schema name="bisis_reports" layer="0" rect-visible="true" fill-color="#e1e1e1">
 </schema>
 
-<table name="item" layer="0" collapse-mode="2" max-obj-count="20" z-value="0">
+<table name="item" layer="0" collapse-mode="2" max-obj-count="21" z-value="0">
 	<schema name="bisis_reports"/>
 	<position x="500" y="20"/>
 	<column name="item_id" not-null="true">
@@ -31,6 +31,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="price">
 		<type name="decimal" length="0"/>
+	</column>
+	<column name="signature">
+		<type name="text" length="0"/>
 	</column>
 	<column name="record_id">
 		<type name="text" length="0"/>
@@ -157,7 +160,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="sublocation" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="60" y="200"/>
+	<position x="60" y="220"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -299,7 +302,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="acquisition" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="bisis_reports"/>
-	<position x="60" y="360"/>
+	<position x="60" y="400"/>
 	<column name="id" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -870,6 +873,146 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
+<table name="task" layer="0" collapse-mode="2" max-obj-count="13" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="60" y="1000"/>
+	<column name="task_id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="amount">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="action_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="record_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="bibliographic_level_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="record_type_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="serial_type_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="target_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="librarian_id">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="task_pk" type="pk-constr" table="bisis_reports.task">
+		<columns names="task_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="action" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="80" y="800"/>
+	<column name="id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="library">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="action_pk" type="pk-constr" table="bisis_reports.action">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="task_content_type" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="140" y="1640"/>
+	<column name="content_type_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="task_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="task_content_type_pk" type="pk-constr" table="bisis_reports.task_content_type">
+		<columns names="content_type_id,task_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="task_udk" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="140" y="1860"/>
+	<column name="udk_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="task_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="task_udk_pk" type="pk-constr" table="bisis_reports.task_udk">
+		<columns names="udk_id,task_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="task_language" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bisis_reports"/>
+	<position x="140" y="2080"/>
+	<column name="language_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="task_id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="task_language_pk" type="pk-constr" table="bisis_reports.task_language">
+		<columns names="language_id,task_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="task_record_idx" table="bisis_reports.task"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="record_id"/>
+		</idxelement>
+</index>
+
+<index name="task_library_idx" table="bisis_reports.task"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="library"/>
+		</idxelement>
+</index>
+
+<index name="task_content_task_id_idx" table="bisis_reports.task_content_type"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="task_id"/>
+		</idxelement>
+</index>
+
+<index name="task_udk_task_id_idx" table="bisis_reports.task_udk"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="task_id"/>
+		</idxelement>
+</index>
+
+<index name="task_language_task_id_idx" table="bisis_reports.task_language"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="task_id"/>
+		</idxelement>
+</index>
+
 <constraint name="record_item" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.record" table="bisis_reports.item">
 	<columns names="record_id" ref-type="src-columns"/>
@@ -1164,6 +1307,84 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="lending_id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="action_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.action" table="bisis_reports.task">
+	<columns names="action_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="record_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.record" table="bisis_reports.task">
+	<columns names="record_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="bibliographic_level_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.bibliographic_level" table="bisis_reports.task">
+	<columns names="bibliographic_level_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="record_type_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.record_type" table="bisis_reports.task">
+	<columns names="record_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="serial_type_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.serial_type" table="bisis_reports.task">
+	<columns names="serial_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="target_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.target" table="bisis_reports.task">
+	<columns names="target_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="librarian_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.librarian" table="bisis_reports.task">
+	<columns names="librarian_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="task_content_type_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="bisis_reports.task" table="bisis_reports.task_content_type">
+	<columns names="task_id" ref-type="src-columns"/>
+	<columns names="task_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="task_content_type_content_type" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.content_type" table="bisis_reports.task_content_type">
+	<columns names="content_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="task_udk_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="bisis_reports.task" table="bisis_reports.task_udk">
+	<columns names="task_id" ref-type="src-columns"/>
+	<columns names="task_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="task_udk_udk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.udk" table="bisis_reports.task_udk">
+	<columns names="udk_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="task_language_task" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="bisis_reports.task" table="bisis_reports.task_language">
+	<columns names="task_id" ref-type="src-columns"/>
+	<columns names="task_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="task_language_language" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bisis_reports.language" table="bisis_reports.task_language">
+	<columns names="language_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="rel_item_record" type="relfk" layer="0"
 	 src-table="bisis_reports.item"
 	 dst-table="bisis_reports.record" reference-fk="record_item"
@@ -1412,5 +1633,70 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-table="bisis_reports.membership"
 	 dst-table="bisis_reports.corporate_member" reference-fk="membership_corporate"
 	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_action" type="relfk" layer="0"
+	 src-table="bisis_reports.task"
+	 dst-table="bisis_reports.action" reference-fk="action_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_record" type="relfk" layer="0"
+	 src-table="bisis_reports.task"
+	 dst-table="bisis_reports.record" reference-fk="record_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_bibliographic_level" type="relfk" layer="0"
+	 src-table="bisis_reports.task"
+	 dst-table="bisis_reports.bibliographic_level" reference-fk="bibliographic_level_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_record_type" type="relfk" layer="0"
+	 src-table="bisis_reports.task"
+	 dst-table="bisis_reports.record_type" reference-fk="record_type_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_serial_type" type="relfk" layer="0"
+	 src-table="bisis_reports.task"
+	 dst-table="bisis_reports.serial_type" reference-fk="serial_type_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_target" type="relfk" layer="0"
+	 src-table="bisis_reports.task"
+	 dst-table="bisis_reports.target" reference-fk="target_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_librarian" type="relfk" layer="0"
+	 src-table="bisis_reports.task"
+	 dst-table="bisis_reports.librarian" reference-fk="librarian_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_content_type_task" type="relfk" layer="0"
+	 src-table="bisis_reports.task_content_type"
+	 dst-table="bisis_reports.task" reference-fk="task_content_type_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_content_type_content_type" type="relfk" layer="0"
+	 src-table="bisis_reports.task_content_type"
+	 dst-table="bisis_reports.content_type" reference-fk="task_content_type_content_type"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_udk_task" type="relfk" layer="0"
+	 src-table="bisis_reports.task_udk"
+	 dst-table="bisis_reports.task" reference-fk="task_udk_task"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_udk_udk" type="relfk" layer="0"
+	 src-table="bisis_reports.task_udk"
+	 dst-table="bisis_reports.udk" reference-fk="task_udk_udk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_task_language_task" type="relfk" layer="0"
+	 src-table="bisis_reports.task_language"
+	 dst-table="bisis_reports.task" reference-fk="task_language_task"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_task_language_language" type="relfk" layer="0"
+	 src-table="bisis_reports.task_language"
+	 dst-table="bisis_reports.language" reference-fk="task_language_language"
+	 src-required="false" dst-required="true"/>
 
 </dbmodel>

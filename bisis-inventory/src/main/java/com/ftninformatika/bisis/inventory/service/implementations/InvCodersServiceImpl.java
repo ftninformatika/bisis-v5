@@ -1,27 +1,28 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
-import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
-import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
-import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
-import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
+import com.ftninformatika.bisis.core.repositories.SublocationRepository;
+import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
+import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InvCodersServiceImpl implements InvCodersService {
 
     private LibraryConfigurationRepository libraryConfigurationRepository;
     private LocationRepository locationRepository;
-    private SubLocationRepository sublocationRepository;
+    private SublocationRepository sublocationRepository;
 
 
     @Autowired
     public InvCodersServiceImpl(LibraryConfigurationRepository libraryConfigurationRepository, LocationRepository locationRepository,
-                                SubLocationRepository sublocationRepository) {
+                                SublocationRepository sublocationRepository) {
         this.libraryConfigurationRepository = libraryConfigurationRepository;
         this.locationRepository = locationRepository;
         this.sublocationRepository = sublocationRepository;
@@ -40,9 +41,9 @@ public class InvCodersServiceImpl implements InvCodersService {
 
         List results = null;
         if (EnumLocationLevel.LOCATION.getLevel() == locationLevel) {
-            results = locationRepository.getCoders(library);
+            results = locationRepository.getCoders(library).stream().peek(x -> x.setType("location")).collect(Collectors.toList());
         } else if (EnumLocationLevel.SUB_LOCATION.getLevel() == locationLevel) {
-            results = sublocationRepository.getCoders(library);
+            results = sublocationRepository.getCoders(library).stream().peek(x -> x.setType("sublocation")).collect(Collectors.toList());
         }
 
         return results;

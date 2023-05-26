@@ -1,17 +1,18 @@
 package com.ftninformatika.bisis.format.validators;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ftninformatika.bisis.format.UValidator;
 import com.ftninformatika.bisis.format.UValidatorException;
 import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DateValidator implements UValidator {
 
 	public DateValidator() {
 		targets = new ArrayList();
+		targets.add("992c");
     log.info("Loading date validator");
 		// ???
 	}

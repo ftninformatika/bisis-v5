@@ -231,10 +231,10 @@ public interface BisisService {
     // wrappovani
 
     //coders----------------------------------------------
-    @GET("coders/accession_register")
+    @GET("coders/accessionRegister")
     Call<List<AccessionRegister>> getAccessionRegs(@Query("libName") String libName);
 
-    @GET("coders/acquisiton_type")
+    @GET("coders/acquisitionCoder")
     Call<List<Acquisition>> getAcquisitonTypes(@Query("libName") String libName);
 
     @GET("coders/availability")
@@ -246,10 +246,10 @@ public interface BisisService {
     @GET("coders/format")
     Call<List<Format>> getFormats(@Query("libName") String libName);
 
-    @GET("coders/internal_mark")
+    @GET("coders/internalMark")
     Call<List<InternalMark>> getInterMarks(@Query("libName") String libName);
 
-    @GET("coders/item_status")
+    @GET("coders/itemStatus")
     Call<List<ItemStatus>> getStatusCoders(@Query("libName") String libName);
 
     @GET("coders/location")
@@ -261,27 +261,27 @@ public interface BisisService {
     @GET("coders/increment_counter")
     Call<Integer> incrementCounter(@Query("counterKey") String counterKey);
 
-    @GET("coders/tasks")
+    @GET("coders/task")
     Call<List<Task>> getTasks(@Query("libName") String libName);
 
 //coders circulation----------------------------------------------------------
 
-    @GET("coders/circlocation")
+    @GET("coders/circLocation")
     Call<List<CircLocation>> getCircLocations(@Query("libName") String libName);
 
-    @GET("coders/counters")
+    @GET("coders/counter")
     Call<List<Counter>> getCounters(@Query("libName") String libName);
 
     @GET("coders/corporatemember")
     Call<List<CorporateMember>> getCorporateMembers(@Query("libName") String libName);
 
-    @GET("coders/education")
+    @GET("coders/educationLvl")
     Call<List<EducationLvl>> getEducationLvls(@Query("libName") String libName);
 
-    @POST("coders/education")
+    @POST("coders/educationLvl")
     Call<ArrayList<Object>> insertEditEduLvl(@Body EducationLvl educationLvl);
 
-    @GET("coders/education/delete")
+    @DELETE("coders/education/delete")
     Call<Boolean> deleteEduLvl(@Query("_id") String _id);
 
     @GET("coders/language")
@@ -296,9 +296,6 @@ public interface BisisService {
     @GET("coders/place/delete")
     Call<Boolean> deletePlace(@Query("_id") String _id);
 
-    @GET("coders/education")
-    Call<List<EducationLvl>> getEducations(@Query("libName") String libName);
-
     @GET("coders/membership")
     Call<List<Membership>> getMemberships(@Query("libName") String libName);
 
@@ -309,16 +306,16 @@ public interface BisisService {
     Call<Boolean> deleteMembership(@Body Membership membership);
     //vratice true ako je uspesno obrisan, a ako ga nije pronasao vraca false!
 
-    @GET("coders/membership_type")
+    @GET("coders/membershipType")
     Call<List<MembershipType>> getMembershipTypes(@Query("libName") String libName);
 
-    @GET("coders/user_category")
+    @GET("coders/userCateg")
     Call<List<UserCategory>> getUserCategories(@Query("libName") String libName);
 
     @GET("coders/warning_type")
     Call<List<WarningType>> getWarningTypes(@Query("libName") String libName);
 
-    @GET("coders/warning_counter")
+    @GET("coders/warningCounter")
     Call<List<WarningCounter>> getWarningCounters(@Query("libName") String libName);
 
     @POST("coders/warning_counter")

@@ -56,7 +56,7 @@ public class OpacSearchService {
     @Autowired
     LocationRepository locationRepository;
     @Autowired
-    SubLocationRepository sublocationRepository;
+    SublocationRepository sublocationRepository;
     @Autowired
     ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired

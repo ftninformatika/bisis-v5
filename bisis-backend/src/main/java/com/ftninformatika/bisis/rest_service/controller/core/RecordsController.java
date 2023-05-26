@@ -3,7 +3,7 @@ package com.ftninformatika.bisis.rest_service.controller.core;
 import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
+import com.ftninformatika.bisis.core.repositories.SublocationRepository;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
@@ -53,7 +53,8 @@ public class RecordsController {
     @Autowired LocationRepository locationRepository;
     @Autowired LibrarianRepository librarianRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
-    @Autowired SubLocationRepository subLocationRepository;
+    @Autowired
+    SublocationRepository subLocationRepository;
     @Autowired MongoClient mongoClient;
     @Autowired RecordsService recordsService;
     @Autowired LibraryConfigService libraryConfigService;

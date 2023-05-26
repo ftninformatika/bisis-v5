@@ -5,7 +5,7 @@ import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.CircLocationRepository;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
-import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
+import com.ftninformatika.bisis.core.repositories.SublocationRepository;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class LocationController {
     LibraryPrefixProvider libraryPrefixProvider;
 
     @Autowired
-    SubLocationRepository subLocationRepository;
+    SublocationRepository subLocationRepository;
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

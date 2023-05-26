@@ -4,7 +4,7 @@ import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
-import com.ftninformatika.bisis.core.repositories.SubLocationRepository;
+import com.ftninformatika.bisis.core.repositories.SublocationRepository;
 import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.Primerak;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class LocationService implements LocationServiceInterface {
 
     @Autowired
-    SubLocationRepository sublocationRepository;
+    SublocationRepository sublocationRepository;
 
     @Autowired
     LocationRepository locationRepository;

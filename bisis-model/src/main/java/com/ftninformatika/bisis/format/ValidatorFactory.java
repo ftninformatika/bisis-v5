@@ -1,13 +1,11 @@
 package com.ftninformatika.bisis.format;
 
+import com.ftninformatika.utils.file.FileUtils;
+import org.apache.log4j.Logger;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import com.ftninformatika.utils.file.FileUtils;
-import org.apache.log4j.Logger;
 
 
 /**
@@ -28,7 +26,7 @@ public class ValidatorFactory {
   static {
     try {
       log.info("Loading format validators");
-      String dirName = "/com/gint/app/bisis4/format/validators";
+      String dirName = "/com/ftninformatika/bisis/format/validators";
       String files[] = FileUtils.listFiles(ValidatorFactory.class, dirName);
       for (int i = 0; i < files.length; i++) {
         if (files[i].endsWith(".class")) {

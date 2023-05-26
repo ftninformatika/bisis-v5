@@ -1,9 +1,9 @@
 package com.ftninformatika.bisis.core.controllers;
 
 import com.ftninformatika.bisis.circ.CorporateMember;
-import com.ftninformatika.bisis.circ.WarningCounter;
 import com.ftninformatika.bisis.circ.WarningType;
-import com.ftninformatika.bisis.coders.*;
+import com.ftninformatika.bisis.coders.Coder;
+import com.ftninformatika.bisis.coders.Counter;
 import com.ftninformatika.bisis.coders.definition.CoderDefinition;
 import com.ftninformatika.bisis.coders.definition.Usage;
 import com.ftninformatika.bisis.core.config.CoderDefinitionConfig;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/coders")
@@ -50,7 +51,8 @@ public class CoderController {
     @GetMapping("/{type}")
     public List<Coder> getCoder(@PathVariable("type") String type, @RequestHeader("Library") String libName) throws Exception {
         String repoName = type +"Repository";
-        return (List< Coder>)beanFactory.getBean(repoName, CoderRepository.class).getCoders(libName);
+        List<Coder> list = (List<Coder>)beanFactory.getBean(repoName, CoderRepository.class).getCoders(libName);
+        return list.stream().peek(x -> x.setType(type)).collect(Collectors.toList());
     }
 
     @GetMapping("/definition/{type}")
@@ -63,7 +65,7 @@ public class CoderController {
     }
 
     @DeleteMapping("/{coderName}/{id}")
-    public boolean deleteCoder(@PathVariable("coderName") String coderName, @PathVariable("id") String id,@RequestBody Coder coder) throws IOException {
+    public boolean deleteCoder(@PathVariable("coderName") String coderName, @PathVariable("id") String id, @RequestBody Coder coder) throws IOException {
            List<CoderDefinition> codersDef = coderDefinitionConfig.getAllCoders();
             Optional<CoderDefinition> coderDefinition = codersDef.stream().filter(cd -> cd.getName().equals(coderName)).findFirst();
             if (coderDefinition.isPresent()){
@@ -72,7 +74,7 @@ public class CoderController {
                 String query;
                 for(Usage u: usages){
                     if (coder.getCoder_id() !=null) {
-                         query = String.format(u.getQuery(), coder.getCoder_id());
+                        query = String.format(u.getQuery(), coder.getCoder_id());
                     }else{
                         query = String.format(u.getQuery(), coder.getDescription());
                     }
@@ -82,11 +84,11 @@ public class CoderController {
                         return false;
                     }
                 }
-                    String repoName = coderDefinition.get().getName() +"Repository";
-                        if (coder.getLibrary()!= null && coder.getLibrary().equals(libraryPrefixProvider.getLibPrefix())){
-                            beanFactory.getBean(repoName, CoderRepository.class).deleteById(id);
-                            return true;
-                        }
+                String repoName = coderDefinition.get().getName() +"Repository";
+                if (coder.getLibrary()!= null && coder.getLibrary().equals(libraryPrefixProvider.getLibPrefix())){
+                    beanFactory.getBean(repoName, CoderRepository.class).deleteById(id);
+                    return true;
+                }
 
             }
             return false;
@@ -99,6 +101,7 @@ public class CoderController {
             beanFactory.getBean(repoName, CoderRepository.class).save(coder);
             return ResponseEntity.ok("Успешно додат шифарник.");
         }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -139,36 +142,36 @@ public class CoderController {
 
     //ove treba uskladiti sa pozivima sa klijenta i onda ih obrisati odavde
 
-    @Autowired
-    AcquisitionCoderRepository acqrep;
-    @Autowired
-    AccessionRegisterRepository accregrep;
-    @Autowired InternalMarkRepository intmrep;
-    @Autowired WarningCounterRepository warncountrep;
+//    @Autowired
+//    AcquisitionCoderRepository acqrep;
+//    @Autowired
+//    AccessionRegisterRepository accregrep;
+//    @Autowired InternalMarkRepository intmrep;
+//    @Autowired WarningCounterRepository warncountrep;
 
 //    @RequestMapping(path = "accession_register")
 //    public List<AccessionRegister> getAccessionRegs(@RequestHeader("Library") String libName){
 //        return accregrep.getCoders(libName);
 //    }
 
-    @RequestMapping(path = "acquisiton_type")
-    public List<Acquisition> getAcquisitonTypes(String libName){
-        return acqrep.getCoders(libName);
-    }
+//    @RequestMapping(path = "acquisiton_type")
+//    public List<Acquisition> getAcquisitonTypes(String libName){
+//        return acqrep.getCoders(libName);
+//    }
+//
+//
+//    @RequestMapping(path = "internal_mark")
+//    public List<InternalMark> getInterMarks(String libName){
+//        return intmrep.getCoders(libName);
+//    }
 
 
-    @RequestMapping(path = "internal_mark")
-    public List<InternalMark> getInterMarks(String libName){
-        return intmrep.getCoders(libName);
-    }
-
-
-    @RequestMapping(path = "warning_counter")
-    public List<WarningCounter> getWarningCounters(String libName){return warncountrep.getCoders(libName);}
-
-    @RequestMapping(path = "counters")
-    public List<Counter> getCounters(String libName){
-        return counterRepository.getCoders(libName);
-    }
+//    @RequestMapping(path = "warning_counter")
+//    public List<WarningCounter> getWarningCounters(String libName){return warncountrep.getCoders(libName);}
+//
+//    @RequestMapping(path = "counters")
+//    public List<Counter> getCounters(String libName){
+//        return counterRepository.getCoders(libName);
+//    }
 
 }
