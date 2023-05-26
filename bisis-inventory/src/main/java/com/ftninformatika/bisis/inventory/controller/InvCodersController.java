@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.inventory.controller;
 
+import com.ftninformatika.bisis.core.repositories.InventoryStatusRepository;
+import com.ftninformatika.bisis.inventory.InventoryStatus;
 import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,18 +20,26 @@ import static com.ftninformatika.bisis.inventory.config.PathConstants.INVENTORY_
 public class InvCodersController {
 
     private InvCodersService invCodersService;
+    @Autowired
+    InventoryStatusRepository inventoryStatusRepository;
 
     @Autowired
     public InvCodersController(InvCodersService invCodersService) {
         this.invCodersService = invCodersService;
     }
 
-    @GetMapping
+
+    @GetMapping("location")
     public ResponseEntity<List<?>> getInvLocations(@RequestHeader("Library") String library) {
         List<?> result = this.invCodersService.getInvLocationsByLib(library);
         if (result == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping(path = "status")
+    public List<InventoryStatus> getInvetoryStatuses(@RequestHeader("Library") String libName){
+        return inventoryStatusRepository.getCoders(libName);
     }
 }
