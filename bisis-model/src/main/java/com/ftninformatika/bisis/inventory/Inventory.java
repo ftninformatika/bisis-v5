@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.inventory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.inventory.dto.CoderDTO;
 import com.ftninformatika.bisis.inventory.dto.StatusMappingEntry;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,8 +29,8 @@ public class Inventory {
     private String library;
     private Date startDate;
     private Date endDate;
-    private List<Coder> itemStatuses;
-    private List<Coder> invLocations;
+    private List<CoderDTO> itemStatuses;
+    private List<CoderDTO> invLocations;
     private List<InventoryBook> invBooks;
     private List<InventoryStatusPair> invToRevisionStatuses;
     private List<StatusMappingEntry> revisionToFinalStatuses = new ArrayList<>();

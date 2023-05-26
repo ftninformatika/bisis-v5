@@ -17,7 +17,6 @@ import lombok.*;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        visible = true,
         include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 
