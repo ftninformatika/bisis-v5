@@ -90,7 +90,7 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
         inventory.setCurrentAction(EnumActionState.STATUS_CHANGING);
         inventoryRepository.save(inventory);
 
-        Boolean retVal = inventoryUnitRepository.changeRevisionStatuses(fromInvStaus, toInvStatus, library);
+        Boolean retVal = inventoryUnitRepository.changeRevisionStatuses(fromInvStaus, toInvStatus, library,inventory.get_id());
         inventory.setCurrentAction(EnumActionState.NONE);
         inventoryRepository.save(inventory);
         return retVal;

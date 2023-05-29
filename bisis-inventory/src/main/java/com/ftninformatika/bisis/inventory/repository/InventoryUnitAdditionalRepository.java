@@ -19,7 +19,7 @@ public interface InventoryUnitAdditionalRepository {
      *
      * Updates revision statuses from - to
      */
-    Boolean changeRevisionStatuses(InventoryStatus fromStatus, InventoryStatus toStatus, String library);
+    Boolean changeRevisionStatuses(InventoryStatus fromStatus, InventoryStatus toStatus, String library,String inventoryId);
     Iterator<InventoryUnit> findAllByInventoryStatusesAndInventoryId(List<String> invStatusesCoderIdList, String inventoryId);
     void removeInventoryIdFromItemAvailabilities(String inventoryId);
     Page<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO, int pageNo, int pageSize);

@@ -14,13 +14,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
-import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAdditionalRepository {
 
@@ -80,13 +80,13 @@ public class InventoryUnitAdditionalRepositoryImpl implements InventoryUnitAddit
     }
 
     @Override
-    public Boolean changeRevisionStatuses(InventoryStatus fromStatus, InventoryStatus toStatus, String library) {
+    public Boolean changeRevisionStatuses(InventoryStatus fromStatus, InventoryStatus toStatus, String library, String inventoryId) {
         MongoCollection<Document> collection = mongoTemplate.getCollection(library + "_inventory_units");
         if (fromStatus == null || fromStatus.getCoder_id() == null || toStatus == null || toStatus.getCoder_id() == null) {
             System.out.println("changeRevisionStatuses ne valjaju statusi");
             return null;
         }
-        Document select = new Document("inventoryStatusCoderId", fromStatus.getCoder_id());
+        Document select = new Document("inventoryStatusCoderId", fromStatus.getCoder_id()).append("inventoryId", inventoryId);
         Document setDoc = new Document("inventoryStatusCoderId", toStatus.getCoder_id());
         setDoc.append("inventoryStatusDescription", toStatus.getDescription());
         if (!toStatus.getCoder_id().equals(InventoryStatus.IN_REVISION)) {
