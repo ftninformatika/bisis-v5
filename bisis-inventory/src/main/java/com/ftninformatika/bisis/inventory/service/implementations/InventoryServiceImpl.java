@@ -1,10 +1,10 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
 import com.ftninformatika.bisis.circ.Lending;
-import com.ftninformatika.bisis.coders.Coder;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.inventory.*;
+import com.ftninformatika.bisis.inventory.dto.CoderDTO;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InvCodersService;
@@ -144,11 +144,11 @@ public class InventoryServiceImpl implements InventoryService {
         return inventories;
     }
 
-    private boolean locationContained(List<String> paramLocations, List<Coder> invLocations) {
+    private boolean locationContained(List<String> paramLocations, List<CoderDTO> invLocations) {
         if (paramLocations == null || invLocations == null) {
             return false;
         }
-        List<String> locations = invLocations.stream().map(Coder::getCoder_id).collect(Collectors.toList());;
+        List<String> locations = invLocations.stream().map(CoderDTO::getCoder_id).collect(Collectors.toList());;
         return paramLocations.stream().filter(locations::contains).collect(Collectors.toSet()).size() > 0;
     }
 
@@ -171,7 +171,7 @@ public class InventoryServiceImpl implements InventoryService {
         //upit za podlokaciju i inv knjige, i inv brojeve
         List<Criteria> sublocationCriteriaList = new ArrayList<Criteria>();
         List<Criteria> invBookCriteriaList = new ArrayList<Criteria>();
-        for (Coder invLocation : createdInventory.getInvLocations()) {
+        for (CoderDTO invLocation : createdInventory.getInvLocations()) {
             Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
             sublocationCriteriaList.add(c1);
             for (InventoryBook book : createdInventory.getInvBooks()) {
@@ -215,7 +215,7 @@ public class InventoryServiceImpl implements InventoryService {
 
         //upit za status
         List<Criteria> statusCriteriaList = new ArrayList<Criteria>();
-        for (Coder status : createdInventory.getItemStatuses()) {
+        for (CoderDTO status : createdInventory.getItemStatuses()) {
             Criteria c = Criteria.where("primerci.status").is(status.getCoder_id());
             statusCriteriaList.add(c);
         }

@@ -1,7 +1,6 @@
 package com.ftninformatika.bisis.inventory.dto;
 
 import com.ftninformatika.bisis.inventory.EnumSortByInvUnit;
-import com.ftninformatika.bisis.inventory.InventoryStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,7 @@ public class InvUnitSearchDTO {
     private String pubYear;
     private String signature;
     private EnumSortByInvUnit sortBy;
-    private InventoryStatus inventoryStatus;
+    private CoderDTO inventoryStatus;
 
     public Sort getSort() {
         return this.getSortBy().getSort();

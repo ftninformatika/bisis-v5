@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/coders")
@@ -51,8 +50,7 @@ public class CoderController {
     @GetMapping("/{type}")
     public List<Coder> getCoder(@PathVariable("type") String type, @RequestHeader("Library") String libName) throws Exception {
         String repoName = type +"Repository";
-        List<Coder> list = (List<Coder>)beanFactory.getBean(repoName, CoderRepository.class).getCoders(libName);
-        return list.stream().peek(x -> x.setType(type)).collect(Collectors.toList());
+        return (List<Coder>)beanFactory.getBean(repoName, CoderRepository.class).getCoders(libName);
     }
 
     @GetMapping("/definition/{type}")
@@ -98,6 +96,7 @@ public class CoderController {
     public ResponseEntity addCoder(@PathVariable("type") String type, @RequestBody Coder coder){
         try{
             String repoName = type +"Repository";
+            coder.setType(type);
             beanFactory.getBean(repoName, CoderRepository.class).save(coder);
             return ResponseEntity.ok("Успешно додат шифарник.");
         }catch (Exception e){

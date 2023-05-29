@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class InvCodersServiceImpl implements InvCodersService {
@@ -41,9 +40,9 @@ public class InvCodersServiceImpl implements InvCodersService {
 
         List results = null;
         if (EnumLocationLevel.LOCATION.getLevel() == locationLevel) {
-            results = locationRepository.getCoders(library).stream().peek(x -> x.setType("location")).collect(Collectors.toList());
+            results = locationRepository.getCoders(library);
         } else if (EnumLocationLevel.SUB_LOCATION.getLevel() == locationLevel) {
-            results = sublocationRepository.getCoders(library).stream().peek(x -> x.setType("sublocation")).collect(Collectors.toList());
+            results = sublocationRepository.getCoders(library);
         }
 
         return results;

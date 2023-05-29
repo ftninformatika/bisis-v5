@@ -258,9 +258,6 @@ public interface BisisService {
     @GET("coders/sublocation")
     Call<List<Sublocation>> getSubLocations(@Query("libName") String libName);
 
-    @GET("coders/increment_counter")
-    Call<Integer> incrementCounter(@Query("counterKey") String counterKey);
-
     @GET("coders/task")
     Call<List<Task>> getTasks(@Query("libName") String libName);
 
@@ -358,6 +355,9 @@ public interface BisisService {
 
     @GET("itemAvailabilities/getByCtlgNo")
     Call<ItemAvailability> getItemAvailability(@Query("ctlgno") String ctlgno);
+
+    @GET("coders/increment_counter")
+    Call<Integer> incrementCounter(@Query("counterKey") String counterKey);
 
     //reports
     @GET("reports/all")
