@@ -34,23 +34,29 @@
 	<field name="pubYear" class="java.lang.String">
 		<fieldDescription><![CDATA[[3]]]></fieldDescription>
 	</field>
-	<field name="action" class="java.math.BigDecimal">
+	<field name="action" class="java.lang.String">
 		<fieldDescription><![CDATA[[6]]]></fieldDescription>
 	</field>
 	<field name="rn" class="java.lang.String">
 		<fieldDescription><![CDATA[[5]]]></fieldDescription>
 	</field>
 	<field name="amount" class="java.lang.Integer">
-		<fieldDescription><![CDATA[[7]]]></fieldDescription>
+		<fieldDescription><![CDATA[[8]]]></fieldDescription>
 	</field>
 	<field name="recordID" class="java.lang.String">
 		<fieldDescription><![CDATA[[4]]]></fieldDescription>
 	</field>
+	<field name="date" class="java.time.LocalDateTime">
+		<fieldDescription><![CDATA[[7]]]></fieldDescription>
+	</field>
 	<variable name="recordID" class="java.lang.String">
 		<variableExpression><![CDATA[!$F{recordID}.equals("nemavrednost") ? $F{recordID}.substring(0,$F{recordID}.indexOf("_")):$F{recordID}]]></variableExpression>
 	</variable>
+	<variable name="date" class="java.lang.String">
+		<variableExpression><![CDATA[$F{date}.format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy"))]]></variableExpression>
+	</variable>
 	<background>
-		<band height="30" splitType="Stretch">
+		<band height="35" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</band>
 	</background>
@@ -64,17 +70,17 @@
 				<textFieldExpression><![CDATA[$P{library}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="30" width="720" height="30" uuid="7f1f8767-bf7a-4808-94b6-37811e86b8bc">
+				<reportElement x="0" y="30" width="811" height="30" uuid="7f1f8767-bf7a-4808-94b6-37811e86b8bc">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="14"/>
 				</textElement>
-				<text><![CDATA[Детаљан приказ примерака]]></text>
+				<text><![CDATA[Детаљан приказ акција над записом]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="74" width="720" height="30" uuid="1b546c11-a9b5-472a-a509-a617061ed429"/>
+				<reportElement x="0" y="74" width="811" height="30" uuid="1b546c11-a9b5-472a-a509-a617061ed429"/>
 				<textFieldExpression><![CDATA[$P{query}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -208,7 +214,7 @@
 				<text><![CDATA[RN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="611" y="0" width="109" height="30" uuid="0ba62ba6-e083-497d-bfdf-f7e70a285a5a">
+				<reportElement x="702" y="0" width="109" height="30" uuid="0ba62ba6-e083-497d-bfdf-f7e70a285a5a">
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="7">
@@ -220,12 +226,27 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<text><![CDATA[Акција]]></text>
+				<text><![CDATA[Број примерака]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="611" y="0" width="91" height="30" uuid="3f543bae-7522-432c-8554-69a589575da3">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="7">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Датум]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="46">
+		<band height="30">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="0" y="0" width="40" height="30" uuid="ef451801-b879-46ed-8664-d1286e587d98"/>
@@ -354,18 +375,28 @@
 				<textFieldExpression><![CDATA[$V{recordID}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="611" y="0" width="109" height="30" uuid="c443fcc9-15fa-4f13-8428-7b48c894e1f8">
+				<reportElement x="702" y="0" width="109" height="30" uuid="c443fcc9-15fa-4f13-8428-7b48c894e1f8">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="83474e17-5b18-415e-8bf2-168d6f5dee00"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="611" y="0" width="91" height="30" uuid="1300ed12-649d-4044-a318-feb6d68bc184"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{date}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

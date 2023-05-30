@@ -52,8 +52,14 @@
 	<field name="sveska" class="java.lang.String">
 		<fieldDescription><![CDATA[[8]]]></fieldDescription>
 	</field>
+	<field name="date" class="java.time.LocalDateTime">
+		<fieldDescription><![CDATA[[10]]]></fieldDescription>
+	</field>
 	<variable name="recordID" class="java.lang.String">
 		<variableExpression><![CDATA[!$F{recordID}.equals("nemavrednost") ? $F{recordID}.substring(0,$F{recordID}.indexOf("_")):$F{recordID}]]></variableExpression>
+	</variable>
+	<variable name="date" class="java.lang.String">
+		<variableExpression><![CDATA[$F{date}.format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy"))]]></variableExpression>
 	</variable>
 	<background>
 		<band height="30" splitType="Stretch">
@@ -261,10 +267,25 @@
 				</textElement>
 				<text><![CDATA[Сигнатура]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="852" y="0" width="108" height="30" uuid="e710cc69-00f4-4316-9a95-145f094d5654">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="7">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Датум]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="46">
+		<band height="40">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="0" y="0" width="40" height="30" uuid="ef451801-b879-46ed-8664-d1286e587d98"/>
@@ -434,6 +455,21 @@
 					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{signature}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="852" y="0" width="108" height="30" uuid="409d2658-246d-4402-b4e9-ed65c2d6fd07">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{date}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

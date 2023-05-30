@@ -623,7 +623,7 @@ public class ImportService {
             try {
                 //datum je formata yyyyMMdd
                 if (f.getSubfieldContent('c') != null) {
-                    LocalDateTime dateTime = LocalDate.parse(f.getSubfieldContent('c'), formatter).atStartOfDay();
+                    LocalDateTime dateTime = LocalDate.parse(f.getSubfieldContent('c').trim(), formatter).atStartOfDay();
                     t.setDate(dateTime);
                 } else {
                     t.setDate(null);

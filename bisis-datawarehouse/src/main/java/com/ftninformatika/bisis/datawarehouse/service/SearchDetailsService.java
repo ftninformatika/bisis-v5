@@ -96,6 +96,7 @@ public class SearchDetailsService {
         selectExpressions.add(root.get("ctlgNo"));
         selectExpressions.add(root.get("issueNo"));
         selectExpressions.add(root.get("price"));
+        selectExpressions.add(root.get("ctlgDate"));
         cq.distinct(true).multiselect(selectExpressions).
                 where(whereExpressions.toArray(new Predicate[0]));
         Query query = em.createQuery(cq);
@@ -149,6 +150,7 @@ public class SearchDetailsService {
         selectExpressions.add(root.get("record").get("id"));
         selectExpressions.add(root.get("record").get("rn"));
         selectExpressions.add(root.get("action").get("description"));
+        selectExpressions.add(root.get("date"));
         selectExpressions.add(root.get("amount"));
         cq.distinct(true).multiselect(selectExpressions).
                 where(whereExpressions.toArray(new Predicate[0]));
