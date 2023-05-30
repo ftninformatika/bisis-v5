@@ -330,6 +330,9 @@ public class SearchDetailsService {
             } else if (searchDetailsRequest.getType().equals(SearchType.MEMBERSHIP)){
                 inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsMemberReportSheet.jasper");
             }
+            else if (searchDetailsRequest.getType().equals(SearchType.TASK)){
+                inputStream =  SearchDetailsService.class.getResourceAsStream("/jaspers/detailsObradaReportSheet.jasper");
+            }
             Map<String, Object> params = new HashMap<String, Object>();
             params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
             String libraryFullName = libraryConfigurationRepository.getByLibraryName(libraryPrefixProvider.getLibPrefix()).getLibraryFullName();

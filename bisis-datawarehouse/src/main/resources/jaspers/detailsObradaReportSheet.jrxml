@@ -34,23 +34,17 @@
 	<field name="pubYear" class="java.lang.String">
 		<fieldDescription><![CDATA[[3]]]></fieldDescription>
 	</field>
-	<field name="price" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[[9]]]></fieldDescription>
+	<field name="action" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[[6]]]></fieldDescription>
 	</field>
 	<field name="rn" class="java.lang.String">
 		<fieldDescription><![CDATA[[5]]]></fieldDescription>
 	</field>
-	<field name="recordID" class="java.lang.String">
-		<fieldDescription><![CDATA[[4]]]></fieldDescription>
-	</field>
-	<field name="invbroj" class="java.lang.String">
+	<field name="amount" class="java.lang.Integer">
 		<fieldDescription><![CDATA[[7]]]></fieldDescription>
 	</field>
-	<field name="signature" class="java.lang.String">
-		<fieldDescription><![CDATA[[6]]]></fieldDescription>
-	</field>
-	<field name="sveska" class="java.lang.String">
-		<fieldDescription><![CDATA[[8]]]></fieldDescription>
+	<field name="recordID" class="java.lang.String">
+		<fieldDescription><![CDATA[[4]]]></fieldDescription>
 	</field>
 	<variable name="recordID" class="java.lang.String">
 		<variableExpression><![CDATA[!$F{recordID}.equals("nemavrednost") ? $F{recordID}.substring(0,$F{recordID}.indexOf("_")):$F{recordID}]]></variableExpression>
@@ -70,7 +64,7 @@
 				<textFieldExpression><![CDATA[$P{library}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="30" width="852" height="30" uuid="7f1f8767-bf7a-4808-94b6-37811e86b8bc">
+				<reportElement x="0" y="30" width="720" height="30" uuid="7f1f8767-bf7a-4808-94b6-37811e86b8bc">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -80,7 +74,7 @@
 				<text><![CDATA[Детаљан приказ примерака]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="74" width="852" height="30" uuid="1b546c11-a9b5-472a-a509-a617061ed429"/>
+				<reportElement x="0" y="74" width="720" height="30" uuid="1b546c11-a9b5-472a-a509-a617061ed429"/>
 				<textFieldExpression><![CDATA[$P{query}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -105,7 +99,7 @@
 				<text><![CDATA[Аутор]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="781" y="0" width="71" height="30" uuid="1411e375-a58c-4138-9403-4502ee756537">
+				<reportElement x="540" y="0" width="71" height="30" uuid="1411e375-a58c-4138-9403-4502ee756537">
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="7">
@@ -117,7 +111,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<text><![CDATA[Цена]]></text>
+				<text><![CDATA[Акција]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="410" y="0" width="70" height="30" uuid="cb46f0b3-7367-4f94-b160-380eab627a44">
@@ -183,38 +177,6 @@
 				<text><![CDATA[Година издавања]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="701" y="0" width="80" height="30" uuid="79b0f853-aa49-4230-a9c9-16b3421422d8">
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
-				</reportElement>
-				<box leftPadding="7">
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Свеска]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="631" y="0" width="70" height="30" uuid="ca3b9867-48ad-4d3e-ab80-6b640db5a8c8">
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
-				</reportElement>
-				<box leftPadding="7">
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Примерак]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="40" y="0" width="120" height="30" uuid="67fa8997-0268-4a7d-803d-d7d8c36d30cf">
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
@@ -246,8 +208,7 @@
 				<text><![CDATA[RN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="540" y="0" width="91" height="30" uuid="754c40f6-b408-42ca-849f-4e6d2470d372">
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<reportElement x="611" y="0" width="109" height="30" uuid="0ba62ba6-e083-497d-bfdf-f7e70a285a5a">
 					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="7">
@@ -259,7 +220,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<text><![CDATA[Сигнатура]]></text>
+				<text><![CDATA[Акција]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -347,7 +308,7 @@
 				<textFieldExpression><![CDATA[$F{pubYear}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="781" y="0" width="71" height="30" isPrintWhenDetailOverflows="true" uuid="4c93eac8-a889-4ea1-96b1-325e736dfb0c">
+				<reportElement x="540" y="0" width="71" height="30" isPrintWhenDetailOverflows="true" uuid="4c93eac8-a889-4ea1-96b1-325e736dfb0c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b1b4c4de-6227-4ce9-a176-f5ef23da496f"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -362,7 +323,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{action}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="480" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="d2079b0d-fe27-44fb-88d7-8c7f07b1b8c9">
@@ -379,36 +340,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{rn}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="631" y="0" width="70" height="30" isPrintWhenDetailOverflows="true" uuid="e6a84260-f86a-491b-b7bf-b0ac1c9f6e58">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="56cf093e-1045-40b3-ba7c-cadaf9f5cc9c"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{invbroj}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="701" y="0" width="80" height="30" isPrintWhenDetailOverflows="true" uuid="770f04a6-c2c5-4673-bd53-dc5f013a206b">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e7e04ff2-60a1-4a74-8030-8d838d92ae48"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sveska}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="410" y="0" width="70" height="30" uuid="98a02a7d-d8ef-4d12-b683-c149adb6c261"/>
 				<box>
@@ -422,18 +353,19 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{recordID}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement x="540" y="0" width="91" height="30" uuid="5917b61f-805f-44b1-9cb9-e29c74d5b871">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7645d8e9-7185-4dec-8ece-7a2a9f932b91"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<textField>
+				<reportElement x="611" y="0" width="109" height="30" uuid="c443fcc9-15fa-4f13-8428-7b48c894e1f8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="83474e17-5b18-415e-8bf2-168d6f5dee00"/>
 				</reportElement>
 				<box>
-					<bottomPen lineWidth="1.0"/>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{signature}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
