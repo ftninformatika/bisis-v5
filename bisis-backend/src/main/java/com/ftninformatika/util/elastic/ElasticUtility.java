@@ -119,10 +119,12 @@ public class ElasticUtility {
                     ((QueryStringQueryBuilder) qb).defaultField("prefixes." + prefix);
                     ((QueryStringQueryBuilder) qb).autoGeneratePhraseQueries(true);
                     ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
-                } else {
+                }else if (text.startsWith("\"") && text.length() > 1) {
+                    qb = QueryBuilders.matchPhraseQuery("prefixes." + prefix, LatCyrUtils.toLatinUnaccentedWithoutStopSigns(text.substring(1).replaceAll("\"",""))).slop(1);
+                }
+                else {
                     qb = QueryBuilders.queryStringQuery(LatCyrUtils.toLatinUnaccentedWithoutStopSigns(text));
                     ((QueryStringQueryBuilder) qb).defaultField("prefixes." + prefix);
-                    ((QueryStringQueryBuilder) qb).autoGeneratePhraseQueries(true);
                     ((QueryStringQueryBuilder) qb).defaultOperator(QueryStringQueryBuilder.DEFAULT_OPERATOR.AND);
                 }
             }
@@ -183,8 +185,8 @@ public class ElasticUtility {
     public static BoolQueryBuilder makeQuery(SearchModel sm) {
 
         //ovo je zbog vrste autorstva Pera Peric mentor, sve se trazi u jednom polju AU
-        if (sm.getValueForPrefix("AU") != null && !sm.getValueForPrefix("AU").equals("") && sm.getValueForPrefix("TA") != null) {
-            sm.setValueForPrefix("AU", sm.getValueForPrefix("AU") + " " + sm.getValueForPrefix("TA"));
+        if (sm.getValueForPrefix("AU") != null && !((String)sm.getValueForPrefix("AU")).trim().equals("") && sm.getValueForPrefix("TA") != null && !((String)sm.getValueForPrefix("TA")).trim().equals("")) {
+            sm.setValueForPrefix("AU", "\""+sm.getValueForPrefix("AU") + " " + sm.getValueForPrefix("TA")+"\"");
             sm.setValueForPrefix("TA", "");
         }
 

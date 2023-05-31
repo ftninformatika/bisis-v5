@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.indexer;
 
+import com.ftninformatika.bisis.coders.ItemStatus;
+import com.ftninformatika.bisis.core.repositories.ItemStatusRepository;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -22,6 +24,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ComponentScan("com.ftninformatika")
 public class ReindexRecords {
@@ -83,6 +86,7 @@ public class ReindexRecords {
     private static void indexLibrary(String libraryName, AnnotationConfigApplicationContext ctx) {
         LibraryPrefixProvider libProvider = ctx.getBean(LibraryPrefixProvider.class);
         libProvider.setPrefix(libraryName);
+        List<String> codersNotShowable = ctx.getBean(ItemStatusRepository.class).findAllByLibraryAndShowable(libraryName,false).stream().map(ItemStatus::getCoder_id).collect(Collectors.toList());
         RecordsRepository recordsRepository = ctx.getBean(RecordsRepository.class);
         ElasticRecordsRepository elasticRecordsRepository = ctx.getBean(ElasticRecordsRepository.class);
         ElasticsearchTemplate elasticsearchTemplate = ctx.getBean(ElasticsearchTemplate.class);
@@ -107,7 +111,7 @@ public class ReindexRecords {
         for (int i = 0; i < pages; i++) {
             List<ElasticPrefixEntity> ep = new ArrayList<>();
             for (Record rec : lr) {
-                Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, null, libraryName);
+                Map<String, List<String>> prefixes = PrefixConverter.toMap(rec, codersNotShowable, libraryName);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity(rec.get_id(), prefixes);
                 ep.add(ee);
             }

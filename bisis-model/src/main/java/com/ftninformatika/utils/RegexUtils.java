@@ -21,7 +21,7 @@ public class RegexUtils {
         RegexUtils rrg = new RegexUtils();
 
 
-        List<String> regexes = rrg.getRegex("01000003589", "01005698542");
+        List<String> regexes = rrg.getRegex("01000000000", "01000785551");
         for (String s: regexes) { System.out.println(s); }
     }
 

@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.coders.Counter;
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
@@ -41,6 +42,8 @@ public class RecordsService implements RecordsServiceInterface {
     @Autowired MongoClient mongoClient;
     @Autowired
     CounterRepository counterRepository;
+    @Autowired
+    ItemStatusRepository itemStatusRepository;
 
     private Logger log = Logger.getLogger(RecordsService.class);
 
@@ -94,6 +97,7 @@ public class RecordsService implements RecordsServiceInterface {
     public Record addOrUpdateRecord(String lib, Record record) throws RecordNotCreatedOrUpdatedException, MongoClientException{
         try (ClientSession session = mongoClient.startSession()) {
             session.startTransaction();
+            List<String> codersNotShowable = itemStatusRepository.findAllByLibraryAndShowable(lib,false).stream().map(ItemStatus::getCoder_id).collect(Collectors.toList());
             try {
                 if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
                     record.setLastModifiedDate(new Date());
@@ -150,7 +154,7 @@ public class RecordsService implements RecordsServiceInterface {
                 record.pack();
                 Record savedRecord = recordsRepository.save(record);
                 //convert record to suitable prefix-json for elasticsearch
-                Map<String, List<String>> prefixes = PrefixConverter.toMap(record, null);
+                Map<String, List<String>> prefixes = PrefixConverter.toMap(record, codersNotShowable);
                 ElasticPrefixEntity ee = new ElasticPrefixEntity();
                 ee.setId(savedRecord.get_id());
                 ee.setPrefixes(prefixes);
