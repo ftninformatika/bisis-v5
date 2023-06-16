@@ -21,13 +21,13 @@ public class PrefixConverter {
 //    return retVal;
 //  }
 
-  public static Map<String, List<String>> toMap(Record rec, String stRashod) {
-    return toMap(rec, stRashod, null);
+  public static Map<String, List<String>> toMap(Record rec, List<String> notShowableStatuses) {
+    return toMap(rec, notShowableStatuses, null);
   }
 
-  public static Map<String, List<String>> toMap(Record rec, String stRashod, String lib) {
+  public static Map<String, List<String>> toMap(Record rec,  List<String> notShowableStatuses, String lib) {
     HashMap<String, List<String>> retVal = new HashMap<>();
-    List<PrefixValue> prefixes = toPrefixes(rec, stRashod);
+    List<PrefixValue> prefixes = toPrefixes(rec, notShowableStatuses);
     if (lib != null) {
       retVal.put("libName", Arrays.asList(lib));
     }
@@ -98,10 +98,10 @@ public class PrefixConverter {
     return retVal;
   }
 
-  public static List<PrefixValue> toPrefixes(Record rec, String stRashod) {
+  public static List<PrefixValue> toPrefixes(Record rec, List<String> notShowableStatuses) {
     List<PrefixValue> retVal = new ArrayList<>();
-    int brRashod = 0;
-    boolean activ = true;
+    int numNotshowable = 0;
+    boolean show = true;
     for (int i = 0; i < rec.getFieldCount(); i++) {
       Field field = rec.getField(i);
       fieldToPrefixes(retVal, field);
@@ -113,12 +113,12 @@ public class PrefixConverter {
       for (int i = 0; i < primerci.size(); i++) {
         Primerak p = primerci.get(i);
         indeksirajPrimerak(retVal, p);
-        if (stRashod != null && p.getStatus() != null && p.getStatus().equalsIgnoreCase(stRashod)) {
-          brRashod++;
+        if (notShowableStatuses != null && p.getStatus() != null && notShowableStatuses.contains(p.getStatus())) {
+          numNotshowable++;
         }
       }
-      if (brRashod == primerci.size()) {
-        activ = false;
+      if (numNotshowable == primerci.size()) {
+        show = false;
       }
     }
     if (godine != null && godine.size() > 0) {
@@ -130,20 +130,20 @@ public class PrefixConverter {
           for (int j = 0; j < sveske.size(); j++) {
             Sveska s = sveske.get(j);
             indeksirajSvesku(retVal, s);
-            if (stRashod != null && s.getStatus() != null && s.getStatus().equalsIgnoreCase(stRashod)) {
-              brRashod++;
+            if (notShowableStatuses != null && s.getStatus() != null && notShowableStatuses.contains(s.getStatus())) {
+              numNotshowable++;
             }
           }
-          if (brRashod == sveske.size()) {
-            activ = false;
+          if (numNotshowable == sveske.size()) {
+            show = false;
           }
         }
       }
     }
-    if (activ) {
-      retVal.add(new PrefixValue("XX", "aktivan"));
-    } else {
-      retVal.add(new PrefixValue("XX", "neaktivan"));
+    if(show) {
+      retVal.add(new PrefixValue("show", "true"));
+    }else{
+      retVal.add(new PrefixValue("show", "false"));
     }
 
     return retVal;

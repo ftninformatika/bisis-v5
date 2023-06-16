@@ -274,6 +274,7 @@ public class ImportService {
         sublocationRepository.deleteAllInBatch();
         statusRepository.deleteAllInBatch();
         recordRepository.deleteAllInBatch();
+        actionRepository.deleteAllInBatch();
 
         categoryRepository.deleteAllInBatch();
         circLocationRepository.deleteAllInBatch();

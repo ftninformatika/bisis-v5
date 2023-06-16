@@ -4,7 +4,6 @@ import com.ftninformatika.bisis.cards.ReportCore;
 import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
-import com.ftninformatika.bisis.core.controllers.CoderController;
 import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.mobile.BookAvailabilityDTO;
@@ -22,6 +21,7 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +63,7 @@ public class OpacSearchService {
     ItemStatusRepository itemStatusRepository;
     @Autowired
     LibraryConfigurationRepository libraryConfigurationRepository;
-    //    TODO- refactor this at some point (don't import controllers in service layer)
-    @Autowired
-    CoderController codersController;
+
     private Logger log = Logger.getLogger(OpacSearchService.class);
 
     public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize,
@@ -83,6 +81,9 @@ public class OpacSearchService {
             pSize = pageSize;
 
         BoolQueryBuilder query = ElasticUtility.makeQuery(searchRequest.getSearchModel());
+        //ne prikazuju zapise koji nemaju bar jedan primerak koji ima status showable:true
+        QueryBuilder qb = ElasticUtility.buildQbForField("true", "show");
+        query.must(qb);
 
         List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(lib);
         itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
