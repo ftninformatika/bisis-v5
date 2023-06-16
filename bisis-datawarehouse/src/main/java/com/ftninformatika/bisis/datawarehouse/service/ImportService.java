@@ -229,6 +229,7 @@ public class ImportService {
     Map <String, Category> categoryMap;
     Map <String, Gender> genderMap;
     Map <String, Librarian> librarianMap;
+    Map <String, Librarian> librarianMapCaseSensitive;
     Map <String, LendingAction> lendingActionMap;
     Map <String, com.ftninformatika.bisis.datawarehouse.entity.CircLocation> circLocationMap;
     Map <String, com.ftninformatika.bisis.datawarehouse.entity.MembershipType> membershipTypeMap;
@@ -237,6 +238,14 @@ public class ImportService {
 
     private Map initCoders(List coders){
         LinkedCaseInsensitiveMap <com.ftninformatika.bisis.datawarehouse.entity.Coder> map = new LinkedCaseInsensitiveMap<> ();
+        for (Object c:coders){
+            map.put(((com.ftninformatika.bisis.datawarehouse.entity.Coder) c).getId(),(com.ftninformatika.bisis.datawarehouse.entity.Coder) c);
+        }
+        return map;
+    }
+
+    private Map initCodersCaseSensitive(List coders){
+        HashMap <String, com.ftninformatika.bisis.datawarehouse.entity.Coder> map = new HashMap<> ();
         for (Object c:coders){
             map.put(((com.ftninformatika.bisis.datawarehouse.entity.Coder) c).getId(),(com.ftninformatika.bisis.datawarehouse.entity.Coder) c);
         }
@@ -613,7 +622,10 @@ public class ImportService {
                // t.setAction(actionNone);
             }
             String librarian= f.getSubfieldContent('f');
-            Librarian librarianObj = librarianMap.get(librarian);
+            Librarian librarianObj = librarianMapCaseSensitive.get(librarian);
+            if (librarianObj == null){
+                librarianObj = librarianMap.get(librarian);
+            }
             Librarian librarianNone = librarianMap.get("nemavrednost");
             if(librarianObj != null){
                 t.setLibrarian(librarianObj);
@@ -1094,7 +1106,8 @@ public class ImportService {
         genderMap= initCoders(genderList);
 
         List<Librarian> librarianList = librarianRepository.findByLibraryIsNullOrLibrary(library);
-        librarianMap= initCoders(librarianList);
+        librarianMapCaseSensitive= initCodersCaseSensitive(librarianList);
+        librarianMap = initCoders(librarianList);
 
         List<LendingAction> lendingActionList = lendingActionRepository.findByLibraryIsNullOrLibrary(library);
         lendingActionMap= initCoders(lendingActionList);
@@ -1208,7 +1221,10 @@ public class ImportService {
             membership.setCategory(category);
             membership.setMembershipType(membershipType);
             membership.setCorporateMember(corporateMember);
-            Librarian librarian = librarianMap.get(signing.getLibrarian());
+            Librarian librarian = librarianMapCaseSensitive.get(signing.getLibrarian());
+            if (librarian == null){
+                librarian = librarianMap.get(signing.getLibrarian());
+            }
             if (librarian == null){
                 librarian = librarianMap.get("nemavrednost");
             }
@@ -1336,7 +1352,10 @@ public class ImportService {
             Lending lendingReturn = new Lending(lending);
             lendingReturn.setLendingAction(lendingActionMap.get("razduzeno"));
             lendingReturn.setDate(convertToLocalDateTimeViaInstant(l.getReturnDate()));
-            librarian = librarianMap.get(l.getLibrarianReturn());
+            librarian = librarianMapCaseSensitive.get(l.getLibrarianReturn());
+            if (librarian == null){
+                librarian = librarianMap.get(l.getLibrarianReturn());
+            }
             if (librarian == null) {
                 librarian = librarianMap.get("nemavrednost");
             }
@@ -1348,7 +1367,10 @@ public class ImportService {
             Lending lendingLend = new Lending(lending);
             lendingLend.setLendingAction(lendingActionMap.get("zaduzeno"));
             lendingLend.setDate(convertToLocalDateTimeViaInstant(l.getLendDate()));
-            librarian = librarianMap.get(l.getLibrarianLend());
+            librarian = librarianMapCaseSensitive.get(l.getLibrarianLend());
+            if (librarian == null){
+                librarian = librarianMap.get(l.getLibrarianLend());
+            }
             if (librarian == null) {
                 librarian = librarianMap.get("nemavrednost");
             }
@@ -1360,7 +1382,10 @@ public class ImportService {
             Lending lendingResume = new Lending(lending);
             lendingResume.setLendingAction(lendingActionMap.get("produzeno"));
             lendingResume.setDate(convertToLocalDateTimeViaInstant(l.getResumeDate()));
-            librarian = librarianMap.get(l.getLibrarianResume());
+            librarian = librarianMapCaseSensitive.get(l.getLibrarianResume());
+            if (librarian == null){
+                librarian = librarianMap.get(l.getLibrarianResume());
+            }
             if (librarian == null) {
                 librarian = librarianMap.get("nemavrednost");
             }
