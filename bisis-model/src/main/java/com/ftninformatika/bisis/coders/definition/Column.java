@@ -12,4 +12,7 @@ import lombok.Setter;
 public class Column {
     String property;
     String displayName;
+    String type;
+    Boolean editable;
+    Boolean unique;
 }

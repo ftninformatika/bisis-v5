@@ -5,15 +5,21 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       },
       {
         "property": "googleMapLocationURL",
-        "displayName": "Локација на мапи"
+        "displayName": "Локација на мапи",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -29,15 +35,21 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       },
       {
         "property": "googleMapLocationURL",
-        "displayName": "Локација на мапи"
+        "displayName": "Локација на мапи",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -53,11 +65,15 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -73,11 +89,15 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -93,11 +113,15 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -113,19 +137,27 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       },
       {
         "property": "lendable",
-        "displayName": "Задужује се"
+        "displayName": "Задужује се",
+        "type": "boolean",
+        "editable": true
       },
       {
         "property": "showable",
-        "displayName": "Приказује се"
+        "displayName": "Приказује се",
+        "type": "boolean",
+        "editable": true
       }
     ],
     "usage": [
@@ -141,11 +173,15 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -161,11 +197,15 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -181,11 +221,15 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -201,19 +245,25 @@
     "columns": [
       {
         "property": "coder_id",
-        "displayName": "Шифра"
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string"
       },
       {
         "property": "counterName",
-        "displayName": "Назив"
+        "displayName": "Назив",
+        "type": "string"
       },
       {
         "property": "counterValue",
-        "displayName": "Вредност"
+        "displayName": "Вредност",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [

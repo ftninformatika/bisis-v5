@@ -4,16 +4,21 @@
     "displayName": "Локација (циркулација)",
     "columns": [
       {
-        "property": "coder_id",
-        "displayName": "Шифра"
+        "property": "locationCode",
+        "displayName": "Шифра",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string"
       },
       {
         "property": "lastUserId",
-        "displayName": "Последњи број корисника"
+        "displayName": "Последњи број корисника",
+        "type": "number",
+        "editable": true
       }
     ],
     "usage": [
@@ -33,19 +38,27 @@
     "columns": [
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "titlesNo",
-        "displayName": "Број наслова"
+        "displayName": "Број наслова",
+        "type": "number",
+        "editable": true
       },
       {
         "property": "period",
-        "displayName": "Период задужења"
+        "displayName": "Период задужења",
+        "type": "number",
+        "editable": true
       },
       {
         "property": "maxPeriod",
-        "displayName": "Максималан период"
+        "displayName": "Максималан период",
+        "type": "number",
+        "editable": true
       }
     ],
     "usage": [
@@ -61,11 +74,15 @@
     "columns": [
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "period",
-        "displayName": "Период чланарине"
+        "displayName": "Период чланарине",
+        "type": "number",
+        "editable": true
       }
     ],
     "usage": [
@@ -81,15 +98,21 @@
     "columns": [
       {
         "property": "memberType",
-        "displayName": "Врста учлањења"
+        "displayName": "Врста учлањења",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "userCateg",
-        "displayName": "Категорија корисника"
+        "displayName": "Категорија корисника",
+        "type": "string",
+        "unique": true
       },
       {
         "property": "cost",
-        "displayName": "Цена"
+        "displayName": "Цена",
+        "type": "number",
+        "editable": true
       }
     ],
     "usage": [
@@ -105,7 +128,9 @@
     "columns": [
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "unique": true
       }
     ],
     "usage": [
@@ -121,7 +146,9 @@
     "columns": [
       {
         "property": "description",
-        "displayName": "Опис"
+        "displayName": "Опис",
+        "type": "string",
+        "unique": true
       }
     ],
     "usage": [
@@ -137,19 +164,28 @@
     "columns": [
       {
         "property": "name",
-        "displayName": "Назив"
+        "displayName": "Назив",
+        "type": "string",
+        "editable": true,
+        "unique": true
       },
       {
         "property": "address",
-        "displayName": "Адреса"
+        "displayName": "Адреса",
+        "type": "string",
+        "editable": true
       },
       {
         "property": "city",
-        "displayName": "Место"
+        "displayName": "Место",
+        "type": "string",
+        "editable": true
       },
       {
         "property": "zip",
-        "displayName": "Број поште"
+        "displayName": "Број поште",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -165,11 +201,16 @@
     "columns": [
       {
         "property": "city",
-        "displayName": "Место"
+        "displayName": "Место",
+        "type": "string",
+        "editable": true,
+        "unique": true
       },
       {
         "property": "zip",
-        "displayName": "Број поште"
+        "displayName": "Број поште",
+        "type": "string",
+        "editable": true
       }
     ],
     "usage": [
@@ -185,15 +226,19 @@
     "columns": [
       {
         "property": "warningType",
-        "displayName": "Тип опомене"
+        "displayName": "Тип опомене",
+        "type": "string"
       },
       {
         "property": "warnYear",
-        "displayName": "Година"
+        "displayName": "Година",
+        "type": "string"
       },
       {
         "property": "lastNo",
-        "displayName": "Последњи број"
+        "displayName": "Последњи број",
+        "type": "number",
+        "editable": true
       }
     ],
     "usage": []

@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +53,7 @@ public class CoderController {
     }
 
     @GetMapping("/definition/{type}")
-    public List<CoderDefinition> readCodersDefinition(@PathVariable("type") String type) throws IOException {
+    public List<CoderDefinition> readCodersDefinition(@PathVariable("type") String type) throws Exception {
             if (type.equals("circulation")){
                 return coderDefinitionConfig.getCirculationCoders();
             }else{
@@ -62,10 +61,10 @@ public class CoderController {
             }
     }
 
-    @DeleteMapping("/{coderName}/{id}")
-    public boolean deleteCoder(@PathVariable("coderName") String coderName, @PathVariable("id") String id, @RequestBody Coder coder) throws IOException {
+    @DeleteMapping("/{type}")
+    public boolean deleteCoder(@PathVariable("type") String type, @RequestBody Coder coder) throws Exception {
            List<CoderDefinition> codersDef = coderDefinitionConfig.getAllCoders();
-            Optional<CoderDefinition> coderDefinition = codersDef.stream().filter(cd -> cd.getName().equals(coderName)).findFirst();
+            Optional<CoderDefinition> coderDefinition = codersDef.stream().filter(cd -> cd.getName().equals(type)).findFirst();
             if (coderDefinition.isPresent()){
                 List<Usage> usages = coderDefinition.get().getUsage();
                 boolean exists;
@@ -84,7 +83,7 @@ public class CoderController {
                 }
                 String repoName = coderDefinition.get().getName() +"Repository";
                 if (coder.getLibrary()!= null && coder.getLibrary().equals(libraryPrefixProvider.getLibPrefix())){
-                    beanFactory.getBean(repoName, CoderRepository.class).deleteById(id);
+                    beanFactory.getBean(repoName, CoderRepository.class).deleteById(coder.getCoder_id());
                     return true;
                 }
 
@@ -96,9 +95,8 @@ public class CoderController {
     public ResponseEntity addCoder(@PathVariable("type") String type, @RequestBody Coder coder){
         try{
             String repoName = type +"Repository";
-            coder.setType(type);
-            beanFactory.getBean(repoName, CoderRepository.class).save(coder);
-            return ResponseEntity.ok("Успешно додат шифарник.");
+            coder = (Coder)beanFactory.getBean(repoName, CoderRepository.class).save(coder);
+            return ResponseEntity.ok(coder);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
