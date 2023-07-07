@@ -23,12 +23,12 @@
     ],
     "usage": [
       {
-        "collection": "member",
-        "query": ""
+        "collection": "members",
+        "query": "{\"signings.location\":\"%s\"}"
       },
       {
-        "collection": "lending",
-        "query": ""
+        "collection": "lendings",
+        "query": "{\"location\":\"%s\"}"
       }
     ]
   },
@@ -63,8 +63,8 @@
     ],
     "usage": [
       {
-        "collection": "member",
-        "query": ""
+        "collection": "members",
+        "query": "{\"userCategory.description\":\"%s\"}"
       }
     ]
   },
@@ -87,8 +87,8 @@
     ],
     "usage": [
       {
-        "collection": "member",
-        "query": ""
+        "collection": "members",
+        "query": "{\"membershipType.description\":\"%s\"}"
       }
     ]
   },
@@ -114,12 +114,6 @@
         "type": "number",
         "editable": true
       }
-    ],
-    "usage": [
-      {
-        "collection": "member",
-        "query": ""
-      }
     ]
   },
   {
@@ -135,8 +129,8 @@
     ],
     "usage": [
       {
-        "collection": "member",
-        "query": ""
+        "collection": "members",
+        "query": "{\"educationLevel\":\"%s\"}"
       }
     ]
   },
@@ -153,8 +147,8 @@
     ],
     "usage": [
       {
-        "collection": "member",
-        "query": ""
+        "collection": "members",
+        "query": "{\"language\":\"%s\"}"
       }
     ]
   },
@@ -190,8 +184,8 @@
     ],
     "usage": [
       {
-        "collection": "member",
-        "query": ""
+        "collection": "members",
+        "query": "{\"organization.name\":\"%s\"}"
       }
     ]
   },
@@ -215,8 +209,8 @@
     ],
     "usage": [
       {
-        "collection": "member",
-        "query": ""
+        "collection": "members",
+        "query": "{\"city\":\"%s\"}"
       }
     ]
   },
@@ -240,7 +234,6 @@
         "type": "number",
         "editable": true
       }
-    ],
-    "usage": []
+    ]
   }
 ]

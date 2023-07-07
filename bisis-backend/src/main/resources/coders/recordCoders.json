@@ -24,8 +24,8 @@
     ],
     "usage": [
       {
-        "collection": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.odeljenje\":\"%s\"}"
       }
     ]
   },
@@ -54,8 +54,8 @@
     ],
     "usage": [
       {
-        "collection": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.sigPodlokacija\":\"%s\"}"
       }
     ]
   },
@@ -78,8 +78,8 @@
     ],
     "usage": [
       {
-        "collection": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.invBroj\":{$regex: /^([0-9]){2}%s/}}"
       }
     ]
   },
@@ -102,8 +102,8 @@
     ],
     "usage": [
       {
-        "collection": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.nacinNabavke\":\"%s\"}"
       }
     ]
   },
@@ -126,8 +126,8 @@
     ],
     "usage": [
       {
-        "collection": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.sigFormat\":\"%s\"}"
       }
     ]
   },
@@ -162,8 +162,8 @@
     ],
     "usage": [
       {
-        "collection": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.status\":\"%s\"}"
       }
     ]
   },
@@ -210,8 +210,8 @@
     ],
     "usage": [
       {
-        "collection": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.dostupnost\":\"%s\"}"
       }
     ]
   },
@@ -234,8 +234,8 @@
     ],
     "usage": [
       {
-        "collection": "record",
-        "query": ""
+        "collection": "records",
+        "query": "{\"primerci.sigIntOznaka\":\"%s\"}"
       }
     ]
   },
@@ -264,12 +264,6 @@
         "displayName": "Вредност",
         "type": "string",
         "editable": true
-      }
-    ],
-    "usage": [
-      {
-        "collection": "record",
-        "query": ""
       }
     ]
   }

@@ -14,7 +14,10 @@ public interface CoderRepository <T extends Coder> extends MongoRepository<T,Str
     @Query("{'library':?0, 'coder_id':?1}")
     public T findCoder(String library, String coder_id);
 
-    @Query(value = "{'library':?0, '_id':?1}", delete = true)
-    public void deleteCoder(String library, String coder_id);
+    @Query(value = "{'library':?0, 'coder_id':?1}", delete = true)
+    public void deleteCoderByID(String library, String coder_id);
+
+    @Query(value = "{'library':?0, 'description':?1}", delete = true)
+    public void deleteCoderByDescription(String library, String description);
 
 }

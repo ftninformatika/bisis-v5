@@ -62,33 +62,39 @@ public class CoderController {
     }
 
     @DeleteMapping("/{type}")
-    public boolean deleteCoder(@PathVariable("type") String type, @RequestBody Coder coder) throws Exception {
+    public ResponseEntity deleteCoder(@PathVariable("type") String type, @RequestBody Coder coder) throws Exception {
            List<CoderDefinition> codersDef = coderDefinitionConfig.getAllCoders();
             Optional<CoderDefinition> coderDefinition = codersDef.stream().filter(cd -> cd.getName().equals(type)).findFirst();
             if (coderDefinition.isPresent()){
                 List<Usage> usages = coderDefinition.get().getUsage();
                 boolean exists;
                 String query;
-                for(Usage u: usages){
-                    if (coder.getCoder_id() !=null) {
-                        query = String.format(u.getQuery(), coder.getCoder_id());
-                    }else{
-                        query = String.format(u.getQuery(), coder.getDescription());
-                    }
-                    BasicQuery mongoQuery = new BasicQuery(query);
-                    exists = mongoTemplate.exists(mongoQuery,libraryPrefixProvider.getLibPrefix()+"_"+u.getCollection());
-                    if (exists){
-                        return false;
+                if (usages != null) {
+                    for (Usage u : usages) {
+                        if (coder.getCoder_id() != null) {
+                            query = String.format(u.getQuery(), coder.getCoder_id());
+                        } else {
+                            query = String.format(u.getQuery(), coder.getDescription());
+                        }
+                        BasicQuery mongoQuery = new BasicQuery(query);
+                        exists = mongoTemplate.exists(mongoQuery, libraryPrefixProvider.getLibPrefix() + "_" + u.getCollection());
+                        if (exists) {
+                            return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+                        }
                     }
                 }
                 String repoName = coderDefinition.get().getName() +"Repository";
                 if (coder.getLibrary()!= null && coder.getLibrary().equals(libraryPrefixProvider.getLibPrefix())){
-                    beanFactory.getBean(repoName, CoderRepository.class).deleteById(coder.getCoder_id());
-                    return true;
+                    if (coder.getCoder_id() !=null) {
+                        beanFactory.getBean(repoName, CoderRepository.class).deleteCoderByID(coder.getLibrary(),coder.getCoder_id());
+                    }else{
+                        beanFactory.getBean(repoName, CoderRepository.class).deleteCoderByDescription(coder.getLibrary(),coder.getDescription());
+                    }
+                    return ResponseEntity.ok(true);
                 }
 
             }
-            return false;
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PostMapping("/{type}")
