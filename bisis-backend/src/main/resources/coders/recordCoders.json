@@ -240,8 +240,8 @@
     ]
   },
   {
-    "name": "counter",
-    "displayName": "Бројачи",
+    "name": "task",
+    "displayName": "Акције над записом",
     "columns": [
       {
         "property": "coder_id",
@@ -252,12 +252,20 @@
       {
         "property": "description",
         "displayName": "Опис",
-        "type": "string"
-      },
+        "type": "string",
+        "editable": true
+      }
+    ]
+  },
+  {
+    "name": "counter",
+    "displayName": "Бројачи",
+    "columns": [
       {
-        "property": "counterName",
+        "property": "coder_id",
         "displayName": "Назив",
-        "type": "string"
+        "type": "string",
+        "unique": true
       },
       {
         "property": "counterValue",

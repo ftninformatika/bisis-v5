@@ -3,6 +3,7 @@ package com.ftninformatika.bisis;
 import com.ftninformatika.bisis.actions.*;
 import com.ftninformatika.bisis.admin.coders.CoderFrame;
 import com.ftninformatika.bisis.admin.coders.TableCatalog;
+import com.ftninformatika.bisis.admin.unlock.UnlockFrame;
 import com.ftninformatika.bisis.circ.options.OptionsMainFrame;
 import com.ftninformatika.bisis.circ.view.MmbrshipCoder;
 import com.ftninformatika.bisis.circ.warnings.WarningsFrame;
@@ -12,14 +13,12 @@ import com.ftninformatika.bisis.library_configuration.Report;
 import com.ftninformatika.bisis.report.ReportMenuBuilder;
 import com.ftninformatika.bisis.search.SearchAdvancedFrame;
 import com.ftninformatika.utils.Messages;
-import com.ftninformatika.bisis.admin.unlock.UnlockFrame;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
-
-import javax.swing.*;
 
 
 public class MenuBuilder extends JMenuBar {
@@ -362,13 +361,13 @@ public class MenuBuilder extends JMenuBar {
             mAdministration.addSeparator();
             //mAdministration.add(getMiBibliotekari());
             mAdministration.add(getMiTipoviObrade());
-            mAdministration.add(getMSifInv());
+            //mAdministration.add(getMSifInv());
             mAdministration.addSeparator();
-            mAdministration.add(getMSifCirc());
+            //mAdministration.add(getMSifCirc());
             mAdministration.add(getMOptions());
             //mAdministration.add(getMiWarnings());
             mAdministration.addSeparator();
-            mAdministration.add(getMiBrojaci());
+            //mAdministration.add(getMiBrojaci());
             mAdministration.add(getMUnlock());
         }
         return mAdministration;

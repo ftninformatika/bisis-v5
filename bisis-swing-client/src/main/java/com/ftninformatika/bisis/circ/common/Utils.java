@@ -4,27 +4,14 @@ package com.ftninformatika.bisis.circ.common;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.WarningType;
 import com.ftninformatika.bisis.circ.pojo.*;
-import com.ftninformatika.bisis.circ.view.User;
-import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.utils.string.StringUtils;
 import com.toedter.calendar.JDateChooser;
 
-import java.awt.Component;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
-import java.util.StringTokenizer;
-
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
+import java.util.*;
 
 
 
@@ -64,7 +51,7 @@ public class Utils {
 	
 	public static Object getCmbValue(JComboBox cmb){
 		Object item = cmb.getSelectedItem();
-		if (item instanceof String){
+		if (item instanceof String & item.equals(" ")){
 			return null;
 		}else{
 			return item;
@@ -78,7 +65,7 @@ public class Utils {
         } else if (cmbItem instanceof MembershipType){
             text = ((MembershipType)cmbItem).getDescription();
         } else if (cmbItem instanceof Organization){
-            text = ((Organization)cmbItem).getName();
+            text = ((Organization)cmbItem).getDescription();
         } else if (cmbItem instanceof UserCategory){
             text = ((UserCategory)cmbItem).getDescription();
         } else if (cmbItem instanceof WarningType){

@@ -18,6 +18,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Counter extends Coder{
     @Id
     private String _id;
-    private String counterName;
     private Integer counterValue;
 }

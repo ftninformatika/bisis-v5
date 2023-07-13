@@ -132,7 +132,7 @@ public class CoderController {
     @RequestMapping(path = "increment_counter")
     public Integer incrementCounter(@RequestHeader("Library") String lib, @RequestParam("counterKey") String counterKey){
         List<Counter> counters = counterRepository.getCoders(lib);
-        Counter c = counters.stream().filter(i -> i.getCounterName().equals(counterKey)).findFirst().get();
+        Counter c = counters.stream().filter(i -> i.getCoder_id().equals(counterKey)).findFirst().get();
         c.setCounterValue(c.getCounterValue() + 1);
         counterRepository.save(c);
         return c.getCounterValue();

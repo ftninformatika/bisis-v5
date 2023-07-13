@@ -661,7 +661,7 @@ public class UserManager {
                     o.setAddress(i.getAddress());
                     o.setCity(i.getCity());
                     o.setId(i.get_id());
-                    o.setName(i.getName());
+                    o.setDescription(i.getDescription());
                     o.setZip(i.getZip());
                     return o;
                 })

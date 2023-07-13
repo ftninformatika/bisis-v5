@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -142,7 +141,7 @@ public class CodersHelper {
             for(Organization i: organizations){
                 ArrayList<Object> l = new ArrayList<>();
                 l.add(i.get_id());
-                l.add(i.getName());
+                l.add(i.getDescription());
                 l.add(i.getAddress());
                 l.add(i.getCity());
                 l.add(i.getZip());
@@ -265,7 +264,7 @@ public class CodersHelper {
         if (coderName.equals("Counters")){
             for(Counter i: counters.values()){
                 ArrayList<Object> l = new ArrayList<>();
-                l.add(i.getCounterName());
+                l.add(i.getCoder_id());
                 l.add(i.getCounterValue());
                 retVal.add(l);
             }
@@ -328,7 +327,7 @@ public class CodersHelper {
             itemStatuses = stCoders.stream().collect(Collectors.toMap(ItemStatus::getCoder_id, i -> i));
             locations = locCoders.stream().collect(Collectors.toMap(Location::getCoder_id, i -> i));
             sublocations = sublocCoders.stream().collect(Collectors.toMap(Sublocation::getCoder_id, i -> i));
-            counters = countersCoders.stream().collect(Collectors.toMap(Counter::getCounterName, i -> i));
+            counters = countersCoders.stream().collect(Collectors.toMap(Counter::getCoder_id, i -> i));
             tasks = tasksCoders.stream().collect(Collectors.toMap(Task::getCoder_id, i -> i));
             librarians = librariansCoders.stream().collect(Collectors.toMap(LibrarianDB::getUsername, i -> i));
 

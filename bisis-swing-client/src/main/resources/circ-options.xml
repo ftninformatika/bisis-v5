@@ -6,8 +6,8 @@
 			<blockedCard>true</blockedCard>
 			<autoReturn>true</autoReturn>
 			<defaultZipCity>true</defaultZipCity>
-			<defaultCity>Beograd</defaultCity>
-			<defaultZip>11000</defaultZip>
+			<defaultCity>Novi Sad</defaultCity>
+			<defaultZip>21000</defaultZip>
 			<fontSize>12</fontSize>
 			<maximize>false</maximize>
 			<lookAndFeel>default</lookAndFeel>
@@ -18,7 +18,7 @@
 			<length>11</length>
 			<prefix>false</prefix>
 			<prefixLength>2</prefixLength>
-			<defaultPrefix>1</defaultPrefix>
+			<defaultPrefix>0</defaultPrefix>
 			<separator>false</separator>
 			<separatorSign>/</separatorSign>
 			<inputUserid>1</inputUserid>
@@ -37,8 +37,8 @@
 			<inputCtlgno>1</inputCtlgno>
 		</ctlgno>
 		<revers>
-			<libraryName>Beogradska poslovna škola</libraryName>
-			<libraryAddress></libraryAddress>
+			<libraryName>Biblioteka</libraryName>
+			<libraryAddress>Novi Sad</libraryAddress>
 			<selected>true</selected>
 			<height>1</height>
 			<width>1</width>

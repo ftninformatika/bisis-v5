@@ -157,7 +157,7 @@
     "displayName": "Организација",
     "columns": [
       {
-        "property": "name",
+        "property": "description",
         "displayName": "Назив",
         "type": "string",
         "editable": true,
@@ -185,54 +185,7 @@
     "usage": [
       {
         "collection": "members",
-        "query": "{\"organization.name\":\"%s\"}"
-      }
-    ]
-  },
-  {
-    "name": "place",
-    "displayName": "Место",
-    "columns": [
-      {
-        "property": "city",
-        "displayName": "Место",
-        "type": "string",
-        "editable": true,
-        "unique": true
-      },
-      {
-        "property": "zip",
-        "displayName": "Број поште",
-        "type": "string",
-        "editable": true
-      }
-    ],
-    "usage": [
-      {
-        "collection": "members",
-        "query": "{\"city\":\"%s\"}"
-      }
-    ]
-  },
-  {
-    "name": "warningCounter",
-    "displayName": "Бројачи опомена",
-    "columns": [
-      {
-        "property": "warningType",
-        "displayName": "Тип опомене",
-        "type": "string"
-      },
-      {
-        "property": "warnYear",
-        "displayName": "Година",
-        "type": "string"
-      },
-      {
-        "property": "lastNo",
-        "displayName": "Последњи број",
-        "type": "number",
-        "editable": true
+        "query": "{\"organization.description\":\"%s\"}"
       }
     ]
   }

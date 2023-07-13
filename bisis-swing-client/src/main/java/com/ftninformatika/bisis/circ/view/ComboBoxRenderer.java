@@ -4,18 +4,11 @@ import com.ftninformatika.bisis.circ.WarningType;
 import com.ftninformatika.bisis.circ.pojo.*;
 import com.ftninformatika.bisis.coders.Location;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.io.Serializable;
-
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.io.Serializable;
 
 
 
@@ -61,7 +54,7 @@ public class ComboBoxRenderer extends JLabel implements ListCellRenderer, Serial
 		} else if (value instanceof MembershipType){
 			setText(((MembershipType)value).getDescription());
 		} else if (value instanceof Organization){
-			setText(((Organization)value).getName());
+			setText(((Organization)value).getDescription());
 		} else if (value instanceof UserCategory){
 			setText(((UserCategory)value).getDescription());
 		} else if (value instanceof WarningType){

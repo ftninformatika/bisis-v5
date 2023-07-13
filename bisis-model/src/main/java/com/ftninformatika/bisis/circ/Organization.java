@@ -17,7 +17,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Organization extends Coder {
     @Id
     private String _id;
-    private String name;
     private String address;
     private String city;
     private String zip;

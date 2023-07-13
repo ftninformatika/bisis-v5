@@ -3,11 +3,9 @@ package com.ftninformatika.bisis.circ.view;
 import com.ftninformatika.bisis.circ.WarningType;
 import com.ftninformatika.bisis.circ.pojo.*;
 
-
-import java.io.Serializable;
-
-import javax.swing.ComboBoxModel;
+import javax.swing.*;
 import javax.swing.JComboBox.KeySelectionManager;
+import java.io.Serializable;
 
 public class CmbKeySelectionManager implements KeySelectionManager, Serializable {
     public int selectionForKey(char aKey,ComboBoxModel aModel) {
@@ -39,7 +37,7 @@ public class CmbKeySelectionManager implements KeySelectionManager, Serializable
             } else if (elem instanceof MembershipType){
               name = (((MembershipType)elem).getDescription());
             } else if (elem instanceof Organization){
-              name = (((Organization)elem).getName());
+              name = (((Organization)elem).getDescription());
             } else if (elem instanceof UserCategory){
               name = (((UserCategory)elem).getDescription());
             } else if (elem instanceof WarningType){
@@ -62,7 +60,7 @@ public class CmbKeySelectionManager implements KeySelectionManager, Serializable
             } else if (elem instanceof MembershipType){
               name = (((MembershipType)elem).getDescription());
             } else if (elem instanceof Organization){
-              name = (((Organization)elem).getName());
+              name = (((Organization)elem).getDescription());
             } else if (elem instanceof UserCategory){
               name = (((UserCategory)elem).getDescription());
             } else if (elem instanceof WarningType){

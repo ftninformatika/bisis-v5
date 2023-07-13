@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 public class Organization {
     private String id;
-    private String name;
+    private String description;
     private String address;
     private String city;
     private String zip;

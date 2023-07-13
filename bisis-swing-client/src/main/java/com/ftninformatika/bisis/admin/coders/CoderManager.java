@@ -27,7 +27,7 @@ public class CoderManager {
                     Organization o = new Organization();
                     o.set_id(null);
                     o.setLibrary(BisisApp.appConfig.getLibrary());
-                    o.setName(String.valueOf(row.get(1)));
+                    o.setDescription(String.valueOf(row.get(1)));
                     o.setAddress(String.valueOf(row.get(2)));
                     o.setCity(String.valueOf(row.get(3)));
                     o.setZip(String.valueOf(row.get(4)));
@@ -69,7 +69,7 @@ public class CoderManager {
                     Organization o = new Organization();
                     o.setLibrary(BisisApp.appConfig.getLibrary());
                     o.set_id(String.valueOf(row.get(0)));
-                    o.setName(String.valueOf(row.get(1)));
+                    o.setDescription(String.valueOf(row.get(1)));
                     o.setAddress(String.valueOf(row.get(2)));
                     o.setCity(String.valueOf(row.get(3)));
                     o.setZip(String.valueOf(row.get(4)));
