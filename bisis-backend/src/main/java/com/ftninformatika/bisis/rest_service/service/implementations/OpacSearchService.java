@@ -21,7 +21,6 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +81,8 @@ public class OpacSearchService {
 
         BoolQueryBuilder query = ElasticUtility.makeQuery(searchRequest.getSearchModel());
         //ne prikazuju zapise koji nemaju bar jedan primerak koji ima status showable:true
-        QueryBuilder qb = ElasticUtility.buildQbForField("true", "show");
-        query.must(qb);
+//        QueryBuilder qb = ElasticUtility.buildQbForField("true", "show");
+//        query.must(qb);
 
         List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(lib);
         itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
