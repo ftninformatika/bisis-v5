@@ -1,23 +1,18 @@
 package com.ftninformatika.bisis.libenv;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.admin.coders.CodersHelper;
 import com.ftninformatika.bisis.editor.formattree.FormatUtils;
 import com.ftninformatika.bisis.format.PubTypes;
 import com.ftninformatika.bisis.format.UField;
 import com.ftninformatika.bisis.format.UFormat;
 import com.ftninformatika.bisis.format.USubfield;
-import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.ProcessType;
-import com.ftninformatika.bisis.librarian.ProcessTypeBuilder;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.librarian.db.ProcessTypeDB;
 import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicTreeUI;
@@ -167,18 +162,21 @@ public class ProcessTypeFrame extends JInternalFrame {
     }
 
     private void handleSaveProcessType() {
-        int selectedRow = processTypeTable.getSelectedRow();
-        ProcessType savedProcessType = processTypeTableModel.updateProcessType(getProcessTypeFromForm());
-        if (selectedRow == -1) {
-            processTypeTable.setRowSelectionInterval(processTypeTableModel.getRowCount() - 1, processTypeTableModel.getRowCount() - 1);
+        if (processTypeNameTxtFld.getText() != null && !processTypeNameTxtFld.getText().trim().equals("")) {
+            int selectedRow = processTypeTable.getSelectedRow();
+            ProcessType savedProcessType = processTypeTableModel.updateProcessType(getProcessTypeFromForm());
+            if (selectedRow == -1) {
+                processTypeTable.setRowSelectionInterval(processTypeTableModel.getRowCount() - 1, processTypeTableModel.getRowCount() - 1);
+            } else {
+                processTypeTable.setRowSelectionInterval(selectedRow, selectedRow);
+            }
+            if (savedProcessType == null) {
+                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+            } else {
+                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_SUCCESS"), Messages.getString("LIBENV_SUCCESS"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
+            }
         } else {
-            processTypeTable.setRowSelectionInterval(selectedRow, selectedRow);
-        }
-        if (savedProcessType == null) {
-            JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_ERROR"), Messages.getString("LIBENV_ERROR"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-        } else {
-            JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_DB_SUCCESS"), Messages.getString("LIBENV_SUCCESS"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
-
+            JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("LIBENV_ERROR_NAME"), Messages.getString("LIBENV_ERROR"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

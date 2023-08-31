@@ -1,10 +1,9 @@
 package com.ftninformatika.bisis.circ.manager;
 
 import com.ftninformatika.bisis.BisisApp;
-import com.ftninformatika.bisis.librarian.db.Authority;
-import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Membership;
+import com.ftninformatika.bisis.circ.*;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.dto.ConfirmReservationDTO;
 import com.ftninformatika.bisis.circ.dto.CurrentReservationDTO;
@@ -15,15 +14,16 @@ import com.ftninformatika.bisis.circ.view.*;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.circ.wrappers.MergeData;
 import com.ftninformatika.bisis.ecard.ElCardInfo;
+import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.records.ItemAvailability;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.validators.memberdata.DataErrors;
-import com.ftninformatika.utils.validators.memberdata.DataValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
+import org.apache.commons.validator.GenericValidator;
 import org.apache.log4j.Logger;
 import retrofit2.Response;
 
@@ -605,7 +605,7 @@ public class UserManager {
     public String createWebAccount(boolean hasActiveWebAccount) throws Exception {
         if (member == null)
             throw new Exception(Messages.getString("USER_MANAGER_USER_NOT_LOADED"));
-        if (DataValidator.validateEmail(member.getEmail()) == DataErrors.EMAIL_FORMAT_INVALID)
+        if (!GenericValidator.isEmail(member.getEmail()))
             throw new Exception(Messages.getString(DataErrors.EMAIL_FORMAT_INVALID.getMessageKey()));
         if (hasActiveWebAccount)
             throw new Exception(Messages.getString(""));
