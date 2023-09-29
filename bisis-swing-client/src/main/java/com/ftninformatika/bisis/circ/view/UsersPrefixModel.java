@@ -3,11 +3,10 @@ package com.ftninformatika.bisis.circ.view;
 import com.ftninformatika.bisis.circ.common.UsersPrefix;
 import com.ftninformatika.utils.Messages;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.AbstractListModel;
 
 
 
@@ -38,7 +37,7 @@ public class UsersPrefixModel extends AbstractListModel<String> {
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.usercategory"), "userCategory.description", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.place"), "city", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.note"), "note", "members"));
-    prefixlist.add(new UsersPrefix(Messages.getString("circulation.organization"), "organization.name", "members"));
+    prefixlist.add(new UsersPrefix(Messages.getString("circulation.organization"), "organization.description", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.gender"), "gender", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.lastname"), "lastName", "members"));
     prefixlist.add(new UsersPrefix(Messages.getString("circulation.receipt"), "signings.receipt", "members"));

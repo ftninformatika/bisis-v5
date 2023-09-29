@@ -16,8 +16,8 @@ public class SearchModelMember extends SearchModel{
     /**
      * To escape regex special characters
      */
-    public static Set<String> PREDEFINED_VALUE_PREFIXES = Sets.newHashSet("educationLevel", "membershipType.description", "corporateMember.instName"
-            , "language", "userCategory.description", "organization.name", "educationLevel");
+    public static Set<String> PREDEFINED_VALUE_PREFIXES = Sets.newHashSet("educationLevel", "membershipType.description",
+            "corporateMember.instName","language", "userCategory.description", "organization.description");
     private String prefDate1;
     private String prefDate2;
 
