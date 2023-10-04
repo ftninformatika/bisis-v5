@@ -1,25 +1,24 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
-import com.ftninformatika.bisis.circ.pojo.Signing;
-import com.ftninformatika.bisis.core.repositories.*;
-import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.circ.Lending;
+import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.circ.pojo.UserCategory;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.opac.dto.MemberCardDTO;
 import com.ftninformatika.bisis.opac.dto.ProlongLendingResponseDTO;
 import com.ftninformatika.bisis.opac.dto.ShelfDto;
 import com.ftninformatika.bisis.opac.members.LibraryMember;
-import com.ftninformatika.bisis.circ.Member;
-import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.utils.LibraryPrefixProvider;
-import com.ftninformatika.bisis.rest_service.repository.mongo.*;
 import com.ftninformatika.bisis.reservations.service.impl.OpacReservationsService;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.utils.constants.ReservationsConstants;
 import com.ftninformatika.utils.date.DateUtils;
 import org.apache.log4j.Logger;
@@ -29,7 +28,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -129,9 +131,9 @@ public class LibraryMemberService {
             || !allPrefixes.contains(libraryMember.getLibraryPrefix()))
             return false;
         libraryPrefixProvider.setPrefix(libraryMember.getLibraryPrefix());
-        if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN)) {
-            return activateAdmin(libraryMember);
-        }
+//        if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN)) {
+//            return activateAdmin(libraryMember);
+//        }
         String hashedPass = BCrypt.hashpw(libraryMember.getPassword(), BCrypt.gensalt());
         Member member = memberRepository.findById(libraryMember.getIndex()).get();
         libraryMember.setPassword(hashedPass);

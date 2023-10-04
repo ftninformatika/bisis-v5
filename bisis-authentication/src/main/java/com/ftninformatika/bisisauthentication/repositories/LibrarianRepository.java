@@ -12,4 +12,6 @@ public interface LibrarianRepository extends MongoRepository<LibrarianDB, String
     Optional<LibrarianDB> findByUsername(String username);
 
     List<LibrarianDB> findByAuthoritiesIn(String[] roles);
+
+    Optional<LibrarianDB> findByEmailAndBiblioteka(String email, String biblioteka);
 }

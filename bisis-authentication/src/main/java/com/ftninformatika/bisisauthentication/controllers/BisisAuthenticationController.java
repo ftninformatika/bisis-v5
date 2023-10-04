@@ -2,6 +2,7 @@ package com.ftninformatika.bisisauthentication.controllers;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.Authority;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
@@ -171,24 +172,40 @@ public class BisisAuthenticationController {
             return null;
         prefixProvider.setPrefix(libraryMember.getLibraryPrefix());
         OpacMemberWrapper retVal = new OpacMemberWrapper();
-        if (libraryMember.getAuthorities().contains(Authority.ROLE_USER)) {
-            Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
-            if (member.isPresent()) retVal.setMember(member.get());
-            else return null;
+
+        Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
+        if (member.isPresent()) {
+            retVal.setMember(member.get());
+        } else {
+            return null;
         }
-        else if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN)) {
-            Optional<LibrarianDB> librarianDTO = librarianRepository.findById(libraryMember.getLibrarianIndex());
-            if (librarianDTO.isPresent()) {
-                Member tmpMem = new Member();
-                LibrarianDB librarian = librarianDTO.get();
-                tmpMem.setFirstName(librarian.getIme());
-                tmpMem.setLastName(librarian.getPrezime());
-                tmpMem.setAddress("");
-                tmpMem.setUserId("ADMIN");
-                retVal.setMember(tmpMem);
+
+        Optional<LibrarianDB> librarianDTO = librarianRepository.findByEmailAndBiblioteka(libraryMember.getUsername(), libraryMember.getLibraryPrefix());
+        if (librarianDTO.isPresent()) {
+            LibrarianDB librarian = librarianDTO.get();
+            if (librarian.getLibrarianRoles().contains(Librarian.Role.OPACADMIN)) {
+                libraryMember.getAuthorities().add(Authority.ROLE_ADMIN);
             }
-            else return null;
         }
+
+//        if (libraryMember.getAuthorities().contains(Authority.ROLE_USER)) {
+//            Optional<Member> member = memberRepository.findById(libraryMember.getIndex());
+//            if (member.isPresent()) retVal.setMember(member.get());
+//            else return null;
+//        }
+//        else if (libraryMember.getAuthorities().contains(Authority.ROLE_ADMIN)) {
+//            Optional<LibrarianDB> librarianDTO = librarianRepository.findById(libraryMember.getLibrarianIndex());
+//            if (librarianDTO.isPresent()) {
+//                Member tmpMem = new Member();
+//                LibrarianDB librarian = librarianDTO.get();
+//                tmpMem.setFirstName(librarian.getIme());
+//                tmpMem.setLastName(librarian.getPrezime());
+//                tmpMem.setAddress("");
+//                tmpMem.setUserId("ADMIN");
+//                retVal.setMember(tmpMem);
+//            }
+//            else return null;
+//        }
         libraryMember.setPassword(null);
         retVal.setLibraryMember(libraryMember);
         return retVal;
