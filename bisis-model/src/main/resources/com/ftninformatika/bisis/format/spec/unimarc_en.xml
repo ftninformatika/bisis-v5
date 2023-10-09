@@ -85,6 +85,11 @@
     <subfield name="y" description="Poništen ISSN" mandatory="false" repeatable="true" length="9"/>
     <subfield name="z" description="Pogrešan broj" mandatory="false" repeatable="true" length="9"/>
   </field>
+  <field name="012" description="FINGERPRINT IDENTIFIER" mandatory="false" repeatable="true" secondary="true">
+    <subfield name="a" description="Fingerprint" mandatory="false" repeatable="false" length="9"/>
+    <subfield name="2" description="Fingerprint System Code" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="5" description="Institution to which the Field Applies" mandatory="false" repeatable="false" length="0"/>
+  </field>
   <field name="017" description="Other standard identifaer" mandatory="false" repeatable="true" secondary="false">
 		<indicator index="1" description="Type of standard number or code" defaultValue="8">
 			<item code="7" value="Source Specified in Subfield $2"/>
@@ -3204,6 +3209,25 @@
     <subfield name="d" description="Rimski brojevi" mandatory="false" repeatable="false" length="0"/>
     <subfield name="f" description="Datumi" mandatory="false" repeatable="false" length="0"/>
   </field>
+  <field name="703" description="PERSONAL NAME – PROVENANCE OR OWNERSHIP" mandatory="false" repeatable="true" secondary="true">
+    <indicator index="2" description="Indikator za oblik imena" defaultValue="1">
+      <item code="0" value="Unosi se ime ili ime pa prezime"/>
+      <item code="1" value="Unosi se prezime pa ime"/>
+    </indicator>
+    <subfield name="4" description="Relator Code" mandatory="false" repeatable="true" length="3">
+      <coder external="true" type="3"/>
+    </subfield>
+    <subfield name="5" description="Institution to which the Field Applies" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="6" description="Podaci za međusobno povezivanje" mandatory="false" repeatable="false" length="2"/>
+    <subfield name="8" description="Šifra fakulteta" mandatory="false" repeatable="true" length="4"/>
+    <subfield name="9" description="Šifra VTO" mandatory="false" repeatable="false" length="4"/>
+    <subfield name="a" description="Entry Element" mandatory="true" repeatable="false" length="0"/>
+    <subfield name="b" description="Part of Name Other than Entry Element" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="c" description="Additions to Names Other than Dates" mandatory="false" repeatable="true" length="0"/>
+    <subfield name="d" description="Roman Numerals" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="e" description="Mesto zaposlenja" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="f" description="Dates" mandatory="false" repeatable="false" length="0"/>
+  </field>
   <field name="710" description="CORPORATE BODY NAME - PRIMARY INTELLECTUAL RESPONSIBILITY" mandatory="false" repeatable="false" secondary="true">
     <indicator index="1" description="Indikator za vrstu korporativnog tela">
       <item code="0" value="Naziv korporativnog dela"/>
@@ -3271,6 +3295,40 @@
     <subfield name="f" description="Godina sastanka" mandatory="false" repeatable="false" length="9"/>
     <subfield name="g" description="Invertovani elemenat" mandatory="false" repeatable="false" length="0"/>
     <subfield name="h" description="Deo naziva koji nije prvi elemenat unosa" mandatory="false" repeatable="true" length="0"/>
+  </field>
+  <field name="713" description="CORPORATE BODY NAME – PROVENANCE OR OWNERSHIP" mandatory="false" repeatable="false" secondary="true">
+    <indicator index="1" description="Indikator za vrstu korporativnog tela">
+      <item code="0" value="Naziv korporativnog dela"/>
+      <item code="1" value="Sastanak"/>
+    </indicator>
+    <indicator index="2" description="Indikator za način unosa korporativnog tela">
+      <item code="0" value="Premetnuti oblik naziva"/>
+      <item code="1" value="Naziv unešen pod sedištem ili jurisdikcijom"/>
+      <item code="2" value="Naziv unešen u izvornom redosledu"/>
+    </indicator>
+    <subfield name="4" description="Kod za vrstu autorstva" mandatory="false" repeatable="true" length="3">
+      <coder external="true" type="3"/>
+    </subfield>
+    <subfield name="5" description="Institution to which the Field Applies" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="a" description="Prvi elemenat unosa" mandatory="true" repeatable="false" length="0"/>
+    <subfield name="b" description="Pododrednica (ili naziv tela)" mandatory="false" repeatable="true" length="0"/>
+    <subfield name="c" description="Dodatak uz naziv ili dopuna" mandatory="false" repeatable="true" length="0"/>
+    <subfield name="d" description="Redni broj sastanka" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="e" description="Mesto sastanka" mandatory="false" repeatable="true" length="0"/>
+    <subfield name="f" description="Godina sastanka" mandatory="false" repeatable="false" length="9"/>
+    <subfield name="g" description="Invertovani elemenat" mandatory="false" repeatable="true" length="0"/>
+    <subfield name="h" description="Deo naz. koji nije prvi elem. unosa ni inv. elem." mandatory="false" repeatable="true" length="0"/>
+  </field>
+  <field name="723" description="FAMILY NAME – PROVENANCE OR OWNERSHIP" mandatory="false" repeatable="true" secondary="true">
+    <subfield name="3" description="Authority Record Number" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="4" description="Relator Code" mandatory="false" repeatable="true" length="3">
+      <coder external="true" type="3"/>
+    </subfield>
+    <subfield name="5" description="Institution to which the Field Applies" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="a" description="Entry Element" mandatory="true" repeatable="false" length="0"/>
+    <subfield name="c" description="Type of family" mandatory="false" repeatable="false" length="0"/>
+    <subfield name="d" description="Places associated with the family" mandatory="false" repeatable="true" length="0"/>
+    <subfield name="f" description="Dates" mandatory="false" repeatable="false" length="0"/>
   </field>
   <field name="856" description="Elektronska lokacija i pristup" mandatory="false" repeatable="true" secondary="true">
 		<indicator index="1" description="Metod pristupa" defaultValue="#">
