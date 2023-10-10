@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reservation" pageWidth="421" pageHeight="595" columnWidth="365" leftMargin="28" rightMargin="28" topMargin="20" bottomMargin="20" uuid="6fba326f-06a0-4703-b0ef-78fbc763885f">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -31,7 +31,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{biblioteka}]]></textFieldExpression>
 			</textField>
@@ -47,7 +47,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{adresa}]]></textFieldExpression>
 			</textField>
@@ -60,7 +60,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="12" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="12" pdfEncoding="Cp1250"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION")]]></textFieldExpression>
@@ -84,7 +84,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("INV_NUM") + ": " + $P{invBroj}]]></textFieldExpression>
 			</textField>
@@ -97,7 +97,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("TITLE") + ": " + $P{naslov}]]></textFieldExpression>
 			</textField>
@@ -113,7 +113,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION_CONF2")+": " + $P{rezervacijaVaziDo}]]></textFieldExpression>
 			</textField>
@@ -126,7 +126,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION_MEMBER") +": "+ $P{korisnik}]]></textFieldExpression>
 			</textField>
@@ -139,7 +139,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("MEMBER_PHONE") +": "+ $P{brojTelefonaKorisnika}]]></textFieldExpression>
 			</textField>
@@ -152,7 +152,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("RESERVATION_CONF1")+" " +DateFormat.getDateInstance().format(new java.util.Date())]]></textFieldExpression>
 			</textField>
@@ -175,7 +175,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{bibliotekar}]]></textFieldExpression>
 			</textField>
@@ -188,7 +188,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("REVERS_LIBRARAIAN")]]></textFieldExpression>
 			</textField>

@@ -8,4 +8,6 @@ public interface CircLocationRepository extends CoderRepository<CircLocation>{
 
 
     public List<CircLocation> findByLocationCodeAndLibrary(String location, String lib);
+    CircLocation getByDescriptionAndLibrary(String desc, String lib);
+
 }

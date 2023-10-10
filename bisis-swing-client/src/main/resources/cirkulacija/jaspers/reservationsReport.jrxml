@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reservationsReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="97511e85-cfab-4423-8fb7-af09e55dbc53">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter-json.xml"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
@@ -68,7 +68,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="DejaVu Sans" size="9"/>
+									<font fontName="SansSerif" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 							</textField>
@@ -85,7 +85,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="DejaVu Sans" size="9"/>
+									<font fontName="SansSerif" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{authors}.get(0)]]></textFieldExpression>
 							</textField>
@@ -101,7 +101,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="DejaVu Sans" size="9"/>
+									<font fontName="SansSerif" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 							</textField>
@@ -117,7 +117,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="DejaVu Sans" size="9"/>
+									<font fontName="SansSerif" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{publisher}]]></textFieldExpression>
 							</textField>
@@ -133,7 +133,9 @@
 									<bottomPen lineWidth="1.0"/>
 									<rightPen lineWidth="1.0"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{totalCount}]]></textFieldExpression>
 							</textField>
 							<textField>
@@ -148,7 +150,9 @@
 									<bottomPen lineWidth="1.0"/>
 									<rightPen lineWidth="1.0"/>
 								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="SansSerif"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{rn}]]></textFieldExpression>
 							</textField>
 						</jr:listContents>
@@ -166,7 +170,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+						<font fontName="SansSerif" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Наслов]]></text>
 				</staticText>
@@ -182,7 +186,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+						<font fontName="SansSerif" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Aутори]]></text>
 				</staticText>
@@ -199,7 +203,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+						<font fontName="SansSerif" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Издавач]]></text>
 				</staticText>
@@ -215,7 +219,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+						<font fontName="SansSerif" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Бр. рез.]]></text>
 				</staticText>
@@ -233,14 +237,14 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" isBold="true"/>
+						<font fontName="SansSerif" isBold="true"/>
 					</textElement>
 					<text><![CDATA[ ]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="0" y="0" width="480" height="20" uuid="217953cf-578b-4c89-a8b9-bc1e17063a18"/>
 					<textElement verticalAlignment="Bottom">
-						<font fontName="DejaVu Sans" isBold="true"/>
+						<font fontName="SansSerif" isBold="true"/>
 						<paragraph lineSpacing="1_1_2"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{reservationsGroupLocation}]]></textFieldExpression>
@@ -258,7 +262,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+						<font fontName="SansSerif" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[РН]]></text>
 				</staticText>
@@ -269,14 +273,14 @@
 				<staticText>
 					<reportElement x="455" y="2" width="70" height="20" uuid="18e1dbd8-ca12-4745-ba09-618cc10932eb"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+						<font fontName="SansSerif" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Укупно:]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="525" y="2" width="30" height="20" uuid="c8e4261d-4215-44e1-98f5-733e200585e3"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font isBold="true"/>
+						<font fontName="SansSerif" isBold="true"/>
 						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
@@ -310,14 +314,14 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="14" isBold="false"/>
+					<font fontName="SansSerif" size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="-1" y="0" width="220" height="20" uuid="e43a95e9-0147-4aee-994f-acde85d88041"/>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[Библиотека града Београда]]></text>
 			</staticText>

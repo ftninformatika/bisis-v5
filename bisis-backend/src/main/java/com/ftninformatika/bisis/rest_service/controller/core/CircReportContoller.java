@@ -39,7 +39,7 @@ public class CircReportContoller {
     RecordsRepository recordsRepository;
     @Autowired CorporateMemberRepository corporateMemberRepository;
     @Autowired
-    LocationRepository locationRepository;
+    CircLocationRepository circLocationRepository;
     @Autowired
     LibrarianRepository librarianRepository;
     @Autowired ElasticRecordsRepository elasticRecordsRepository;
@@ -825,11 +825,11 @@ public class CircReportContoller {
 
         retVal = corporateMemberRepository.getCoders(lib); //sifarnik - uzimamo iz RequestHeader-a biblioteku
         if (location != null && !location.equals("")) {
-            String locationCode = locationRepository.getByDescriptionAndLibrary(location, lib).getCoder_id(); //prosledjuje se description lokacije, pa da iscupamo kod
+            String locationCode = circLocationRepository.getByDescriptionAndLibrary(location, lib).getLocationCode(); //prosledjuje se description lokacije, pa da iscupamo kod
                                                                                                               //pretpostavka da ne postoji vise lokacija sa identicnim imenom unutar
                                                                                                               //jedne biblioteke
             retVal = retVal.stream()
-                    .filter(i -> i.getUserId() != null && i.getUserId().length() > 3 && i.getUserId().substring(0, 2).equals(locationCode))
+                    .filter(i -> i.getUserId() != null && i.getUserId().length() > 3 && i.getUserId().substring(0, locationCode.length()).equals(locationCode))
                     .collect(Collectors.toList());
         }
 
