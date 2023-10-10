@@ -21,6 +21,8 @@ import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,18 +83,19 @@ public class OpacSearchService {
 
         BoolQueryBuilder query = ElasticUtility.makeQuery(searchRequest.getSearchModel());
         //ne prikazuju zapise koji nemaju bar jedan primerak koji ima status showable:true
-//        QueryBuilder qb = ElasticUtility.buildQbForField("true", "show");
-//        query.must(qb);
+       QueryBuilder show = ElasticUtility.buildQbForField("true", "show");
+       BoolQueryBuilder queryWithShow = QueryBuilders.boolQuery();
+       queryWithShow.must(query).must(show);
 
         List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(lib);
         itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
 
         if (searchRequest.getOptions() != null && searchRequest.getOptions().getFilters() != null)
-            query = ElasticUtility.filterSearch(query, searchRequest.getOptions().getFilters(), itemStatusList);
+            queryWithShow = ElasticUtility.filterSearch(queryWithShow, searchRequest.getOptions().getFilters(), itemStatusList);
         Pageable p = new PageRequest(page, pSize);
 
         NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(query)
+                .withQuery(queryWithShow)
                 .withIndices(lib + "library_domain")
                 .withTypes("record")
                 .withPageable(p);

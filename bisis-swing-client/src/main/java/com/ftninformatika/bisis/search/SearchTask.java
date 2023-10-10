@@ -23,6 +23,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
  private String oper2;
  private String oper3;
  private String oper4;
+ private String oper5;
  private String text1;
  private String text2;
  private String text3;
@@ -51,7 +52,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 					String pref2, String oper2, String text2,
 					String pref3, String oper3, String text3,
 					String pref4, String oper4, String text4,
-					String pref5,  String text5, String sort,
+					String pref5,  String oper5, String text5, String sort,
 					SearchStatusDlg statusDlg, String locId) {
       this.type = SearchTaskType.MAIN_SEARCH;
 	  this.statusDlg=statusDlg;
@@ -64,7 +65,8 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	  this.oper2=oper2;
 	  this.oper3=oper3;
 	  this.oper4=oper4;
-	  this.text1=text1;
+      this.oper5=oper5;
+      this.text1=text1;
 	  this.text2=text2;
 	  this.text3=text3;
 	  this.text4=text4;
@@ -76,7 +78,7 @@ public class SearchTask extends SwingWorker<Integer, Integer> {
 	      departments = new ArrayList<>();
           departments.add(locId);
       }
-	  this.searchModel = new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,sort, departments, null);
+	  this.searchModel = new SearchModel(pref1,pref2,pref3,pref4,pref5,text1,text2,text3,text4,text5,oper1,oper2,oper3,oper4,oper5,sort, departments, null);
   }
   public SearchTask(String queryString, SearchStatusDlg statusDlg){
 	  this.statusDlg=statusDlg;

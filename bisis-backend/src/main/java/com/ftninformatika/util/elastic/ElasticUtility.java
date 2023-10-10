@@ -196,28 +196,27 @@ public class ElasticUtility {
             if (sm.getText1() != null && !"".equals(sm.getText1())) {
 
                 QueryBuilder qb = buildQbForField(sm.getText1(), sm.getPref1());
-                retVal.must(qb);
-//                if(qb!=null){
-//                if ("AND".equals(sm.getOper1()))
-//                    retVal.must(qb);
-//                if ("OR".equals(sm.getOper1())) {
-//                    retVal.should(qb);
-//                }
-//                if ("NOT".equals(sm.getOper1()))
-//                    retVal.mustNot(qb);
-//            }
+                if(qb!=null){
+                if ("AND".equals(sm.getOper1()))
+                    retVal.must(qb);
+                if ("OR".equals(sm.getOper1())) {
+                    retVal.should(qb);
+                }
+                if ("NOT".equals(sm.getOper1()))
+                    retVal.mustNot(qb);
+                }
             }
 
             if (sm.getText2() != null && !"".equals(sm.getText2())) {
 
                 QueryBuilder qb = buildQbForField(sm.getText2(), sm.getPref2());
                 if (qb != null) {
-                    if ("AND".equals(sm.getOper1()))
+                    if ("AND".equals(sm.getOper2()))
                         retVal.must(qb);
-                    if ("OR".equals(sm.getOper1())) {
+                    if ("OR".equals(sm.getOper2())) {
                         retVal.should(qb);
                     }
-                    if ("NOT".equals(sm.getOper1()))
+                    if ("NOT".equals(sm.getOper2()))
                         retVal.mustNot(qb);
                 }
             }
@@ -225,18 +224,6 @@ public class ElasticUtility {
             if (sm.getText3() != null && !"".equals(sm.getText3())) {
 
                 QueryBuilder qb = buildQbForField(sm.getText3(), sm.getPref3());
-                if (qb != null) {
-                    if ("AND".equals(sm.getOper2()))
-                        retVal.must(qb);
-                    if ("OR".equals(sm.getOper2()))
-                        retVal.should(qb);
-                    if ("NOT".equals(sm.getOper2()))
-                        retVal.mustNot(qb);
-                }
-            }
-            if (sm.getText4() != null && !"".equals(sm.getText4())) {
-
-                QueryBuilder qb = buildQbForField(sm.getText4(), sm.getPref4());
                 if (qb != null) {
                     if ("AND".equals(sm.getOper3()))
                         retVal.must(qb);
@@ -246,10 +233,9 @@ public class ElasticUtility {
                         retVal.mustNot(qb);
                 }
             }
+            if (sm.getText4() != null && !"".equals(sm.getText4())) {
 
-            if (sm.getText5() != null && !"".equals(sm.getText5())) {
-
-                QueryBuilder qb = buildQbForField(sm.getText5(), sm.getPref5());
+                QueryBuilder qb = buildQbForField(sm.getText4(), sm.getPref4());
                 if (qb != null) {
                     if ("AND".equals(sm.getOper4()))
                         retVal.must(qb);
@@ -259,7 +245,19 @@ public class ElasticUtility {
                         retVal.mustNot(qb);
                 }
             }
-//            retVal.minimumShouldMatch(1);
+
+            if (sm.getText5() != null && !"".equals(sm.getText5())) {
+
+                QueryBuilder qb = buildQbForField(sm.getText5(), sm.getPref5());
+                if (qb != null) {
+                    if ("AND".equals(sm.getOper5()))
+                        retVal.must(qb);
+                    if ("OR".equals(sm.getOper5()))
+                        retVal.should(qb);
+                    if ("NOT".equals(sm.getOper5()))
+                        retVal.mustNot(qb);
+                }
+            }
 
             if (sm.getDepartments() != null && sm.getDepartments().size() > 0) {
                 for (String dep : sm.getDepartments()) {

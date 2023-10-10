@@ -108,38 +108,42 @@ public class PrefixConverter {
     }
     indeksirajMetaPodatke(retVal,rec);
     List<Primerak> primerci = rec.getPrimerci();
-    List<Godina> godine = rec.getGodine();
-    if (primerci != null && primerci.size() > 0) {
-      for (int i = 0; i < primerci.size(); i++) {
-        Primerak p = primerci.get(i);
-        indeksirajPrimerak(retVal, p);
-        if (notShowableStatuses != null && p.getStatus() != null && notShowableStatuses.contains(p.getStatus())) {
-          numNotshowable++;
+  //  List<Godina> godine = rec.getGodine();
+    if (rec.getSubfields("001c").equals('m')) {
+      if (primerci != null && primerci.size() > 0) {
+        for (int i = 0; i < primerci.size(); i++) {
+          Primerak p = primerci.get(i);
+          indeksirajPrimerak(retVal, p);
+          if (notShowableStatuses != null && p.getStatus() != null && notShowableStatuses.contains(p.getStatus())) {
+            numNotshowable++;
+          }
         }
-      }
-      if (numNotshowable == primerci.size()) {
+        if (numNotshowable == primerci.size()) {
+          show = false;
+        }
+      } else {
         show = false;
       }
     }
-    if (godine != null && godine.size() > 0) {
-      for (int i = 0; i < godine.size(); i++) {
-        Godina g = godine.get(i);
-        indeksirajGodinu(retVal, g);
-        List<Sveska> sveske = g.getSveske();
-        if (sveske != null && sveske.size() > 0) {
-          for (int j = 0; j < sveske.size(); j++) {
-            Sveska s = sveske.get(j);
-            indeksirajSvesku(retVal, s);
-            if (notShowableStatuses != null && s.getStatus() != null && notShowableStatuses.contains(s.getStatus())) {
-              numNotshowable++;
-            }
-          }
-          if (numNotshowable == sveske.size()) {
-            show = false;
-          }
-        }
-      }
-    }
+//    if (godine != null && godine.size() > 0) {
+//      for (int i = 0; i < godine.size(); i++) {
+//        Godina g = godine.get(i);
+//        indeksirajGodinu(retVal, g);
+//        List<Sveska> sveske = g.getSveske();
+//        if (sveske != null && sveske.size() > 0) {
+//          for (int j = 0; j < sveske.size(); j++) {
+//            Sveska s = sveske.get(j);
+//            indeksirajSvesku(retVal, s);
+//            if (notShowableStatuses != null && s.getStatus() != null && notShowableStatuses.contains(s.getStatus())) {
+//              numNotshowable++;
+//            }
+//          }
+//          if (numNotshowable == sveske.size()) {
+//            show = false;
+//          }
+//        }
+//      }
+//    }
     if(show) {
       retVal.add(new PrefixValue("show", "true"));
     }else{

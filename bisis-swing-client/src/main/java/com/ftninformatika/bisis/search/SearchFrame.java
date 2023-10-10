@@ -55,6 +55,8 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
   private JComboBox<String> cbOper2 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
   private JComboBox<String> cbOper3 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
   private JComboBox<String> cbOper4 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+  private JComboBox<String> cbOper5 = new JComboBox<>(new String[] {"AND", "OR", "NOT"});
+
   private JButton btnSearch = new JButton(Messages.getString("SEARCH"));
   private JRadioButton rbLocalSearch = new JRadioButton(Messages.getString("SEARCH_LOCALE"));
   private JRadioButton rbNetSearch = new JRadioButton(Messages.getString("SEARCH_NET"));
@@ -110,10 +112,11 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
     add(btnPref4, "growx");
     add(tfPref4, "growx");
     add(btnCoder4, "");
-    add(cbOper4, "wrap");
+    add(cbOper4, "");
     add(btnPref5, "growx");
     add(tfPref5, "growx");
-    add(btnCoder5, "wrap");
+    add(btnCoder5, "");
+    add(cbOper5, "wrap");
 
     tfPref1.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
     tfPref2.setComponentPopupMenu(CCPUtil.getCCPPopupMenu());
@@ -451,7 +454,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
                                           btnPref2.getText(), cbOper2.getSelectedItem().toString(), text2,
                                           btnPref3.getText(), cbOper3.getSelectedItem().toString(), text3,
                                           btnPref4.getText(), cbOper4.getSelectedItem().toString(), text4,
-                                          btnPref5.getText(), text5, sortPrefix, statusDlg, locId);
+                                          btnPref5.getText(), cbOper5.getSelectedItem().toString(), text5, sortPrefix, statusDlg, locId);
 
   	 	statusDlg.addActionListener(task);
   	 	task.execute();
@@ -501,7 +504,7 @@ public class SearchFrame extends JInternalFrame /*implements XMLMessagingProcess
               ,btnPref3.getText(),btnPref4.getText(),btnPref5.getText(),
               text1,text2,text3,text4,text5
               ,cbOper1.getSelectedItem().toString(),cbOper2.getSelectedItem().toString()
-              ,cbOper3.getSelectedItem().toString(),cbOper4.getSelectedItem().toString(), null, null, null);
+              ,cbOper3.getSelectedItem().toString(),cbOper4.getSelectedItem().toString(),cbOper5.getSelectedItem().toString(), null, null, null);
       otherLibsSearch.setSearchModel(search);
       for (int i=0; i<checkList.getModel().getSize();i++) {
         CheckableItem ci = (CheckableItem) checkList.getModel().getElementAt(i);

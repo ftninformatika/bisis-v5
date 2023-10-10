@@ -34,6 +34,7 @@ public class SearchModel {
     private String oper2;
     private String oper3;
     private String oper4;
+    private String oper5;
     //sortiranje
     private String sort;
 
