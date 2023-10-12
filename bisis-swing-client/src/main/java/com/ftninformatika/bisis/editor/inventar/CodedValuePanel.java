@@ -1,26 +1,18 @@
 package com.ftninformatika.bisis.editor.inventar;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.text.MessageFormat;import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.swing.*;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.admin.coders.CodersHelper;
 import com.ftninformatika.bisis.format.UItem;
 import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class CodedValuePanel extends JPanel {
@@ -119,7 +111,7 @@ public class CodedValuePanel extends JPanel {
 		setLayout(layout);	
 		this.add(codeTxtFld, "grow");		
 		this.add(valueTxtFld,"grow");		
-		this.add(coderButton);	
+		this.add(coderButton);
 		coderButton.setToolTipText(Messages.getString("CODER"));
 		coderButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {

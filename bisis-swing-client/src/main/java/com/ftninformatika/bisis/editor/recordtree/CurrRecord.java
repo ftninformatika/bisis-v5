@@ -374,6 +374,15 @@ public class CurrRecord {
         return "";
     }
 
+    // vraca vrednost iz 675a
+    public static String getSigUdk675a() {
+        for (Field f : record.getFields("675")) {
+            if (f.getSubfield('a') != null && !f.getSubfield('a').getContent().equals(""))
+                return f.getSubfield('a').getContent();
+        }
+        return "";
+    }
+
     public static int brojPrimeraka() {
         return record.getPrimerci().size();
     }
