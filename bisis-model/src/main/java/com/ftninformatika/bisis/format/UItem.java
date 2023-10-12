@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.format;
 import com.ftninformatika.utils.string.LatCyrUtils;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 /**
  * Class UItem comment.
@@ -58,6 +59,10 @@ public class UItem implements Serializable {
 
   public String toJsonString() {
     return "{\ncode: '" + code + "' ,\nname: '" + LatCyrUtils.toCyrillic(value.substring(0, 1).toUpperCase() + value.substring(1)) +"'\n},\n";
+  }
+
+  public String getCodeLoverCase(){
+    return this.code.toLowerCase(Locale.ROOT);
   }
 
   private String code;
