@@ -137,16 +137,14 @@ public interface BisisService {
     @GET("librarians/getByLibrary")
     Call<List<LibrarianDB>> getAllLibrarinasInThisLibrary(@Query("library") String library);
 
-    @POST("librarians/update")
-//
-    Call<Boolean> createLibrarian(@Body LibrarianDB librarian);
+//    @POST("librarians/update")
+//    Call<Boolean> createLibrarian(@Body LibrarianDB librarian);
 
-    @POST("librarians/update")
+    @POST("librarians/save")
     Call<Boolean> updateLibrarian(@Body LibrarianDB librarian);
 
-    @POST("librarians/delete")
-//
-    Call<Boolean> deleteLibraian(@Body LibrarianDB librarian);
+//    @POST("librarians/delete")
+//    Call<Boolean> deleteLibraian(@Body LibrarianDB librarian);
 
 //process_types---------------------------------------------------------
     // sa servera se ucitavaju ProcessTypeDB objekti, a u aplikaciji se

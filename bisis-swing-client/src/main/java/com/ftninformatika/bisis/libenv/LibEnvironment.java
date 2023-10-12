@@ -6,22 +6,22 @@ import com.ftninformatika.bisis.librarian.Librarian;
 
 public class LibEnvironment {
 	
-	private static LibrarianFrame librariansFrame = new LibrarianFrame();
+	//private static LibrarianFrame librariansFrame = new LibrarianFrame();
 	private static ProcessTypeFrame processtypeFrame = new ProcessTypeFrame();
 	
 	
-	public static void showLibrariansFrame(){
-		try {
-      if (!librariansFrame.isVisible())
-      	librariansFrame.setVisible(true);
-      if (librariansFrame.isIcon())
-      	librariansFrame.setIcon(false);
-      if (!librariansFrame.isSelected())
-      	librariansFrame.setSelected(true);
-      librariansFrame.initializeForm();
-    } catch (Exception ex) {
-    }		
-	}
+//	public static void showLibrariansFrame(){
+//		try {
+//      if (!librariansFrame.isVisible())
+//      	librariansFrame.setVisible(true);
+//      if (librariansFrame.isIcon())
+//      	librariansFrame.setIcon(false);
+//      if (!librariansFrame.isSelected())
+//      	librariansFrame.setSelected(true);
+//      librariansFrame.initializeForm();
+//    } catch (Exception ex) {
+//    }
+//	}
 	
 	public static void showProcessTypesFrame(){
 		try {
@@ -41,7 +41,7 @@ public class LibEnvironment {
 	}
 	
 	static{
-		BisisApp.getMainFrame().insertFrame(librariansFrame);
+		//BisisApp.getMainFrame().insertFrame(librariansFrame);
 		BisisApp.getMainFrame().insertFrame(processtypeFrame);
 		
 	}

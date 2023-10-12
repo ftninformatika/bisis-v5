@@ -1,7 +1,5 @@
 package com.ftninformatika.bisis;
 
-import com.ftninformatika.bisis.admin.coders.CoderFrame;
-import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.config.TestConfig;
 import com.ftninformatika.bisis.editor.Obrada;
@@ -52,7 +50,7 @@ public class MainFrame extends JFrame {
     public void initialize(Librarian lib){
         statusnaLinija.setText(MessageFormat.format(Messages.getString("MAIN_LIBRARIAN.0"), BisisApp.appConfig.getLibrarian().getUsername()));
         if (lib.hasRole(Librarian.Role.ADMINISTRACIJA)){
-            desktop.add(getCountersFrame());
+            //desktop.add(getCountersFrame());
             desktop.add(getSearchAdvancedFrame());
         }
         if (lib.hasRole(Librarian.Role.CIRKULACIJA) && !lib.hasRole(Librarian.Role.ADMINISTRACIJA) && !lib.hasRole(Librarian.Role.OBRADA)){
@@ -119,22 +117,21 @@ public class MainFrame extends JFrame {
         rf.setVisible(true);
     }
 
-    private void shutdown() {
+    public void shutdown() {
         if (Obrada.isEditorClosable()) {
             searchFrame.closeSearchFrame();
-            Cirkulacija.getApp().close();
-            System.exit(0);
         }
+        Cirkulacija.getApp().close();
         System.exit(0);
     }
 
-    public void logOut() {
-        if (Obrada.isEditorClosable()) {
-            searchFrame.closeSearchFrame();
-            Cirkulacija.getApp().close();
-        }
-        BisisApp.clearForRestart();
-    }
+//    public void logOut() {
+//        if (Obrada.isEditorClosable()) {
+//            searchFrame.closeSearchFrame();
+//            Cirkulacija.getApp().close();
+//        }
+//        BisisApp.clearForRestart();
+//    }
 
     public SearchFrame getSearchFrame(){
         return searchFrame;
@@ -160,12 +157,12 @@ public class MainFrame extends JFrame {
         return reportChooserDlg;
     }
 
-    public CoderFrame getCountersFrame(){
-        if (countersFrame == null){
-            countersFrame = new CoderFrame(TableCatalog.getTable("Counters"));
-        }
-        return countersFrame;
-    }
+//    public CoderFrame getCountersFrame(){
+//        if (countersFrame == null){
+//            countersFrame = new CoderFrame(TableCatalog.getTable("Counters"));
+//        }
+//        return countersFrame;
+//    }
     public SearchAdvancedFrame getSearchAdvancedFrame(){
         if (searchAdvancedFrame == null){
             searchAdvancedFrame = new SearchAdvancedFrame();
@@ -191,7 +188,7 @@ public class MainFrame extends JFrame {
     private GrupniPrikazFrame brf=null;
 //    private BackupDlg backupDlg = null;
     private ReportChooserDlg reportChooserDlg = null;
-    private CoderFrame countersFrame = null;
+    //private CoderFrame countersFrame = null;
     private SearchAdvancedFrame searchAdvancedFrame= null;
     private JTextField statusnaLinija = null;
 

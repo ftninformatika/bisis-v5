@@ -1,8 +1,6 @@
 package com.ftninformatika.bisis;
 
 import com.ftninformatika.bisis.actions.*;
-import com.ftninformatika.bisis.admin.coders.CoderFrame;
-import com.ftninformatika.bisis.admin.coders.TableCatalog;
 import com.ftninformatika.bisis.admin.unlock.UnlockFrame;
 import com.ftninformatika.bisis.circ.options.OptionsMainFrame;
 import com.ftninformatika.bisis.circ.view.MmbrshipCoder;
@@ -99,23 +97,23 @@ public class MenuBuilder extends JMenuBar {
     private JMenuItem miMmbrship = null;
     private JMenuItem miWarnings = null;
     private JMenuItem miUnlock = null;
-    private CoderFrame userCategsFrame = null;
-    private CoderFrame mmbrTypesFrame = null;
-    private CoderFrame eduLvlFrame = null;
-    private CoderFrame languagesFrame = null;
-    private CoderFrame locationFrame = null;
-    private CoderFrame organizationFrame = null;
-    private CoderFrame placesFrame = null;
-    private CoderFrame warnCountersFrame = null;
-    private CoderFrame odeljenjaFrame = null;
-    private CoderFrame invKnjFrame = null;
-    private CoderFrame formatiFrame = null;
-    private CoderFrame statusPrimerkaFrame = null;
-    private CoderFrame povezFrame = null;
-    private CoderFrame podlokacijaFrame = null;
-    private CoderFrame nacinNabavkeFrame = null;
-    private CoderFrame intOznFrame = null;
-    private CoderFrame a992bFrame = null;
+//    private CoderFrame userCategsFrame = null;
+//    private CoderFrame mmbrTypesFrame = null;
+//    private CoderFrame eduLvlFrame = null;
+//    private CoderFrame languagesFrame = null;
+//    private CoderFrame locationFrame = null;
+//    private CoderFrame organizationFrame = null;
+//    private CoderFrame placesFrame = null;
+//    private CoderFrame warnCountersFrame = null;
+//    private CoderFrame odeljenjaFrame = null;
+//    private CoderFrame invKnjFrame = null;
+//    private CoderFrame formatiFrame = null;
+//    private CoderFrame statusPrimerkaFrame = null;
+//    private CoderFrame povezFrame = null;
+//    private CoderFrame podlokacijaFrame = null;
+//    private CoderFrame nacinNabavkeFrame = null;
+//    private CoderFrame intOznFrame = null;
+//    private CoderFrame a992bFrame = null;
     private MmbrshipCoder mmbrshipFrame = null;
     private WarningsFrame warningsFrame = null;
     private OptionsMainFrame optionsFrame = null;
@@ -378,8 +376,8 @@ public class MenuBuilder extends JMenuBar {
         if (mSistem == null) {
             mSistem = new JMenu();
             mSistem.setText(Messages.getString("MENU_SYSTEM"));
-            mSistem.add(getMLog());
-            mSistem.add(getMMonitor());
+            //mSistem.add(getMLog());
+            //mSistem.add(getMMonitor());
 //            mSistem.add(getMLogOut());
             mSistem.add(getMIzlaz());
         }
@@ -605,154 +603,154 @@ public class MenuBuilder extends JMenuBar {
           return onlineReport;
         }*/
 
-    private JMenu getMSifInv() {
-        if (mSifInv == null) {
-            mSifInv = new JMenu(Messages.getString("MENU_INV_CODERS"));
-            mSifInv.add(getMiOdeljenja());
-            mSifInv.add(getMiInvknj());
-            mSifInv.add(getMiFormati());
-            mSifInv.add(getMiStatus());
-            mSifInv.add(getMiPovez());
-            mSifInv.add(getMiPodlokacija());
-            mSifInv.add(getMiNacin());
-            mSifInv.add(getMiIntOzn());
-            mSifInv.add(getMi992b());
-        }
-        return mSifInv;
-    }
+//    private JMenu getMSifInv() {
+//        if (mSifInv == null) {
+//            mSifInv = new JMenu(Messages.getString("MENU_INV_CODERS"));
+//            mSifInv.add(getMiOdeljenja());
+//            mSifInv.add(getMiInvknj());
+//            mSifInv.add(getMiFormati());
+//            mSifInv.add(getMiStatus());
+//            mSifInv.add(getMiPovez());
+//            mSifInv.add(getMiPodlokacija());
+//            mSifInv.add(getMiNacin());
+//            mSifInv.add(getMiIntOzn());
+//            mSifInv.add(getMi992b());
+//        }
+//        return mSifInv;
+//    }
 
-    private JMenuItem getMiOdeljenja() {
-        if (miOdeljenja == null) {
-            miOdeljenja = new JMenuItem(Messages.getString("MENU_LOCATIONS"));
-            miOdeljenja.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getOdeljenjaFrame().setVisible(true);
-                }
-            });
-        }
-        return miOdeljenja;
-    }
+//    private JMenuItem getMiOdeljenja() {
+//        if (miOdeljenja == null) {
+//            miOdeljenja = new JMenuItem(Messages.getString("MENU_LOCATIONS"));
+//            miOdeljenja.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getOdeljenjaFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miOdeljenja;
+//    }
+//
+//    private JMenuItem getMiInvknj() {
+//        if (miInvknj == null) {
+//            miInvknj = new JMenuItem(Messages.getString("INV_BOOK"));
+//            miInvknj.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getInvKnjFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miInvknj;
+//    }
+//
+//    private JMenuItem getMiFormati() {
+//        if (miFormati == null) {
+//            miFormati = new JMenuItem(Messages.getString("MENU_FORMATS"));
+//            miFormati.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getFormatiFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miFormati;
+//    }
+//
+//    private JMenuItem getMiStatus() {
+//        if (miStatus == null) {
+//            miStatus = new JMenuItem(Messages.getString("MENU_ITEM_STATUS"));
+//            miStatus.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getStatusPrimerkaFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miStatus;
+//    }
+//
+//    private JMenuItem getMiPovez() {
+//        if (miPovez == null) {
+//            miPovez = new JMenuItem(Messages.getString("MENU_BINDING"));
+//            miPovez.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getPovezFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miPovez;
+//    }
+//
+//    private JMenuItem getMiPodlokacija() {
+//        if (miPodlokacija == null) {
+//            miPodlokacija = new JMenuItem(Messages.getString("MENU_SUBLOCATIONS"));
+//            miPodlokacija.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getPodlokacijaFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miPodlokacija;
+//    }
+//
+//    private JMenuItem getMiNacin() {
+//        if (miNacin == null) {
+//            miNacin = new JMenuItem(Messages.getString("MENU_ACQ_TYPE"));
+//            miNacin.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getNacinFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miNacin;
+//    }
+//
+//
+//    private JMenuItem getMiIntOzn() {
+//        if (miIntOzn == null) {
+//            miIntOzn = new JMenuItem(Messages.getString("INTERNAL_MARK"));
+//            miIntOzn.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getIntOznFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miIntOzn;
+//    }
+//
+//    private JMenuItem getMi992b() {
+//        if (mi992b == null) {
+//            mi992b = new JMenuItem(Messages.getString("MENU_ACTIONS"));
+//            mi992b.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getAkcija992bFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return mi992b;
+//    }
 
-    private JMenuItem getMiInvknj() {
-        if (miInvknj == null) {
-            miInvknj = new JMenuItem(Messages.getString("INV_BOOK"));
-            miInvknj.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getInvKnjFrame().setVisible(true);
-                }
-            });
-        }
-        return miInvknj;
-    }
+//    private JMenuItem getMiBrojaci() {
+//        if (miBrojaci == null) {
+//            miBrojaci = new JMenuItem(Messages.getString("MENU_COUNTERS"));
+//            miBrojaci.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    BisisApp.getMainFrame().getCountersFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miBrojaci;
+//    }
 
-    private JMenuItem getMiFormati() {
-        if (miFormati == null) {
-            miFormati = new JMenuItem(Messages.getString("MENU_FORMATS"));
-            miFormati.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getFormatiFrame().setVisible(true);
-                }
-            });
-        }
-        return miFormati;
-    }
-
-    private JMenuItem getMiStatus() {
-        if (miStatus == null) {
-            miStatus = new JMenuItem(Messages.getString("MENU_ITEM_STATUS"));
-            miStatus.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getStatusPrimerkaFrame().setVisible(true);
-                }
-            });
-        }
-        return miStatus;
-    }
-
-    private JMenuItem getMiPovez() {
-        if (miPovez == null) {
-            miPovez = new JMenuItem(Messages.getString("MENU_BINDING"));
-            miPovez.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getPovezFrame().setVisible(true);
-                }
-            });
-        }
-        return miPovez;
-    }
-
-    private JMenuItem getMiPodlokacija() {
-        if (miPodlokacija == null) {
-            miPodlokacija = new JMenuItem(Messages.getString("MENU_SUBLOCATIONS"));
-            miPodlokacija.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getPodlokacijaFrame().setVisible(true);
-                }
-            });
-        }
-        return miPodlokacija;
-    }
-
-    private JMenuItem getMiNacin() {
-        if (miNacin == null) {
-            miNacin = new JMenuItem(Messages.getString("MENU_ACQ_TYPE"));
-            miNacin.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getNacinFrame().setVisible(true);
-                }
-            });
-        }
-        return miNacin;
-    }
-
-
-    private JMenuItem getMiIntOzn() {
-        if (miIntOzn == null) {
-            miIntOzn = new JMenuItem(Messages.getString("INTERNAL_MARK"));
-            miIntOzn.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getIntOznFrame().setVisible(true);
-                }
-            });
-        }
-        return miIntOzn;
-    }
-
-    private JMenuItem getMi992b() {
-        if (mi992b == null) {
-            mi992b = new JMenuItem(Messages.getString("MENU_ACTIONS"));
-            mi992b.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getAkcija992bFrame().setVisible(true);
-                }
-            });
-        }
-        return mi992b;
-    }
-
-    private JMenuItem getMiBrojaci() {
-        if (miBrojaci == null) {
-            miBrojaci = new JMenuItem(Messages.getString("MENU_COUNTERS"));
-            miBrojaci.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().getCountersFrame().setVisible(true);
-                }
-            });
-        }
-        return miBrojaci;
-    }
-
-    private JMenuItem getMiBibliotekari() {
-        if (miBibliotekari == null) {
-            miBibliotekari = new JMenuItem(Messages.getString("MENU_LIBRARIANS"));
-            miBibliotekari.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    LibEnvironment.showLibrariansFrame();
-                }
-            });
-        }
-        return miBibliotekari;
-    }
+//    private JMenuItem getMiBibliotekari() {
+//        if (miBibliotekari == null) {
+//            miBibliotekari = new JMenuItem(Messages.getString("MENU_LIBRARIANS"));
+//            miBibliotekari.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    LibEnvironment.showLibrariansFrame();
+//                }
+//            });
+//        }
+//        return miBibliotekari;
+//    }
 
     private JMenuItem getMiTipoviObrade() {
         if (miTipoviObrade == null) {
@@ -772,164 +770,164 @@ public class MenuBuilder extends JMenuBar {
             mIzlaz = new JMenuItem(Messages.getString("MENU_EXIT"));
             mIzlaz.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    System.exit(0);
+                    BisisApp.getMainFrame().shutdown();
                 }
             });
         }
         return mIzlaz;
     }
 
-    private JMenuItem getMLogOut() {
-        if (mLogOut == null) {
-            mLogOut = new JMenuItem(Messages.getString("LOGOUT"));
-            mLogOut.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    BisisApp.getMainFrame().logOut();
-                }
-            });
-        }
-        return mLogOut;
-    }
+//    private JMenuItem getMLogOut() {
+//        if (mLogOut == null) {
+//            mLogOut = new JMenuItem(Messages.getString("LOGOUT"));
+//            mLogOut.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    BisisApp.getMainFrame().logOut();
+//                }
+//            });
+//        }
+//        return mLogOut;
+//    }
 
-    private JMenuItem getMLog() {
-        if (mLog == null) {
-            mLog = new JMenuItem(Messages.getString("MENU_LOG"));
-            //TODO
-        }
-        return mLog;
-    }
+//    private JMenuItem getMLog() {
+//        if (mLog == null) {
+//            mLog = new JMenuItem(Messages.getString("MENU_LOG"));
+//            //TODO
+//        }
+//        return mLog;
+//    }
 
-    private JMenuItem getMMonitor() {
-        if (mMonitor == null) {
-            mMonitor = new JMenuItem(new MonitorAction());
-            mMonitor.setText(Messages.getString("MENU_MONITOR"));
-        }
-        return mMonitor;
-    }
+//    private JMenuItem getMMonitor() {
+//        if (mMonitor == null) {
+//            mMonitor = new JMenuItem(new MonitorAction());
+//            mMonitor.setText(Messages.getString("MENU_MONITOR"));
+//        }
+//        return mMonitor;
+//    }
 
-    private JMenu getMSifCirc() {
-        if (mSifCirc == null) {
-            mSifCirc = new JMenu(Messages.getString("MENU_CIRC_CODERS"));
-            mSifCirc.add(getMiUserCategs());
-            mSifCirc.add(getMiMmbrTypes());
-            mSifCirc.add(getMiMmbrship());
-            mSifCirc.add(getMiEduLvl());
-            mSifCirc.add(getMiLanguages());
-            mSifCirc.add(getMiOrganization());
-            mSifCirc.add(getMiLocation());
-            mSifCirc.add(getMiPlaces());
-            mSifCirc.add(getMiWarnCounters());
-        }
-        return mSifCirc;
-    }
+//    private JMenu getMSifCirc() {
+//        if (mSifCirc == null) {
+//            mSifCirc = new JMenu(Messages.getString("MENU_CIRC_CODERS"));
+//            mSifCirc.add(getMiUserCategs());
+//            mSifCirc.add(getMiMmbrTypes());
+//            mSifCirc.add(getMiMmbrship());
+//            mSifCirc.add(getMiEduLvl());
+//            mSifCirc.add(getMiLanguages());
+//            mSifCirc.add(getMiOrganization());
+//            mSifCirc.add(getMiLocation());
+//            mSifCirc.add(getMiPlaces());
+//            mSifCirc.add(getMiWarnCounters());
+//        }
+//        return mSifCirc;
+//    }
 
-    private JMenuItem getMiUserCategs() {
-        if (miUserCategs == null) {
-            miUserCategs = new JMenuItem(Messages.getString("MENU_USER_CATEGS"));
-            miUserCategs.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getUserCategsFrame().setVisible(true);
-                }
-            });
-        }
-        return miUserCategs;
-    }
+//    private JMenuItem getMiUserCategs() {
+//        if (miUserCategs == null) {
+//            miUserCategs = new JMenuItem(Messages.getString("MENU_USER_CATEGS"));
+//            miUserCategs.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getUserCategsFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miUserCategs;
+//    }
+//
+//    private JMenuItem getMiMmbrTypes() {
+//        if (miMmbrTypes == null) {
+//            miMmbrTypes = new JMenuItem(Messages.getString("MENU_MMBR_TYPES"));
+//            miMmbrTypes.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getMmbrTypesFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miMmbrTypes;
+//    }
+//
+//    private JMenuItem getMiEduLvl() {
+//        if (miEduLvl == null) {
+//            miEduLvl = new JMenuItem(Messages.getString("MENU_EDU_LVL"));
+//            miEduLvl.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getEduLvlFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miEduLvl;
+//    }
+//
+//    private JMenuItem getMiLanguages() {
+//        if (miLanguages == null) {
+//            miLanguages = new JMenuItem(Messages.getString("MENU_LANG"));
+//            miLanguages.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getLanguagesFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miLanguages;
+//    }
+//
+//    private JMenuItem getMiOrganization() {
+//        if (miOrganization == null) {
+//            miOrganization = new JMenuItem(Messages.getString("MENU_ORGANIZATION"));
+//            miOrganization.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getOrganizationFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miOrganization;
+//    }
+//
+//    private JMenuItem getMiLocation() {
+//        if (miLocation == null) {
+//            miLocation = new JMenuItem(Messages.getString("MENU_LOCATIONS"));
+//            miLocation.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getLocationFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miLocation;
+//    }
+//
+//    private JMenuItem getMiPlaces() {
+//        if (miPlaces == null) {
+//            miPlaces = new JMenuItem(Messages.getString("MENU_PLACES"));
+//            miPlaces.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getPlacesFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miPlaces;
+//    }
+//
+//    private JMenuItem getMiWarnCounters() {
+//        if (miWarnCounters == null) {
+//            miWarnCounters = new JMenuItem(Messages.getString("MENU_WARN_COUNTERS"));
+//            miWarnCounters.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getWarnCountersFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miWarnCounters;
+//    }
 
-    private JMenuItem getMiMmbrTypes() {
-        if (miMmbrTypes == null) {
-            miMmbrTypes = new JMenuItem(Messages.getString("MENU_MMBR_TYPES"));
-            miMmbrTypes.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getMmbrTypesFrame().setVisible(true);
-                }
-            });
-        }
-        return miMmbrTypes;
-    }
-
-    private JMenuItem getMiEduLvl() {
-        if (miEduLvl == null) {
-            miEduLvl = new JMenuItem(Messages.getString("MENU_EDU_LVL"));
-            miEduLvl.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getEduLvlFrame().setVisible(true);
-                }
-            });
-        }
-        return miEduLvl;
-    }
-
-    private JMenuItem getMiLanguages() {
-        if (miLanguages == null) {
-            miLanguages = new JMenuItem(Messages.getString("MENU_LANG"));
-            miLanguages.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getLanguagesFrame().setVisible(true);
-                }
-            });
-        }
-        return miLanguages;
-    }
-
-    private JMenuItem getMiOrganization() {
-        if (miOrganization == null) {
-            miOrganization = new JMenuItem(Messages.getString("MENU_ORGANIZATION"));
-            miOrganization.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getOrganizationFrame().setVisible(true);
-                }
-            });
-        }
-        return miOrganization;
-    }
-
-    private JMenuItem getMiLocation() {
-        if (miLocation == null) {
-            miLocation = new JMenuItem(Messages.getString("MENU_LOCATIONS"));
-            miLocation.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getLocationFrame().setVisible(true);
-                }
-            });
-        }
-        return miLocation;
-    }
-
-    private JMenuItem getMiPlaces() {
-        if (miPlaces == null) {
-            miPlaces = new JMenuItem(Messages.getString("MENU_PLACES"));
-            miPlaces.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getPlacesFrame().setVisible(true);
-                }
-            });
-        }
-        return miPlaces;
-    }
-
-    private JMenuItem getMiWarnCounters() {
-        if (miWarnCounters == null) {
-            miWarnCounters = new JMenuItem(Messages.getString("MENU_WARN_COUNTERS"));
-            miWarnCounters.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getWarnCountersFrame().setVisible(true);
-                }
-            });
-        }
-        return miWarnCounters;
-    }
-
-    private JMenuItem getMiMmbrship() {
-        if (miMmbrship == null) {
-            miMmbrship = new JMenuItem(Messages.getString("MENU_FEE"));
-            miMmbrship.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    getMmbrshipFrame().setVisible(true);
-                }
-            });
-        }
-        return miMmbrship;
-    }
+//    private JMenuItem getMiMmbrship() {
+//        if (miMmbrship == null) {
+//            miMmbrship = new JMenuItem(Messages.getString("MENU_FEE"));
+//            miMmbrship.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    getMmbrshipFrame().setVisible(true);
+//                }
+//            });
+//        }
+//        return miMmbrship;
+//    }
 
     private JMenuItem getMiWarnings() {
         if (miWarnings == null) {
@@ -943,77 +941,77 @@ public class MenuBuilder extends JMenuBar {
         return miWarnings;
     }
 
-    public CoderFrame getUserCategsFrame() {
-        if (userCategsFrame == null) {
-            userCategsFrame = new CoderFrame(TableCatalog.getTable("user_categs"));
-            BisisApp.getMainFrame().insertFrame(userCategsFrame);
-        }
-        return userCategsFrame;
-    }
-
-    public CoderFrame getMmbrTypesFrame() {
-        if (mmbrTypesFrame == null) {
-            mmbrTypesFrame = new CoderFrame(TableCatalog.getTable("mmbr_types"));
-            BisisApp.getMainFrame().insertFrame(mmbrTypesFrame);
-        }
-        return mmbrTypesFrame;
-    }
-
-    public CoderFrame getEduLvlFrame() {
-        if (eduLvlFrame == null) {
-            eduLvlFrame = new CoderFrame(TableCatalog.getTable("edu_lvl"));
-            BisisApp.getMainFrame().insertFrame(eduLvlFrame);
-        }
-        return eduLvlFrame;
-    }
-
-    public CoderFrame getLanguagesFrame() {
-        if (languagesFrame == null) {
-            languagesFrame = new CoderFrame(TableCatalog.getTable("languages"));
-            BisisApp.getMainFrame().insertFrame(languagesFrame);
-        }
-        return languagesFrame;
-    }
-
-    public CoderFrame getOrganizationFrame() {
-        if (organizationFrame == null) {
-            organizationFrame = new CoderFrame(TableCatalog.getTable("organization"));
-            BisisApp.getMainFrame().insertFrame(organizationFrame);
-        }
-        return organizationFrame;
-    }
-
-    public CoderFrame getLocationFrame() {
-        if (locationFrame == null) {
-            locationFrame = new CoderFrame(TableCatalog.getTable("location"));
-            BisisApp.getMainFrame().insertFrame(locationFrame);
-        }
-        return locationFrame;
-    }
-
-    public CoderFrame getPlacesFrame() {
-        if (placesFrame == null) {
-            placesFrame = new CoderFrame(TableCatalog.getTable("places"));
-            BisisApp.getMainFrame().insertFrame(placesFrame);
-        }
-        return placesFrame;
-    }
-
-    public CoderFrame getWarnCountersFrame() {
-        if (warnCountersFrame == null) {
-            warnCountersFrame = new CoderFrame(TableCatalog.getTable("warn_counters"));
-            BisisApp.getMainFrame().insertFrame(warnCountersFrame);
-        }
-        return warnCountersFrame;
-    }
-
-    public MmbrshipCoder getMmbrshipFrame() {
-        if (mmbrshipFrame == null) {
-            mmbrshipFrame = new MmbrshipCoder();
-            BisisApp.getMainFrame().insertFrame(mmbrshipFrame);
-        }
-        return mmbrshipFrame;
-    }
+//    public CoderFrame getUserCategsFrame() {
+//        if (userCategsFrame == null) {
+//            userCategsFrame = new CoderFrame(TableCatalog.getTable("user_categs"));
+//            BisisApp.getMainFrame().insertFrame(userCategsFrame);
+//        }
+//        return userCategsFrame;
+//    }
+//
+//    public CoderFrame getMmbrTypesFrame() {
+//        if (mmbrTypesFrame == null) {
+//            mmbrTypesFrame = new CoderFrame(TableCatalog.getTable("mmbr_types"));
+//            BisisApp.getMainFrame().insertFrame(mmbrTypesFrame);
+//        }
+//        return mmbrTypesFrame;
+//    }
+//
+//    public CoderFrame getEduLvlFrame() {
+//        if (eduLvlFrame == null) {
+//            eduLvlFrame = new CoderFrame(TableCatalog.getTable("edu_lvl"));
+//            BisisApp.getMainFrame().insertFrame(eduLvlFrame);
+//        }
+//        return eduLvlFrame;
+//    }
+//
+//    public CoderFrame getLanguagesFrame() {
+//        if (languagesFrame == null) {
+//            languagesFrame = new CoderFrame(TableCatalog.getTable("languages"));
+//            BisisApp.getMainFrame().insertFrame(languagesFrame);
+//        }
+//        return languagesFrame;
+//    }
+//
+//    public CoderFrame getOrganizationFrame() {
+//        if (organizationFrame == null) {
+//            organizationFrame = new CoderFrame(TableCatalog.getTable("organization"));
+//            BisisApp.getMainFrame().insertFrame(organizationFrame);
+//        }
+//        return organizationFrame;
+//    }
+//
+//    public CoderFrame getLocationFrame() {
+//        if (locationFrame == null) {
+//            locationFrame = new CoderFrame(TableCatalog.getTable("location"));
+//            BisisApp.getMainFrame().insertFrame(locationFrame);
+//        }
+//        return locationFrame;
+//    }
+//
+//    public CoderFrame getPlacesFrame() {
+//        if (placesFrame == null) {
+//            placesFrame = new CoderFrame(TableCatalog.getTable("places"));
+//            BisisApp.getMainFrame().insertFrame(placesFrame);
+//        }
+//        return placesFrame;
+//    }
+//
+//    public CoderFrame getWarnCountersFrame() {
+//        if (warnCountersFrame == null) {
+//            warnCountersFrame = new CoderFrame(TableCatalog.getTable("warn_counters"));
+//            BisisApp.getMainFrame().insertFrame(warnCountersFrame);
+//        }
+//        return warnCountersFrame;
+//    }
+//
+//    public MmbrshipCoder getMmbrshipFrame() {
+//        if (mmbrshipFrame == null) {
+//            mmbrshipFrame = new MmbrshipCoder();
+//            BisisApp.getMainFrame().insertFrame(mmbrshipFrame);
+//        }
+//        return mmbrshipFrame;
+//    }
 
     public WarningsFrame getWarningsFrame() {
         if (warningsFrame == null) {
@@ -1047,76 +1045,76 @@ public class MenuBuilder extends JMenuBar {
         return unlockFrame;
     }
 
-    private CoderFrame getOdeljenjaFrame() {
-        if (odeljenjaFrame == null) {
-            odeljenjaFrame = new CoderFrame(TableCatalog.getTable("Odeljenje"));
-            BisisApp.getMainFrame().insertFrame(odeljenjaFrame);
-        }
-        return odeljenjaFrame;
-    }
-
-    private CoderFrame getInvKnjFrame() {
-        if (invKnjFrame == null) {
-            invKnjFrame = new CoderFrame(TableCatalog.getTable("Invknj"));
-            BisisApp.getMainFrame().insertFrame(invKnjFrame);
-        }
-        return invKnjFrame;
-    }
-
-    private CoderFrame getFormatiFrame() {
-        if (formatiFrame == null) {
-            formatiFrame = new CoderFrame(TableCatalog.getTable("SigFormat"));
-            BisisApp.getMainFrame().insertFrame(formatiFrame);
-        }
-        return formatiFrame;
-    }
-
-    private CoderFrame getStatusPrimerkaFrame() {
-        if (statusPrimerkaFrame == null) {
-            statusPrimerkaFrame = new CoderFrame(TableCatalog.getTable("Status_Primerka"));
-            BisisApp.getMainFrame().insertFrame(statusPrimerkaFrame);
-        }
-        return statusPrimerkaFrame;
-    }
-
-    private CoderFrame getPovezFrame() {
-        if (povezFrame == null) {
-            povezFrame = new CoderFrame(TableCatalog.getTable("Povez"));
-            BisisApp.getMainFrame().insertFrame(povezFrame);
-        }
-        return povezFrame;
-    }
-
-    private CoderFrame getPodlokacijaFrame() {
-        if (podlokacijaFrame == null) {
-            podlokacijaFrame = new CoderFrame(TableCatalog.getTable("Podlokacija"));
-            BisisApp.getMainFrame().insertFrame(podlokacijaFrame);
-        }
-        return podlokacijaFrame;
-    }
-
-    private CoderFrame getNacinFrame() {
-        if (nacinNabavkeFrame == null) {
-            nacinNabavkeFrame = new CoderFrame(TableCatalog.getTable("Nacin_nabavke"));
-            BisisApp.getMainFrame().insertFrame(nacinNabavkeFrame);
-        }
-        return nacinNabavkeFrame;
-    }
-
-    private CoderFrame getIntOznFrame() {
-        if (intOznFrame == null) {
-            intOznFrame = new CoderFrame(TableCatalog.getTable("Interna_oznaka"));
-            BisisApp.getMainFrame().insertFrame(intOznFrame);
-        }
-        return intOznFrame;
-    }
-
-    private CoderFrame getAkcija992bFrame() {
-        if (a992bFrame == null) {
-            a992bFrame = new CoderFrame(TableCatalog.getTable("Task"));
-            BisisApp.getMainFrame().insertFrame(a992bFrame);
-        }
-        return a992bFrame;
-    }
+//    private CoderFrame getOdeljenjaFrame() {
+//        if (odeljenjaFrame == null) {
+//            odeljenjaFrame = new CoderFrame(TableCatalog.getTable("Odeljenje"));
+//            BisisApp.getMainFrame().insertFrame(odeljenjaFrame);
+//        }
+//        return odeljenjaFrame;
+//    }
+//
+//    private CoderFrame getInvKnjFrame() {
+//        if (invKnjFrame == null) {
+//            invKnjFrame = new CoderFrame(TableCatalog.getTable("Invknj"));
+//            BisisApp.getMainFrame().insertFrame(invKnjFrame);
+//        }
+//        return invKnjFrame;
+//    }
+//
+//    private CoderFrame getFormatiFrame() {
+//        if (formatiFrame == null) {
+//            formatiFrame = new CoderFrame(TableCatalog.getTable("SigFormat"));
+//            BisisApp.getMainFrame().insertFrame(formatiFrame);
+//        }
+//        return formatiFrame;
+//    }
+//
+//    private CoderFrame getStatusPrimerkaFrame() {
+//        if (statusPrimerkaFrame == null) {
+//            statusPrimerkaFrame = new CoderFrame(TableCatalog.getTable("Status_Primerka"));
+//            BisisApp.getMainFrame().insertFrame(statusPrimerkaFrame);
+//        }
+//        return statusPrimerkaFrame;
+//    }
+//
+//    private CoderFrame getPovezFrame() {
+//        if (povezFrame == null) {
+//            povezFrame = new CoderFrame(TableCatalog.getTable("Povez"));
+//            BisisApp.getMainFrame().insertFrame(povezFrame);
+//        }
+//        return povezFrame;
+//    }
+//
+//    private CoderFrame getPodlokacijaFrame() {
+//        if (podlokacijaFrame == null) {
+//            podlokacijaFrame = new CoderFrame(TableCatalog.getTable("Podlokacija"));
+//            BisisApp.getMainFrame().insertFrame(podlokacijaFrame);
+//        }
+//        return podlokacijaFrame;
+//    }
+//
+//    private CoderFrame getNacinFrame() {
+//        if (nacinNabavkeFrame == null) {
+//            nacinNabavkeFrame = new CoderFrame(TableCatalog.getTable("Nacin_nabavke"));
+//            BisisApp.getMainFrame().insertFrame(nacinNabavkeFrame);
+//        }
+//        return nacinNabavkeFrame;
+//    }
+//
+//    private CoderFrame getIntOznFrame() {
+//        if (intOznFrame == null) {
+//            intOznFrame = new CoderFrame(TableCatalog.getTable("Interna_oznaka"));
+//            BisisApp.getMainFrame().insertFrame(intOznFrame);
+//        }
+//        return intOznFrame;
+//    }
+//
+//    private CoderFrame getAkcija992bFrame() {
+//        if (a992bFrame == null) {
+//            a992bFrame = new CoderFrame(TableCatalog.getTable("Task"));
+//            BisisApp.getMainFrame().insertFrame(a992bFrame);
+//        }
+//        return a992bFrame;
+//    }
 
 }
