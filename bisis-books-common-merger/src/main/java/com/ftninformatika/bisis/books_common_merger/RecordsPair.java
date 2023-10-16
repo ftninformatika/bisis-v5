@@ -3,12 +3,12 @@ package com.ftninformatika.bisis.books_common_merger;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac.books.BookCommon;
-import com.ftninformatika.bisis.records.Field;
-import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.opac.controller.BookCommonController;
 import com.ftninformatika.bisis.opac.controller.BookCoverController;
+import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.utils.BookCommonHelper;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,9 +45,10 @@ class RecordsPair {
     boolean pairBookCommonWithSelectedLib(BookCommon bookCommon, String[] libPrefixes) {
         if (libPrefixes != null && libPrefixes.length == 1 && libPrefixes[0].equals("all")) {
             libPrefixes = LIB_PREFIXES;
+            // TODO all libs
         }
         boolean isPaired = false;
-        List<String> isbnPairs = generateIsbnPair(bookCommon.getIsbn());
+        List<String> isbnPairs = BookCommonHelper.generateIsbnPair(bookCommon.getIsbn());
         if (isbnPairs == null || libPrefixes == null) {
             log.warn("ISBN invalid: " + (bookCommon.getIsbn() == null ? "null" : bookCommon.getIsbn()));
             System.out.println("ISBN invalid: " + (bookCommon.getIsbn() == null ? "null" : bookCommon.getIsbn()));
@@ -57,7 +58,8 @@ class RecordsPair {
         for (String libPref: libPrefixes) {
             LibraryPrefixProvider.setPrefix(libPref);
             for (String isbn: isbnPairs) {
-                SearchModel query = generateIsbnSearchModel(isbn);
+                // TODO
+                SearchModel query = BookCommonHelper.generateIsbnSearchModel(isbn);
                 List<Record> records = searchRecords(query);
                 if (records == null) {
                     log.info("No records in library: " + libPref + " for ISBN: " + isbn);
@@ -66,7 +68,8 @@ class RecordsPair {
                 }
                 List<Record> toRemove = new ArrayList<>();
                 for (Record r: records) {
-                    if (!checkIf1st010FieldisIsbn(r, isbn)) {
+                    // TODO
+                    if (!BookCommonHelper.checkIf1st010FieldisIsbn(r, isbn)) {
                         toRemove.add(r);
                     }
                 }
@@ -119,100 +122,5 @@ class RecordsPair {
         if (!responseRecords.getStatusCode().equals(HttpStatus.OK)
         || responseRecords.getBody() == null || responseRecords.getBody().size() == 0) return null;
         return responseRecords.getBody();
-    }
-
-    private SearchModel generateIsbnSearchModel(String isbn) {
-        SearchModel searchModel = new SearchModel();
-        searchModel.setPref1("BN");
-        searchModel.setText1(isbn);
-        searchModel.setOper1("AND");
-        searchModel.setPref2("");
-        searchModel.setText2("");
-        searchModel.setOper2("AND");
-        searchModel.setPref3("");
-        searchModel.setText3("");
-        searchModel.setOper3("AND");
-        searchModel.setPref4("");
-        searchModel.setText4("");
-        searchModel.setOper4("AND");
-        searchModel.setPref5("");
-        searchModel.setText5("");
-        return searchModel;
-    }
-
-    /**
-     * Proverava da li je prvi 010a zapravo ISBN koji je pronasao (drugi se koristi za izdavacku delatnost - BGB)
-     * Poziva se ako postoji vise 010polja prisutnih
-     */
-    private boolean checkIf1st010FieldisIsbn(Record record, String isbn) {
-        List<Field> _010Fields = record.getFields("010");
-        isbn = isbn.replace("-", "").replace(" ", "").replace("978", "");
-        if (_010Fields.size() >= 2) {
-            String _1stIsbn = _010Fields.get(0).getSubfieldContent('a');
-            if (_1stIsbn != null) {
-                _1stIsbn = _1stIsbn.replace("-", "").replace(" ", "");
-                return _1stIsbn.indexOf(isbn) > 0;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Neki isbn su uneti u formatu [10] a neki u formatu [13]
-     * pretragu vrsimo za obe varijante jer referenciraju isti zapis
-     */
-    private List<String> generateIsbnPair(String isbn) {
-       List<String> isbnPair = new ArrayList<>();
-        if (!validateIsbn(isbn)) return null;
-        isbnPair.add(isbn);
-        String isbnSecFormat;
-        if (!validateIsbn10(isbn)) {
-            isbnSecFormat = isbn.substring(3).replaceAll("-", "").trim();
-            isbnPair.add(isbnSecFormat);
-            return isbnPair;
-        }
-        if (!validateIsbn13(isbn)) {
-            isbnSecFormat = 978 + isbn.replaceAll("-", "").trim();
-            isbnPair.add(isbnSecFormat);
-            return isbnPair;
-        }
-        return isbnPair;
-    }
-
-    private boolean validateIsbn(String isbn) {
-        return  validateIsbn10(isbn) || validateIsbn13(isbn);
-    }
-
-    private boolean validateIsbn10(String isbn) {
-        if (isbn == null) {
-            return false;
-        }
-        isbn = isbn.replaceAll( "-", "" ).trim().replace(" ", "");
-        if (isbn.length() != 10) {
-            return false;
-        }
-        try {
-            Double.parseDouble(isbn.substring(0, 9));
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-    }
-
-    private boolean validateIsbn13(String isbn) {
-        if ( isbn == null ) {
-            return false;
-        }
-        isbn = isbn.replaceAll( "-", "" ).trim().replace(" ", "");
-        if (isbn.length() != 13) {
-            return false;
-        }
-        try {
-            Double.parseDouble(isbn.substring(0, 12));
-            return true;
-        }
-        catch (NumberFormatException nfe) {
-            return false;
-        }
     }
 }

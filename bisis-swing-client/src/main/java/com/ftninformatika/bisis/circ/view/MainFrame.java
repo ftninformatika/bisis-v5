@@ -1,33 +1,23 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.ecard.ElCardInfo;
-import com.ftninformatika.bisis.ecard.ElCardReader;
-import com.ftninformatika.utils.Messages;
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.actions.*;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.validator.Validator;
+import com.ftninformatika.bisis.ecard.ElCardInfo;
+import com.ftninformatika.bisis.ecard.ElCardReader;
+import com.ftninformatika.utils.Messages;
 import org.apache.log4j.Logger;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import java.awt.CardLayout;
+import javax.swing.*;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Stack;
-
-import javax.swing.Box;
-import javax.swing.JInternalFrame;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
 
 public class MainFrame extends JInternalFrame {
 
@@ -82,7 +72,7 @@ public class MainFrame extends JInternalFrame {
             }
         });
         this.setContentPane(getJContentPane());
-        Dimension screen = getToolkit().getScreenSize();
+        Dimension screen = BisisApp.getMainFrame().getDesktop().getSize();//getToolkit().getScreenSize();
         this.setLocation((screen.width - getSize().width) / 2,
                 (screen.height - getSize().height) / 2);
         this.pack();

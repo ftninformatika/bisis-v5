@@ -75,7 +75,7 @@ public class BookCollectionService {
         if (bc.getRecordsIds().contains(addToCollectionDTO.getRecordId()) || bc.getRecordsIds().size() >= 30)
             return false;
         if (bc.getRecordsIds() == null) bc.setRecordsIds(new ArrayList<>());
-        bc.getRecordsIds().add(addToCollectionDTO.getRecordId());
+        bc.getRecordsIds().add(0, addToCollectionDTO.getRecordId());
         bookCollectionRepository.save(bc);
         return true;
     }

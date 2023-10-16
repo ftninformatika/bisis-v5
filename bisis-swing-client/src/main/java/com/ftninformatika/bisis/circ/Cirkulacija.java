@@ -1,23 +1,21 @@
 package com.ftninformatika.bisis.circ;
 
-import com.ftninformatika.bisis.circ.manager.ReservationsManager;
-import com.ftninformatika.utils.Messages;
-import java.beans.PropertyVetoException;
-
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.common.Utils;
 import com.ftninformatika.bisis.circ.manager.RecordsManager;
+import com.ftninformatika.bisis.circ.manager.ReservationsManager;
 import com.ftninformatika.bisis.circ.manager.SearchUsersManager;
 import com.ftninformatika.bisis.circ.manager.UserManager;
 import com.ftninformatika.bisis.circ.view.MainFrame;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.login.SplashScreen;
+import com.ftninformatika.utils.Messages;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticTheme;
 import org.apache.log4j.Logger;
+
+import javax.swing.*;
+import java.beans.PropertyVetoException;
 
 public class Cirkulacija {
 
@@ -84,6 +82,8 @@ public class Cirkulacija {
             System.exit(0);
         }
         env = new Environment(usermng.getEnvFile());
+        System.out.println("MAC address: " + env.getMac());
+        log.info("MAC address: " + env.getMac());
         int i = env.loadOptions();
         if (i == 1) {
             if (!env.getLookAndFeel().equals("default")) {

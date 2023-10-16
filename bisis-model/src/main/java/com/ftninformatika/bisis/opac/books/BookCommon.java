@@ -28,4 +28,5 @@ public class BookCommon {
     private String issn;
     private String imageUrl;
     private String description;
+    private String record_id;
 }

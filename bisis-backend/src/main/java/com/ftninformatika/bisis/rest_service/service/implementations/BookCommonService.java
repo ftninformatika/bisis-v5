@@ -11,6 +11,7 @@ import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.utils.BookCommonHelper;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,8 @@ public class BookCommonService {
             return null;
         BookCommon bc = bookCommonRepository.save(bookCommon);
         if (isNew) {
+            // TODO
+            //update record_id is bookCommon - u 856b dodatu uid
             mergeBookCommonWithRecords(bc);
         }
         return bc;
@@ -107,15 +110,26 @@ public class BookCommonService {
                 .stream().map(LibraryConfiguration::getLibraryName).collect(Collectors.toList());
         for (String lib: libCodes) {
             if (bookCommon.getIsbn() != null) {
-                List<String> isbnPair = generateIsbnPair(bookCommon.getIsbn());
+                List<String> isbnPair = BookCommonHelper.generateIsbnPair(bookCommon.getIsbn());
                 if (isbnPair == null) continue;
                 LibraryPrefixProvider.setPrefix(lib);
                 for (String isbn: isbnPair) {
-                    SearchModel query = generateIsbnSearchModel(isbn);
+                    SearchModel query = BookCommonHelper.generateIsbnSearchModel(isbn);
                     List<Record> records = searchRecords(query);
                     if (records == null) {
 //                        System.out.println("No records in library: " + lib + " for ISBN: " + isbn);
                         continue;
+                    }
+                    List<Record> toRemove = new ArrayList<>();
+                    for (Record r: records) {
+                        if (!BookCommonHelper.checkIf1st010FieldisIsbn(r, isbn)) {
+                            toRemove.add(r);
+                        }
+                    }
+                    if (toRemove.size() > 0) {
+                        records.removeAll(toRemove);
+                        log.info("Remove "+ toRemove.size() + " records");
+                        System.out.println("Remove "+ toRemove.size() + " records");
                     }
                     for (Record r : records) {
                         if (r.getCommonBookUid() == null) {
@@ -138,83 +152,5 @@ public class BookCommonService {
         return responseRecords.getBody();
     }
 
-//    TODO: move this to core ---------------------------------------------]
-    private SearchModel generateIsbnSearchModel(String isbn) {
-        SearchModel searchModel = new SearchModel();
-        searchModel.setPref1("BN");
-        searchModel.setText1(isbn);
-        searchModel.setOper1("AND");
-        searchModel.setPref2("");
-        searchModel.setText2("");
-        searchModel.setOper2("AND");
-        searchModel.setPref3("");
-        searchModel.setText3("");
-        searchModel.setOper3("AND");
-        searchModel.setPref4("");
-        searchModel.setText4("");
-        searchModel.setOper4("AND");
-        searchModel.setPref5("");
-        searchModel.setText5("");
-        return searchModel;
-    }
-
-    /**
-     * Neki isbn su uneti u formatu [10] a neki u formatu [13]
-     * pretragu vrsimo za obe varijante jer referenciraju isti zapis
-     */
-    private List<String> generateIsbnPair(String isbn) {
-        List<String> isbnPair = new ArrayList<>();
-        if (!validateIsbn(isbn)) return null;
-        isbnPair.add(isbn);
-        String isbnSecFormat;
-        if (!validateIsbn10(isbn)) {
-            isbnSecFormat = isbn.substring(3).replaceAll("-", "").trim();
-            isbnPair.add(isbnSecFormat);
-            return isbnPair;
-        }
-        if (!validateIsbn13(isbn)) {
-            isbnSecFormat = 978 + isbn.replaceAll("-", "").trim();
-            isbnPair.add(isbnSecFormat);
-            return isbnPair;
-        }
-        return isbnPair;
-    }
-
-    private boolean validateIsbn(String isbn) {
-        return  validateIsbn10(isbn) || validateIsbn13(isbn);
-    }
-
-    private boolean validateIsbn10(String isbn) {
-        if (isbn == null) {
-            return false;
-        }
-        isbn = isbn.replaceAll( "-", "" ).trim().replace(" ", "");
-        if (isbn.length() != 10) {
-            return false;
-        }
-        try {
-            Double.parseDouble(isbn.substring(0, 9));
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-    }
-
-    private boolean validateIsbn13(String isbn) {
-        if ( isbn == null ) {
-            return false;
-        }
-        isbn = isbn.replaceAll( "-", "" ).trim().replace(" ", "");
-        if (isbn.length() != 13) {
-            return false;
-        }
-        try {
-            Double.parseDouble(isbn.substring(0, 12));
-            return true;
-        }
-        catch (NumberFormatException nfe) {
-            return false;
-        }
-    }
 
 }

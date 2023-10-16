@@ -181,6 +181,10 @@ public class MainFrame extends JFrame {
         desktop.selectFrame(true);
     }
 
+    public JDesktopPane getDesktop() {
+        return desktop;
+    }
+
     private JDesktopPane desktop = new JDesktopPane();
     private SearchFrame searchFrame = new SearchFrame();
     private HitListFrame hlf = null;

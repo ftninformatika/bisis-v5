@@ -1165,12 +1165,16 @@ public class UserData {
             btnCreateWebAccount.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    try {
-                        String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount(hasActiveWebAccount);
-                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"), JOptionPane.INFORMATION_MESSAGE);
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),Messages.getString("circulation.error"),JOptionPane.ERROR_MESSAGE);
+                    if (parent.getDirty()) {
+                        JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("circulation.webaccsave"), Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        try {
+                            String retMessage = Cirkulacija.getApp().getUserManager().createWebAccount(hasActiveWebAccount);
+                            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),retMessage,Messages.getString("circulation.webacccreated"), JOptionPane.INFORMATION_MESSAGE);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(BisisApp.getMainFrame(),e1.getMessage(),Messages.getString("circulation.error"),JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
             });
@@ -1197,7 +1201,7 @@ public class UserData {
                                 setNoWebAccountFields();
                                 Cirkulacija.getApp().getUserManager().getMember().setActivatedWebProfile(false);
                             } else {
-                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("circulation.archiveerror2"), "Грешка" ,JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(BisisApp.getMainFrame(), Messages.getString("circulation.archiveerror2"), Messages.getString("circulation.error") ,JOptionPane.ERROR_MESSAGE);
                             }
                         }
                     } catch (Exception e1) {

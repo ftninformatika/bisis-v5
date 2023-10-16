@@ -41,6 +41,7 @@ public class Book {
     private String notes;
     private String isbdHtml;
     private List<Item> items = null;
+    private int totalReservations;
     private int totalRatings;
     private AvgRecordRating avgRating;
     private String masterRecordTitle;
