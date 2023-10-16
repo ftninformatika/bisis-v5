@@ -1,29 +1,15 @@
 package com.ftninformatika.bisis.editor.inventar;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.Date;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import com.ftninformatika.bisis.admin.coders.CodersHelper;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.CurrRecord;
 import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Date;
 
 
 public class InventarPanel extends JPanel{
@@ -61,6 +47,8 @@ public class InventarPanel extends JPanel{
   // signature po UDK - mogucnost preuzimanja podatka iz 675b
   protected JTextField sigUDKTxtFld = new JTextField(tfLength+1);
   protected JButton sigUDK675bButton = new JButton("675b");
+  protected JButton sigUDK675aButton = new JButton("675a");
+
   protected JPanel sigUDK675bPanel = new JPanel();
   // numerus curens dugme za preuzimanje iz inventarnog broja 
   protected JTextField sigNumerusCurensTxtFld = new JTextField(tfLength+1);
@@ -124,6 +112,7 @@ public class InventarPanel extends JPanel{
     
     sigUDK675bPanel.setLayout(new MigLayout("insets 0 0 0 0","","[]5[]"));
     sigUDK675bPanel.add(sigUDKTxtFld,"grow");
+    sigUDK675bPanel.add(sigUDK675aButton,"grow");
     sigUDK675bPanel.add(sigUDK675bButton,"grow");
     
     napomeneTxtArea = new JTextArea();    
@@ -278,6 +267,11 @@ public class InventarPanel extends JPanel{
 					public void actionPerformed(ActionEvent e) {				
 						sigUDKTxtFld.setText(CurrRecord.getSigUdk());
 					}    	
+    });
+    sigUDK675aButton.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e) {
+        sigUDKTxtFld.setText(CurrRecord.getSigUdk675a());
+      }
     });
   }
   

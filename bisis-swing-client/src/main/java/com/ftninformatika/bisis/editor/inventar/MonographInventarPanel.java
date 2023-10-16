@@ -1,25 +1,6 @@
 package com.ftninformatika.bisis.editor.inventar;
 
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.math.BigDecimal;
-import java.text.MessageFormat;import java.text.ParseException;
-import java.util.Date;
-
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-import javax.swing.text.DefaultEditorKit;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.editor.Obrada;
 import com.ftninformatika.bisis.editor.recordtree.RecordUtils;
@@ -27,6 +8,18 @@ import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.search.SearchFrame;
 import com.ftninformatika.utils.Messages;
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.awt.event.*;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 
 public class MonographInventarPanel extends InventarPanel {

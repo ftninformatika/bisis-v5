@@ -8,6 +8,7 @@ import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibrarianRoleRepository;
 import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +39,8 @@ public class LibrarianController {
 //        return librarian2Repository.getLibrariansByBiblioteka(libName).stream().
 //                map(i -> new Librarian(i)).
 //                collect(Collectors.toList());
-        return librarianRepository.getLibrariansByBiblioteka(libName);
+        List<LibrarianDB> librarians = librarianRepository.getLibrariansByBiblioteka(libName, new Sort(Sort.Direction.ASC,"username"));
+        return librarians;
     }
 
 //    @RequestMapping( value = "/update", method = RequestMethod.POST)
@@ -65,7 +67,7 @@ public class LibrarianController {
     public ResponseEntity<?> getLibrarians(@RequestHeader(name="Authorization") String token, @RequestParam (value="library") String libName){
         String library = jwtUtil.extractLibrary(token.substring(7));
         if (library.equals(libName)) {
-            List<Librarian> librarians = librarianRepository.getLibrariansByBiblioteka(libName).stream().
+            List<Librarian> librarians = librarianRepository.getLibrariansByBiblioteka(libName,new Sort(Sort.Direction.ASC,"username")).stream().
                     map(Librarian::new).collect(Collectors.toList());
             return ResponseEntity.ok(librarians);
         } else {

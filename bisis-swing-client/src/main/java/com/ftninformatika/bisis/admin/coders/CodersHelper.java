@@ -404,6 +404,7 @@ public class CodersHelper {
             case LIBRARIAN_CODER: retVal = new ArrayList<LibrarianDB>(librarians.values()).stream().map(i -> new UItem(i.getUsername(), i.getIme()+" "+i.getPrezime())).collect(Collectors.toList());
 
         }
+        Collections.sort(retVal, Comparator.comparing(UItem ::getCodeLoverCase));
         return (ArrayList<UItem>) retVal;
     }
 
