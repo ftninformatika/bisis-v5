@@ -2,14 +2,14 @@ package com.ftninformatika.bisis;
 
 import ch.randelshofer.quaqua.QuaquaManager;
 import ch.randelshofer.quaqua.leopard.Quaqua15LeopardCrossPlatformLookAndFeel;
+import com.ftninformatika.bisis.config.AppConfig;
+import com.ftninformatika.bisis.config.ConfigFactory;
+import com.ftninformatika.bisis.config.ConfigType;
 import com.ftninformatika.bisis.librarian.Librarian;
 import com.ftninformatika.bisis.librarian.db.LibrarianDB;
-import com.ftninformatika.bisis.login.*;
+import com.ftninformatika.bisis.login.LoginFrame;
 import com.ftninformatika.bisis.login.SplashScreen;
 import com.ftninformatika.bisis.service.BisisService;
-import com.ftninformatika.bisis.config.AppConfig;
-import com.ftninformatika.bisis.config.ConfigType;
-import com.ftninformatika.bisis.config.ConfigFactory;
 import com.ftninformatika.bisis.service.RecordManager;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.RetrofitUtils;
@@ -62,6 +62,8 @@ public class BisisApp {
         exc.add("TextField");
         exc.add("PasswordField");
         exc.add("FormattedTextField");
+        exc.add("List");
+        exc.add("Table");
 //        exc.add("TabbedPane");
         QuaquaManager.setExcludedUIs(exc);
         try {
@@ -71,6 +73,8 @@ public class BisisApp {
             System.err.println(ex.getMessage());
             return;
         }
+        UIManager.put("List.font", UIManager.getDefaults().getFont("Label.font"));
+        UIManager.put("Table.font", UIManager.getDefaults().getFont("Label.font"));
         System.setProperty(
 
                 "Quaqua.tabLayoutPolicy", "wrap"

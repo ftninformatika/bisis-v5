@@ -1,12 +1,13 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
+import com.ftninformatika.bisis.core.repositories.LibrarianRepository;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.librarian.db.Authority;
+import com.ftninformatika.bisis.librarian.Librarian;
+import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac.BookCollection;
 import com.ftninformatika.bisis.opac.dto.AddToCollectionDTO;
-import com.ftninformatika.bisis.opac.members.LibraryMember;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class BookCollectionService {
     @Autowired BookCollectionRepository bookCollectionRepository;
     @Autowired LibraryMemberRepository libraryMemberRepository;
+    @Autowired LibrarianRepository librarianRepository;
     @Autowired RecordsRepository recordsRepository;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
     private static Logger log = Logger.getLogger(BookCollectionService.class);
@@ -39,8 +41,8 @@ public class BookCollectionService {
             if (bookCollectionRepository.count() > maxCollectionsPerLib) return false;
         }
 
-        LibraryMember creator = libraryMemberRepository.findByUsername(newCollection.getCreatorUsername());
-        if (creator == null || !creator.getAuthorities().contains(Authority.ROLE_ADMIN)
+        Optional<LibrarianDB> creator = librarianRepository.findByEmailAndBiblioteka(newCollection.getCreatorUsername(), library);
+        if (creator.isEmpty() || !creator.get().getLibrarianRoles().contains(Librarian.Role.OPACADMIN)
                 || newCollection.getRecordsIds().size() > BookCollection.MAX_SIZE) return false;
         newCollection.setLastModified(new Date());
         if (newCollection.get_id() == null && bookCollectionRepository.findByTitle(newCollection.getTitle()) != null)

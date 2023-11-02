@@ -295,10 +295,10 @@ public class OpacSearchService {
             RecordPreview rp = new RecordPreview();
             rp.init(rec);
             String recTitle = rp.getTitle();
-            if (r.getSubfieldContent("001d") != null && r.getSubfieldContent("001d").equals("2")
-                    && r.getSubfieldContent("215a") != null) {
-                recTitle += " " + LatCyrUtils.toCyrillic(r.getSubfieldContent("215a").trim());
-            }
+//            if (r.getSubfieldContent("001d") != null && r.getSubfieldContent("001d").equals("2")
+//                    && r.getSubfieldContent("215a") != null) {
+//                recTitle += " " + LatCyrUtils.toCyrillic(r.getSubfieldContent("215a").trim());
+//            }
             b.setMasterRecordTitle(recTitle);
             refRecsBrief.put(rec.get_id(), recTitle);
         }

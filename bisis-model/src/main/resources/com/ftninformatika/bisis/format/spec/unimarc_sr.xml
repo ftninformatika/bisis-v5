@@ -2244,10 +2244,10 @@
 		<subfield name="d" description="Dimenzije" mandatory="false" repeatable="false" length="0"/>
 		<subfield name="e" description="Podaci o propratnoj građi" mandatory="false" repeatable="true" length="0"/>
 		<subfield name="f" description="Posebno izdanje" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="g" description="Broj knjige" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="h" description="Broj (časopisa)" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="i" description="Godište" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="k" description="Potpolje k" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="g" description="Numerisanje - treći nivo (broj knjige)" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="h" description="Numerisanje - prvi nivo (broj/sveska)" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="i" description="Numerisanje - drugi nivo (godište)" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="k" description="Hronologija (godina)" mandatory="false" repeatable="true" length="0"/>
 	</field>
 	<field name="225" description="Knjižna zbirka" mandatory="false" repeatable="true" secondary="false">
 		<indicator index="1" description="Indikator za obliki zajedničkog stvarnog naslova">

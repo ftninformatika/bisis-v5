@@ -25,6 +25,7 @@ public class Book {
     //    Record mongoId
     private String _id;
     private Integer pubType;
+    private String materialType;
     private List<String> authors = new ArrayList<>();
     private List<String> otherAuthors = new ArrayList<>();
     private String title;

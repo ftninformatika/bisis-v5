@@ -228,13 +228,13 @@ public class ReportCore {
             temp = cfg.getTemplate(typeCode+"_"+locale+".ftl");
 
         }catch(Exception e1){
-            e1.printStackTrace();
+            //e1.printStackTrace();
 
             try{
                 temp = cfg.getTemplate(typeCode+".ftl");
             }catch(Exception e2){
-                e2.printStackTrace();
-                return izlaz= Messages.getString("CARDS_NO_CARD_TYPE");
+                //e2.printStackTrace();
+                return Messages.getString("CARDS_NO_CARD_TYPE");
             }
         }
         try{
@@ -243,7 +243,7 @@ public class ReportCore {
             try{
                 temp1 = cfg.getTemplate("_novaStr.ftl");
             }catch(Exception e4){
-                return izlaz= Messages.getString("CARDS_INADEQUATE_CARD_TYPE");
+                return Messages.getString("CARDS_INADEQUATE_CARD_TYPE");
             }
         }
 
@@ -272,11 +272,11 @@ public class ReportCore {
             root.put("brSignatura",new Integer(brSignatura));
             root.put("brk",new Integer (bkmax-1));
         }catch(Exception ex1){
-            return izlaz= Messages.getString("CARDS_ERROR_DETERMINING_PROPERTIES");
+            return Messages.getString("CARDS_ERROR_DETERMINING_PROPERTIES");
         }
 
         if (!Base.checkPubType(type))
-            return izlaz = Messages.getString("CARDS_WRONG_PUB_TYPE");
+            return Messages.getString("CARDS_WRONG_PUB_TYPE");
 
         Writer out=new StringWriter();
         Writer out1=new StringWriter();
