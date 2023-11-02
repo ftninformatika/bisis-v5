@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="zaduzenja" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="822" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" uuid="97511e85-cfab-4423-8fb7-af09e55dbc53">
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="zaduzenja" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="822" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" uuid="97511e85-cfab-4423-8fb7-af09e55dbc53">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.2" value="pageFooter"/>
 	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="lastPageFooter"/>
@@ -287,10 +287,10 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="52">
+		<band height="52" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<textField>
-				<reportElement x="0" y="0" width="40" height="30" uuid="ef451801-b879-46ed-8664-d1286e587d98"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="ContainerHeight" x="0" y="0" width="40" height="30" uuid="ef451801-b879-46ed-8664-d1286e587d98"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -303,7 +303,7 @@
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="160" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="04be83ed-37fc-4625-80f8-69ca1b8b0b21">
+				<reportElement stretchType="ContainerHeight" x="160" y="0" width="100" height="30" isPrintWhenDetailOverflows="true" uuid="04be83ed-37fc-4625-80f8-69ca1b8b0b21">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d23385e8-6b5d-449a-88a4-46f7aea66752"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
@@ -319,7 +319,7 @@
 				<textFieldExpression><![CDATA[$F{author}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="40" y="0" width="120" height="30" isPrintWhenDetailOverflows="true" uuid="8c32abdf-8337-4866-9b1c-642022b0a83f">
+				<reportElement stretchType="ContainerHeight" x="40" y="0" width="120" height="30" isPrintWhenDetailOverflows="true" uuid="8c32abdf-8337-4866-9b1c-642022b0a83f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b757528-4fe4-4e6e-b480-b8e77f482621"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -336,7 +336,7 @@
 				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="260" y="0" width="80" height="30" isPrintWhenDetailOverflows="true" uuid="a787c1a1-5ed5-48db-98e5-bf5bdaf66b07">
+				<reportElement stretchType="ContainerHeight" x="260" y="0" width="80" height="30" isPrintWhenDetailOverflows="true" uuid="a787c1a1-5ed5-48db-98e5-bf5bdaf66b07">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4fe0da08-f941-4ff3-a9db-f6a1ae987fcc"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
@@ -352,7 +352,7 @@
 				<textFieldExpression><![CDATA[$F{publisher}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="340" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="f0e6fe08-2117-4734-ac04-44fe2b688678">
+				<reportElement stretchType="ContainerHeight" x="340" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="f0e6fe08-2117-4734-ac04-44fe2b688678">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e238f5f1-bbf2-4b49-adb9-efc84e20c49b"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -370,7 +370,7 @@
 				<textFieldExpression><![CDATA[$F{pubYear}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="460" y="0" width="50" height="30" isPrintWhenDetailOverflows="true" uuid="d2079b0d-fe27-44fb-88d7-8c7f07b1b8c9">
+				<reportElement stretchType="ContainerHeight" x="460" y="0" width="50" height="30" isPrintWhenDetailOverflows="true" uuid="d2079b0d-fe27-44fb-88d7-8c7f07b1b8c9">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8c842267-1464-4335-81ad-f95096e65eb8"/>
 				</reportElement>
 				<box>
@@ -385,7 +385,7 @@
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="510" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="e6a84260-f86a-491b-b7bf-b0ac1c9f6e58">
+				<reportElement stretchType="ContainerHeight" x="510" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="e6a84260-f86a-491b-b7bf-b0ac1c9f6e58">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="56cf093e-1045-40b3-ba7c-cadaf9f5cc9c"/>
 				</reportElement>
 				<box>
@@ -400,7 +400,7 @@
 				<textFieldExpression><![CDATA[$F{surname}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="690" y="0" width="70" height="30" isPrintWhenDetailOverflows="true" uuid="770f04a6-c2c5-4673-bd53-dc5f013a206b">
+				<reportElement stretchType="ContainerHeight" x="690" y="0" width="70" height="30" isPrintWhenDetailOverflows="true" uuid="770f04a6-c2c5-4673-bd53-dc5f013a206b">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e7e04ff2-60a1-4a74-8030-8d838d92ae48"/>
 				</reportElement>
 				<box>
@@ -415,7 +415,7 @@
 				<textFieldExpression><![CDATA[$F{invbroj}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="570" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="51b99250-d745-4a5c-afbb-b951491d5e93">
+				<reportElement stretchType="ContainerHeight" x="570" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="51b99250-d745-4a5c-afbb-b951491d5e93">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e2247f94-4e4d-462f-a804-873960799528"/>
 				</reportElement>
 				<box>
@@ -430,7 +430,7 @@
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="630" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="6f68244e-5447-437e-b5fa-fe826bf6402d">
+				<reportElement stretchType="ContainerHeight" x="630" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="6f68244e-5447-437e-b5fa-fe826bf6402d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eaf73383-078b-40a0-a9a4-818cae49877a"/>
 				</reportElement>
 				<box>
@@ -445,7 +445,7 @@
 				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="400" y="0" width="60" height="30" uuid="b3df570c-1c50-465a-b6fa-2626b2a3c81f"/>
+				<reportElement stretchType="ContainerHeight" x="400" y="0" width="60" height="30" uuid="b3df570c-1c50-465a-b6fa-2626b2a3c81f"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -458,7 +458,7 @@
 				<textFieldExpression><![CDATA[$V{memberID}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="760" y="0" width="61" height="30" uuid="2ded3f55-d57f-443c-874a-2841192c1e9e">
+				<reportElement stretchType="ContainerHeight" x="760" y="0" width="61" height="30" uuid="2ded3f55-d57f-443c-874a-2841192c1e9e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="acb66e3b-d6e5-411d-b3a6-dd75e514bba1"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
