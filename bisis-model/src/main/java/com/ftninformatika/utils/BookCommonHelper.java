@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookCommonHelper {
-    public static SearchModel generateIsbnSearchModel(String isbn) {
+
+    public static SearchModel generateSearchModel(String pref, String value) {
         SearchModel searchModel = new SearchModel();
-        searchModel.setPref1("BN");
-        searchModel.setText1(isbn);
+        searchModel.setPref1(pref);
+        searchModel.setText1(value);
         searchModel.setOper1("AND");
         searchModel.setPref2("");
         searchModel.setText2("");
@@ -29,16 +30,23 @@ public class BookCommonHelper {
     }
 
     /**
-     * Proverava da li je prvi 010a zapravo ISBN koji je pronasao (drugi se koristi za izdavacku delatnost - BGB)
+     * Proverava da li je prvi 010a ili 011a zapravo ISBN/ISSN koji je pronasao (drugi se koristi za izdavacku delatnost - BGB)
      */
-    public static boolean checkIf1st010FieldisIsbn(Record record, String isbn) {
+    public static boolean isValidRecord(Record record, String id) {
         List<Field> _010Fields = record.getFields("010");
-        isbn = isbn.replace("-", "").replace(" ", "").replace("978", "");
+        List<Field> _011Fields = record.getFields("011");
+        id = id.replace("-", "").replace(" ", "").replace("978", "");
         if (_010Fields != null && _010Fields.size() != 0) {
             String _1stIsbn = _010Fields.get(0).getSubfieldContent('a');
             if (_1stIsbn != null) {
                 _1stIsbn = _1stIsbn.replace("-", "").replace(" ", "");
-                return _1stIsbn.indexOf(isbn) > 0;
+                return _1stIsbn.indexOf(id) > 0;
+            }
+        }else if (_011Fields != null && _011Fields.size() != 0) {
+            String _1stIssn = _011Fields.get(0).getSubfieldContent('a');
+            if (_1stIssn != null) {
+                _1stIssn = _1stIssn.replace("-", "").replace(" ", "");
+                return _1stIssn.indexOf(id) > 0;
             }
         }
         return false;

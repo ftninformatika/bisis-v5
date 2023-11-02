@@ -2,17 +2,16 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac.BookCollection;
 import com.ftninformatika.bisis.opac.books.Book;
 import com.ftninformatika.bisis.opac.books.BookCommon;
+import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.search.SearchModel;
-import com.ftninformatika.utils.BookCommonHelper;
-import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author badf00d21  27.9.19.
@@ -40,7 +38,6 @@ public class BookCommonService {
     @Autowired RecordsController recordsController; // Avoid this
     private Logger log = Logger.getLogger(BookCommonService.class);
 
-//    TODO: refactor this at some point
     public BookCommon saveModifyBookCommon(BookCommon bookCommon) {
         boolean isNew = false;
         if (bookCommon == null) return null;
@@ -59,9 +56,22 @@ public class BookCommonService {
             return null;
         BookCommon bc = bookCommonRepository.save(bookCommon);
         if (isNew) {
-            // TODO
-            //update record_id is bookCommon - u 856b dodatu uid
-            mergeBookCommonWithRecords(bc);
+            Record record = recordsRepository.findById(bookCommon.getRecord_id()).get();
+            if (bookCommon.getIsbn()==null && bookCommon.getIssn() ==null) {
+                Subfield subfield = record.getSubfield("856b");
+                if (subfield == null) {
+                    Field field = new Field("856");
+                    field.add(new Subfield('b' , String.valueOf(bookCommon.getUid())));
+                    record.add(field);
+                } else {
+                    subfield.setContent(String.valueOf(bookCommon.getUid()));
+                }
+            }
+            if (record.getCommonBookUid() == null) {
+                record.setCommonBookUid(bookCommon.getUid());
+            }
+            recordsRepository.save(record);
+
         }
         return bc;
     }
@@ -103,44 +113,6 @@ public class BookCommonService {
             }
         }
         return retVal;
-    }
-
-    private void mergeBookCommonWithRecords(BookCommon bookCommon) {
-        List<String> libCodes = libraryConfigurationRepository.findAll()
-                .stream().map(LibraryConfiguration::getLibraryName).collect(Collectors.toList());
-        for (String lib: libCodes) {
-            if (bookCommon.getIsbn() != null) {
-                List<String> isbnPair = BookCommonHelper.generateIsbnPair(bookCommon.getIsbn());
-                if (isbnPair == null) continue;
-                LibraryPrefixProvider.setPrefix(lib);
-                for (String isbn: isbnPair) {
-                    SearchModel query = BookCommonHelper.generateIsbnSearchModel(isbn);
-                    List<Record> records = searchRecords(query);
-                    if (records == null) {
-//                        System.out.println("No records in library: " + lib + " for ISBN: " + isbn);
-                        continue;
-                    }
-                    List<Record> toRemove = new ArrayList<>();
-                    for (Record r: records) {
-                        if (!BookCommonHelper.checkIf1st010FieldisIsbn(r, isbn)) {
-                            toRemove.add(r);
-                        }
-                    }
-                    if (toRemove.size() > 0) {
-                        records.removeAll(toRemove);
-                        log.info("Remove "+ toRemove.size() + " records");
-                        System.out.println("Remove "+ toRemove.size() + " records");
-                    }
-                    for (Record r : records) {
-                        if (r.getCommonBookUid() == null) {
-                            r.setCommonBookUid(bookCommon.getUid());
-                            recordsRepository.save(r);
-                            log.info("Merged book common UID: " + bookCommon.getUid() + " with record RN: " + r.getRN() + " library: " + lib);
-                        }
-                    }
-                }
-            }
-        }
     }
 
 

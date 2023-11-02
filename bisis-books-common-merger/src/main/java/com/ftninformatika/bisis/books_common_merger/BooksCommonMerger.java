@@ -5,9 +5,9 @@ import com.ftninformatika.bisis.config.YAMLConfig;
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
 import com.ftninformatika.bisis.opac.books.BookCommon;
-import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.opac.controller.BookCommonController;
 import com.ftninformatika.bisis.opac.controller.BookCoverController;
+import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -17,10 +17,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -50,7 +52,6 @@ public class BooksCommonMerger {
         root.setLevel(ch.qos.logback.classic.Level.INFO);
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.getEnvironment().setActiveProfiles("production");
         ctx.register(LibraryPrefixProvider.class);
         ctx.register(MongoTransactionalConfiguration.class);
         ctx.register(LibraryConfigurationRepository.class);
@@ -66,7 +67,7 @@ public class BooksCommonMerger {
         recordsPair.setRecordsRepository(ctx.getBean(RecordsRepository.class));
 
         if (mode.equals("m")) {
-            String[] selectedLibs = {path};
+            List<String> selectedLibs =new ArrayList<>(Arrays.asList(path.split(",")));
             int sucessCnt = 0;
             int bcId = 1;
             while (bcId != 0) {
@@ -103,14 +104,12 @@ public class BooksCommonMerger {
                     BookCommon bookCommon = BooksCommonMergerUtils.getBookCommonFromPath(fileName);
                     if (bookCommon == null) {
                         log.warn("Cannot make BookCommon from path: " + fileName);
-//                    System.out.println("Cannot make BookCommon from path: " + fileName);
                         continue;
                     }
                     if (!recordsPair.pairBookCommon(bookCommon)) continue;
                     if (!recordsPair.getBookCommonController().saveModifyBookCommon(bookCommon)
                             .getStatusCode().equals(HttpStatus.OK)) {
                         log.error("BookCommon: " + bookCommon.getIsbn() + " is not saved");
-//                    System.out.println("BookCommon: " + bookCommon.getIsbn() + " is not saved");
                     }
                     BooksCommonMergerUtils.UID_COUNTER++;
 
@@ -122,10 +121,8 @@ public class BooksCommonMerger {
                     MultipartFile coverMultipart = getCoverMultipart(fileName, files);
                     if (!recordsPair.getBookCoverController().uploadImage(bookCommon.getUid(), coverMultipart).getStatusCode().equals(HttpStatus.OK)) {
                         log.info("No cover image for file: " + fileName);
-//                    System.out.println("No cover image for file: " + fileName);
                     } else {
                         log.info("Saved image for file: " + fileName);
-//                    System.out.println("Saved image for file: " + fileName);
                     }
                 }
             } catch (IOException e) {
@@ -133,6 +130,4 @@ public class BooksCommonMerger {
             }
         }
     }
-
-
 }

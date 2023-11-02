@@ -2,6 +2,7 @@ package com.ftninformatika.bisis.books_common_merger;
 
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
+import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac.books.BookCommon;
 import com.ftninformatika.bisis.opac.controller.BookCommonController;
 import com.ftninformatika.bisis.opac.controller.BookCoverController;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -30,7 +32,6 @@ import java.util.List;
 class RecordsPair {
 
     private static Logger log = Logger.getLogger(RecordsPair.class);
-    static String[] LIB_PREFIXES = {"bgb", "gbns", "bs", "msk", "bmb"};
 
     private BookCommonController bookCommonController;
     private BookCoverController bookCoverController;
@@ -39,46 +40,66 @@ class RecordsPair {
     private LibraryConfigurationRepository libraryConfigurationRepository;
 
     boolean pairBookCommon(BookCommon bookCommon) {
-        return pairBookCommonWithSelectedLib(bookCommon, LIB_PREFIXES);
+        List<String> libs = new ArrayList<>();
+        libs.add("all");
+        return pairBookCommonWithSelectedLib(bookCommon, libs);
     }
 
-    boolean pairBookCommonWithSelectedLib(BookCommon bookCommon, String[] libPrefixes) {
-        if (libPrefixes != null && libPrefixes.length == 1 && libPrefixes[0].equals("all")) {
-            libPrefixes = LIB_PREFIXES;
-            // TODO all libs
+    boolean pairBookCommonWithSelectedLib(BookCommon bookCommon, List<String> libPrefixes) {
+        if (libPrefixes != null && libPrefixes.size() == 1 && libPrefixes.get(0).equals("all")) {
+            libPrefixes = libraryConfigurationRepository.findAll().stream()
+                    .map(LibraryConfiguration::getLibraryName)
+                    .collect(Collectors.toList());
         }
         boolean isPaired = false;
         List<String> isbnPairs = BookCommonHelper.generateIsbnPair(bookCommon.getIsbn());
-        if (isbnPairs == null || libPrefixes == null) {
-            log.warn("ISBN invalid: " + (bookCommon.getIsbn() == null ? "null" : bookCommon.getIsbn()));
-            System.out.println("ISBN invalid: " + (bookCommon.getIsbn() == null ? "null" : bookCommon.getIsbn()));
-            return false;
+        List<String> issnPairs = BookCommonHelper.generateIsbnPair(bookCommon.getIssn());
+        List<String> isbnOrissn = null;
+        if (isbnPairs != null){
+            isbnOrissn = isbnPairs;
+        }else if(issnPairs != null){
+            isbnOrissn = issnPairs;
         }
-//        TODO: check if passed LibPrefixes exists in config
         for (String libPref: libPrefixes) {
+            if (libraryConfigurationRepository.getByLibraryName(libPref) == null){
+                continue;
+            }
             LibraryPrefixProvider.setPrefix(libPref);
-            for (String isbn: isbnPairs) {
-                // TODO
-                SearchModel query = BookCommonHelper.generateIsbnSearchModel(isbn);
+            if (isbnOrissn != null) {
+                for (String id : isbnOrissn) {
+                    SearchModel query;
+                    if (isbnPairs != null) {
+                        query = BookCommonHelper.generateSearchModel("BN", id);
+                    } else {
+                        query = BookCommonHelper.generateSearchModel("SN", id);
+                    }
+                    List<Record> records = searchRecords(query);
+                    if (records == null) {
+                        log.info("No records in library: " + libPref + " for ISBN or ISSN: " + id);
+                        continue;
+                    }
+                    List<Record> toRemove = new ArrayList<>();
+                    for (Record r : records) {
+                        if (!BookCommonHelper.isValidRecord(r, id)) {
+                            toRemove.add(r);
+                        }
+                    }
+                    if (toRemove.size() > 0) {
+                        records.removeAll(toRemove);
+                        log.info("Remove " + toRemove.size() + " records");
+                        System.out.println("Remove " + toRemove.size() + " records");
+                    }
+                    if (records.size() == 0) {
+                        continue;
+                    }
+                    mergeCommonBookUID(records, libPref, bookCommon.getUid());
+                    isPaired = true;
+                }
+            }else{
+                SearchModel query = BookCommonHelper.generateSearchModel("856b",String.valueOf(bookCommon.getUid()));
                 List<Record> records = searchRecords(query);
                 if (records == null) {
-                    log.info("No records in library: " + libPref + " for ISBN: " + isbn);
-                    System.out.println("No records in library: " + libPref + " for ISBN: " + isbn);
-                    continue;
-                }
-                List<Record> toRemove = new ArrayList<>();
-                for (Record r: records) {
-                    // TODO
-                    if (!BookCommonHelper.checkIf1st010FieldisIsbn(r, isbn)) {
-                        toRemove.add(r);
-                    }
-                }
-                if (toRemove.size() > 0) {
-                    records.removeAll(toRemove);
-                    log.info("Remove "+ toRemove.size() + " records");
-                    System.out.println("Remove "+ toRemove.size() + " records");
-                }
-                if (records.size() == 0) {
+                    log.info("No records in library: " + libPref + " for 856b: " + bookCommon.getUid());
                     continue;
                 }
                 mergeCommonBookUID(records, libPref, bookCommon.getUid());
