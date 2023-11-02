@@ -12,17 +12,23 @@ import com.ftninformatika.bisis.exception.model.RecordNotCreatedOrUpdatedExcepti
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.service.interfaces.RecordsServiceInterface;
 import com.ftninformatika.utils.RecordUtils;
+import com.ftninformatika.utils.RegexUtils;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientException;
 import com.mongodb.client.ClientSession;
 import org.apache.log4j.Logger;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class RecordsService implements RecordsServiceInterface {
@@ -181,6 +187,64 @@ public class RecordsService implements RecordsServiceInterface {
         itemAvailabilityRepository.deleteAllByRecordID(String.valueOf(rec.getRecordID()));
         elasticsearchTemplate.delete(ElasticPrefixEntity.class, _id);
         return true;
+    }
+
+    private boolean matchesInvRange(String inv, List<String> regexStrings) {
+        for (String reg: regexStrings) {
+            if (Pattern.compile(reg).matcher(inv).matches()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean validateInvNumHolesInput(String invFrom, String invTo) {
+        try {
+            BigInteger biFrom = new BigInteger(invFrom);
+            BigInteger biTo = new BigInteger(invTo);
+            if (!invFrom.substring(0,4).equals(invTo.substring(0,4)))
+                return false;
+            int from = Integer.parseInt(invFrom.substring(4));
+            int to = Integer.parseInt(invTo.substring(4));
+            if (from < 1 || from > 9999999)
+                return false;
+            if (to < 2 || to > 9999999)
+                return false;
+            if (from >= to || (to - from) > 100000)
+                return false;
+        }
+        catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+    public List<Integer> findInvNumHoles(String invFrom, String invTo) {
+        List<Integer> retVal = new ArrayList<>();
+        RegexUtils regexGenerator = new RegexUtils();
+        List<String> regexes = regexGenerator.getRegex(invFrom.substring(4), invTo.substring(4));
+        final List<String> allInvNo = regexes.stream().map(r -> invFrom.substring(0,4) + r).collect(Collectors.toList());
+
+        if(!validateInvNumHolesInput(invFrom, invTo))
+            return retVal;
+        QueryBuilder queryBuilder = QueryBuilders.rangeQuery("prefixes.IN")
+                        .gte(invFrom)
+                        .lte(invTo);
+        Iterable<ElasticPrefixEntity> e = elasticRecordsRepository.search(queryBuilder);
+        Set<Integer> usedInvs = new HashSet<>();
+        e.forEach(
+                er -> {
+                    er.getPrefixes().get("IN").stream().forEach(
+                            i -> {
+                                if (matchesInvRange(i, allInvNo))
+                                    usedInvs.add(Integer.parseInt(i.substring(4)));
+                            }
+                    );
+                }
+        );
+
+        retVal = IntStream.rangeClosed(Integer.parseInt(invFrom.substring(4)), Integer.parseInt(invTo.substring(4))).boxed().collect(Collectors.toList());
+        retVal.removeAll(usedInvs);
+        return retVal;
     }
 
 }

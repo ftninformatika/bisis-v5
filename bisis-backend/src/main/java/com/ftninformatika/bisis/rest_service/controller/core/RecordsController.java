@@ -82,7 +82,7 @@ public class RecordsController {
 
     @GetMapping("/findInvHoles")
     public List<Integer> findInvHoles(@RequestParam(value = "invFrom")String invFrom, @RequestParam(value = "invTo")String invTo) {
-        return recordsRepository.findInvNumHoles(invFrom, invTo);
+        return recordsService.findInvNumHoles(invFrom, invTo);
     }
 
     @GetMapping("/delete/{mongoID}")

@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Petar on 6/9/2017.
  */
 @RepositoryRestResource(collectionResourceRel = "records", path = "mongo_repository_records")
-public interface RecordsRepository extends MongoRepository<Record, String>, RecordsRepositoryCustom, PagingAndSortingRepository<Record, String> {
+public interface RecordsRepository extends MongoRepository<Record, String>, PagingAndSortingRepository<Record, String> {
 
     @Query("{ 'recordID': ?0 }")
     Record getByID(@Param("id") int id);
