@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="KnjigaInventaraSerijske" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="29" bottomMargin="29" resourceBundle="messages_properties/internationalization/messages" uuid="77c3e832-ed44-4294-ad32-309fcf7a1649">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -62,14 +62,14 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="SansSerif" size="10"/>
+					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{period}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="180" height="30" uuid="d0faa57b-b476-4027-adc6-0b3671aac0aa"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{library}]]></textFieldExpression>
 			</textField>
@@ -82,7 +82,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="SansSerif" size="14"/>
+					<font fontName="DejaVu Sans" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_TITLE")]]></textFieldExpression>
 			</textField>
@@ -103,7 +103,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_RB")]]></textFieldExpression>
 			</textField>
@@ -120,7 +120,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_DATE")]]></textFieldExpression>
 			</textField>
@@ -136,7 +136,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_INFO")]]></textFieldExpression>
 			</textField>
@@ -152,7 +152,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_YEARING")]]></textFieldExpression>
@@ -169,7 +169,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_ITEMNO")]]></textFieldExpression>
 			</textField>
@@ -186,7 +186,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_PRICE")]]></textFieldExpression>
 			</textField>
@@ -203,7 +203,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_SIGNAT")]]></textFieldExpression>
 			</textField>
@@ -220,7 +220,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_NAP")]]></textFieldExpression>
 			</textField>
@@ -237,7 +237,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_ACQTYPE")]]></textFieldExpression>
 			</textField>
@@ -254,7 +254,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_RECEIPT_NO")]]></textFieldExpression>
 			</textField>
@@ -271,7 +271,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_RECEIPT_DATE")]]></textFieldExpression>
 			</textField>
@@ -288,7 +288,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isStrikeThrough="false"/>
+					<font fontName="DejaVu Sans" size="8" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("KNJINVSER_RN")]]></textFieldExpression>
 			</textField>
@@ -311,7 +311,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{rbr}]]></textFieldExpression>
 			</textField>
@@ -327,7 +327,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{datum}]]></textFieldExpression>
 			</textField>
@@ -344,7 +344,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{opis}]]></textFieldExpression>
 			</textField>
@@ -360,7 +360,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{god}]]></textFieldExpression>
 			</textField>
@@ -377,7 +377,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{brSv}]]></textFieldExpression>
 			</textField>
@@ -394,7 +394,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cena}]]></textFieldExpression>
 			</textField>
@@ -412,7 +412,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{signatura}]]></textFieldExpression>
 			</textField>
@@ -429,7 +429,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{napomena}]]></textFieldExpression>
 			</textField>
@@ -446,7 +446,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nabavka}]]></textFieldExpression>
 			</textField>
@@ -461,7 +461,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RN}]]></textFieldExpression>
 			</textField>
@@ -478,7 +478,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{datumRacuna}]]></textFieldExpression>
 			</textField>
@@ -495,7 +495,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{racun}]]></textFieldExpression>
 			</textField>
