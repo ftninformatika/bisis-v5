@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="acquisitionSheet" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="97511e85-cfab-4423-8fb7-af09e55dbc53">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter-json.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -79,7 +79,7 @@
 					<textFieldExpression><![CDATA[$F{acquisitionGroupTitle}]]></textFieldExpression>
 				</textField>
 				<componentElement>
-					<reportElement x="0" y="70" width="790" height="20" uuid="422885b6-4558-4f3d-98c9-3c30bff1ccff">
+					<reportElement stretchType="ContainerHeight" x="0" y="70" width="790" height="20" uuid="422885b6-4558-4f3d-98c9-3c30bff1ccff">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -90,8 +90,8 @@
 							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource((Collection)$F{items})]]></dataSourceExpression>
 						</datasetRun>
 						<jr:listContents height="20" width="790">
-							<textField isStretchWithOverflow="true">
-								<reportElement x="25" y="0" width="145" height="20" uuid="a98c6cfa-9497-44cb-93b9-6205ae0f55f2">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="ContainerHeight" x="25" y="0" width="145" height="20" uuid="a98c6cfa-9497-44cb-93b9-6205ae0f55f2">
 									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -108,8 +108,8 @@
 								</textElement>
 								<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="25" height="20" uuid="9611d9c2-3829-4be1-abe1-08d2ada1c9fc">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="ContainerHeight" x="0" y="0" width="25" height="20" uuid="9611d9c2-3829-4be1-abe1-08d2ada1c9fc">
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
 								</reportElement>
@@ -124,8 +124,8 @@
 								</textElement>
 								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true">
-								<reportElement x="740" y="0" width="50" height="20" uuid="303becf2-20bf-4270-a28b-f9294e2e1ba0">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="ContainerHeight" x="740" y="0" width="50" height="20" uuid="303becf2-20bf-4270-a28b-f9294e2e1ba0">
 									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -142,8 +142,8 @@
 								</textElement>
 								<textFieldExpression><![CDATA[$V{total}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true">
-								<reportElement x="170" y="0" width="110" height="20" uuid="8fd28d7f-a0a2-418c-8ee3-fde8b2d3b3c5">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="ContainerHeight" x="170" y="0" width="110" height="20" uuid="8fd28d7f-a0a2-418c-8ee3-fde8b2d3b3c5">
 									<property name="com.jaspersoft.studio.unit.x" value="px"/>
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 								</reportElement>
@@ -158,8 +158,8 @@
 								</textElement>
 								<textFieldExpression><![CDATA[$F{author}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true">
-								<reportElement x="280" y="0" width="120" height="20" uuid="bc5f10fe-b4ab-49ac-ba43-5a93d57967a8">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="ContainerHeight" x="280" y="0" width="120" height="20" uuid="bc5f10fe-b4ab-49ac-ba43-5a93d57967a8">
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.x" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -176,7 +176,7 @@
 								<textFieldExpression><![CDATA[$F{publisher}]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement x="480" y="0" width="80" height="20" uuid="ce9881eb-84e4-42a8-b32f-edf3cc35316c">
+								<reportElement stretchType="ContainerHeight" x="480" y="0" width="80" height="20" uuid="ce9881eb-84e4-42a8-b32f-edf3cc35316c">
 									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -191,7 +191,7 @@
 								<textFieldExpression><![CDATA[$V{vat}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement x="400" y="0" width="80" height="20" uuid="4e984898-f966-4728-886a-1956d11af2a3">
+								<reportElement stretchType="ContainerHeight" x="400" y="0" width="80" height="20" uuid="4e984898-f966-4728-886a-1956d11af2a3">
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.x" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -206,7 +206,7 @@
 								<textFieldExpression><![CDATA[$V{priceWithRabate}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement x="560" y="0" width="100" height="20" uuid="4ef39a96-918d-4fb7-895e-88230e91b7d2">
+								<reportElement stretchType="ContainerHeight" x="560" y="0" width="100" height="20" uuid="4ef39a96-918d-4fb7-895e-88230e91b7d2">
 									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 								</reportElement>
@@ -220,7 +220,7 @@
 								<textFieldExpression><![CDATA[$V{priceWithVAT}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement x="660" y="0" width="80" height="20" uuid="8ccc1b72-895d-4695-bdce-c653bb2f2dfa">
+								<reportElement stretchType="ContainerHeight" x="660" y="0" width="80" height="20" uuid="8ccc1b72-895d-4695-bdce-c653bb2f2dfa">
 									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -435,21 +435,6 @@
 					<font fontName="DejaVu Sans" size="14" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Набавка]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="-1" y="0" width="220" height="20" uuid="dc938872-eff8-4583-8f85-5a97dc47e0df"/>
-				<textElement verticalAlignment="Bottom">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Библиотека града Београда
- 		]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="-1" y="21" width="321" height="30" uuid="3e0014a5-4911-403e-87c4-f273fd6fa9f3"/>
-				<textElement>
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Oдељење за набавку и обраду библиотечке грађе					]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
