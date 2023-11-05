@@ -4,12 +4,6 @@ plugins {
 
 version = '5.0.0'
 
-jar {
-    enabled = true
-}
-
-sourceCompatibility = 1.8
-
 repositories {
     mavenCentral()
 }
@@ -29,6 +23,7 @@ dependencies {
 }
 
 jar {
+    enabled = true
     mainClassName = 'com.ftninformatika.bisis.books_common_merger.BooksCommonMerger'
     manifest {
 

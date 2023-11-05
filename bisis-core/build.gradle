@@ -1,7 +1,3 @@
-plugins {
-    id "application"
-}
-
 version '5.0.0'
 
 repositories {
