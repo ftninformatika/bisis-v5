@@ -30,7 +30,7 @@ public class RecordPreview {
     @JsonIgnore String text = "";
     @JsonIgnore String empty = "";
 
-    private String author;
+    private List<String> authors;
     private String title;
     private String publisher;
     private String publishingYear;
@@ -49,7 +49,7 @@ public class RecordPreview {
     private List<String> otherAuthors;
 
     public void init(Record r){
-        this.author = getAuthor(r);
+        this.authors = getAuthors(r);
         this.title = getTitle(r);
         this.publisher = getPublisher(r);
         this.publishingYear = getYear(r);
@@ -68,20 +68,45 @@ public class RecordPreview {
         this.otherAuthors = getOtherAuthors(r);
     }
 
+    public List<String> getAuthors(Record rec){
+        List<String> retVal = new ArrayList<>();
+        if (rec == null)
+            return retVal;
+
+        String _700 = "";
+        if (rec.getSubfieldContent("700a") != null)
+            _700 = rec.getSubfieldContent("700a")
+                    + (rec.getSubfieldContent("700b") == null ?
+                    "" : (" " + rec.getSubfieldContent("700b")));
+        if (!_700.equals(""))
+            retVal.add(_700);
+
+        List<Field> _701s = rec.getFields("701");
+        if (_701s != null && _701s.size() > 0) {
+            String singleAuthor = "";
+            for (Field f: _701s) {
+                if (f.getSubfield('a') != null)
+                    singleAuthor = f.getSubfieldContent('a');
+                if (f.getSubfield('b') != null)
+                    singleAuthor += " " + f.getSubfieldContent('b');
+                if (!singleAuthor.trim().equals("") && !retVal.contains(singleAuthor.trim()))
+                    retVal.add(singleAuthor.trim());
+            }
+        }
+        if (!retVal.isEmpty()) {
+            return retVal;
+        } else {
+
+            if (rec.getSubfieldContent("710a") != null)
+                retVal.add(rec.getSubfieldContent("710a"));
+            return retVal;
+        }
+    }
+
     public List<String> getOtherAuthors(Record r) {
         List<String> retVal = new ArrayList<>();
-        Field _701 = r.getField("701");
         List<Field> _702s = r.getFields("702");
         String singleAuthor = "";
-        if (_701 != null) {
-            if (_701.getSubfield('a') != null)
-                singleAuthor = _701.getSubfieldContent('a');
-            if (_701.getSubfield('b') != null)
-                singleAuthor += " " + _701.getSubfieldContent('b');
-            if (!singleAuthor.trim().equals(""))
-                retVal.add(singleAuthor.trim());
-        }
-        singleAuthor = "";
         if (_702s != null && _702s.size() > 0) {
             for (Field f: _702s) {
                 if (f.getSubfield('a') != null)
@@ -188,21 +213,6 @@ public class RecordPreview {
         if(text.length() > 2)
             text = text.substring(0, (text.length() - 2));
         return text;
-    }
-
-    public String getAuthor(Record rec){
-        String retVal = "";
-        if (rec == null)
-            return "";
-        if (rec.getSubfieldContent("700a") != null)
-            retVal = rec.getSubfieldContent("700a")
-                    + (rec.getSubfieldContent("700b") == null ?
-                    "" : (" " + rec.getSubfieldContent("700b")));
-        if (!retVal.equals(""))
-            return retVal;
-        if (rec.getSubfieldContent("710a") != null)
-            retVal = rec.getSubfieldContent("710a");
-        return retVal;
     }
 
     private String fieldsToString(List fields){

@@ -766,7 +766,7 @@ public class CircReportContoller {
                     RecordPreview pr = new RecordPreview();
                     pr.init(rec);
                     r.setProperty1(pr.getTitle());
-                    r.setProperty2(pr.getAuthor());
+                    r.setProperty2(String.join(", ", pr.getAuthors()));
                     r.setProperty3(String.valueOf(entry.getValue()));
                     retVal.add(r);
                 }
@@ -1140,7 +1140,7 @@ public class CircReportContoller {
             Report report = new Report();
             if (r != null) {
                 rp.init(r);
-                report.setProperty3(rp.getAuthor());
+                report.setProperty3(String.join(", ", rp.getAuthors()));
                 report.setProperty4(rp.getTitle());
                 String sveskagodina = rp.getSveskaGodina(r, l.getCtlgNo());
                 if (sveskagodina != null) {
@@ -1184,7 +1184,7 @@ public class CircReportContoller {
             }
             report.setProperty1(sdf.format(l.getLendDate()));
             report.setProperty2(returnDate);
-            report.setProperty3(rp.getAuthor());
+            report.setProperty3(String.join(" ,", rp.getAuthors()));
             report.setProperty4(rp.getTitle());
             String sveskagodina = rp.getSveskaGodina(r, l.getCtlgNo());
             if (sveskagodina != null) {

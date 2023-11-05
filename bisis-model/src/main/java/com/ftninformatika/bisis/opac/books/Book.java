@@ -52,7 +52,7 @@ public class Book {
     private String imageUrl;
     private String description;
     private Integer commonBookUID;
-    private String digitalUrl;       // subfield 856u
+    private List<String> digitalUrls;       // subfield 856u
 
     public boolean setUnimarcImageURL(Record record) {
         Subfield urlSubfield = record.getSubfield(Book.UNIMARC_IMAGE_URL_SUBFIELD);
@@ -66,11 +66,19 @@ public class Book {
 
     public void setDigitalUrl(Record record) {
         if (record != null) {
-            Subfield digitalUrl = record.getSubfield("856u");
-            if (digitalUrl == null || digitalUrl.getContent() == null || digitalUrl.getContent().trim().equals("")) {
-                this.digitalUrl = null;
+            this.digitalUrls = new ArrayList<>();
+            List<Subfield> digitalUrls = record.getSubfields("856u");
+            if (digitalUrls.isEmpty()) {
+                this.digitalUrls = null;
             } else {
-                this.digitalUrl = digitalUrl.getContent();
+                for (Subfield digitalUrl: digitalUrls) {
+                   if (digitalUrl.getContent() != null && !digitalUrl.getContent().trim().equals("")) {
+                       this.digitalUrls.add(digitalUrl.getContent());
+                   }
+                }
+                if (digitalUrls.isEmpty()) {
+                    this.digitalUrls = null;
+                }
             }
         }
     }

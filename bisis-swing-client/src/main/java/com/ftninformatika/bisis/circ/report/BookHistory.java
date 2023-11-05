@@ -1,11 +1,5 @@
 package com.ftninformatika.bisis.circ.report;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.CircLocation;
 import com.ftninformatika.bisis.circ.common.Utils;
@@ -22,6 +16,12 @@ import noNamespace.ReportDocument.Report;
 import noNamespace.ReportDocument.Report.Row;
 import org.w3c.dom.Document;
 import retrofit2.Call;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BookHistory {
 
@@ -56,7 +56,7 @@ public class BookHistory {
 		}
 		if (record != null) {
 			row.addNewColumn2().setStringValue(record.getTitle());
-			row.addNewColumn3().setStringValue(record.getAuthor());
+			row.addNewColumn3().setStringValue(String.join(" ,", record.getAuthors()));
 			row.addNewColumn4().setStringValue(record.getPublisher());
 			row.addNewColumn5().setStringValue(record.getPublishingPlace());
 			row.addNewColumn6().setStringValue(record.getPublishingYear());

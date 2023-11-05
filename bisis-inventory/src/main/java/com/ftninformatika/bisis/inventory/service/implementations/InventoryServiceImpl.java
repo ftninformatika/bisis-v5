@@ -277,7 +277,7 @@ public class InventoryServiceImpl implements InventoryService {
             rp.init(record);
             List<InventoryUnit> inventoryUnits = inventoryUnitsMap.get(rn);
             for (InventoryUnit unit : inventoryUnits) {
-                            unit.setAuthor(rp.getAuthor());
+                            unit.setAuthor(String.join(" ,", rp.getAuthors()));
                             unit.setTitle(rp.getTitle());
                             unit.setPublisher(rp.getPublisher());
                             unit.setPubYear(rp.getPublishingYear());

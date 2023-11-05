@@ -514,7 +514,7 @@ public class RecordsController {
                 RecordPreview rp = new RecordPreview();
                 rp.init(recordsRepository.findById(_id).get());
                 rb.set_id(_id);
-                rb.setAutor(rp.getAuthor());
+                rb.setAutor(String.join(" ,", rp.getAuthors()));
                 rb.setPublicYear(rp.getPublishingYear());
                 rb.setPublisher(rp.getPublisher());
                 rb.setTitle(rp.getTitle());

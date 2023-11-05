@@ -5,7 +5,6 @@ import com.ftninformatika.bisis.circ.CircConfig;
 import com.ftninformatika.bisis.circ.Environment;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.string.StringUtils;
 import net.miginfocom.swing.MigLayout;
@@ -168,8 +167,8 @@ public class UnlockFrame extends JInternalFrame {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                RecordPreview pr = new RecordPreview();
-                pr.init(r);
+//                RecordPreview pr = new RecordPreview();
+//                pr.init(r);
                 if (otkljucao) {
                     JOptionPane.showMessageDialog(null, Messages.getString("UNLOCK_CONTROLLER_RECORD_SUCESSFULLY_UNLOCKED"),
                             Messages.getString("UNLOCK_CONTROLLER_SUCCESS"), JOptionPane.INFORMATION_MESSAGE);

@@ -42,7 +42,7 @@ public class BookCollectionService {
         }
 
         Optional<LibrarianDB> creator = librarianRepository.findByEmailAndBiblioteka(newCollection.getCreatorUsername(), library);
-        if (creator.isEmpty() || !creator.get().getLibrarianRoles().contains(Librarian.Role.OPACADMIN)
+        if (!creator.isPresent() || !creator.get().getLibrarianRoles().contains(Librarian.Role.OPACADMIN)
                 || newCollection.getRecordsIds().size() > BookCollection.MAX_SIZE) return false;
         newCollection.setLastModified(new Date());
         if (newCollection.get_id() == null && bookCollectionRepository.findByTitle(newCollection.getTitle()) != null)

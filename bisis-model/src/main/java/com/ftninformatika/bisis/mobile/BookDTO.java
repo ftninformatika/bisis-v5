@@ -56,6 +56,6 @@ public class BookDTO {
         }
         this.refRecsBrief = book.getRefRecsBrief();
         this.isArticle = isArticle;
-        this.digitalUrl = book.getDigitalUrl();
+        this.digitalUrl = book.getDigitalUrls() != null ? book.getDigitalUrls().get(0) : null;
     }
 }

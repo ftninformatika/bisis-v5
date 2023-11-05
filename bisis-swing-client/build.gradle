@@ -1,3 +1,5 @@
+
+
 plugins {
     id "de.gliderpilot.jnlp" version "1.2.6"
     id 'application'
@@ -45,12 +47,13 @@ dependencies {
 
 
 jar {
+    configurations.implementation.setCanBeResolved(true)
     mainClassName = 'com.ftninformatika.bisis.BisisApp'
     manifest {
         attributes 'Implementation-Title': 'Bisis Client App',
                 'Implementation-Version': version,
                 'Main-Class': 'com.ftninformatika.bisis.BisisApp',
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+                'Class-Path': configurations.implementation.collect { it.getName() }.join(' ')
     }
 }
 
@@ -75,11 +78,13 @@ jnlp {
     href 'bisis5.jnlp'
     codebase 'https://app.bisis.rs/instalacija'
     signJarParams = [
-            keystore : new File(project.rootDir, "bisis-key/ftninformatika-2019.jks"),
-            alias    : 'ftninformatika',
-            keypass: 'bisis',
-            storepass: 'bisis',
-            tsaurl   : 'http://timestamp.digicert.com']
+            keystore : 'NONE',
+            storetype: 'PKCS11',
+            providerclass: 'sun.security.pkcs11.SunPKCS11',
+            providerarg: '../bisis-key/eToken.cfg',
+            storepass: 'f6r1sS8Q.U4a4b4q',
+            alias : 'Sectigo_20231025133008',
+            tsaurl   : 'http://timestamp.sectigo.com']
 }
 
 task compileJasperJava(dependsOn: 'compileJava') {
