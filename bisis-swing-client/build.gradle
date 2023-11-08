@@ -1,5 +1,3 @@
-
-
 plugins {
     id "de.gliderpilot.jnlp" version "1.2.6"
     id 'application'
@@ -11,15 +9,16 @@ targetCompatibility = '1.8'
 version = "5.0.0"
 
 repositories {
+    mavenCentral()
     maven { url "https://clojars.org/repo" }
     maven { url "https://maven.repository.redhat.com/ga/" }
-    maven { url "http://services.tidalwave.it/nexus/content/repositories/releases/" }
-    mavenCentral()
+    maven { url "https://services.tidalwave.it/nexus/content/repositories/releases/" }
+    maven { url "https://jaspersoft.jfrog.io/jaspersoft/jaspersoft-repo"}
 }
 
 dependencies {
     implementation project(":bisis-model")
-    implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.16.0'
+    implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.20.6'
     implementation group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -32,7 +31,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.9'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.9'
     implementation group: 'com.jgoodies', name: 'jgoodies-common', version: '1.6.0'
-    implementation group: 'com.jgoodies', name: 'forms', version: '1.3.0'
+    implementation group: 'com.jgoodies', name: 'jgoodies-forms', version: '1.6.0'
     implementation group: 'com.jgoodies', name: 'looks', version: '2.2.2'
     implementation group: 'com.toedter', name: 'jcalendar', version: '1.4'
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.6'
@@ -53,6 +52,7 @@ jar {
         attributes 'Implementation-Title': 'Bisis Client App',
                 'Implementation-Version': version,
                 'Main-Class': 'com.ftninformatika.bisis.BisisApp',
+                'Permissions': 'all-permissions',
                 'Class-Path': configurations.implementation.collect { it.getName() }.join(' ')
     }
 }
@@ -77,14 +77,26 @@ jnlp {
 
     href 'bisis5.jnlp'
     codebase 'https://app.bisis.rs/instalacija'
-    signJarParams = [
-            keystore : 'NONE',
-            storetype: 'PKCS11',
-            providerclass: 'sun.security.pkcs11.SunPKCS11',
-            providerarg: '../bisis-key/eToken.cfg',
-            storepass: 'f6r1sS8Q.U4a4b4q',
-            alias : 'Sectigo_20231025133008',
-            tsaurl   : 'http://timestamp.sectigo.com']
+
+// potpisivanje ne radi jer signJar ne podrzava certchain opciju
+// potpisivanje se radi kao odvojen task signWebStartDir
+//    signJarParams = [
+//            keystore : 'NONE',
+//            storetype: 'PKCS11',
+//            providerclass: 'sun.security.pkcs11.SunPKCS11',
+//            providerarg: '../bisis-key/eToken.cfg',
+//            storepass: 'f6r1sS8Q.U4a4b4q',
+//            alias : 'Sectigo_20231025133008',
+//            tsaurl   : 'http://timestamp.sectigo.com',
+//            certchain : '../bisis-key/certchain.pem'
+//    ]
+}
+
+
+//task koji ce upakuje jar fajlove i potpise ih
+task signWebstartDir(type:Exec, dependsOn: createWebstartDir) {
+    workingDir './build/jnlp/lib'
+    commandLine 'sh', '-c', 'for i in *.jar; do jarsigner -tsa http://timestamp.sectigo.com -certchain ../../../../bisis-key/certchain.pem -keystore NONE -storetype PKCS11 -providerclass sun.security.pkcs11.SunPKCS11 -providerArg ../../../../bisis-key/eToken.cfg -storepass f6r1sS8Q.U4a4b4q $i "Sectigo_20231025133008"; done'
 }
 
 task compileJasperJava(dependsOn: 'compileJava') {
