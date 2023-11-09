@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.opac.dto.MessageSenderDTO;
 import com.ftninformatika.bisis.opac.repository.MessageRepository;
 import com.ftninformatika.bisis.opac.service.MessageService;
 import com.ftninformatika.bisis.opac.service.NotificationService;
+import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -25,6 +26,8 @@ public class MessageController {
     MessageService messageService;
     @Autowired
     NotificationService notificationService;
+    @Autowired
+    EmailService emailService;
 
     @Value("${message.title}")
     String messageTitle;
@@ -48,6 +51,9 @@ public class MessageController {
             Message savedMessage = messageRepository.save(message);
             if(message.getIdReceiver() != null){
                 notificationService.sendMessageToUsername(message.getIdReceiver(),messageTitle,messageContent,"message");
+            } else {
+                emailService.sendSimpleMail("", "Nova prukua", "");
+                //TODO poslati mail bibliotekaru
             }
             return ResponseEntity.status(HttpStatus.OK).body(savedMessage);
         } catch (Exception e) {
