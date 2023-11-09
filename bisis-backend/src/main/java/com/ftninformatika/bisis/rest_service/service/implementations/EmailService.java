@@ -12,7 +12,6 @@ import freemarker.template.TemplateException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,7 +27,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * @author badf00d21  24.7.19.
@@ -48,41 +46,47 @@ public class EmailService {
     @Value("${opac.email.password}")
     private String opacPassword;
 
+    private JavaMailSender javaMailSender;
+
     @Autowired
-    public EmailService(Configuration fmConfig, YAMLConfig yamlConfig) {
+    public EmailService(Configuration fmConfig, YAMLConfig yamlConfig,JavaMailSender javaMailSender) {
         this.fmConfig = fmConfig;
         this.yamlConfig = yamlConfig;
+        this.javaMailSender = javaMailSender;
+        ((JavaMailSenderImpl)this.javaMailSender).setPassword(opacPassword);
+        ((JavaMailSenderImpl)this.javaMailSender).setUsername(opacUsername);
+
     }
 
-    @Bean("gmail")
-    public JavaMailSender javaMailSender() {
-        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.gmail.com");
-        javaMailSender.setPort(587);
-
-        javaMailSender.setUsername(opacUsername);
-        javaMailSender.setPassword(opacPassword);
-
-        Properties props = javaMailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "false");
-
-
-        return javaMailSender;
-    }
+//    @Bean("gmail")
+//    public JavaMailSender javaMailSender() {
+//       JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+//        javaMailSender.setHost("smtp.gmail.com");
+//        javaMailSender.setPort(587);
+//
+//        javaMailSender.setUsername(opacUsername);
+//        javaMailSender.setPassword(opacPassword);
+//
+//        Properties props = javaMailSender.getJavaMailProperties();
+//        props.put("mail.transport.protocol", "smtp");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.debug", "false");
+//
+//
+//        return javaMailSender;
+//    }
 
     public void sendSimpleMail(String addressTo, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(addressTo);
         message.setSubject(subject);
         message.setText(body);
-        javaMailSender().send(message);
+        javaMailSender.send(message);
     }
 
     public void sendOpacWelcomeTemplate(LibraryMember libraryMember, LibraryConfiguration libraryConfiguration) {
-        MimeMessage message = javaMailSender().createMimeMessage();
+        MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         if (libraryConfiguration == null || yamlConfig.getOpacOrigin() == null || libraryMember == null || libraryMember.getActivationToken() == null) {
@@ -120,7 +124,7 @@ public class EmailService {
             helper.setTo(libraryMember.getUsername());
             helper.setText(text, true);
             helper.setSubject(Texts.getString("OPAC.WELCOME.MAIL.SUBJECT"));
-            javaMailSender().send(message);
+            javaMailSender.send(message);
 
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -134,7 +138,7 @@ public class EmailService {
     }
 
     public void sendReservationConfirmation(String sendTo, String bookTitle, String deadline, LibraryConfiguration libConf) {
-        MimeMessage message = javaMailSender().createMimeMessage();
+        MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         String websiteUrl = "https://opac.bisis.rs";
@@ -168,7 +172,7 @@ public class EmailService {
             message.setFrom(new InternetAddress("bisis.mailer@gmail.com", "Библиотека БИСИС"));
             helper.setText(text, true);
             helper.setSubject(Texts.getString("RESERVATION_CONFIRMED_HEADING"));
-            javaMailSender().send(message);
+            javaMailSender.send(message);
 
         } catch (MessagingException | IOException | TemplateException e) {
             log.error("(sendReservationConfirmation) email nije poslat clanu: " + sendTo + ", za knjigu: " + bookTitle);

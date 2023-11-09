@@ -91,6 +91,9 @@ public class LibraryConfiguration {
     private  Integer locationLevel;
     private Boolean reservation;
 
+    //mail ili mailing lista na koji se salju info mejlovi bibliotekaru koji je opac adimn
+    private String opacAdminMail;
+
     public String toString(){
         return libraryFullName;
     }
