@@ -261,6 +261,11 @@ public class OpacSearchService {
         List<Integer> refRns = new ArrayList<>();
         List<Field> _464s = r.getFields("464");
         List<Field> _474s = r.getFields("474");
+
+        if (r.getSubfield("001d").getContent().equals("1")) {
+            // TODO pretraziti zapise tako da je u 4741 sadrzaj 001e i dodaj u refRns
+        }
+
         for (Field f : _464s) {
             if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
                 continue;
@@ -268,11 +273,14 @@ public class OpacSearchService {
             if (_4641.split(" ").length > 1)
                 _4641 = _4641.split(" ")[0];
             if (_4641.matches("[0-9]+")) {
-                refRns.add(Integer.parseInt(_4641));
+                Integer rn = Integer.parseInt(_4641);
+                if (!refRns.contains(rn)) {
+                    refRns.add(rn);
+                }
             }
         }
 
-        if (refRns.size() == 0) {
+        if (r.getSubfield("001c").equals("a")) {
             for (Field f : _474s) {
                 if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
                     continue;

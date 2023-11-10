@@ -32,6 +32,6 @@ dependencies {
 	implementation group: 'net.java.dev.jna', name: 'jna', version: '4.5.0'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.1.2.RELEASE'
 	implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.1.1.RELEASE'
-	implementation 'com.google.firebase:firebase-admin:8.1.0'
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
 
 }

@@ -8,7 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +54,7 @@ public class JWTUtil {
         claims.put("userID", bisisUserDetails.getID());
         claims.put("username", bisisUserDetails.getUsername());
         claims.put("library", bisisUserDetails.getLibrary());
-        claims.put("token_create_date", LocalDateTime.now());
+        claims.put("token_create_date", new Date(System.currentTimeMillis()));
         return createToken(claims, userDetails.getUsername());
     }
 

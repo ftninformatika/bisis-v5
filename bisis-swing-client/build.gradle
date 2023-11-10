@@ -95,7 +95,7 @@ jnlp {
 }
 
 
-//task koji ce upakuje jar fajlove i potpise ih
+//task koji ce da upakuje jar fajlove i potpise ih
 task signWebstartDir(type:Exec, dependsOn: createWebstartDir) {
     workingDir './build/jnlp/lib'
     commandLine 'sh', '-c', 'for i in *.jar; do jarsigner -tsa http://timestamp.sectigo.com -certchain ../../../../bisis-key/certchain.pem -keystore NONE -storetype PKCS11 -providerclass sun.security.pkcs11.SunPKCS11 -providerArg ../../../../bisis-key/eToken.cfg -storepass f6r1sS8Q.U4a4b4q $i "Sectigo_20231025133008"; done'
@@ -106,9 +106,9 @@ task compileJasperJava(dependsOn: 'compileJava') {
         def jasperSourceDir = file('src/main/resources')
         def jasperTargetDir = file('build/resources/main')
         def jasperTargetDirSrc = file('src/main/resources')
-        def tree = fileTree('src/main/resources')
-        tree.include '**/*.jasper'
-        tree.each { it.delete() }
+//        def tree = fileTree('src/main/resources')
+//        tree.include '**/*.jasper'
+//        tree.each { it.delete() }
         ant {
             taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: sourceSets.main.compileClasspath.asPath)
             jasperTargetDir.mkdirs()

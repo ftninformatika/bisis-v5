@@ -81,7 +81,7 @@ public class NotificationService {
     }
     public void sendMessageToDeviceList(MulticastMessage message){
         try{
-            FirebaseMessaging.getInstance().sendMulticast(message);
+            FirebaseMessaging.getInstance().sendEachForMulticast(message);
         }catch(Exception e){
             //TODO:handle exception
         }

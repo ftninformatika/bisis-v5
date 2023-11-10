@@ -1,6 +1,7 @@
 package com.ftninformatika.bisis.opac.controller;
 
 import com.ftninformatika.bisis.core.repositories.LibraryConfigurationRepository;
+import com.ftninformatika.bisis.librarian.web.Librarian;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.opac.Message;
 import com.ftninformatika.bisis.opac.admin.dto.MessageDTO;
@@ -61,7 +62,7 @@ public class MessageController {
             if(message.getIdReceiver() != null){
                 notificationService.sendMessageToUsername(message.getIdReceiver(),messageTitle,messageContent,"message");
             } else {
-                String opacMail = getOpecMail(lib);
+                String opacMail = getOpacMail(lib);
                 if(opacMail !=null){
                     emailService.sendSimpleMail(opacMail, Texts.getString("OPAC.EMAIL.MESSAGE.SUBJECT"),
                             MessageFormat.format(Texts.getString("OPAC.EMAIL.MESSAGE.BODY"), message.getIdSender(),message.getContent()));
@@ -78,7 +79,7 @@ public class MessageController {
         List<MessageSenderDTO> messageSenderDTOS = this.messageService.getSenders(lib);
         return new ResponseEntity<>(messageSenderDTOS, HttpStatus.OK);
     }
-    private String getOpecMail(String library){
+    private String getOpacMail(String library){
         LibraryConfiguration libraryConfiguration = this.libraryConfigurationRepository.getByLibraryName(library);
         if(libraryConfiguration != null) {
             return libraryConfiguration.getOpacAdminMail();
@@ -87,14 +88,16 @@ public class MessageController {
         }
     }
     @GetMapping("/librarian_email")
-    public ResponseEntity<String> getLibrarianEmail(@RequestHeader("Library") String lib) {
-        String opacMail = getOpecMail(lib);
-        return new ResponseEntity(opacMail, HttpStatus.OK);
+    public ResponseEntity<?> getLibrarianEmail(@RequestHeader("Library") String lib) {
+        String opacMail = getOpacMail(lib);
+        Librarian librarian = new Librarian();
+        librarian.setEmail(opacMail);
+        return new ResponseEntity<>(librarian, HttpStatus.OK);
 
     }
 
     @PostMapping("/librarian_email")
-    public ResponseEntity<String> updateLibrarianEmail(@RequestHeader("Library") String lib, @RequestBody String librarianEmail) {
+    public ResponseEntity<?> updateLibrarianEmail(@RequestHeader("Library") String lib, @RequestBody String librarianEmail) {
         if (DataValidator.validateEmail(librarianEmail) == DataErrors.EMAIL_FORMAT_INVALID)
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 
@@ -102,7 +105,7 @@ public class MessageController {
         if(libraryConfiguration != null){
             libraryConfiguration.setOpacAdminMail(librarianEmail);
             libraryConfigurationRepository.save(libraryConfiguration);
-            return ResponseEntity.status(HttpStatus.OK).body("Konfiguracija azurirana");
+            return ResponseEntity.status(HttpStatus.OK).build();
         }else{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
