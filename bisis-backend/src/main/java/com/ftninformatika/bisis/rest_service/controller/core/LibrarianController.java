@@ -39,8 +39,7 @@ public class LibrarianController {
 //        return librarian2Repository.getLibrariansByBiblioteka(libName).stream().
 //                map(i -> new Librarian(i)).
 //                collect(Collectors.toList());
-        Sort sort = Sort.by(Sort.Order.by("username").ignoreCase());
-        List<LibrarianDB> librarians = librarianRepository.getLibrariansByBiblioteka(libName, sort);
+        List<LibrarianDB> librarians = librarianRepository.getLibrariansByBiblioteka(libName, new Sort(Sort.Direction.ASC,"username"));
         return librarians;
     }
 
@@ -68,8 +67,8 @@ public class LibrarianController {
     public ResponseEntity<?> getLibrarians(@RequestHeader(name="Authorization") String token, @RequestParam (value="library") String libName){
         String library = jwtUtil.extractLibrary(token.substring(7));
         if (library.equals(libName)) {
-            Sort sort = Sort.by(Sort.Order.by("username").ignoreCase());
-            List<Librarian> librarians = librarianRepository.getLibrariansByBiblioteka(libName,sort).stream().
+            //Sort sort = Sort.by(Sort.Order.by("username").ignoreCase());
+            List<Librarian> librarians = librarianRepository.getLibrariansByBiblioteka(libName,new Sort(Sort.Direction.ASC,"username")).stream().
                     map(Librarian::new).collect(Collectors.toList());
             return ResponseEntity.ok(librarians);
         } else {
