@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.records.serializers;
 
 import com.ftninformatika.bisis.records.*;
-import com.ftninformatika.bisis.records.Record;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -585,7 +585,7 @@ public class PrimerakSerializer {
   
   private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
   private static SimpleDateFormat dateFormat2 = new SimpleDateFormat("ddMMyy");
-  private static Logger log = Logger.getLogger(PrimerakSerializer.class);
+  private static Logger log = LoggerFactory.getLogger(PrimerakSerializer.class);
   
   
 }

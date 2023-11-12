@@ -1,7 +1,8 @@
 package com.ftninformatika.bisis.format;
 
 import com.ftninformatika.utils.file.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ValidatorFactory {
   
   private static Map validators = new HashMap();
 
-  private static Logger log = Logger.getLogger(ValidatorFactory.class);
+  private static Logger log = LoggerFactory.getLogger(ValidatorFactory.class);
 
   static {
     try {
@@ -42,7 +43,7 @@ public class ValidatorFactory {
         }
       }
     } catch (Exception ex) {
-      log.fatal(ex);
+      log.error(ex.getMessage());
     }
   }
 }

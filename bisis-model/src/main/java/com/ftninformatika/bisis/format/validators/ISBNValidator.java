@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.ftninformatika.bisis.format.UValidator;
 import com.ftninformatika.bisis.format.UValidatorException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ISBNValidator implements UValidator {
@@ -56,6 +57,6 @@ public class ISBNValidator implements UValidator {
 	}
 	
 	private List targets;
-  private static Logger log = Logger.getLogger(ISBNValidator.class);
+  private static Logger log = LoggerFactory.getLogger(ISBNValidator.class);
 
 }

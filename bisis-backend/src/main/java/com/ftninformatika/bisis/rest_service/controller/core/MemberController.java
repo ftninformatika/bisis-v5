@@ -19,7 +19,8 @@ import com.ftninformatika.utils.validators.memberdata.MemberDataDatesValidator;
 import com.ftninformatika.utils.validators.memberdata.MemberDateError;
 import com.mongodb.MongoClient;
 import com.mongodb.client.ClientSession;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -415,6 +416,6 @@ public class MemberController {
 
     }
 
-    private Logger log = Logger.getLogger(MemberController.class);
+    private Logger log = LoggerFactory.getLogger(MemberController.class);
 
 }

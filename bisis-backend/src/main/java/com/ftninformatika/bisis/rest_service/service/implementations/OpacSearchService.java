@@ -19,7 +19,8 @@ import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.Helper;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -65,7 +66,7 @@ public class OpacSearchService {
     @Autowired
     LibraryConfigurationRepository libraryConfigurationRepository;
 
-    private Logger log = Logger.getLogger(OpacSearchService.class);
+    private Logger log = LoggerFactory.getLogger(OpacSearchService.class);
 
     public PageImpl<List<Book>> searchBooks(ResultPageSearchRequest searchRequest, String lib, Integer pageNumber, Integer pageSize,
                                             boolean fullBook) {
@@ -277,8 +278,6 @@ public class OpacSearchService {
                 );
 
             }
-
-            // TODO pretraziti zapise tako da je u 4741 sadrzaj 001e i dodaj u refRns
         }
 
         for (Field f : _464s) {

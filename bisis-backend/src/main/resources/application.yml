@@ -1,8 +1,4 @@
 
-logging:
-  level:
-    root: INFO
-
 spring:
   profiles:
     active: development
@@ -12,9 +8,11 @@ spring:
     port: 587
     properties:
       mail:
+        transport:
+          protocol: smtp
         smtp:
           auth: true
-          ssl:
+          starttls:
             enable: true
 ---
 

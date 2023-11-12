@@ -75,7 +75,7 @@ class RecordsPair {
                     }
                     List<Record> records = searchRecords(query);
                     if (records == null) {
-                        log.info("No records in library: " + libPref + " for ISBN or ISSN: " + id);
+                        //log.info("No records in library: " + libPref + " for ISBN or ISSN: " + id);
                         continue;
                     }
                     List<Record> toRemove = new ArrayList<>();
@@ -86,8 +86,8 @@ class RecordsPair {
                     }
                     if (toRemove.size() > 0) {
                         records.removeAll(toRemove);
-                        log.info("Remove " + toRemove.size() + " records");
-                        System.out.println("Remove " + toRemove.size() + " records");
+                        //log.info("Remove " + toRemove.size() + " records");
+                        //System.out.println("Remove " + toRemove.size() + " records");
                     }
                     if (records.size() == 0) {
                         continue;
@@ -99,7 +99,7 @@ class RecordsPair {
                 SearchModel query = BookCommonHelper.generateSearchModel("856b",String.valueOf(bookCommon.getUid()));
                 List<Record> records = searchRecords(query);
                 if (records == null) {
-                    log.info("No records in library: " + libPref + " for 856b: " + bookCommon.getUid());
+                    //log.info("No records in library: " + libPref + " for 856b: " + bookCommon.getUid());
                     continue;
                 }
                 mergeCommonBookUID(records, libPref, bookCommon.getUid());
@@ -112,8 +112,8 @@ class RecordsPair {
     private void mergeCommonBookUID(List<Record> records, String libPref, int bcId) {
         for (Record r: records) {
             if (r.getCommonBookUid() != null) {
-                log.info("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
-                System.out.println("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
+                //log.info("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
+                //System.out.println("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
                 continue;
             }
             r.setCommonBookUid(bcId);
@@ -126,8 +126,8 @@ class RecordsPair {
     private void mergeCommonBookUID(List<Record> records, String libPref) {
         for (Record r: records) {
             if (r.getCommonBookUid() != null) {
-                log.info("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
-                System.out.println("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
+                //log.info("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
+                //System.out.println("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
                 continue;
             }
             r.setCommonBookUid(BooksCommonMergerUtils.UID_COUNTER);

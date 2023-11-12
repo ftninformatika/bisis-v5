@@ -4,7 +4,8 @@ import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.records.Subsubfield;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -173,6 +174,6 @@ public class UnimarcSerializer {
       }
     }
   }
-  
-  private static Logger log = Logger.getLogger(UnimarcSerializer.class);
+
+  private static Logger log =  LoggerFactory.getLogger(UnimarcSerializer.class);
 }

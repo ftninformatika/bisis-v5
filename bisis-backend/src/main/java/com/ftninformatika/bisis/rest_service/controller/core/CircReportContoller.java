@@ -10,11 +10,13 @@ import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
-import com.ftninformatika.bisis.core.repositories.UserCategRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.date.DateUtils;
-import org.apache.log4j.Logger;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.util.CloseableIterator;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,7 +50,7 @@ public class CircReportContoller {
     @Autowired
     ItemAvailabilityRepository itemAvailabilityRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
-    private Logger log = Logger.getLogger(CircReportContoller.class);
+    private Logger log = LoggerFactory.getLogger(CircReportContoller.class);
 
     /**
      *

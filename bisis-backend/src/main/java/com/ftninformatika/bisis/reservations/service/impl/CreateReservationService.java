@@ -10,15 +10,14 @@ import com.ftninformatika.bisis.reservations.Reservation;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
-import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
-import com.ftninformatika.bisis.core.repositories.MemberRepository;
-import com.ftninformatika.bisis.core.repositories.CircConfigRepository;
 import com.ftninformatika.bisis.reservations.service.interfaces.CreateReservationServiceInterface;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import com.ftninformatika.utils.constants.ReservationsConstants;
-import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CreateReservationService implements CreateReservationServiceInterface {
-    private Logger log = Logger.getLogger(CreateReservationService.class);
+    private Logger log = LoggerFactory.getLogger(CreateReservationService.class);
 
     @Autowired
     LibraryMemberRepository libraryMemberRepository;

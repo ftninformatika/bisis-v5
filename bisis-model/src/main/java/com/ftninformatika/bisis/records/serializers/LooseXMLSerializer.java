@@ -1,18 +1,18 @@
 package com.ftninformatika.bisis.records.serializers;
 
-import java.util.List;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisis.records.Subsubfield;
-import org.apache.log4j.Logger;
-import org.xml.sax.InputSource;
 import com.ftninformatika.utils.string.StringUtils;
 import com.ftninformatika.utils.xml.XMLUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.util.List;
 
 /**
  * 
@@ -107,7 +107,7 @@ public class LooseXMLSerializer {
       parser.parse(XMLUtils.getInputSourceFromString(xml), handler);
       return handler.getRecord();
     } catch (Exception ex) {
-      log.fatal(ex);
+      log.error(ex.getMessage());
       return null;
     }
   }
@@ -124,7 +124,7 @@ public class LooseXMLSerializer {
       parser.parse(XMLUtils.getInputSourceFromString(xml), handler);
       return handler.getRecords();
     } catch (Exception ex) {
-      log.fatal(ex);
+      log.error(ex.getMessage());
       return null;
     }
   }
@@ -137,13 +137,13 @@ public class LooseXMLSerializer {
      parser.parse(xml, handler);
      return handler.getRecords();
    } catch (Exception ex) {
-     log.fatal(ex);
+     log.error(ex.getMessage());
      return null;
    }
  }
   
   static SAXParserFactory factory;
-  static Logger log = Logger.getLogger(LooseXMLSerializer.class);
+  static Logger log = LoggerFactory.getLogger(LooseXMLSerializer.class);
   
   static {
     factory = SAXParserFactory.newInstance();

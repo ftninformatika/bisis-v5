@@ -13,7 +13,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.ftninformatika.utils.xml.XMLUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class FormatFactory comment.
@@ -253,7 +254,7 @@ public class FormatFactory {
       parser.parse(XMLUtils.getInputSourceFromString(xml), handler);
       return handler.getFormat();
     } catch (Exception ex) {
-      log.fatal(ex);
+      log.error(ex.getMessage());
       return null;
     }
   }
@@ -265,7 +266,7 @@ public class FormatFactory {
       parser.parse(xml, handler);
       return handler.getFormat();
     } catch (Exception ex) {
-      log.fatal(ex);
+      log.error(ex.getMessage());
       return null;
     }
   }
@@ -277,7 +278,7 @@ public class FormatFactory {
       parser.parse(XMLUtils.getInputSourceFromString(xml), handler);
       return handler.getPubType();
     } catch (Exception ex) {
-      log.fatal(ex);
+      log.error(ex.getMessage());
       return null;
     }
   }
@@ -290,11 +291,11 @@ public class FormatFactory {
       return handler.getPubType();
     } catch (Exception ex) {
     	 ex.printStackTrace();
-      log.fatal(ex);
+      log.error(ex.getMessage());
       return null;
     }
   }
   
   static SAXParserFactory factory = SAXParserFactory.newInstance();
-  static Logger log = Logger.getLogger(FormatFactory.class);
+  static Logger log = LoggerFactory.getLogger(FormatFactory.class);
 }

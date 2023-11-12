@@ -13,17 +13,17 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
 import com.ftninformatika.bisis.reservations.ReservationStatus;
-import com.ftninformatika.bisis.rest_service.Texts;
-import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.core.repositories.CircConfigRepository;
 import com.ftninformatika.bisis.reservations.service.interfaces.BisisReservationsServiceInterface;
 import com.ftninformatika.bisis.reservations.service.interfaces.LocationServiceInterface;
+import com.ftninformatika.bisis.rest_service.Texts;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.EmailService;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
 import com.ftninformatika.util.WorkCalendar;
 import com.ftninformatika.utils.constants.ReservationsConstants;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ import java.util.*;
 
 @Service
 public class BisisReservationsService implements BisisReservationsServiceInterface {
-    private Logger log = Logger.getLogger(BisisReservationsService.class);
+    private Logger log = LoggerFactory.getLogger(BisisReservationsService.class);
 
     @Autowired
     LibraryMemberRepository libraryMemberRepository;

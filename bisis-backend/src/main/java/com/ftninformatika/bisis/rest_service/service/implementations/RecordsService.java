@@ -16,7 +16,8 @@ import com.ftninformatika.utils.RegexUtils;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientException;
 import com.mongodb.client.ClientSession;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class RecordsService implements RecordsServiceInterface {
     @Autowired
     ItemStatusRepository itemStatusRepository;
 
-    private Logger log = Logger.getLogger(RecordsService.class);
+    private Logger log = LoggerFactory.getLogger(RecordsService.class);
 
     public AvgRecordRating rateRecord(RecordRating recordRating, String recordId) {
         if (recordRating.getGivenRating() == null || recordRating.getLibraryMemberId() == null

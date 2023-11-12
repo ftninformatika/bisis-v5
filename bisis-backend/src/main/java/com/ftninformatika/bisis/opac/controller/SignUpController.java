@@ -73,7 +73,6 @@ public class SignUpController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
         return new ResponseEntity<>(createdMember, HttpStatus.ACCEPTED);
     }
 

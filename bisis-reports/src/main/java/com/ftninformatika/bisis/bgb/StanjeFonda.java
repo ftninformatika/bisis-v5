@@ -5,7 +5,8 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reports.GeneratedReport;
 import com.ftninformatika.bisis.reports.Report;
 import com.ftninformatika.utils.string.LatCyrUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -206,7 +207,7 @@ public class StanjeFonda extends Report {
 
 	  private Pattern pattern;
 	  private Map<String, List<Item>> itemMap = new HashMap<>();
-	  private static Logger log = Logger.getLogger(StanjeFonda.class);
+	  private static Logger log = LoggerFactory.getLogger(StanjeFonda.class);
 	  NumberFormat nf;
 
 	}
