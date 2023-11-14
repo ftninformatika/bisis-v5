@@ -52,8 +52,7 @@ public class Book {
     private String imageUrl;
     private String description;
     private Integer commonBookUID;
-    private String digitalUrl; // subfield 856u, for mobile (only one url is in model)
-    private List<String> digitalUrls;       // subfield 856u, used by opac, more urls
+    private List<String> digitalUrls;       // subfield 856u
 
     public boolean setUnimarcImageURL(Record record) {
         Subfield urlSubfield = record.getSubfield(Book.UNIMARC_IMAGE_URL_SUBFIELD);
@@ -71,18 +70,14 @@ public class Book {
             List<Subfield> digitalUrls = record.getSubfields("856u");
             if (digitalUrls.isEmpty()) {
                 this.digitalUrls = null;
-                this.digitalUrl = null;
             } else {
                 for (Subfield digitalUrl: digitalUrls) {
                    if (digitalUrl.getContent() != null && !digitalUrl.getContent().trim().equals("")) {
                        this.digitalUrls.add(digitalUrl.getContent());
                    }
                 }
-                if (this.digitalUrls.isEmpty()) {
+                if (digitalUrls.isEmpty()) {
                     this.digitalUrls = null;
-                    this.digitalUrl = null;
-                } else {
-                    this.digitalUrl = this.digitalUrls.get(0);
                 }
             }
         }
