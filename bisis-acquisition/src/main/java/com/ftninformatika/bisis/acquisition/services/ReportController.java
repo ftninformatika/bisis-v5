@@ -1,8 +1,14 @@
 package com.ftninformatika.bisis.acquisition.services;
 
-import com.ftninformatika.bisis.acquisition.dto.*;
+import com.ftninformatika.bisis.acquisition.dto.DeliveryReportRequest;
+import com.ftninformatika.bisis.acquisition.dto.DesideratumReportDTO;
+import com.ftninformatika.bisis.acquisition.dto.ReportItemDTO;
+import com.ftninformatika.bisis.acquisition.dto.ValueObject;
 import com.ftninformatika.bisis.acquisition.model.*;
-import com.ftninformatika.bisis.acquisition.repositories.*;
+import com.ftninformatika.bisis.acquisition.repositories.AcquisitionRepository;
+import com.ftninformatika.bisis.acquisition.repositories.DesideratumRepository;
+import com.ftninformatika.bisis.acquisition.repositories.DistributorRepository;
+import com.ftninformatika.bisis.acquisition.repositories.OfferRepository;
 import com.ftninformatika.bisis.core.repositories.LocationRepository;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -20,13 +26,13 @@ import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -50,6 +56,7 @@ public class ReportController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public void handleException(Exception ex) {
+        ex.printStackTrace();
     }
 
     @RequestMapping(value = "createDeliverySheet",method = RequestMethod.POST)
@@ -57,7 +64,7 @@ public class ReportController {
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(request.getDeliveryList());
         InputStream inputStream = this.getClass().getResourceAsStream("/jaspers/deliverySheet.jasper");
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("deliveryTitle", request.getTitle());
+        params.put("deliveryTitle", request.getTitle() != null ? request.getTitle() : "");
         JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, dataSource);
         inputStream.close();
         response.setContentType("application/octet-stream");
@@ -95,7 +102,7 @@ public class ReportController {
             inputStream = this.getClass().getResourceAsStream("/jaspers/missingBooks.jasper");
         }
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("title", a.getTitle());
+        params.put("title", a.getTitle() != null ? a.getTitle() : "");
         JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, dataSource);
         inputStream.close();
         response.setContentType("application/octet-stream");
@@ -117,7 +124,7 @@ public class ReportController {
         }
         InputStream inputStream = this.getClass().getResourceAsStream("/jaspers/procruimentSheet.jasper");
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("title", a.getTitle());
+        params.put("title", a.getTitle() != null ? a.getTitle() : "");
         JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, dataSource);
         inputStream.close();
         response.setContentType("application/octet-stream");
@@ -229,7 +236,7 @@ public class ReportController {
         dataSource = new JRBeanCollectionDataSource(a.getAcquisitionGroupsPlaned());
         InputStream inputStream = this.getClass().getResourceAsStream("/jaspers/acquisitionSheet.jasper");
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("title", a.getTitle());
+        params.put("title", a.getTitle() != null ? a.getTitle() : "");
         JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, dataSource);
         inputStream.close();
         response.setContentType("application/octet-stream");
