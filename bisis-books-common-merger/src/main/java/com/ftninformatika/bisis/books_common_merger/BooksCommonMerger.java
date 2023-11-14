@@ -8,12 +8,17 @@ import com.ftninformatika.bisis.opac.books.BookCommon;
 import com.ftninformatika.bisis.opac.controller.BookCommonController;
 import com.ftninformatika.bisis.opac.controller.BookCoverController;
 import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
+import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
+import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +63,8 @@ public class BooksCommonMerger {
         ctx.register(CommonMergerConfigMongo.class);
         ctx.register(YAMLConfig.class);
         ctx.register(CommonMergerConfigElastic.class);
+        ctx.register(BookCommonRepository.class);
+        ctx.register(ElasticRecordsRepository.class);
         ctx.refresh();
         ctx.scan("com.ftninformatika");
         RecordsPair recordsPair = new RecordsPair();
@@ -65,37 +72,25 @@ public class BooksCommonMerger {
         recordsPair.setBookCoverController(ctx.getBean(BookCoverController.class));
         recordsPair.setRecordsController(ctx.getBean(RecordsController.class));
         recordsPair.setRecordsRepository(ctx.getBean(RecordsRepository.class));
+        recordsPair.setElasticRecordsRepository(ctx.getBean(ElasticRecordsRepository.class));
 
         if (mode.equals("m")) {
             List<String> selectedLibs =new ArrayList<>(Arrays.asList(path.split(",")));
-            int sucessCnt = 0;
-            int bcId = 1;
-            while (bcId != 0) {
+            Pageable p = PageRequest.of(0, 1000);
+            Page<BookCommon> bookCommonsPage = ctx.getBean(BookCommonRepository.class).findAll(p);
+            int pageCount = bookCommonsPage.getTotalPages();
+            for (int i = 0; i < pageCount; i++) {
                 try {
-                    BookCommon bc = recordsPair.getBookCommonController().getBookCommon(bcId).getBody();
-                    if (bc == null) {
-                        bcId = 0;
-                        continue;
-                    }
-                    if (!recordsPair.pairBookCommonWithSelectedLib(bc, selectedLibs)) {
-                        System.out.println("Coulnd pair book common: " + bc.getUid() + " for lib: " + path);
-                        log.warn("Coulnd pair book common: " + bc.getUid() + " for lib: " + path);
-                    } else {
-                        System.out.println("Paired book common " + bc.getUid() + " for lib: " + path);
-                        log.info("Paired book common " + bc.getUid() + " for lib: " + path);
-                        sucessCnt++;
-                    }
-                    bcId++;
-                }
-                catch (Exception e) {
+                    recordsPair.pairBookCommonWithSelectedLib(bookCommonsPage, selectedLibs);
+                } catch (Exception e) {
                     e.printStackTrace();
-                    bcId = 0;
+                }
+                if (!bookCommonsPage.isLast()) {
+                    p = bookCommonsPage.nextPageable();
+                    bookCommonsPage = ctx.getBean(BookCommonRepository.class).findAll(p);
                 }
             }
-            log.info("Merged " + sucessCnt + " book common objects with " + path + "libraries!");
-            System.out.println("Merged " + sucessCnt + " book common objects with " + path + "libraries!");
-        }
-        else {
+        } else {
             try (Stream<Path> walk = Files.walk(Paths.get(path))) {
                 List<String> files = walk.filter(Files::isRegularFile).map(Objects::toString).collect(Collectors.toList());
                 for (String fileName : files) {
@@ -106,11 +101,8 @@ public class BooksCommonMerger {
                         log.warn("Cannot make BookCommon from path: " + fileName);
                         continue;
                     }
-                    if (!recordsPair.pairBookCommon(bookCommon)) continue;
-                    if (!recordsPair.getBookCommonController().saveModifyBookCommon(bookCommon)
-                            .getStatusCode().equals(HttpStatus.OK)) {
-                        log.error("BookCommon: " + bookCommon.getIsbn() + " is not saved");
-                    }
+                    recordsPair.pairBookCommon(Arrays.asList(bookCommon));
+                    recordsPair.getBookCommonController().saveModifyBookCommon(bookCommon).getStatusCode().equals(HttpStatus.OK);
                     BooksCommonMergerUtils.UID_COUNTER++;
 
                     if (!(BooksCommonMergerUtils.bookCoverValid(fileName))) {
