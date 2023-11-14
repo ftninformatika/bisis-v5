@@ -11,7 +11,8 @@ import com.ftninformatika.bisis.opac.dto.AddToCollectionDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class BookCollectionService {
     @Autowired LibrarianRepository librarianRepository;
     @Autowired RecordsRepository recordsRepository;
     @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
-    private static Logger log = Logger.getLogger(BookCollectionService.class);
+    private static Logger log = LoggerFactory.getLogger(BookCollectionService.class);
 
     public boolean addModifyCollection(String library, BookCollection newCollection) {
         if (newCollection == null || newCollection.getCreatorUsername() == null) return false;

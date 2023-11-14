@@ -620,8 +620,8 @@ public class UserManager {
             throw new Exception(Messages.getString("USER_MANAGER_EMAIL_ALREADY_EXIST"));
         if (createdMemberResp.code() == 417)
             throw new Exception(Messages.getString("USER_MANAGER_INVALID_USER_DATA"));
-        if (createdMemberResp.body() == null)
-            throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));
+//        if (createdMemberResp.body() == null)
+//            throw new Exception(Messages.getString("USER_MANAGER_CONNECTION_ERROR"));
         return Messages.getString("USER_MANAGER_ACTIVATION_EMAIL_SENT");
     }
 

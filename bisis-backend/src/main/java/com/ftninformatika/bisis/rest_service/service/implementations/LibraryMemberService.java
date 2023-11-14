@@ -21,7 +21,8 @@ import com.ftninformatika.bisisauthentication.security.JWTUtil;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.utils.constants.ReservationsConstants;
 import com.ftninformatika.utils.date.DateUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +40,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class LibraryMemberService {
-    private static Logger log = Logger.getLogger(LibraryMemberService.class);
+    private static Logger log = LoggerFactory.getLogger(LibraryMemberService.class);
 
     @Value("security.token.secret.key")
     private String tokenKey;

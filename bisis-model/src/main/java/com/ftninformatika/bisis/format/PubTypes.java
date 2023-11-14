@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ftninformatika.utils.file.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -41,7 +42,7 @@ public class PubTypes {
   /** unimarc format definition */
   private static UFormat format;
 
-  private static Logger log = Logger.getLogger(PubTypes.class);
+  private static Logger log = LoggerFactory.getLogger(PubTypes.class);
 
   
   static {
@@ -62,7 +63,7 @@ public class PubTypes {
         }
       }
     } catch (IOException ex) {
-      log.fatal(ex);
+      log.error(ex.getMessage());
     }
   }
   

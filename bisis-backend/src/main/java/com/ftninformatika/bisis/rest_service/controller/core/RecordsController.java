@@ -21,7 +21,8 @@ import com.ftninformatika.bisis.search.*;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.mongodb.MongoClient;
 import org.apache.commons.collections.IteratorUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
@@ -60,7 +61,7 @@ public class RecordsController {
     @Autowired LibraryConfigService libraryConfigService;
     @Autowired LibraryPrefixProvider libraryPrefixProvider;
 
-    private Logger log = Logger.getLogger(MemberController.class);
+    private Logger log = LoggerFactory.getLogger(MemberController.class);
 
     @PostMapping("/rate_record/{recordId}")
     public ResponseEntity<AvgRecordRating> rateRecord(@RequestBody RecordRating recordRating

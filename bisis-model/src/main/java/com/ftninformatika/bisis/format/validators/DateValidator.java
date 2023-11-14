@@ -2,7 +2,8 @@ package com.ftninformatika.bisis.format.validators;
 
 import com.ftninformatika.bisis.format.UValidator;
 import com.ftninformatika.bisis.format.UValidatorException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,6 @@ public class DateValidator implements UValidator {
 	}
 	
 	private List targets;
-  private static Logger log = Logger.getLogger(DateValidator.class);
+  private static Logger log = LoggerFactory.getLogger(DateValidator.class);
 
 }

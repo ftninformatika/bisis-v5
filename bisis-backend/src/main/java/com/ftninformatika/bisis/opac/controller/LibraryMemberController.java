@@ -13,7 +13,7 @@ import com.ftninformatika.utils.validators.security.PasswordCodes;
 import com.ftninformatika.utils.validators.security.PasswordValidator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import org.apache.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -12,7 +12,8 @@ import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.search.SearchModel;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class BookCommonService {
     @Autowired
     LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired RecordsController recordsController; // Avoid this
-    private Logger log = Logger.getLogger(BookCommonService.class);
+    private Logger log = LoggerFactory.getLogger(BookCommonService.class);
 
     public BookCommon saveModifyBookCommon(BookCommon bookCommon) {
         boolean isNew = false;

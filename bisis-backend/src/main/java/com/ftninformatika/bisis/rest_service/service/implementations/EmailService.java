@@ -9,7 +9,8 @@ import com.ftninformatika.utils.string.StringUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -37,7 +38,7 @@ public class EmailService {
 
     private Configuration fmConfig;
     private YAMLConfig yamlConfig;
-    private Logger log = Logger.getLogger(EmailService.class);
+    private Logger log = LoggerFactory.getLogger(EmailService.class);
     private static final String ACTIVATE_ACC_URL_CHUNK = "user/activate-account/";
     private static final String LIB_URL_CHUNK = "lib/";
 
@@ -53,9 +54,14 @@ public class EmailService {
         this.fmConfig = fmConfig;
         this.yamlConfig = yamlConfig;
         this.javaMailSender = javaMailSender;
-        ((JavaMailSenderImpl)this.javaMailSender).setPassword(opacPassword);
-        ((JavaMailSenderImpl)this.javaMailSender).setUsername(opacUsername);
+    }
 
+    private JavaMailSender javaMailSender() {
+        if (((JavaMailSenderImpl)javaMailSender).getPassword() == null || ((JavaMailSenderImpl)javaMailSender).getUsername() == null) {
+            ((JavaMailSenderImpl)javaMailSender).setPassword(opacPassword);
+            ((JavaMailSenderImpl)javaMailSender).setUsername(opacUsername);
+        }
+        return javaMailSender;
     }
 
 //    @Bean("gmail")
@@ -82,11 +88,11 @@ public class EmailService {
         message.setTo(addressTo);
         message.setSubject(subject);
         message.setText(body);
-        javaMailSender.send(message);
+        javaMailSender().send(message);
     }
 
     public void sendOpacWelcomeTemplate(LibraryMember libraryMember, LibraryConfiguration libraryConfiguration) {
-        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessage message = javaMailSender().createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         if (libraryConfiguration == null || yamlConfig.getOpacOrigin() == null || libraryMember == null || libraryMember.getActivationToken() == null) {
@@ -124,7 +130,7 @@ public class EmailService {
             helper.setTo(libraryMember.getUsername());
             helper.setText(text, true);
             helper.setSubject(Texts.getString("OPAC.WELCOME.MAIL.SUBJECT"));
-            javaMailSender.send(message);
+            javaMailSender().send(message);
 
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -138,7 +144,7 @@ public class EmailService {
     }
 
     public void sendReservationConfirmation(String sendTo, String bookTitle, String deadline, LibraryConfiguration libConf) {
-        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessage message = javaMailSender().createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         String websiteUrl = "https://opac.bisis.rs";
@@ -172,7 +178,7 @@ public class EmailService {
             message.setFrom(new InternetAddress("bisis.mailer@gmail.com", "Библиотека БИСИС"));
             helper.setText(text, true);
             helper.setSubject(Texts.getString("RESERVATION_CONFIRMED_HEADING"));
-            javaMailSender.send(message);
+            javaMailSender().send(message);
 
         } catch (MessagingException | IOException | TemplateException e) {
             log.error("(sendReservationConfirmation) email nije poslat clanu: " + sendTo + ", za knjigu: " + bookTitle);

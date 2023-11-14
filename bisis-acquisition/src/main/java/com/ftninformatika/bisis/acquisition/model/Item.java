@@ -16,8 +16,10 @@ public class Item {
     private int amount;
     public int getAmount(){
         int temp = 0;
-        for(Location l: desideratum.getLocations()){
-            temp = temp + l.getAmount();
+        if (desideratum.getLocations() != null) {
+            for(Location l: desideratum.getLocations()){
+                temp = temp + l.getAmount();
+            }
         }
         return temp;
     }

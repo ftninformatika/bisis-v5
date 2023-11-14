@@ -5,8 +5,8 @@ import com.ftninformatika.bisis.circ.MembershipType;
 import com.ftninformatika.bisis.circ.UserCategory;
 import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.coders.Coder;
-import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.core.repositories.SublocationRepository;
+import com.ftninformatika.bisis.core.repositories.*;
 import com.ftninformatika.bisis.datawarehouse.entity.*;
 import com.ftninformatika.bisis.datawarehouse.repository.AccessionRegisterRepository;
 import com.ftninformatika.bisis.datawarehouse.repository.CircLocationRepository;
@@ -29,7 +29,7 @@ import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Sveska;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.utils.string.Signature;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -47,6 +47,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -989,41 +990,41 @@ public class ImportService {
         }
 
     public void handleImport(){
-        Logger.getLogger(ImportService.class).info("Import all started...");
+        LoggerFactory.getLogger(ImportService.class).info("Import all started...");
         deleteDataWarehouse();
-        Logger.getLogger(ImportService.class).info("Datawarehouse is deleted");
+        LoggerFactory.getLogger(ImportService.class).info("Datawarehouse is deleted");
         importCoders();
         List<LibraryConfiguration> libraryConfigurationList = libraryConfigurationRepository.findAll();
         for(LibraryConfiguration lc:libraryConfigurationList){
-            Logger.getLogger(ImportService.class).info("Import of library "+lc.getLibraryName() +" started...");
+            LoggerFactory.getLogger(ImportService.class).info("Import of library "+lc.getLibraryName() +" started...");
             importRecordData(lc.getLibraryName());
             importMembershipData(lc.getLibraryName());
             importLendingData(lc.getLibraryName());
-            Logger.getLogger(ImportService.class).info("Import of library "+lc.getLibraryName() +" is finished.");
+            LoggerFactory.getLogger(ImportService.class).info("Import of library "+lc.getLibraryName() +" is finished.");
         }
-        Logger.getLogger(ImportService.class).info("Import of all libraries is finished!");
+        LoggerFactory.getLogger(ImportService.class).info("Import of all libraries is finished!");
 
     }
     public void handleImportRecordOneLibrary(String library){
-        Logger.getLogger(ImportService.class).info("Import records of library "+library+" started...");
+        LoggerFactory.getLogger(ImportService.class).info("Import records of library "+library+" started...");
         customRepository.deleteItemByLibrary(library);
         customRepository.deleteTaskByLibrary(library);
         recordRepository.deleteAllByLibrary(library);
         importRecordData(library);
-        Logger.getLogger(ImportService.class).info("Import of data finished!");
+        LoggerFactory.getLogger(ImportService.class).info("Import of data finished!");
     }
     public void handleImportMemberOneLibrary(String library){
-        Logger.getLogger(ImportService.class).info("Import members of library "+library+" started...");
+        LoggerFactory.getLogger(ImportService.class).info("Import members of library "+library+" started...");
         customRepository.deleteMembershipByLibrary(library);
         memberRepository.deleteAllByLibrary(library);
         importMembershipData(library);
-        Logger.getLogger(ImportService.class).info("Import of data finished!");
+        LoggerFactory.getLogger(ImportService.class).info("Import of data finished!");
     }
     public void handleImportLendingOneLibrary(String library){
-        Logger.getLogger(ImportService.class).info("Import lendings of library "+library+" started...");
+        LoggerFactory.getLogger(ImportService.class).info("Import lendings of library "+library+" started...");
         customRepository.deleteLendingByLibrary(library);
         importLendingData(library);
-        Logger.getLogger(ImportService.class).info("Import of data finished!");
+        LoggerFactory.getLogger(ImportService.class).info("Import of data finished!");
     }
 
     private void importRecordData(String library){
@@ -1042,7 +1043,7 @@ public class ImportService {
                 count++;
                 handleRecord(r, library,itemList,recordList,taskList);
                 if (count % 1000 == 0){
-                    Logger.getLogger(ImportService.class).info("Records processed at "+ LocalDateTime.now()+": "+ count);
+                    LoggerFactory.getLogger(ImportService.class).info("Records processed at "+ LocalDateTime.now()+": "+ count);
                 }
             }
             recordRepository.saveAll(recordList);
@@ -1143,7 +1144,7 @@ public class ImportService {
                 count++;
                 handleMember(m, library,membershipList,memberList);
                 if (count % 1000 == 0){
-                    Logger.getLogger(ImportService.class).info("Members processed at "+ LocalDateTime.now()+": "+ count);
+                    LoggerFactory.getLogger(ImportService.class).info("Members processed at "+ LocalDateTime.now()+": "+ count);
                 }
             }
             memberRepository.saveAll(memberList);
@@ -1261,7 +1262,7 @@ public class ImportService {
                 count++;
                 handleLending(l, library,lendingList);
                 if (count % 10000 == 0){
-                    Logger.getLogger(ImportService.class).info("Lendings processed at "+ LocalDateTime.now()+": "+ count);
+                    LoggerFactory.getLogger(ImportService.class).info("Lendings processed at "+ LocalDateTime.now()+": "+ count);
                 }
             }
             lendingRepository.saveAll(lendingList);

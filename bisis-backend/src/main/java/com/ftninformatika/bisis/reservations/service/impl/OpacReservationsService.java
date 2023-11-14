@@ -7,13 +7,13 @@ import com.ftninformatika.bisis.opac.dto.ReservationDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.reservations.ReservationOnProfile;
-import com.ftninformatika.bisis.rest_service.repository.mongo.*;
-import com.ftninformatika.bisis.core.repositories.CircConfigRepository;
 import com.ftninformatika.bisis.reservations.service.interfaces.LocationServiceInterface;
 import com.ftninformatika.bisis.reservations.service.interfaces.OpacReservationsServiceInterface;
+import com.ftninformatika.bisis.rest_service.repository.mongo.LibraryMemberRepository;
 import com.ftninformatika.bisis.rest_service.service.implementations.LibraryMemberService;
 import com.ftninformatika.bisis.rest_service.service.implementations.OpacSearchService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,7 @@ import java.util.*;
 
 @Service
 public class OpacReservationsService implements OpacReservationsServiceInterface {
-    private Logger log = Logger.getLogger(OpacReservationsService.class);
+    private Logger log = LoggerFactory.getLogger(OpacReservationsService.class);
 
     @Autowired
     LibraryMemberRepository libraryMemberRepository;

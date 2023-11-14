@@ -6,7 +6,8 @@ import com.ftninformatika.utils.Messages;
 import com.ftninformatika.utils.file.FileUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class ReportCore {
     static int brmax;
     static int bkmax;
 
-    private static Logger log = Logger.getLogger(ReportCore.class.getName());
+    private static Logger log = LoggerFactory.getLogger(ReportCore.class.getName());
     private static Record record=null;
 
 
@@ -150,7 +151,7 @@ public class ReportCore {
             temp.process(root,out);
             temp1.process(root,out1);
         } catch (Exception ex) {
-            log.fatal("Ne valja templejt1");
+            log.error("Ne valja templejt1");
         }
 
         try {
@@ -284,7 +285,7 @@ public class ReportCore {
             temp.process(root,out);
             temp1.process(root,out1);
         } catch (Exception ex) {
-            log.fatal("Ne valja templejt1");
+            log.error("Ne valja templejt1");
         }
 
         try {
@@ -375,7 +376,7 @@ public class ReportCore {
                 JOptionPane.showMessageDialog(null, Messages.getString("CARDS_NO_CURRENT_TYPE"));
             }
         } catch (Exception ex) {
-            log.fatal(Messages.getString("CARDS_NO_CARDS_TYPE_DIRECTORY"));
+            log.error(Messages.getString("CARDS_NO_CARDS_TYPE_DIRECTORY"));
         }
     }
 }

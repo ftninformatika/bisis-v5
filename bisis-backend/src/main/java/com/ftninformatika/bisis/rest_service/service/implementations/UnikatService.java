@@ -12,7 +12,8 @@ import com.ftninformatika.bisis.unikat.UnikatSearchRequest;
 import com.ftninformatika.util.elastic.ElasticUtility;
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.utils.RecordUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UnikatService {
     LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired ElasticsearchTemplate elasticsearchTemplate;
     @Autowired OpacSearchService opacSearchService;
-    Logger logger = Logger.getLogger(UnikatService.class);
+    Logger logger = LoggerFactory.getLogger(UnikatService.class);
 
     public PageImpl<List<UnikatBook>> unkatSearch(UnikatSearchRequest unikatSearchRequest, Integer pageNumber, Integer pageSize) {
         List<UnikatBook> retVal;
