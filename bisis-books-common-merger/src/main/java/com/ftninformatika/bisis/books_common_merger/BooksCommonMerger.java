@@ -77,7 +77,8 @@ public class BooksCommonMerger {
                     recordsPair.pairBookCommonWithSelectedLib(bookCommonsPage, selectedLibs);
                     log.info("Book merger finished " + i +"/"+pageCount);
                 } catch (Exception e) {
-                    log.error(e.getMessage());
+                    e.printStackTrace();
+                    log.error(e.getMessage(),e);
                 }
                 if (!bookCommonsPage.isLast()) {
                     p = bookCommonsPage.nextPageable();
