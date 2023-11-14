@@ -11,8 +11,8 @@ import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.utils.LibraryPrefixProvider;
-import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -32,14 +32,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import static com.ftninformatika.bisis.books_common_merger.BooksCommonMergerUtils.getCoverMultipart;
-/**
- * @author badf00d21  25.9.19.
- */
+
 @ComponentScan("com.ftninformatika")
 public class BooksCommonMerger {
-    private static Logger log = Logger.getLogger(BooksCommonMerger.class);
+    private static Logger log = LoggerFactory.getLogger(BooksCommonMerger.class);
 
     public static void main(String[] args) {
         if (args.length != 2 || (!args[0].equals("m") && !args[0].equals("i"))) {
@@ -49,12 +46,8 @@ public class BooksCommonMerger {
         String mode = args[0];
         String path = args[1];
 
-        PropertyConfigurator.configure(
-                BooksCommonMerger.class.getResourceAsStream("/log4j.properties"));
-        Logger.getLogger(BooksCommonMerger.class).info("\n\n###STARTING\nBISIS5 merging book covers and sinopsis via isbn starting...");
-
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-        root.setLevel(ch.qos.logback.classic.Level.INFO);
+        PropertyConfigurator.configure(BooksCommonMerger.class.getResourceAsStream("/log4j.properties"));
+        LoggerFactory.getLogger(BooksCommonMerger.class).info("\n\n###STARTING\nBISIS5 merging book covers and synopsis via isbn starting...");
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(LibraryPrefixProvider.class);
@@ -73,7 +66,7 @@ public class BooksCommonMerger {
         recordsPair.setRecordsController(ctx.getBean(RecordsController.class));
         recordsPair.setRecordsRepository(ctx.getBean(RecordsRepository.class));
         recordsPair.setElasticRecordsRepository(ctx.getBean(ElasticRecordsRepository.class));
-
+        recordsPair.setLibraryConfigurationRepository(ctx.getBean(LibraryConfigurationRepository.class));
         if (mode.equals("m")) {
             List<String> selectedLibs =new ArrayList<>(Arrays.asList(path.split(",")));
             Pageable p = PageRequest.of(0, 1000);
@@ -82,14 +75,17 @@ public class BooksCommonMerger {
             for (int i = 0; i < pageCount; i++) {
                 try {
                     recordsPair.pairBookCommonWithSelectedLib(bookCommonsPage, selectedLibs);
+                    log.info("Book merger finished " + i +"/"+pageCount);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                 }
                 if (!bookCommonsPage.isLast()) {
                     p = bookCommonsPage.nextPageable();
                     bookCommonsPage = ctx.getBean(BookCommonRepository.class).findAll(p);
                 }
             }
+            log.info("Book merger finished! ");
+
         } else {
             try (Stream<Path> walk = Files.walk(Paths.get(path))) {
                 List<String> files = walk.filter(Files::isRegularFile).map(Objects::toString).collect(Collectors.toList());

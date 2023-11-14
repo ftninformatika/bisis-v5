@@ -63,8 +63,12 @@ class RecordsPair {
         List<String> issnList = new ArrayList<>();
         List<Integer> bookUIDs = new ArrayList<>();
         for(BookCommon bc: booksCommon){
-            isbnList.addAll(BookCommonHelper.generateIsbnPair(bc.getIsbn()));
-            issnList.addAll(BookCommonHelper.generateIsbnPair(bc.getIssn()));
+            if (bc.getIsbn() !=null){
+                isbnList.addAll(BookCommonHelper.generateIsbnPair(bc.getIsbn()));
+            }
+            if (bc.getIssn() != null){
+                issnList.addAll(BookCommonHelper.generateIsbnPair(bc.getIssn()));
+            }
             bookUIDs.add(bc.getUid());
         }
         for (String libPref: libPrefixes) {
@@ -72,27 +76,24 @@ class RecordsPair {
                 continue;
             }
             LibraryPrefixProvider.setPrefix(libPref);
-            // TODO napravi upit sa IN operatorom
-            //Trebaju mi zapisi takvi da se BN nalazi u listi isbnList ili SN u listi issnList ili 856b u listi bookUIDs
             BoolQueryBuilder queryBuilder =  QueryBuilders.boolQuery();
-            queryBuilder.should(QueryBuilders.termsQuery("BN", isbnList));
-            queryBuilder.should(QueryBuilders.termsQuery("SN", issnList));
-            queryBuilder.should(QueryBuilders.termsQuery("856b", bookUIDs));
+            queryBuilder.should(QueryBuilders.termsQuery("prefixes.BN", isbnList));
+            queryBuilder.should(QueryBuilders.termsQuery("prefixes.SN", issnList));
+            queryBuilder.should(QueryBuilders.termsQuery("prefixes.856b", bookUIDs));
 
             Iterable<ElasticPrefixEntity> records = elasticRecordsRepository.search(queryBuilder);
             if (records == null) {
                 continue;
             }
-            List<Record> recordsForRemove = new ArrayList<>();
             booksCommon.forEach(bc ->{
                 List<Record> recordsFiltered = StreamSupport.stream(records.spliterator(), false).
-                        filter(r-> r.getPrefixes().get("BN").contains(bc.getIsbn()) ||
-                        r.getPrefixes().get("SN").contains(bc.getIssn()) ||
-                        r.getPrefixes().get("856b").contains(bc.getUid())).
-                        map(r->recordsRepository.getByID(Integer.parseInt(r.getId()))).collect(Collectors.toList());
-
+                        filter(r-> (r.getPrefixes().get("BN") !=null && r.getPrefixes().get("BN").contains(bc.getIsbn())) ||
+                                (r.getPrefixes().get("SN") !=null && r.getPrefixes().get("SN").contains(bc.getIssn())) ||
+                                (r.getPrefixes().get("856b") !=null &&  r.getPrefixes().get("856b").contains(bc.getUid()))).
+                        map(r->recordsRepository.findById(r.getId()).get()).collect(Collectors.toList());
+                List<Record> recordsForRemove = new ArrayList<>();
                 recordsFiltered.forEach( rec ->{
-                    if (!BookCommonHelper.isValidRecord(rec, bc.getIsbn()) || !BookCommonHelper.isValidRecord(rec, bc.getIssn())) {
+                    if ( (bc.getIsbn() !=null && !BookCommonHelper.isValidRecord(rec, bc.getIsbn())) || (bc.getIssn() !=null && !BookCommonHelper.isValidRecord(rec, bc.getIssn()))){
                         recordsForRemove.add(rec);
                     }
                 });
@@ -101,7 +102,6 @@ class RecordsPair {
                 }
                 if (recordsFiltered.size() != 0) {
                     mergeCommonBookUID(recordsFiltered, libPref, bc.getUid());
-                    log.info("Paired book common " + bc.getUid() + " for lib: " + libPref);
                 }
             });
         }
@@ -109,31 +109,24 @@ class RecordsPair {
 
     private void mergeCommonBookUID(List<Record> records, String libPref, int bcId) {
         for (Record r: records) {
-            if (r.getCommonBookUid() != null) {
-                log.info("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
-                System.out.println("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
+            if (r.getCommonBookUid() != null && r.getCommonBookUid() == bcId) {
                 continue;
             }
             r.setCommonBookUid(bcId);
             recordsRepository.save(r);
             log.info("Paired bookCommonUID: " + bcId + " with (" + libPref + ") RN: " + r.getRN());
-            System.out.println("Paired bookCommonUID: " + bcId + " with (" + libPref + ") RN: " + r.getRN());
         }
     }
 
-    private void mergeCommonBookUID(List<Record> records, String libPref) {
-        for (Record r: records) {
-            if (r.getCommonBookUid() != null) {
-                log.info("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
-                System.out.println("Record (" + libPref + ") with RN: " + r.getRN() + " has already paired!");
-                continue;
-            }
-            r.setCommonBookUid(BooksCommonMergerUtils.UID_COUNTER);
-            recordsRepository.save(r);
-            log.info("Paired bookCommonUID: " + BooksCommonMergerUtils.UID_COUNTER + " with (" + libPref + ") RN: " + r.getRN());
-            System.out.println("Paired bookCommonUID: " + BooksCommonMergerUtils.UID_COUNTER + " with (" + libPref + ") RN: " + r.getRN());
-        }
-    }
+//    private void mergeCommonBookUID(List<Record> records, String libPref) {
+//        for (Record r: records) {
+//            if (r.getCommonBookUid() != null) {
+//                continue;
+//            }
+//            r.setCommonBookUid(BooksCommonMergerUtils.UID_COUNTER);
+//            recordsRepository.save(r);
+//        }
+//    }
 
     private List<Record> searchRecords(SearchModel query) {
         ResponseEntity<List<Record>> responseRecords =

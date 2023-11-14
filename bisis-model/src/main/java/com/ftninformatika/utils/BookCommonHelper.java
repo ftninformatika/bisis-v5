@@ -33,6 +33,8 @@ public class BookCommonHelper {
      * Proverava da li je prvi 010a ili 011a zapravo ISBN/ISSN koji je pronasao (drugi se koristi za izdavacku delatnost - BGB)
      */
     public static boolean isValidRecord(Record record, String id) {
+        if (id == null)
+            return false;
         List<Field> _010Fields = record.getFields("010");
         List<Field> _011Fields = record.getFields("011");
         id = id.replace("-", "").replace(" ", "").replace("978", "");
