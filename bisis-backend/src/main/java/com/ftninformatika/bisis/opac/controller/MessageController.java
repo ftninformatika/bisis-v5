@@ -55,11 +55,12 @@ public class MessageController {
         List<MessageDTO> messages = messageService.getMessagesByUsername(username, lib);
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
+
     @PostMapping("/add")
     public ResponseEntity<Message> sendMessages(@RequestBody Message message, @RequestHeader("Library") String lib) {
         try {
             Message savedMessage = messageRepository.save(message);
-            if(message.getIdReceiver() != null){
+            if(message.getIdReceiver() != null && !message.getIdReceiver().equals("")){
                 notificationService.sendMessageToUsername(message.getIdReceiver(),messageTitle,messageContent,"message");
             } else {
                 String opacMail = getOpacMail(lib);
@@ -79,6 +80,7 @@ public class MessageController {
         List<MessageSenderDTO> messageSenderDTOS = this.messageService.getSenders(lib);
         return new ResponseEntity<>(messageSenderDTOS, HttpStatus.OK);
     }
+
     private String getOpacMail(String library){
         LibraryConfiguration libraryConfiguration = this.libraryConfigurationRepository.getByLibraryName(library);
         if(libraryConfiguration != null) {
@@ -87,6 +89,7 @@ public class MessageController {
             return null;
         }
     }
+
     @GetMapping("/librarian_email")
     public ResponseEntity<?> getLibrarianEmail(@RequestHeader("Library") String lib) {
         String opacMail = getOpacMail(lib);
