@@ -1,23 +1,5 @@
 package com.ftninformatika.bisis.circ.view;
 
-import javax.swing.JPanel;
-
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.UsersPrefix;
@@ -28,6 +10,15 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Date;
+import java.util.List;
 
 public class SearchUsers {
 
@@ -733,7 +724,7 @@ public class SearchUsers {
 			tfPref.setVisible(false);
 			lPref.setText(up.getName());
 			cmbPref.requestFocus();
-		} else if (up.getDbname().equals("organization.name")) { //$NON-NLS-1$
+		} else if (up.getDbname().equals("organization.description")) { //$NON-NLS-1$
 			comboModel = Cirkulacija.getApp().getMainFrame().getUserPanel().getUserData().getOrgModel();
 			cmbPref.setModel(comboModel);
 			cmbPref.setVisible(true);

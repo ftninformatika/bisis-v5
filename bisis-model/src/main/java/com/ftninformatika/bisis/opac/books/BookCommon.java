@@ -31,6 +31,5 @@ public class BookCommon {
     private String description;
     @Transient
     private String record_id;
-    @Transient
     private boolean useBookCommonUid;
 }

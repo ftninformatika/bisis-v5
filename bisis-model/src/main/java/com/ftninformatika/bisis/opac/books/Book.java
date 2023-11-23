@@ -53,6 +53,7 @@ public class Book {
     private String imageUrl;
     private String description;
     private Integer commonBookUID;
+    private boolean useBookCommonUid;
     private List<String> digitalUrls;       // subfield 856u
 
     public boolean setUnimarcImageURL(Record record) {

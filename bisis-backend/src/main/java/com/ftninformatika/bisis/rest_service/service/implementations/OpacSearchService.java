@@ -356,6 +356,7 @@ public class OpacSearchService {
                 b.setDescription(bc.getDescription());
                 b.setImageUrl(bc.getImageUrl());
                 b.setCommonBookUID(bc.getUid());
+                b.setUseBookCommonUid(bc.isUseBookCommonUid());
             }
         }
         b.setOtherAuthors(rp.getOtherAuthors());
