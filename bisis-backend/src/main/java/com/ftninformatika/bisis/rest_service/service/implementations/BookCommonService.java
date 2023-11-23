@@ -45,8 +45,7 @@ public class BookCommonService {
         if (bookCommon.get_id() == null && bookCommon.getUid() == null) {
             bookCommon.setUid(bookCommonRepository.generateBookUID());
             isNew = true;
-        }
-        else if (bookCommon.get_id() == null && bookCommon.getUid() != null) {
+        } else if (bookCommon.get_id() == null && bookCommon.getUid() != null) {
             BookCommon bookCommon1 = bookCommonRepository.findByUid(bookCommon.getUid());
             if (bookCommon1 != null) {
                 bookCommon.set_id(bookCommon1.get_id());
@@ -56,9 +55,8 @@ public class BookCommonService {
         if (bookCommon.getUid() == null)
             return null;
         BookCommon bc = bookCommonRepository.save(bookCommon);
-        if (isNew) {
-            Record record = recordsRepository.findById(bookCommon.getRecord_id()).get();
-            if (bookCommon.getIsbn()==null && bookCommon.getIssn() ==null) {
+        Record record = recordsRepository.findById(bookCommon.getRecord_id()).get();
+            if ((bookCommon.getIsbn()==null && bookCommon.getIssn() ==null) || bookCommon.isUseBookCommonUid()) {
                 Subfield subfield = record.getSubfield("856b");
                 if (subfield == null) {
                     Field field = new Field("856");
@@ -67,13 +65,26 @@ public class BookCommonService {
                 } else {
                     subfield.setContent(String.valueOf(bookCommon.getUid()));
                 }
+                if (record.getCommonBookUid() == null) {
+                    record.setCommonBookUid(bookCommon.getUid());
+                }
+            }else if (!bookCommon.isUseBookCommonUid()){
+                Subfield subfield = record.getSubfield("856b");
+                if (subfield != null) {
+                   List<Field> f856List = record.getFields("856");
+                   for(Field f: f856List){
+                       f.removeSubfield('b');
+                   }
+                    record.setCommonBookUid(null);
+                } else {
+                    if (record.getCommonBookUid() == null) {
+                        record.setCommonBookUid(bookCommon.getUid());
+                    }
+                }
             }
-            if (record.getCommonBookUid() == null) {
-                record.setCommonBookUid(bookCommon.getUid());
-            }
+
             recordsRepository.save(record);
 
-        }
         return bc;
     }
 

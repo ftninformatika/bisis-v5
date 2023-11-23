@@ -112,7 +112,13 @@ class RecordsPair {
             if (r.getCommonBookUid() != null && r.getCommonBookUid() == bcId) {
                 continue;
             }
-            r.setCommonBookUid(bcId);
+            if (r.getSubfield("856b") != null && r.getSubfieldContent("856b")== String.valueOf(bcId)){
+                r.setCommonBookUid(bcId);
+            }else if (r.getSubfield("856b") != null && r.getSubfieldContent("856b")!= String.valueOf(bcId)){
+                continue;
+            }else {
+                r.setCommonBookUid(bcId);
+            }
             recordsRepository.save(r);
             log.info("Paired bookCommonUID: " + bcId + " with (" + libPref + ") RN: " + r.getRN());
         }

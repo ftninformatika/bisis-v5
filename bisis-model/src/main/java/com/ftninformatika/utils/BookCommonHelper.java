@@ -60,7 +60,7 @@ public class BookCommonHelper {
      */
     public static  List<String> generateIsbnPair(String isbn) {
         List<String> isbnPair = new ArrayList<>();
-        if (!validateIsbn(isbn)) return null;
+        if (!validateIsbn(isbn)) return isbnPair;
         isbnPair.add(isbn);
         String isbnSecFormat;
         if (!validateIsbn10(isbn)) {
