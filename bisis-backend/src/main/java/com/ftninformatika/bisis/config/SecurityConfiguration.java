@@ -99,15 +99,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/mobile/members/**",
                         "/mobile/reservations/**",
                         "/events/**",
-                        "notifications/**"
+                        "notifications/**",
+                        "/book_cover/upload/**"
                 )
                 .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                .antMatchers(
-
-                        "/book_cover/upload/**",
-                        "/**").hasAuthority("ROLE_ADMIN")
-//                .anyRequest().authenticated()
-                //.anyRequest().permitAll()
                 .and()
                 .addFilterBefore(authenticationTokenFilter,
                         UsernamePasswordAuthenticationFilter.class)

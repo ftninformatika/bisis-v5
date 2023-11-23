@@ -53,7 +53,7 @@ public class BookCommonService {
                 bookCommon.setImageUrl(bookCommon1.getImageUrl());
             }
         }
-        if (bookCommon.getUid() == null || (bookCommon.getIsbn() == null && bookCommon.getIssn() == null))
+        if (bookCommon.getUid() == null)
             return null;
         BookCommon bc = bookCommonRepository.save(bookCommon);
         if (isNew) {

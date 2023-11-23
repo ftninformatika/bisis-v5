@@ -347,7 +347,7 @@ public class OpacSearchService {
         b.setDimensions(rp.getDimensions());
         b.setUdk(rp.getUdk());
         b.setNotes(rp.getNotes(r));
-        b.setTotalReservations(r.getReservations() != null ? r.getReservations().size() : 0);
+        b.setReservations(r.getReservations() != null ? r.getReservations() : null);
         b.setAvgRating(r.getAvgRating());
         b.setTotalRatings(r.getRecordRatings() != null ? r.getRecordRatings().size() : 0);
         if (r.getCommonBookUid() != null) {

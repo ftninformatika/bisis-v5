@@ -3,6 +3,7 @@ package com.ftninformatika.bisis.opac.books;
 import com.ftninformatika.bisis.records.AvgRecordRating;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
+import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,7 @@ public class Book {
     private String notes;
     private String isbdHtml;
     private List<Item> items = null;
-    private int totalReservations;
+    private List<ReservationInQueue> reservations;
     private int totalRatings;
     private AvgRecordRating avgRating;
     private String masterRecordTitle;
