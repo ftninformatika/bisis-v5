@@ -1,7 +1,7 @@
 
 spring:
   profiles:
-    active: development
+    active: production
 
   mail:
     host: smtp.gmail.com

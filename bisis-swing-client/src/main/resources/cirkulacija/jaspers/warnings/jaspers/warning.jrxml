@@ -151,63 +151,63 @@
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="2" width="247" height="20"/>
 				<textElement>
-					<font fontName="SansSerif" size="11" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgbiblioteka}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="25" width="247" height="20" isRemoveLineWhenBlank="true"/>
 				<textElement>
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgnaziv}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="42" width="247" height="20"/>
 				<textElement>
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgogranak}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="59" width="247" height="20"/>
 				<textElement>
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgsifra}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="76" width="247" height="20"/>
 				<textElement>
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgadresa}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="93" width="247" height="20"/>
 				<textElement>
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgmesto}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="140" width="251" height="20"/>
 				<textElement>
-					<font fontName="SansSerif" size="11" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgbropomenetext} != null ? $F{zgbropomenetext} + " " + $F{zgbropomene} : " "]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="263" y="2" width="231" height="20"/>
 				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgnaslov}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="421" y="25" width="72" height="20"/>
 				<textElement textAlignment="Right">
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{zgrok}]]></textFieldExpression>
 			</textField>

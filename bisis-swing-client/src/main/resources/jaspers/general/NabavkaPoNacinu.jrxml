@@ -857,7 +857,7 @@
 			<textField>
 				<reportElement x="307" y="0" width="24" height="16" uuid="c460ec5a-aec5-416a-ada4-3518a175adc9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{greske}]]></textFieldExpression>
 			</textField>

@@ -11,7 +11,7 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-	<style name="SansSerif" isDefault="true" fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 	<parameter name="begdate" class="java.lang.String"/>
 	<parameter name="enddate" class="java.lang.String"/>
 	<parameter name="nazivogr" class="java.lang.String"/>
@@ -36,7 +36,7 @@
 	<title>
 		<band height="80" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="189" y="27" width="94" height="15" uuid="23e08446-ac56-4d71-94f7-318653eaadf1"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="189" y="27" width="94" height="15" uuid="23e08446-ac56-4d71-94f7-318653eaadf1"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -49,7 +49,7 @@
 				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="304" y="27" width="97" height="17" uuid="d27177bc-6f40-4d5e-807e-ca16804f1293"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="304" y="27" width="97" height="17" uuid="d27177bc-6f40-4d5e-807e-ca16804f1293"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -62,7 +62,7 @@
 				<textFieldExpression><![CDATA[$P{enddate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="34" y="49" width="439" height="20" uuid="b13ae565-ada4-4584-8bb0-529a51f9066a"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="34" y="49" width="439" height="20" uuid="b13ae565-ada4-4584-8bb0-529a51f9066a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -75,7 +75,7 @@
 				<textFieldExpression><![CDATA[$P{nazivogr}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="94" y="5" width="313" height="20" uuid="faedf5b2-2238-4437-8e72-ba82f2b49bda"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="94" y="5" width="313" height="20" uuid="faedf5b2-2238-4437-8e72-ba82f2b49bda"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -88,7 +88,7 @@
 				<textFieldExpression><![CDATA[str("NAJCITAOCI_TITLE")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="130" y="27" width="58" height="16" uuid="19e8f029-f30f-4727-a3db-614dd43a27b9"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="130" y="27" width="58" height="16" uuid="19e8f029-f30f-4727-a3db-614dd43a27b9"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -101,7 +101,7 @@
 				<textFieldExpression><![CDATA[str("NAJCITAOCI_PERIOD")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="282" y="27" width="19" height="17" uuid="65699a8e-b01a-4408-85e0-236aa2b188ca"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="282" y="27" width="19" height="17" uuid="65699a8e-b01a-4408-85e0-236aa2b188ca"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -136,7 +136,7 @@
 				<reportElement key="line" positionType="Float" x="411" y="14" width="1" height="23" uuid="d45603ad-2fb1-421c-9d7a-22c71a7fe51c"/>
 			</line>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="3" y="18" width="41" height="16" uuid="38e923e9-1c59-4139-b220-51d707fa1b62"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="3" y="18" width="41" height="16" uuid="38e923e9-1c59-4139-b220-51d707fa1b62"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -146,7 +146,7 @@
 				<textFieldExpression><![CDATA[str("NAJCITAOCI_RB")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="54" y="18" width="96" height="15" uuid="37c9a956-c2fc-4783-993a-b29ae0bacab0"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="54" y="18" width="96" height="15" uuid="37c9a956-c2fc-4783-993a-b29ae0bacab0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -157,7 +157,7 @@
 				<textFieldExpression><![CDATA[str("NAJCITAOCI_BRC")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="176" y="18" width="216" height="15" uuid="8a4e6f67-7d23-426e-beae-dff5d8408482"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="176" y="18" width="216" height="15" uuid="8a4e6f67-7d23-426e-beae-dff5d8408482"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -168,7 +168,7 @@
 				<textFieldExpression><![CDATA[str("NAJCITAOCI_NAME_SURNAME")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="415" y="10" width="89" height="26" uuid="522dbe86-490e-4934-8770-2f902dc75d53"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="415" y="10" width="89" height="26" uuid="522dbe86-490e-4934-8770-2f902dc75d53"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -183,7 +183,7 @@
 	<detail>
 		<band height="29" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="6" y="7" width="40" height="20" uuid="7d9ce718-444d-4443-a0c7-27b577aa7cc1"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="6" y="7" width="40" height="20" uuid="7d9ce718-444d-4443-a0c7-27b577aa7cc1"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -197,7 +197,7 @@
 				<reportElement key="line" positionType="Float" x="0" y="28" width="510" height="1" uuid="fba35a8d-4377-45e7-ab58-b56474580861"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="54" y="7" width="96" height="20" uuid="438a4608-ba71-4dad-86ca-37a3983621d0"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="54" y="7" width="96" height="20" uuid="438a4608-ba71-4dad-86ca-37a3983621d0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -208,7 +208,7 @@
 				<textFieldExpression><![CDATA[$F{User_id}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="162" y="7" width="245" height="20" uuid="63b61939-14d7-4e8e-8187-c61e31c6b801"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="162" y="7" width="245" height="20" uuid="63b61939-14d7-4e8e-8187-c61e31c6b801"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -219,7 +219,7 @@
 				<textFieldExpression><![CDATA[$F{First_name} + " " + $F{Last_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="416" y="7" width="87" height="20" uuid="79d96170-8a86-450d-ba88-b83c205cd7b2"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="416" y="7" width="87" height="20" uuid="79d96170-8a86-450d-ba88-b83c205cd7b2"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

@@ -83,21 +83,21 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
 			<textField>
 				<reportElement key="staticText" x="1" y="10" width="553" height="20" uuid="599ec39d-51fa-406f-969c-37c2651a9957"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="12"/>
+					<font fontName="DejaVu Sans" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement key="staticText" x="180" y="30" width="201" height="20" uuid="5c5e5ef7-773f-4a38-ac94-a74ac2d4b65c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{period}]]></textFieldExpression>
 			</textField>
@@ -128,7 +128,7 @@
 									<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="8"/>
+									<font fontName="DejaVu Sans" size="8"/>
 								</textElement>
 								<text><![CDATA[Инвентатор]]></text>
 							</staticText>
@@ -143,7 +143,7 @@
 									<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="8"/>
+									<font fontName="DejaVu Sans" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{inventator}]]></textFieldExpression>
 							</textField>
@@ -161,7 +161,7 @@
 									<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="8"/>
+									<font fontName="DejaVu Sans" size="8"/>
 								</textElement>
 								<text><![CDATA[Број креираних записа]]></text>
 							</staticText>
@@ -176,7 +176,7 @@
 									<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="8"/>
+									<font fontName="DejaVu Sans" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{createdRecords}]]></textFieldExpression>
 							</textField>

@@ -12,7 +12,7 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-	<style name="SansSerif" isDefault="true" fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 	<parameter name="begdate" class="java.lang.String"/>
 	<parameter name="enddate" class="java.lang.String"/>
 	<parameter name="kategorija" class="net.sf.jasperreports.engine.JasperReport"/>
@@ -32,7 +32,7 @@
 	<title>
 		<band height="76" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="140" y="28" width="74" height="20" uuid="3ec2b5db-1136-4791-b82d-ae48708e834f"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="140" y="28" width="74" height="20" uuid="3ec2b5db-1136-4791-b82d-ae48708e834f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -45,7 +45,7 @@
 				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="290" y="28" width="80" height="20" uuid="106d7120-3f65-437a-9dea-e21f0dd47ec7"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="290" y="28" width="80" height="20" uuid="106d7120-3f65-437a-9dea-e21f0dd47ec7"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -58,7 +58,7 @@
 				<textFieldExpression><![CDATA[$P{enddate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="51" y="51" width="382" height="20" uuid="24d0ce75-197b-4977-8175-e455dc3ee05e"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="51" y="51" width="382" height="20" uuid="24d0ce75-197b-4977-8175-e455dc3ee05e"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -71,7 +71,7 @@
 				<textFieldExpression><![CDATA[$P{nazivogr}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="240" y="28" width="30" height="18" uuid="8f2b0d8d-a6d3-4524-8c7a-2f5f1db3bbf9"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="240" y="28" width="30" height="18" uuid="8f2b0d8d-a6d3-4524-8c7a-2f5f1db3bbf9"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -84,7 +84,7 @@
 				<textFieldExpression><![CDATA[str("STRPOSETILACA_TO")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="51" y="0" width="382" height="20" uuid="b88ead43-bf5e-4c79-b714-cea46e4c138f"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="51" y="0" width="382" height="20" uuid="b88ead43-bf5e-4c79-b714-cea46e4c138f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -97,7 +97,7 @@
 				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="65" y="28" width="70" height="18" uuid="e6f4cbd0-8d99-496e-b099-ec93c3804680"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="65" y="28" width="70" height="18" uuid="e6f4cbd0-8d99-496e-b099-ec93c3804680"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

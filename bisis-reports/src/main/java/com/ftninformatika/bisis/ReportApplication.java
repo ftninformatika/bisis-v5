@@ -6,11 +6,9 @@ import com.ftninformatika.bisis.librarian.db.LibrarianDB;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.reports.ReportCollection;
 import com.ftninformatika.bisis.reports.ReportRunner;
-
 import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -30,19 +28,14 @@ public class ReportApplication {
 
   public static void main(String[] args) {
 
-    PropertyConfigurator.configure(
-        ReportApplication.class.getResourceAsStream("/log4j.properties"));
+    PropertyConfigurator.configure(ReportApplication.class.getResourceAsStream("/log4j.properties"));
     Logger.getLogger(ReportApplication.class).info("BISIS5 Report generator starting...");
-
 
     if (args.length < 1) {
       System.out.println("enter library prefix, for example all (for all libraries), bgb, gbns, bs,..");
       return;
     }
     String library_prefix = args[0];
-
-    ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-    root.setLevel(ch.qos.logback.classic.Level.INFO);
 
     AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
     ctx.register(LibraryPrefixProvider.class);

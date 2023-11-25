@@ -8,12 +8,11 @@ import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.prefixes.PrefixConverter;
 import com.ftninformatika.bisis.records.Record;
-import com.ftninformatika.utils.LibraryPrefixProvider;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.elasticsearch.index.IndexNotFoundException;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
@@ -43,10 +42,6 @@ public class ReindexRecords {
         PropertyConfigurator.configure(
                 ReindexRecords.class.getResourceAsStream("/log4j.properties"));
         Logger.getLogger(ReindexRecords.class).info("BISIS5 record indexer starting...");
-
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-        root.setLevel(ch.qos.logback.classic.Level.INFO);
-
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(LibraryPrefixProvider.class);

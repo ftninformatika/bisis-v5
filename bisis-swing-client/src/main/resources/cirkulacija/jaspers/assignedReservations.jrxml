@@ -67,9 +67,9 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="9"/>
+									<font fontName="DejaVu Sans" size="9"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{authors}.get(0)]]></textFieldExpression>
+								<textFieldExpression><![CDATA[!$F{authors}.isEmpty() ? $F{authors}.get(0) : ""]]></textFieldExpression>
 							</textField>
 							<textField>
 								<reportElement x="0" y="0" width="25" height="20" uuid="9611d9c2-3829-4be1-abe1-08d2ada1c9fc">
@@ -83,7 +83,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="9"/>
+									<font fontName="DejaVu Sans" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 							</textField>
@@ -99,7 +99,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="9"/>
+									<font fontName="DejaVu Sans" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{rn}]]></textFieldExpression>
 							</textField>
@@ -116,7 +116,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="9"/>
+									<font fontName="DejaVu Sans" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{userId}]]></textFieldExpression>
 							</textField>
@@ -133,7 +133,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="9"/>
+									<font fontName="DejaVu Sans" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{ctlgNo}]]></textFieldExpression>
 							</textField>
@@ -150,7 +150,7 @@
 									<rightPen lineWidth="1.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="9"/>
+									<font fontName="DejaVu Sans" size="9"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 							</textField>
@@ -169,7 +169,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="9" isBold="true"/>
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Наслов]]></text>
 				</staticText>
@@ -185,7 +185,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="9" isBold="true"/>
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Аутор]]></text>
 				</staticText>
@@ -201,7 +201,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="9" isBold="true"/>
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Број члана]]></text>
 				</staticText>
@@ -219,14 +219,14 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="SansSerif" isBold="true"/>
+						<font fontName="DejaVu Sans" isBold="true"/>
 					</textElement>
 					<text><![CDATA[ ]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="0" y="0" width="480" height="20" uuid="217953cf-578b-4c89-a8b9-bc1e17063a18"/>
 					<textElement verticalAlignment="Bottom">
-						<font fontName="SansSerif" isBold="true"/>
+						<font fontName="DejaVu Sans" isBold="true"/>
 						<paragraph lineSpacing="1_1_2"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{reservationsGroupLocation}]]></textFieldExpression>
@@ -244,7 +244,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="9" isBold="true"/>
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Инвентарни број]]></text>
 				</staticText>
@@ -261,7 +261,7 @@
 						<rightPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="9" isBold="true"/>
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[РН]]></text>
 				</staticText>
@@ -272,14 +272,14 @@
 				<staticText>
 					<reportElement x="450" y="2" width="70" height="20" uuid="18e1dbd8-ca12-4745-ba09-618cc10932eb"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="9" isBold="true"/>
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Укупно:]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="520" y="2" width="30" height="20" uuid="c8e4261d-4215-44e1-98f5-733e200585e3"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="SansSerif" isBold="true"/>
+						<font fontName="DejaVu Sans" isBold="true"/>
 						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
@@ -313,14 +313,14 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="14" isBold="false"/>
+					<font fontName="DejaVu Sans" size="14" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Додељене резервације]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-1" y="0" width="220" height="20" uuid="e43a95e9-0147-4aee-994f-acde85d88041"/>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="SansSerif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Библиотека града Београда]]></text>
 			</staticText>

@@ -77,7 +77,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
 					<textElement textAlignment="Center">
-						<font fontName="SansSerif" pdfFontName="Helvetica" size="10" isBold="false"/>
+						<font fontName="DejaVu Sans" pdfFontName="Helvetica" size="10" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{query}]]></textFieldExpression>
 				</textField>

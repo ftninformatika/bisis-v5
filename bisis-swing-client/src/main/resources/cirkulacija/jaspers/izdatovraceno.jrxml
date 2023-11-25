@@ -11,7 +11,7 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
-	<style name="SansSerif" isDefault="true" fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
 	<parameter name="begdate" class="java.lang.String"/>
 	<parameter name="enddate" class="java.lang.String"/>
 	<parameter name="nazivogr" class="java.lang.String"/>
@@ -36,7 +36,7 @@
 	<title>
 		<band height="89" splitType="Stretch">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="210" y="60" width="65" height="15" uuid="e7b019a4-22cf-418e-8a6f-d5bed1a1e946"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="210" y="60" width="65" height="15" uuid="e7b019a4-22cf-418e-8a6f-d5bed1a1e946"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -47,7 +47,7 @@
 				<textFieldExpression><![CDATA[$P{begdate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="43" y="31" width="424" height="20" uuid="c10844aa-0e4f-4a99-b3d0-b8e3f1c94be7"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="43" y="31" width="424" height="20" uuid="c10844aa-0e4f-4a99-b3d0-b8e3f1c94be7"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -60,7 +60,7 @@
 				<textFieldExpression><![CDATA[$P{nazivogr}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="150" y="60" width="53" height="15" uuid="6d8da743-bd6a-4c37-9a0a-f0257f627f7f"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="150" y="60" width="53" height="15" uuid="6d8da743-bd6a-4c37-9a0a-f0257f627f7f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -71,7 +71,7 @@
 				<textFieldExpression><![CDATA[str("IZDATOVRACENO_PERIOD")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="284" y="60" width="16" height="15" uuid="5b022b87-b579-4f11-b043-30dfa6143e7b"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="284" y="60" width="16" height="15" uuid="5b022b87-b579-4f11-b043-30dfa6143e7b"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -82,7 +82,7 @@
 				<textFieldExpression><![CDATA[str("IZDATOVRACENO_PERIOD_TO")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="310" y="60" width="73" height="15" uuid="8a98bdc7-8509-48ec-8657-f358b5c87e8b"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="310" y="60" width="73" height="15" uuid="8a98bdc7-8509-48ec-8657-f358b5c87e8b"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -93,7 +93,7 @@
 				<textFieldExpression><![CDATA[$P{enddate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="43" y="6" width="424" height="24" uuid="a078bd40-067d-4009-8f47-18cb81d06a3d"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="43" y="6" width="424" height="24" uuid="a078bd40-067d-4009-8f47-18cb81d06a3d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -131,7 +131,7 @@
 				<reportElement key="line" positionType="Float" x="380" y="28" width="1" height="20" uuid="785177c8-7497-4274-9c05-439f946dd1b7"/>
 			</line>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="104" y="6" width="178" height="16" uuid="0b985d3a-d292-4543-a4a3-d4fb22aa50b3"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="104" y="6" width="178" height="16" uuid="0b985d3a-d292-4543-a4a3-d4fb22aa50b3"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -142,7 +142,7 @@
 				<textFieldExpression><![CDATA[str("IZDATOVRACENO_LEND_BOOKS")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="284" y="6" width="202" height="16" uuid="374d56c0-2f2a-46bc-a09f-283402ed4d9a"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="284" y="6" width="202" height="16" uuid="374d56c0-2f2a-46bc-a09f-283402ed4d9a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -153,7 +153,7 @@
 				<textFieldExpression><![CDATA[str("IZDATOVRACENO_RETURN_BOOKS")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="25" y="28" width="56" height="16" uuid="35eb6831-32d9-4813-9512-21a99f5d7a87"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="25" y="28" width="56" height="16" uuid="35eb6831-32d9-4813-9512-21a99f5d7a87"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -173,7 +173,7 @@
 				<reportElement key="line" positionType="Float" x="0" y="28" width="501" height="1" uuid="840cc92c-b186-493e-9e99-f83b425e686a"/>
 			</line>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="100" y="28" width="84" height="16" uuid="c88b2ce3-2597-44f7-b859-3e0cd523ad02"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="100" y="28" width="84" height="16" uuid="c88b2ce3-2597-44f7-b859-3e0cd523ad02"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -184,7 +184,7 @@
 				<textFieldExpression><![CDATA[str("IZDATOVRACENO_TITLESNO")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="290" y="28" width="84" height="16" uuid="894eb05b-3529-4042-9460-d55962eecd01"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="290" y="28" width="84" height="16" uuid="894eb05b-3529-4042-9460-d55962eecd01"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -195,7 +195,7 @@
 				<textFieldExpression><![CDATA[str("IZDATOVRACENO_TITLESNO")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="192" y="28" width="84" height="16" uuid="8f24d1d2-66a9-4423-a0ae-b912bb62cc25"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="192" y="28" width="84" height="16" uuid="8f24d1d2-66a9-4423-a0ae-b912bb62cc25"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -206,7 +206,7 @@
 				<textFieldExpression><![CDATA[str("IZDATOVRACENO_ITEMSNO")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="staticText" style="SansSerif" positionType="Float" x="393" y="28" width="84" height="16" uuid="8de4f351-1a32-48a6-b141-2700fa8ed8d3"/>
+				<reportElement key="staticText" style="DejaVu Sans" positionType="Float" x="393" y="28" width="84" height="16" uuid="8de4f351-1a32-48a6-b141-2700fa8ed8d3"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -221,7 +221,7 @@
 	<detail>
 		<band height="25" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="188" y="2" width="93" height="16" uuid="3808d15f-c322-456f-b2be-e2d615cd73d6"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="188" y="2" width="93" height="16" uuid="3808d15f-c322-456f-b2be-e2d615cd73d6"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -232,7 +232,7 @@
 				<textFieldExpression><![CDATA[$F{IzP}==null?0:$F{IzP}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="290" y="2" width="90" height="16" uuid="a6db402f-4886-42e8-a0f0-13a5fa3b6c25"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="290" y="2" width="90" height="16" uuid="a6db402f-4886-42e8-a0f0-13a5fa3b6c25"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -243,7 +243,7 @@
 				<textFieldExpression><![CDATA[$F{VrN}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="106" y="2" width="80" height="16" uuid="ecfbcad3-8507-4bd9-9185-1392628f5316"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="106" y="2" width="80" height="16" uuid="ecfbcad3-8507-4bd9-9185-1392628f5316"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -260,7 +260,7 @@
 				<reportElement key="line" positionType="Float" x="184" y="-6" width="1" height="26" uuid="d1337fbb-939f-44e8-8a10-929d2e1a1e89"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="383" y="1" width="104" height="15" uuid="9f75338c-ef8e-4727-96b2-972793bf0c0d"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="383" y="1" width="104" height="15" uuid="9f75338c-ef8e-4727-96b2-972793bf0c0d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -271,7 +271,7 @@
 				<textFieldExpression><![CDATA[$F{VrP}==null?0:$F{VrP}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="textField" style="SansSerif" positionType="Float" x="11" y="2" width="80" height="16" uuid="bbcd09e7-e946-433f-bd5f-8ea43c1f4d58"/>
+				<reportElement key="textField" style="DejaVu Sans" positionType="Float" x="11" y="2" width="80" height="16" uuid="bbcd09e7-e946-433f-bd5f-8ea43c1f4d58"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

@@ -114,7 +114,7 @@ Integer.parseInt($F{zateceno}))]]></variableExpression>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
 					<textElement textAlignment="Left" verticalAlignment="Top">
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="DejaVu Sans" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<text><![CDATA[Izveštaj po načinu nabavke]]></text>
 				</staticText>
