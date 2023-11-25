@@ -37,6 +37,7 @@ public class BookCommonService {
     @Autowired
     LibraryConfigurationRepository libraryConfigurationRepository;
     @Autowired RecordsController recordsController; // Avoid this
+    @Autowired BookCoverService bookCoverService;
     private Logger log = LoggerFactory.getLogger(BookCommonService.class);
 
     public BookCommon saveModifyBookCommon(BookCommon bookCommon) {
@@ -45,14 +46,20 @@ public class BookCommonService {
             bookCommon.setUid(bookCommonRepository.generateBookUID());
         } else if (bookCommon.get_id() == null && bookCommon.getUid() != null) {
             BookCommon bookCommon1 = bookCommonRepository.findByUid(bookCommon.getUid());
-            if (bookCommon1 != null) {
+            if (bookCommon.isUseBookCommonUid() && !bookCommon1.isUseBookCommonUid()) {
+                bookCommon.setUid(bookCommonRepository.generateBookUID());
+                String imgUrl = bookCoverService.copyImage(bookCommon1.getUid(), bookCommon.getUid());
+                if (imgUrl != null) {
+                    bookCommon.setImageUrl(imgUrl);
+                } else {
+                    return null;
+                }
+            } else {
                 bookCommon.set_id(bookCommon1.get_id());
                 bookCommon.setImageUrl(bookCommon1.getImageUrl());
             }
         }
-        if (bookCommon.getUid() == null)
-            return null;
-        BookCommon bc = bookCommonRepository.save(bookCommon);
+        bookCommon = bookCommonRepository.save(bookCommon);
         Record record = recordsRepository.findById(bookCommon.getRecord_id()).get();
             if ((bookCommon.getIsbn()==null && bookCommon.getIssn() ==null) || bookCommon.isUseBookCommonUid()) {
                 Subfield subfield = record.getSubfield("856b");
@@ -79,7 +86,7 @@ public class BookCommonService {
 //            }
             record.setCommonBookUid(bookCommon.getUid());
             recordsRepository.save(record);
-        return bc;
+        return bookCommon;
     }
 
     public BookCommon getBookCommonByUID(Integer bookCommonUID) {

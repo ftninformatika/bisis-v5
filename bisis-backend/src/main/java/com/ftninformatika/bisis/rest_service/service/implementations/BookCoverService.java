@@ -28,23 +28,37 @@ public class BookCoverService {
     @Autowired
     YAMLConfig yamlConfig;
 
-    public boolean uploadImage(Integer bookCommonID, MultipartFile file) throws IOException {
+    public boolean uploadImage(Integer bookCommonUid, MultipartFile file) throws IOException {
 
-        if (file == null || file.isEmpty() || bookCommonID == null)
+        if (file == null || file.isEmpty() || bookCommonUid == null)
             return false;
         BasicDBObject metaData = new BasicDBObject();
-        metaData.put("bookCommonUID", bookCommonID);
-
-        metaData.put("link", yamlConfig.getServerOrigin() + "book_cover/retrieve/" + bookCommonID);
-        BookCommon bc = bookCommonRepository.findByUid(bookCommonID);
+        metaData.put("bookCommonUID", bookCommonUid);
+        metaData.put("link", yamlConfig.getServerOrigin() + "book_cover/retrieve/" + bookCommonUid);
+        BookCommon bc = bookCommonRepository.findByUid(bookCommonUid);
         if (bc == null) return false;
-        bc.setImageUrl(yamlConfig.getServerOrigin() + "book_cover/retrieve/" + bookCommonID);
+        bc.setImageUrl(yamlConfig.getServerOrigin() + "book_cover/retrieve/" + bookCommonUid);
         bookCommonRepository.save(bc);
         GridFsResource storedCover = getCoverImage(bc.getUid());
         if (storedCover != null)
-            deleteCoverImage(bookCommonID);
+            deleteCoverImage(bookCommonUid);
         gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), "image", metaData );
         return true;
+    }
+
+    public String copyImage(Integer bookCommonUidOld, Integer bookCommonUidNew) {
+        try {
+            BasicDBObject metaData = new BasicDBObject();
+            metaData.put("bookCommonUID", bookCommonUidNew);
+            String link = yamlConfig.getServerOrigin() + "book_cover/retrieve/" + bookCommonUidNew;
+            metaData.put("link", link);
+            GridFsResource storedCover = getCoverImage(bookCommonUidOld);
+            gridFsTemplate.store(storedCover.getInputStream(), storedCover.getFilename(), "image", metaData);
+            return link;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public GridFsResource getCoverImage(Integer bookCommonUID) {
