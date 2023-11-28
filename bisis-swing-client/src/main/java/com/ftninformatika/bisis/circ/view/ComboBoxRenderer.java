@@ -39,8 +39,8 @@ public class ComboBoxRenderer extends JLabel implements ListCellRenderer, Serial
 	    {
 	        setComponentOrientation(list.getComponentOrientation());
 		if (isSelected) {
-		    setBackground(list.getSelectionBackground());
-		    setForeground(list.getSelectionForeground());
+		    setBackground(Color.WHITE);
+		    setForeground(Color.BLACK);
 		}
 		else {
 		    setBackground(list.getBackground());

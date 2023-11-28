@@ -1,39 +1,31 @@
 package com.ftninformatika.bisis.circ.view;
 
-import com.ftninformatika.bisis.coders.Location;
-import com.ftninformatika.utils.Messages;
-import javax.swing.JPanel;
-
-import java.awt.*;
-import javax.swing.JTextField;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import com.ftninformatika.bisis.BisisApp;
 import com.ftninformatika.bisis.circ.Cirkulacija;
 import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.circ.validator.Validator;
+import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.libenv.LibEnvironment;
 import com.ftninformatika.bisis.librarian.Librarian;
-import com.ftninformatika.bisis.circ.pojo.CircLocation;
-import com.ftninformatika.bisis.search.*;
-
+import com.ftninformatika.bisis.search.CodedPrefPanel;
+import com.ftninformatika.bisis.search.CodedPrefUtils;
+import com.ftninformatika.bisis.search.PrefixListDlg;
+import com.ftninformatika.bisis.search.SearchModelCirc;
+import com.ftninformatika.utils.Messages;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Date;
+import java.util.List;
 
 public class SearchBooks {
 
@@ -46,6 +38,7 @@ public class SearchBooks {
 	private JComboBox cmbOper2 = null;
 	private JComboBox cmbOper3 = null;
 	private JComboBox cmbOper4 = null;
+	private JComboBox cmbOper5 = null;
 	private JDateChooser tfStartDateL = null;
 	private JDateChooser tfStartDateR = null;
 	private JDateChooser tfEndDateL = null;
@@ -117,6 +110,7 @@ public class SearchBooks {
 		pb.add(getBtnPref5(), cc.xy(4,10));
 		pb.add(getTfPref5(), cc.xyw(6,10,3));
 		pb.add(getCodedPref5(), cc.xyw(6,10,3));
+		pb.add(getCmbOper5(), cc.xy(10,10));
 
 
 
@@ -376,6 +370,17 @@ public class SearchBooks {
 		  //cmbOper4.setFocusable(false);
 		}
 		return cmbOper4;
+	}
+
+	private JComboBox getCmbOper5() {
+		if (cmbOper5 == null) {
+			cmbOper5 = new JComboBox();
+			cmbOper5.addItem("and"); //$NON-NLS-1$
+			cmbOper5.addItem("or"); //$NON-NLS-1$
+			cmbOper5.addItem("not"); //$NON-NLS-1$
+			//cmbOper5.setFocusable(false);
+		}
+		return cmbOper5;
 	}
 
 	private JDateChooser getTfStartDateL() {
@@ -721,6 +726,7 @@ public class SearchBooks {
 		  String oper2 = getCmbOper2().getSelectedItem().toString().toUpperCase();
 		  String oper3 = getCmbOper3().getSelectedItem().toString().toUpperCase();
 		  String oper4 = getCmbOper4().getSelectedItem().toString().toUpperCase();
+		  String oper5 = getCmbOper5().getSelectedItem().toString().toUpperCase();
 
 		  Date startL = null;
 		  Date endL = null;
@@ -773,6 +779,7 @@ public class SearchBooks {
 		  searchModel.setOper2(oper2);
 		  searchModel.setOper3(oper3);
 		  searchModel.setOper4(oper4);
+		  searchModel.setOper5(oper5);
 		  searchModel.setStartDateLend(startL);
 		  searchModel.setEndDateLend(endL);
 		  searchModel.setStartDateRet(startR);

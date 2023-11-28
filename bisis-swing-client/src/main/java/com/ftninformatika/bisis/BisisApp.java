@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,11 +76,10 @@ public class BisisApp {
         }
         UIManager.put("List.font", UIManager.getDefaults().getFont("Label.font"));
         UIManager.put("Table.font", UIManager.getDefaults().getFont("Label.font"));
-        System.setProperty(
-
-                "Quaqua.tabLayoutPolicy", "wrap"
-
-        );
+        //UIManager.getLookAndFeelDefaults().put("Table.background", new Color(245, 245, 245));
+        UIManager.getLookAndFeelDefaults().put("Table.background", new ColorUIResource(new Color(250, 250, 250)));
+        UIManager.getLookAndFeelDefaults().put("Table.alternateRowColor", new Color(220,230,254));
+        System.setProperty("Quaqua.tabLayoutPolicy", "wrap");
         UIManager.getLookAndFeel().getDefaults().getPropertyChangeListeners();
         LoginFrame login = new LoginFrame();
         boolean correct = false;

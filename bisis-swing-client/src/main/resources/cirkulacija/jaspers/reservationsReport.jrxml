@@ -87,7 +87,7 @@
 								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font fontName="DejaVu Sans" size="9"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{authors}.get(0)]]></textFieldExpression>
+								<textFieldExpression><![CDATA[!$F{authors}.isEmpty() ? $F{authors}.get(0) : ""]]></textFieldExpression>
 							</textField>
 							<textField>
 								<reportElement x="0" y="0" width="36" height="20" uuid="9611d9c2-3829-4be1-abe1-08d2ada1c9fc">

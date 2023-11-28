@@ -233,7 +233,7 @@
 					<font fontName="DejaVu Sans" size="9"/>
 					<paragraph leftIndent="3"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{authors}.get(0)]]></textFieldExpression>
+				<textFieldExpression><![CDATA[!$F{authors}.isEmpty() ? $F{authors}.get(0) : ""]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="335" y="0" width="120" height="30" uuid="1b65a2cf-77a1-4eb0-929a-cb6e0bad1317">
