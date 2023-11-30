@@ -120,7 +120,7 @@ public class PrefixConverter {
         if (numNotshowable == primerci.size()) {
           show = false;
         }
-    }else if (godine != null && godine.size() > 0) {
+    } else if (godine != null && godine.size() > 0) {
         for (int i = 0; i < godine.size(); i++) {
           Godina g = godine.get(i);
           indeksirajGodinu(retVal, g);
@@ -132,7 +132,7 @@ public class PrefixConverter {
              }
             }
           }
-    }else{
+    } else if (rec.getSubfieldContent("001c") != null && rec.getSubfieldContent("001c").equals("m")){
       show = false;
     }
     if(show) {

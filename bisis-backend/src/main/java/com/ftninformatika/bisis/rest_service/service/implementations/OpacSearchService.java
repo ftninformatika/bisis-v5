@@ -457,17 +457,21 @@ public class OpacSearchService {
 
         BoolQueryBuilder query = ElasticUtility.makeQuery(filterRequest.getSearchModel());
         FiltersReq filtersReq = null;
+        //ne prikazuju zapise koji nemaju bar jedan primerak koji ima status showable:true
+        QueryBuilder show = ElasticUtility.buildQbForField("true", "show");
+        BoolQueryBuilder queryWithShow = QueryBuilders.boolQuery();
+        queryWithShow.must(query).must(show);
 
         List<ItemStatus> itemStatusList = itemStatusRepository.getCoders(library);
         itemStatusList = itemStatusList.stream().filter(ItemStatus::isShowable).collect(Collectors.toList());
 
         if (filterRequest.getOptions() != null && filterRequest.getOptions().getFilters() != null) {
-            query = ElasticUtility.filterSearch(query, filterRequest.getOptions().getFilters(), itemStatusList);
+            queryWithShow = ElasticUtility.filterSearch(queryWithShow, filterRequest.getOptions().getFilters(), itemStatusList);
             filtersReq = filterRequest.getOptions().getFilters();
         }
 
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(query)
+                .withQuery(queryWithShow)
                 .withIndices(library + "library_domain")
                 .withTypes("record")
                 .withPageable(PageRequest.of(0, 10))

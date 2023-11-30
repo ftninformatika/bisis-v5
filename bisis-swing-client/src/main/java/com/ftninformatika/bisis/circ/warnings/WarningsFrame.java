@@ -1,65 +1,38 @@
 package com.ftninformatika.bisis.circ.warnings;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-
-import javax.swing.JPanel;
-import java.awt.CardLayout;
-
-import javax.swing.JButton;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.WindowConstants;
-
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.io.StringWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.JComboBox;
-
-import com.ftninformatika.bisis.circ.common.Utils;
-import com.ftninformatika.bisis.circ.manager.WarningsManager;
-import com.ftninformatika.bisis.circ.view.CmbKeySelectionManager;
-import com.ftninformatika.bisis.circ.view.ComboBoxRenderer;
-import com.ftninformatika.bisis.circ.view.RecordBean;
 import com.ftninformatika.bisis.circ.Lending;
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.circ.WarningType;
+import com.ftninformatika.bisis.circ.common.Utils;
+import com.ftninformatika.bisis.circ.manager.WarningsManager;
 import com.ftninformatika.bisis.circ.pojo.CircLocation;
 import com.ftninformatika.bisis.circ.pojo.Warning;
+import com.ftninformatika.bisis.circ.view.CmbKeySelectionManager;
+import com.ftninformatika.bisis.circ.view.ComboBoxRenderer;
+import com.ftninformatika.bisis.circ.view.RecordBean;
 import com.ftninformatika.bisis.circ.wrappers.MemberData;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.utils.string.StringUtils;
 import com.ftninformatika.utils.xml.XMLUtils;
-import net.sf.jasperreports.swing.JRViewer;
-import org.apache.xmlbeans.XmlOptions;
-
 import com.toedter.calendar.JDateChooser;
-
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
-
+import net.sf.jasperreports.swing.JRViewer;
+import org.apache.xmlbeans.XmlOptions;
 import warning.RootDocument;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import java.awt.*;
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.*;
 
 
 public class WarningsFrame extends JInternalFrame {
@@ -732,10 +705,10 @@ public class WarningsFrame extends JInternalFrame {
                 params.put("sub", subreport);
                 params.put("warning", warning);
 
-//             JRXmlDataSource ds = new JRXmlDataSource(XMLUtils
-//                     .getDocumentFromString(sw.toString()), "/root/opomena");
+                //JRXmlDataSource ds = new JRXmlDataSource(XMLUtils.getDocumentFromString(sw.toString()), "/root/opomena");
                 //JRXmlDataSource ds = new JRXmlDataSource(new ByteArrayInputStream((sw.toString().getBytes())), "/root/opomena");
                 JRXmlDataSource ds = new JRXmlDataSource(doc.newInputStream(), "/root/opomena");
+                //JRXmlDataSource ds = new JRXmlDataSource(new File("/home/danijela/Downloads/GIS/opomene.xml"), "/root/opomena");
                 JasperPrint jp = JasperFillManager.fillReport(
                         WarningsFrame.class.getResource(
                                 "/cirkulacija/jaspers/warnings/jaspers/all.jasper").openStream(),

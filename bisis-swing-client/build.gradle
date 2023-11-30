@@ -18,8 +18,6 @@ repositories {
 
 dependencies {
     implementation project(":bisis-model")
-    implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.20.6'
-    implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.20.6'
     implementation group: 'jaxen', name: 'jaxen', version: '2.0.0'
     implementation group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
     implementation group: 'log4j', name: 'log4j', version: '1.2.17'
@@ -108,9 +106,9 @@ task compileJasperJava(dependsOn: 'compileJava') {
         def jasperSourceDir = file('src/main/resources')
         def jasperTargetDir = file('build/resources/main')
         def jasperTargetDirSrc = file('src/main/resources')
-//        def tree = fileTree('src/main/resources')
-//        tree.include '**/*.jasper'
-//        tree.each { it.delete() }
+        def tree = fileTree('src/main/resources')
+        tree.include '**/*.jasper'
+        tree.each { it.delete() }
         ant {
             taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: sourceSets.main.compileClasspath.asPath)
             jasperTargetDir.mkdirs()
