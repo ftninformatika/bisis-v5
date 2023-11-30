@@ -708,7 +708,6 @@ public class WarningsFrame extends JInternalFrame {
                 //JRXmlDataSource ds = new JRXmlDataSource(XMLUtils.getDocumentFromString(sw.toString()), "/root/opomena");
                 //JRXmlDataSource ds = new JRXmlDataSource(new ByteArrayInputStream((sw.toString().getBytes())), "/root/opomena");
                 JRXmlDataSource ds = new JRXmlDataSource(doc.newInputStream(), "/root/opomena");
-                //JRXmlDataSource ds = new JRXmlDataSource(new File("/home/danijela/Downloads/GIS/opomene.xml"), "/root/opomena");
                 JasperPrint jp = JasperFillManager.fillReport(
                         WarningsFrame.class.getResource(
                                 "/cirkulacija/jaspers/warnings/jaspers/all.jasper").openStream(),

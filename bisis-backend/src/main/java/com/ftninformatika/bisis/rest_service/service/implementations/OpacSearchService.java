@@ -263,7 +263,7 @@ public class OpacSearchService {
         List<Field> _464s = r.getFields("464");
         List<Field> _474s = r.getFields("474");
 
-        if (r.getSubfield("001d").getContent().equals("1")) {
+        if (r.getSubfieldContent("001d") != null && r.getSubfieldContent("001d").equals("1")) {
             if (r.getSubfield("001e").getContent() != null) {
                 QueryBuilder query4741 = ElasticUtility.buildQbForField(r.getSubfield("001e").getContent(), "4741");
                 Iterable<ElasticPrefixEntity> analyticRecords = elasticRecordsRepository.search(query4741);
@@ -294,7 +294,7 @@ public class OpacSearchService {
             }
         }
 
-        if (r.getSubfield("001c").getContent().equals("a")) {
+        if (r.getSubfieldContent("001c") != null && r.getSubfieldContent("001c").equals("a")) {
             for (Field f : _474s) {
                 if (f.getSubfieldContent('1') == null || f.getSubfieldContent('1').equals("0"))
                     continue;
