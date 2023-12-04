@@ -98,7 +98,7 @@ public class ReservationsDialog extends JDialog {
         JLabel bookTitle = new JLabel(r.getTitle());
         jContentPane.add(bookTitle, "width 20:80:null, growx, growy");
 
-        JLabel bookAuthor = new JLabel(r.getAuthors().get(0));
+        JLabel bookAuthor = new JLabel(r.getAuthors() != null && !r.getAuthors().isEmpty() ? r.getAuthors().get(0) : "");
         jContentPane.add(bookAuthor, "width 20:60:null,	growx, growy");
 
         JLabel reservedFor = new JLabel(r.getUserId() + ", " + r.getMemberFirstName() + " " + r.getMemberLastName());
