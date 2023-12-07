@@ -212,7 +212,6 @@ public class DefaultPrefixMap implements PrefixMap {
     addToMap("KW", "627a");
     addToMap("LA", "101a");
     addToMap("LC", "105f");
-    addToMap("LA", "101c");
     addToMap("PP", "210a");
     addToMap("PU", "210c");
     addToMap("PY", "100c");
