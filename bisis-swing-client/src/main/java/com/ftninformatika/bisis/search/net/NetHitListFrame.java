@@ -154,13 +154,19 @@ public class NetHitListFrame extends JInternalFrame {
             public void actionPerformed(ActionEvent ev) {
                 if(recordMode){
                     Record rec = (Record)lbHitList.getSelectedValue();
-                    if(rec!=null) Obrada.newRecord(rec);
+                    if (rec!=null) {
+                        rec = rec.copyWithoutHoldings();
+                        Obrada.newRecord(rec);
+                    }
                 }else{
                     selectedHits.clear();
                     BriefInfoModel selectedBrief = (BriefInfoModel) lbHitList.getSelectedValue();
                     try {
                         Record rec = BisisApp.bisisService.getForeignRecord(selectedBrief).execute().body();
-                        if (rec != null) Obrada.newRecord(rec);
+                        if (rec!=null) {
+                            rec = rec.copyWithoutHoldings();
+                            Obrada.newRecord(rec);
+                        }
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(BisisApp.getMainFrame(),
                                 Messages.getString("NET_HITLIST_ERROR_TITLE"), Messages.getString("NET_HITLIST_ERROR_TEXT"), JOptionPane.INFORMATION_MESSAGE);

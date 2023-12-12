@@ -166,9 +166,11 @@ public class Cirkulacija {
         return reservemng;
     }
 
-    public void close(){
-        if (mf != null && mf.isVisible())
-            mf.handleClose();
+    public boolean close(){
+        if (mf != null && mf.isVisible()) {
+            return mf.handleClose();
+        }
+        return true;
     }
 
     static {

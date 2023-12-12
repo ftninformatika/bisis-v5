@@ -121,8 +121,10 @@ public class MainFrame extends JFrame {
         if (Obrada.isEditorClosable()) {
             searchFrame.closeSearchFrame();
         }
-        Cirkulacija.getApp().close();
-        System.exit(0);
+        boolean userReleased = Cirkulacija.getApp().close();
+        if (userReleased) {
+            System.exit(0);
+        }
     }
 
 //    public void logOut() {

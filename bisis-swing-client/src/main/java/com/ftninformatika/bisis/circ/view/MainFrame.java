@@ -548,7 +548,7 @@ public class MainFrame extends JInternalFrame {
         }
     }
 
-    public void handleClose() {
+    public boolean handleClose() {
         boolean released = Cirkulacija.getApp().getUserManager().releaseUser();
         if (released) {
             while (!panelStack.empty()) {
@@ -570,6 +570,7 @@ public class MainFrame extends JInternalFrame {
             JOptionPane.showMessageDialog(Cirkulacija.getApp().getMainFrame(), Messages.getString("circulation.releaseerror"), Messages.getString("circulation.error"), JOptionPane.ERROR_MESSAGE, //$NON-NLS-1$ //$NON-NLS-2$
                     new ImageIcon(getClass().getResource("/circ-images/x32.png")));
         }
+        return released;
     }
 
 }
