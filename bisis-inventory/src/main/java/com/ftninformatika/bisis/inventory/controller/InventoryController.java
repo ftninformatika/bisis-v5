@@ -59,6 +59,7 @@ public class InventoryController {
         if (inventory != null && inventory.getInventoryState().equals(EnumInventoryState.FINISHED)) {
             System.out.println("Apdejt zaduzenja pre zatvaranja revizije....");
             inventoryService.updateLendingStatus(inventory.get_id());
+            inventoryService.updateItemAvailability(inventory.get_id());
         }
         Inventory inventory1 = inventoryService.update(inventory);
         if (inventory1 == null) {

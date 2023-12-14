@@ -102,13 +102,18 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public void delete(Inventory inventory) {
         try {
-            inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(inventory.get_id());
+            updateItemAvailability(inventory.get_id());
             inventoryRepository.delete(inventory);
             inventoryUnitRepository.deleteAllByInventoryId(inventory.get_id());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void updateItemAvailability (String inventoryId){
+        inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(inventoryId);
     }
 
     @Override
