@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="najcitanijetabela" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="858ad957-d69f-4056-b45a-946ab5fb32d1">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="samplebestbookadapter"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -159,14 +159,18 @@
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="e4a176eb-a774-48bb-a3d1-aba756037ad6"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[str("NAJCITANIJE_RB")]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="06137fe6-9bc5-4472-934a-1c3d6e80aa30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -176,7 +180,9 @@
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="225" height="30" uuid="d27f289b-1f05-4674-b460-d9aea8df265f"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[str("NAJCITANIJE_BOOK_TITLE")]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
@@ -184,7 +190,9 @@
 							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="225" height="30" uuid="d85cabfc-a22e-46af-bb0a-3420152d702e"/>
 								<box leftPadding="2"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{column2}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -194,7 +202,9 @@
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="207" height="30" uuid="629ee25d-8772-478b-91a5-5314cace1e0e"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[str("NAJCITANIJE_AUTHOR")]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
@@ -202,7 +212,9 @@
 							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="207" height="30" uuid="1e743ba7-3d2c-41db-bd5c-b4332330821b"/>
 								<box leftPadding="2"/>
-								<textElement verticalAlignment="Middle"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{column3}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -212,14 +224,18 @@
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="83" height="30" uuid="a7826189-e733-4a26-b7de-41deddb9fe98"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[str("NAJCITANIJE_LEND_COUNT")]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="83" height="30" uuid="59a92f50-da99-4427-87a5-929ab76a8ee9"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="DejaVu Sans" size="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{column1_1}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
