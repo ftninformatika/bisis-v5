@@ -16,16 +16,17 @@ import com.ftninformatika.bisis.records.*;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
+import com.ftninformatika.utils.BookCommonHelper;
 import com.ftninformatika.utils.Helper;
 import com.ftninformatika.utils.string.LatCyrUtils;
 import com.ftninformatika.utils.string.Signature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -350,18 +351,42 @@ public class OpacSearchService {
         b.setReservations(r.getReservations() != null ? r.getReservations() : null);
         b.setAvgRating(r.getAvgRating());
         b.setTotalRatings(r.getRecordRatings() != null ? r.getRecordRatings().size() : 0);
-        if (r.getCommonBookUid() != null) {
-            BookCommon bc = bookCommonRepository.findByUid(r.getCommonBookUid());
+//        if (r.getCommonBookUid() != null) {
+            BookCommon bc = getBookCommonForRecord(r);
+            //        bookCommonRepository.findByUid(r.getCommonBookUid());
             if (bc != null) {
                 b.setDescription(bc.getDescription());
                 b.setImageUrl(bc.getImageUrl());
                 b.setCommonBookUID(bc.getUid());
                 b.setUseBookCommonUid(bc.isUseBookCommonUid());
             }
-        }
+        //}
         b.setOtherAuthors(rp.getOtherAuthors());
         b.setUnimarcImageURL(r);
         return b;
+    }
+
+    public BookCommon getBookCommonForRecord(Record rec){
+        String isbn = rec.getSubfieldContent("010a");
+        BookCommon bookCommon = null;
+        if (isbn == null){
+            isbn = rec.getSubfieldContent("011a");
+        }
+        if (isbn != null){
+            isbn = BookCommonHelper.generateISBNForBookCommon(isbn);
+            Optional<List<BookCommon>> bookCommonOptional = bookCommonRepository.findByIsbn(isbn);
+            if (bookCommonOptional.isPresent()){
+                List<BookCommon> bookCommonList = bookCommonOptional.get();
+                bookCommon = bookCommonList.get(bookCommonList.size()-1);
+            }
+        }else{
+            String bookcommonId = rec.getSubfieldContent("856b");
+            try{
+                bookCommon = bookCommonRepository.findByUid(Integer.parseInt(bookcommonId));
+            }catch (Exception e){}
+        }
+        return bookCommon;
+
     }
 
     List<Item> getItems(Record r, String lib) {

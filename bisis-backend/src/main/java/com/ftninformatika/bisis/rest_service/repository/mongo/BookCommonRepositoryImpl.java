@@ -14,6 +14,7 @@ public class BookCommonRepositoryImpl implements BookCommonRepositoryCustom {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+
     public Integer generateBookUID() {
         try {
             final Query query = new Query()
@@ -25,4 +26,5 @@ public class BookCommonRepositoryImpl implements BookCommonRepositoryCustom {
             return null;
         }
     }
+
 }
