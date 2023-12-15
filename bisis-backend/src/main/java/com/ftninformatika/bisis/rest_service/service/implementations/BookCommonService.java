@@ -12,6 +12,7 @@ import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.bisis.search.SearchModel;
+import com.ftninformatika.utils.BookCommonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +60,13 @@ public class BookCommonService {
                 bookCommon.setImageUrl(bookCommon1.getImageUrl());
             }
         }
+        String isbn = bookCommon.getIsbn();
+        isbn = BookCommonHelper.generateISBNForBookCommon(isbn);
+        bookCommon.setIsbn(isbn);
+
         bookCommon = bookCommonRepository.save(bookCommon);
         Record record = recordsRepository.findById(bookCommon.getRecord_id()).get();
-            if ((bookCommon.getIsbn()==null && bookCommon.getIssn() ==null) || bookCommon.isUseBookCommonUid()) {
+            if (bookCommon.getIsbn()==null || bookCommon.isUseBookCommonUid()) {
                 Subfield subfield = record.getSubfield("856b");
                 if (subfield == null) {
                     Field field = new Field("856");

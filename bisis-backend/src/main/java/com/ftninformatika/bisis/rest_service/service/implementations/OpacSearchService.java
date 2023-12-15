@@ -366,24 +366,28 @@ public class OpacSearchService {
         return b;
     }
 
-    public BookCommon getBookCommonForRecord(Record rec){
+    public BookCommon getBookCommonForRecord(Record rec) {
         String isbn = rec.getSubfieldContent("010a");
-        BookCommon bookCommon = null;
-        if (isbn == null){
+        if (isbn == null) {
             isbn = rec.getSubfieldContent("011a");
         }
-        if (isbn != null){
-            isbn = BookCommonHelper.generateISBNForBookCommon(isbn);
-            Optional<List<BookCommon>> bookCommonOptional = bookCommonRepository.findByIsbn(isbn);
-            if (bookCommonOptional.isPresent()){
-                List<BookCommon> bookCommonList = bookCommonOptional.get();
-                bookCommon = bookCommonList.get(bookCommonList.size()-1);
+        BookCommon bookCommon = null;
+        String bookcommonId = rec.getSubfieldContent("856b");
+        if(bookcommonId != null && !bookcommonId.equals("")){
+            try {
+                bookCommon = bookCommonRepository.findByUid(Integer.parseInt(bookcommonId));
+            } catch (Exception e) {
+
             }
         }else{
-            String bookcommonId = rec.getSubfieldContent("856b");
-            try{
-                bookCommon = bookCommonRepository.findByUid(Integer.parseInt(bookcommonId));
-            }catch (Exception e){}
+            if (isbn != null) {
+                isbn = BookCommonHelper.generateISBNForBookCommon(isbn);
+                Optional<List<BookCommon>> bookCommonOptional = bookCommonRepository.findByIsbn(isbn);
+                if (bookCommonOptional.isPresent()) {
+                    List<BookCommon> bookCommonList = bookCommonOptional.get();
+                    bookCommon = bookCommonList.get(bookCommonList.size() - 1);
+                }
+            }
         }
         return bookCommon;
 
