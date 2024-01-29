@@ -1,4 +1,4 @@
-<#macro field001  field
+<#macro field001  field allSF
    ><#list field.sf as subField
          ><#if (allSF?index_of("b")!=-1 || allSF?index_of("@")!=-1) && subField.name="b"    
                       
@@ -13,7 +13,7 @@
 
 
 
-><#macro field010 field
+><#macro field010 field allSF
    ><#list field.sf as subField
          ><#if (allSF?index_of("a")!=-1 || allSF?index_of("@")!=-1) &&  subField.name="a"
      
@@ -24,7 +24,7 @@
 ></#macro
 
 
-><#macro field011 field
+><#macro field011 field allSF
    
    ><#list field.sf as subField
         ><#if (allSF?index_of("e")!=-1 || allSF?index_of("@")!=-1) && subField.name="e"  
@@ -39,7 +39,7 @@
 
 
 
-><#macro field200 field
+><#macro field200 field allSF
    ><#assign past=""
    ><#assign pastA=false
    ><#list field.sf as subField
@@ -115,7 +115,7 @@
 
   ></#list
 ></#macro
-><#macro field205 field
+><#macro field205 field allSF
     ><#list field.sf as subField
 
       ><#if (allSF?index_of("a")!=-1 || allSF?index_of("@")!=-1) &&  subField.name="a"  && subField.content?exists
@@ -181,7 +181,7 @@
 
 
 
-><#macro field210 field
+><#macro field210 field allSF
   ><#assign past=""><#-- proverava koje je zadnje potpolje
   --><#assign pastA=false><#--
  
@@ -279,7 +279,7 @@
 
 
 
-><#macro field215 field
+><#macro field215 field allSF
   ><#assign next=""
   ><#list field.sf as subField
      
@@ -337,7 +337,7 @@
 
 
 
-><#macro field225 field
+><#macro field225 field allSF
   ><#assign past=""
   ><#assign next=false
   ><#assign pom=""  
@@ -443,7 +443,7 @@
 
 ></#macro
 
-><#macro field300 field
+><#macro field300 field allSF
 
   ><#list field.sf as subField
 
@@ -533,7 +533,7 @@
 
 
 
-><#macro field500 field
+><#macro field500 field allSF
 
   ><#list field.sf as subField
 
@@ -1496,7 +1496,7 @@ subField.content="328" || subField.content="330"
            ><#assign val=""
            ><#assign allSF="a" 
            ><#assign field=subField.secField
-           ><@field200 field/><#--
+           ><@field200 field allSF/><#--
            --><#if val!=""
                       
                       ><#if pom!=""
@@ -1515,7 +1515,7 @@ subField.content="328" || subField.content="330"
            ><#assign val=""
            ><#assign allSF="a" 
            ><#assign field=subField.secField
-           ><@field215 field/><#--
+           ><@field215 field allSF/><#--
            --><#if val!=""
                                             
                       ><#if pom!=""
@@ -1550,7 +1550,7 @@ subField.content="328" || subField.content="330"
           ><#assign val=""
           ><#assign allSF="aefg" 
           ><#assign field=subField.secField
-          ><@field200 field/><#--
+          ><@field200 field allSF/><#--
           --><#if val!=""
                   ><#assign val469=val469+val
     
@@ -1559,7 +1559,7 @@ subField.content="328" || subField.content="330"
                 ><#assign val=""
                 ><#assign allSF="a" 
                 ><#assign field=subField.secField
-                ><@field215 field/><#--
+                ><@field215 field allSF/><#--
                 --><#if val!=""    
                          ><#assign val469=val469+"&nbsp;("+val+")&nbsp;"
                 ></#if
@@ -1569,7 +1569,7 @@ subField.content="328" || subField.content="330"
           ><#assign val=""
           ><#assign allSF="a" 
           ><#assign field=subField.secField
-           ><@field300 field/><#--
+           ><@field300 field allSF/><#--
            --><#if val!=""
                     ><#if val469=""
                           ><#assign val469=val

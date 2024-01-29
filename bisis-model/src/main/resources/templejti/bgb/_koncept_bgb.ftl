@@ -197,7 +197,7 @@
             ><#if field.ind1="1"
                     ><#assign val="" 
                     ><#assign allSF="@"   
-                    ><@field200 field/><#--
+                    ><@field200 field allSF/><#--
                     --><#if odr="f200"
                                 ><#assign number=1
                                 ><@upperFirstN/><#--
@@ -206,11 +206,11 @@
            ><#else
                     ><#assign val=""
                     ><#assign allSF="@"
-                    ><@field200 field/><#--
+                    ><@field200 field allSF/><#--
                     --><#if val!=""
                             ><#assign val=""
                             ><#assign allSF="abcdefghiv"
-                            ><@field200 field/><#--
+                            ><@field200 field allSF/><#--
                             --><#assign opis=opis+"&nbsp;&nbsp;&nbsp;"+val
                     ></#if
            ></#if
@@ -221,7 +221,7 @@
   ><#list f205 as field
       ><#assign val=""
       ><#assign allSF="adfgb"
-      ><@field205 field/><#--
+      ><@field205 field allSF/><#--
       --><#if val!=""
                 ><#if opis?ends_with(".") 
                       ><#assign opis=opis+"&nbsp;-&nbsp;"
@@ -254,7 +254,7 @@
   ><#list f210 as field
        ><#assign val=""
        ><#assign allSF="acdegh"
-       ><@field210 field/><#--
+       ><@field210 field allSF/><#--
        --><#if val!=""
                  ><#if opis?ends_with(".")
                           ><#assign opis=opis+"&nbsp;-&nbsp;"
@@ -270,7 +270,7 @@
   ><#list f215 as field
           ><#assign val=""
           ><#assign allSF="acde"  
-          ><@field215 field/><#--
+          ><@field215 field allSF/><#--
           --><#if val!=""
                  ><#if opis?ends_with(".")
                           ><#assign opis=opis+"&nbsp;-&nbsp;"
@@ -293,7 +293,7 @@
   ><#list f225 as field
           ><#assign val=""
           ><#assign allSF="adefhivx" 
-          ><@field225 field/><#--
+          ><@field225 field allSF/><#--
           --><#if val!=""
                    ><#if i=1
                           ><#assign opis=pom225+"&nbsp;("+val+")&nbsp;"
@@ -443,7 +443,7 @@
                                 
                                 ><#assign val=""
                                 ><#assign allSF="abhiklm" 
-                                ><@field500 field/><#--
+                                ><@field500 field allSF/><#--
                                 --><@toUpperFirst/><#--
                                 --><#if val!=""
                                        ><#assign odr="f500"
@@ -471,7 +471,7 @@
                              ><#if field.ind1="1"
                                        ><#assign val=""
                                        ><#assign allSF="a" 
-                                       ><@field200 field/><#-- 
+                                       ><@field200 field allSF/><#--
                                        --><#if val!=""
                                                ><#assign odr="f200"
                                        ></#if
@@ -509,7 +509,7 @@
                      ><#if field.ind1="1" 
                               ><#assign val=""
                               ><#assign allSF="a" 
-                              ><@field200 field/><#--
+                              ><@field200 field allSF/><#--
                               --><#if val!=""                                                                                  
                                          ><@cutAndUpper/><#--  
                                          --><#assign zag="<zag><B>"+val+"</B><BR></zag>"                                                   
@@ -529,7 +529,7 @@
                      ><#if field.ind1="1" 
                               ><#assign val=""
                               ><#assign allSF="a" 
-                              ><@field200 field/><#--
+                              ><@field200 field allSF/><#--
                               --><#if val!=""                                    
                                          ><@cutAndUpper/><#--
                                          --><#assign zagS="<ser><B>"+val+"</B><BR></ser>"                                                   
@@ -548,7 +548,7 @@
                ><#list f300 as field
                        ><#assign val=""                        
                        ><#assign allSF="@" 
-                       ><@field300 field/><#--       
+                       ><@field300 field allSF/><#--
                        --><#if val!=""
                                    ><#if nap!=""
                                             ><#if nap?ends_with(".")
@@ -565,7 +565,7 @@
              ><#list f314 as field
                     ><#assign val=""       
                     ><#assign allSF="@" 
-                    ><@field300 field/><#--
+                    ><@field300 field allSF/><#--
                     --><#if val!=""
                                   ><#if nap!=""
                                             ><#if nap?ends_with(".")
@@ -582,7 +582,7 @@
          ><#list f320 as field
                  ><#assign val=""                      
                  ><#assign allSF="a"     
-                 ><@field200 field/><#--
+                 ><@field200 field allSF/><#--
                  --><#if val!=""
                           ><#if nap!=""
                                             ><#if nap?ends_with(".")
@@ -618,7 +618,7 @@
        ><#list f322 as field
                    ><#assign val=""       
                    ><#assign allSF="@" 
-                   ><@field300 field/><#--
+                   ><@field300 field allSF/><#--
                    --><#if val!=""
                                   ><#if nap!=""
                                             ><#if nap?ends_with(".")
@@ -636,7 +636,7 @@
           ><#list f323 as field
                     ><#assign val=""        
                     ><#assign allSF="@" 
-                    ><@field300 field/><#--
+                    ><@field300 field allSF/><#--
                     --><#if val!=""
                                   ><#if nap!=""
 
@@ -655,7 +655,7 @@
          ><#list f324 as field
                      ><#assign val=""       
                      ><#assign allSF="@" 
-                     ><@field300 field/><#--
+                     ><@field300 field allSF/><#--
                      --><#if val!=""
                                   ><#if nap!=""
                                             ><#if nap?ends_with(".")
@@ -673,7 +673,7 @@
          ><#list f326 as field
                     ><#assign val=""        
                     ><#assign allSF="@" 
-                    ><@field300 field/><#--
+                    ><@field300 field allSF/><#--
                     --><#if val!=""
                                   ><#if nap!=""
                                             ><#if nap?ends_with(".")
@@ -692,7 +692,7 @@
          ><#list f327 as field
                     ><#assign val=""         
                     ><#assign allSF="a" 
-                    ><@field200 field/><#--
+                    ><@field200 field allSF/><#--
                     --><#if val!=""
                                   ><#if nap!=""
                                             ><#if nap?ends_with(".")
@@ -710,7 +710,7 @@
         ><#list f328 as field
                  ><#assign val=""       
                  ><#assign allSF="a" 
-                 ><@field300 field/><#--
+                 ><@field300 field allSF/><#--
                  --><#if val!=""
                                   ><#if nap!=""
 
@@ -729,7 +729,7 @@
         ><#list f330 as field
                ><#assign val=""        
                ><#assign allSF="@" 
-               ><@field300 field/><#--
+               ><@field300 field allSF/><#--
                --><#if val!=""
                                   ><#if nap!=""
                                             ><#if nap?ends_with(".")
@@ -759,7 +759,7 @@
                  ><#list f010 as field
                           ><#assign val=""
                           ><#assign allSF="a" 
-                          ><@field010 field/><#--
+                          ><@field010 field allSF/><#--
                           --><#if val!=""
                                    ><#if isbnBR!=""                                           
                                            ><#assign isbnBR=isbnBR+".&nbsp;-&nbsp;"        
@@ -786,7 +786,7 @@
           ><#list f011 as field
                     ><#assign val=""
                     ><#assign allSF="e"
-                    ><@field011 field/><#--
+                    ><@field011 field allSF/><#--
                    --><#if val!=""
                                    ><#assign issnBR="<BR><BR>ISSN&nbsp;"+val
                    ></#if 
@@ -838,7 +838,7 @@
                     ><#if field.ind1="0"  
                         ><#assign val=""
                         ><#assign allSF="aefhi" 
-                        ><@field200 field/><#--
+                        ><@field200 field allSF/><#--
                         --><#if val!=""                    
                                 ><#assign opisS=opisS+val
                         ></#if
@@ -850,7 +850,7 @@
            ><#list f200 as field               
                   ><#assign val=""
                   ><#assign allSF="aefhi" 
-                  ><@field200 field/><#--
+                  ><@field200 field allSF/><#--
                   --><#if val!=""                    
                     ><#assign opisS=opisS+val
                   ></#if
@@ -861,7 +861,7 @@
    ><#list f011 as field
       ><#assign val=""
       ><#assign allSF="e" 
-      ><@field011 field/><#--
+      ><@field011 field allSF/><#--
       --><#if val!=""
           ><#if opisS!=""
             ><#assign opisS=opisS+".&nbsp;-&nbsp;ISSN&nbsp;"          
@@ -886,7 +886,7 @@
                     
             ><#assign val=""
             ><#assign allSF="@" 
-              ><@field300 field/><#--
+              ><@field300 field allSF/><#--
               --><#if val!=""                
                 ><#if napS=""                    
                     ><#assign napS=napS+"<BR><BR>"
@@ -907,7 +907,7 @@
                     
             ><#assign val=""
             ><#assign allSF="@" 
-              ><@field300 field/><#--
+              ><@field300 field allSF/><#--
               --><#if val!=""
                 
                 ><#if napS=""
@@ -962,7 +962,7 @@
       ><#list f675 as field
             ><#assign val=""
             ><#assign allSF="a" 
-              ><@field010 field/><#--
+              ><@field010 field allSF/><#--
               --><#if val!=""
                   ><#if brUDC!=""                     
                      ><#assign brUDC=brUDC+"<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -984,7 +984,7 @@
       ><#list f675 as field
             ><#assign val=""
             ><#assign allSF="a" 
-              ><@field010 field/><#--
+              ><@field010 field allSF/><#--
               --><#if val!="" && brojacUDK<3
                   ><#assign brojacUDK=brojacUDK+1
                   ><#if brUDC3!=""                     
@@ -1003,7 +1003,7 @@
       ><#list f675 as field
             ><#assign val=""
             ><#assign allSF="a" 
-              ><@field010 field/><#--
+              ><@field010 field allSF/><#--
               --><#if val!=""                  
                   ><#assign brUDCprvi=brUDCprvi+val
                   ><#break
@@ -1022,7 +1022,7 @@
       ><#list f675 as field
             ><#assign val=""
             ><#assign allSF="a" 
-              ><@field010 field/><#--
+              ><@field010 field allSF/><#--
               --><#if val!=""
                   ><#if first
                        ><#assign first=false
@@ -1048,7 +1048,7 @@
          ><#list f001 as field             
                  ><#assign val=""
                  ><#assign allSF="e" 
-                 ><@field001 field/><#-- 
+                 ><@field001 field allSF/><#--
                  --><#if val!=""
                       ><#assign firstNumber=false
                       ><#assign past=""
@@ -1395,7 +1395,7 @@
       ><#list f200 as field
            ><#assign val=""
            ><#assign allSF="a"     
-           ><@field200 field/><#-- 
+           ><@field200 field allSF/><#--
            --><#assign nas=val
            ><#break
       ></#list     
@@ -1409,7 +1409,7 @@
       ><#list f200 as field 
            ><#assign val=""
            ><#assign allSF="h"     
-           ><@field200 field/><#-- 
+           ><@field200 field allSF/><#--
            --><#assign deo=val
            ><#break
       ></#list     
@@ -1423,7 +1423,7 @@
       ><#list f200 as field 
            ><#assign val=""
            ><#assign allSF="i"     
-           ><@field200 field/><#-- 
+           ><@field200 field allSF/><#--
            --><#assign nasDeo=val
            ><#break
       ></#list     
@@ -1437,7 +1437,7 @@
       ><#list f210 as field 
            ><#assign val=""
            ><#assign allSF="a"     
-           ><@field210 field/><#-- 
+           ><@field210 field allSF/><#--
            --><#assign mes=val
            ><#break
       ></#list     
@@ -1454,7 +1454,7 @@
       ><#list f210 as field 
            ><#assign allSF="c" 
            ><#assign val=""    
-           ><@field210 field/><#-- 
+           ><@field210 field allSF/><#--
            --><#break
       ></#list     
  ></#if  
@@ -1477,7 +1477,7 @@
       ><#list f210 as field 
            ><#assign allSF="d" 
            ><#assign val=""    
-           ><@field210 field/><#-- 
+           ><@field210 field allSF/><#--
            --><#break
       ></#list     
  ></#if 

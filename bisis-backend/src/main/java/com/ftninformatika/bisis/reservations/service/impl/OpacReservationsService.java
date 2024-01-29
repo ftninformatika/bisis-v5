@@ -93,7 +93,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
     @Override
     @Transactional
     public Boolean deleteReservation(String memberNo, String reservationId) {
-        log.info("(deleteReservation) - Brisanje rezervacije, clan: " + memberNo + " rezervacija: " + reservationId);
+        //log.info("(deleteReservation) - Brisanje rezervacije, clan: " + memberNo + " rezervacija: " + reservationId);
 
         Member member = memberRepository.getMemberByUserId(memberNo);
         if (member != null) {
@@ -107,7 +107,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
     public boolean deleteFromQueue(Member member, String record_id) {
         Optional<Record> record = recordsRepository.findById(record_id);
         if (record.isPresent()) {
-            log.info("(deleteFromQueue) - iz zapisa: " + record_id + " se brise rezervacija korisnika: " + member.get_id());
+            //log.info("(deleteFromQueue) - iz zapisa: " + record_id + " se brise rezervacija korisnika: " + member.get_id());
 
             LinkedList<ReservationInQueue> reservations = record.get().getReservations();
             reservations.removeIf(pr -> pr.getUserId().equals(member.getUserId()));
@@ -129,7 +129,7 @@ public class OpacReservationsService implements OpacReservationsServiceInterface
                 iter.remove();
                 memberRepository.save(member);
 
-                log.info("(deleteFromMembersList) - rezervacija za zapis: " + record_id + " je obrisana iz liste rezervacija korisnika: " + member.get_id());
+                //log.info("(deleteFromMembersList) - rezervacija za zapis: " + record_id + " je obrisana iz liste rezervacija korisnika: " + member.get_id());
 
                 return record_id;
             }

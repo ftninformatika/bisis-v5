@@ -274,7 +274,7 @@ public class LendingTableModel extends AbstractTableModel implements Serializabl
 	  private String computeDays(Date deadline){
 		  Date today = new Date();
 		  String days = "";
-		  if (deadline.before(today)){
+		  if (deadline != null && deadline.before(today)){
 			 days = String.valueOf((today.getTime() - deadline.getTime()) / (1000 * 60 * 60 * 24));
 		  }
 		  return days;

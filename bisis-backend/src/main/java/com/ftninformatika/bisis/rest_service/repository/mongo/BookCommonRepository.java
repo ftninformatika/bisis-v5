@@ -11,6 +11,6 @@ import java.util.Optional;
  */
 public interface BookCommonRepository extends MongoRepository<BookCommon, String>, BookCommonRepositoryCustom {
     BookCommon findByUid (Integer uid);
-    Optional<List<BookCommon>> findByIsbn(String isbn);
+    Optional<List<BookCommon>> findByIsbnAndUseBookCommonUidFalse(String isbn);
 
 }

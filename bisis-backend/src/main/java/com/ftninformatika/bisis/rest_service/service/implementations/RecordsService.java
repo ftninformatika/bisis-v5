@@ -104,7 +104,6 @@ public class RecordsService implements RecordsServiceInterface {
     public Record addOrUpdateRecord(String lib, Record record) throws RecordNotCreatedOrUpdatedException, MongoClientException{
         try (ClientSession session = mongoClient.startSession()) {
             session.startTransaction();
-            List<String> codersNotShowable = itemStatusRepository.findAllByLibraryAndShowable(lib,false).stream().map(ItemStatus::getCoder_id).collect(Collectors.toList());
             try {
                 if (record.get_id() == null) {                  //ako dodajemo novi zapis ne postoji _id, ako menjamo postoji!!!
                     record.setLastModifiedDate(new Date());
@@ -160,13 +159,7 @@ public class RecordsService implements RecordsServiceInterface {
                 }
                 record.pack();
                 Record savedRecord = recordsRepository.save(record);
-                //convert record to suitable prefix-json for elasticsearch
-                Map<String, List<String>> prefixes = PrefixConverter.toMap(record, codersNotShowable);
-                ElasticPrefixEntity ee = new ElasticPrefixEntity();
-                ee.setId(savedRecord.get_id());
-                ee.setPrefixes(prefixes);
-                elasticRecordsRepository.save(ee);
-                elasticRecordsRepository.index(ee);
+                indexRecord(savedRecord, lib);
                 session.commitTransaction();
                 return savedRecord;
             }
@@ -179,6 +172,17 @@ public class RecordsService implements RecordsServiceInterface {
             et.printStackTrace();
             throw new MongoClientException("Mongodb client session not made!");
         }
+    }
+
+    public void indexRecord(Record record, String lib) {
+        List<String> codersNotShowable = itemStatusRepository.findAllByLibraryAndShowable(lib,false).stream().map(ItemStatus::getCoder_id).collect(Collectors.toList());
+        //convert record to suitable prefix-json for elasticsearch
+        Map<String, List<String>> prefixes = PrefixConverter.toMap(record, codersNotShowable);
+        ElasticPrefixEntity ee = new ElasticPrefixEntity();
+        ee.setId(record.get_id());
+        ee.setPrefixes(prefixes);
+        elasticRecordsRepository.save(ee);
+        elasticRecordsRepository.index(ee);
     }
 
     @Transactional

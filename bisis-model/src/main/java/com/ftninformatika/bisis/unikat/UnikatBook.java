@@ -16,4 +16,5 @@ import java.util.List;
 public class UnikatBook {
     private Book book;
     private List<UnikatBookRef> unikatBookRefs = new ArrayList<>();
+
 }

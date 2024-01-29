@@ -15,6 +15,7 @@ import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.RecordPreview;
 import com.ftninformatika.utils.RegexUtils;
 import com.ftninformatika.utils.string.Signature;
+import com.ftninformatika.utils.string.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -184,14 +185,15 @@ public class InventoryServiceImpl implements InventoryService {
                     String firstInvNum =  book.getCode() + "0000000";
                     RegexUtils rrg = new RegexUtils();
                     if (!createdInventory.isUseLocationFromInvNo()) {
-                        List<String> regexes = rrg.getRegex(firstInvNum, book.getCode() + String.valueOf(book.getLastNo()));
+                        List<String> regexes = rrg.getRegex(firstInvNum, book.getCode() + StringUtils.padZeros(book.getLastNo(), 7));
                         List<Criteria> regexCr = new ArrayList<>();
-                        Criteria c2 = new Criteria();
                         for (String reg : regexes) {
                             regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
                         }
-                        Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
-                        invBookCriteriaList.add(cr);
+                        if (!regexCr.isEmpty()) {
+                            Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
+                            invBookCriteriaList.add(cr);
+                        }
                     }else{
                         firstInvNum = invLocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
                         String lastInvNum = createInvNum(invLocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));

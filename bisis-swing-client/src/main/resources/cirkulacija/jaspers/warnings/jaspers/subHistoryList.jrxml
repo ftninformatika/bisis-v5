@@ -21,7 +21,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="1" y="1" width="69" height="13"/>
 				<textElement textAlignment="Center">
-					<font size="9"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ctlgno}]]></textFieldExpression>
 			</textField>
@@ -32,14 +32,14 @@
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="75" y="1" width="65" height="13"/>
 				<textElement textAlignment="Center">
-					<font size="9"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{datum}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="142" y="1" width="82" height="13"/>
 				<textElement textAlignment="Center">
-					<font size="9"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{napomena}]]></textFieldExpression>
 			</textField>

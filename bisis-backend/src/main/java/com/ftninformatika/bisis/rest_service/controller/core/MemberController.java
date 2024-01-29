@@ -187,7 +187,7 @@ public class MemberController {
         List<Lending> lendings = lendingRepository.findByUserIdAndReturnDateIsNull(userId);
         retVal.setMember(m);
         retVal.setLendings(lendings);
-        log.info("(getAndLockByMemberId) zakljucan i vracen korisnik ID: " + userId);
+        // log.info("(getAndLockByMemberId) zakljucan i vracen korisnik ID: " + userId);
         return retVal;
     }
 
@@ -231,7 +231,7 @@ public class MemberController {
         }
         m.setInUseBy(null);
         memberRep.save(m);
-        log.info("(unlockMemberById) Otkljucan user ID: " + userId);
+        // log.info("(unlockMemberById) Otkljucan user ID: " + userId);
         return true;
 
     }

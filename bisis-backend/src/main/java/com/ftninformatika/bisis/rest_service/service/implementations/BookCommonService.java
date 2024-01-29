@@ -8,16 +8,13 @@ import com.ftninformatika.bisis.opac.books.BookCommon;
 import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.records.Subfield;
-import com.ftninformatika.bisis.rest_service.controller.core.RecordsController;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCollectionRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
-import com.ftninformatika.bisis.search.SearchModel;
 import com.ftninformatika.utils.BookCommonHelper;
+import com.ftninformatika.utils.LibraryPrefixProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,14 +28,14 @@ import java.util.Optional;
 public class BookCommonService {
 
     @Autowired BookCommonRepository bookCommonRepository;
-    @Autowired
-    RecordsRepository recordsRepository;
+    @Autowired RecordsRepository recordsRepository;
+    @Autowired RecordsService recordsService;
     @Autowired OpacSearchService opacSearchService;
     @Autowired BookCollectionRepository bookCollectionRepository;
-    @Autowired
-    LibraryConfigurationRepository libraryConfigurationRepository;
-    @Autowired RecordsController recordsController; // Avoid this
+    @Autowired LibraryConfigurationRepository libraryConfigurationRepository;
+    //@Autowired RecordsController recordsController; // Avoid this
     @Autowired BookCoverService bookCoverService;
+    @Autowired LibraryPrefixProvider libraryPrefixProvider;
     private Logger log = LoggerFactory.getLogger(BookCommonService.class);
 
     public BookCommon saveModifyBookCommon(BookCommon bookCommon) {
@@ -90,7 +87,8 @@ public class BookCommonService {
 //                }
 //            }
             record.setCommonBookUid(bookCommon.getUid());
-            recordsRepository.save(record);
+            record = recordsRepository.save(record);
+            recordsService.indexRecord(record, libraryPrefixProvider.getLibPrefix());
         return bookCommon;
     }
 
@@ -134,13 +132,13 @@ public class BookCommonService {
     }
 
 
-    private List<Record> searchRecords(SearchModel query) {
-        ResponseEntity<List<Record>> responseRecords =
-                recordsController.search(query, null, null);
-        if (!responseRecords.getStatusCode().equals(HttpStatus.OK)
-                || responseRecords.getBody() == null || responseRecords.getBody().size() == 0) return null;
-        return responseRecords.getBody();
-    }
+//    private List<Record> searchRecords(SearchModel query) {
+//        ResponseEntity<List<Record>> responseRecords =
+//                recordsController.search(query, null, null);
+//        if (!responseRecords.getStatusCode().equals(HttpStatus.OK)
+//                || responseRecords.getBody() == null || responseRecords.getBody().size() == 0) return null;
+//        return responseRecords.getBody();
+//    }
 
 
 }

@@ -382,8 +382,8 @@ public class OpacSearchService {
         }else{
             if (isbn != null) {
                 isbn = BookCommonHelper.generateISBNForBookCommon(isbn);
-                Optional<List<BookCommon>> bookCommonOptional = bookCommonRepository.findByIsbn(isbn);
-                if (bookCommonOptional.isPresent()) {
+                Optional<List<BookCommon>> bookCommonOptional = bookCommonRepository.findByIsbnAndUseBookCommonUidFalse(isbn);
+                if (bookCommonOptional.isPresent() && !bookCommonOptional.get().isEmpty()) {
                     List<BookCommon> bookCommonList = bookCommonOptional.get();
                     bookCommon = bookCommonList.get(bookCommonList.size() - 1);
                 }

@@ -4,7 +4,7 @@
     <#list f001 as field>
         <#assign val="">
         <#assign allSF="e">
-        <@field001 field/>
+        <@field001 field allSF/>
         <#if val!="">
             <#assign brID=val>
         </#if>

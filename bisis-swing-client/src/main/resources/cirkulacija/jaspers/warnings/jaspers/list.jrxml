@@ -40,7 +40,7 @@
 			<textField>
 				<reportElement positionType="Float" x="9" y="0" width="512" height="20"/>
 				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
+					<font fontName="DejaVu Sans" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{naslov}]]></textFieldExpression>
 			</textField>
@@ -70,27 +70,37 @@
 			</line>
 			<textField>
 				<reportElement positionType="Float" x="0" y="11" width="39" height="17"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{rbr}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="39" y="11" width="75" height="17"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{bropomene}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="114" y="11" width="79" height="17"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{brclana}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="194" y="11" width="225" height="17"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{ime}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="428" y="11" width="91" height="17"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{datum}]]></textFieldExpression>
 			</textField>
 			<line>
@@ -123,27 +133,37 @@
 			</line>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="0" y="1" width="39" height="15"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="41" y="1" width="73" height="15"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{bropomene}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="114" y="1" width="79" height="15"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{userid}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="195" y="1" width="223" height="15"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{prezime} + " " + $F{ime}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="427" y="1" width="91" height="14"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{rok}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -152,7 +172,9 @@
 		<band height="18">
 			<textField>
 				<reportElement positionType="Float" x="486" y="1" width="48" height="17"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
