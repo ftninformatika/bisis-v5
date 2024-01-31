@@ -50,8 +50,8 @@ public class BookCollectionService {
             return false;
         else if (newCollection.get_id() == null)
             newCollection.setIndex(generateIndex());
-            log.info("(addModifyCollection) Za novu kolekciju: " + newCollection.getTitle() + " postavljen je index: "
-                    + newCollection.getIndex());
+            //log.info("(addModifyCollection) Za novu kolekciju: " + newCollection.getTitle() + " postavljen je index: "
+            //        + newCollection.getIndex());
         BookCollection bc = bookCollectionRepository.save(newCollection);
         return (bc != null && bc.get_id() != null);
     }
@@ -111,14 +111,14 @@ public class BookCollectionService {
                 return false;
             BookCollection bc = bookCollections.stream().filter(b -> b.getIndex() == i).findFirst().get();
             BookCollection bc1 = bookCollections.stream().filter(b -> b.getIndex() == i1).findFirst().get();
-            log.info("(swapCollectionIndexes) Prva kolekcija je: " + bc.getTitle() + " sa indexom: " + bc.getIndex());
-            log.info("(swapCollectionIndexes) Druga kolekcija je: " + bc1.getTitle() + " sa indexom: " + bc1.getIndex());
+            //log.info("(swapCollectionIndexes) Prva kolekcija je: " + bc.getTitle() + " sa indexom: " + bc.getIndex());
+            //log.info("(swapCollectionIndexes) Druga kolekcija je: " + bc1.getTitle() + " sa indexom: " + bc1.getIndex());
             bc.setIndex(i1);
             bc1.setIndex(i);
             bookCollectionRepository.save(bc);
             bookCollectionRepository.save(bc1);
-            log.info("(swapCollectionIndexes) Postavljen novi index za: " + bc.getTitle() + " je: " + bc.getIndex());
-            log.info("(swapCollectionIndexes) Postavljen novi index za: " + bc.getTitle() + " je: " + bc1.getIndex());
+            //log.info("(swapCollectionIndexes) Postavljen novi index za: " + bc.getTitle() + " je: " + bc.getIndex());
+            //log.info("(swapCollectionIndexes) Postavljen novi index za: " + bc.getTitle() + " je: " + bc1.getIndex());
             return true;
         }
         catch (Exception e) {

@@ -206,7 +206,7 @@ public class OpacSearchService {
             try {
                 items.sort(Comparator.comparing(Item::getInvNum));
             } catch (Exception e){
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             return items;
         } else return null;

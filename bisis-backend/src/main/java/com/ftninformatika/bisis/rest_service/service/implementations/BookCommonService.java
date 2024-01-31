@@ -60,32 +60,22 @@ public class BookCommonService {
         String isbn = bookCommon.getIsbn();
         isbn = BookCommonHelper.generateISBNForBookCommon(isbn);
         bookCommon.setIsbn(isbn);
-
+        bookCommon.setLibrary(libraryPrefixProvider.getLibPrefix());
         bookCommon = bookCommonRepository.save(bookCommon);
         Record record = recordsRepository.findById(bookCommon.getRecord_id()).get();
             if (bookCommon.getIsbn()==null || bookCommon.isUseBookCommonUid()) {
-                Subfield subfield = record.getSubfield("856b");
-                if (subfield == null) {
-                    Field field = new Field("856");
-                    field.add(new Subfield('b' , String.valueOf(bookCommon.getUid())));
+                Field field = record.getField("856");
+                if (field == null) {
+                    field = new Field("856");
                     record.add(field);
+                }
+                Subfield subfield = field.getSubfield('b');
+                if (subfield == null) {
+                    field.add(new Subfield('b' , String.valueOf(bookCommon.getUid())));
                 } else {
                     subfield.setContent(String.valueOf(bookCommon.getUid()));
                 }
             }
-//            else {
-//
-//                Subfield subfield = record.getSubfield("856b");
-//                if (subfield != null) {
-//                   List<Field> f856List = record.getFields("856");
-//                   for(Field f: f856List){
-//                       f.removeSubfield('b');
-//                   }
-//                    record.setCommonBookUid(null);
-//                } else {
-//                    record.setCommonBookUid(bookCommon.getUid());
-//                }
-//            }
             record.setCommonBookUid(bookCommon.getUid());
             record = recordsRepository.save(record);
             recordsService.indexRecord(record, libraryPrefixProvider.getLibPrefix());

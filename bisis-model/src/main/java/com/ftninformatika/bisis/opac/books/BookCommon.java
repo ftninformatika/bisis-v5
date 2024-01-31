@@ -32,4 +32,5 @@ public class BookCommon {
     @Transient
     private String record_id;
     private boolean useBookCommonUid;
+    private String library;
 }
