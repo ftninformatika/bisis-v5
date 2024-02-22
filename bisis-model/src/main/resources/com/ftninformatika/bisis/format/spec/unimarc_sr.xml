@@ -2388,6 +2388,15 @@
 	<field name="333" description="Napomene o korisnicima kojima je namenjena publ." mandatory="false" repeatable="true" secondary="false">
 		<subfield name="a" description="Tekst napomene" mandatory="false" repeatable="false" length="0"/>
 	</field>
+	<field name="334" description="Napomena za nagradu" mandatory="false" repeatable="true" secondary="false">
+		<subfield name="a" description="Tekst napomene" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="b" description="Naziv nagrade" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="c" description="Godina nagrade" mandatory="false" repeatable="false" length="8"/>
+		<subfield name="h" description="Zemlja nagrade" mandatory="true" repeatable="false" length="3">
+			<coder external="true" type="2"/>
+		</subfield>
+		<subfield name="u" description="Identifikator sloga ID" mandatory="false" repeatable="false" length="0"/>
+	</field>
 	<field name="336" description="Napomene o vrsti kompjuterske datoteke" mandatory="false" repeatable="true" secondary="false">
 		<subfield name="a" description="Tekst napomene" mandatory="false" repeatable="false" length="0"/>
 	</field>
