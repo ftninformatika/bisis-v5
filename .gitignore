@@ -70,5 +70,6 @@ out/
 *.jasper
 *.jks
 opac-secret.properties
+knjigaprica-secret.properties
 bisis-firebase.json
 bisistest-firebase.json

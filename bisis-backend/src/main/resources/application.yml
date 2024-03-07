@@ -1,7 +1,7 @@
 
 spring:
   profiles:
-    active: production
+    active: development
 
   mail:
     host: smtp.gmail.com
@@ -20,7 +20,7 @@ spring:
   profiles: development
   main:
     allow-bean-definition-overriding: true
-  data.mongodb.uri: mongodb://127.0.0.1:27017/?replicaSet=bisis5
+  data.mongodb.uri: mongodb://127.0.0.1:27019
   data.mongodb.database: bisis
   data:
     elasticsearch:
