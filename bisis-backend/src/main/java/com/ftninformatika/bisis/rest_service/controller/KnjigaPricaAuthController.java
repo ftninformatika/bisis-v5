@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-
 @RestController
 @RequestMapping("/knjigaprica-auth")
 public class KnjigaPricaAuthController {
@@ -48,14 +47,14 @@ public class KnjigaPricaAuthController {
 
         // Prepare headers
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Api-Key", KnjigaPricaService.KNJIGA_PRICA_API_KEY); // Replace with your API key
+        headers.set("Api-Key", knjigaPricaService.getKnjigaPricaApiKey()); // Replace with your API key
 
         // Prepare HTTP entity
         HttpEntity<String> entity = new HttpEntity<>(requestBodyJson, headers);
 
         ResponseEntity<String> response;
         try {
-            response = restTemplate.exchange(KnjigaPricaService.KNJIGA_PRICA_API_URL, HttpMethod.POST, entity, String.class);
+            response = restTemplate.exchange(knjigaPricaService.getKnjigaPricaApiUrl(), HttpMethod.POST, entity, String.class);
             // TODO: return i18n errors?
             /*
                 user-limitation-exceeded - korisnik želi da pozajmi više od dozvoljenog broja knjiga po nalogu (u ovom slučaju 3)
@@ -80,7 +79,7 @@ public class KnjigaPricaAuthController {
         }
 
         // Handle successful response
-        if (response.getStatusCode() == HttpStatus.OK) {
+        if (response.getStatusCode() == HttpStatus.OK || response.getStatusCode() == HttpStatus.CREATED) {
             // TODO: handle
             return ResponseEntity.ok("nesto");
         } else {

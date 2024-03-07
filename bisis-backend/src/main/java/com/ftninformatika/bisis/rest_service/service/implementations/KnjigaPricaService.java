@@ -2,7 +2,6 @@ package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.circ.Member;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.opac.dto.KnjigaPricaMemberData;
 import com.ftninformatika.bisis.opac.dto.KnjigaPricaRequestDTO;
 import com.ftninformatika.bisis.records.Record;
 import com.ftninformatika.bisis.rest_service.repository.mongo.MemberRepository;
@@ -18,10 +17,10 @@ import org.springframework.stereotype.Service;
 public class KnjigaPricaService {
 
     @Value("${knjigaprica.api.url}")
-    public static String KNJIGA_PRICA_API_URL;
+    private String knjigaPricaApiUrl;
 
     @Value("${knjigaprica.api.key}")
-    public static String KNJIGA_PRICA_API_KEY;
+    private String knjigaPricaApiKey;
 
     private final MemberRepository memberRepository;
     private final RecordsRepository recordsRepository;
@@ -29,6 +28,14 @@ public class KnjigaPricaService {
     public KnjigaPricaService(MemberRepository memberRepository, RecordsRepository recordsRepository) {
         this.memberRepository = memberRepository;
         this.recordsRepository = recordsRepository;
+    }
+
+    public String getKnjigaPricaApiUrl() {
+        return knjigaPricaApiUrl;
+    }
+
+    public String getKnjigaPricaApiKey() {
+        return knjigaPricaApiKey;
     }
 
     public KnjigaPricaRequestDTO createKnjigaPricaRequestBody(Integer rn) {
