@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(
+                        "/knjigaprica-auth", // TODO, for testing, remove
                         "/book",
                         "/book/multiple",
                         "/book/collection",
