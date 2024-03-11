@@ -18,6 +18,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -237,7 +239,8 @@ public class ReservationsDialog extends JDialog {
             params.put("adresa", Cirkulacija.getApp().getEnvironment().getReversLibraryAddress()); //$NON-NLS-1$
             params.put("naslov", reservation.getTitle()); //$NON-NLS-1$
             params.put("invBroj", reservation.getCtlgNo()); //$NON-NLS-1$
-            params.put("rezervacijaVaziDo", reservation.getPickUpDeadline()); //$NON-NLS-1$
+            params.put("rezervacijaVaziDo", formatDate(reservation.getPickUpDeadline())); //$NON-NLS-1$
+            params.put("datumRezervacije", formatDate(new Date())); //$NON-NLS-1$
             params.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getBundle());
 
             return JasperFillManager.fillReport(Thread.currentThread().getContextClassLoader()
@@ -247,6 +250,11 @@ public class ReservationsDialog extends JDialog {
             e.printStackTrace();
             return null;
         }
+    }
+
+    String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
+        return sdf.format(date);
     }
 
     private void handleOk() {
