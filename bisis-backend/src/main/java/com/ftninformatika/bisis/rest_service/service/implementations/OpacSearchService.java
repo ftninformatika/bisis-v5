@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.coders.Location;
 import com.ftninformatika.bisis.coders.Sublocation;
 import com.ftninformatika.bisis.core.repositories.*;
+import com.ftninformatika.bisis.library_configuration.EnumLocationLevel;
 import com.ftninformatika.bisis.library_configuration.LibraryConfiguration;
 import com.ftninformatika.bisis.mobile.BookAvailabilityDTO;
 import com.ftninformatika.bisis.opac.books.Book;
@@ -393,6 +394,15 @@ public class OpacSearchService {
 
     }
 
+    private boolean isLibrarySubLocation(String library) {
+        boolean isSubLocation = false;
+        LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
+        if (config.getLocationLevel() != null && config.getLocationLevel() == (int) EnumLocationLevel.SUB_LOCATION.getLevel()) {
+            isSubLocation = true;
+        }
+        return isSubLocation;
+    }
+
     List<Item> getItems(Record r, String lib) {
         List<Item> retVal = new ArrayList<>();
         Map<String, Location> locationMap = locationRepository.getCoders(lib).stream().collect(Collectors.toMap(Location::getCoder_id, l -> l));
@@ -409,6 +419,9 @@ public class OpacSearchService {
         if (r == null || ((r.getPrimerci() == null || r.getPrimerci().size() == 0) &&
                 (r.getGodine() == null || r.getGodine().size() == 0)))
             return null;
+
+        boolean isLibSubLocation = isLibrarySubLocation(lib);
+
         if (r.getPrimerci().size() > 0) {
             for (Primerak p : r.getPrimerci()) {
                 Item i = new Item();
@@ -429,11 +442,21 @@ public class OpacSearchService {
                 i.setSignature(Signature.format(p));
                 i.setStatus(itemStatus);
                 i.setSerial(false);
-                Sublocation sl = sublocationMap.get(p.getSigPodlokacija());
-                if (sl != null) {
-                    i.setLocation(sl.getDescription());
-                    i.setLocCode(p.getSigPodlokacija());
-                    i.setGoogleMapLocationURL(sl.getGoogleMapLocationURL());
+
+                // library bs has a sigPodlokacija and instead of locations, sublocations are set
+                if (isLibSubLocation) {
+                    Sublocation sl = sublocationMap.get(p.getSigPodlokacija());
+                    if (sl != null) {
+                        i.setLocation(sl.getDescription());
+                        i.setLocCode(p.getSigPodlokacija());
+                        i.setGoogleMapLocationURL(sl.getGoogleMapLocationURL());
+                    } else {    // in case sigPodlokacija is null
+                        Location l = locationMap.get(p.getInvBroj().substring(0, 2));
+                        if (l == null) continue;
+                        i.setLocCode(l.getCoder_id());
+                        i.setLocation(l.getDescription());
+                        i.setGoogleMapLocationURL(l.getGoogleMapLocationURL());
+                    }
                 } else {
                     Location l = locationMap.get(p.getInvBroj().substring(0, 2));
                     if (l == null) continue;
@@ -441,6 +464,7 @@ public class OpacSearchService {
                     i.setLocation(l.getDescription());
                     i.setGoogleMapLocationURL(l.getGoogleMapLocationURL());
                 }
+
                 retVal.add(i);
             }
         } else if (r.getGodine().size() > 0) {
@@ -456,11 +480,20 @@ public class OpacSearchService {
                 i.setYear(p.getGodina());
                 i.setNumber(p.getBroj());
                 i.setSerial(true);
-                Sublocation sl = sublocationMap.get(p.getSigPodlokacija());
-                if (sl != null) {
-                    i.setLocation(sl.getDescription());
-                    i.setLocCode(p.getSigPodlokacija());
-                    i.setGoogleMapLocationURL(sl.getGoogleMapLocationURL());
+
+                if (isLibSubLocation) {
+                    Sublocation sl = sublocationMap.get(p.getSigPodlokacija());
+                    if (sl != null) {
+                        i.setLocation(sl.getDescription());
+                        i.setLocCode(p.getSigPodlokacija());
+                        i.setGoogleMapLocationURL(sl.getGoogleMapLocationURL());
+                    } else {
+                        Location l = locationMap.get(p.getInvBroj().substring(0, 2));
+                        if (l == null) continue;
+                        i.setLocCode(l.getCoder_id());
+                        i.setLocation(l.getDescription());
+                        i.setGoogleMapLocationURL(l.getGoogleMapLocationURL());
+                    }
                 } else {
                     Location l = locationMap.get(p.getInvBroj().substring(0, 2));
                     if (l == null) continue;
