@@ -111,6 +111,12 @@ public class BisisReservationsService implements BisisReservationsServiceInterfa
         return reservationDTOS;
     }
 
+    /**
+     * 1. Deletes reservation from the record's queue
+     * 2. Changes status of the reservation in the list of all member's reservations
+     * 3. Send an email if user has OPAC account
+     * 4. Change item availability status reserved to true
+     */
     @Override
     @Transactional
     public ReservationDTO confirmReservation(String reservation_id, String record_id, String ctlgNo, String library) {
