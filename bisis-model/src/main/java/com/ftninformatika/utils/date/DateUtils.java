@@ -111,4 +111,38 @@ public class DateUtils {
     return false;
   }
 
+  public static Date extractBirthDateFromJMBG(String jmbg) {
+    if (jmbg.length() != 13) {
+      throw new IllegalArgumentException("JMBG mora imati 13 cifara");
+    }
+
+    // Ekstrakcija dana, meseca i godine iz JMBG broja
+    int day = Integer.parseInt(jmbg.substring(0, 2));
+    int month = Integer.parseInt(jmbg.substring(2, 4));
+    int yearPart = Integer.parseInt(jmbg.substring(4, 7));
+    int centuryPart = Integer.parseInt(jmbg.substring(7, 9));
+
+    // Određivanje godine rođenja
+    int year;
+    if (centuryPart < 10) {
+      year = 2000 + yearPart;
+    } else {
+      year = 1000 + yearPart;
+    }
+
+    // Kreiranje datuma rođenja
+    Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.YEAR, year);
+    cal.set(Calendar.MONTH, month - 1);
+    cal.set(Calendar.DAY_OF_MONTH, day);
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+
+    return cal.getTime();
+  }
+
+
+
 }
