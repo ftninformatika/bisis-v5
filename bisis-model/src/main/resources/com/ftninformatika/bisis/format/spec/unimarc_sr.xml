@@ -2660,30 +2660,30 @@
 			<item code="1" value="Make a note"/>
 		</indicator>
 		<subfield name="1" description="(one)Linking data" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="a" description="Author" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="b" description="General Material Designation" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="c" description="Place of Publication" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="d" description="Date of Publication" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="e" description="Edition Statement" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="f" description="First Statement of Responsibility" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="g" description="Subsequent Statement of Responsibility" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="h" description="Number of Section orPart" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="i" description="Name of Section or Part" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="l" description="Parallel title" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="m" description="International Standard Music Number" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="n" description="Name of Publisher, Distributor, etc." mandatory="false" repeatable="true" length="0"/>
-		<subfield name="o" description="Other title information" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="p" description="Physical description" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="s" description="Series statement" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="t" description="Title" mandatory="true" repeatable="true" length="0"/>
-		<subfield name="u" description="Uniform Resource Locator" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="v" description="Volume Number" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="x" description="International Standard Serial Number" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="y" description="International Standard Book Number" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="a" description="Autor" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="b" description="Opšta oznaka materijala" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="c" description="Mesto publikacije" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="d" description="Datum publikacije" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="e" description="Izjava o izdanju" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="f" description="Prva izjava o odgovornosti" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="g" description="Naknadna izjava o odgovornosti" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="h" description="Broj sekcije ili dela" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="i" description="Naziv sekcije ili dela" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="l" description="Paralelni naslov" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="m" description="Međunarodni standardni muzički broj" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="n" description="Ime izdavača, distributera itd." mandatory="false" repeatable="true" length="0"/>
+		<subfield name="o" description="Ostale informacije o naslovu" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="p" description="Fizički opis" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="s" description="Izjava o seriji" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="t" description="Naslov" mandatory="true" repeatable="true" length="0"/>
+		<subfield name="u" description="URL" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="v" description="broj sveske" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="x" description="ISSN" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="y" description="ISBN" mandatory="false" repeatable="true" length="0"/>
 		<subfield name="z" description="CODEN" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="0" description="Bibliographic Record Identifier" mandatory="false" repeatable="false" length="0"/>
-		<subfield name="3" description="Authority Record Number" mandatory="false" repeatable="true" length="0"/>
-		<subfield name="5" description="Institution and Copy to Which Field Applies" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="0" description="Identifikator bibliografskog zapisa" mandatory="false" repeatable="false" length="0"/>
+		<subfield name="3" description="Broj matične evidencije" mandatory="false" repeatable="true" length="0"/>
+		<subfield name="5" description="Institucija i kopija na koje se polje odnosi" mandatory="false" repeatable="false" length="0"/>
 	</field>	
 	<field name="453" description="Ima izdanje na drugom jeziku - prevod" mandatory="false" repeatable="true" secondary="false">
 		<indicator index="2" description="Indikator o ispisu polja na kataloškim jedinicama">
