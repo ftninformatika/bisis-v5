@@ -32,8 +32,6 @@ public class KnjigaPricaAuthController {
     @GetMapping
     public ResponseEntity<String> getAudioBook(@RequestParam("recordNumber") Integer rn) {
 
-       //  TODO: fetch record, fetch user, create request body
-
         // Prepare request body
         KnjigaPricaRequestDTO knjigaPricaRequest = knjigaPricaService.createKnjigaPricaRequestBody(rn);
 
