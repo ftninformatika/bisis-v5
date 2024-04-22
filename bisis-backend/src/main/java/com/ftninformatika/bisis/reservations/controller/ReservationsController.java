@@ -57,26 +57,6 @@ public class ReservationsController {
             return new ResponseEntity<>(reservation, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-
-        // todo transakcije handler
-//         Object reservation = null;
-//
-//            reservation = reservationsService.reserveBook(authToken, library, reservationRequestDTO.getRecordId(),
-//                    reservationRequestDTO.getCoderId());
-//
-//            if (reservation.equals(ReservationsConstants.LIMITEXCEEDED)){
-//                throw new ReservationNotAllowedException();
-//            }else{
-//                return new ResponseEntity<>(reservation, HttpStatus.OK);
-//            }
-//        } catch (ReservationNotAllowedException | ReservationsLimitExceededException e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>(reservation, HttpStatus.FORBIDDEN);
-//        } catch (InvalidRequestException e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>(reservation, HttpStatus.BAD_REQUEST);
-//        }
     }
 
     /**

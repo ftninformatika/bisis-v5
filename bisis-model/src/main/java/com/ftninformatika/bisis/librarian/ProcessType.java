@@ -74,14 +74,21 @@ public class ProcessType implements Serializable {
       this.indicators = new ArrayList<UIndicator>();
       if (processTypeDB.getInitialFields() != null){
           for (USubfieldDB uSubfieldDB : processTypeDB.getInitialFields()){
+              String sf = uSubfieldDB.getFieldName()+uSubfieldDB.getSubfieldName();
+              // monografski tip nije sadrzao polje koje je postojalo u process type,
+              // tako da je this.pubType.getSubfield(uSubfieldDB.getFieldName()+uSubfieldDB.getSubfieldName()) == null
+              if (this.pubType.getSubfield(sf) == null) {
+                  continue;
+              }
               USubfield sub = this.pubType.getSubfield(uSubfieldDB.getFieldName()+uSubfieldDB.getSubfieldName()).shallowCopy();
               sub.setDefaultValue(uSubfieldDB.getDefaultValue());
               initialSubfields.add(sub);
           }
       }
       if (processTypeDB.getMandatoryFields() != null) {
-          this.mandatorySubfields = processTypeDB.getMandatoryFields().stream().
-                  map(i -> this.pubType.getSubfield(i.getFieldName()+i.getSubfieldName()).shallowCopy()).
+          this.mandatorySubfields = processTypeDB.getMandatoryFields().stream()
+                  .filter(i -> this.pubType.getSubfield(i.getFieldName()+i.getSubfieldName()) != null)
+                  .map(i ->  this.pubType.getSubfield(i.getFieldName()+i.getSubfieldName()).shallowCopy()).
                   collect(Collectors.toList());
 
       }

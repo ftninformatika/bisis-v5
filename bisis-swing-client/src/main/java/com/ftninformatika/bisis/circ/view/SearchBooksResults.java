@@ -448,8 +448,7 @@ public class SearchBooksResults extends JPanel {
             tabPane = new JTabbedPane();
             tabPane.addTab(Messages.getString("circulation.info"), null, getRightScrollPaneInfo(), null); //$NON-NLS-1$
             tabPane.addTab(Messages.getString("circulation.catalogcard"), null, getRightScrollPaneList(), null); //$NON-NLS-1$
-            // todo: prikaz samo za bgb biblioteku
-            if (BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {
+            if (BisisApp.appConfig.getClientConfig().getReservation()) {
                 tabPane.addTab(Messages.getString("circulation.reservations"), null, getRightReservationsPaneList(), null); //$NON-NLS-1$
             }
             tabPane.addChangeListener(new javax.swing.event.ChangeListener() {

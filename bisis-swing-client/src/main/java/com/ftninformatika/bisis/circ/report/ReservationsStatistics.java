@@ -18,7 +18,7 @@ import java.util.*;
  */
 public class ReservationsStatistics {
     public static JasperPrint setPrint(Date start, Date end, Object reportType) throws JRException, IOException {
-        if (!BisisApp.appConfig.getClientConfig().getLibraryName().equals("bgb")) {    // todo: zakucano za bgb prebaciti na EnumLoc
+        if (!BisisApp.appConfig.getClientConfig().getReservation()) {
             JOptionPane.showMessageDialog(null, Messages.getString("circulation.notSupported"),
                     Messages.getString("circulation.info"), JOptionPane.INFORMATION_MESSAGE);
             return null;

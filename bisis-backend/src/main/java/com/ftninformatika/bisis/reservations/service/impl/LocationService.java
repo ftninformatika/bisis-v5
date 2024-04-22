@@ -97,7 +97,7 @@ public class LocationService implements LocationServiceInterface {
     private boolean isLibrarySubLocation(String library) {
         boolean isSubLocation = false;
         LibraryConfiguration config = this.libraryConfigurationRepository.getByLibraryName(library);
-        if (config.getLocationLevel() != null && config.getLocationLevel() == EnumLocationLevel.SUB_LOCATION.getLevel()) {
+        if (config.getLocationLevel() != null && config.getLocationLevel() == (int) EnumLocationLevel.SUB_LOCATION.getLevel()) {
             isSubLocation = true;
         }
         return isSubLocation;

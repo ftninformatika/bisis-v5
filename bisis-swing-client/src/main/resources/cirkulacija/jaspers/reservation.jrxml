@@ -16,7 +16,8 @@
 	<parameter name="adresa" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="naslov" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="invBroj" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="rezervacijaVaziDo" class="java.util.Date" isForPrompting="false"/>
+	<parameter name="rezervacijaVaziDo" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="datumRezervacije" class="java.lang.String" isForPrompting="false"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -154,7 +155,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="DejaVu Sans" size="8" pdfEncoding="Cp1250"/>
 				</textElement>
-				<textFieldExpression><![CDATA[str("RESERVATION_CONF1")+" " +DateFormat.getDateInstance().format(new java.util.Date())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[str("RESERVATION_CONF1") + $P{datumRezervacije}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
