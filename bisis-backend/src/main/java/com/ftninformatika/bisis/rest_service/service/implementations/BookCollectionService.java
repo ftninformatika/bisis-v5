@@ -42,18 +42,31 @@ public class BookCollectionService {
             if (bookCollectionRepository.count() > maxCollectionsPerLib) return false;
         }
 
+        if (newCollection.getRecordsIds() != null && newCollection.getRecordsIds().contains(null)) {
+            return false;
+        }
+
         Optional<LibrarianDB> creator = librarianRepository.findByEmailAndBiblioteka(newCollection.getCreatorUsername(), library);
-        if (!creator.isPresent() || !creator.get().getLibrarianRoles().contains(Librarian.Role.OPACADMIN)
-                || newCollection.getRecordsIds().size() > BookCollection.MAX_SIZE) return false;
+        if (!isCreatorValid(creator, newCollection)) {
+            return false;
+        }
+
         newCollection.setLastModified(new Date());
+
         if (newCollection.get_id() == null && bookCollectionRepository.findByTitle(newCollection.getTitle()) != null)
             return false;
         else if (newCollection.get_id() == null)
             newCollection.setIndex(generateIndex());
             //log.info("(addModifyCollection) Za novu kolekciju: " + newCollection.getTitle() + " postavljen je index: "
             //        + newCollection.getIndex());
+
         BookCollection bc = bookCollectionRepository.save(newCollection);
         return (bc != null && bc.get_id() != null);
+    }
+
+    private boolean isCreatorValid(Optional<LibrarianDB> creator, BookCollection newCollection) {
+        return creator.isPresent() && creator.get().getLibrarianRoles().contains(Librarian.Role.OPACADMIN)
+                && newCollection.getRecordsIds().size() <= BookCollection.MAX_SIZE;
     }
 
     private Integer getMaxCollectionsPerLib(String library) {
@@ -103,12 +116,13 @@ public class BookCollectionService {
         return bookCollections;
     }
 
-    public boolean swapCollectionIndexes(Integer i, Integer i1) {
+    public synchronized boolean swapCollectionIndexes(Integer i, Integer i1) {
         try {
             List<BookCollection> bookCollections = bookCollectionRepository.findAll();
             List<Integer> indexes = bookCollections.stream().map(BookCollection::getIndex).collect(Collectors.toList());
             if (i == null || i1 == null || !indexes.contains(i) || !indexes.contains(i1))
                 return false;
+
             BookCollection bc = bookCollections.stream().filter(b -> b.getIndex() == i).findFirst().get();
             BookCollection bc1 = bookCollections.stream().filter(b -> b.getIndex() == i1).findFirst().get();
             //log.info("(swapCollectionIndexes) Prva kolekcija je: " + bc.getTitle() + " sa indexom: " + bc.getIndex());
