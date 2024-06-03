@@ -175,43 +175,75 @@ public class InventoryServiceImpl implements InventoryService {
         EnumLocationLevel enumLocationLevel = this.invCodersService.getEnumInvLocation(library);
 
         //upit za podlokaciju i inv knjige, i inv brojeve
+
         List<Criteria> sublocationCriteriaList = new ArrayList<Criteria>();
         List<Criteria> invBookCriteriaList = new ArrayList<Criteria>();
-        for (CoderDTO invLocation : createdInventory.getInvLocations()) {
-            Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
-            sublocationCriteriaList.add(c1);
+        if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && (createdInventory.getInvBooks() ==null || createdInventory.getInvBooks().isEmpty())){
+            for (CoderDTO invLocation : createdInventory.getInvLocations()) {
+                Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
+                if (!createdInventory.isUseLocationFromInvNo()) {
+                    sublocationCriteriaList.add(c1);
+                }else{
+                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) +  ".*");
+                    sublocationCriteriaList.add(c3);
+                }
+            }
+        }else if ((createdInventory.getInvLocations() == null || !createdInventory.getInvLocations().isEmpty() )&& (createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty())){
             for (InventoryBook book : createdInventory.getInvBooks()) {
                 if (book.getLastNo() != null && book.getCode() != null) {
                     String firstInvNum =  book.getCode() + "0000000";
                     RegexUtils rrg = new RegexUtils();
-                    if (!createdInventory.isUseLocationFromInvNo()) {
-                        List<String> regexes = rrg.getRegex(firstInvNum, book.getCode() + StringUtils.padZeros(book.getLastNo(), 7));
-                        List<Criteria> regexCr = new ArrayList<>();
-                        for (String reg : regexes) {
+                    List<String> regexes = rrg.getRegex(firstInvNum, book.getCode() + StringUtils.padZeros(book.getLastNo(), 7));
+                    List<Criteria> regexCr = new ArrayList<>();
+                    for (String reg : regexes) {
                             regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
-                        }
-                        if (!regexCr.isEmpty()) {
-                            Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
+                    }
+                    if (!regexCr.isEmpty()) {
+                        Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
                             invBookCriteriaList.add(cr);
-                        }
-                    }else{
-                        firstInvNum = invLocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
-                        String lastInvNum = createInvNum(invLocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
-                        Criteria c2 = Criteria.where("primerci.invBroj").gte(firstInvNum).lte(lastInvNum);
-                        invBookCriteriaList.add(c2);
                     }
                 } else {
-                    if (!createdInventory.isUseLocationFromInvNo()) {
                         Criteria c3 = Criteria.where("primerci.invBroj").regex("^[0-9][0-9]" + book.getCode() + ".*");
                         invBookCriteriaList.add(c3);
-                    }else{
-                        Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
-                        invBookCriteriaList.add(c3);
+                }
+            }
+        }else if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty()) {
+            for (CoderDTO invLocation : createdInventory.getInvLocations()) {
+                Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
+                sublocationCriteriaList.add(c1);
+                for (InventoryBook book : createdInventory.getInvBooks()) {
+                    if (book.getLastNo() != null && book.getCode() != null) {
+                        String firstInvNum = book.getCode() + "0000000";
+                        RegexUtils rrg = new RegexUtils();
+                        if (!createdInventory.isUseLocationFromInvNo()) {
+                            List<String> regexes = rrg.getRegex(firstInvNum, book.getCode() + StringUtils.padZeros(book.getLastNo(), 7));
+                            List<Criteria> regexCr = new ArrayList<>();
+                            for (String reg : regexes) {
+                                regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
+                            }
+                            if (!regexCr.isEmpty()) {
+                                Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
+                                invBookCriteriaList.add(cr);
+                            }
+                        } else {
+                            firstInvNum = invLocation.getCoder_id().substring(0, 2) + book.getCode() + "0000000";
+                            String lastInvNum = createInvNum(invLocation.getCoder_id().substring(0, 2), book.getCode(), String.valueOf(book.getLastNo()));
+                            Criteria c2 = Criteria.where("primerci.invBroj").gte(firstInvNum).lte(lastInvNum);
+                            invBookCriteriaList.add(c2);
+                        }
+                    } else {
+                        if (!createdInventory.isUseLocationFromInvNo()) {
+                            Criteria c3 = Criteria.where("primerci.invBroj").regex("^[0-9][0-9]" + book.getCode() + ".*");
+                            invBookCriteriaList.add(c3);
+                        } else {
+                            Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + book.getCode());
+                            invBookCriteriaList.add(c3);
+                        }
                     }
                 }
             }
         }
-        MatchOperation matchSublocationOp = null;
+            MatchOperation matchSublocationOp = null;
         if (sublocationCriteriaList.size() > 0 && !createdInventory.isUseLocationFromInvNo()) {
             matchSublocationOp = Aggregation.match(new Criteria().orOperator(sublocationCriteriaList.toArray(new Criteria[sublocationCriteriaList.size()])));
         }
