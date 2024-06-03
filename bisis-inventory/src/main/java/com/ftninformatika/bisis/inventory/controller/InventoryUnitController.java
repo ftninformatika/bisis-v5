@@ -83,4 +83,13 @@ public class InventoryUnitController {
         return ResponseEntity.ok(retVal);
     }
 
+    @GetMapping("/addOne")
+    public ResponseEntity addInventoryUnit(@RequestParam("inventoryId") String inventoryId, @RequestParam("invNo") String invNo){
+        Boolean ok =  this.inventoryUnitService.addInventoryUnit(inventoryId,invNo);
+        if (!ok) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.ok("");
+        }
+    }
 }

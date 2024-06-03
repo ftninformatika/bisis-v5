@@ -22,5 +22,6 @@ public interface InventoryUnitService {
     Boolean mapStatusesToItems(MapStatusesToItemsDTO mapStatusesToItems);
     Page<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO, Integer pageNumber, Integer pageSize);
     List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO);
+    Boolean addInventoryUnit(String inventoryId, String invNo);
 
 }

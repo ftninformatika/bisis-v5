@@ -1,16 +1,22 @@
 package com.ftninformatika.bisis.inventory.service.implementations;
 
+import com.ftninformatika.bisis.coders.ItemStatus;
 import com.ftninformatika.bisis.core.repositories.InventoryStatusRepository;
 import com.ftninformatika.bisis.core.repositories.ItemAvailabilityRepository;
 import com.ftninformatika.bisis.core.repositories.ItemStatusRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
-import com.ftninformatika.bisis.inventory.*;
+import com.ftninformatika.bisis.inventory.EnumActionState;
+import com.ftninformatika.bisis.inventory.Inventory;
+import com.ftninformatika.bisis.inventory.InventoryStatus;
+import com.ftninformatika.bisis.inventory.InventoryUnit;
 import com.ftninformatika.bisis.inventory.dto.*;
 import com.ftninformatika.bisis.inventory.repository.InventoryRepository;
 import com.ftninformatika.bisis.inventory.repository.InventoryUnitRepository;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import com.ftninformatika.bisis.records.Primerak;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.RecordPreview;
+import com.ftninformatika.utils.string.Signature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -224,5 +230,57 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             }
         }
         return rec;
+    }
+
+    @Override
+    public Boolean addInventoryUnit(String inventoryId, String invNo) {
+        Optional <Inventory> selectedInventoryOp = inventoryRepository.findById(inventoryId);
+        if (!selectedInventoryOp.isPresent()){
+            return false;
+        }
+        Record record = recordsRepository.getRecordByPrimerakInvNum(invNo);
+        if (record == null){
+            return false;
+        }
+        try {
+            Inventory selectedInventory = selectedInventoryOp.get();
+            RecordPreview rp = new RecordPreview();
+            rp.init(record);
+            InventoryUnit unit = new InventoryUnit();
+            unit.setInventoryId(inventoryId);
+            unit.setInvNo(invNo);
+            unit.setRn(record.getRN());
+            unit.setAuthor(String.join(" ,", rp.getAuthors()));
+            unit.setTitle(rp.getTitle());
+            unit.setPublisher(rp.getPublisher());
+            unit.setPubYear(rp.getPublishingYear());
+            unit.setPubPlace(rp.getPublishingPlace());
+            Primerak p = record.getPrimerak(invNo);
+            Map<String, ItemStatus> itemStatusesMap = itemStatusRepository.getCoders(selectedInventory.getLibrary()).stream().collect(Collectors.toMap(ItemStatus::getCoder_id, is -> is));
+            Map<String, InventoryStatus> inventoryStatusesMap = inventoryStatusRepository.getCoders(selectedInventory.getLibrary()).stream().collect(Collectors.toMap(InventoryStatus::getCoder_id, is -> is));
+            selectedInventory.setItemStatusesMap(itemStatusesMap);
+            selectedInventory.setInventoryStatusesMap(inventoryStatusesMap);
+
+            ItemStatus itemStatus = selectedInventory.getItemStatus(p.getStatus());
+            if (itemStatus != null){
+                unit.setItemStatusCoderId(itemStatus.getCoder_id());
+                unit.setItemStatusDescription(itemStatus.getDescription());
+            }
+            InventoryStatus inventoryStatus = selectedInventory.getRevStatusByInv(p.getStatus());
+            if (inventoryStatus != null){
+                unit.setInventoryStatusCoderId(inventoryStatus.getCoder_id());
+                unit.setInventoryStatusDescription(inventoryStatus.getDescription());
+            }
+
+
+            unit.setDateModified(new Date());
+            String signature = Signature.format(p);
+            unit.setSignature(signature);
+            unit.setPrice(Double.valueOf(p.getCena().doubleValue()));
+            inventoryUnitRepository.save(unit);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }
