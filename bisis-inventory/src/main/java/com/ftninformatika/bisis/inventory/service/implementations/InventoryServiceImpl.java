@@ -178,19 +178,19 @@ public class InventoryServiceImpl implements InventoryService {
 
         List<Criteria> sublocationCriteriaList = new ArrayList<Criteria>();
         List<Criteria> invBookCriteriaList = new ArrayList<Criteria>();
-        if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && (createdInventory.getInvBooks() ==null || createdInventory.getInvBooks().isEmpty())){
+        if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && (createdInventory.getInvBooks() == null || createdInventory.getInvBooks().isEmpty())){
             for (CoderDTO invLocation : createdInventory.getInvLocations()) {
-                Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
                 if (!createdInventory.isUseLocationFromInvNo()) {
+                    Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
                     sublocationCriteriaList.add(c1);
-                }else{
+                } else {
                     Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) +  ".*");
-                    sublocationCriteriaList.add(c3);
+                    invBookCriteriaList.add(c3);
                 }
             }
-        }else if ((createdInventory.getInvLocations() == null || createdInventory.getInvLocations().isEmpty() )&& (createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty())){
+        } else if ((createdInventory.getInvLocations() == null || createdInventory.getInvLocations().isEmpty() )&& (createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty())){
             for (InventoryBook book : createdInventory.getInvBooks()) {
-                if (book.getLastNo() != null && book.getCode() != null) {
+                if (book.getLastNo() != null) {
                     String firstInvNum =  book.getCode() + "0000000";
                     RegexUtils rrg = new RegexUtils();
                     List<String> regexes = rrg.getRegex(firstInvNum, book.getCode() + StringUtils.padZeros(book.getLastNo(), 7));
@@ -207,12 +207,14 @@ public class InventoryServiceImpl implements InventoryService {
                         invBookCriteriaList.add(c3);
                 }
             }
-        }else if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty()) {
+        } else if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty()) {
             for (CoderDTO invLocation : createdInventory.getInvLocations()) {
-                Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
-                sublocationCriteriaList.add(c1);
+                if (!createdInventory.isUseLocationFromInvNo()) {
+                    Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
+                    sublocationCriteriaList.add(c1);
+                }
                 for (InventoryBook book : createdInventory.getInvBooks()) {
-                    if (book.getLastNo() != null && book.getCode() != null) {
+                    if (book.getLastNo() != null) {
                         String firstInvNum = book.getCode() + "0000000";
                         RegexUtils rrg = new RegexUtils();
                         if (!createdInventory.isUseLocationFromInvNo()) {
@@ -243,8 +245,9 @@ public class InventoryServiceImpl implements InventoryService {
                 }
             }
         }
-            MatchOperation matchSublocationOp = null;
-        if (sublocationCriteriaList.size() > 0 && !createdInventory.isUseLocationFromInvNo()) {
+
+        MatchOperation matchSublocationOp = null;
+        if (sublocationCriteriaList.size() > 0) {
             matchSublocationOp = Aggregation.match(new Criteria().orOperator(sublocationCriteriaList.toArray(new Criteria[sublocationCriteriaList.size()])));
         }
         MatchOperation matchInvBooksOp = null;
