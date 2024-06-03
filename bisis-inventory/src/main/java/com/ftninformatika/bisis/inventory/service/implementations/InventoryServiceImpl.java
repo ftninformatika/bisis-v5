@@ -188,7 +188,7 @@ public class InventoryServiceImpl implements InventoryService {
                     sublocationCriteriaList.add(c3);
                 }
             }
-        }else if ((createdInventory.getInvLocations() == null || !createdInventory.getInvLocations().isEmpty() )&& (createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty())){
+        }else if ((createdInventory.getInvLocations() == null || createdInventory.getInvLocations().isEmpty() )&& (createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty())){
             for (InventoryBook book : createdInventory.getInvBooks()) {
                 if (book.getLastNo() != null && book.getCode() != null) {
                     String firstInvNum =  book.getCode() + "0000000";
