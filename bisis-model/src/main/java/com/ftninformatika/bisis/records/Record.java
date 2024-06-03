@@ -329,6 +329,7 @@ public class Record implements Serializable {
 
 
   public void setRN(int rn){
+    this.rn = rn;
   	Field f001;
   	Subfield sfRN;
   	if(getField("001")==null){
@@ -342,7 +343,6 @@ public class Record implements Serializable {
   	}else
   		sfRN = f001.getSubfield('e');
   	sfRN.setContent(String.valueOf(rn));
-  	this.rn = rn;
   }
 
 

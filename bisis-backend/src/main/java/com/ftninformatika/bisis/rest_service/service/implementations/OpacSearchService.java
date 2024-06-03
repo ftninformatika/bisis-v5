@@ -14,6 +14,7 @@ import com.ftninformatika.bisis.opac.books.Item;
 import com.ftninformatika.bisis.opac.search.*;
 import com.ftninformatika.bisis.prefixes.ElasticPrefixEntity;
 import com.ftninformatika.bisis.records.*;
+import com.ftninformatika.bisis.reservations.ReservationInQueue;
 import com.ftninformatika.bisis.rest_service.repository.elastic.ElasticRecordsRepository;
 import com.ftninformatika.bisis.rest_service.repository.mongo.BookCommonRepository;
 import com.ftninformatika.util.elastic.ElasticUtility;
@@ -241,17 +242,18 @@ public class OpacSearchService {
                 }
             }
         }
-        return getBooksAvailabilityDTOS(itemsByLocation, book.get_id());
+        return getBooksAvailabilityDTOS(itemsByLocation, book.get_id(), book.getReservations());
     }
 
-    private List<BookAvailabilityDTO> getBooksAvailabilityDTOS(HashMap<String, List<Item>> itemsByLocation, String recordId) {
+    private List<BookAvailabilityDTO> getBooksAvailabilityDTOS(HashMap<String, List<Item>> itemsByLocation, String recordId, List<ReservationInQueue> reservations) {
         List<BookAvailabilityDTO> booksAvailabilities = new ArrayList<>();
         for (Map.Entry<String, List<Item>> entry : itemsByLocation.entrySet()) {
             int total = entry.getValue().size();
             int free = (int) entry.getValue().stream().filter(item -> item.getStatus().equals("FREE")).count();
             int reserved = (int) entry.getValue().stream().filter(item -> item.getStatus().equals("RESERVED")).count();
+            int inQueue = (int) reservations.stream().filter(res -> res.getCoderId().equals(entry.getKey())).count();
 
-            BookAvailabilityDTO bookAvailability = new BookAvailabilityDTO(recordId, entry, total, free, reserved);
+            BookAvailabilityDTO bookAvailability = new BookAvailabilityDTO(recordId, entry, total, free, reserved + inQueue);
             booksAvailabilities.add(bookAvailability);
         }
         return booksAvailabilities;
