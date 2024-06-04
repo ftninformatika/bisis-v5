@@ -233,14 +233,18 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
     }
 
     @Override
-    public Boolean addInventoryUnit(String inventoryId, String invNo) {
+    public InventoryUnitEnum addInventoryUnit(String inventoryId, String invNo) {
         Optional <Inventory> selectedInventoryOp = inventoryRepository.findById(inventoryId);
         if (!selectedInventoryOp.isPresent()){
-            return false;
+            return InventoryUnitEnum.BAD_INVENTORY;
         }
         Record record = recordsRepository.getRecordByPrimerakInvNum(invNo);
         if (record == null){
-            return false;
+            return InventoryUnitEnum.BAD_INVNUM;
+        }
+        InventoryUnit existingUnit = inventoryUnitRepository.findByInventoryIdAndInvNo(inventoryId,invNo);
+        if (existingUnit !=null){
+            return InventoryUnitEnum.DUPLICATE;
         }
         try {
             Inventory selectedInventory = selectedInventoryOp.get();
@@ -278,9 +282,9 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
             unit.setSignature(signature);
             unit.setPrice(Double.valueOf(p.getCena().doubleValue()));
             inventoryUnitRepository.save(unit);
-            return true;
+            return InventoryUnitEnum.OK;
         }catch (Exception e){
-            return false;
+            return InventoryUnitEnum.SERVER_ERROR;
         }
     }
 }

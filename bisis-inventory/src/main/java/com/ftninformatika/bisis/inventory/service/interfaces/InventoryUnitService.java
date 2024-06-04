@@ -5,6 +5,7 @@ import com.ftninformatika.bisis.inventory.dto.ChangeRevStatusesDTO;
 import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.inventory.dto.InvUnitSearchDTO;
+import com.ftninformatika.bisis.inventory.service.implementations.InventoryUnitEnum;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -22,6 +23,6 @@ public interface InventoryUnitService {
     Boolean mapStatusesToItems(MapStatusesToItemsDTO mapStatusesToItems);
     Page<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO, Integer pageNumber, Integer pageSize);
     List<InventoryUnit> search(InvUnitSearchDTO invUnitSearchDTO);
-    Boolean addInventoryUnit(String inventoryId, String invNo);
+    InventoryUnitEnum addInventoryUnit(String inventoryId, String invNo);
 
 }

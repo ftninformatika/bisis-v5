@@ -6,6 +6,7 @@ import com.ftninformatika.bisis.inventory.dto.MapStatusesToItemsDTO;
 import com.ftninformatika.bisis.inventory.dto.RevStatusOnPlaceDTO;
 import com.ftninformatika.bisis.inventory.config.PathConstants;
 import com.ftninformatika.bisis.inventory.dto.InvUnitSearchDTO;
+import com.ftninformatika.bisis.inventory.service.implementations.InventoryUnitEnum;
 import com.ftninformatika.bisis.inventory.service.interfaces.InventoryUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -85,9 +86,13 @@ public class InventoryUnitController {
 
     @GetMapping("/addOne")
     public ResponseEntity addInventoryUnit(@RequestParam("inventoryId") String inventoryId, @RequestParam("invNo") String invNo){
-        Boolean ok =  this.inventoryUnitService.addInventoryUnit(inventoryId,invNo);
-        if (!ok) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        InventoryUnitEnum status = this.inventoryUnitService.addInventoryUnit(inventoryId,invNo);
+        if (status == InventoryUnitEnum.BAD_INVENTORY){
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+        }else if (status == InventoryUnitEnum.BAD_INVNUM) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }else if (status == InventoryUnitEnum.DUPLICATE) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }else {
             return ResponseEntity.ok("");
         }
