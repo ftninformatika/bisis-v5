@@ -89,11 +89,13 @@ public class InventoryUnitController {
         InventoryUnitEnum status = this.inventoryUnitService.addInventoryUnit(inventoryId,invNo);
         if (status == InventoryUnitEnum.BAD_INVENTORY){
             return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
-        }else if (status == InventoryUnitEnum.BAD_INVNUM) {
+        } else if (status == InventoryUnitEnum.BAD_INVNUM) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
-        }else if (status == InventoryUnitEnum.DUPLICATE) {
+        } else if (status == InventoryUnitEnum.DUPLICATE) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }else {
+        } else if (status == InventoryUnitEnum.SERVER_ERROR) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } else {
             return ResponseEntity.ok("");
         }
     }
