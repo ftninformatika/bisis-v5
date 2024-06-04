@@ -276,11 +276,13 @@ public class InventoryUnitServiceImpl implements InventoryUnitService {
                 unit.setInventoryStatusDescription(inventoryStatus.getDescription());
             }
 
-
             unit.setDateModified(new Date());
             String signature = Signature.format(p);
             unit.setSignature(signature);
-            unit.setPrice(Double.valueOf(p.getCena().doubleValue()));
+            try {
+                unit.setPrice(Double.valueOf(p.getCena().doubleValue()));
+            }catch(Exception e){
+            }
             inventoryUnitRepository.save(unit);
             return InventoryUnitEnum.OK;
         }catch (Exception e){
