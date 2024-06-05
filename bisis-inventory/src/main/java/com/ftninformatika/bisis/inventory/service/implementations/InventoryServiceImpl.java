@@ -113,7 +113,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public void updateItemAvailability (String inventoryId){
+    public void updateItemAvailability(String inventoryId) {
         inventoryUnitRepository.removeInventoryIdFromItemAvailabilities(inventoryId);
     }
 
@@ -154,7 +154,7 @@ public class InventoryServiceImpl implements InventoryService {
         if (paramLocations == null || invLocations == null) {
             return false;
         }
-        List<String> locations = invLocations.stream().map(CoderDTO::getCoder_id).collect(Collectors.toList());;
+        List<String> locations = invLocations.stream().map(CoderDTO::getCoder_id).collect(Collectors.toList());
         return paramLocations.stream().filter(locations::contains).collect(Collectors.toSet()).size() > 0;
     }
 
@@ -170,7 +170,7 @@ public class InventoryServiceImpl implements InventoryService {
         long milliseconds = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
         Date resultdate = new Date(milliseconds);
-        System.out.println("Vreme pocetka izvršavanja upita: " + sdf.format(resultdate));
+        System.out.println(library + " - Vreme pocetka izvršavanja upita: " + sdf.format(resultdate));
         UnwindOperation unwindOp = Aggregation.unwind("primerci");
         EnumLocationLevel enumLocationLevel = this.invCodersService.getEnumInvLocation(library);
 
@@ -178,36 +178,36 @@ public class InventoryServiceImpl implements InventoryService {
 
         List<Criteria> sublocationCriteriaList = new ArrayList<Criteria>();
         List<Criteria> invBookCriteriaList = new ArrayList<Criteria>();
-        if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && (createdInventory.getInvBooks() == null || createdInventory.getInvBooks().isEmpty())){
+        if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && (createdInventory.getInvBooks() == null || createdInventory.getInvBooks().isEmpty())) {
             for (CoderDTO invLocation : createdInventory.getInvLocations()) {
                 if (!createdInventory.isUseLocationFromInvNo()) {
                     Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
                     sublocationCriteriaList.add(c1);
                 } else {
-                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) +  ".*");
+                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^" + invLocation.getCoder_id().substring(0, 2) + ".*");
                     invBookCriteriaList.add(c3);
                 }
             }
-        } else if ((createdInventory.getInvLocations() == null || createdInventory.getInvLocations().isEmpty() )&& (createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty())){
+        } else if ((createdInventory.getInvLocations() == null || createdInventory.getInvLocations().isEmpty()) && (createdInventory.getInvBooks() != null && !createdInventory.getInvBooks().isEmpty())) {
             for (InventoryBook book : createdInventory.getInvBooks()) {
                 if (book.getLastNo() != null) {
-                    String firstInvNum =  book.getCode() + "0000000";
+                    String firstInvNum = book.getCode() + "0000000";
                     RegexUtils rrg = new RegexUtils();
                     List<String> regexes = rrg.getRegex(firstInvNum, book.getCode() + StringUtils.padZeros(book.getLastNo(), 7));
                     List<Criteria> regexCr = new ArrayList<>();
                     for (String reg : regexes) {
-                            regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
+                        regexCr.add(Criteria.where("primerci.invBroj").regex("[0-9][0-9]" + reg));
                     }
                     if (!regexCr.isEmpty()) {
                         Criteria cr = new Criteria().orOperator(regexCr.toArray(new Criteria[regexCr.size()]));
-                            invBookCriteriaList.add(cr);
+                        invBookCriteriaList.add(cr);
                     }
                 } else {
-                        Criteria c3 = Criteria.where("primerci.invBroj").regex("^[0-9][0-9]" + book.getCode() + ".*");
-                        invBookCriteriaList.add(c3);
+                    Criteria c3 = Criteria.where("primerci.invBroj").regex("^[0-9][0-9]" + book.getCode() + ".*");
+                    invBookCriteriaList.add(c3);
                 }
             }
-        } else if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && createdInventory.getInvBooks() !=null && !createdInventory.getInvBooks().isEmpty()) {
+        } else if (createdInventory.getInvLocations() != null && !createdInventory.getInvLocations().isEmpty() && createdInventory.getInvBooks() != null && !createdInventory.getInvBooks().isEmpty()) {
             for (CoderDTO invLocation : createdInventory.getInvLocations()) {
                 if (!createdInventory.isUseLocationFromInvNo()) {
                     Criteria c1 = Criteria.where(enumLocationLevel.getPrimerakField()).is(invLocation.getCoder_id());
@@ -302,7 +302,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     }
 
-    private void updateInventoryUnits(Map<Integer,List<InventoryUnit>> inventoryUnitsMap,Inventory createdInventory, String library) {
+    private void updateInventoryUnits(Map<Integer, List<InventoryUnit>> inventoryUnitsMap, Inventory createdInventory, String library) {
         Map<String, ItemStatus> itemStatusesMap = itemStatusRepository.getCoders(library).stream().collect(Collectors.toMap(ItemStatus::getCoder_id, is -> is));
         Map<String, InventoryStatus> inventoryStatusesMap = inventoryStatusRepository.getCoders(library).stream().collect(Collectors.toMap(InventoryStatus::getCoder_id, is -> is));
         createdInventory.setItemStatusesMap(itemStatusesMap);
@@ -319,36 +319,36 @@ public class InventoryServiceImpl implements InventoryService {
             rp.init(record);
             List<InventoryUnit> inventoryUnits = inventoryUnitsMap.get(rn);
             for (InventoryUnit unit : inventoryUnits) {
-                            unit.setAuthor(String.join(" ,", rp.getAuthors()));
-                            unit.setTitle(rp.getTitle());
-                            unit.setPublisher(rp.getPublisher());
-                            unit.setPubYear(rp.getPublishingYear());
-                            unit.setPubPlace(rp.getPublishingPlace());
-                            ItemStatus itemStatus = createdInventory.getItemStatus(unit.getStatus());
-                            if (itemStatus != null){
-                                unit.setItemStatusCoderId(itemStatus.getCoder_id());
-                                unit.setItemStatusDescription(itemStatus.getDescription());
-                            }
-                            InventoryStatus inventoryStatus = createdInventory.getRevStatusByInv(unit.getStatus());
-                            if (inventoryStatus != null){
-                                unit.setInventoryStatusCoderId(inventoryStatus.getCoder_id());
-                                unit.setInventoryStatusDescription(inventoryStatus.getDescription());
-                            }
-                            unit.setDateModified(new Date());
-                            unit.setStatus(null);
-                            String signature = Signature.format(record.getPrimerak(unit.getInvNo()));
-                            unit.setSignature(signature);
-                            invUnitsBulkList.add(unit);
+                unit.setAuthor(String.join(" ,", rp.getAuthors()));
+                unit.setTitle(rp.getTitle());
+                unit.setPublisher(rp.getPublisher());
+                unit.setPubYear(rp.getPublishingYear());
+                unit.setPubPlace(rp.getPublishingPlace());
+                ItemStatus itemStatus = createdInventory.getItemStatus(unit.getStatus());
+                if (itemStatus != null) {
+                    unit.setItemStatusCoderId(itemStatus.getCoder_id());
+                    unit.setItemStatusDescription(itemStatus.getDescription());
+                }
+                InventoryStatus inventoryStatus = createdInventory.getRevStatusByInv(unit.getStatus());
+                if (inventoryStatus != null) {
+                    unit.setInventoryStatusCoderId(inventoryStatus.getCoder_id());
+                    unit.setInventoryStatusDescription(inventoryStatus.getDescription());
+                }
+                unit.setDateModified(new Date());
+                unit.setStatus(null);
+                String signature = Signature.format(record.getPrimerak(unit.getInvNo()));
+                unit.setSignature(signature);
+                invUnitsBulkList.add(unit);
             }
-            count ++;
-            if (count % 1000 == 0 ){
+            count++;
+            if (count % 1000 == 0) {
                 inventoryUnitRepository.saveAll(invUnitsBulkList);
                 itemAvailabilityUpdate(invUnitsBulkList, createdInventory.get_id());
                 System.out.println("Processed items: " + count + " of " + totalPages);
                 invUnitsBulkList.clear();
             }
         }
-        if (!invUnitsBulkList.isEmpty()){
+        if (!invUnitsBulkList.isEmpty()) {
             inventoryUnitRepository.saveAll(invUnitsBulkList);
             itemAvailabilityUpdate(invUnitsBulkList, createdInventory.get_id());
             System.out.println("Processed items: " + count + " of " + totalPages);
@@ -364,13 +364,13 @@ public class InventoryServiceImpl implements InventoryService {
 
 
     private void generateInventoryUnits(Inventory createdInventory, String library) {
-                createdInventory.setCurrentAction(EnumActionState.GENERATING_UNITS);
-                inventoryRepository.save(createdInventory);
-                Map inventoryUnits = createInventoryUnits(createdInventory, library);
-                updateInventoryUnits(inventoryUnits, createdInventory, library);
-                createdInventory.setCurrentAction(EnumActionState.NONE);
-                inventoryRepository.save(createdInventory);
-                updateLendingStatus(createdInventory.get_id());
+        createdInventory.setCurrentAction(EnumActionState.GENERATING_UNITS);
+        inventoryRepository.save(createdInventory);
+        Map inventoryUnits = createInventoryUnits(createdInventory, library);
+        updateInventoryUnits(inventoryUnits, createdInventory, library);
+        createdInventory.setCurrentAction(EnumActionState.NONE);
+        inventoryRepository.save(createdInventory);
+        updateLendingStatus(createdInventory.get_id());
     }
 
 //
@@ -389,8 +389,9 @@ public class InventoryServiceImpl implements InventoryService {
         if (checked == null || checked == 0d) {
             return 0d;
         }
-        return (double)Math.round((checked / total) * 100);
+        return (double) Math.round((checked / total) * 100);
     }
+
     private LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
         if (dateToConvert == null) {
             return null;
@@ -399,9 +400,10 @@ public class InventoryServiceImpl implements InventoryService {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
     }
+
     public Boolean updateLendingStatus(String inventoryId) {
         Optional<Inventory> currentInventory = inventoryRepository.findById(inventoryId);
-        if (!currentInventory.isPresent() || currentInventory.get().getCurrentAction() !=EnumActionState.NONE){
+        if (!currentInventory.isPresent() || currentInventory.get().getCurrentAction() != EnumActionState.NONE) {
             //samo jedna akcija se može izvršavati nad zadatom revizjom
             return null;
         }
@@ -453,23 +455,19 @@ public class InventoryServiceImpl implements InventoryService {
                         unit.setDateModified(new Date());
                         unitsForUpdate.add(unit);
                     }
-                } catch (NullPointerException e) {
-                    System.out.println("Item availability:");
-                    System.out.println(itemAvailability.toString());
-                    System.out.println("inventoryId:");
-                    System.out.println(inventoryId);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
             }
-            if(!unitsForUpdate.isEmpty()){
+            if (!unitsForUpdate.isEmpty()) {
                 inventoryUnitRepository.saveAll(unitsForUpdate);
             }
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }finally {
+        } finally {
             currentInventory.get().setCurrentAction(EnumActionState.NONE);
             inventoryRepository.save(currentInventory.get());
             milliseconds = System.currentTimeMillis();
@@ -477,7 +475,8 @@ public class InventoryServiceImpl implements InventoryService {
             System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
         }
     }
-    public Boolean updateLendingStatusFix(String inventoryId,Date revisionStart,boolean takeAll) {
+
+    public Boolean updateLendingStatusFix(String inventoryId, Date revisionStart, boolean takeAll) {
 
         long milliseconds = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
@@ -498,27 +497,27 @@ public class InventoryServiceImpl implements InventoryService {
                 String ctlgNo = unit.getInvNo();
                 if (takeAll || !unit.isChecked()) {
                     //zaduzene pre pocetka revizije i nisu nikad vracene
-                    lending = lendingRepository.findByCtlgNoAndLendDateBeforeAndReturnDateIsNull(ctlgNo,revisionStart);
-                    if (lending !=null) {
+                    lending = lendingRepository.findByCtlgNoAndLendDateBeforeAndReturnDateIsNull(ctlgNo, revisionStart);
+                    if (lending != null) {
                         lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
                         if (lending.getResumeDate() != null) {
                             resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
                         }
                         if (resumeDate != null && resumeDate.isBefore(dateL2)) {
-                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowedL2.getCoder_id());
+                            if (!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())) {
+                                System.out.println(ctlgNo + " " + "stari status " + unit.getInventoryStatusCoderId() + " predlozeni " + borrowedL2.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                             unit.setInventoryStatusDescription(borrowedL2.getDescription());
                         } else if (resumeDate == null && lendingDate.isBefore(dateL2)) {
-                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowedL2.getCoder_id());
+                            if (!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())) {
+                                System.out.println(ctlgNo + " " + "stari status " + unit.getInventoryStatusCoderId() + " predlozeni " + borrowedL2.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                             unit.setInventoryStatusDescription(borrowedL2.getDescription());
                         } else {
-                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowed.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowed.getCoder_id());
+                            if (!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowed.getCoder_id())) {
+                                System.out.println(ctlgNo + " " + "stari status " + unit.getInventoryStatusCoderId() + " predlozeni " + borrowed.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowed.getCoder_id());
                             unit.setInventoryStatusDescription(borrowed.getDescription());
@@ -528,27 +527,27 @@ public class InventoryServiceImpl implements InventoryService {
                     }
 
                     //zaduzen pre pocetka i vracene su posle pocetka revizije
-                    lending = lendingRepository.findByCtlgNoAndLendDateBeforeAndReturnDateAfter(ctlgNo,revisionStart,revisionStart);
-                    if(lending !=null) {
+                    lending = lendingRepository.findByCtlgNoAndLendDateBeforeAndReturnDateAfter(ctlgNo, revisionStart, revisionStart);
+                    if (lending != null) {
                         lendingDate = convertToLocalDateViaInstant(lending.getLendDate());
                         if (lending.getResumeDate() != null) {
                             resumeDate = convertToLocalDateViaInstant(lending.getResumeDate());
                         }
                         if (resumeDate != null && resumeDate.isBefore(dateL2)) {
-                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowedL2.getCoder_id());
+                            if (!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())) {
+                                System.out.println(ctlgNo + " " + "stari status " + unit.getInventoryStatusCoderId() + " predlozeni " + borrowedL2.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                             unit.setInventoryStatusDescription(borrowedL2.getDescription());
                         } else if (resumeDate == null && lendingDate.isBefore(dateL2)) {
-                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowedL2.getCoder_id());
+                            if (!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowedL2.getCoder_id())) {
+                                System.out.println(ctlgNo + " " + "stari status " + unit.getInventoryStatusCoderId() + " predlozeni " + borrowedL2.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowedL2.getCoder_id());
                             unit.setInventoryStatusDescription(borrowedL2.getDescription());
                         } else {
-                            if(!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowed.getCoder_id())){
-                                System.out.println(ctlgNo+" "+ "stari status " +unit.getInventoryStatusCoderId()+ " predlozeni " + borrowed.getCoder_id());
+                            if (!unit.getInventoryStatusCoderId().equalsIgnoreCase(borrowed.getCoder_id())) {
+                                System.out.println(ctlgNo + " " + "stari status " + unit.getInventoryStatusCoderId() + " predlozeni " + borrowed.getCoder_id());
                             }
                             unit.setInventoryStatusCoderId(borrowed.getCoder_id());
                             unit.setInventoryStatusDescription(borrowed.getDescription());
@@ -558,15 +557,15 @@ public class InventoryServiceImpl implements InventoryService {
                     }
                 }
             }
-            System.out.println("Broj inventarnih jedinca za popravku "+ unitsForUpdate.size());
-            if(!unitsForUpdate.isEmpty()){
-              //  inventoryUnitRepository.saveAll(unitsForUpdate);
+            System.out.println("Broj inventarnih jedinca za popravku " + unitsForUpdate.size());
+            if (!unitsForUpdate.isEmpty()) {
+                //  inventoryUnitRepository.saveAll(unitsForUpdate);
             }
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }finally {
+        } finally {
             milliseconds = System.currentTimeMillis();
             resultdate = new Date(milliseconds);
             System.out.println("Vreme završetka ažuriranje zaduženih primeraka: " + sdf.format(resultdate));
