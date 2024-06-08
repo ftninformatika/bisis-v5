@@ -1,8 +1,8 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ftninformatika.bisis.opac.dto.KnjigaPricaRequestDTO;
-import com.ftninformatika.bisis.rest_service.service.implementations.KnjigaPricaService;
+import com.ftninformatika.bisis.opac.dto.AudioBookRequestDTO;
+import com.ftninformatika.bisis.rest_service.service.implementations.AudioBookService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.*;
@@ -12,20 +12,20 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/knjigaprica-auth")
-public class KnjigaPricaAuthController {
+public class AudioBookController {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    private final KnjigaPricaService knjigaPricaService;
+    private final AudioBookService audioBookService;
 
-    public KnjigaPricaAuthController(
+    public AudioBookController(
             RestTemplate restTemplate,
             ObjectMapper objectMapper,
-            KnjigaPricaService knjigaPricaService
+            AudioBookService audioBookService
     ) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
-        this.knjigaPricaService = knjigaPricaService;
+        this.audioBookService = audioBookService;
     }
 
     // TODO
@@ -33,7 +33,7 @@ public class KnjigaPricaAuthController {
     public ResponseEntity<String> getAudioBook(@RequestParam("recordNumber") Integer rn) {
 
         // Prepare request body
-        KnjigaPricaRequestDTO knjigaPricaRequest = knjigaPricaService.createKnjigaPricaRequestBody(rn);
+        AudioBookRequestDTO knjigaPricaRequest = audioBookService.createKnjigaPricaRequestBody(rn);
 
         // Convert request body to JSON string
         String requestBodyJson;
@@ -45,14 +45,15 @@ public class KnjigaPricaAuthController {
 
         // Prepare headers
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Api-Key", knjigaPricaService.getKnjigaPricaApiKey()); // Replace with your API key
+        headers.set("Api-Key", audioBookService.getKnjigaPricaApiKey()); // Replace with your API key
 
         // Prepare HTTP entity
         HttpEntity<String> entity = new HttpEntity<>(requestBodyJson, headers);
 
         ResponseEntity<String> response;
         try {
-            response = restTemplate.exchange(knjigaPricaService.getKnjigaPricaApiUrl(), HttpMethod.POST, entity, String.class);
+            // TODO: proveri da li je za slepe pa posalji na odgovarajuci ERP
+            response = restTemplate.exchange(audioBookService.getKnjigaPricaApiUrl(), HttpMethod.POST, entity, String.class);
             // TODO: return i18n errors?
             /*
                 user-limitation-exceeded - korisnik želi da pozajmi više od dozvoljenog broja knjiga po nalogu (u ovom slučaju 3)

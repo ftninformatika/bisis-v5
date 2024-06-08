@@ -8,7 +8,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class KnjigaPricaMemberData {
+public class AudioBookMemberData {
     private String firstName;
     private String lastName;
     private String dateOfBirth;

@@ -11,18 +11,20 @@ import static com.ftninformatika.utils.date.DateUtils.extractBirthDateFromJMBG;
 
 @Getter
 @Setter
-public class KnjigaPricaRequestDTO {
+public class AudioBookRequestDTO {
     private String bookId;
     private String userIdentifier;
-    private KnjigaPricaMemberData memberData;
+    private AudioBookMemberData memberData;
     private String libraryName;
 
     public void setMemberData(Member member) {
-        KnjigaPricaMemberData memberData = new KnjigaPricaMemberData();
+        AudioBookMemberData memberData = new AudioBookMemberData();
         memberData.setCountry(member.getCountry()); // TODO: provetiti ovo, na nekim clanovima nije popunjeno a bisis je samo srb (mozda zakucati)
         memberData.setFirstName(member.getFirstName());
         memberData.setLastName(member.getLastName());
         memberData.setGender(member.getGender()); //TODO: proveriti ocekivani format
+
+        // TODO: indikator za slepe
 
         // JMBG bi trebao da bude popunjen za sve korisnike, dok rodjendan mozda nije
         Date birthday = extractBirthDateFromJMBG(member.getJmbg());

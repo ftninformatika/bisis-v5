@@ -23,6 +23,8 @@ import java.util.Map;
 @NoArgsConstructor
 public class Book {
     public static String UNIMARC_IMAGE_URL_SUBFIELD = "856x";
+    public static String AUDIO_BOOK_URL_SUBFIELD = "856x";
+
     //    Record mongoId
     private String _id;
     private Integer pubType;
@@ -55,6 +57,7 @@ public class Book {
     private Integer commonBookUID;
     private boolean useBookCommonUid;
     private List<String> digitalUrls;       // subfield 856u
+    private String audioBookUrl;
 
     public boolean setUnimarcImageURL(Record record) {
         Subfield urlSubfield = record.getSubfield(Book.UNIMARC_IMAGE_URL_SUBFIELD);
@@ -64,6 +67,10 @@ public class Book {
             this.imageUrl = urlSubfield.getContent();
             return true;
         }
+    }
+
+    public void setAudioBookUrl(Record r) {
+        Subfield urlSubfield = record.getSubfield(Book.UNIMARC_IMAGE_URL_SUBFIELD);
     }
 
     public void setDigitalUrl(Record record) {
