@@ -20,7 +20,7 @@ spring:
   profiles: development
   main:
     allow-bean-definition-overriding: true
-  data.mongodb.uri: mongodb://127.0.0.1:27018
+  data.mongodb.uri: mongodb://127.0.0.1:27019
   data.mongodb.database: bisis
   data:
     elasticsearch:

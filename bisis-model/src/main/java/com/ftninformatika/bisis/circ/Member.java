@@ -101,6 +101,7 @@ public class Member implements java.io.Serializable {
 		}
 		return null;
 	}
+
 	@JsonIgnore
 	public Double getCostForSigningDate(Date date){
 

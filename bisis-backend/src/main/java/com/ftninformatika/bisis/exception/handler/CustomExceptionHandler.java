@@ -1,5 +1,7 @@
 package com.ftninformatika.bisis.exception.handler;
 
+import com.ftninformatika.bisis.exception.model.AudioBookDoesNotExistInRecordException;
+import com.ftninformatika.bisis.exception.model.MembershipNotActiveException;
 import com.ftninformatika.bisis.exception.model.ServiceException;
 import com.ftninformatika.bisis.exception.model.UserNotFoundException;
 import com.mongodb.MongoException;
@@ -34,6 +36,23 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity handleUserNotFoundException(final UserNotFoundException exception) {
         log.error("Processing librarian not found exception: {}", exception.getMessage());
+
+        return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AudioBookDoesNotExistInRecordException.class)
+    public ResponseEntity handleAudioBookDoesNotExistInRecordException(final Exception exception) {
+        log.error("Processing AudioBookDoesNotExistInRecordException exception: {}", exception.getMessage());
+        exception.printStackTrace();
+
+        return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(MembershipNotActiveException.class)
+    public ResponseEntity handleMembershipNotActiveException(final Exception exception) {
+        log.error("Processing MembershipNotActiveException exception: {}", exception.getMessage());
+        exception.printStackTrace();
 
         return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }

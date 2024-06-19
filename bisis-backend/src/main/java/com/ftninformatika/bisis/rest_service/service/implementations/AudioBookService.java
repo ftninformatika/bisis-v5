@@ -1,16 +1,23 @@
 package com.ftninformatika.bisis.rest_service.service.implementations;
 
 import com.ftninformatika.bisis.circ.Member;
+import com.ftninformatika.bisis.circ.pojo.Signing;
 import com.ftninformatika.bisis.core.repositories.MemberRepository;
 import com.ftninformatika.bisis.core.repositories.RecordsRepository;
+import com.ftninformatika.bisis.exception.model.*;
 import com.ftninformatika.bisis.opac.dto.AudioBookRequestDTO;
+import com.ftninformatika.bisis.records.Field;
 import com.ftninformatika.bisis.records.Record;
+import com.ftninformatika.bisis.records.Subfield;
 import com.ftninformatika.bisisauthentication.models.BisisUserDetailsImpl;
+import com.ftninformatika.utils.date.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 @PropertySource(value = "classpath:knjigaprica-secret.properties")
@@ -55,4 +62,58 @@ public class AudioBookService {
 
         return retVal;
     }
+
+    //    dobiju podatak da li ulogovani korisnik
+    //    (a) jeste član,
+    //    (b) ima aktivnu članarinu,
+    //    (c) jeste slepa ili slabovida osoba, kao i da li u UNIMARC zapisu koji odgovara pozajmljenoj knjizi ima podatak o njihovoj audioknjizi.
+    public String audioBookForBlind(Integer rn, String memberId) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.isAuthenticated()) {
+            throw new UserNotFoundException("Корисник није пријављен.");
+        }
+
+        Date today = DateUtils.getStartOfDay(new Date());
+        Member member = memberRepository.getMemberByUserId(memberId);
+        if (member == null) {
+            throw new UnknownMemberException();
+        }
+
+        //        TODO: promeniti
+        if (member.getMembershipType().getDescription().contains("B5")) {
+            throw new UnknownMemberException("Пријављени корнисник није слепа/слабовида особа.");
+        }
+
+        boolean signingActive = false;
+        for (Signing s:  member.getSignings()) {
+            if (s.getSignDate().compareTo(today) * s.getUntilDate().compareTo(today) >= 0) {
+                signingActive = true;
+                break;
+            }
+        };
+
+        if (!signingActive) {
+            throw new MembershipNotActiveException();
+        }
+
+        String audioBookUrl = null;
+        Record record = recordsRepository.getByRn(rn);
+
+        for (Field f : record.getFields("452")) {
+            Subfield sfUrl = f.getSubfield('u');
+            Subfield sfSource = f.getSubfield('5');
+            if (sfUrl != null && sfSource != null && sfSource.getContent().equals(SLEPI)) {
+                audioBookUrl = f.getSubfield('u').getContent(); // TODO: ovo je url, proveriti jos jednom u koje polje ID ide
+            }
+        }
+
+        if (audioBookUrl == null) {
+            throw new AudioBookDoesNotExistInRecordException("Не постоји аудио књига за слепе/слабовиде особе за тражени запис.");
+        }
+
+        return audioBookUrl;
+    }
+
+    private static String SLEPI =  "slepislabovidi";
 }

@@ -1,6 +1,10 @@
 package com.ftninformatika.bisis.rest_service.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ftninformatika.bisis.exception.model.AudioBookDoesNotExistInRecordException;
+import com.ftninformatika.bisis.exception.model.MembershipNotActiveException;
+import com.ftninformatika.bisis.exception.model.UnknownMemberException;
+import com.ftninformatika.bisis.exception.model.UserNotFoundException;
 import com.ftninformatika.bisis.opac.dto.AudioBookRequestDTO;
 import com.ftninformatika.bisis.rest_service.service.implementations.AudioBookService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/knjigaprica-auth")
+@RequestMapping("/audio-books")
 public class AudioBookController {
 
     private final RestTemplate restTemplate;
@@ -28,7 +32,6 @@ public class AudioBookController {
         this.audioBookService = audioBookService;
     }
 
-    // TODO
     @GetMapping
     public ResponseEntity<String> getAudioBook(@RequestParam("recordNumber") Integer rn) {
 
@@ -52,7 +55,6 @@ public class AudioBookController {
 
         ResponseEntity<String> response;
         try {
-            // TODO: proveri da li je za slepe pa posalji na odgovarajuci ERP
             response = restTemplate.exchange(audioBookService.getKnjigaPricaApiUrl(), HttpMethod.POST, entity, String.class);
             // TODO: return i18n errors?
             /*
@@ -84,6 +86,19 @@ public class AudioBookController {
         } else {
             // Handle unexpected status code from the 3rd party service
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected Error: Received status code " + response.getStatusCode());
+        }
+    }
+
+
+    @GetMapping("/blind")
+    public ResponseEntity<?> getAudioBookForBlind(@RequestParam("recordNumber") Integer rn, @RequestParam("memberId") String memberId) {
+        try {
+            String url = audioBookService.audioBookForBlind(rn, memberId);
+            return new ResponseEntity<>(url, HttpStatus.CREATED);
+        } catch ( UserNotFoundException | MembershipNotActiveException e) {
+            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.UNAUTHORIZED);
+        } catch ( UnknownMemberException | AudioBookDoesNotExistInRecordException e) {
+            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.NOT_FOUND);
         }
     }
 

@@ -14,11 +14,11 @@ import static com.ftninformatika.utils.date.DateUtils.extractBirthDateFromJMBG;
 public class AudioBookRequestDTO {
     private String bookId;
     private String userIdentifier;
-    private AudioBookMemberData memberData;
+    private AudioBookMemberDataDTO memberData;
     private String libraryName;
 
     public void setMemberData(Member member) {
-        AudioBookMemberData memberData = new AudioBookMemberData();
+        AudioBookMemberDataDTO memberData = new AudioBookMemberDataDTO();
         memberData.setCountry(member.getCountry()); // TODO: provetiti ovo, na nekim clanovima nije popunjeno a bisis je samo srb (mozda zakucati)
         memberData.setFirstName(member.getFirstName());
         memberData.setLastName(member.getLastName());
