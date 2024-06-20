@@ -73,6 +73,7 @@ public class Member implements java.io.Serializable {
 	private String blockReason;
 	private String pin;
 	private boolean activatedWebProfile;
+	private boolean isBlindPerson;
 
 	private List<Signing> signings = new ArrayList<>();
 	private List<Duplicate> duplicates = new ArrayList<>();

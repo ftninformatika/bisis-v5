@@ -69,33 +69,7 @@ public class AudioBookService {
     //    (c) jeste slepa ili slabovida osoba, kao i da li u UNIMARC zapisu koji odgovara pozajmljenoj knjizi ima podatak o njihovoj audioknjizi.
     public String audioBookForBlind(Integer rn, String memberId) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!authentication.isAuthenticated()) {
-            throw new UserNotFoundException("Корисник није пријављен.");
-        }
-
-        Date today = DateUtils.getStartOfDay(new Date());
-        Member member = memberRepository.getMemberByUserId(memberId);
-        if (member == null) {
-            throw new UnknownMemberException();
-        }
-
-        //        TODO: promeniti
-        if (member.getMembershipType().getDescription().contains("B5")) {
-            throw new UnknownMemberException("Пријављени корнисник није слепа/слабовида особа.");
-        }
-
-        boolean signingActive = false;
-        for (Signing s:  member.getSignings()) {
-            if (s.getSignDate().compareTo(today) * s.getUntilDate().compareTo(today) >= 0) {
-                signingActive = true;
-                break;
-            }
-        };
-
-        if (!signingActive) {
-            throw new MembershipNotActiveException();
-        }
+        checkAuthenticatedMemberBlindPerson(memberId);
 
         String audioBookUrl = null;
         Record record = recordsRepository.getByRn(rn);
@@ -113,6 +87,44 @@ public class AudioBookService {
         }
 
         return audioBookUrl;
+    }
+
+    private void checkAuthenticatedMemberBlindPerson(String memberId) {
+        Member member = getAuthenticatedMember(memberId);
+        if (!member.isBlindPerson()) {
+            throw new UnknownMemberException("Пријављени корнисник није слепа/слабовида особа.");
+        }
+    }
+
+    private Member getAuthenticatedMember(String memberId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.isAuthenticated()) {
+            throw new UserNotFoundException("Корисник није пријављен.");
+        }
+
+        Date today = DateUtils.getStartOfDay(new Date());
+        Member member = memberRepository.getMemberByUserId(memberId);
+        if (member == null) {
+            throw new UnknownMemberException();
+        }
+
+        if (!member.isBlindPerson()) {
+            throw new UnknownMemberException("Пријављени корнисник није слепа/слабовида особа.");
+        }
+
+        boolean signingActive = false;
+        for (Signing s:  member.getSignings()) {
+            if (s.getSignDate().compareTo(today) * s.getUntilDate().compareTo(today) >= 0) {
+                signingActive = true;
+                break;
+            }
+        };
+
+        if (!signingActive) {
+            throw new MembershipNotActiveException();
+        }
+
+        return member;
     }
 
     private static String SLEPI =  "slepislabovidi";

@@ -518,7 +518,7 @@ public class UserManager {
                 member.getDocId(), member.getDocNo(), member.getDocCity(), member.getCountry(),
                 member.getTitle(), member.getOccupation(), member.getIndexNo(), Utils.getString(member.getClassNo()),
                 member.getOrganization(), member.getEducationLevel(), member.getLanguage(), member.getNote(), member.getOldNumbers(),
-                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin(), member.isActivatedWebProfile());
+                member.getInterests(), member.getWarningInd(), blocked, member.getBlockReason(), member.getDuplicates(), member.getPin(), member.isActivatedWebProfile(), member.isBlindPerson());
 
         user.getMmbrship().loadUser(member.getUserId(), member.getMembershipType(), member.getUserCategory(), member.getCorporateMember(), member.getSignings());
 
@@ -830,11 +830,13 @@ public class UserManager {
         member.setCountry(data.getCountry().trim());
         member.setDocCity(data.getDocCity().trim());
         member.setDocId(Integer.valueOf(data.getDocId()));
+        member.setBlindPerson(data.getIsBlindPerson());
         member.setDocNo(data.getDocNo().trim());
         member.setEducationLevel(data.getEduLvl());
         member.setEmail(data.getEmail().trim());
         member.setFirstName(data.getFirstName().trim());
         member.setGender(data.getGender());
+        member.setBlindPerson(data.getIsBlindPerson());
         member.setIndexNo(data.getIndexNo().trim());
         member.setInterests(data.getInterests().trim());
         member.setJmbg(data.getJmbg().trim());

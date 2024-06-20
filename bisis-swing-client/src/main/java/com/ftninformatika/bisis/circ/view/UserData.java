@@ -31,6 +31,7 @@ public class UserData {
     private PanelBuilder pMain0 = null;
     private PanelBuilder pMain1 = null;
     private JCheckBox chkWarning = null;
+    private JCheckBox chkBlindPerson = null;
     private JTextField tfFirstName = null;
     private JLabel lFirstName = null;
     private JTextField tfLastName = null;
@@ -187,11 +188,16 @@ public class UserData {
             pMain0.add(getTfCountry(), cc.xy(4, 24));
             pMain0.add(getReadFromECardBtn(), cc.xy(4, 25));
 
-            pMain0.addSeparator("", cc.xyw(6, 20, 7)); //$NON-NLS-1$
-            pMain0.addLabel(Messages.getString("circulation.indicator"), cc.xyw(6, 22, 3)); //$NON-NLS-1$
-            pMain0.add(getChkWarning(), cc.xyw(9, 22, 2));
-            pMain0.add(getBtnPrint(), cc.xy(12, 22, "right, center")); //$NON-NLS-1$
-            }
+
+            pMain0.addSeparator("", cc.xyw(6, 18, 7)); //$NON-NLS-1$
+            pMain0.addLabel(Messages.getString("circulation.blindperson"), cc.xyw(6, 20, 3)); //$NON-NLS-1$
+            pMain0.add(getChkBlindPerson(), cc.xyw(9, 20, 2));
+
+            pMain0.addSeparator("", cc.xyw(6, 22, 7)); //$NON-NLS-1$
+            pMain0.addLabel(Messages.getString("circulation.indicator"), cc.xyw(6, 24, 3)); //$NON-NLS-1$
+            pMain0.add(getChkWarning(), cc.xyw(9, 24, 2));
+            pMain0.add(getBtnPrint(), cc.xy(12, 24, "right, center")); //$NON-NLS-1$
+        }
     }
 
     public JPanel getPMain0() {
@@ -208,6 +214,18 @@ public class UserData {
             });
         }
         return chkWarning;
+    }
+
+    private JCheckBox getChkBlindPerson() {
+        if (chkBlindPerson == null) {
+            chkBlindPerson = new JCheckBox();
+            chkBlindPerson.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    handleKeyTyped();
+                }
+            });
+        }
+        return chkBlindPerson;
     }
 
     private JTextField getTfFirstName() {
@@ -1299,6 +1317,8 @@ public class UserData {
         return zipplace;
     }
 
+    public boolean getIsBlindPerson() { return getChkBlindPerson().isSelected(); }
+
     public String getFirstName() {
         return getTfFirstName().getText();
     }
@@ -1500,7 +1520,7 @@ public class UserData {
                          String gender, String age, String tmpAddress, String tmpCity, String tmpZip,
                          String tmpPhone, String jmbg, Date birthday, int docId, String docNo, String docCity, String country,
                          String title, String occupation, String indexNo, String classNo, Organization org,
-                         String eduLvl, String languages, String note, String oldNumbers, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode, boolean activatedWebProfile) {
+                         String eduLvl, String languages, String note, String oldNumbers, String interests, int warn, boolean blocked, String blockedReason, List duplicates, String pincode, boolean activatedWebProfile, boolean isBlindPerson) {
         getTfFirstName().setText(firstName);
         getTfLastName().setText(lastName);
         getTfParentName().setText(parentName);
@@ -1519,6 +1539,7 @@ public class UserData {
         } else {
             getRbAgeA().setSelected(true);
         }
+        getChkBlindPerson().setSelected(isBlindPerson);
         getTfTmpAddress().setText(tmpAddress);
         getTfTmpCity().setText(tmpCity);
         getTfTmpZip().setText(tmpZip);
