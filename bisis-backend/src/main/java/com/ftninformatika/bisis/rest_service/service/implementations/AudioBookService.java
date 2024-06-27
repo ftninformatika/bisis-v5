@@ -45,18 +45,27 @@ public class AudioBookService {
         return knjigaPricaApiKey;
     }
 
-    public AudioBookRequestDTO createKnjigaPricaRequestBody(Integer rn) {
-        Record record = recordsRepository.getByRn(rn);
+    public AudioBookRequestDTO createKnjigaPricaRequestBody(Integer rn, String memberId) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         String email = ((BisisUserDetailsImpl)authentication.getPrincipal()).getUsername();
         String library = ((BisisUserDetailsImpl)authentication.getPrincipal()).getLibrary();
 
-        Member member = memberRepository.getMemberByEmail(email);
+        Member member = getAuthenticatedMember(memberId);
+
+        Record record = recordsRepository.getByRn(rn);
+        String audioBookId = null;
+        for (Field f : record.getFields("452")) {
+            Subfield sfId = f.getSubfield('v');
+            Subfield sfSource = f.getSubfield('5');
+            if (sfId != null && sfSource != null && sfSource.getContent().equals(KNJIGA_PRICA)) {
+                audioBookId = f.getSubfield('v').getContent();
+            }
+        }
+
         AudioBookRequestDTO retVal = new AudioBookRequestDTO();
         retVal.setMemberData(member);
-        retVal.setBookId(record.get_id()); //TODO: proveriti odakle iz zapisa se cupa ID koji je vezan za knjigaprica i zameniti ovu vrednost
+        retVal.setBookId(audioBookId);
         retVal.setUserIdentifier(email);
         retVal.setLibraryName(library);
 
@@ -78,7 +87,7 @@ public class AudioBookService {
             Subfield sfUrl = f.getSubfield('u');
             Subfield sfSource = f.getSubfield('5');
             if (sfUrl != null && sfSource != null && sfSource.getContent().equals(SLEPI)) {
-                audioBookUrl = f.getSubfield('u').getContent(); // TODO: ovo je url, proveriti jos jednom u koje polje ID ide
+                audioBookUrl = f.getSubfield('u').getContent();
             }
         }
 
@@ -128,4 +137,5 @@ public class AudioBookService {
     }
 
     private static String SLEPI =  "slepislabovidi";
+    private static String KNJIGA_PRICA =  "knjigaprica";
 }

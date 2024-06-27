@@ -33,10 +33,10 @@ public class AudioBookController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getAudioBook(@RequestParam("recordNumber") Integer rn) {
+    public ResponseEntity<String> getAudioBook(@RequestParam("recordNumber") Integer rn, @RequestParam("memberId") String memberId) {
 
         // Prepare request body
-        AudioBookRequestDTO knjigaPricaRequest = audioBookService.createKnjigaPricaRequestBody(rn);
+        AudioBookRequestDTO knjigaPricaRequest = audioBookService.createKnjigaPricaRequestBody(rn, memberId);
 
         // Convert request body to JSON string
         String requestBodyJson;

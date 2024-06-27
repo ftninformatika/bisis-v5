@@ -2677,6 +2677,7 @@
 		<subfield name="s" description="Izjava o seriji" mandatory="false" repeatable="true" length="0"/>
 		<subfield name="t" description="Naslov" mandatory="true" repeatable="true" length="0"/>
 		<subfield name="u" description="URL" mandatory="false" repeatable="false" length="0"/>
+		<!--	TODO:	v - inicijalno stavljeno kao eksterni ID audio knjige, proveriti -->
 		<subfield name="v" description="broj sveske" mandatory="false" repeatable="false" length="0"/>
 		<subfield name="x" description="ISSN" mandatory="false" repeatable="true" length="0"/>
 		<subfield name="y" description="ISBN" mandatory="false" repeatable="true" length="0"/>
